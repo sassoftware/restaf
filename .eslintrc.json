@@ -1,0 +1,56 @@
+{
+  "root": true,
+
+  "env": {
+    "browser": true,
+    "node": true,
+    "es6": true
+  },
+  "parser": "babel-eslint",
+  "extends": [
+    "eslint:recommended"
+  ],
+  "parserOptions": {
+    "ecmaVersion": 6,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "rules": {
+    "key-spacing": [
+      2,
+      {
+        "align": "colon"
+      }
+    ],
+    "jsx-quotes": [
+      2,
+      "prefer-double"
+    ],
+    "no-console": 0,
+    "no-unused-vars": [
+      0,
+      {
+        "args": "none"
+      }
+    ],
+    "no-debugger": 0,
+    "react/prop-types": 0,
+    "array-bracket-spacing": [
+      2,
+      "always"
+    ],
+    "space-in-parens": [
+      2,
+      "never"
+    ],
+    "space-before-function-paren": [
+      2,
+      "always"
+    ]
+
+
+  }
+}
+

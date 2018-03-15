@@ -1,0 +1,58 @@
+{
+  "name": "restaf",
+  "version": "0.3.0",
+  "description": "Library for writing SAS Viya application using REST APIs",
+  "author": "Deva Kumaraswamy <deva.kumar@sas.com>",
+  "license": "Apache-2.0",
+  "keywords": [
+    "restaf",
+    "SAS Viya",
+    "REST API",
+    "react-redux"
+  ],
+  "engines": {
+    "node": ">=8.9.0"
+  },
+  "main": "lib/restaf",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sassoftware/restaf.git"
+  },
+  "bugs": {
+    "url": "https://github.com/sassoftware/restaf/issues"
+  },
+  "unpkg": "dist/restaf.min.js",
+  "scripts": {
+    "test": "node",
+    "build": " webpack --env.node --config webpack.config.js && webpack  --config webpack.config.js && webpack -p  --config webpack.config.js",
+    "lint": "eslint . --fix"
+  },
+  "dependencies": {
+    "axios": "^0.16.1",
+    "babel-polyfill": "^6.26.0",
+    "immutable": "^3.8.2",
+    "qs": "^6.5.1",
+    "query-string": "^5.0.1",
+    "redux": "^3.7.2",
+    "redux-saga": "^0.16.0",
+    "uuid": "^3.1.0"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-eslint": "^8.0.1",
+    "babel-loader": "^7.1.2",
+    "babel-plugin-transform-regenerator": "^6.26.0",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-es2016": "^6.24.1",
+    "babel-preset-latest": "^6.24.1",
+    "babel-preset-stage-0": "^6.24.1",
+    "eslint": "^4.9.0",
+    "eslint-plugin-react": "^7.4.0",
+    "eslint-plugin-redux-saga": "^0.5.0",
+    "prettyjson": "^1.2.1",
+    "webpack": "^3.8.1",
+    "webpack-node-externals": "^1.6.0",
+    "yargs": "^10.0.3"
+  }
+}

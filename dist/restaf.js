@@ -1021,7 +1021,7 @@ function forEach(obj, fn) {
   }
 
   // Force an array if not already something iterable
-  if (typeof obj !== 'object' && !isArray(obj)) {
+  if (typeof obj !== 'object') {
     /*eslint no-param-reassign:0*/
     obj = [obj];
   }
@@ -10055,17 +10055,21 @@ _axios2.default.interceptors.response.use(function (response) {
 function trustedGrant(iconfig) {
     'use strict';
 
+    debugger;
     var link = iconfig.link;
 
     var auth1 = new Buffer(iconfig.clientID + ':' + iconfig.clientSecret).toString('base64');
+    auth1 = 'Basic ' + auth1;
     var config = {
         method: link.method,
         url: iconfig.host + link.href,
 
         headers: {
-            'accept': link.responseType,
-            'content-type': link.type,
-            'Authorization': 'Basic ' + auth1
+            Accept: link.responseType,
+
+            'Content-Type': link.type, /* Axios seems to be case sensitive */
+
+            Authorization: auth1
         },
         withCredentials: false,
 
@@ -10073,6 +10077,10 @@ function trustedGrant(iconfig) {
             'grant_type': 'password',
             username: iconfig.user,
             password: iconfig.password
+            /*
+            client_id    : iconfig.clientID,
+            client_secret: iconfig.clientSecret
+            */
         },
 
         validateStatus: function validateStatus(status) {
@@ -10104,6 +10112,7 @@ function request(iconfig) {
     var iheaders = null;
     var casAction = null;
 
+    debugger;
     if (payload !== null) {
         casAction = hasItem(payload, 'action');
         iqs = hasItem(payload, 'qs');
@@ -10451,6 +10460,10 @@ var defaults = {
     return data;
   }],
 
+  /**
+   * A timeout in milliseconds to abort a request. If set to 0 (default) a
+   * timeout is not created.
+   */
   timeout: 0,
 
   xsrfCookieName: 'XSRF-TOKEN',
@@ -13790,7 +13803,7 @@ module.exports = function xhrAdapter(config) {
       var responseData = !config.responseType || config.responseType === 'text' ? request.responseText : request.response;
       var response = {
         data: responseData,
-        // IE sends 1223 instead of 204 (https://github.com/mzabriskie/axios/issues/201)
+        // IE sends 1223 instead of 204 (https://github.com/axios/axios/issues/201)
         status: request.status === 1223 ? 204 : request.status,
         statusText: request.status === 1223 ? 'No Content' : request.statusText,
         headers: responseHeaders,
@@ -22275,51 +22288,53 @@ function logonAction() {
                 case 0:
                     f = true;
 
-                case 1:
+                    debugger;
+
+                case 2:
                     if (!f) {
-                        _context.next = 20;
+                        _context.next = 21;
                         break;
                     }
 
-                    _context.next = 4;
+                    _context.next = 5;
                     return (0, _effects.take)(_actionTypes.VIYA_LOGON);
 
-                case 4:
+                case 5:
                     action = _context.sent;
-                    _context.next = 7;
+                    _context.next = 8;
                     return (0, _effects.put)({ type: _actionTypes.BEGIN_LOGON });
 
-                case 7:
-                    _context.next = 9;
+                case 8:
+                    _context.next = 10;
                     return (0, _effects.call)(sasLogon, action);
 
-                case 9:
+                case 10:
                     payload = _context.sent;
-                    _context.next = 12;
+                    _context.next = 13;
                     return (0, _effects.put)(payload);
 
-                case 12:
+                case 13:
                     if (!(payload.error === false)) {
-                        _context.next = 18;
+                        _context.next = 19;
                         break;
                     }
 
-                    _context.next = 15;
+                    _context.next = 16;
                     return (0, _effects.take)(_actionTypes.VIYA_LOGOFF);
 
-                case 15:
+                case 16:
                     _payload = {
                         type: _actionTypes.VIYA_LOGOFF,
                         payload: null
                     };
-                    _context.next = 18;
+                    _context.next = 19;
                     return (0, _effects.put)(_payload);
 
-                case 18:
-                    _context.next = 1;
+                case 19:
+                    _context.next = 2;
                     break;
 
-                case 20:
+                case 21:
                 case 'end':
                     return _context.stop();
             }
@@ -22340,6 +22355,7 @@ function sasLogon(action) {
             }
         };
     } else {
+        debugger;
         var t = (0, _utils.SASLogonOauthLink)(config.authType);
         config.link = t.link;
         return t.logon(config).then(function (response) {
@@ -22554,6 +22570,7 @@ var _actionTypes = __webpack_require__(10);
 
 var SASLogonOauthLink = function SASLogonOauthLink(type) {
 
+    debugger;
     if (type === _actionTypes.VIYA_LOGON_PASSWORD || type == undefined) {
         return {
             logon: _serverCalls.trustedGrant,
@@ -25860,8 +25877,6 @@ var defaults = __webpack_require__(149);
 var utils = __webpack_require__(23);
 var InterceptorManager = __webpack_require__(522);
 var dispatchRequest = __webpack_require__(523);
-var isAbsoluteURL = __webpack_require__(525);
-var combineURLs = __webpack_require__(526);
 
 /**
  * Create a new instance of Axios
@@ -25890,13 +25905,8 @@ Axios.prototype.request = function request(config) {
     }, arguments[1]);
   }
 
-  config = utils.merge(defaults, this.defaults, { method: 'get' }, config);
+  config = utils.merge(defaults, {method: 'get'}, this.defaults, config);
   config.method = config.method.toLowerCase();
-
-  // Support baseURL config
-  if (config.baseURL && !isAbsoluteURL(config.url)) {
-    config.url = combineURLs(config.baseURL, config.url);
-  }
 
   // Hook up interceptors middleware
   var chain = [dispatchRequest, undefined];
@@ -26260,9 +26270,7 @@ module.exports = function buildURL(url, params, paramsSerializer) {
 
       if (utils.isArray(val)) {
         key = key + '[]';
-      }
-
-      if (!utils.isArray(val)) {
+      } else {
         val = [val];
       }
 
@@ -26296,6 +26304,15 @@ module.exports = function buildURL(url, params, paramsSerializer) {
 
 var utils = __webpack_require__(23);
 
+// Headers whose duplicates are ignored by node
+// c.f. https://nodejs.org/api/http.html#http_message_headers
+var ignoreDuplicateOf = [
+  'age', 'authorization', 'content-length', 'content-type', 'etag',
+  'expires', 'from', 'host', 'if-modified-since', 'if-unmodified-since',
+  'last-modified', 'location', 'max-forwards', 'proxy-authorization',
+  'referer', 'retry-after', 'user-agent'
+];
+
 /**
  * Parse headers into an object
  *
@@ -26323,7 +26340,14 @@ module.exports = function parseHeaders(headers) {
     val = utils.trim(line.substr(i + 1));
 
     if (key) {
-      parsed[key] = parsed[key] ? parsed[key] + ', ' + val : val;
+      if (parsed[key] && ignoreDuplicateOf.indexOf(key) >= 0) {
+        return;
+      }
+      if (key === 'set-cookie') {
+        parsed[key] = (parsed[key] ? parsed[key] : []).concat([val]);
+      } else {
+        parsed[key] = parsed[key] ? parsed[key] + ', ' + val : val;
+      }
     }
   });
 
@@ -26579,6 +26603,8 @@ var utils = __webpack_require__(23);
 var transformData = __webpack_require__(524);
 var isCancel = __webpack_require__(221);
 var defaults = __webpack_require__(149);
+var isAbsoluteURL = __webpack_require__(525);
+var combineURLs = __webpack_require__(526);
 
 /**
  * Throws a `Cancel` if cancellation has been requested.
@@ -26597,6 +26623,11 @@ function throwIfCancellationRequested(config) {
  */
 module.exports = function dispatchRequest(config) {
   throwIfCancellationRequested(config);
+
+  // Support baseURL config
+  if (config.baseURL && !isAbsoluteURL(config.url)) {
+    config.url = combineURLs(config.baseURL, config.url);
+  }
 
   // Ensure headers exist
   config.headers = config.headers || {};

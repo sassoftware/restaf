@@ -34,6 +34,7 @@ async function example (store, logonPayload) {
 
     // get root end points, get list of contexts and create a sessuin ysubg the first context
     let {compute} = await store.addServices('compute');
+
     let contexts  = await apiCall(compute.links('contexts'));
 
     // lookup the name of the first context and then use it to get the associated createSession restafLink
@@ -62,6 +63,7 @@ async function example (store, logonPayload) {
                break;
         }
     }
+
 
     return 'All Done';
 }

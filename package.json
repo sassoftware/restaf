@@ -7,8 +7,7 @@
   "keywords": [
     "restaf",
     "SAS Viya",
-    "REST API",
-    "react-redux"
+    "REST API"
   ],
   "engines": {
     "node": ">=8.9.0"
@@ -28,7 +27,7 @@
     "lint": "eslint . --fix"
   },
   "dependencies": {
-    "axios": "^0.16.1",
+    "axios": "^0.18.0",
     "babel-polyfill": "^6.26.0",
     "immutable": "^3.8.2",
     "qs": "^6.5.1",

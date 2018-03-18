@@ -31,18 +31,21 @@ axios.interceptors.response.use(
 
 function trustedGrant (iconfig) {
     'use strict';
-
+    debugger;
     let link   = iconfig.link ;
 
     let auth1 = new Buffer(iconfig.clientID + ':' + iconfig.clientSecret).toString('base64');
+    auth1 = 'Basic ' + auth1;
     let config = {
         method: link.method,
         url   : iconfig.host + link.href,
 
         headers: {
-            'accept'       : link.responseType,
-            'content-type' : link.type,
-            'Authorization': 'Basic ' + auth1
+             Accept: link.responseType,
+
+            'Content-Type': link.type,/* Axios seems to be case sensitive */
+
+             Authorization: auth1
         },
         withCredentials: false,
 
@@ -50,6 +53,10 @@ function trustedGrant (iconfig) {
             'grant_type': 'password',
             username    : iconfig.user,
             password    : iconfig.password
+            /*
+            client_id    : iconfig.clientID,
+            client_secret: iconfig.clientSecret
+            */
         },
 
         validateStatus: function (status) {
@@ -79,7 +86,7 @@ function request (iconfig) {
     let iheaders   = null;
     let casAction  = null;
 
-
+    debugger;
     if (payload !== null) {
         casAction     = hasItem(payload, 'action');
         iqs           = hasItem(payload, 'qs');

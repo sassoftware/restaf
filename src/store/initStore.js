@@ -23,12 +23,13 @@ import {APP_DATA_ROOT, API_STATUS_ROOT} from '../actionTypes';
 import injectAsyncReducers from './injectAsyncReducers';
 import {reducer} from '../reducers';
 
-import apiCall         from './apiCall';
-import apiCallAll      from './apiCallAll';
-import apiSubmit       from './apiSubmit';
-import jobState         from './jobState';
-import jobStateAll      from './jobStateAll';
-// import jobStatus       from './jobStatus';
+import apiCall      from './apiCall';
+import apiCallAll   from './apiCallAll';
+import apiSubmit    from './apiSubmit';
+import jobState     from './jobState';
+import jobStateAll  from './jobStateAll';
+import request      from './request';
+// import jobStatus  from './jobStatus';
 import getServices     from './getServices';
 import addServices     from './addServices';
 import getServiceRoot  from './getServiceRoot';
@@ -71,7 +72,8 @@ function initStore () {
         endStore: endStore.bind(null, store),
         store   : store,
 
-        getServiceRoot: getServiceRoot.bind(null, store)
+        getServiceRoot: getServiceRoot.bind(null, store),
+        request: request
     } }
 
 function loggedOn (store) {

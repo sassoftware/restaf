@@ -47,7 +47,7 @@ function trustedGrant (iconfig) {
 
              Authorization: auth1
         },
-        withCredentials: false,
+        withCredentials: true,
 
         data: {
             'grant_type': 'password',

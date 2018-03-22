@@ -47,130 +47,163 @@ restAF uses three key libraries that you are probably familiar with.
 
 I am extremely grateful to the developers of these packages for their wonderful contributions.
 
+
+## Accessing restAF
+
+###  web Application
+In your web application you can access restaf with the following script tag.
+
+```
+ <script src="https://unpkg.com/restaf/dist/restaf.min.js"></script>
+ 
+```
+A global variable called restaf is available for use in your javascript programs.
+
+### nodejs application
+
+```
+npm install restaf
+```
+
+and then your program
+
+```
+let restaf = require('restaf')
+
+```
+
+### Cloning and modifying restAF
+You can clone as follows
+
+```
+clone https://github.com/sassoftware/restaf
+cd restaf
+npm install
+```
+To build the code run this command
+
+```
+npm run build
+```
+
 ## Background
 
 restAF reduces the hypermedia returned from the REST API calls to a form that is suitable for rapid application development.
 THe next few sections will explain the reduction through examples and how you would use it to write your applications.
 
-All responses from SAS REST API calls have the following pattern:
+A typical response from a REST API is a hypermedia that allows applications to decide what can be done next – either with user input or programmatically.
+In practical terms, a response from the server will be a combination of items (data) and transitions (links to navigate) to another resource.
 
-1.  The REST call returns links to other resources. This happens when one makes a call to the root resource.
-    Another scenario is when a new resource is created - the server returns a link to the newly created resource(s).
-    Examples are post to create a new file(files service) and a execute in compute server( returns links to created job ).
-    If the resource supports pagination the links will also have pagination links.
+### Links 
+A link has several key  parts:
+   1.	A URI for the next step (edit, delete, and so on).
+   2.	An identification of the link to indicate what this next step is. This is referred to as **rel**  – short for “link relationship.”
+You can discern the purpose of that link based on the rel. Some examples are:
 
-2.  The REST callsmight return data as 'items'. These are usually one of these types
+- If the rel is “content,” you will guess that that this end point  returns the content.
+- If the rel is “execute,” you will guess that this end point is associated with some type of execution that is appropriate for that context.
+- If the rel is “create,” you will rightly assume that the call will result in something being created.
 
-    1.  Plain text - An example is the call to check the status of a job
-    2.  HTML output - An example is ODS output from a compute server
-    3.  Array - An example is log and listing output from compute server.
-    4.  Array of items with id's - An example is the list of files, folders etc...
-    5.  An object - a standard json that is not one of the above. CAS Actions is an example of this.
+#### Media Types
+   1. The media type used for the payload if the end point needs a payload.
+   2. The media type of the returned data. This information can be used by applications to determine programmatically how to deal with the data either for
+   processing or display.
 
-restAF uses this pattern to reduce your interaction with the server and the data to a few simple calls.
+The links are reduced to an object called **rafLink**. You will use rel to locate a rafLink in the rafObject. The primary use of rafLink is as a parameter
+to the api calls to the server.
+
+### Items
+Items are the data. Items can be a collection of items, a text string, an array, SVG, and so on.
+Some examples are as follows:
+
+- A collection of items: Each item has some data and links to indicate what you can do with this item (delete for example).
+- A string (examples: SVG, status of a job, and so on).
+- An array (example: SAS logs).
+- Some object.
+- And, in some cases, no data only http return codes.
+
+restAF manages the links and data for the application.
 
 ## Basic flow of an application
 
 The flow of an application using restAF is as follows:
 
-1.  Initialize restAF - you can have only one instance of retAF per application. The initialization creates a **store** to maintain the data and handle asynchronous calls
+1.  Initialize restAF - you can have only one instance of restAF per application. The initialization creates a **store** to maintain the data and handle asynchronous calls
     to the server.
 2.  Logon to the server - setups connection to the Viya Server
 3.  Register the services - Inform restAF to setup structures(called folders)to handle data for each of the services your application will be using.
-4.  In the main loop of your application make calls to the server thru store. The calls will return a object that the application with interact with to
+4.  In the main loop of your application make calls to the server thru store. The calls will return an object that the application will interact with to
     retrieve the data(read-only) as and when they are needed in the application.
 
-### Introductory Example
 
-Here is a simple example running data step in CAS. In the example below ignore the following for now:
+### Introductory Example for a nodejs application
+
+Here is a simple example running data step with compute service. In the example below ignore the following for now:
 
 *   prtUtil - some utility functions to dump information to console
 *   logonPayload - data for logging on to Viya Server - discussed later in this document
 
 ```
-let restaf      = require('restaf');
-```
+  
+let restaf   = require('restaf');
 
-Initialize restaf and create the store
-```
-let store = restaf.initStore();
-```
+// Preamble Application specific code to get configuration information
+// You might do it differently
+let config = require('./config');
+let logonPayload = config('raf.env');
 
-The rest of the code will be housed inside an async function so that we can use the await capabilities. For discussiobn purposes
-the function declaration is omitted.
+// Now the real work starts
+// step 1 
+let store        = restaf.initStore();
 
-The first step is to logon toe Viya Server. For now accept as a fact that the logonPayload parameter has information on
-how to authenticate the user with the server. The logoon method returns a promise
-
-```
-let msg     = await store.logon(logonPayload);
-```
-
-Next let restaf know which service(s) you plan to use. restAF will create folders to hold the information for these
-services. And it will initialize these folders with the links(transitions) from the root end point of the service. AddService returns
-an object whose keys are the name of the service and the values are an object called rafObject. This rafObject is the
-waht you will use to access the data returned from the server. In this example we are using the CasManagement service.
-
-```
-let {casManagement} = await store.addServices('casManagement');
-```
-
-Based on the documentation we know that we need to create a session on the CAS server.
-
-To get the list of cas servers we will use the link associated with the 'servers' rel and make an api call to get the list of
-servers. To get the link (called rafLink) for 'servers' use the links method on the rafObject
-
-```
-let serverLink = casManagement.links('servers');
-```
-
-Next make an api call to get the list of servers
-```
-let servers = await store.apiCall(serverLink);
-```
-
-This call returns another rafObject with information about servers.
-//Get list of current servers
-// the links method is used to return the a restaf version of link(called rafLink) associated with a given rel.
-// this is then used to make a call to the end point using the apiCall method to get a list of cas Servers
-
-    let servers = await store.apiCall(casManagement.links('servers'));
-
-    // Since the call resulted in a list of servers, restaf created an array of server id's that is accessed
-    // via the itemsList method
-
-    let casserver = servers.itemsList(0);
-
-    // Create a session on the first server(in Viya 3.3 that is your only option)
-    let createSessionCmd = servers.itemsCmd( casserver, 'createSession');
-
-    let session = await store.apiCall(servers.itemsCmd(casserver, 'createSession'), {data: {name: sessionName}});
-
-    //Now run a simple data step in that session
-    let p = {
-        action: 'datastep.runCode',
-        data  : { code: 'data casuser.score; x1=10;x2=20;x3=30; score1 = x1+x2+x3;run; '  }
-    };
-    let actionResult = await store.apiCall(session.links('execute'), p);
-
-    //Check the status of the result
-    let statusCode = actionResult.items('disposition', 'statusCode');
-    if (statusCode !== 0) {
-        throw actionResult.items('disposition');
-    } else {
-        prtUtil.view(actionResult, 'DataStep action');
-    }
-
-    // delete session
-    actionResult = await store.apiCall(session.links('delete'));
-
-    return 'Success';
+// steps 2 and 3 
+async function setup (store, payload){
+    let msg  = await store.logon(payload);
+    let {compute} = await store.addServices('compute');
+    return compute;
 }
 
-// Run the example
-example1(store, payload, 'example1')
-    .then  (msg => console.log(msg))
-    .catch (err => prtUtil.printErr(err));
+// Step 4 
+async function mainLoop (store, compute, code) {
+
+    // get the list of contexts for compute server  
+    let contexts = await store.apiCall(compute.links('contexts'));
+
+    // lookup the name of the first context, 
+    // use it to get the associated createSession rafLink
+    // create a compute session
+    let context       = contexts.itemsList(0);
+    let createSession = contexts.itemsCmd(context, 'createSession');
+    let session       = await store.apiCall(createSession);
+
+    // Define the payload
+    let payload = {
+            data: {code: code}
+    };
+
+    // Execute the data step and wait for completion
+    let job    = await store.apiCall(session.links('execute'), payload);
+    let status = await store.jobState(job, null, 5, 2);
+
+    // Check the final status of job
+    if (status.data === 'running') {
+        throw `ERROR: Job did not complete in allotted time`;
+    } else {
+        let logLines = await store.apiCall(status.job.links('log'));
+        // print the log
+        logViewer(logLines);
+    }
+    return 'restAF is cool or what';
+}
+
+// Your main app
+
+let code =  [`data _null_; do i = 1 to 100; x=1; end; run; `];
+
+setup (store, logonPayload)
+    .then (compute => mainLoop(store, compute, code))
+    .catch(err =>console.log(err));
+
 
 ```
 
@@ -178,11 +211,11 @@ example1(store, payload, 'example1')
 
 ## restAF Objects and restAF Links
 
-
-restAF reduces the information returned by an API call into a form that makes it convenient for the application to consume. One key reduction is the transformation of links into a restafLinks object. This allows restAF to navigate its own structures and make API calls on behalf of the application.
+restAF reduces the information returned by an API call an object called rafObject. This object has several properties amd methods. 
+One key reduction is the transformation of links into rafLinks objects. rafLink allows restAF to navigate its own structures and make API
+ calls on behalf of the application.
 
 ## Initializing restAF
-
 
 To initialize restAF you will make the following 2 calls:
 
@@ -205,6 +238,7 @@ The next step is to associate Viya server with this instance of restAF.
 
 payload is either null or is an object with information to logon to the server. If null, restAF assumes that your browser session has been authenticated by other means.
 
+Below is a typical payload for a nodejs application
  payload = {
     host        : 'http://yourserver:portno',
     user        : username,
@@ -213,57 +247,50 @@ payload is either null or is an object with information to logon to the server. 
     clientSecret: clientsecret /* get this from your admin */
     } );
 
-restAF also supports implicit flow as described [here](#auth) .
+See  [here](#auth)  for more details on the various forms of the payload.
 
 ##Adding Services
-
 
 After the initialization steps restAF still does not know what information to manage. Now populate restAF by registering the services you want to use in your application by using the addServices method of the store object we got earlier.
 
 ### addServices
 
 
-addServices method adds a folder for the each service. It additionally calls the root end point for that service and populates the folder with the links returned from that call. The addServices method returns a restAF object( restafObj) which we will discuss next.
+addServices method adds a folder for the each service. It additionally calls the root end point for that service and populates the folder with the links returned from that call. The addServices method returns a restAF object( rafObject) which we will discuss next.
 
 **All service names are case-sensitive**
 
- store.addServices( serviceName  )
-    .then ( restafObj => {
-          //you app does what it needs to do
-    } )
-    .catch ( err => {
-      //handle error condition
-    } )
+```
+ let {serviceName1, serviceName2,....} = await store.addServices( 'serviceName1', 'serviceName2', ....  );
+``` 
 
-### Adding multiple services
+At this point serviceName1 is a rafObject with information for the root end poins of that service.
+#### Example
 
+```
+let {compute, casManagement} = await store.addServices( 'compute', 'casManagement' );
+```
 
-If your application uses more than one of the services you can add all of them by passing a list of services to the addServices method. If you pass more than one service, the returned value is an object with restafObjects representing the services that were started. For example if you wish to add casManagement and compute service then the code will look as follows:
-
-    store.addServices( 'casManagement', 'compute' )
-    .then ( restafObjects => {
-         casManagement = restafObjects.casManagement;
-         compute       = restafObjects.compute;
-    } )
-    .catch( err => { ...do something } );
-
-##restAF Object(restafObj)
+##restAF Object(rafObject)
 
 
-In your application you will be dealing primarily with restafObjects and restafLinks. Every time a result is returned from an API call, restAF will "reduce" it to an internal object called folders. The folders are immutable objects based on [immutable.js.](https://facebook.github.io/immutable-js/). restAF returns a standard JS object called restafObject which encapsulates the data returned from the server. The application will retrieve information using the methods of the restafObject.
+In your application you will be dealing primarily with rafObjects and rafLinks. Every time a result is returned from an API call, restAF will "reduce" 
+it to an internal object called folders. The folders are immutable objects based on [immutable.js.](https://facebook.github.io/immutable-js/). 
+restAF returns a standard JS object called rafObject which encapsulates the data returned from the server. The application will retrieve information using the methods of the rafObject.
 
-### restAF Links ( restafLinks )
+### restAF Links ( rafLinks )
 
 
-restAF extends all the links returned by the server with information it needs to navigate the store and make the final calls. The most common use of restafLinks is as an argument to apiCall method of the store to navigate to a new resource. The other use is in associating links with UI components like buttons, navigators etc. This will be covered later in this document.
+restAF extends all the links returned by the server with information it needs to navigate the store and make the final calls. 
+The most common use of rafLinks is as an argument to apiCall method of the store to navigate to a new resource. The other use is in associating links with UI components like buttons, navigators etc. This will be covered later in this document.
 
 ###apiCall - Making api/REST calls
 
-the apiCall method on teh store object is the key method for making REST calls.
+the apiCall method on the store object is the key method for making REST calls.
 
-    store.apiCall( restafLink <, payload>, <, delay>  )
+    store.apiCall( rafLink <, payload>, <, delay>  )
 
-restafLink is obtained using the methods on restafObj as described below.
+rafLink is obtained using the methods on rafObject as described below.
 
 The payload(optional parameter) is an object with the following optional keys
 
@@ -312,14 +339,16 @@ _To create a file with plain text_
 
 ### apiCallAll - Making api Calls in parallel
 
-apiCall method makes a single service call. The apiCallAll method on store allows the programmer to execute multiple service calls in parallel. A typical use case will be running forecast actions in parallel in different cas sessions. Another is running jobs in multiple compute server sessions. You can mix and match services in this single call( ex: create files, run cas jobs etc... but this would be an exception rather than a rule
+apiCall method makes a single service call. The apiCallAll method on store allows the programmer to execute multiple service calls in parallel. 
+A typical use case will be running forecast actions in parallel in different cas sessions. 
+Another is running jobs in multiple compute server sessions. You can mix and match services in this single call( ex: create files, run cas jobs etc... but this would be an exception rather than a rule
 
     store.apiCallAll( requestArray, < delay > )
 
 
 *   requestArray is an array with each row of the following format:
 
-                { restafLink: <the restaflink to be called>
+                { rafLink: <the rafLink to be called>
                   payload: <standard payload as described earlier in this document>
                 }
 
@@ -327,6 +356,8 @@ apiCall method makes a single service call. The apiCallAll method on store allow
 *   delay is the wait time in seconds before each apiCall. Default is 0
 
 The method returns when all the calls in the requestArray return successfully or when one of them fails. In that sense apiCallAll behaves like PromiseAll. The order of the results array is the same as the requestArray. See the example for running parallel sas compute jobs
+
+Later in the document you will learn about the **submit** method which is more elegant way to handle running calls in parallel.
 
 ### jobState and jobStateAll
 
@@ -343,13 +374,14 @@ In SAS API the state end point returns could be in one of these states.
 *   Job failed(failed) - similar to the previous item but some services have chosen to return failed
 *   probably other completed states now or in later releases
 
-Most of the services that have a "state" end point recommend that you call the 'self' end point after the job completes to get the latest results from the job run. jobState and jobStateAll will make this additional call on 'self' if none of the jobs are still running. This saves you an additional call
+Most of the services that have a "state" end point recommend that you call the 'self' end point after the job completes to get the latest results from the job run. 
+jobState and jobStateAll will make this additional call on 'self' if none of the jobs are still running. This saves you an additional call
 
 At this point your code has to decide how best to proceed given these states.
 
 ### To check the status of a single job use jobState method.
 
-    store.jobState( restafObject-for-job <,payload> <,maxTries > )
+    store.jobState( rafObject-for-job <,payload> <,maxTries > )
 
 
 Some services take a query parameter to support long polling - pass that information in the standard payload structure
@@ -361,7 +393,7 @@ The returned object has the following form:
 {
   data      : <completed|running|...|...>,
   statusCode: <http code >,
-  job       : <restafObject of the final job>
+  job       : <rafObject of the final job>
 }
 
 
@@ -393,7 +425,7 @@ The returned value has the form
     running: <No of jobs still running >
     details: >details on the completion ( see note above and see below for the form of this object>
     jobState: {
-          job       : < the job restafObject. see note below >
+          job       : < the job rafObject. see note below >
           statusCode: < The http code from the server  >
           data      : < text returned on completion( 'complete' for example ) >
        }
@@ -421,7 +453,7 @@ detail: {
   error    : 1
 }
 
-        store.jobStateAll( array of jobs restafObject, payload, maxTries )
+        store.jobStateAll( array of jobs rafObject, payload, maxTries )
         .then ( status => {
              if ( status.running !== 0 ) {
                 ...handle slow running jobs...
@@ -432,7 +464,8 @@ detail: {
         } )
 
 
-The payload parameter can be an array or single object. If single object then this payload will be applied to every restafObject in the first parameter. The primary purpose of the payload is to set timeout as a query parameter
+The payload parameter can be an array or single object. If single object then this payload will be applied to every rafObject in the first parameter. 
+The primary purpose of the payload is to set timeout as a query parameter
 
 Maxtries works the same as in jobState
 
@@ -445,8 +478,8 @@ All property names are case sensitive
 
 1.  **type:** This indicates which of the results pattern this object represent
 
-1.  **links:** Use the links method below to view and obtain restafLinks for further calls. If type is "links" then this object only has links for other end points.
-2.  **itemsList:** The restafObj contains an array of items with id's.
+1.  **links:** Use the links method below to view and obtain rafLinks for further calls. If type is "links" then this object only has links for other end points.
+2.  **itemsList:** The rafObject contains an array of items with id's.
     1.  Use itemsList method to retrieve the id's of the items returned.
     2.  Use the scrollCmds method to determine whether there are more data available and for making the pagination calls.
     3.  Use the items function to retrieve specific items( or all items ) from the collection.
@@ -457,26 +490,25 @@ All property names are case sensitive
 4.  **items:** The exact object type is not known. Use items method to get the information and also use resultType property do decide how to handle that data
 
 3.  **resultType:** The media type of the result
-4.  **route:** This is an index into the store for this specific result (see section on route later in this document
-5.  **folder:** This is the actual folder in the store - only for advanced users
+4.  **route:** This is an index into the store for this specific result (see section on route later in this document). This will be useful if you want to pass a reference to a rafObject.
 6.  **status:** This the http code returned from the api call
 7.  **statusInfo:** An object with details of the status
 
 Methods (function properties)
 -----------------------------
 
-Use these methods to interact with restafObj. These functions return either objects or string depending on the data. Remember these objects are immutable objects. In the document below the common usage patterns are described.
+Use these methods to interact with rafObject. These functions return either objects or string depending on the data. Remember these objects are immutable objects. In the document below the common usage patterns are described.
 
-If the returned value is an restafObj you can use query parameters to drill into a specific value in that object. Examples are provided below
+If the returned value is an rafObject you can use query parameters to drill into a specific value in that object. Examples are provided below
 
 #### links method
 
-The links method will return an immutable object of restafLinks. You will use this method when the type of the restafObj is "links". But sometimes there will be links even when the type is not "links". In those cases the links are usually actions that operate on the whole collection
+The links method will return an immutable object of rafLinks. You will use this method when the type of the rafObject is "links". But sometimes there will be links even when the type is not "links". In those cases the links are usually actions that operate on the whole collection
 
-    restafLink = restafObj.links( relName );
+    rafLink = rafObject.links( relName );
 
 
-relName is the rel of the resource you are looking for. The call will return a restafLink that you can use in an apiCall as shown below
+relName is the rel of the resource you are looking for. The call will return a rafLink that you can use in an apiCall as shown below
 
      contentLink   = fileObject.links( 'content' );
      contentObject = store.apiCall ( contentLink );
@@ -485,37 +517,25 @@ Sometimes you need the entire list of links. An example is displaying buttons wi
 
     allLinks = fileObject.links();
     allLinks.forEach( ( l, rel ) => {
-       console.log(\`Title: ${l.get( 'title' ) }  rel: ${rel} \` );
+       console.log(\`Title: ${rel}  rel: ${rel} \` );
     }
-
-**What is this l.get stuff?**
-
-The returned object is an immutable map and you can gets its properties using the get method on that map. If you are uncomfortable dealing with immutable objects you can convert it to a standard JS object as shown below:
-
-    allLinks = fileObject.links();
-    allLinks.forEach( ( l, rel ) => {
-       let ljs = l.toJS();
-       console.log(\`Title: ${ljs.title }  rel: ${rel} \` );
-    }
-
-Any immutable object can be converted to a standard JS object using the toJS() method. However this will result in more objects being created, garbage collected and so on. Recommend you stay with the immutable object representation.
-
+    
 #### itemsList method
 
-If the restafObj type is 'itemsList' use this method to get the immutable array of id's in the current result object. This is really a convenience method for UI ( ex: showing a list of the id's).
+If the rafObject type is 'itemsList' use this method to get the immutable array of id's in the current result object. This is really a convenience method for UI ( ex: showing a list of the id's).
 
 Below is an example listing all the id's
 
-    let idList = restafObj.itemsList();
+    let idList = rafObject.itemsList();
     for ( i = i ; i < id.size; i++ ) {
        console.log( idList.get( i ) );
     }
 
 #### scrollCmds method
 
-This method returns the restafLinks associated with pagination. This method can be used to get a restafLink associated with next, prev, last and first cmds(rel). At any given time the server may return some, all or none of these. To ensure safe programming, always check if the returned restafLink is non-null.
+This method returns the rafLinks associated with pagination. This method can be used to get a rafLink associated with next, prev, last and first cmds(rel). At any given time the server may return some, all or none of these. To ensure safe programming, always check if the returned rafLink is non-null.
 
-    let nextCmd = restafObj.scrollCmds( 'next' );
+    let nextCmd = rafObject.scrollCmds( 'next' );
     if ( nextCmd !== null ) {
         store.apiCall( nextCmd )
            .then ( restafobj => {...do something...} )
@@ -525,7 +545,7 @@ This method returns the restafLinks associated with pagination. This method can 
 
 In an UI you would want to display buttons for scrolling. A typical code will look like this
 
-    let cmds = restafObj.scrollCmds();
+    let cmds = rafObject.scrollCmds();
 
     cmds.forEach( ( c, cmd ) => {
         ...make your scrolling menu...
@@ -559,19 +579,19 @@ This method gives you access to the data that might have been returned. This cou
 
 The items method takes arguments that determines what is returned.
 
-    let result = restafObj.items( what-you-want )
+    let result = rafObject.items( what-you-want )
 
 Let us examine a few typical cases
 
 **All Items**
 
-let allItems = restafObj.items();
+let allItems = rafObject.items();
 
 If you get all the items then you need to write the code to manage the items based on the resultType
 
 **Get a specific item using the id ( which you will get from itemsList() )**
 
-    let item = restafObj.items( idOfItem );
+    let item = rafObject.items( idOfItem );
 
 #### itemsCmd
 
@@ -579,20 +599,20 @@ Use this method to obtain the cmds associated with a particular item. Obtain the
 
 **Get all commands associated with a item with a specific id**
 
-    let item = restafObj.itemsCmd( idOfItem );
+    let item = rafObject.itemsCmd( idOfItem );
 
 You can step thru this object as follows
 
-    restafObj.itemsCmd( idOfItem ).forEach( ( c, key) => {
+    rafObject.itemsCmd( idOfItem ).forEach( ( c, key) => {
     // c is the current cmd information
     // key is the name of the command( createSession delete etc... )
     }
 
 **Get a specific command associated with a item with a specific id**
 
-    let item = restafObj.itemsCmd( idOfItem, 'name of command' );
+    let item = rafObject.itemsCmd( idOfItem, 'name of command' );
     ex:
-    let deleteCmd = restafObj.itemsCmd( '1234ID', 'delete' );
+    let deleteCmd = rafObject.itemsCmd( '1234ID', 'delete' );
 
     store.apiCall( deleteCmd )
     .then ( f => { do whatever) }
@@ -604,24 +624,24 @@ On occasion one needs to access to the returned headers like etag. For those sce
 
 **Get a specific header**
 
-    let etag = restafObj.responseHeaders( 'etag' );
+    let etag = rafObject.responseHeaders( 'etag' );
 
 **Get all headers**
 
-    let headers = restafObj.responseHeaders();
+    let headers = rafObject.responseHeaders();
 
 #### status
 
 To get the http status returned from the call
 
-        let status = restafObj.status();
+        let status = rafObject.status();
 
 
 #### statusInfo
 
 Use this to get any additional information that might have been returned for the status. Mostly useful if the job failed for some reason
 
-        let info = restafObj.statusInfo() ;
+        let info = rafObject.statusInfo() ;
         console.log( info );
 
 
@@ -708,13 +728,13 @@ restAF handles all the pagination for you. Use the scrollCmds as described above
 
 For example to get the next set of items do the following
 
-    let next = restafObj.scrollCmds( 'next' );
+    let next = rafObject.scrollCmds( 'next' );
     if ( next === null ) {
       /\* tell user there is no more data */
     } else {
        store.apiCall( next )
        .then ( nextObj => {
-         do whatever using teh restafObj methods
+         do whatever using teh rafObject methods
         } );
        .catch ( err => {
          handle error conditions
@@ -726,7 +746,7 @@ Replace next with prev,last ans first as appropriate.
 Route property
 --------------
 
-Each restafObject has a route property. This is a string that is key to the data pointed to by restafObj. restAF uses the route to find the data associated with this key. If for whatever reason you need to maintain a "pointer" to a restafObj( or pass it in as a query parameter you can use this. In the call to store.apiCall you can use the route value as a substitute for the restafLink object.
+Each rafObject has a route property. This is a string that is key to the data pointed to by rafObject. restAF uses the route to find the data associated with this key. If for whatever reason you need to maintain a "pointer" to a rafObject( or pass it in as a query parameter you can use this. In the call to store.apiCall you can use the route value as a substitute for the rafLink object.
 
 More on Authentication in restAF
 -----------------------------

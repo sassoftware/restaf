@@ -27398,7 +27398,6 @@ function fixCas(iLink, response) {
         var _loop = function _loop(_i) {
             var item = _items[_i];
             var name = item.name;
-            console.log(name);
             var ll = item.links.map(function (l) {
                 l.casHttp = name + '-http';
                 return l;

@@ -19,8 +19,9 @@
 'use strict';
 
 let axios = require ('axios');
-async function request (payload) {
+async function request (payload, reducer) {
     let r = await axios(payload);
-    return r;
+    return ( reducer == null ) ? r : reducer(r);
 }
+
 export default request;

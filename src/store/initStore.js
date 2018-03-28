@@ -47,9 +47,9 @@ function initStore () {
     injectAsyncReducers(store, APP_DATA_ROOT, reducer(APP_DATA_ROOT));
 
     return  {
-        logon   : logon.bind(null, store),
-        logoff  : logoff.bind(null, store),
-        loggedOn: loggedOn.bind(null, store),
+        logon     : logon.bind(null, store),
+        logoff    : logoff.bind(null, store),
+        connection: loggedOn.bind(null, store),
 
         addServices: addServices.bind(null, store),
         getServices: getServices.bind(null, store),
@@ -73,6 +73,7 @@ function initStore () {
         store   : store,
 
         getServiceRoot: getServiceRoot.bind(null, store),
+
         request: request
     } }
 

@@ -10121,6 +10121,7 @@ function request(iconfig) {
     }
 
     var url = '' + logonInfo.host + iLink.href;
+
     if (casAction !== null && iLink.rel !== 'upload') {
         url = url + '/' + casAction;
     }
@@ -20491,7 +20492,7 @@ function initStore() {
     return {
         logon: _logon2.default.bind(null, store),
         logoff: _logoff2.default.bind(null, store),
-        loggedOn: loggedOn.bind(null, store),
+        connection: loggedOn.bind(null, store),
 
         addServices: _addServices2.default.bind(null, store),
         getServices: _getServices2.default.bind(null, store),
@@ -20515,6 +20516,7 @@ function initStore() {
         store: store,
 
         getServiceRoot: _getServiceRoot2.default.bind(null, store),
+
         request: _request2.default
     };
 }
@@ -27309,6 +27311,7 @@ function fixResponse(response) {
     //
     // Ensure all header keys are lowercase
     //
+
     var headers = {};
 
     for (var k in response.headers) {
@@ -27347,6 +27350,8 @@ function fixImages(iLink, response) {
 }
 function fixCas(iLink, response) {
     // special handling for cas
+
+
     if (iLink.rel === 'createSession' && iLink.responseType === 'application/vnd.sas.cas.session') {
         response.data.results.links = response.data.results.links.concat(fixCasSession(iLink, response.data.results));
         response.data.results.name2 = response.data.results.name.split(':')[0];
@@ -27359,7 +27364,9 @@ function fixCas(iLink, response) {
         var harray = iLink.href.split('/');
         harray.shift();
         var server = harray[2];
-        var pre = '/casProxy/servers/' + server + '/cas/sessions';
+        // let pre   = `/casProxy/servers/${server}/cas/sessions`;
+        debugger;
+        var pre = '/' + iLink.casHttp + '/cas/sessions';
         for (var i = 0; i < items.length; i++) {
             var item = items[i];
             /* get rid of casManagement in front */
@@ -27367,6 +27374,7 @@ function fixCas(iLink, response) {
             item.links = item.links.concat(casSessionLinks(uri));
         }
     }
+
     if (iLink.hasOwnProperty('customHandling')) {
         response.data.results = reduceCasResult(response.data.results);
         response.data.results = { items: (0, _assign2.default)({}, response.data.results) };
@@ -27378,9 +27386,29 @@ function fixCas(iLink, response) {
             if (l.rel === 'collection') {
                 l.title = 'servers';
                 l.rel = 'servers';
+                l.patch = 'cas';
             }
             return l;
         });
+    }
+    if (iLink.hasOwnProperty('patch') && iLink.rel === 'servers') {
+        var _items = response.data.results.items;
+        debugger;
+
+        var _loop = function _loop(_i) {
+            var item = _items[_i];
+            var name = item.name;
+            console.log(name);
+            var ll = item.links.map(function (l) {
+                l.casHttp = name + '-http';
+                return l;
+            });
+            item.links = ll;
+        };
+
+        for (var _i = 0; _i < _items.length; _i++) {
+            _loop(_i);
+        }
     }
 }
 
@@ -27406,6 +27434,7 @@ function fixReports(iLink, response) {
 }
 
 function fixCasSession(iLink, results) {
+    debugger;
     return sessionLinks(iLink, results.id).concat(results.links);
 }
 
@@ -27431,12 +27460,15 @@ function reduceCasResult(data) {
 
 function sessionLinks(iLink, sessionId) {
     /**/
+    debugger;
     var harray = iLink.href.split('/');
     var server = harray[harray.length - 2];
-    var uri = '/casProxy/servers/' + server + '/cas/sessions/' + sessionId;
+    // let uri = `/casProxy/servers/${server}/cas/sessions/${sessionId}`;
+    var uri = '/' + iLink.casHttp + '/cas/sessions/' + sessionId;
     return casSessionLinks(uri);
 }
 function casSessionLinks(uri) {
+    debugger;
     return [{
         method: 'POST',
         href: uri + '/actions', /* payload: data:...., qs: {action: ...} */
@@ -27447,6 +27479,7 @@ function casSessionLinks(uri) {
         itemType: 'application/json',
         title: 'Run CAS Action',
         customHandling: 'casExecute',
+        restPort: '8777',
         extended: true
     }, {
         method: 'GET',
@@ -29108,7 +29141,7 @@ var _asyncToGenerator2 = __webpack_require__(155);
 var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
 
 var request = function () {
-  var _ref = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(payload) {
+  var _ref = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(payload, reducer) {
     var r;
     return _regenerator2.default.wrap(function _callee$(_context) {
       while (1) {
@@ -29119,7 +29152,7 @@ var request = function () {
 
           case 2:
             r = _context.sent;
-            return _context.abrupt('return', r);
+            return _context.abrupt('return', reducer == null ? r : reducer(r));
 
           case 4:
           case 'end':
@@ -29129,7 +29162,7 @@ var request = function () {
     }, _callee, this);
   }));
 
-  return function request(_x) {
+  return function request(_x, _x2) {
     return _ref.apply(this, arguments);
   };
 }();

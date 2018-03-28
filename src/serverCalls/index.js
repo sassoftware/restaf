@@ -95,9 +95,11 @@ function request (iconfig) {
     }
 
     let url = `${logonInfo.host}${iLink.href}`;
+
     if (casAction !== null && iLink.rel !== 'upload') {
         url = `${url}/${casAction}`;
     }
+
 
     // casProxy handling
 

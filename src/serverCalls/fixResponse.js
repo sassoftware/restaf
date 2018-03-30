@@ -188,7 +188,6 @@ function casSessionLinks (uri){
             itemType      : 'application/json',
             title         : 'Run CAS Action',
             customHandling: 'casExecute',
-            restPort      : '8777',
             extended      : true
         },
         {

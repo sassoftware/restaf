@@ -10071,7 +10071,7 @@ function trustedGrant(iconfig) {
 
             Authorization: auth1
         },
-        withCredentials: true,
+        withCredentials: false,
 
         data: {
             'grant_type': 'password',
@@ -27478,7 +27478,6 @@ function casSessionLinks(uri) {
         itemType: 'application/json',
         title: 'Run CAS Action',
         customHandling: 'casExecute',
-        restPort: '8777',
         extended: true
     }, {
         method: 'GET',

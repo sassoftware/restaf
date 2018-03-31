@@ -36,6 +36,7 @@ async function example (store, logonPayload, counter) {
     while(((next = filesList.scrollCmds('next')) !== null) && --counter > 0)  {
         filesList = await store.apiCall(next);
         printList(filesList.itemsList());
+
     }
 
     return 'All Done';

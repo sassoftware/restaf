@@ -35,7 +35,11 @@ debugger;
 let store = restaf.initStore();
 
 store.logon(payload)
-    .then (msg => console.log(`Logon Status: ${msg}`))
+    .then (msg => {
+        console.log( JSON.stringify(store.connection() ) );
+        console.log( store.connection().host)
+        console.log(`Logon Status: ${msg}`)
+    })
     .catch(err => console.log(err));
 
 

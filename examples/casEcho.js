@@ -21,15 +21,16 @@
  */
 'use strict';
 
-let restaf      = require('../lib/restaf');
+let restaf   = require('../lib/restaf');
 let payload  = require('./config')('restaf.env');
-let casSetup = require('./casSetup');
-let prtUtil     = require('../prtUtil')
+let casSetup = require('./lib/casSetup');
+let prtUtil  = require('../prtUtil')
 
 let store = restaf.initStore();
 
 casSetup(store, payload, 'cas')
-    .then (session => {
+    .then (r => {
+        let {session} = r;
         let p = {
             action: 'echo',
             data  : {code: 'data casuser.data1; x=1;put x= ; run; '}

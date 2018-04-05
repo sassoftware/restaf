@@ -22,7 +22,7 @@
 'use strict';
 
 let restaf         = require('../lib/restaf');
-let casSetup    = require('./casSetup');
+let casSetup    = require('./lib/casSetup');
 let runAction   = require('./runAction');
 let prtUtil        = require('../prtUtil');
 
@@ -31,30 +31,24 @@ let store   = restaf.initStore();
 
 async function example (store, payload, sessionName){
 
-    // Logon
-    let msg     = await store.logon(payload);
+    let {session} = await casSetup(store, payload, sessionName);
 
-    //setup CAS session
-    let session = await casSetup(store, payload, sessionName);
-
-    //run data step action
     let actionPayload = {
         action: 'datastep.runCode',
         data  : { code: 'data casuser.score; x1=10;x2=20;x3=30; score1 = x1+x2+x3;run; '  }
     };
-    let actionResult = await runAction(store, session, actionPayload);
-    prtUtil.view(actionResult, 'Result from data step');
+    await runAction(store, session, actionPayload, 'Data Step');
 
-    // run fetch action
+   // run fetch action
     actionPayload = {
         action: 'table.fetch',
         data  : { table: { caslib: 'casuser', name: 'score' } }
     };
-    actionResult = await runAction(store, session, actionPayload);
+    let actionResult = await runAction(store, session, actionPayload);
     prtUtil.view(actionResult, 'Result of fetch action');
 
     // delete session
-    actionResult = await store.apiCall(session.links('delete'));
+    await store.apiCall(session.links('delete'));
 
     console.log(`session closed with Status Code ${actionResult.status}`);
     return true;

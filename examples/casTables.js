@@ -48,7 +48,8 @@ async function example (store, logonPayload) {
     for (let i=0; i < caslibs.itemsList().size ; i++) {
         let s = caslibs.itemsList(i);
         let tables = await apiCall(caslibs.itemsCmd(s, 'tables'));
-        prtUtil.view(tables, `List of tables in ${s}`);
+        let ta
+        console.log( tables.items('tables'))
     }
     return true;
 }

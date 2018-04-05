@@ -17,29 +17,18 @@
  */
 
 'use strict';
+let prtUtil        = require('../../prtUtil');
+module.exports = async function(store, session, payload, title) {
+    console.log( 'running action');
+    let actionResult = await store.apiCall(session.links('execute'), payload);
+    let statusCode = actionResult.items('disposition', 'statusCode');
+    console.log( `===========================${title}`);
+    console.log( JSON.stringify(actionResult.items('disposition'), null, 4));
+    console.log( JSON.stringify(actionResult.items('log'), null, 4));
 
-let restaf  = require('../lib/restaf');
-let payload = require ('./config')('restaf.env') ;
-
-let store = restaf.initStore();
-
-// Pagination
-
-async function example (store, logonPayload, counter) {
-    await store.logon(logonPayload);
-    let {files} = await store.addServices('files');
-
-    let filesList = await store.apiCall(files.links('files'));
-    let f = filesList.itemsList(0);
-    debugger;
-    let data = filesList.items(f, 'data', 'id');
-    console.log(data);
-
-    return 'All Done';
+    console.log( JSON.stringify(actionResult.items('results'), null, 4));
+    if (statusCode !== 0) {
+        throw actionResult.items('disposition');
+    }
+    return actionResult;
 }
-
-const printList =  (itemsList) => console.log(JSON.stringify(itemsList, null, 4));
-
-example(store, payload, 10)
-   .then (status => console.log(status))
-   .catch(err => console.log(err));

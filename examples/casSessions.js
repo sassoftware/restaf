@@ -20,7 +20,7 @@
 
 let restaf         = require('../lib/restaf');
 let payload     = require('./config')('restaf.env');
-let casSetup    = require('./casSetup');
+let casSetup    = require('./lib/casSetup');
 let runAction   = require('./runAction');
 
 let store = restaf.initStore();

@@ -10192,10 +10192,10 @@ function request(iconfig) {
             config.data = idata;
         }
     */
-    config.data = idata === null ? {} : (0, _extends3.default)({}, idata);
+    config.data = idata === null ? {} : idata;
 
-    /* */
     // config.timeout = 60000;
+    debugger;
     return makeCall(config, iconfig);
 }
 
@@ -14921,7 +14921,7 @@ var jobState = function () {
                         debugger;
                         failed = status.detail.hasOwnProperty('failed');
 
-                        if (!(status.running === 0 || failed === true)) {
+                        if (!(status.running === 0)) {
                             _context.next = 17;
                             break;
                         }

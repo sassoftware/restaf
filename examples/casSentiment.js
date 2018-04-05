@@ -23,7 +23,7 @@
 
 let restaf         = require('../lib/restaf');
 let payload     = require('./config')('restaf.env');
-let casSetup    = require('./casSetup');
+let casSetup    = require('./lib/casSetup');
 let runAction   = require('./runAction');
 let prtUtil        = require('../prtUtil');
 
@@ -35,7 +35,7 @@ async function example (store, payload, sessionName){
     let msg     = await store.logon(payload);
 
     //setup CAS session
-    let session = await casSetup(store, payload, sessionName);
+    let {session} = await casSetup(store, payload, sessionName);
 
     //run data step action
     let actionPayload = {

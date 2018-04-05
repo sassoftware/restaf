@@ -113,7 +113,6 @@ function request (iconfig) {
         }
     }
 
-
     let config = {
         method           : iLink.method,
         url              : url,
@@ -160,7 +159,7 @@ function request (iconfig) {
     }
 
     if (iqs !== null) {
-        config.params = {...iqs };
+        config.params = {...iqs};
     }
 
 /*
@@ -168,10 +167,10 @@ function request (iconfig) {
         config.data = idata;
     }
 */
-    config.data = (idata === null) ? {} : {...idata};
+    config.data = (idata === null) ? {} : idata;
 
-    /* */
     // config.timeout = 60000;
+    debugger;
     return makeCall(config, iconfig);
 }
 

@@ -18,11 +18,12 @@
 
 'use strict';
 
-let restaf       = require('../lib/restaf');
-let fs        = require('fs');
-let prtUtil   = require('../prtUtil');
-let casSetup  = require('./casSetup');
-let runAction = require('./runAction');
+let restaf        = require('../lib/restaf');
+let fs            = require('fs');
+let prtUtil       = require('../prtUtil');
+let casSetup      = require('./lib/casSetup');
+let runAction     = require('./lib/runAction');
+let printCasTable = require('./lib/printCasTable');
 
 let payload     = require('./config')('restaf.env');
 let filename    = 'iris';
@@ -31,41 +32,58 @@ let fileType    = 'csv';
 let store = restaf.initStore();
 
 async function example () {
-    // setup
-    //noinspection JSUnusedLocalSymbols
-    let msg     = await store.logon(payload);
 
     // setup session
-    let session = await casSetup(store, payload, 'cas');
+    let {session} = await casSetup(store, payload, 'cas');
 
     // setup header for upload and the rest of the payload
     let JSON_Parameters = {
         casout: {
             caslib: 'casuser', /* a valid caslib */
-            name  : filename /* name of output file on cas server */
+            name  : `deva` /* name of output file on cas server */
         },
 
         importOptions: {
             fileType: fileType /* type of the file being uploaded */
         }
     };
+    let data = readFile(filename, fileType);
+
     let p = {
         headers: {'JSON-Parameters': JSON_Parameters},
-        data   : readFile(filename, fileType),
+        data   : data,
         action : 'upload'
     };
 
-    let actionResult = await runAction (store, session, p);
-    prtUtil.view(actionResult, 'Result of upload action');
+    await runAction(store, session, p, 'upload');
 
-    // Delete session
+    p = {
+        action: 'table.tableExists',
+        data  : { caslib: 'casuser', name: `deva` }
+    };
+    await runAction(store, session, p, 'exists');
+
+    p = {
+        action: 'table.fetch',
+        data  : { table: { caslib: 'casuser', name: `deva` } }
+    };
+    let result = await runAction(store, session, p, 'fetch');
+    printCasTable(result, 'Fetch');
+
+    p = {
+        action: 'table.tableDetails',
+        data  : { caslib: 'casuser', name: `deva` } 
+    };
+     await runAction(store, session, p, 'details');
     // noinspection JSUnusedLocalSymbols
     let deleteAction = await store.apiCall(session.links('delete'));
     return "All Done";
 }
 
 function readFile (filename, fileType) {
-   return fs.readFileSync(`./data/${filename}.${fileType}`);
+   let data = fs.readFileSync(`./data/${filename}.${fileType}`, 'UTF8');
+    // data = fs.readFileSync(`./data/${filename}.${fileType}`);
+    return data;
 }
 
 example()

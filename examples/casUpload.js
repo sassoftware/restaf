@@ -47,11 +47,10 @@ async function example () {
             fileType: fileType /* type of the file being uploaded */
         }
     };
-    let data = readFile(filename, fileType);
 
     let p = {
         headers: {'JSON-Parameters': JSON_Parameters},
-        data   : data,
+        data   : readFile(filename, fileType),
         action : 'upload'
     };
 
@@ -68,21 +67,24 @@ async function example () {
         data  : { table: { caslib: 'casuser', name: `deva` } }
     };
     let result = await runAction(store, session, p, 'fetch');
+    console.log( JSON.stringify(result.items('tables'), null, 4) );
     printCasTable(result, 'Fetch');
+
 
     p = {
         action: 'table.tableDetails',
         data  : { caslib: 'casuser', name: `deva` } 
     };
      await runAction(store, session, p, 'details');
+
+
     // noinspection JSUnusedLocalSymbols
     let deleteAction = await store.apiCall(session.links('delete'));
     return "All Done";
 }
 
 function readFile (filename, fileType) {
-   let data = fs.readFileSync(`./data/${filename}.${fileType}`, 'UTF8');
-    // data = fs.readFileSync(`./data/${filename}.${fileType}`);
+   let data = fs.readFileSync(`./data/${filename}.${fileType}`);
     return data;
 }
 

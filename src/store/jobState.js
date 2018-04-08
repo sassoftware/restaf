@@ -32,13 +32,13 @@ async function jobState (store, job, payload, maxTries, delay, progressHandler, 
         tries = (!maxTries) ? 1 : maxTries;
     }
     do {
-        debugger;
+
         status = await ijobState(store, job, payload, delay, waitFlag, progressHandler, jobContext);
-        debugger;
+
         let failed = status.detail.hasOwnProperty('failed');
         if (status.running === 0 ) {
             tries = 0;
-            debugger;
+
             if (failed === false) {
                 status.jobState.job = await apiCall(store, job.links('self'));
             }

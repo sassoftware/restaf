@@ -33,6 +33,7 @@ async function example (store, logonPayload, counter) {
     printList(filesList.itemsList());
     let next;
     // do this loop while the service returns the next link or counter is 0
+
     while(((next = filesList.scrollCmds('next')) !== null) && --counter > 0)  {
         filesList = await store.apiCall(next);
         printList(filesList.itemsList());
@@ -42,7 +43,11 @@ async function example (store, logonPayload, counter) {
     return 'All Done';
 }
 
-const printList =  (itemsList) => console.log(JSON.stringify(itemsList, null, 4));
+const printList =  (itemsList) => {
+    console.log('------------------------------');
+    itemsList.map(m => console.log(m));
+    // you can also do console.log(JSON.stringify(itemsList, null,4))
+}
 
 example(store, payload, 10)
    .then (status => console.log(status))

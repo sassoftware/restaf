@@ -23,7 +23,7 @@ import { VIYA_LOGON_PASSWORD } from '../actionTypes';
 
 const SASLogonOauthLink = function (type) {
 
-    debugger;
+    
     if (type === VIYA_LOGON_PASSWORD || type == undefined) {
         return (
         {

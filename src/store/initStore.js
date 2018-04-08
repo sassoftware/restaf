@@ -60,7 +60,6 @@ function initStore () {
 
         jobState   : jobState.bind(null, store),
         jobStateAll: jobStateAll.bind(null, store),
-       /* jobStatus   : jobStatus.bind( null, store ),*/
 
         submit      : apiSubmit.bind(null, store),
         submitStatus: getApiStatus.bind(null, store),

@@ -1,6 +1,6 @@
 # Undergoing change
 
-# restAF- Building Applications with SAS REST API made simple 
+# restAF- Building Applications with SAS REST API made simple
 
 SAS® Viya® is like a Swiss Army knife when it comes to allowing all types of
 clients to talk to it—Java, Python, Lua, R, and, of course, SAS®.
@@ -57,7 +57,7 @@ In your web application you can access restaf with the following script tag.
 
 ```
  <script src="https://unpkg.com/restaf/dist/restaf.min.js"></script>
- 
+
 ```
 A global variable called restaf is available for use in your javascript programs.
 
@@ -113,7 +113,7 @@ restAF stores all the response and returns an object referred to as **rafObject*
 to retrieve information from it use as it sees fit. The methods correspond to the various component parts of the
 response discussed above.
 
-### Links 
+### Links
 A link has several key  parts:
    1.	A URI for the next step (edit, delete, and so on).
    2.	An identification of the link to indicate what this next step is. This is referred to as **rel**  – short for “link relationship.”
@@ -241,7 +241,7 @@ setup (store, logonPayload)
 
 ## restAF Objects and restAF Links
 
-restAF reduces the information returned by an API call an object called rafObject. This object has several properties amd methods. 
+restAF reduces the information returned by an API call an object called rafObject. This object has several properties amd methods.
 One key reduction is the transformation of links into rafLinks objects. rafLink allows restAF to navigate its own structures and make API
  calls on behalf of the application.
 
@@ -298,7 +298,7 @@ The addServices method returns a restAF object( rafObject) which we will discuss
 
 ```
  let {serviceName1, serviceName2,....} = await store.addServices( 'serviceName1', 'serviceName2', ....  );
-``` 
+```
 
 At this point serviceName1 is a rafObject with information for the root end points of that service.
 #### Example
@@ -309,15 +309,15 @@ let {compute, casManagement} = await store.addServices( 'compute', 'casManagemen
 
 ##restAF Object(rafObject)
 
-In your application you will be dealing primarily with rafObjects and rafLinks. Every time a result is returned from an API call, restAF will "reduce" 
-it to an internal object called folders. The folders are immutable objects based on [immutable.js.](https://facebook.github.io/immutable-js/). 
+In your application you will be dealing primarily with rafObjects and rafLinks. Every time a result is returned from an API call, restAF will "reduce"
+it to an internal object called folders. The folders are immutable objects based on [immutable.js.](https://facebook.github.io/immutable-js/).
 restAF returns a standard JS object called rafObject which encapsulates the data returned from the server.
 The application will retrieve information using the methods of the rafObject.
 
 ### restAF Links ( rafLinks )
 
 
-restAF extends all the links returned by the server with information it needs to navigate the store and make the final calls. 
+restAF extends all the links returned by the server with information it needs to navigate the store and make the final calls.
 The most common use of rafLinks is as an argument to apiCall method of the store to navigate to a new resource.
 The other common use is in associating links with UI components like buttons, navigators etc. This will be covered later in this document.
 
@@ -375,8 +375,8 @@ _To create a file with plain text_
 
 ### apiCallAll - Making api Calls in parallel
 
-apiCall method makes a single service call. The apiCallAll method on store allows the programmer to execute multiple service calls in parallel. 
-A typical use case will be running forecast actions in parallel in different cas sessions. 
+apiCall method makes a single service call. The apiCallAll method on store allows the programmer to execute multiple service calls in parallel.
+A typical use case will be running forecast actions in parallel in different cas sessions.
 Another is running jobs in multiple compute server sessions. You can mix and match services in this single call( ex: create files, run cas jobs etc... but this would be an exception rather than a rule
 
     store.apiCallAll( requestArray )
@@ -434,7 +434,7 @@ In SAS API the state end point returns could be in one of these states.
 *   Job failed(failed) - similar to the previous item but some services have chosen to return failed
 *   probably other completed states now or in later releases
 
-Most of the services that have a "state" end point recommend that you call the 'self' end point after the job completes to get the latest results from the job run. 
+Most of the services that have a "state" end point recommend that you call the 'self' end point after the job completes to get the latest results from the job run.
 jobState and jobStateAll will make this additional call on 'self' if none of the jobs are still running. This saves you an additional call
 
 At this point your code has to decide how best to proceed given these states.
@@ -524,7 +524,7 @@ detail: {
         } )
 
 
-The payload parameter can be an array or single object. If single object then this payload will be applied to every rafObject in the first parameter. 
+The payload parameter can be an array or single object. If single object then this payload will be applied to every rafObject in the first parameter.
 The primary purpose of the payload is to set timeout as a query parameter
 
 Maxtries works the same as in jobState
@@ -579,7 +579,7 @@ Sometimes you need the entire list of links. An example is displaying buttons wi
     allLinks.forEach( ( l, rel ) => {
        console.log(\`Title: ${rel}  rel: ${rel} \` );
     }
-    
+
 #### itemsList method
 
 If the rafObject type is 'itemsList' use this method to get the immutable array of id's in the current result object. This is really a convenience method for UI ( ex: showing a list of the id's).

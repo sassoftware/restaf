@@ -51,7 +51,7 @@ async function example () {
     let p = {
         headers: {'JSON-Parameters': JSON_Parameters},
         data   : readFile(filename, fileType),
-        action : 'upload'
+        action : 'table.upload'
     };
 
     await runAction(store, session, p, 'upload');
@@ -69,46 +69,56 @@ async function example () {
    // let result = await runAction(store, session, p, 'fetch');
    // console.log(JSON.stringify(result.items('tables'), null, 4));
     //printCasTable(result, 'Fetch');
+   let data = {
+        "groupByLimit": 25000,
 
-    let data = {
-        table : {caslib: 'casuser', name: 'cars'},
-        inputs: [ {name: 'mpg_highway'} ],
-        sets  : [ {groupBy: 'origin'} ] ,
-        subSet: [ 'MAX','MIN','MEAN' ]
+        "inputs": [
+            {
+                "name": "MPG_City"
+            }
+        ],
 
+        "orderBy": [
+            "MPG_City",
+            "Origin",
+            "Type"
+        ],
+
+        "orderByAgg": [
+            "SUM"
+        ],
+
+        "orderByDesc": [
+            "MPG_City"
+        ],
+
+        "subSet": [
+            "SUM"
+        ],
+
+        "table": {
+            "caslib"          : "Public",
+            "computedOnDemand": "false",
+
+            "groupBy": [
+                {
+                    "format": "$.",
+                    "name"  : "Origin"
+                },
+                {
+                    "format": "$.",
+                    "name"  : "Type"
+                }
+            ],
+
+            "name": "CARS"
+        }
     };
-
-    p = {
-        action: 'simple.mdsummary',
-        data  : data
-    };
-
-    // result = await runAction(store, session, p, 'summary');
-    //console.log(JSON.stringify(result.items('tables'), null, 4));
-   // result.items('tables').forEach( (v, k) => {
-      //  console.log(k)
-  //  });
-
-    data = {
-        table: {
-            caslib: 'casuser',
-            name: 'cars',
-            groupBy: [{name: 'ORIGIN'}, {name: 'MAKE'} ],
-            orderBy: [{name: 'MAKE'}, {name: 'MODEL'} ],
-            vars: [{name: 'mpg_highway'}]
-
-        },
-      /*casout: {name: 'test'},*/
-       // inputs: [ {name: 'mpg_highway'} ],
-
-       subSet: [ 'MAX','MIN','MEAN' ]
-};
-
     p = {
         action: 'simple.summary',
         data  : data
-    }
-    // printCasTable(result, 'Fetch');
+    };
+
     let result = await runAction(store, session, p, 'summary');
     console.log(JSON.stringify(result.items('tables'), null, 4));
 

@@ -40,6 +40,7 @@ export const API_CALL              = 'API_CALL';
 export const API_BEGIN             = 'API_BEGIN';
 export const API_COMPLETE          = 'API_COMPLETE';
 export const API_CALL_PARALLEL     = 'API_PARALLEL';
+export const DELETE_RAF_OBJECT     = 'DELETE_RAF_OBJECT';
 
 
 export const API_POLL             = 'API_POLL';

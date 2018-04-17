@@ -74,7 +74,7 @@ function fixCas (iLink, response){
         harray.shift();
         let server = harray [ 2 ];
         // let pre   = `/casProxy/servers/${server}/cas/sessions`;
-        debugger;
+
         let pre = `/${iLink.casHttp}/cas/sessions`
         for (let i = 0; i < items.length; i++) {
             let item = items [i];
@@ -104,7 +104,7 @@ function fixCas (iLink, response){
     }
     if (iLink.hasOwnProperty('patch') && iLink.rel === 'servers') {
         let items = response.data.results.items;
-        debugger;
+
         for (let i = 0; i < items.length; i++) {
             let item = items [i];
             let name = item.name;
@@ -141,7 +141,7 @@ function fixReports (iLink, response) {
 }
 
 function fixCasSession (iLink, results) {
-    debugger;
+
     return sessionLinks(iLink, results.id).concat(results.links);
 }
 
@@ -168,7 +168,7 @@ function reduceCasResult (data){
 
 function sessionLinks (iLink, sessionId) {
     /**/
-    debugger;
+
     let harray = iLink.href.split('/');
     let server = harray[harray.length - 2];
     // let uri = `/casProxy/servers/${server}/cas/sessions/${sessionId}`;
@@ -176,7 +176,7 @@ function sessionLinks (iLink, sessionId) {
     return casSessionLinks(uri);
 }
 function casSessionLinks (uri){
-    debugger;
+
     return  [
         {
             method        : 'POST',

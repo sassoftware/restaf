@@ -91,7 +91,7 @@ const logon = (store, ipayload) => {
                     if (payload.host == null) {
                         payload.host = `${window.location.protocol}//${window.location.host}`;
                     }
-                    debugger;
+                    
                     break;
 
                 case VIYA_LOGON_IMPLICIT:

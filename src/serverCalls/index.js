@@ -31,7 +31,7 @@ axios.interceptors.response.use(
 
 function trustedGrant (iconfig) {
     'use strict';
-    debugger;
+    
     let link   = iconfig.link ;
 
     let auth1 = new Buffer(iconfig.clientID + ':' + iconfig.clientSecret).toString('base64');
@@ -86,7 +86,7 @@ function request (iconfig) {
     let iheaders   = null;
     let casAction  = null;
 
-    debugger;
+    
     if (payload !== null) {
         casAction     = hasItem(payload, 'action');
         iqs           = hasItem(payload, 'qs');
@@ -170,7 +170,7 @@ function request (iconfig) {
     config.data = (idata === null) ? {} : idata;
 
     // config.timeout = 60000;
-    debugger;
+    
     return makeCall(config, iconfig);
 }
 

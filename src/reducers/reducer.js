@@ -19,7 +19,7 @@
 'use strict';
 
 import { responseReducer } from './responseReducer';
-import { ADD_SERVICE, API_CALL, API_POLL, APP_DATA, API_STATUS } from '../actionTypes';
+import { ADD_SERVICE, API_CALL, API_POLL, APP_DATA, API_STATUS , DELETE_RAF_OBJECT} from '../actionTypes';
 
 let Immutable    = require ('immutable');
 const { fromJS } = Immutable;
@@ -29,6 +29,14 @@ import { tLinkStruct } from '../utils/rootStruct';
 const reducer = (root) => (state = fromJS(tLinkStruct(root, 'links', root)), action) => {
 
         switch(action.type) {
+
+            case DELETE_RAF_OBJECT: {
+                let searchPath = action.route.split(':/');
+                let path       = searchPath.slice(1);
+                let parent     = state.getIn(path);
+                let newState   = state.deleteIn(path);
+                return newState;
+            }
 
             case root + '_' + ADD_SERVICE + '_BEGIN': {
 

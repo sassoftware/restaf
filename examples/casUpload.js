@@ -26,7 +26,7 @@ let runAction     = require('./lib/runAction');
 let printCasTable = require('./lib/printCasTable');
 
 let payload     = require('./config')('restaf.env');
-let filename    = 'iris';
+let filename    = 'cars';
 let fileType    = 'csv';
 
 let store = restaf.initStore();
@@ -40,18 +40,17 @@ async function example () {
     let JSON_Parameters = {
         casout: {
             caslib: 'casuser', /* a valid caslib */
-            name  : `deva` /* name of output file on cas server */
+            name  : filename /* name of output file on cas server */
         },
 
         importOptions: {
             fileType: fileType /* type of the file being uploaded */
         }
     };
-    let data = readFile(filename, fileType);
 
     let p = {
         headers: {'JSON-Parameters': JSON_Parameters},
-        data   : data,
+        data   : readFile(filename, fileType),
         action : 'upload'
     };
 
@@ -59,30 +58,70 @@ async function example () {
 
     p = {
         action: 'table.tableExists',
-        data  : { caslib: 'casuser', name: `deva` }
+        data  : { caslib: 'casuser', name: filename }
     };
     await runAction(store, session, p, 'exists');
 
     p = {
         action: 'table.fetch',
-        data  : { table: { caslib: 'casuser', name: `deva` } }
+        data  : { table: { caslib: 'casuser', name: filename } }
     };
-    let result = await runAction(store, session, p, 'fetch');
-    printCasTable(result, 'Fetch');
+   // let result = await runAction(store, session, p, 'fetch');
+   // console.log(JSON.stringify(result.items('tables'), null, 4));
+    //printCasTable(result, 'Fetch');
+
+    let data = {
+        table : {caslib: 'casuser', name: 'cars'},
+        inputs: [ {name: 'mpg_highway'} ],
+        sets  : [ {groupBy: 'origin'} ] ,
+        subSet: [ 'MAX','MIN','MEAN' ]
+
+    };
 
     p = {
-        action: 'table.tableDetails',
-        data  : { caslib: 'casuser', name: `deva` } 
+        action: 'simple.mdsummary',
+        data  : data
     };
-     await runAction(store, session, p, 'details');
+
+    // result = await runAction(store, session, p, 'summary');
+    //console.log(JSON.stringify(result.items('tables'), null, 4));
+   // result.items('tables').forEach( (v, k) => {
+      //  console.log(k)
+  //  });
+
+    data = {
+        table: {
+            caslib: 'casuser',
+            name: 'cars',
+            groupBy: [{name: 'ORIGIN'}, {name: 'MAKE'} ],
+            orderBy: [{name: 'MAKE'}, {name: 'MODEL'} ],
+            vars: [{name: 'mpg_highway'}]
+
+        },
+      /*casout: {name: 'test'},*/
+       // inputs: [ {name: 'mpg_highway'} ],
+
+       subSet: [ 'MAX','MIN','MEAN' ]
+};
+
+    p = {
+        action: 'simple.summary',
+        data  : data
+    }
+    // printCasTable(result, 'Fetch');
+    let result = await runAction(store, session, p, 'summary');
+    console.log(JSON.stringify(result.items('tables'), null, 4));
+
+
     // noinspection JSUnusedLocalSymbols
     let deleteAction = await store.apiCall(session.links('delete'));
+
+
     return "All Done";
 }
 
 function readFile (filename, fileType) {
-   let data = fs.readFileSync(`./data/${filename}.${fileType}`, 'UTF8');
-    // data = fs.readFileSync(`./data/${filename}.${fileType}`);
+   let data = fs.readFileSync(`./data/${filename}.${fileType}`);
     return data;
 }
 

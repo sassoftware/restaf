@@ -39,6 +39,7 @@ import endStore        from './endStore';
 import routeToObj      from './routeToObj';
 import selectLogonInfo from './selectLogonInfo';
 import appData         from './appData';
+import deleteRafObject from './deleteRafObject';
 
 function initStore () {
     let store = configureSagaStore();
@@ -58,9 +59,10 @@ function initStore () {
         apiCallAll: apiCallAll.bind(null, store),
         rafObject : routeToObj.bind(null, store),
 
+        deleteRafObject: deleteRafObject .bind(null, store),
+
         jobState   : jobState.bind(null, store),
         jobStateAll: jobStateAll.bind(null, store),
-       /* jobStatus   : jobStatus.bind( null, store ),*/
 
         submit      : apiSubmit.bind(null, store),
         submitStatus: getApiStatus.bind(null, store),

@@ -19,8 +19,11 @@
 'use strict';
 
 let showdown = require('showdown');
+let fs        = require('fs');
+
 let converter = new showdown.Converter();
 
-let text      = '#hello, markdown!'
-let html      = converter.makeHtml(text);
-console.log( html);
+let text  = fs.readFileSync(`doc.md`, 'utf8');
+let html  = converter.makeHtml(text);
+fs.writeFileSync('doc.html', html);
+console.log( 'doc.html generated');

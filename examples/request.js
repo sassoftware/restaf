@@ -30,7 +30,7 @@
  * ---------------------------------------------------------------------------------
  */
 let restaf     = require('../lib/restaf');
-debugger;
+
 let store = restaf.initStore();
 let payload = {
     url   : 'https://www.sas.com',

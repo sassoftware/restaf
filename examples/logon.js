@@ -31,7 +31,7 @@
  */
 let restaf     = require('../lib/restaf');
 let payload = require ('./config')('restaf.env') ;
-debugger;
+
 let store = restaf.initStore();
 
 store.logon(payload)

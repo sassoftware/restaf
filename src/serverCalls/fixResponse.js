@@ -158,7 +158,7 @@ function reduceCasResult (data){
             //noinspection JSUnfilteredForInLoop
             tables[ k ] = Object.assign({}, o);
             //noinspection JSUnfilteredForInLoop
-            delete data.results[ k ];
+           // delete data.results[ k ];
         }
     }
     data.tables = tables;

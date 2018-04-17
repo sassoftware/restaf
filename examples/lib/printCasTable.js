@@ -30,7 +30,7 @@ module.exports = function printCasTable( result, table ) {
 
     itemRows.map((r)=> {
         let row = {};
-        debugger;
+
         r.map((value, j) => {
             row[columns[j]] = value;
         });

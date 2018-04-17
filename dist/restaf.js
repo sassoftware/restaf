@@ -10134,7 +10134,7 @@ function request(iconfig) {
     if (iLink.hasOwnProperty('customHandling') && casAction !== null) {
         // casAction = casAction.toLowerCase();
         if (casAction === 'table.upload') {
-            debugger;
+
             iLink.method = 'PUT';
             iLink.type = 'application/octet-stream';
             iLink.responseType = 'application/json';
@@ -27460,7 +27460,7 @@ function reduceCasResult(data) {
             //noinspection JSUnfilteredForInLoop
             tables[k] = (0, _assign2.default)({}, o);
             //noinspection JSUnfilteredForInLoop
-            delete data.results[k];
+            // delete data.results[ k ];
         }
     }
     data.tables = tables;

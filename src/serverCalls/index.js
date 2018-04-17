@@ -108,7 +108,7 @@ function request (iconfig) {
     if (iLink.hasOwnProperty('customHandling') && casAction !== null) {
         // casAction = casAction.toLowerCase();
         if (casAction === 'table.upload') {
-            debugger;
+
             iLink.method       = 'PUT';
             iLink.type         =  'application/octet-stream';
             iLink.responseType = 'application/json';

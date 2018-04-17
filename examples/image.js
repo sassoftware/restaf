@@ -52,13 +52,13 @@ async function example (store, logonPayload, counter) {
     console.log(data);
     let p = { data: data };
 
-    debugger;
+
     let job = await store.apiCall(reportImages.links('createJob'), p);
     console.log(job.statusInfo);
     let status = await store.jobState(job, { qs: { wait: 1.5} } , 5, 2);
 
 
-    debugger;
+
 
     if (status.data !== 'completed') {
         throw `Job failed ${status.data}`;

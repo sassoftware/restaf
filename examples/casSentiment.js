@@ -39,7 +39,7 @@ async function example (store, payload, sessionName){
         data  : { actionSet: 'sentimentAnalysis' }
     };
     let actionResult = await runAction(store, session, actionPayload, 'Load sentiment Analysis');
-    console.log( '--------------------------------------------------------');
+    console.log('--------------------------------------------------------');
 
     //run data step action
     actionPayload = {
@@ -48,7 +48,7 @@ async function example (store, payload, sessionName){
             document: "This is very bad"
         }
     };
-    debugger;
+
     actionResult = await runAction(store, session, actionPayload, 'sentiment Analysis');
     prtUtil.view(actionResult, 'Result from sentiment analysis');
 

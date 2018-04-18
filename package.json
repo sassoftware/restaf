@@ -1,6 +1,6 @@
 {
   "name": "restaf",
-  "version": "7.0.0",
+  "version": "0.7.0",
   "description": "Library for writing SAS Viya application using REST APIs",
   "author": "Deva Kumaraswamy <deva.kumar@sas.com>",
   "license": "Apache-2.0",
@@ -55,6 +55,5 @@
     "webpack": "^3.8.1",
     "webpack-node-externals": "^1.6.0",
     "yargs": "^10.0.3"
-
   }
 }

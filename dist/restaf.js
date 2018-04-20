@@ -10036,7 +10036,7 @@ _axios2.default.interceptors.response.use(function (response) {
 
     return response;
 }, function (error) {
-    console.log(error);
+    //  console.log(error);
     return _promise2.default.reject(error);
 }); /*------------------------------------------------------------------------------------
      Copyright (c) SAS Institute Inc.
@@ -29353,7 +29353,7 @@ var addServices = function addServices(store) {
                     if (runStatus === 'error') {
                         unSubscribe();
                         var err = {
-                            jobNo: i,
+                            service: services[i],
                             detail: f.get('statusInfo')
                         };
                         reject(err);

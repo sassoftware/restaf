@@ -90,8 +90,8 @@ const addServices = (store, ...services)  => {
                     if (runStatus === 'error') {
                         unSubscribe();
                         let err = {
-                            jobNo : i,
-                            detail: f.get('statusInfo')
+                            service: services[i],
+                            detail : f.get('statusInfo')
                         };
                         reject(err);
                     } else if (runStatus === 'ready') {

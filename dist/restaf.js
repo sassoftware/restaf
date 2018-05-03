@@ -267,6 +267,7 @@ var BEGIN_LOGON = exports.BEGIN_LOGON = 'BEGIN_LOGON';
 var VIYA_LOGOFF = exports.VIYA_LOGOFF = 'VIYA_LOGOFF';
 var VIYA_LOGON_COMPLETE = exports.VIYA_LOGON_COMPLETE = 'VIYA_LOGON_COMPLETE';
 var VIYA_LOGON_SERVER = exports.VIYA_LOGON_SERVER = 'server';
+var VIYA_LOGON_PROXY = exports.VIYA_LOGON_PROXY = 'server';
 var VIYA_LOGON_PASSWORD = exports.VIYA_LOGON_PASSWORD = 'password';
 var VIYA_LOGON_IMPLICIT = exports.VIYA_LOGON_IMPLICIT = 'implicit'; /* implies token */
 
@@ -10032,6 +10033,8 @@ var _fixResponse2 = _interopRequireDefault(_fixResponse);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+// axios.defaults.withCredentials = true
+
 _axios2.default.interceptors.response.use(function (response) {
 
     return response;
@@ -10206,6 +10209,7 @@ function makeCall(config, iconfig) {
     return new _promise2.default(function (resolve, reject) {
         (0, _axios2.default)(config).then(function (response) {
             parseJSON(response.data).then(function (data) {
+                iconfig.data = null; /* get rid of the payload*/
                 response.data = { results: data, iconfig: (0, _assign2.default)({}, iconfig) };
                 if (data.hasOwnProperty('errorCode')) {
                     //noinspection JSUnresolvedVariable
@@ -10216,6 +10220,7 @@ function makeCall(config, iconfig) {
                     resolve((0, _fixResponse2.default)(response));
                 }
             }).catch(function () {
+                iconfig.data = null;
                 response.data = { results: response.data, iconfig: (0, _assign2.default)({}, iconfig) };
                 resolve((0, _fixResponse2.default)(response));
             });

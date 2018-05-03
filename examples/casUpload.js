@@ -97,7 +97,7 @@ async function example () {
         ],
 
         "table": {
-            "caslib"          : "Public",
+            "caslib"          : "casuser",
             "computedOnDemand": "false",
 
             "groupBy": [

@@ -37,6 +37,6 @@ async function setup (payload, ...args) {
     return true;
     }
 
-setup(payload, 'foobar')
+setup(payload, 'modelPublishing')
    .then (r => console.log(r))
    .catch(e => console.log(JSON.stringify(e, null, 4)));

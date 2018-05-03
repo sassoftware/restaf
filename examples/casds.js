@@ -30,7 +30,7 @@ let prtUtil     = require('../prtUtil');
 
 let store = restaf.initStore();
 
-async function example1 (store, logonPayload, sessionName) {
+async function example (store, logonPayload, sessionName) {
     let {apiCall} = store;
 
     let {servers, session} = await casSetup(store, payload, sessionName);
@@ -66,7 +66,7 @@ async function example1 (store, logonPayload, sessionName) {
 }
 
 // Run the example
-example1(store, payload, 'example1')
+example(store, payload, 'example1')
     .then  (msg => console.log(msg))
     .catch (err => prtUtil.printErr(err));
 

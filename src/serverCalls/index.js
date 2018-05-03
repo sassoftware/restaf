@@ -18,6 +18,8 @@ import axios from 'axios';
 import qs from 'qs' ;
 import fixResponse from './fixResponse';
 
+// axios.defaults.withCredentials = true
+
 axios.interceptors.response.use(
     function (response) {
 
@@ -182,6 +184,7 @@ function makeCall (config, iconfig) {
             .then (response => {
                 parseJSON(response.data)
                     .then (data => {
+                        iconfig.data = null;/* get rid of the payload*/
                         response.data = { results: data , iconfig: Object.assign({}, iconfig) };
                         if (data.hasOwnProperty('errorCode')) {
                             //noinspection JSUnresolvedVariable
@@ -193,6 +196,7 @@ function makeCall (config, iconfig) {
                         }
                     })
                     .catch(() => {
+                        iconfig.data = null;
                         response.data = { results: response.data , iconfig: Object.assign({}, iconfig) };
                         resolve (fixResponse(response));
                     })

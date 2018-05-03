@@ -849,7 +849,6 @@ Below is a sample program to print the rows in the CAS tables
 
         itemRows.map((r)=> {
             let row = {};
-            debugger;
             r.map((value, j) => {
                 row[columns[j]] = value;
             });

@@ -41,13 +41,28 @@ async function example (store, payload, sessionName){
     let actionResult = await runAction(store, session, actionPayload, 'Load sentiment Analysis');
     console.log('--------------------------------------------------------');
 
+    let p = {
+        action: 'datastep.runCode',
+        data  : { code: `data casuser.text;docId='test';text='this is very good stuff';run;`  }
+    };
+    await runAction(store, session, p, 'Data Step');
     //run data step action
     actionPayload = {
         action: 'sentimentAnalysis.applySent',
-        data  : {
-            document: "This is very bad"
+        data: {
+            casout: {
+                caslib: 'casuser',
+                name  : 'sentiments'
+            },
+            table: {
+                caslib: 'casuser',
+                name  : 'text'
+            },
+            text : 'text',
+            docId: 'docId'
         }
     };
+    
 
     actionResult = await runAction(store, session, actionPayload, 'sentiment Analysis');
     prtUtil.view(actionResult, 'Result from sentiment analysis');

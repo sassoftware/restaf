@@ -24,23 +24,25 @@
 let restaf   = require('../lib/restaf');
 let payload  = require('./config')('restaf.env');
 let casSetup = require('./lib/casSetup');
+let runAction = require('./lib/runAction');
 let prtUtil  = require('../prtUtil')
 
 let store = restaf.initStore();
 
-casSetup(store, payload, 'cas')
-    .then (r => {
-        let {session} = r;
+async function example() {
+       let {session} = await casSetup(store, payload, 'cas');
+        
         let p = {
             action: 'echo',
             data  : {code: 'data casuser.data1; x=1;put x= ; run; '}
         };
-        return store.apiCall(session.links('execute'), p)
-    })
-    .then (r => prtUtil.view(r, 'Echo Action'))
-    .catch (err => prtUtil.printErr(err));
+        let r =  await runAction(store, session,p, 'echo');
+        return 'done';
+    };
 
-
+example() 
+ .then ( r => console.log(r))
+ .catch( err => console.log(err))
 
 
 

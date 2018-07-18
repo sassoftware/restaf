@@ -10061,7 +10061,7 @@ function trustedGrant(iconfig) {
 
     var link = iconfig.link;
 
-    var auth1 = new Buffer(iconfig.clientID + ':' + iconfig.clientSecret).toString('base64');
+    var auth1 = Buffer.from(iconfig.clientID + ':' + iconfig.clientSecret).toString('base64');
     auth1 = 'Basic ' + auth1;
     var config = {
         method: link.method,

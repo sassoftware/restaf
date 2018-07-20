@@ -34,7 +34,6 @@ let outputFile;
         context: APP_PATH,
 
         entry: [
-            'babel-polyfill',
             APP_PATH + '/index'
          ],
 

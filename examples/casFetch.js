@@ -23,7 +23,7 @@
 
 let restaf         = require('../lib/restaf');
 let casSetup    = require('./lib/casSetup');
-let runAction   = require('./lib/runAction');
+// let runAction   = require('./lib/runAction');
 let prtUtil        = require('../prtUtil');
 
 let payload = require('./config')('restaf.env');
@@ -37,14 +37,14 @@ async function example (store, payload, sessionName){
         action: 'datastep.runCode',
         data  : { code: 'data casuser.score; x1=10;x2=20;x3=30; score1 = x1+x2+x3;run; '  }
     };
-    await runAction(store, session, actionPayload, 'Data Step');
+    await store.runAction(session, actionPayload );
 
    // run fetch action
     actionPayload = {
         action: 'table.fetch',
         data  : { table: { caslib: 'casuser', name: 'score' } }
     };
-    let actionResult = await runAction(store, session, actionPayload);
+    let actionResult = await store.runAction(session, actionPayload);
     prtUtil.view(actionResult, 'Result of fetch action');
 
     // delete session

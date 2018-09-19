@@ -23,13 +23,14 @@ import {APP_DATA_ROOT, API_STATUS_ROOT} from '../actionTypes';
 import injectAsyncReducers from './injectAsyncReducers';
 import {reducer} from '../reducers';
 
-import apiCall      from './apiCall';
-import apiCallAll   from './apiCallAll';
-import apiSubmit    from './apiSubmit';
-import jobState     from './jobState';
-import jobStateAll  from './jobStateAll';
-import request      from './request';
-// import jobStatus  from './jobStatus';
+import apiCall         from './apiCall';
+import apiCallAll      from './apiCallAll';
+import runAction       from './runAction';
+import apiSubmit       from './apiSubmit';
+import jobState        from './jobState';
+import jobStateAll     from './jobStateAll';
+import request         from './request';
+// import jobStatus    from './jobStatus';
 import getServices     from './getServices';
 import addServices     from './addServices';
 import getServiceRoot  from './getServiceRoot';
@@ -56,6 +57,7 @@ function initStore () {
         getServices: getServices.bind(null, store),
 
         apiCall   : apiCall.bind(null, store),
+        runAction : runAction.bind(null, store),
         apiCallAll: apiCallAll.bind(null, store),
         rafObject : routeToObj.bind(null, store),
 

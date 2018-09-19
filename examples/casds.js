@@ -23,7 +23,7 @@
 let restaf      = require('../lib/restaf');
 let payload     = require('./config')('restaf.env');
 let casSetup    = require('./lib/casSetup');
-let runAction  = require('./lib/runAction');
+// let runAction  = require('./lib/runAction');
 let listCaslibs = require('./lib/listCaslibs');
 let printCasTable = require('./lib/printCasTable');
 let prtUtil     = require('../prtUtil');
@@ -38,27 +38,27 @@ async function example (store, logonPayload, sessionName) {
         action: 'datastep.runCode',
         data  : { code: 'data casuser.score; x1=10;x2=20;x3=30; score1 = x1+x2+x3;run; '  }
     };
-    await runAction(store, session, p, 'Data Step');
+    await store.runAction(session, p);
 
     p = {
         action: 'table.tableExists',
         data  : { caslib: 'casuser', name: `score` }
     };
-    await runAction(store, session, p, 'exists');
+    await store.runAction(session, p);
 
     p = {
         action: 'table.fetch',
         data  : { table: { caslib: 'casuser', name: 'score' } }
     };
 
-    let fetchResult = await runAction(store, session, p, 'Fetch');
+    let fetchResult = await store.runAction(session, p);
     printCasTable(fetchResult, 'Fetch');
 
     p = {
         action: 'table.tableDetails',
         data  : { caslib: 'casuser', name: `score` }
     };
-    await runAction(store, session, p, 'details')
+    await store.runAction(session, p)
 
    // await apiCall(session.links('delete'));
 

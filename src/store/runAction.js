@@ -17,17 +17,19 @@
  */
 
 'use strict';
-module.exports = async function(store, session, payload, title) {
-    console.log( 'running action');
-    let actionResult = await store.apiCall(session.links('execute'), payload);
-    let statusCode = actionResult.items('disposition', 'statusCode');
-    console.log( `===========================${title}`);
-    console.log( JSON.stringify(actionResult.items('disposition'), null, 4));
-    console.log( JSON.stringify(actionResult.items('log'), null, 4));
+import apiCall from './apiCall';
 
-    console.log( JSON.stringify(actionResult.items('results'), null, 4));
-    if (statusCode !== 0) {
-        throw actionResult.items('disposition');
+async function runAction(store, session, payload) {
+    let actionResult = await apiCall(store, session.links('execute'), payload, 0);
+    if ( casError(actionResult) === true ) {
+        throw JSON.stringify(actionResult.items());
     }
     return actionResult;
 }
+function casError(actionResult) {
+    let statusCode =  actionResult.items('disposition', 'statusCode');
+    let severity   = actionResult.items ('disposition', 'severity');
+    return ( statusCode !== 0 || severity === 'Error') ? true : false;
+ }
+
+export default runAction;

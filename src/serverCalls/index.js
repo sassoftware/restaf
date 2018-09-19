@@ -175,6 +175,7 @@ function request (iconfig) {
 
     // config.timeout = 60000;
     
+    config.maxContentLength = 2 * 10063256;
     return makeCall(config, iconfig);
 }
 

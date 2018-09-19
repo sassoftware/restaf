@@ -37,10 +37,13 @@ module.exports = function config (defEnv) {
         }
     });
     process.env.SAS_PROTOCOL = (process.env.SAS_SSL_ENABLED === 'YES') ? 'https://' : 'http://';
-
+    let viyaServer = process.env.VIYA_SERVER;
+    if ( viyaServer.indexOf('http') < 0 ) {
+        viyaServer = `${process.env.SAS_PROTOCOL}${process.env.VIYA_SERVER}`;
+    }
     return {
         authType    : 'password',
-        host        : `${process.env.SAS_PROTOCOL}${process.env.VIYA_SERVER}`,
+        host        : viyaServer,
         user        : process.env['USER'],
         password    : process.env['PASSWORD'],
         clientID    : process.env['CLIENTID'],

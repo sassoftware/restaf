@@ -20,8 +20,6 @@
 
 let restaf         = require('../lib/restaf');
 let payload     = require('./config')('restaf.env');
-let casSetup    = require('./lib/casSetup');
-let runAction   = require('./lib/runAction');
 
 let store = restaf.initStore();
 async function casSession (store, payload, sessionName) {

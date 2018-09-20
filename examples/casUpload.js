@@ -22,7 +22,7 @@ let restaf        = require('../lib/restaf');
 let fs            = require('fs');
 let prtUtil       = require('../prtUtil');
 let casSetup      = require('./lib/casSetup');
-let runAction     = require('./lib/runAction');
+
 let printCasTable = require('./lib/printCasTable');
 
 let payload     = require('./config')('restaf.env');
@@ -54,21 +54,19 @@ async function example () {
         action : 'table.upload'
     };
 
-    await runAction(store, session, p, 'upload');
+    await store.runAction(session, p);
 
     p = {
         action: 'table.tableExists',
         data  : { caslib: 'casuser', name: filename }
     };
-    await runAction(store, session, p, 'exists');
+    await store.runAction(session,p);
 
     p = {
         action: 'table.fetch',
         data  : { table: { caslib: 'casuser', name: filename } }
     };
-   // let result = await runAction(store, session, p, 'fetch');
-   // console.log(JSON.stringify(result.items('tables'), null, 4));
-    //printCasTable(result, 'Fetch');
+   
    let data = {
         "groupByLimit": 25000,
 
@@ -119,7 +117,7 @@ async function example () {
         data  : data
     };
 
-    let result = await runAction(store, session, p, 'summary');
+    let result = await store.runAction(session, p);
     console.log(JSON.stringify(result.items('tables'), null, 4));
 
 

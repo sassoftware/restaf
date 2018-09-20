@@ -24,7 +24,7 @@
 let restaf   = require('../lib/restaf');
 let payload  = require('./config')('restaf.env');
 let casSetup = require('./lib/casSetup');
-// let runAction = require('./lib/runAction');
+
 let prtUtil  = require('../prtUtil')
 
 let store = restaf.initStore();
@@ -36,6 +36,7 @@ async function example() {
             data  : {code: 'data casuser.data1; x=1;put x= ; run; '}
         };
         let r =  await store.runAction(session,p);
+        console.log( r.items('log'));
         return 'done';
     };
 

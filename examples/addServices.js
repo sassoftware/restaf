@@ -33,7 +33,8 @@ async function setup (payload, ...args) {
     let msg = await store.logon(payload);
     prtUtil.print(`Logon status: ${msg}`);
     let restafLinks = await store.addServices(...args);
-    prtUtil.print(store.getServices(), 'Current Service Folders');
+    console.log(store.getServices());
+    prtUtil.printObj(store.getServices(), 'Current Service Folders');
     return true;
     }
 

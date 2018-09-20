@@ -25,8 +25,6 @@ let fs       = require('fs');
 let path     = require('path');
 let casSetup = require('./lib/casSetup');
 
-let runAction = require('./lib/runAction');
-
 let payload = require('./config')('restaf.env') ;
 let datadir  = './data/astore';
 let worklib  = 'casuser';
@@ -42,10 +40,10 @@ async function uploadFiles( store, session, caslib, datadir ) {
     for (let i = 0 ; i < files.length ;i++) {
     
         let parms = { caslib: caslib, name: files[i],  quiet : true};
-        await runAction(store, session, {action: 'table.dropTable', data: parms}, 'Drop Tables')
+        await store.runAction(session, {action: 'table.dropTable', data: parms})
 
         parms = { caslib: caslib, source: files[i],quiet : true};
-        await runAction(store, session, {action: 'table.deleteSource', data: parms}, 'delete Sources')
+        await store.runAction(session, {action: 'table.deleteSource', data: parms})
 
         parms = {
             rstore: { name: files[i], caslib: caslib, replace: true},
@@ -53,11 +51,11 @@ async function uploadFiles( store, session, caslib, datadir ) {
         };
         payload = { action: 'aStore.upload', data: parms };
         console.log( `uploading  ${files[i]}`);
-        await await runAction(store, session, payload, 'upload');
+        await store.runAction(session, payload);
         
         parms = { rstore: { name: files[i], caslib: caslib } };
         payload = { action: 'aStore.describe', data: parms };
-        await await runAction(store, session, payload, 'describe');
+        await store.runAction(session, payload);
        
         parms = {
             caslib : caslib,
@@ -69,11 +67,8 @@ async function uploadFiles( store, session, caslib, datadir ) {
             }
         };
         payload ={action: 'table.save', data: parms};
-        await await runAction(store, session, payload, 'save');
+        await store.runAction(session, payload);
 
-       //  parms = {caslib : caslib, name   : files[i] };
-      // payload ={action: 'table.promote', data: parms};
-      // await await runAction(store, executeCmd, payload);
     }
 }
 

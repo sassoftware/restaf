@@ -30,7 +30,7 @@ axios.interceptors.response.use(
         return Promise.reject(error);
     }
 );
-
+/* X-Uaa-Csrf */
 function trustedGrant (iconfig) {
     'use strict';
     
@@ -87,12 +87,14 @@ function request (iconfig) {
     let idata      = null;
     let iheaders   = null;
     let casAction  = null;
+    let ixsrf      = null;
 
     if (payload !== null) {
         casAction     = hasItem(payload, 'action');
         iqs           = hasItem(payload, 'qs');
         idata         = hasItem(payload, 'data');
-        iheaders      = hasItem(payload, 'headers');
+        iheaders      = hasItem(payload, 'headers'),
+        ixsrf         = hasItem(payload, 'xsrf')
     }
 
     let url = `${logonInfo.host}${iLink.href}`;
@@ -162,6 +164,11 @@ function request (iconfig) {
         }
     }
 
+    if ( ixsrf !== null ) {
+        for (let xs in ixsrf) {
+            config[xs] = ixsrf[xs];
+        }
+    }
     if (iqs !== null) {
         config.params = {...iqs};
     }

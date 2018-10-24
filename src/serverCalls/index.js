@@ -88,7 +88,7 @@ function request (iconfig) {
     let iheaders   = null;
     let casAction  = null;
     let ixsrf      = null;
-
+    debugger;
     if (payload !== null) {
         casAction     = hasItem(payload, 'action');
         iqs           = hasItem(payload, 'qs');

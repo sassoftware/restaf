@@ -7487,7 +7487,7 @@ function request(iconfig) {
     var iheaders = null;
     var casAction = null;
     var ixsrf = null;
-
+    debugger;
     if (payload !== null) {
         casAction = hasItem(payload, 'action');
         iqs = hasItem(payload, 'qs');
@@ -18498,7 +18498,7 @@ function fixResponse(response) {
     //
 
     var headers = {};
-
+    debugger;
     for (var k in response.headers) {
         //noinspection JSUnfilteredForInLoop
         var k1 = k.toLowerCase();

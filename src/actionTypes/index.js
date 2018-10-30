@@ -56,3 +56,7 @@ export const API_STATUS_ROOT      = '_apistatus';
 export const API_STATUS           = 'API_STATUS';
 export const API_STATUS_SETSTATE  = 'API_STATUS_SETSTATE';
 
+export const API_XSRF_ROOT        = '_xsrf';
+export const API_XSRF             = 'API_XSRF';
+export const API_XSRF_SETSTATE    = 'API_XSRF_SETSTATE';
+

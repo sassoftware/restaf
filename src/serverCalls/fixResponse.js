@@ -21,7 +21,7 @@ function fixResponse (response) {
     //
 
     let headers = {};
-    debugger;
+    
     for (let k in response.headers) {
         //noinspection JSUnfilteredForInLoop
         let k1 = k.toLowerCase();

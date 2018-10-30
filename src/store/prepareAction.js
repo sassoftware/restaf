@@ -20,7 +20,8 @@
 
 let Immutable = require('immutable');
 
-import getResults   from './getResults'
+import getResults   from './getResults';
+import getXsrfData from './getXsrfData';
 
 const prepareAction = function (store, iroute, actionType, payload, delay,
                                 eventHandler, parentRoute, jobContext) {
@@ -69,10 +70,27 @@ const prepareAction = function (store, iroute, actionType, payload, delay,
         link
     } ;
 
+
+    console.log('in prepare');
+    debugger;
+    let xsrfHeader = getXsrfData(store, serviceName);
+   
     if (payload != null) {
         action.payload = payload;
     }
-    return action;
+    if ( xsrfHeader !== null ) {
+        console.log( `ServiceName: ${serviceName} ==========`);
+        if ( payload != null ) {
+            action.payload.xsrf = xsrfHeader;
+         } else {
+            action.payload = {xsrf: xsrfHeader};
+        }
+        console.log( action.payload);
+    }
+    
+    debugger;
+    return action; 
+
 
 };
 export default prepareAction;

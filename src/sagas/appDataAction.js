@@ -17,17 +17,22 @@
 import {takeEvery} from 'redux-saga' ;
 import {APP_DATA_ROOT, APP_DATA, APP_DATA_SETSTATE} from '../actionTypes';
 import {API_STATUS_ROOT, API_STATUS, API_STATUS_SETSTATE} from '../actionTypes';
+import {API_XSRF_ROOT, API_XSRF, API_XSRF_SETSTATE} from '../actionTypes';
 import {put} from 'redux-saga/effects';
 
 function* apiDataAction () {
-    yield *takeEvery([ APP_DATA, API_STATUS ] , appData);
+    yield *takeEvery([ APP_DATA, API_STATUS, API_XSRF ] , appData);
 }
 
 function *appData (action) {
-    let newType = (action.type === 'APP_DATA')
-        ? APP_DATA_ROOT + '_' + APP_DATA_SETSTATE
-        : API_STATUS_ROOT + '_' + API_STATUS_SETSTATE;
-
+    let newType;
+    
+    switch(action.type) {
+        case APP_DATA: newType = APP_DATA_ROOT + '_' + APP_DATA_SETSTATE; break;
+        case API_STATUS: newType = API_STATUS_ROOT + '_' + API_STATUS_SETSTATE; break;
+        default: newType = API_XSRF_ROOT + '_' + API_XSRF_SETSTATE; break;
+    }
+    
     let config = {
         type   : newType,
         payload: action

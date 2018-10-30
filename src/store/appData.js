@@ -19,11 +19,11 @@
 'use strict';
 
 
-import {APP_DATA} from '../actionTypes';
+// import {APP_DATA} from '../actionTypes';
 
-function appData  (store, route, payload) {
+function appData  (store, type, route, payload) {
     let action = {
-        type : APP_DATA,
+        type : type,
         route: route,
         payload
     };

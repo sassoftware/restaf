@@ -18,9 +18,9 @@
 
 'use strict';
 
-import {APP_DATA_ROOT, API_STATUS_ROOT} from '../actionTypes';
+import {APP_DATA_ROOT, API_STATUS_ROOT, API_XSRF_ROOT} from '../actionTypes';
 function tLinkStruct (name, type, service) {
-    if (service === APP_DATA_ROOT || service === API_STATUS_ROOT){
+    if (service === APP_DATA_ROOT || service === API_STATUS_ROOT || service === API_XSRF_ROOT){
         return {
             structType: service,
             type      : service,

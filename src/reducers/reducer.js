@@ -19,7 +19,7 @@
 'use strict';
 
 import { responseReducer } from './responseReducer';
-import { ADD_SERVICE, API_CALL, API_POLL, APP_DATA, API_STATUS , DELETE_RAF_OBJECT} from '../actionTypes';
+import { ADD_SERVICE, API_CALL, API_POLL, APP_DATA, API_STATUS , DELETE_RAF_OBJECT, API_XSRF} from '../actionTypes';
 
 let Immutable    = require ('immutable');
 const { fromJS } = Immutable;
@@ -27,7 +27,7 @@ const { fromJS } = Immutable;
 import { tLinkStruct } from '../utils/rootStruct';
 
 const reducer = (root) => (state = fromJS(tLinkStruct(root, 'links', root)), action) => {
-
+    
         switch(action.type) {
 
             case DELETE_RAF_OBJECT: {
@@ -103,7 +103,6 @@ const reducer = (root) => (state = fromJS(tLinkStruct(root, 'links', root)), act
 
             case root + '_' + APP_DATA + '_SETSTATE'  : {
                 let {route, payload} = action.payload;
-                let path;
                 let userData = state.get('userData');
                 if (Array.isArray(route)) {
                     userData = userData.setIn(route, fromJS(payload));
@@ -113,6 +112,17 @@ const reducer = (root) => (state = fromJS(tLinkStruct(root, 'links', root)), act
                 return state.set('userData', userData);
             }
 
+            case root + '_' + API_XSRF + '_SETSTATE'  : {
+                
+                let {route, payload} = action.payload;
+                let userData = state.get('userData');
+                if (Array.isArray(route)) {
+                    userData = userData.setIn(route, fromJS(payload));
+                } else {
+                    userData = userData.set(route, fromJS(payload));
+                }
+                return state.set('userData', userData);
+            }
             case root + '_' + API_STATUS + '_SETSTATE': {
 
                 let {payload}  = action.payload;

@@ -19,7 +19,7 @@
 'use strict';
 
 import configureSagaStore from './configureSagaStore';
-import {APP_DATA_ROOT, API_STATUS_ROOT} from '../actionTypes';
+import {APP_DATA_ROOT, API_STATUS_ROOT, API_XSRF_ROOT, APP_DATA, API_XSRF} from '../actionTypes';
 import injectAsyncReducers from './injectAsyncReducers';
 import {reducer} from '../reducers';
 
@@ -40,6 +40,7 @@ import endStore        from './endStore';
 import routeToObj      from './routeToObj';
 import selectLogonInfo from './selectLogonInfo';
 import appData         from './appData';
+import getXsrfData     from './getXsrfData';
 import deleteRafObject from './deleteRafObject';
 
 function initStore () {
@@ -47,6 +48,7 @@ function initStore () {
 
     injectAsyncReducers(store, API_STATUS_ROOT, reducer(API_STATUS_ROOT));
     injectAsyncReducers(store, APP_DATA_ROOT, reducer(APP_DATA_ROOT));
+    injectAsyncReducers(store, API_XSRF_ROOT, reducer(API_XSRF_ROOT));
 
     return  {
         logon     : logon.bind(null, store),
@@ -69,8 +71,12 @@ function initStore () {
         submit      : apiSubmit.bind(null, store),
         submitStatus: getApiStatus.bind(null, store),
 
-        setAppData: appData.bind(null, store),
-        getAppData: getAppData.bind(null, store),
+        setAppData : appData.bind(null, APP_DATA, store),
+        getAppData : getAppData.bind(null, store),   
+
+        setXsrfData: appData.bind(null, API_XSRF, store),
+        getXsrfData: getXsrfData.bind(null, store), 
+
 
         getState: store.getState,
         endStore: endStore.bind(null, store),

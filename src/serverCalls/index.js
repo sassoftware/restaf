@@ -86,15 +86,16 @@ function request (iconfig) {
     let iqs        = null;
     let idata      = null;
     let iheaders   = null;
-    let casAction  = null;
     let ixsrf      = null;
-    debugger;
+    let casAction  = null;
+ 
+    
     if (payload !== null) {
         casAction     = hasItem(payload, 'action');
         iqs           = hasItem(payload, 'qs');
         idata         = hasItem(payload, 'data');
-        iheaders      = hasItem(payload, 'headers'),
-        ixsrf         = hasItem(payload, 'xsrf')
+        iheaders      = hasItem(payload, 'headers');
+        ixsrf         = hasItem(payload, 'xsrf');
     }
 
     let url = `${logonInfo.host}${iLink.href}`;
@@ -164,11 +165,22 @@ function request (iconfig) {
         }
     }
 
+    debugger;
+    console.log('----in server call');
+
     if ( ixsrf !== null ) {
-        for (let xs in ixsrf) {
-            config[xs] = ixsrf[xs];
-        }
+        console.log(ixsrf);
+        // config.headers = Object.assign(config.headers, ixsrf);
+
+        let xsrfHeaderName = ixsrf['x-csrf-header']
+        console.log(xsrfHeaderName);
+        config.xsrfHeaderName = xsrfHeaderName;
+        config.headers[xsrfHeaderName] = ixsrf['x-csrf-token'];
+        console.log(config.headers);
     }
+    
+    console.log(JSON.stringify(config.headers, null, 4));
+
     if (iqs !== null) {
         config.params = {...iqs};
     }

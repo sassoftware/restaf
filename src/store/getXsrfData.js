@@ -15,25 +15,16 @@
  * ---------------------------------------------------------------------------------------
  *
  */
-'use strict';
+ 'use strict';
 
-import iaddServices from './iaddServices';
-
-import { API_XSRF } from '../actionTypes';
-import appData from './appData';
-
-async function addServices( store, ...services ) {
+ import {API_XSRF_ROOT} from '../actionTypes';
+ function getXsrfData (store, ...args){
+     
+    let list = store.getState()[API_XSRF_ROOT];
+    let path = (args.length > 0) ? [ 'userData' ].concat(args) : [ 'userData' ];
+    let xsrf = list.getIn(path, null);
     
-    let {folders, xsrfTokens} = await iaddServices(store, services);
-    
-    if ( xsrfTokens !== null ) {
-        for (let service in xsrfTokens) {
-            
-           appData(store,API_XSRF, service, xsrfTokens[service]);
-        }
-    }
-    return folders;
-
+    return(xsrf !== null) ? xsrf.toJS() : null;
 }
 
-export default addServices;
+export default getXsrfData;

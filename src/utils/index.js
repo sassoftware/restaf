@@ -20,7 +20,6 @@
 
 import { setGoodStatus, setBadStatus  } from './statusFuncs';
 import { SASLogonOauthLink } from './SASLogonOauthLink';
-import prepareConfig from './prepareConfig';
 import routeOrFolder from './routeOrFolder';
 import { tLinkStruct, itemsStruct, statusInfoStruct } from './rootStruct';
 
@@ -28,7 +27,6 @@ export {
     setGoodStatus,
     setBadStatus,
     SASLogonOauthLink,
-    prepareConfig,
     statusInfoStruct,
     tLinkStruct,
     itemsStruct,

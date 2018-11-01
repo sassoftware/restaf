@@ -12,3 +12,4 @@
 ```
 This method will return error if the cas action returns non-zero statusCode or returns severity of 'Error'. 
 
+ - Added support for xsrf tokens used by SAS Viya - This is to allow restaf-based apps to run inside SASVisualAnalytics's web component. User need not take any action for this feature to work.

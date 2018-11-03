@@ -26,7 +26,6 @@ axios.interceptors.response.use(
         return response;
     },
     function (error) {
-       //  console.log(error);
         return Promise.reject(error);
     }
 );
@@ -166,33 +165,20 @@ function request (iconfig) {
     }
 
     debugger;
-    console.log('----in server call');
+   
 
     if ( ixsrf !== null ) {
-        console.log(ixsrf);
-        // config.headers = Object.assign(config.headers, ixsrf);
-
         let xsrfHeaderName = ixsrf['x-csrf-header']
-        console.log(xsrfHeaderName);
         config.xsrfHeaderName = xsrfHeaderName;
-        config.headers[xsrfHeaderName] = ixsrf['x-csrf-token'];
-        console.log(config.headers);
+        config.headers[xsrfHeaderName] = ixsrf['x-csrf-token']; 
     }
     
-    console.log(JSON.stringify(config.headers, null, 4));
 
     if (iqs !== null) {
         config.params = {...iqs};
     }
 
-/*
-    if ( idata !== null ) {
-        config.data = idata;
-    }
-*/
     config.data = (idata === null) ? {} : idata;
-
-    // config.timeout = 60000;
     
     config.maxContentLength = 2 * 10063256;
     return makeCall(config, iconfig);

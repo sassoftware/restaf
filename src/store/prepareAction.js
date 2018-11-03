@@ -70,8 +70,6 @@ const prepareAction = function (store, iroute, actionType, payload, delay,
         link
     } ;
 
-
-    console.log('in prepare');
     debugger;
     let xsrfHeader = getXsrfData(store, serviceName);
    
@@ -79,13 +77,14 @@ const prepareAction = function (store, iroute, actionType, payload, delay,
         action.payload = payload;
     }
     if ( xsrfHeader !== null ) {
-        console.log( `ServiceName: ${serviceName} ==========`);
+        debugger;
+        
         if ( payload != null ) {
             action.payload.xsrf = xsrfHeader;
          } else {
             action.payload = {xsrf: xsrfHeader};
         }
-        console.log( action.payload);
+    
     }
     
     debugger;

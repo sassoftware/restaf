@@ -19,7 +19,7 @@
 'use strict';
 
 import configureSagaStore from './configureSagaStore';
-import {APP_DATA_ROOT, API_STATUS_ROOT, API_XSRF_ROOT, APP_DATA, API_XSRF} from '../actionTypes';
+import {APP_DATA_ROOT, API_STATUS_ROOT, API_XSRF_ROOT, APP_DATA, API_XSRF, APP_DATA_SETSTATE} from '../actionTypes';
 import injectAsyncReducers from './injectAsyncReducers';
 import {reducer} from '../reducers';
 
@@ -71,10 +71,10 @@ function initStore () {
         submit      : apiSubmit.bind(null, store),
         submitStatus: getApiStatus.bind(null, store),
 
-        setAppData : appData.bind(null, APP_DATA, store),
+        setAppData : appData.bind(null, store, APP_DATA),
         getAppData : getAppData.bind(null, store),   
 
-        setXsrfData: appData.bind(null, API_XSRF, store),
+        setXsrfData: appData.bind(null, store, API_XSRF),
         getXsrfData: getXsrfData.bind(null, store), 
 
 

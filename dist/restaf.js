@@ -7408,7 +7408,6 @@ _axios2.default.interceptors.response.use(function (response) {
 
     return response;
 }, function (error) {
-    //  console.log(error);
     return _promise2.default.reject(error);
 });
 /* X-Uaa-Csrf */
@@ -7563,33 +7562,18 @@ function request(iconfig) {
     }
 
     debugger;
-    console.log('----in server call');
 
     if (ixsrf !== null) {
-        console.log(ixsrf);
-        // config.headers = Object.assign(config.headers, ixsrf);
-
         var xsrfHeaderName = ixsrf['x-csrf-header'];
-        console.log(xsrfHeaderName);
         config.xsrfHeaderName = xsrfHeaderName;
         config.headers[xsrfHeaderName] = ixsrf['x-csrf-token'];
-        console.log(config.headers);
     }
-
-    console.log((0, _stringify2.default)(config.headers, null, 4));
 
     if (iqs !== null) {
         config.params = (0, _extends3.default)({}, iqs);
     }
 
-    /*
-        if ( idata !== null ) {
-            config.data = idata;
-        }
-    */
     config.data = idata === null ? {} : idata;
-
-    // config.timeout = 60000;
 
     config.maxContentLength = 2 * 10063256;
     return makeCall(config, iconfig);
@@ -11281,7 +11265,6 @@ var prepareAction = function prepareAction(store, iroute, actionType, payload, d
         link: link
     };
 
-    console.log('in prepare');
     debugger;
     var xsrfHeader = (0, _getXsrfData2.default)(store, serviceName);
 
@@ -11289,13 +11272,13 @@ var prepareAction = function prepareAction(store, iroute, actionType, payload, d
         action.payload = payload;
     }
     if (xsrfHeader !== null) {
-        console.log('ServiceName: ' + serviceName + ' ==========');
+        debugger;
+
         if (payload != null) {
             action.payload.xsrf = xsrfHeader;
         } else {
             action.payload = { xsrf: xsrfHeader };
         }
-        console.log(action.payload);
     }
 
     debugger;
@@ -11760,10 +11743,10 @@ function initStore() {
         submit: _apiSubmit2.default.bind(null, store),
         submitStatus: getApiStatus.bind(null, store),
 
-        setAppData: _appData2.default.bind(null, _actionTypes.APP_DATA, store),
+        setAppData: _appData2.default.bind(null, store, _actionTypes.APP_DATA),
         getAppData: getAppData.bind(null, store),
 
-        setXsrfData: _appData2.default.bind(null, _actionTypes.API_XSRF, store),
+        setXsrfData: _appData2.default.bind(null, store, _actionTypes.API_XSRF),
         getXsrfData: _getXsrfData2.default.bind(null, store),
 
         getState: store.getState,

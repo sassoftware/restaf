@@ -17,25 +17,14 @@
  */
 'use strict';
 
-import iaddServices from './iaddServices';
+import iapiCall from './iapiCall';
 
-import { API_XSRF } from '../actionTypes';
-import appData from './appData';
+import { API_CALL } from '../actionTypes';
 
-async function addServices( store, ...services ) {
-    
-    if ( services.includes('casManagement') ) {
-        services.push('casProxy');
-    }
-    let {folders, xsrfTokens} = await iaddServices(store, services);
-    
-    if ( xsrfTokens !== null ) {
-        for (let service in xsrfTokens) {
-           appData(store,API_XSRF, service, xsrfTokens[service]);
-        }
-    }
-    return folders;
-
+async function connect (server, token) {
+    if ( token ===)
 }
+    return iapiCall(store, iroute, API_CALL, payload, delay , null)
+};
 
-export default addServices;
+export default apiCall;

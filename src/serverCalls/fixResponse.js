@@ -60,28 +60,19 @@ function fixImages (iLink, response){
 function fixCas (iLink, response){
     // special handling for cas
 
-
     if (iLink.rel === 'createSession' && iLink.responseType === 'application/vnd.sas.cas.session') {
-        response.data.results.links = response.data.results.links.concat(fixCasSession(iLink, response.data.results));
+        let linkExtension = sessionLinks(iLink, response.data.results.id);
+        response.data.results.links = response.data.results.links.concat(linkExtension);
+        // response.data.results.links = response.data.results.links.concat(fixCasSession(iLink, response.data.results));
         response.data.results.name2 = response.data.results.name.split(':')[0];
-        
-        // response.data.results       = { items: [ Object.assign( {}, response.data.results ) ] };
     }
 
     if (iLink.hasOwnProperty('itemType') && iLink.itemType === 'application/vnd.sas.cas.session.summary') {
         let items = response.data.results.items;
-        let harray = iLink.href.split('/');
-        harray.shift();
-        let server = harray [ 2 ];
-        // let pre   = `/casProxy/servers/${server}/cas/sessions`;
-
-        let pre = `/${iLink.casHttp}/cas/sessions`
         for (let i = 0; i < items.length; i++) {
             let item = items [i];
-            /* get rid of casManagement in front */
-            let uri = `${pre}/${item.id}`;
-            item.links = item.links.concat(casSessionLinks(uri));
-            
+            let linkExtension = sessionLinks(iLink, item.id);
+            item.links = item.links.concat(linkExtension);
         }
     }
 
@@ -102,6 +93,7 @@ function fixCas (iLink, response){
             return l;
         })
     }
+
     if (iLink.hasOwnProperty('patch') && iLink.rel === 'servers') {
         let items = response.data.results.items;
 
@@ -140,11 +132,6 @@ function fixReports (iLink, response) {
     }
 }
 
-function fixCasSession (iLink, results) {
-
-    return sessionLinks(iLink, results.id).concat(results.links);
-}
-
 function reduceCasResult (data){
     let tables = {} ;
     if (data.hasOwnProperty ('results') === false) {
@@ -167,22 +154,32 @@ function reduceCasResult (data){
 }
 
 function sessionLinks (iLink, sessionId) {
-    /**/
-
     let harray = iLink.href.split('/');
     let server = harray[harray.length - 2];
-    // let uri = `/casProxy/servers/${server}/cas/sessions/${sessionId}`;
+    let uriproxy = `/casProxy/servers/${server}/cas/sessions/${sessionId}`;
     let uri = `/${iLink.casHttp}/cas/sessions/${sessionId}`;
-    return casSessionLinks(uri);
+    return casSessionLinks(uri, uriproxy);
 }
-function casSessionLinks (uri){
+function casSessionLinks (uri, uriproxy){
 
     return  [
         {
             method        : 'POST',
             href          : `${uri}/actions`,/* payload: data:...., qs: {action: ...} */
-            rel           : 'execute',
+            rel           : 'cashttp',
             uri           : `${uri}/actions`,
+            responseType  : 'application/json',
+            type          : 'application/json',
+            itemType      : 'application/json',
+            title         : 'Run CAS Action',
+            customHandling: 'casExecute',
+            extended      : true
+        },
+        {
+            method        : 'POST',
+            href          : `${uriproxy}/actions`,/* payload: data:...., qs: {action: ...} */
+            rel           : 'execute',
+            uri           : `${uriproxy}/actions`,
             responseType  : 'application/json',
             type          : 'application/json',
             itemType      : 'application/json',

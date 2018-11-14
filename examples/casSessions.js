@@ -29,6 +29,7 @@ async function casSession (store, payload, sessionName) {
     await store.logon(payload);
 
     // get root end points of casManagement
+    debugger;
     let {casManagement} = await store.addServices('casManagement');
 
     // get list of current servers
@@ -36,7 +37,7 @@ async function casSession (store, payload, sessionName) {
 
     // get list of servers'
     // create a session named cas on the first server
-    console.log(servers.route);
+   debugger;
     let casserver = servers.itemsList(0);
     console.log(`cas servername: ${casserver}`);
     let session = await store.apiCall(servers.itemsCmd(casserver, 'createSession'), { data: { name: sessionName } });
@@ -47,6 +48,8 @@ async function casSession (store, payload, sessionName) {
     let sessionList = await store.apiCall(servers.itemsCmd(casserver, 'sessions'));
 
     console.log('List of sessions');
+    console.log(`No of sessions: ${sessionList.size}`);
+
     sessionList.itemsList().map((l, k) => {
         console.log(`${k} = ${l}`);
     });

@@ -70,14 +70,16 @@ const prepareAction = function (store, iroute, actionType, payload, delay,
         link
     } ;
 
-    debugger;
+    if ( link.href.indexOf('casProxy') >= 0 ) {
+        serviceName = 'casProxy';
+    }
+    
     let xsrfHeader = getXsrfData(store, serviceName);
    
     if (payload != null) {
         action.payload = payload;
     }
     if ( xsrfHeader !== null ) {
-        debugger;
         
         if ( payload != null ) {
             action.payload.xsrf = xsrfHeader;
@@ -87,7 +89,6 @@ const prepareAction = function (store, iroute, actionType, payload, delay,
     
     }
     
-    debugger;
     return action; 
 
 

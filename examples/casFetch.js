@@ -45,7 +45,10 @@ async function example (store, payload, sessionName){
         data  : { table: { caslib: 'casuser', name: 'score' } }
     };
     let actionResult = await store.runAction(session, actionPayload);
+    console.log(JSON.stringify(actionResult.items(), null, 4));
+    /*
     prtUtil.view(actionResult, 'Result of fetch action');
+*/
 
     // delete session
     await store.apiCall(session.links('delete'));

@@ -162,11 +162,8 @@ function request (iconfig) {
                 config.headers[ih] = iheaders[ih] ;
             }
         }
-    }
-
-    debugger;
+    }  
    
-
     if ( ixsrf !== null ) {
         let xsrfHeaderName = ixsrf['x-csrf-header']
         config.xsrfHeaderName = xsrfHeaderName;
@@ -179,8 +176,10 @@ function request (iconfig) {
     }
 
     config.data = (idata === null) ? {} : idata;
-    
+    // console.log(config);
+
     config.maxContentLength = 2 * 10063256;
+  
     return makeCall(config, iconfig);
 }
 

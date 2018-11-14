@@ -30,11 +30,12 @@ let prtUtil  = require('../prtUtil')
 let store = restaf.initStore();
 async function example() {
        let {session} = await casSetup(store, payload, 'cas');
-        
+       console.log(JSON.stringify(session.links(), null, 4));
         let p = {
             action: 'echo',
             data  : {code: 'data casuser.data1; x=1;put x= ; run; '}
         };
+        console.log(JSON.stringify(session.links(), null, 4));
         let r =  await store.runAction(session,p);
         console.log( r.items('log'));
         return 'done';

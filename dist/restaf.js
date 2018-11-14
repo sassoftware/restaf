@@ -7574,8 +7574,11 @@ function request(iconfig) {
     }
 
     config.data = idata === null ? {} : idata;
+    // console.log(config);
 
     config.maxContentLength = 2 * 10063256;
+    //  console.log(config);
+    debugger;
     return makeCall(config, iconfig);
 }
 
@@ -11265,6 +11268,9 @@ var prepareAction = function prepareAction(store, iroute, actionType, payload, d
         link: link
     };
 
+    if (link.href.indexOf('casProxy') >= 0) {
+        serviceName = 'casProxy';
+    }
     debugger;
     var xsrfHeader = (0, _getXsrfData2.default)(store, serviceName);
 
@@ -18645,27 +18651,19 @@ function fixImages(iLink, response) {
 function fixCas(iLink, response) {
     // special handling for cas
 
-
     if (iLink.rel === 'createSession' && iLink.responseType === 'application/vnd.sas.cas.session') {
-        response.data.results.links = response.data.results.links.concat(fixCasSession(iLink, response.data.results));
+        var linkExtension = sessionLinks(iLink, response.data.results.id);
+        response.data.results.links = response.data.results.links.concat(linkExtension);
+        // response.data.results.links = response.data.results.links.concat(fixCasSession(iLink, response.data.results));
         response.data.results.name2 = response.data.results.name.split(':')[0];
-
-        // response.data.results       = { items: [ Object.assign( {}, response.data.results ) ] };
     }
 
     if (iLink.hasOwnProperty('itemType') && iLink.itemType === 'application/vnd.sas.cas.session.summary') {
         var items = response.data.results.items;
-        var harray = iLink.href.split('/');
-        harray.shift();
-        var server = harray[2];
-        // let pre   = `/casProxy/servers/${server}/cas/sessions`;
-
-        var pre = '/' + iLink.casHttp + '/cas/sessions';
         for (var i = 0; i < items.length; i++) {
             var item = items[i];
-            /* get rid of casManagement in front */
-            var uri = pre + '/' + item.id;
-            item.links = item.links.concat(casSessionLinks(uri));
+            var _linkExtension = sessionLinks(iLink, item.id);
+            item.links = item.links.concat(_linkExtension);
         }
     }
 
@@ -18685,6 +18683,7 @@ function fixCas(iLink, response) {
             return l;
         });
     }
+
     if (iLink.hasOwnProperty('patch') && iLink.rel === 'servers') {
         var _items = response.data.results.items;
 
@@ -18725,11 +18724,6 @@ function fixReports(iLink, response) {
     }
 }
 
-function fixCasSession(iLink, results) {
-
-    return sessionLinks(iLink, results.id).concat(results.links);
-}
-
 function reduceCasResult(data) {
     var tables = {};
     if (data.hasOwnProperty('results') === false) {
@@ -18751,21 +18745,30 @@ function reduceCasResult(data) {
 }
 
 function sessionLinks(iLink, sessionId) {
-    /**/
-
     var harray = iLink.href.split('/');
     var server = harray[harray.length - 2];
-    // let uri = `/casProxy/servers/${server}/cas/sessions/${sessionId}`;
+    var uriproxy = '/casProxy/servers/' + server + '/cas/sessions/' + sessionId;
     var uri = '/' + iLink.casHttp + '/cas/sessions/' + sessionId;
-    return casSessionLinks(uri);
+    return casSessionLinks(uri, uriproxy);
 }
-function casSessionLinks(uri) {
+function casSessionLinks(uri, uriproxy) {
 
     return [{
         method: 'POST',
         href: uri + '/actions', /* payload: data:...., qs: {action: ...} */
-        rel: 'execute',
+        rel: 'cashttp',
         uri: uri + '/actions',
+        responseType: 'application/json',
+        type: 'application/json',
+        itemType: 'application/json',
+        title: 'Run CAS Action',
+        customHandling: 'casExecute',
+        extended: true
+    }, {
+        method: 'POST',
+        href: uriproxy + '/actions', /* payload: data:...., qs: {action: ...} */
+        rel: 'execute',
+        uri: uriproxy + '/actions',
         responseType: 'application/json',
         type: 'application/json',
         itemType: 'application/json',
@@ -19991,23 +19994,24 @@ var runAction = function () {
             while (1) {
                 switch (_context.prev = _context.next) {
                     case 0:
-                        _context.next = 2;
+                        debugger;
+                        _context.next = 3;
                         return (0, _apiCall2.default)(store, session.links('execute'), payload, 0);
 
-                    case 2:
+                    case 3:
                         actionResult = _context.sent;
 
                         if (!(casError(actionResult) === true)) {
-                            _context.next = 5;
+                            _context.next = 6;
                             break;
                         }
 
                         throw (0, _stringify2.default)(actionResult.items());
 
-                    case 5:
+                    case 6:
                         return _context.abrupt('return', actionResult);
 
-                    case 6:
+                    case 7:
                     case 'end':
                         return _context.stop();
                 }
@@ -20594,10 +20598,14 @@ var addServices = function () {
             while (1) {
                 switch (_context.prev = _context.next) {
                     case 0:
-                        _context.next = 2;
+
+                        if (services.includes('casManagement')) {
+                            services.push('casProxy');
+                        }
+                        _context.next = 3;
                         return (0, _iaddServices2.default)(store, services);
 
-                    case 2:
+                    case 3:
                         _ref2 = _context.sent;
                         folders = _ref2.folders;
                         xsrfTokens = _ref2.xsrfTokens;
@@ -20605,13 +20613,12 @@ var addServices = function () {
 
                         if (xsrfTokens !== null) {
                             for (service in xsrfTokens) {
-
                                 (0, _appData2.default)(store, _actionTypes.API_XSRF, service, xsrfTokens[service]);
                             }
                         }
                         return _context.abrupt('return', folders);
 
-                    case 7:
+                    case 8:
                     case 'end':
                         return _context.stop();
                 }

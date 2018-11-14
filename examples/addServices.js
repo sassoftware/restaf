@@ -33,15 +33,16 @@ async function setup (payload, ...args) {
     let msg = await store.logon(payload);
     prtUtil.print(`Logon status: ${msg}`);
     debugger;
-    let restafLinks = await store.addServices(...args);
+    let {compute, casManagement} = await store.addServices(...args);
     console.log(store.getServices());
     
     let r = store.getXsrfData();
     console.log('current xsrf tokens');
     console.log(r);
+
     return true;
     }
 
-setup(payload, 'compute')
+setup(payload, 'compute', 'casManagement')
    .then (r => console.log(r))
    .catch(e => console.log(e));

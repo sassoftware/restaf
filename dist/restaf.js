@@ -7561,8 +7561,6 @@ function request(iconfig) {
         }
     }
 
-    debugger;
-
     if (ixsrf !== null) {
         var xsrfHeaderName = ixsrf['x-csrf-header'];
         config.xsrfHeaderName = xsrfHeaderName;
@@ -7577,8 +7575,7 @@ function request(iconfig) {
     // console.log(config);
 
     config.maxContentLength = 2 * 10063256;
-    //  console.log(config);
-    debugger;
+
     return makeCall(config, iconfig);
 }
 
@@ -11271,14 +11268,13 @@ var prepareAction = function prepareAction(store, iroute, actionType, payload, d
     if (link.href.indexOf('casProxy') >= 0) {
         serviceName = 'casProxy';
     }
-    debugger;
+
     var xsrfHeader = (0, _getXsrfData2.default)(store, serviceName);
 
     if (payload != null) {
         action.payload = payload;
     }
     if (xsrfHeader !== null) {
-        debugger;
 
         if (payload != null) {
             action.payload.xsrf = xsrfHeader;
@@ -11287,7 +11283,6 @@ var prepareAction = function prepareAction(store, iroute, actionType, payload, d
         }
     }
 
-    debugger;
     return action;
 };
 exports.default = prepareAction;
@@ -19994,24 +19989,23 @@ var runAction = function () {
             while (1) {
                 switch (_context.prev = _context.next) {
                     case 0:
-                        debugger;
-                        _context.next = 3;
+                        _context.next = 2;
                         return (0, _apiCall2.default)(store, session.links('execute'), payload, 0);
 
-                    case 3:
+                    case 2:
                         actionResult = _context.sent;
 
                         if (!(casError(actionResult) === true)) {
-                            _context.next = 6;
+                            _context.next = 5;
                             break;
                         }
 
                         throw (0, _stringify2.default)(actionResult.items());
 
-                    case 6:
+                    case 5:
                         return _context.abrupt('return', actionResult);
 
-                    case 7:
+                    case 6:
                     case 'end':
                         return _context.stop();
                 }

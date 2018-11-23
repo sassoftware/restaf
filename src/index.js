@@ -17,6 +17,7 @@
  */
 
 'use strict';
-
 import {initStore, endStore}  from './store';
-module.exports = {initStore, endStore };
+console.log(initStore);
+export { initStore, endStore };
+

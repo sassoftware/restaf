@@ -24,4 +24,4 @@ import  endStore  from './endStore';
 export {
     initStore,
     endStore
-};
+}

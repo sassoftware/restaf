@@ -29,10 +29,10 @@ let outputFile;
         }));
     }
 
-
+    
     let config = {
         context: APP_PATH,
-
+        mode: ( prod === true ) ? 'production' : 'development',
         entry: [
             APP_PATH + '/index'
          ],

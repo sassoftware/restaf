@@ -4,7 +4,7 @@
 
 - Remove babel-polyfill as an entry point in webpack. Causing problems with serverless functions.
 
-#0.10.0 , 0.11.0 and 0.12.0
+#0.10.0 , 0.11.0 and 0.12.0 and 0.13.0
 
  - Added a convenience method **runAction** to store. 
 ```
@@ -18,3 +18,5 @@ This method will return error if the cas action returns non-zero statusCode or r
 
  - Updated dependencies to latest. The big changes were Babel and Webpack. 
 
+#0.14.0
+   - There seems to be an issue in using casProxy - duplicate headers are sent to the server and it is unhappy with it. This breaks all the apps. Going back to using cas-*-http until the issue is resolved.

@@ -34,8 +34,9 @@ function trustedGrant (iconfig) {
     'use strict';
     
     let link   = iconfig.link ;
-
+    debugger;
     let auth1 = Buffer.from(iconfig.clientID + ':' + iconfig.clientSecret).toString('base64');
+    debugger;
     auth1 = 'Basic ' + auth1;
     let config = {
         method: link.method,
@@ -61,7 +62,8 @@ function trustedGrant (iconfig) {
         },
 
         validateStatus: function (status) {
-
+            debugger;
+            console.log(status);
             return status >= 200 && status < 300;
         },
         transformResponse: function (data) {
@@ -71,7 +73,7 @@ function trustedGrant (iconfig) {
             return (qs.stringify(data));
         }
     };
-
+    debugger;
     return (makeCall(config, iconfig));
 }
 

@@ -18,6 +18,5 @@
 
 'use strict';
 import {initStore, endStore}  from './store';
-console.log(initStore);
 export { initStore, endStore };
 

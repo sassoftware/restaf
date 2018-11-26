@@ -172,17 +172,17 @@
  
      let harray = iLink.href.split('/');
      let server = harray[harray.length - 2];
-     // let uri = `/casProxy/servers/${server}/cas/sessions/${sessionId}`;
-     let uri = `/${iLink.casHttp}/cas/sessions/${sessionId}`;
-     return casSessionLinks(uri);
+     let uri = `/casProxy/servers/${server}/cas/sessions/${sessionId}`;
+     let urihttp = `/${iLink.casHttp}/cas/sessions/${sessionId}`;
+     return casSessionLinks(uri, urihttp);
  }
- function casSessionLinks (uri){
+ function casSessionLinks (uri, urihttp){
  
      return  [
          {
              method        : 'POST',
              href          : `${uri}/actions`,/* payload: data:...., qs: {action: ...} */
-             rel           : 'execute',
+             rel           : 'casproxy',
              uri           : `${uri}/actions`,
              responseType  : 'application/json',
              type          : 'application/json',
@@ -191,6 +191,18 @@
              customHandling: 'casExecute',
              extended      : true
          },
+         {
+            method        : 'POST',
+            href          : `${urihttp}/actions`,/* payload: data:...., qs: {action: ...} */
+            rel           : 'execute',
+            uri           : `${urihttp}/actions`,
+            responseType  : 'application/json',
+            type          : 'application/json',
+            itemType      : 'application/json',
+            title         : 'Run CAS Action',
+            customHandling: 'casExecute',
+            extended      : true
+        },
          {
              method        : 'GET',
              href          : `${uri}/isIdle`, /* need to convert true/false to busy and completed */

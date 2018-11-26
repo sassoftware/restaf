@@ -19,9 +19,9 @@
 'use strict';
 import apiCall from './apiCall';
 
-async function runAction(store, session, payload) {
-
-    let actionResult = await apiCall(store, session.links('execute'), payload, 0);
+async function runAction(store, session, payload, casProxy) {
+    let rel = ( casProxy === true ) ? 'casproxy' : 'execute'; /* for debugging casproxy issue  */
+    let actionResult = await apiCall(store, session.links(rel), payload, 0);
     if ( casError(actionResult) === true ) {
         throw JSON.stringify(actionResult.items());
     }

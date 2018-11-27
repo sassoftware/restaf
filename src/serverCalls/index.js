@@ -63,7 +63,6 @@ function trustedGrant (iconfig) {
 
         validateStatus: function (status) {
             debugger;
-            console.log(status);
             return status >= 200 && status < 300;
         },
         transformResponse: function (data) {

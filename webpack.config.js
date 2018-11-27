@@ -1,6 +1,6 @@
 'use strict' ;
 
-let  nodeExternals  = require('webpack-node-externals');
+let nodeExternals  = require('webpack-node-externals');
 let webpack = require('webpack');
 let  path    = require('path');
 let library = 'restaf';
@@ -20,7 +20,7 @@ let outputFile;
     console.log(` ProductionMode: ${prod} `);
     console.log(` nodejs module : ${asNode}`);
 
-    outputFile = (prod === true) ? library + '.min.js' : library + '.js';
+    outputFile = (argv.p === true) ? library + '.min.js' : library + '.js';
 
     if (asNode === false) {
         plugins.push(new webpack.DefinePlugin({

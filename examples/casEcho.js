@@ -36,7 +36,8 @@ async function example() {
             data  : {code: 'data casuser.data1; x=1;put x= ; run; '}
         };
         // console.log(JSON.stringify(session.links(), null, 4));
-        let r =  await store.runAction(session,p);
+        debugger;
+        let r =  await store.runAction(session,p, true);
         console.log( r.items('log'));
         return 'done';
     };

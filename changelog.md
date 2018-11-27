@@ -20,3 +20,6 @@ This method will return error if the cas action returns non-zero statusCode or r
 
 #0.14.0
    - There seems to be an issue in using casProxy - duplicate headers are sent to the server and it is unhappy with it. This breaks all the apps. Going back to using cas-*-http until the issue is resolved.
+
+#0.14.1
+   - Remove extraneous console logs.

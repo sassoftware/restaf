@@ -24,7 +24,7 @@
   "unpkg": "dist/restaf.min.js",
   "scripts": {
     "test": "node",
-    "build": "webpack --env.node --config webpack.config.js && webpack  --config webpack.config.js && webpack -p  --config webpack.config.js",
+    "build": "webpack --env.node --config webpack.config.js && webpack --config webpack.config.js && webpack -p  -m --config webpack.config.js",
     "babel": "babel src --out-dir jslib",
     "lint": "eslint . --fix"
   },

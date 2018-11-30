@@ -23,3 +23,7 @@ This method will return error if the cas action returns non-zero statusCode or r
 
 #0.14.1
    - Remove extraneous console logs.
+
+#0.15.0
+   - next latest
+   

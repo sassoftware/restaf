@@ -21,8 +21,6 @@ import apiCall from './apiCall';
 
 async function runAction(store, session, payload) {
     let rel = ( store.config.casProxy === true ) ? 'casproxy' : 'execute'; /* fix for issues with casproxy */
-    console.log(`........................rel ${rel}`);
-    
     let actionResult = await apiCall(store, session.links(rel), payload, 0);
     if ( casError(actionResult) === true ) {
         throw JSON.stringify(actionResult.items());

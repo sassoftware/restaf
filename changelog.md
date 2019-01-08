@@ -3,7 +3,7 @@
 #0.16.0
     - Added optional parameter object to initStore for setting global configuration information.
 
-        - casProxy: true| false   ... default is false. if true the casProxy API is used to call cas actions. If false(default) cas-http API is used. Use casProxy: true only when embedding Viya apps in Visual Analytics.
+        - casProxy: true| false   ... default is false. if true the casProxy API is used to call cas actions. If false(default) {casservername}-http service is used. Use casProxy: true **only** when embedding Viya apps in Visual Analytics. In a single cas server scenario casservername is cas-shared-default
 
 
 #0.15.0

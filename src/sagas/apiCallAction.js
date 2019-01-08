@@ -15,13 +15,13 @@
 
 'use strict';
 
-import { takeEvery } from 'redux-saga' ;
+import { takeEvery } from 'redux-saga/effects' ;
 
 import { ADD_SERVICE, API_CALL } from '../actionTypes';
 import apiCall from './apiCall';
 
 function* apiCallAction () {
-    yield *takeEvery([ ADD_SERVICE, API_CALL ] , apiCall);
+    yield takeEvery([ ADD_SERVICE, API_CALL ] , apiCall);
 }
 
 export default apiCallAction ;

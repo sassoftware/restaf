@@ -14,14 +14,14 @@
  ---------------------------------------------------------------------------------------*/
 'use strict';
 
-import {takeEvery} from 'redux-saga' ;
+import {takeEvery} from 'redux-saga/effects' ;
 import {APP_DATA_ROOT, APP_DATA, APP_DATA_SETSTATE} from '../actionTypes';
 import {API_STATUS_ROOT, API_STATUS, API_STATUS_SETSTATE} from '../actionTypes';
 import {API_XSRF_ROOT, API_XSRF, API_XSRF_SETSTATE} from '../actionTypes';
 import {put} from 'redux-saga/effects';
 
 function* apiDataAction () {
-    yield *takeEvery([ APP_DATA, API_STATUS, API_XSRF ] , appData);
+    yield takeEvery([ APP_DATA, API_STATUS, API_XSRF ] , appData);
 }
 
 function *appData (action) {

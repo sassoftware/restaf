@@ -15,36 +15,24 @@
  * ---------------------------------------------------------------------------------------
  *
  */
-
-/*
- * Simple echo action example
- */
 'use strict';
 
-let restaf   = require('../lib/restaf');
-let payload  = require('./config')('restaf.env');
-let casSetup = require('./lib/casSetup');
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
 
-let prtUtil  = require('../prtUtil')
+var _reducers = require("../reducers");
 
-let store = restaf.initStore({casProxy: true});
-async function example() {
-       let {session} = await casSetup(store, payload, 'cas');
-       // console.log(JSON.stringify(session.links(), null, 4));
-        let p = {
-            action: 'echo',
-            data  : {code: 'data casuser.data1; x=1;put x= ; run; '}
-        };
-        console.log(JSON.stringify(session.links(), null, 4));
-        debugger;
-        let r =  await store.runAction(session,p);
-        console.log( r.items('log'));
-        return 'done';
-    };
+var injectAsyncReducers = function injectAsyncReducers(store, name, asyncReducer) {
+  if (store.asyncReducers.hasOwnProperty(name)) {
+    delete store.asyncReducers[name];
+  }
 
-example() 
- .then ( r => console.log(r))
- .catch( err => console.log(err))
+  store.asyncReducers[name] = asyncReducer;
+  store.replaceReducer((0, _reducers.createReducer)(store.asyncReducers));
+  return true;
+};
 
-
-
+var _default = injectAsyncReducers;
+exports.default = _default;

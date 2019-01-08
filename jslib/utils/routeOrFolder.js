@@ -15,36 +15,28 @@
  * ---------------------------------------------------------------------------------------
  *
  */
-
-/*
- * Simple echo action example
- */
 'use strict';
 
-let restaf   = require('../lib/restaf');
-let payload  = require('./config')('restaf.env');
-let casSetup = require('./lib/casSetup');
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
 
-let prtUtil  = require('../prtUtil')
+var Immutable = require('immutable');
 
-let store = restaf.initStore({casProxy: true});
-async function example() {
-       let {session} = await casSetup(store, payload, 'cas');
-       // console.log(JSON.stringify(session.links(), null, 4));
-        let p = {
-            action: 'echo',
-            data  : {code: 'data casuser.data1; x=1;put x= ; run; '}
-        };
-        console.log(JSON.stringify(session.links(), null, 4));
-        debugger;
-        let r =  await store.runAction(session,p);
-        console.log( r.items('log'));
-        return 'done';
-    };
+function routeOrFolder(iroute) {
+  var route = null;
 
-example() 
- .then ( r => console.log(r))
- .catch( err => console.log(err))
+  if (typeof iroute === 'string') {
+    route = iroute;
+  } else {
+    if (Immutable.Iterable.isIterable(iroute) === true) {
+      route = iroute.get('route', null);
+    }
+  }
 
+  return route;
+}
 
-
+var _default = routeOrFolder;
+exports.default = _default;

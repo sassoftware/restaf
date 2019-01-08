@@ -15,36 +15,22 @@
  * ---------------------------------------------------------------------------------------
  *
  */
-
-/*
- * Simple echo action example
- */
 'use strict';
 
-let restaf   = require('../lib/restaf');
-let payload  = require('./config')('restaf.env');
-let casSetup = require('./lib/casSetup');
+var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
 
-let prtUtil  = require('../prtUtil')
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
 
-let store = restaf.initStore({casProxy: true});
-async function example() {
-       let {session} = await casSetup(store, payload, 'cas');
-       // console.log(JSON.stringify(session.links(), null, 4));
-        let p = {
-            action: 'echo',
-            data  : {code: 'data casuser.data1; x=1;put x= ; run; '}
-        };
-        console.log(JSON.stringify(session.links(), null, 4));
-        debugger;
-        let r =  await store.runAction(session,p);
-        console.log( r.items('log'));
-        return 'done';
-    };
+var _iapiCall = _interopRequireDefault(require("./iapiCall"));
 
-example() 
- .then ( r => console.log(r))
- .catch( err => console.log(err))
+var _actionTypes = require("../actionTypes");
 
+var apiCall = function apiCall(store, iroute, payload, delay) {
+  return (0, _iapiCall.default)(store, iroute, _actionTypes.API_CALL, payload, delay, null);
+};
 
-
+var _default = apiCall;
+exports.default = _default;

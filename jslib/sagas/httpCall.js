@@ -14,13 +14,29 @@
  ---------------------------------------------------------------------------------------*/
 'use strict';
 
-import { takeEvery } from 'redux-saga/effects' ;
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
 
-import { API_POLL } from '../actionTypes';
-import apiPoll from './apiPoll';
+var _serverCalls = require("../serverCalls");
 
-function* apiPollAction () {
-    yield takeEvery([ API_POLL ] , apiPoll);
+function httpCall(config) {
+  return (0, _serverCalls.request)(config).then(function (response) {
+    return httpDone(response, config, false);
+  }).catch(function (error) {
+    return httpDone(error, config, true);
+  });
 }
 
-export default apiPollAction ;
+function httpDone(payload, config, error) {
+  return {
+    error: error,
+    type: config.serviceName + '_' + config.type + '_COMPLETE',
+    config: config,
+    payload: payload
+  };
+}
+
+var _default = httpCall;
+exports.default = _default;

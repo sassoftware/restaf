@@ -15,36 +15,24 @@
  * ---------------------------------------------------------------------------------------
  *
  */
-
-/*
- * Simple echo action example
- */
 'use strict';
 
-let restaf   = require('../lib/restaf');
-let payload  = require('./config')('restaf.env');
-let casSetup = require('./lib/casSetup');
+var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
 
-let prtUtil  = require('../prtUtil')
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
 
-let store = restaf.initStore({casProxy: true});
-async function example() {
-       let {session} = await casSetup(store, payload, 'cas');
-       // console.log(JSON.stringify(session.links(), null, 4));
-        let p = {
-            action: 'echo',
-            data  : {code: 'data casuser.data1; x=1;put x= ; run; '}
-        };
-        console.log(JSON.stringify(session.links(), null, 4));
-        debugger;
-        let r =  await store.runAction(session,p);
-        console.log( r.items('log'));
-        return 'done';
-    };
+var _extendFolder = _interopRequireDefault(require("./extendFolder"));
 
-example() 
- .then ( r => console.log(r))
- .catch( err => console.log(err))
+function routeToObj(store, route) {
+  var path = route.split(':/');
+  var service = path.shift();
+  var folder = store.getState()[service];
+  folder = path.length > 0 ? folder.getIn(path) : folder;
+  return (0, _extendFolder.default)(store, folder);
+}
 
-
-
+var _default = routeToObj;
+exports.default = _default;

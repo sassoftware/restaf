@@ -16,20 +16,34 @@
 
 import { all, put, call, select  } from 'redux-saga/effects';
 
-import { takeEvery }          from 'redux-saga' ;
+import { takeEvery }          from 'redux-saga/effects' ;
 import  selectLogonInfo       from '../store/selectLogonInfo';
 import {  API_CALL_PARALLEL } from '../actionTypes';
 import httpCall               from './httpCall';
 
 
 function* apiCallAllAction () {
-    yield *takeEvery(API_CALL_PARALLEL, yieldAll);
+    yield takeEvery(API_CALL_PARALLEL, yieldAll);
 }
 
 function *yieldAll (action) {
-    let configs = [];
+   
+    let config = {};
     let actionArray = action.actionArray;
 
+    for (let i = 0 ; i < actionArray.length ; i++) {
+        let l = `l${i}`;
+        config[l] = call (setupService, actionArray[ i ]);
+    }
+ 
+    let result = yield all(config);
+
+    for( let r in result) {
+       yield put (result[r]);
+    }
+
+    /*
+    let configs = [];
     for (let i = 0 ; i < actionArray.length ; i++) {
         let c = yield call (setupService, actionArray[ i ]);
         configs.push (c);
@@ -39,6 +53,8 @@ function *yieldAll (action) {
     for (let i = 0 ; i < result.length ; i++) {
         yield put (result [ i ]);
     }
+    */
+
 }
 
 function *setupService (action) {

@@ -17,22 +17,34 @@
  */
 'use strict';
 
-import {takeEvery} from 'redux-saga/effects' ;
-import  {DELETE_RAF_OBJECT} from '../actionTypes';
-import {API_STATUS_ROOT, API_STATUS, API_STATUS_SETSTATE} from '../actionTypes';
-import {put} from 'redux-saga/effects';
+var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
 
-function* apiDataAction () {
-    yield takeEvery([ DELETE_RAF_OBJECT ] , rafObject);
-}
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
 
-function *rafObject (action) {
+var _actionTypes = require("../actionTypes");
 
-    let config = {
-        type   : DELETE_RAF_OBJECT,
-        payload: action
+var _immutable = _interopRequireDefault(require("immutable"));
+
+function deleteRafObject(store, iroute) {
+  var route = null;
+
+  if (typeof iroute === 'string') {
+    route = iroute;
+  } else if (_immutable.default.Iterable.isIterable(iroute) === true) {
+    route = iroute.get('route');
+  }
+
+  if (iroute !== null) {
+    var action = {
+      type: _actionTypes.DELETE_RAF_OBJECT,
+      route: route
     };
-    yield put(config);
+    store.dispatch(action);
+  }
 }
 
-export default apiDataAction ;
+var _default = deleteRafObject;
+exports.default = _default;

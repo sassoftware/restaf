@@ -43,8 +43,9 @@ import appData         from './appData';
 import getXsrfData     from './getXsrfData';
 import deleteRafObject from './deleteRafObject';
 
-function initStore () {
-    let store = configureSagaStore();
+function initStore (iconfig) {
+    let config = (iconfig == null) ? {} : iconfig;
+    let store = configureSagaStore(config);
 
     injectAsyncReducers(store, API_STATUS_ROOT, reducer(API_STATUS_ROOT));
     injectAsyncReducers(store, APP_DATA_ROOT, reducer(APP_DATA_ROOT));
@@ -81,6 +82,7 @@ function initStore () {
         getState: store.getState,
         endStore: endStore.bind(null, store),
         store   : store,
+        config  : {...config},
 
         getServiceRoot: getServiceRoot.bind(null, store),
 

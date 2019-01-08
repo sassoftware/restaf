@@ -15,36 +15,37 @@
  * ---------------------------------------------------------------------------------------
  *
  */
+'use strict';
 
-'use strict' ;
+var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
 
-import { createStore, applyMiddleware } from 'redux';
-import createSagaMiddleware from 'redux-saga';
-import rootSaga from '../sagas';
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = configureSagaStore;
 
-import { createReducer } from '../reducers';
-import injectAsyncReducers from './injectAsyncReducers';
+var _redux = require("redux");
 
+var _reduxSaga = _interopRequireDefault(require("redux-saga"));
+
+var _sagas = _interopRequireDefault(require("../sagas"));
+
+var _reducers = require("../reducers");
+
+var _injectAsyncReducers = _interopRequireDefault(require("./injectAsyncReducers"));
 
 /**
  *
  * Configure the Redux store with redux-saga middleware. Store extended for SAS Viya
  * @constructor
  */
-export default function configureSagaStore (config) {
+function configureSagaStore() {
+  var sagaMiddleWare = (0, _reduxSaga.default)();
+  var store = (0, _redux.createStore)((0, _reducers.createReducer)(), (0, _redux.applyMiddleware)(sagaMiddleWare));
+  store.asyncReducers = {};
+  store.injectAsyncReducers = _injectAsyncReducers.default;
+  store.apiCallNo = 0; //noinspection JSUnresolvedFunction
 
-    let sagaMiddleWare = createSagaMiddleware();
-
-    let store = createStore(createReducer(), applyMiddleware(sagaMiddleWare));
-
-    store.asyncReducers        = {};
-    store.injectAsyncReducers  = injectAsyncReducers;
-    store.apiCallNo            =  0;
-    store.config               =  {...config};
-    //noinspection JSUnresolvedFunction
-    sagaMiddleWare.run(rootSaga) ;
-    return store;
+  sagaMiddleWare.run(_sagas.default);
+  return store;
 }
-
-
-

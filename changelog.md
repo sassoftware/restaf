@@ -1,8 +1,19 @@
 # Changes 
 
-# 0.9.0
+#0.16.0
+    - Added optional parameter object to initStore for setting global configuration information.
 
-- Remove babel-polyfill as an entry point in webpack. Causing problems with serverless functions.
+        - casProxy: true| false   ... default is false. if true the casProxy API is used to call cas actions. If false(default) cas-http API is used. Use casProxy: true only when embedding Viya apps in Visual Analytics.
+
+
+#0.15.0
+   - next latest
+
+#0.14.1
+   - Remove extraneous console logs.
+
+#0.14.0
+   - There seems to be an issue in using casProxy - duplicate headers are sent to the server and it is unhappy with it. This breaks all the apps. Going back to using cas-*-http until the issue is resolved.
 
 #0.10.0 , 0.11.0 and 0.12.0 and 0.13.0
 
@@ -18,12 +29,6 @@ This method will return error if the cas action returns non-zero statusCode or r
 
  - Updated dependencies to latest. The big changes were Babel and Webpack. 
 
-#0.14.0
-   - There seems to be an issue in using casProxy - duplicate headers are sent to the server and it is unhappy with it. This breaks all the apps. Going back to using cas-*-http until the issue is resolved.
+# 0.9.0
 
-#0.14.1
-   - Remove extraneous console logs.
-
-#0.15.0
-   - next latest
-   
+- Remove babel-polyfill as an entry point in webpack. Causing problems with serverless functions.

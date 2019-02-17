@@ -20,8 +20,10 @@
 
 import  initStore from './initStore';
 import  endStore  from './endStore';
+import  restoreStore from './restoreStore';
 
 export {
     initStore,
-    endStore
+    endStore,
+    restoreStore
 }

@@ -40,6 +40,8 @@ async function setup (payload, ...args) {
     console.log('current xsrf tokens');
     console.log(r);
 
+    let s = store.rafObject('compute');
+    console.log(s);
     return true;
     }
 

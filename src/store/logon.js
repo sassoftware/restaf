@@ -58,7 +58,7 @@ const logon = (store, ipayload) => {
                     let windowLocation = window.location;
                     let host = qs.parse(windowLocation.search);
                     let loc  = qs.parse(windowLocation.hash);
-                    /* */
+                    
                     //
                     if (host !== null && host.host !== null){
                         payload.host      = host.host;

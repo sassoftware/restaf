@@ -32,12 +32,18 @@ let prtUtil = require('../prtUtil');
 async function setup (payload, ...args) {
     let msg = await store.logon(payload);
     prtUtil.print(`Logon status: ${msg}`);
-    let restafLinks = await store.addServices(...args);
-    prtUtil.print(store.getServices(), 'Current Service Folders');
-   
+    debugger;
+    let {compute, casManagement} = await store.addServices(...args);
+    let istore = store.store;
+
+    let newStore = restaf.restoreStore(istore);
+    console.log(newStore);
+    console.log(newStore.getServices());
+    let {files} = await newStore.addServices('files');
+    console.log(newStore.getServices());
     return true;
     }
 
-setup(payload, 'modelPublishing')
+setup(payload, 'compute', 'casManagement')
    .then (r => console.log(r))
-   .catch(e => console.log(JSON.stringify(e, null, 4)));
+   .catch(e => console.log(e));

@@ -22,18 +22,19 @@ import iaddServices from './iaddServices';
 import { API_XSRF } from '../actionTypes';
 import appData from './appData';
 
-async function addServices( store, ...services ) {
+async function addServices (store, ...services) {
     
-    if ( services.includes('casManagement') ) {
+    if (services.includes('casManagement')) {
         services.push('casProxy');
     }
     let {folders, xsrfTokens} = await iaddServices(store, services);
     
-    if ( xsrfTokens !== null ) {
+    if (xsrfTokens !== null) {
         for (let service in xsrfTokens) {
            appData(store,API_XSRF, service, xsrfTokens[service]);
         }
     }
+
     return folders;
 
 }

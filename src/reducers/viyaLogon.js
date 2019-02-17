@@ -47,6 +47,7 @@ export function viyaLogon (state = initialState, action) {
         case VIYA_LOGON_SERVER: {
             /**/
             let config    = action.payload;
+            let iconfig   = config.iconfig;
             /* */
             let newOne = {
                 type     : 'server',
@@ -55,9 +56,9 @@ export function viyaLogon (state = initialState, action) {
                 desc     : 'Server',
                 logonInfo: {
                     type     : 'server',
-                    host     : config.iconfig.host,
-                    tokenType: null,
-                    token    : null
+                    host     : iconfig.host,
+                    tokenType: (iconfig.hasOwnProperty ('tokenType') === true) ? iconfig.tokenType : null,
+                    token    : (iconfig.hasOwnProperty ('token') === true) ? iconfig.token : null
                 }
             };
 

@@ -128,6 +128,7 @@ function request (iconfig) {
         }
     };
 
+    /*
     if (logonInfo.type !==  'server') {
         if (logonInfo.token !== null) {
             config.headers = {
@@ -141,6 +142,16 @@ function request (iconfig) {
         config.headers = {};
         config.withCredentials = true;
     }
+    */
+   if (logonInfo.token !== null) {
+        config.headers = {
+            Authorization: logonInfo.tokenType + ' ' + logonInfo.token
+        }
+   } else {
+      config.headers = {};
+      config.withCredentials = true;
+   }
+
     let type   = fullType(iLink.type);
     if (iLink.hasOwnProperty('responseType')) {
         config.headers[ 'Content-Type' ] = type;
@@ -165,7 +176,7 @@ function request (iconfig) {
         }
     }  
    
-    if ( ixsrf !== null ) {
+    if (ixsrf !== null) {
         let xsrfHeaderName = ixsrf['x-csrf-header']
         config.xsrfHeaderName = xsrfHeaderName;
         config.headers[xsrfHeaderName] = ixsrf['x-csrf-token']; 

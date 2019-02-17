@@ -1,4 +1,4 @@
-/*
+ /*
  * ------------------------------------------------------------------------------------
  *   Copyright (c) SAS Institute Inc.
  *   Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,10 +18,7 @@
 
 'use strict';
 
-import configureSagaStore from './configureSagaStore';
 import {APP_DATA_ROOT, API_STATUS_ROOT, API_XSRF_ROOT, APP_DATA, API_XSRF, APP_DATA_SETSTATE} from '../actionTypes';
-import injectAsyncReducers from './injectAsyncReducers';
-import {reducer} from '../reducers';
 
 import apiCall         from './apiCall';
 import apiCallAll      from './apiCallAll';
@@ -43,16 +40,8 @@ import appData         from './appData';
 import getXsrfData     from './getXsrfData';
 import deleteRafObject from './deleteRafObject';
 
-
-function initStore (iconfig) {
-    let config = (iconfig == null) ? {} : iconfig;
-    let store = configureSagaStore(config);
-
-    injectAsyncReducers(store, API_STATUS_ROOT, reducer(API_STATUS_ROOT));
-    injectAsyncReducers(store, APP_DATA_ROOT, reducer(APP_DATA_ROOT));
-    injectAsyncReducers(store, API_XSRF_ROOT, reducer(API_XSRF_ROOT));
-
-    return  {
+function restoreStore (store) {
+    let newx = {
         logon     : logon.bind(null, store),
         logoff    : logoff.bind(null, store),
         connection: loggedOn.bind(null, store),
@@ -83,12 +72,14 @@ function initStore (iconfig) {
         getState: store.getState,
         endStore: endStore.bind(null, store),
         store   : store,
-        config  : {...config},
 
         getServiceRoot: getServiceRoot.bind(null, store),
 
         request: request
-    } }
+    } 
+    let newStore = {store, ...newx};
+    return newStore;
+}
 
 function loggedOn (store) {
     return   selectLogonInfo(store.getState());
@@ -114,4 +105,4 @@ function getApiStatus (store, jobContext){
     }
     return result;
 }
-export default initStore;
+export default restoreStore;

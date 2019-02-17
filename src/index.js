@@ -17,6 +17,6 @@
  */
 
 'use strict';
-import {initStore, endStore}  from './store';
-export { initStore, endStore };
+import {initStore, endStore, restoreStore}  from './store';
+export { initStore, endStore, restoreStore };
 

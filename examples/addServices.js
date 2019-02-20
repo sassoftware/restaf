@@ -48,6 +48,13 @@ async function setup (payload, ...args) {
     return true;
     }
 
-setup(payload, 'compute', 'casManagement', 'modelPublish')
+setup(payload, 'reports',
+'reportImages',
+'reportTransforms',
+'compute',
+'files',
+'casManagement',
+'modelPublish',
+'jobExecution')
    .then (r => console.log(r))
    .catch(e => console.log(e));

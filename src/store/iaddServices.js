@@ -50,7 +50,7 @@ const iaddServices = (store, services)  => {
                     href        : '/' + service + '/',
                     rel         : 'root',
                     type        : 'application/vnd.sas.api+json',
-                    responseType: 'application/json;application/vnd.sas.api+json',
+                    responseType: 'application/json, application/vnd.sas.api+json',
                     uri         : '/' + service + '/'
                 },
 

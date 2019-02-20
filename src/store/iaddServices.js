@@ -46,11 +46,12 @@ const iaddServices = (store, services)  => {
             return {
                 type: ADD_SERVICE,
                 link: {
-                    method: 'GET',
-                    href  : '/' + service + '/',
-                    rel   : 'root',
-                    type  : 'application/json;application/vnd.sas.api',
-                    uri   : '/' + service + '/'
+                    method      : 'GET',
+                    href        : '/' + service + '/',
+                    rel         : 'root',
+                    type        : 'application/vnd.sas.api+json',
+                    responseType: 'application/json;application/vnd.sas.api+json',
+                    uri         : '/' + service + '/'
                 },
 
                 logonInfo  : null,

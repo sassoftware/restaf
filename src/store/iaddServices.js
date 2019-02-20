@@ -49,7 +49,7 @@ const iaddServices = (store, services)  => {
                     method: 'GET',
                     href  : '/' + service + '/',
                     rel   : 'root',
-                    type  : 'application/vnd.sas.api',
+                    type  : 'application/json;application/vnd.sas.api',
                     uri   : '/' + service + '/'
                 },
 
@@ -103,7 +103,7 @@ const iaddServices = (store, services)  => {
                         folders[services[i]] = ff;
                         
                         let xheader = ff.headers('x-csrf-header');
-                        if ( xheader !== null ) {
+                        if (xheader !== null) {
                             let xtoken  = ff.headers('x-csrf-token');
                             let xx = {
                                 'x-csrf-header': xheader,

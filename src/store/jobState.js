@@ -22,6 +22,7 @@ import ijobState from './ijobState';
 import apiCall from './apiCall';
 
 async function jobState (store, job, payload, maxTries, delay, progressHandler, jobContext) {
+    debugger;
     let waitFlag = false;
     let tries    = 1;
     let status;
@@ -36,7 +37,7 @@ async function jobState (store, job, payload, maxTries, delay, progressHandler, 
         status = await ijobState(store, job, payload, delay, waitFlag, progressHandler, jobContext);
 
         let failed = status.detail.hasOwnProperty('failed');
-        if (status.running === 0 ) {
+        if (status.running === 0) {
             tries = 0;
 
             if (failed === false) {

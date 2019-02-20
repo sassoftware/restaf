@@ -33,18 +33,21 @@ async function setup (payload, ...args) {
     let msg = await store.logon(payload);
     prtUtil.print(`Logon status: ${msg}`);
     debugger;
-    let {compute, casManagement} = await store.addServices(...args);
+    let {compute, casManagement, modelPublish} = await store.addServices(...args);
     console.log(store.getServices());
     
     let r = store.getXsrfData();
     console.log('current xsrf tokens');
     console.log(r);
 
-    let s = store.rafObject('compute');
+    let s = store.rafObject('modelPublish');
     console.log(s);
+
+    console.log(JSON.stringify(modelPublish.links().keys(), null, 4));
+
     return true;
     }
 
-setup(payload, 'compute', 'casManagement')
+setup(payload, 'compute', 'casManagement', 'modelPublish')
    .then (r => console.log(r))
    .catch(e => console.log(e));

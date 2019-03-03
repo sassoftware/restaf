@@ -65,6 +65,8 @@ function initStore (iconfig) {
         apiCallAll: apiCallAll.bind(null, store),
         rafObject : routeToObj.bind(null, store),
 
+        getService: routeToObj.bind(null, store),
+
         deleteRafObject: deleteRafObject .bind(null, store),
 
         jobState   : jobState.bind(null, store),

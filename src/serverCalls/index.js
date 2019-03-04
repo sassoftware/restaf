@@ -34,9 +34,9 @@ function trustedGrant (iconfig) {
     'use strict';
     
     let link   = iconfig.link ;
-    debugger;
+    
     let auth1 = Buffer.from(iconfig.clientID + ':' + iconfig.clientSecret).toString('base64');
-    debugger;
+    
     auth1 = 'Basic ' + auth1;
     let config = {
         method: link.method,
@@ -62,7 +62,7 @@ function trustedGrant (iconfig) {
         },
 
         validateStatus: function (status) {
-            debugger;
+            
             return status >= 200 && status < 300;
         },
         transformResponse: function (data) {
@@ -72,7 +72,7 @@ function trustedGrant (iconfig) {
             return (qs.stringify(data));
         }
     };
-    debugger;
+    
     return (makeCall(config, iconfig));
 }
 
@@ -191,7 +191,7 @@ function request (iconfig) {
     // console.log(config);
 
     config.maxContentLength = 2 * 10063256;
-    debugger;
+    
     //console.log(config);
     return makeCall(config, iconfig);
 }

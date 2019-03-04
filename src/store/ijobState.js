@@ -33,7 +33,7 @@ function ijobState (store, job, payload, delay, waitFlag, eventHandler, jobConte
             iapiCall(store, stateCmd, (waitFlag === true) ? API_POLL : API_CALL, payload, delay,
                      eventHandler, job.route, jobContext)
                 .then(r => {
-                    debugger;
+                    
                     let detail = {};
                     let running = 0;
 

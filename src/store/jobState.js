@@ -22,7 +22,7 @@ import ijobState from './ijobState';
 import apiCall from './apiCall';
 
 async function jobState (store, job, payload, maxTries, delay, progressHandler, jobContext) {
-    debugger;
+    
     let waitFlag = false;
     let tries    = 1;
     let status;

@@ -1,5 +1,12 @@
 # Changes 
 
+#1.0.0
+
+   - Moving restaf to version 1 - no point on postponing it 
+
+#0.16.3
+   - recommit to remove security alert on lodash -  CVE-2018-16487 More information
+   
 #0.16.0
     - Added optional parameter object to initStore for setting global configuration information.
 

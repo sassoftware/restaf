@@ -160,27 +160,28 @@ Here is a simple example running data step with compute service. In the example 
 *   prtUtil - some utility functions to dump information to console
 *   logonPayload - data for logging on to Viya Server - discussed later in this document
 
-```
+```javascript
 let restaf   = require('restaf');
 ```
 
 Preamble: Application specific code to get configuration information
 You might do it differently
-```
+
+```javascript
 let config = require('./config');
 let logonPayload = config('raf.env');
 ```
 
 
 Step 1: Initialize the store
-```
-let store        = restaf.initStore();
+```javascript
+let store = restaf.initStore();
 ```
 
 Steps 2 and 3: Logon to the server and tell restAF which services you want to use
-```
+```javascript
 async function setup (store, logonPayload){
-    let msg  = await store.logon(logonPayload);
+    let msg       = await store.logon(logonPayload);
     let {compute} = await store.addServices('compute');
     return compute;
 }
@@ -188,6 +189,7 @@ async function setup (store, logonPayload){
 
 // Step 4: The main program
 
+```javascript
 async function mainLoop (store, compute, code) {
 
     // get the list of contexts for compute server
@@ -222,10 +224,11 @@ async function mainLoop (store, compute, code) {
     }
     return 'restAF is cool or what';
 }
+```
 
 Your program
 
-```
+```javascript
 let code =  [`data _null_; do i = 1 to 100; x=1; end; run; `];
 
 setup (store, logonPayload)
@@ -251,8 +254,10 @@ To initialize restAF you will make the following 2 calls:
 
 initStore must be called first to get the store object. **Only one store per application** . This call initializes the store to hold all the application data.
 
+```javascript
 let restaf = require( 'restaf' );
 store = restaf.initStore();
+```
 
 _If using the umd version of the library, the global 'restaf' will be set when the umd version is brought in using the script tag._
 
@@ -262,15 +267,19 @@ At this point there is no data in the store and it is not attached to any Viya S
 
 The next step is to associate Viya server with this instance of restAF.
 
+```javascript
      store.logon( payload )
         .then ( msg => console.log( msg ) )
         .catch( err => console.log( err ) )
+```
 
 payload is either null or is an object with information to logon to the server. If null,
 restAF assumes that your browser session has been authenticated by other means. In an non-browser environment you have to
 pass in the valid payload.
 
 Below is a typical payload for a nodejs application
+
+```javascript
 
      payload = {
         authType    : 'password',
@@ -280,6 +289,7 @@ Below is a typical payload for a nodejs application
         clientID    : clientid,  /* get this from your admin */
         clientSecret: clientsecret /* get this from your admin */
         } );
+```
 
 A friendly note to protect the payload information on your client machine
 since it has all the key authentication information
@@ -287,16 +297,19 @@ in plain text.
 
 In a browser use the initial logon payload will look as follows:
 
+```javascript
     payload = {
        authType: 'implicit',
        host    : 'http://yourserver:portno',
        clientId: clientId, /* get this from your admin */
        redirect: <The redirect that was specified when creating the clientId>
        }
-
+```
 In the url that is the target of the redirect you will pass a null for payload
 
+```javascript
     payload = null
+```
 
 restAF will parse the incoming location information and set up access to the server.
 
@@ -315,14 +328,14 @@ The addServices method returns a restAF object( rafObject) which we will discuss
 
 **All service names are case-sensitive**
 
-```
+```javascript
  let {serviceName1, serviceName2,....} = await store.addServices( 'serviceName1', 'serviceName2', ....  );
 ``` 
 
 At this point serviceName1 is a rafObject with information for the root end points of that service.
 #### Example
 
-```
+```javascript
 let {compute, casManagement} = await store.addServices( 'compute', 'casManagement' );
 ```
 
@@ -348,7 +361,9 @@ The other common use is in associating links with UI components like buttons, na
 
 The apiCall method on the store object is the most used method for making REST calls.
 
+```javascript
     store.apiCall( rafLink <, payload>)
+```
 
 rafLink is obtained using the links and itemsCmd methods on rafObject.
 
@@ -365,8 +380,9 @@ extraneous keys.
 ### Examples of payload
 
 _To run sas code with compute service_
-
+```json
     { data: { code: \[ 'data a; x=1;run;' , 'proc print;run' \] }}
+```
 
 _To run datastep in cas_
 
@@ -374,6 +390,7 @@ _To run datastep in cas_
 
 _To run upload action for CAS_
 
+```javascript
     let JSON_Parameters = {
                  casout: {
                      caslib: 'casuser', /* a valid caslib */
@@ -389,13 +406,16 @@ _To run upload action for CAS_
          headers: { 'JSON-Parameters': JSON_Parameters },
          data   : readFile( 'iris', 'csv' )
      }
+```
 
 _To create a file with plain text_
 
+```javascript
     let payload = {
        data   : 'my data',
        headers: { 'content-type': 'text/plain' }
     }
+```
 
 ### apiCallAll - Making api Calls in parallel
 
@@ -403,15 +423,18 @@ apiCall method makes a single service call. The apiCallAll method on store allow
 A typical use case will be running forecast actions in parallel in different cas sessions. 
 Another is running jobs in multiple compute server sessions. You can mix and match services in this single call( ex: create files, run cas jobs etc... but this would be an exception rather than a rule
 
+```javascript
     store.apiCallAll( requestArray )
+```
 
 
 *   requestArray is an array with each row of the following format:
 
+```javascript
                 { rafLink: <the rafLink to be called>
                   payload: <standard payload as described earlier in this document>
                 }
-
+```
 
 
 The method returns when all the calls in the requestArray return successfully or when one of them fails. In that sense apiCallAll behaves like PromiseAll.
@@ -440,7 +463,9 @@ At this point your code has to decide how best to proceed given these states.
 
 ### To check the status of a single job use jobState method.
 
+```javascript
     store.jobState( rafObject-for-job <,payload> <,maxTries > )
+```
 
 
 Some services take a query parameter to support long polling - pass that information in the standard payload structure
@@ -449,15 +474,16 @@ maxTries is the number of times restAF will try if the job did not return a comp
 
 The returned object has the following form:
 
-{
-  data      : <completed|running|...|...>,
-  statusCode: <http code >,
-  job       : <rafObject of the final job>
-}
-
+```json
+    {
+    data      : <completed|running|...|...>,
+    statusCode: <http code >,
+    job       : <rafObject of the final job>
+    }
+```
 
 An example
-```
+```javascript
     /* pass a timeout of 2 seconds and try a max of 5 times */
     let status = await store.jobState( job, {qs: { timeout: 2} }, 5 );
     if (status.data === 'running') {
@@ -479,7 +505,7 @@ An example
 jobStateAll method to check the status of multiple jobs the jobs with a single call
 
 The returned value has the form
-```
+```json
  {
     running: <No of jobs still running >
     details: >details on the completion ( see note above and see below for the form of this object>
@@ -508,12 +534,15 @@ detail: {
 
 For jobStateAll the detail could have multiple key/values. For example if you ran 4 jobs in parallel and 2 completed with state of 'warning' , 1 completed with state of 'completed' and one completed with state of 'error', then the detail will look as follows:
 
+```json
 detail: {
   warning  : 2,
   completed: 1,
   error    : 1
 }
+```
 
+```javascript
         store.jobStateAll( array of jobs rafObject, payload, maxTries )
         .then ( status => {
              if ( status.running !== 0 ) {
@@ -523,7 +552,7 @@ detail: {
              }
 
         } )
-
+```
 
 The payload parameter can be an array or single object. If single object then this payload will be applied to every rafObject in the first parameter. 
 The primary purpose of the payload is to set timeout as a query parameter
@@ -545,44 +574,60 @@ The submit method is designed to handle this scenario in a more elegant way.
 
 The parameters to submit are:
 
+```javascript
     store.submit( rafLink, payload, delay, id , <OnCompletion exit>, <progress exit> )
+```
+ 
+ where:
 
-       where
-          rafLink      - same as for apiCall
-          payload      - standard payload or null
-          delay        - restAF will check the server after every "delay" seconds for completion and drive the callbacks if specified
-          id           - specify an id(string). You will use this to retrieve the information the rafObject associated with this job
-          onCompletion - if non-null restAF will call this exit on completion ( success or failure) of the job.
-          progress     - if non-null restAH will call this exist after every call to server to check the status.
+- raflink - same as for apiCall 
+
+- payload - standard payload or null
+
+- delay - restAF will check the server after every "delay" seconds for completion and drive the callbacks if specified
+
+- id - specify an id(string). You will use this to retrieve the information the rafObject associated with this job
+
+- onCompletion - if non-null restAF will call this exit on completion ( success or failure) of the job.
+
+- progress     - if non-null restAH will call this exist after every call to server to check the status.
 
 
 The method signature of progress exit is
 
+```javascript
     function progress ( data, id )
-        where
-            data - the current status of the job ( running, completed, failed etc...)
-            id   - the id you passed to the submit method
-        The function returns either true or false. If you return true, restAF will stop calling the server for the status
-        of the job.
+```
+where
+
+- data - the current status of the job ( running, completed, failed etc...)
+- id   - the id you passed to the submit method
+
+The function returns either true or false. If you return true, restAF will stop calling the server for the status
+of the job.
+
 
 The method signature of onCompletion is
 
-        function onCompletion( err, jobStatus, id )
-           where
-               err       - if non-null then this is the error message
-               jobStatus - this has the same structure as the return from jobStatus
-               id        - the id that you passed to the submit method
+```javascript
+    function onCompletion( err, jobStatus, id );
+```
+where
+
+- err       - if non-null then this is the error message
+- jobStatus - this has the same structure as the return from jobStatus
+- id        - the id that you passed to the submit method
 
 You will retrieve the final jobStatus using the **submitStatus** method of the store
 
-        let jobStatus = store.submitStatus(id);
-            where jobStatus is the same as what jobState returns.
-
-
+```javascript
+    let jobStatus = store.submitStatus(id);
+```
+ where jobStatus is the same as what jobState returns.
 
 One could write part of the introductory example as follows:
 
-```
+```javascript
 let payload = {
         data: {code: [`data _null_; do i = 1 to 10000000; end;run; `]}
     };
@@ -627,37 +672,49 @@ If the returned value is an rafObject you can use query parameters to drill into
 
 The links method will return an immutable object of rafLinks. You will use this method when the type of the rafObject is "links". But sometimes there will be links even when the type is not "links". In those cases the links are usually actions that operate on the whole collection
 
+```javascript
     rafLink = rafObject.links( relName );
+```
 
 
 relName is the rel of the resource you are looking for. The call will return a rafLink that you can use in an apiCall as shown below
 
+```javascript
      contentLink   = fileObject.links( 'content' );
      contentObject = store.apiCall ( contentLink );
+```
 
 Sometimes you need the entire list of links. An example is displaying buttons with the titles of the links. Below is an example of printing the titles of all the links.
 
+```javascript
     allLinks = fileObject.links();
     allLinks.forEach( ( l, rel ) => {
        console.log(\`Title: ${rel}  rel: ${rel} \` );
     }
-    
+```
+
 #### itemsList method
 
 If the rafObject type is 'itemsList' use this method to get the immutable array of id's in the current result object. This is really a convenience method for UI ( ex: showing a list of the id's).
 
 Below is an example listing all the id's
 
+```javascript
     rafObject.itemsList().map( id => console.log(id) )
+```
 
-    You can also do the following
+you can also do the following:
+
+```javascript
     console.log( JSON.stringify(rafObject.itemsList(), null, 4) );
+```
 
 
 #### scrollCmds method
 
 This method returns the rafLinks associated with pagination. This method can be used to get a rafLink associated with next, prev, last and first cmds(rel). At any given time the server may return some, all or none of these. To ensure safe programming, always check if the returned rafLink is non-null.
 
+```javascript
     let nextCmd = rafObject.scrollCmds( 'next' );
     if ( nextCmd !== null ) {
         store.apiCall( nextCmd )
@@ -665,17 +722,21 @@ This method returns the rafLinks associated with pagination. This method can be 
     } else {
         console.log( 'No more data' )
     }
+```
 
 In an UI you would want to display buttons for scrolling. A typical code will look like this
 
+```javascript
     let cmds = rafObject.scrollCmds();
 
     cmds.forEach( ( c, cmd ) => {
         ...make your scrolling menu...
     } );
+```
 
 For example here is the code for creating a menubar in Reactjs
 
+```javascript
     function ButtonMenu( props ) {
         let { cmds, onClick } = props;
         let menu = [];
@@ -690,6 +751,7 @@ For example here is the code for creating a menubar in Reactjs
             </div>
         )
     }
+```
 
 #### items method
 
@@ -697,23 +759,31 @@ This method gives you access to the data that might have been returned. This cou
 
 The items method takes arguments that determines what is returned.
 
+```javascript
     let result = rafObject.items( <query> )
+```
 
 Let us examine a few typical cases
 
 **All Items**
 
+```javascript
 let allItems = rafObject.items();
+```
 
 If you get all the items then you need to write the code to manage the items based on the resultType
 
 **Get a specific item using the id ( which you will get from itemsList() )**
 
+```javascript
     let item = rafObject.items( idOfItem );
+```
 
 **Getting data for an item in a collection **
 
+```javascript
     let data = rafObject.item( idOfItem, 'data' );
+```
 
 
 #### itemsCmd
@@ -723,6 +793,7 @@ The most common usage is to get the rafLink for a specific command for the selec
 
 **Get a specific command associated with a item with a specific id**
 
+```javascript
     let item = rafObject.itemsCmd( idOfItem, 'name of command' );
     ex:
     let deleteCmd = rafObject.itemsCmd( '1234ID', 'delete' );
@@ -730,18 +801,22 @@ The most common usage is to get the rafLink for a specific command for the selec
     store.apiCall( deleteCmd )
     .then ( f => { do whatever) }
     .catch( err => { do whatever) }
-
+```
 
 **Get all commands associated with a item with a specific id**
 
+```javascript
     let rafLinks = rafObject.itemsCmd( idOfItem );
+```
 
 You can step thru this object as follows
 
+```javascript
     rafObject.itemsCmd( idOfItem ).forEach( ( c, key) => {
     // c is the current cmd information
     // key is the name of the command( createSession, delete etc... )
     }
+```
 
 #### responseHeaders
 
@@ -749,18 +824,22 @@ On occasion one needs to access to the returned headers like etag. For those sce
 
 **Get a specific header**
 
+```javascript
     let etag = rafObject.responseHeaders( 'etag' );
-
+```
 **Get all headers**
 
+```javascript
     let headers = rafObject.responseHeaders();
+```
 
 #### status
 
 To get the http status returned from the call
 
-        let status = rafObject.status();
-
+```javascript
+       let status = rafObject.status();
+```
 
 #### statusInfo
 
@@ -787,14 +866,14 @@ In restAF you will access cas actions in the following manner.
 *   Add casManagement to restAF using store.addServices.
 *   Look thru the list of servers returned by casManagement and pick the one you want. More often than not there is probably only one cas server.
 *   Create a session on that server. restAF will add a rel named 'execute' to the session's links returned from this step.
-*   Make all cas action calls thru this rel
+*   Make all cas action calls thru runAction method
 *   restAF collects all the returned tables under a "tables" object to make handling of returned tables a bit easier
 
 Below is an example showing uploading of a csv to cas and then getting its info
 
 The example below uses the nodejs file i/o. If you are running from browser you will use the File Object.
 
-
+```javascript
     async function example () {
         // setup
 
@@ -822,11 +901,7 @@ The example below uses the nodejs file i/o. If you are running from browser you 
             action : 'upload'
         };
 
-        let actionResult = await store.apiCall(session.links('execute'), payload);
-        let statusCode = actionResult.items('disposition', 'statusCode');
-        if (statusCode !== 0) {
-            throw actionResult.items('disposition');
-        }
+        let actionResult = await store.runAction(session.links, payload);
         prtUtil.view(actionResult, 'Result of upload action');
 
         let deleteAction = await store.apiCall(session.links('delete'));
@@ -836,10 +911,12 @@ The example below uses the nodejs file i/o. If you are running from browser you 
         function readFile (filename, fileType) {
            return fs.readFileSync(`./data/${filename}.${fileType}`);
         }
+```
 
 #### Handling tables returned by CAS
 Below is a sample program to print the rows in the CAS tables
 
+```javascript
         let data = result.items('tables', <name of the table>);
         let itemRows = data.get('rows');
         let columns = [];
@@ -855,6 +932,8 @@ Below is a sample program to print the rows in the CAS tables
             console.log(JSON.stringify(row, null, 4));
         });
 
+```
+
 Handling Pagination
 -------------------
 
@@ -862,6 +941,7 @@ restAF handles all the pagination for you. Use the scrollCmds as described above
 
 For example to get the next set of items do the following
 
+```javascript
     let next = rafObject.scrollCmds( 'next' );
     if ( next === null ) {
       /\* tell user there is no more data */
@@ -874,12 +954,13 @@ For example to get the next set of items do the following
          handle error conditions
         } )
     }
+```
 
 Replace next with prev,last ans first as appropriate.
 
 Here is an example of printing to console all the items from a collection
 
-
+```javascript
     let store = restaf.initStore();
 
     // Pagination
@@ -906,6 +987,7 @@ Here is an example of printing to console all the items from a collection
        .then (status => console.log(status))
        .catch(err => console.log(err));
 
+```
 
 Route property
 --------------
@@ -923,13 +1005,24 @@ associated rafObject with the **rafObject** method
 
 restAF relies on the Oauth2 authentication supported by SAS Viya.
 
-There are three cases:
+There are a few use cases as described below:
 
 ### Authenticated browser session: If you session is already authenticated then pass null to logon method
 
        store,logon( null)
        .then ( msg => <do your stuff> )
        .catch( err => <error handling> )
+
+### Using an existing token
+
+There are situations where a valid token might exist.  In that case use the following payload to store.logon
+
+```javascript
+        store.logon( {
+            host: "your viya server',
+            token: "your token
+        });
+```
 
 ### nodejs applications
 
@@ -950,6 +1043,7 @@ For nodejs applications you will need to use the password flow authentication me
 
 ### Web Applications
 
+#### Implicit flow
 For web applications it is recommended that you use implicit flow authentication.
 
         let payload = {
@@ -970,6 +1064,7 @@ store.logon(null)
 
 ```
 
+
 ## Additional Store Methods
 
 ### connection
@@ -977,36 +1072,53 @@ store.logon(null)
     let c = store.connection();
 The connection method return information on the current connection.
 
+```json
+{
     "type": "trusted",
     "host": "http://your-viya-host",
     "tokenType": "bearer",
     "token": "... your Oauth token ..."
 }
+```
 
 
 ### getServices
-
-     let services = store.getService();
+```javascript
+     let services = store.getServices();
+```
 
 This returns the list of services including "services" specific to restAF(see below)
+
+### getService
+
+```javascript
+     let services = store.getService('name of service');
+```
+
+This returns raf object for a service that was setup using addServices. \
 
 ### setAppData and getAppData
 
 Use this method to request restAF to store your data and to retrieve that data
 
+```javascript
     await store.setAppData( id, data )
        where
            id   - id of this data (string)
            data - an object that you want restAF to store
-
+```
 
 To retrieve the data use the getAppData method
 
+```javascript
       let mydata = store.getAppData( id );
+```
 
 To retieve a specific item pass
 
+```javascript
       let mydata1 = store.getAppData( id, name);
+```
 
 Unlike the other store api methods getAppData returns a standard
 javaScript object and not an immutable object.

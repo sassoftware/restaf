@@ -999,7 +999,9 @@ rafObject or to pass it in as a query parameter you can use this.
 Route is useful if you want to pass a specific rafObject to another part of your program through some routing mechanism( ex: react-router). Given a route you can get the
 associated rafObject with the **rafObject** method
 
+```javascript
    let myObject = store.rafObject(route);
+```
 
 ## Authentication
 
@@ -1009,9 +1011,11 @@ There are a few use cases as described below:
 
 ### Authenticated browser session: If you session is already authenticated then pass null to logon method
 
+```javascript
        store,logon( null)
        .then ( msg => <do your stuff> )
        .catch( err => <error handling> )
+```
 
 ### Using an existing token
 
@@ -1028,7 +1032,7 @@ There are situations where a valid token might exist.  In that case use the foll
 
 For nodejs applications you will need to use the password flow authentication method
 
-
+```javascript
        let  payload = {
             authType    : 'password',
             host        : 'http://yourserver:portno',
@@ -1040,12 +1044,14 @@ For nodejs applications you will need to use the password flow authentication me
         store.logon  ( payload )
             .then ( () => ...do whatever your app does ...)
             .catch( err => ...do recovery ... )
+```
 
 ### Web Applications
 
 #### Implicit flow
 For web applications it is recommended that you use implicit flow authentication.
 
+```javascript
         let payload = {
             host        : <Viya server host (ex: http://my.example.com)
             clientID    : <clientid>
@@ -1057,8 +1063,10 @@ For web applications it is recommended that you use implicit flow authentication
             .then ( () => ...do whatever your app does ...)
             .catch( err => ...do recovery ... )
 
-In your redirect uri pass null for the logon
 ```
+In your redirect uri pass null for the logon
+
+```javascript
 store.logon(null)
 .then(...)
 

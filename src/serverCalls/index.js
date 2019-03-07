@@ -152,10 +152,13 @@ function request (iconfig) {
       config.withCredentials = true;
    }
 
+    debugger;
     let type   = fullType(iLink.type);
     if (iLink.hasOwnProperty('responseType')) {
-        config.headers[ 'Content-Type' ] = type;
-        config.headers.Accept            = fullType(iLink.responseType);
+        if (type !== null) {
+           config.headers[ 'Content-Type' ] = type;
+        }
+        config.headers.Accept = fullType(iLink.responseType);
     } else if (type !== null) {
         config.headers.Accept = type;
         if (iLink.method === 'PUT' || iLink.method === 'POST' || iLink.method === 'PATCH') {
@@ -192,7 +195,7 @@ function request (iconfig) {
 
     config.maxContentLength = 2 * 10063256;
     
-    //console.log(config);
+    // console.log(config);
     return makeCall(config, iconfig);
 }
 

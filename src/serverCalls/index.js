@@ -152,7 +152,6 @@ function request (iconfig) {
       config.withCredentials = true;
    }
 
-    debugger;
     let type   = fullType(iLink.type);
     if (iLink.hasOwnProperty('responseType')) {
         if (type !== null) {

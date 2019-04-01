@@ -35,7 +35,7 @@ const  iapiCall =  (store, iroute, actionType, payload, delay, eventHandler, par
             reject(
                 {
                     error: 'Bad route and/or rafLink',
-                    args : JSON.stringify(arguments, null, 4)
+                    args : iroute
                 });
         }
         // save route
@@ -76,6 +76,7 @@ const  iapiCall =  (store, iroute, actionType, payload, delay, eventHandler, par
         unSubscribe = store.subscribe(nextE);
 
         // dispatch action
+        action.storeConfig = store.config;
         store.dispatch(action);
 
     });

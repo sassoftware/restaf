@@ -49,11 +49,10 @@ const iaddServices = (store, services)  => {
                     method      : 'GET',
                     href        : '/' + service + '/',
                     rel         : 'root',
-                    type        : 'application/vnd.sas.api+json',
+                    type        : 'application/vnd.sas.api+json',  
                     responseType: 'application/json, application/vnd.sas.api+json',
                     uri         : '/' + service + '/'
                 },
-
                 logonInfo  : null,
                 tLink      : null, /* null indicates root of service */
                 serviceName: service,
@@ -120,7 +119,7 @@ const iaddServices = (store, services)  => {
 
             if (count === actionArray.length) {
                 unSubscribe();
-                resolve({ folders: folders, xsrfTokens: xsrfTokens} );
+                resolve({ folders: folders, xsrfTokens: xsrfTokens});
             }
         };
 

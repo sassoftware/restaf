@@ -38,7 +38,7 @@ function *yieldAll (action) {
  
     let result = yield all(config);
 
-    for( let r in result) {
+    for (let r in result) {
        yield put (result[r]);
     }
 

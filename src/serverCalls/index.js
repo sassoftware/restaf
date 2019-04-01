@@ -17,9 +17,9 @@
 import axios from 'axios';
 import qs from 'qs' ;
 import fixResponse from './fixResponse';
+import Https from 'https';
 
 // axios.defaults.withCredentials = true
-
 axios.interceptors.response.use(
     function (response) {
 
@@ -29,6 +29,8 @@ axios.interceptors.response.use(
         return Promise.reject(error);
     }
 );
+
+
 /* X-Uaa-Csrf */
 function trustedGrant (iconfig) {
     'use strict';
@@ -73,7 +75,7 @@ function trustedGrant (iconfig) {
         }
     };
     
-    return (makeCall(config, iconfig));
+    return (makeCall(config, iconfig, iconfig.pem));
 }
 
 
@@ -97,7 +99,6 @@ function request (iconfig) {
         iheaders      = hasItem(payload, 'headers');
         ixsrf         = hasItem(payload, 'xsrf');
     }
-
     let url = `${logonInfo.host}${iLink.href}`;
 
     // handle casaction upload
@@ -190,15 +191,19 @@ function request (iconfig) {
     }
 
     config.data = (idata === null) ? {} : idata;
-    // console.log(config);
-
     config.maxContentLength = 2 * 10063256;
-    
-    // console.log(config);
-    return makeCall(config, iconfig);
+   
+    return makeCall(config, iconfig, logonInfo.pem);
 }
 
-function makeCall (config, iconfig) {
+function makeCall (config, iconfig, pem) {
+    
+    if (pem != null) {
+        let agent = new Https.Agent({ca: pem, rejectUnauthorized: true});
+        config.httpsAgent = agent;
+    } 
+    
+
     return new  Promise ((resolve, reject)  => {
         axios(config)
             .then (response => {

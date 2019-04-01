@@ -16,34 +16,40 @@
  *
  */
 
-/*
- * Simple echo action example
- */
 'use strict';
+/*
+ * Copyright (c) 2017 by SAS Institute Inc., Cary, NC USA 27513
+ * Author       : K. Deva Kumar
+ * Last Modified: 9/3/17 11:04 AM
+ *
+ */
 
-let restaf = require('../lib/restaf');
-let payload = require('./config')('restaf.env');
-let casSetup = require('./lib/casSetup');
 
-let prtUtil = require('../prtUtil')
+ /* --------------------------------------------------------------------------------
+ * Logon to the Viya server
+ * ---------------------------------------------------------------------------------
+ */
+let restaf   = require('../lib/restaf');
+let payload = require ('./config')('restaf.env') ;
+let fs = require('fs');
 
-let store = restaf.initStore();
-async function example () {
-    let { session } = await casSetup(store, payload, 'cas');
-    // console.log(JSON.stringify(session.links(), null, 4));
-    let p = {
-        action: 'echo',
-        data  : { code: 'data casuser.data1; x=1;put x= ; run; ' }
-    };
-    debugger;
-    let r = await store.runAction(session, p);
-    console.log(r.items('log'));
-    return 'done';
-}
+let pem = fs.readFileSync(`${process.env.PEMFILE}`);
 
-example()
-    .then(r => console.log(r))
-    .catch(err => console.log(err))
+//
+// Pass pem to store for https calls
+//
+ 
+let store = restaf.initStore({pem: pem});
+
+store.logon(payload)
+    .then (msg => {
+        console.log(JSON.stringify(store.connection(), null, 4));
+        console.log(`Logon Status: ${msg}`)
+    })
+    .catch(err => console.log(err));
+
+
+
 
 
 

@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<h2>PAYG financial services: coming soon to a bank near you</h2>
+You walk into your neighborhood bank to see about a mortgage. You and your spouse have your eye on the perfect 3BR, 2BA brick ranch near your child's school, and it won't be on the market long. An hour later, you burst through the front door with a bottle of champagne: "We're qualified!"
+
+Also celebrating is your bank's branch manager. She was skeptical when headquarters analysts equipped branches for "Cloud-based application using SAS" , saying it would speed up loan applications. But your quick, frictionless transaction proved them right.
+
+The bank's accountants are happy too. The new pay-as-you-go mode of using SAS software in the cloud means big savings.
+
+The above scenario is possible now through serverless functions, which enable your SAS Viya applications to take input from end users, score the loan application, and return results.
+
+The rest of this post gets into the nitty gritty of serverless functions and SAS Viya, detailing what happens in a bank's computers after a customer applies for a loan. The qualification process starts by running a previously built scoring model to generate a score. You will see how the combination of <a href="https://developer.sas.com/guides/rest.html" target="_blank">REST APIs in SAS Viya  , </a><a href="https://www.sas.com/content/sascom/en_us/23289/2323/visual-data-mining-machine-learning.html" target="_blank">analytical models</a>  and the <a href="https://github.com/sassoftware/restaf" target="_blank">restaf library</a> make the task of building the serverless function relatively simple.
+
+The blog titled "<a href="https://blogs.sas.com/content/sgf/2018/12/21/sas-rest-apis-sample-application/" target="_blank">SAS REST APIs: a sample application</a>" demonstrated building a SAS Viya application using REST APIs, SAS Visual Analytics and SAS Operational Research. This is typical web applications with application server and SAS Viya running on premise.
+
+If you are one of many users using(or considering) a cloud provider, serverless functions is an useful alternate way to deliver your applications to your users. This eliminates the need to manage the application server associated with your application. Additionally you get zero administration and auto-scaling among other benefits. Many SAS applications that respond quickly to user requests are ideal candidates to be deployed as serverless functions.
+
+The example in this article is available on SAS software’s GitHub site in the <a href="https://github.com/sassoftware/viya-apps-serverless-score" target="_blank">viya-apps-serverless-score repository. </a> If you want to see the end application for frame of reference, see the <strong>Using the serverless functions</strong> section at the bottom of this article.
+
+Let’s begin with a bit of background on serverless computing and then dig into the details of the application and functions.
+<h2>Serverless computing explained</h2>
+The benefits of serverless functions as touted by <a href="https://aws.amazon.com/lambda/" target="_blank" rel="noopener">AWS serverless, </a><a href="https://azure.microsoft.com/is-is/overview/serverless-computing/" target="_blank" rel="noopener">Azure  and </a><a href="https://serverless.com/" target="_blank" rel="noopener">serverless.com:</a>
+<h3>AWS Lambda</h3>
+<a href="https://aws.amazon.com/lambda/" target="_blank" rel="noopener">AWS Lambda </a>lets you run code without provisioning or managing servers. You pay only for the compute time you consume– there is no charge when your code is not running. With Lambda, you can run code for virtually any type of application or backend service – all with zero administration. Just upload your code and Lambda takes care of everything required to run and scale your code with high availability. You can set up your code to automatically trigger from other AWS services or call it directly from any web or mobile app.
+<h3>What is serverless computing?</h3>
+<a href="https://azure.microsoft.com/is-is/overview/serverless-computing/" target="_blank" rel="noopener">According to Azure</a> serverless computing is the abstraction of servers, infrastructure, and operating systems. When you build serverless apps you don’t need to provision and manage any servers, so you can take your mind off infrastructure concerns. Serverless computing is driven by the reaction to events and triggers happening in near-real-time—in the cloud. As a fully managed service, server management and capacity planning are invisible to the developer and billing is based just on resources consumed or the actual time your code is running.
+<h3>Four core benefits of serverless computing from <a href="https://serverless.com/" target="_blank" rel="noopener">serverless.com:</a></h3>
+<ol>
+ 	<li><strong>Zero administration</strong> – Deploy code without provisioning anything beforehand or managing anything afterward. There is no concept of a fleet, an instance, or even an operating system. No more bothering the Ops department.</li>
+ 	<li><strong>Auto-scaling</strong> – Let your service providers manage the scaling challenges. No need to fire alerts or write scripts to scale up and down. Handle quick bursts of traffic and weekend lulls the same way — with peace of mind.</li>
+ 	<li><strong>Pay-per-use</strong> – Function-as-a-service compute and managed services charged based on usage rather than pre-provisioned capacity. You can have complete resource utilization without paying a cent for idle time. The results? 90% cost-savings over a cloud VM, and the satisfaction of knowing that you never pay for resources you don’t use.</li>
+ 	<li><strong>Increased velocity</strong> – Shorten the loop between having an idea and deploying to production. Because there’s less to provision up front and less to manage after deployment, smaller teams can ship more features. It’s easier than ever to make your idea live.</li>
+</ol>
+OK, so there is a server involved in serverless computing. The beauty in this technology is that once you deploy your code, you don't have to worry about the underlying infrastructure. You just know that the app should work and you only incur costs when the app is running.
+<h2>Basic flow</h2>
+Serverless functions are loaded and executed based on the occurrence of one of the triggers/events supported by the cloud vendor. In this example the API Gateway triggers the serverless functions when an http call invokes the function. The API Gateway calls the handler for the function and passes in the user data. On return from the handler the response is sent to the client. This article focuses on the code inside the Serverless Function box in the picture below.
+
+[caption id="attachment_19251" align="aligncenter" width="718"]<a href="https://blogs.sas.com/content/sgf/files/2019/03/workflow.png"><img class="size-full wp-image-19251" src="https://blogs.sas.com/content/sgf/files/2019/03/workflow.png" alt="" width="718" height="173" /></a> Figure 1: Request Workflow[/caption]
+
+This example utilizes two key functions:
+<ol>
+ 	<li><strong>app </strong>– This function serves up an html application for user to enter the data. This is an example of a web application as a serverless function.</li>
+ 	<li><strong>score </strong>– This function takes user input from the web app, executes scoring on a Viya Server and returns the results.</li>
+</ol>
+<h3>Serverless.yml</h3>
+The serverless.yml defines the serverless functions and the handlers, used to execute and other system related information. We will focus only on the application specific information.
+
+The code snippet below shows the definition of the path and handler for the two functions in the serverles.yml file.
+<pre lang="javascript">functions:
+
+  app: 
+    handler: src/app.app
+    events:
+      - http:
+          path: app
+          method: get
+          cors: 
+            origin: '*'
+          request:
+            parameters:
+              paths:
+                id: true  
+  
+  score:
+    handler: src/score.score
+    events:
+      - http:
+          path: score
+          method: post
+          cors: 
+            origin: '*'</pre>
+The functions(app &amp; score) in the yaml define:
+<ol>
+ 	<li><strong>event </strong>- http event will trigger this function</li>
+ 	<li><strong>path </strong>- this is path to the function - similar to what you define in <a href="https://expressjs.com/" target="_blank" rel="noopener">Express </a>or <a href="https://hapijs.com/" target="_blank" rel="noopener">hapijs</a></li>
+ 	<li><strong>method </strong>- http standard GET, PUT etc...</li>
+ 	<li><strong>others </strong>- refer to the cloud vendor's documentation for other available options.</li>
+</ol>
+The serverless.yml file also sets application related information using environment variables. In this particular use case we define how to access SAS Viya and which scoring model to use.
+<pre lang="javascript">environment:
+#
+# Information for logging into SAS Viya
+#
+  VIYA_SERVER: http://example.viya.server.com
+  CLIENTID: raf
+  CLIENTSECRET: raf
+  USER:rafuser
+  PASSWORD: rafpass
+
+#
+# astore to be used for scoring
+#
+  caslib: casuser
+  name: GRADIENT_BOOSTING___BAD_2</pre>
+<h2></h2>
+<h2>Anatomy of the serverless function</h2>
+Figure 2 shows the flow inside the serverless function for this example. This pattern will repeat itself in your serverless functions.
+
+[caption id="attachment_19255" align="aligncenter" width="625"]<a href="https://blogs.sas.com/content/sgf/files/2019/03/serverlessFunctionFlow.png"><img class="size-full wp-image-19255" src="https://blogs.sas.com/content/sgf/files/2019/03/serverlessFunctionFlow.png" alt="" width="625" height="129" /></a> Figure 2: Serverless Function Flow[/caption]
+<h3>Serverless function <em>score</em></h3>
+The code below is the handler for the score function. The rest of this section will discuss each of the key features of the handler.
+<pre lang="javascript">//
+// See src/score.js for the full code
+//
+module.exports.score = async function (event, context ) {
+
+   let store      =  restaf.initStore(); /* initialize restaf     */
+   let inParms = parseEvent(event);  /* get user input        */
+   let payload = getLogonPayload(); /* get logon information */
+
+   return store.logon(payload)               /* logon to SAS Viya */
+        .then (()    => scoreMain( store, inParms )) /* score     */
+        .then(result => setPayload(result)) /* return results     */
+        .catch(err   => setError(err))	      /* else return errors */
+}</pre>
+<h4>Step 1: Parse the input</h4>
+The event parameter contains the input from the caller (web application, another serverless function, etc).
+The content of the event parameter is whatever the designer of the serverless function desires. In this particular case, a sample event data is shown below.
+<pre lang="javascript">{
+    "input": {
+        "JOB"    : "J1",
+        "CLAGE"  : 100,
+        "CLNO"   : 20,
+        "DEBTINC": 20,
+        "DELINQ" : 2,
+        "DEROG"  : 0,
+        "MORTDUE": 4000,
+        "NINQ"   : 1,
+        "YOJ"    : 10,
+        "LOAN"   : 10000,
+        "VALUE"  : 1000000
+    }
+}</pre>
+The parseEvent function validates the incoming information.
+<pre lang="javascript">module.exports = function parseEvent(event)
+    let input = null;
+    let body = {};
+    let rstore = {
+        caslib:  process.env.ASTORE_CASLIB,
+        name  : process.env.ASTORE_NAME
+    }
+    if ( event.body !=  null ) {
+        body = ( typeof event.body === 'string') ? JSON.parse(event.body) : Object.assign({}, event.body);
+       if ( body.hasOwnProperty('input') === true ) {
+          input = body.input;
+    }
+    return { rstore: rstore, input: input }
+}</pre>
+<h4>Step 2: Logon to SAS Viya</h4>
+The server.yml defines the SAS Viya logon information. Note there are other secure ways to manage sensitive information like passwords. You should refer to your provider’s documentation.
+<pre lang="javascript">module.exports = function getLogonPayload() {
+    let p = {
+        authType    : 'password',
+        host        : `${process.env.VIYA_SERVER}`,
+        user        : process.env['USER'],
+        password    : process.env['PASSWORD'],
+        clientID    : process.env['CLIENTID'],
+        clientSecret: (process.env.hasOwnProperty('CLIENTSECRET')) ? process.env[ 'CLIENTSECRET' ] : ''
+        };
+    return p;
+ }</pre>
+The line restaf.logon(payload) in function in the handler code logs on to the SAS Viya Server using this information.
+<h4>Step 3 and Step 4: Create Payload and make REST API calls</h4>
+On successful logon the server is called to do the scoring. This particular example uses the sccasl.runcasl method to run <a href="https://go.documentation.sas.com/?docsetId=pgmdiff&amp;docsetTarget=p06ibhzb2bklaon1a86ili3wpil9.htm&amp;docsetVersion=3.4&amp;locale=en" target="_blank" rel="noopener">CAS Language (CASL)</a> statements and return the scores. Creating the score has two steps:
+<ol>
+ 	<li>upload user input:  The user input is converted to a csv and uploaded to a CAS table</li>
+ 	<li>Submit CASL statements to SAS Viya (CAS) to do the scoring</li>
+</ol>
+The code in src/scoreMain in the repository accomplishes both these steps.
+
+Each of these steps use a  <a href="https://go.documentation.sas.com/?cdcId=pgmcdc&amp;cdcVersion=8.11&amp;docsetId=allprodsactions&amp;docsetTarget=titlepage.htm&amp;locale=en" target="_blank" rel="noopener">CAS action</a>:
+<ul>
+ 	<li style="list-style-type: none">
+<ul>
+ 	<li><strong>table.upload</strong> – to upload the user data into a CAS Table. The input data is converted into a comma-delimited file(csv) and then uploaded. The REST call using restaf looks like this:</li>
+</ul>
+</li>
+</ul>
+<pre lang="javascript">    let csv = makecsv(input); /* create a csv */
+    let JSON_Parameters = {
+        casout: {
+            caslib : 'casuser', /* a valid caslib */
+            name   : 'INPUTDATA', /* name of output file on cas server */
+            replace: true
+        },
+
+        importOptions: {
+            fileType: 'csv' /* type of the file being uploaded */
+        }
+    };
+
+    let payload = {
+        headers: { 'JSON-Parameters': JSON_Parameters },
+        data   : csv,
+        action : 'table.upload'
+    };
+
+    let result = await store.runAction(session, payload);
+
+</pre>
+<ul>
+ 	<li style="list-style-type: none">
+<ul>
+ 	<li><strong>sccasl.runcasl</strong> – execute CASL statements to do the scoring</li>
+</ul>
+</li>
+</ul>
+<pre lang="javascript"> // Setup casl statements 	 	 
+ let caslStatements = `	 	 
+ loadactionset "astore";	 	 
+ action table.loadTable /	 	 
+ caslib = "${rstore.caslib}" 	 	 
+ path = "${rstore.name}.sashdat"	 	 
+ casout = { caslib = "${rstore.caslib}" name = "${rstore.name}" replace=TRUE};	 	 
+ 	 	 
+ action astore.score /	 	 
+ table = { caslib= 'casuser' name = 'INPUTDATA' } 	 	 
+ rstore = { caslib= "${rstore.caslib}" name = '${rstore.name}' }	 	 
+ out = { caslib = 'casuser' name = 'OUTPUTDATA' replace= TRUE};	 	 
+ action table.fetch r = result/	 	 
+ format = TRUE	 	 
+ table = { caslib = 'casuser' name = 'OUTPUTDATA' } ;	 	 
+ send_response(result);	 	 
+ `;	 	 
+ // execute cas actions	 	 
+ payload = {	 	 
+ action: 'sccasl.runcasl',	 	 
+ data : { code: caslStatements}	 	 
+ }	 	 
+ result = await store.runAction(session, payload);</pre>
+<h4></h4>
+<h4>Step 5: Create response</h4>
+AWS serverless functions must return data and error(s) in a certain form. The two functions setPayload.js and setError.js accomplish this.
+<pre lang="javascript">module.exports = function setPayload (body) {
+    return {
+        "statusCode": 200,
+        "headers"   : {
+            'Access-Control-Allow-Origin'     : '*',
+            'Access-Control-Allow-Credentials': true
+          },
+        "isBase64Encoded": false,
+        "body"           : JSON.stringify(body)
+    }
+  }</pre>
+<h2></h2>
+<h2>Using the serverless functions</h2>
+When the serverless function is deployed you will get a link for each of the functions. In our case we receive the request shown below (with xxxx replaced with appropriate information).
+<pre lang="bash">GET - https://xxxx.amazonaws.com/demo/app</pre>
+The first link serves up the web application. The user enters some values and the app calls the score serverless function to get the results.
+Alternatively, you can write your own application and make an http POST call to the score function using a link such as:
+<pre lang="bash">POST - https://xxxx.amazonaws.com/demo/score</pre>
+To invoke the web application, you will visit the link
+<pre lang="bash">https://xxxx.amazonaws.com/demo/app</pre>
+with your browser. You should see a display shown in Figure 3:
+
+[caption id="attachment_19296" align="aligncenter" width="702"]<a href="https://blogs.sas.com/content/sgf/files/2019/03/inputScreen.png"><img class="size-large wp-image-19296" src="https://blogs.sas.com/content/sgf/files/2019/03/inputScreen-1024x624.png" alt="" width="702" height="428" /></a> Figure 3: Application Input Screen[/caption]
+
+Entering values into the two fields and pressing Submit calls the second serverless function, score, and results in a pie chart as seen in Figure 4:
+
+[caption id="attachment_19297" align="aligncenter" width="702"]<a href="https://blogs.sas.com/content/sgf/files/2019/03/scoreReportScreen.png"><img class="size-large wp-image-19297" src="https://blogs.sas.com/content/sgf/files/2019/03/scoreReportScreen-1024x624.png" alt="" width="702" height="428" /></a> Figure 4: Score Report Screen[/caption]
+
+Please see the loan.html file in the <a href="https://github.com/sassoftware/viya-apps-serverless-score" target="_blank" rel="noopener"> GitHub repository</a> for details on the application. Displayed below is the relevant part of the Javascript in the loan.html. The score-function-url is the url for the score function. The payload was described earlier in this article. The http call is made using axios.
+<pre lang="javascript">async function runScore(inputValues ){
+    
+    let payload = {
+        astore: {
+            caslib: 'Public',
+            name: 'GRADIENT_BOOSTING___BAD_2'
+        },
+        input: inputValues
+    }
+    let config = {
+        url: {score-function-url}
+        method: 'POST',
+        data: payload
+    }
+    let r = await axios(config);
+    return r.data.score;
+
+}</pre>
+&nbsp;
+<h2>Porting to other cloud providers</h2>
+The cloud provider dependent information is handled in  the following functions: <strong>score.js, parseEvent.js, setPayload.js and setError.js</strong>. The rest of the code is host agnostic. In writing your own functions the recommendation is to follow the same pattern as much as possible. The generic code is then available in its own repository for reuse with other providers and applications.
+<h2>Go try it yourself</h2>
+I have shown you how to deliver your SAS Viya applications as serverless functions. To access more examples please see the <a href="https://github.com/sassoftware/restaf-demos" target="_blank" rel="noopener">GitHub restaf-demos repository</a>.
+<h2>Supporting Resources</h2>
+<ul>
+ 	<li>The tools from <a href="https://serverless.com/" target="_blank" rel="noopener">serverless.com</a> are quite useful. They allow you to develop and test the functions locally and then deploy them when ready.</li>
+ 	<li>Refer to this introductory tutorial for step-by-step instructions on <a href="https://medium.com/@oscar_reyes/basic-serverless-tutorial-with-node-js-1ee09441ee3e" target="_blank" rel="noopener">building an application in a serverless framework</a> with Node.js.</li>
+</ul>

@@ -24,10 +24,12 @@
 let restaf = require('../lib/restaf');
 let payload = require('./config')('restaf.env');
 let casSetup = require('./lib/casSetup');
+let fs= require('fs');
 
+let pem = fs.readFileSync(`${process.env.PEMFILE}`);
 let prtUtil = require('../prtUtil')
 
-let store = restaf.initStore();
+let store = restaf.initStore({pem: pem});
 async function example () {
     let { session } = await casSetup(store, payload, 'cas');
     // console.log(JSON.stringify(session.links(), null, 4));

@@ -17,7 +17,8 @@
 
 
 import { put, call, take } from 'redux-saga/effects';
-import { SASLogonOauthLink } from '../utils';
+import { SASLogonOauthLink} from '../utils';
+import { SASLogoffOauthLink} from '../utils';
 import { VIYA_LOGON, VIYA_LOGON_COMPLETE, BEGIN_LOGON, VIYA_LOGOFF, VIYA_LOGON_IMPLICIT,
          VIYA_LOGON_SERVER } from '../actionTypes';
 
@@ -36,6 +37,7 @@ function*  logonAction () {
                 type   : VIYA_LOGOFF,
                 payload: null
             };
+            payload = yield call (sasLogoff, action)
             yield put (payload);
            }
     }
@@ -80,4 +82,10 @@ function viyaLogonError (payload) {
     }
 }
 
+function sasLogoff (action){
+    let t = SASLogoffOauthLink();
+    return {
+        type: VIYA_LOGOFF,
+    }
+}
 export default logonAction;

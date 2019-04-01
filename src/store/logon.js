@@ -114,6 +114,7 @@ const logon = (store, ipayload) => {
                     type   : (payload.authType === 'LOGOFF') ? 'LOGOFF' : VIYA_LOGON,
                     payload: { ...payload }
                 };
+                action.payload.pem = (store.config.hasOwnProperty('pem')) ? store.config.pem : null;
                 unSubscribe = store.subscribe(logonExit);
                 store.dispatch(action);
             }

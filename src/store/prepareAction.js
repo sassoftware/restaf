@@ -70,7 +70,7 @@ const prepareAction = function (store, iroute, actionType, payload, delay,
         link
     } ;
 
-    if ( link.href.indexOf('casProxy') >= 0 ) {
+    if (link.href.indexOf('casProxy') >= 0) {
         serviceName = 'casProxy';
     }
     
@@ -79,9 +79,9 @@ const prepareAction = function (store, iroute, actionType, payload, delay,
     if (payload != null) {
         action.payload = payload;
     }
-    if ( xsrfHeader !== null ) {
+    if (xsrfHeader !== null) {
         
-        if ( payload != null ) {
+        if (payload != null) {
             action.payload.xsrf = xsrfHeader;
          } else {
             action.payload = {xsrf: xsrfHeader};

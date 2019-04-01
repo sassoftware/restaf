@@ -1,5 +1,7 @@
 # Changes 
 
+# 1.1.0 
+
 #1.0.0
 
    - Moving restaf to version 1 - no point on postponing it 

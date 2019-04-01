@@ -18,39 +18,8 @@
 
 "use strict";
 
-import { trustedGrant, implicitGrant, request } from  '../serverCalls' ;
-import { VIYA_LOGON_PASSWORD } from '../actionTypes';
+import {request } from  '../serverCalls' ;
 
-const SASLogonOauthLink = function (type) {
-
-    
-    if (type === VIYA_LOGON_PASSWORD || type == undefined) {
-        return (
-        {
-            logon: trustedGrant,
-            link : {
-                href        : '/SASLogon/oauth/token',
-                method      : 'POST',
-                rel         : 'logon',
-                responseType: 'application/json',
-                type        : 'application/x-www-form-urlencoded',
-                uri         : '/SASLogon/oauth/token'
-            }
-        });
-    } else {
-        return (
-        {
-            logon: implicitGrant,
-            link : {
-                href        : '/SASLogon/oauth/authorize',
-                method      : 'GET',
-                rel         : 'logon',
-                responseType: type,
-                uri         : '/SASLogon/oauth/authorize'
-            }
-        });
-    }
-};
 
 const SASLogoffOauthLink = function () {
     return (
@@ -69,4 +38,4 @@ const SASLogoffOauthLink = function () {
 /*
  * redirectUri not specified - /SASLogon/oauth/token?
  */
-export { SASLogonOauthLink, SASLogoffOauthLink };
+export { SASLogoffOauthLink };

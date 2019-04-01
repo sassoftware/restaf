@@ -36,7 +36,7 @@ let store = restaf.initStore();
 
 store.logon(payload)
     .then (msg => {
-        console.log( JSON.stringify(store.connection(), null, 4 ));
+        console.log(JSON.stringify(store.connection(), null, 4));
         console.log(`Logon Status: ${msg}`)
     })
     .catch(err => console.log(err));

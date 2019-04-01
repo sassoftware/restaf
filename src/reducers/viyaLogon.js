@@ -46,8 +46,8 @@ export function viyaLogon (state = initialState, action) {
         }
         case VIYA_LOGON_SERVER: {
             /**/
-            let config    = action.payload;
-            let iconfig   = config.iconfig;
+            let config    = action.payload.iconfig;
+          
             /* */
             let newOne = {
                 type     : 'server',
@@ -56,9 +56,10 @@ export function viyaLogon (state = initialState, action) {
                 desc     : 'Server',
                 logonInfo: {
                     type     : 'server',
-                    host     : iconfig.host,
-                    tokenType: (iconfig.hasOwnProperty ('tokenType') === true) ? iconfig.tokenType : null,
-                    token    : (iconfig.hasOwnProperty ('token') === true) ? iconfig.token : null
+                    host     : config.host,
+                    tokenType: (config.hasOwnProperty ('tokenType') === true) ? config.tokenType : null,
+                    token    : (config.hasOwnProperty ('token') === true) ? config.token : null,
+                    pem      : (config.hasOwnProperty('pem')) ? config.pem : null
                 }
             };
 
@@ -89,7 +90,7 @@ export function viyaLogon (state = initialState, action) {
                 desc     : 'implicit',
                 logonInfo: { ...config}
                 };
-
+            
             let temp = {
                 currentConnection: state.get('currentConnection') +  1,
                 runStatus        : 'ready',
@@ -143,7 +144,8 @@ function newConnection (payload) {
             type     : 'trusted',
             host     : iconfig.host,
             tokenType: results['token_type'],
-            token    : results['access_token']
+            token    : results['access_token'],
+            pem      : iconfig.pem
         },
         statusInfo: setGoodStatus(payload)
     };

@@ -26,10 +26,13 @@ import { createReducer } from '../reducers';
 import injectAsyncReducers from './injectAsyncReducers';
 
 
+
+
 /**
  *
  * Configure the Redux store with redux-saga middleware. Store extended for SAS Viya
- * @constructor
+ * config:
+ *   casProxy, pem
  */
 export default function configureSagaStore (config) {
 

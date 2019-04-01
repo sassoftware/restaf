@@ -26,8 +26,13 @@
 
 export const VIYA_LOGON                = 'VIYA_LOGON';
 export const BEGIN_LOGON               = 'BEGIN_LOGON';
-export const VIYA_LOGOFF               = 'VIYA_LOGOFF';
 export const VIYA_LOGON_COMPLETE       = 'VIYA_LOGON_COMPLETE' ;
+
+export const VIYA_LOGOFF               = 'VIYA_LOGOFF';
+export const BEGIN_LOGOFF              = 'BEGIN_LOGOFF';
+export const VIYA_LOGOFF_COMPLETE      = 'VIYA_LOGOFF_COMPLETE';
+
+
 export const VIYA_LOGON_SERVER         = 'server' ;
 export const VIYA_LOGON_PROXY          = 'server' ;
 export const VIYA_LOGON_PASSWORD       = 'password';

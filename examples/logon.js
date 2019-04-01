@@ -37,7 +37,12 @@ let store = restaf.initStore();
 store.logon(payload)
     .then (msg => {
         console.log(JSON.stringify(store.connection(), null, 4));
-        console.log(`Logon Status: ${msg}`)
+        console.log(`Logon Status: ${msg}`);
+        console.log('calling logoff');
+        return store.logoff();
+    })
+    .then (lmsg => {
+        console.log(`Connection status after logoff: ${lmsg}`);
     })
     .catch(err => console.log(err));
 

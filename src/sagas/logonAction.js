@@ -16,11 +16,12 @@
 'use strict';
 
 
-import { put, call, take } from 'redux-saga/effects';
+import { put, call, take, select } from 'redux-saga/effects';
+import selectLogonInfo  from '../store/selectLogonInfo';
 import { SASLogonOauthLink} from '../utils';
 import { SASLogoffOauthLink} from '../utils';
 import { VIYA_LOGON, VIYA_LOGON_COMPLETE, BEGIN_LOGON, VIYA_LOGOFF, VIYA_LOGON_IMPLICIT,
-         VIYA_LOGON_SERVER } from '../actionTypes';
+         VIYA_LOGON_SERVER, BEGIN_LOGOFF, VIYA_LOGOFF_COMPLETE } from '../actionTypes';
 
 function*  logonAction () {
     let f = true;
@@ -28,25 +29,21 @@ function*  logonAction () {
     while (f) {
         let action = yield take(VIYA_LOGON);
         yield put ({ type: BEGIN_LOGON });
-        const payload = yield call (sasLogon, action);
+        let  payload = yield call (sasLogon, action);
         yield put(payload);
         if (payload.error === false) {
-
-            yield take(VIYA_LOGOFF);
-            let payload = {
-                type   : VIYA_LOGOFF,
-                payload: null
-            };
-            payload = yield call (sasLogoff, action)
-            yield put (payload);
+            action           = yield take(VIYA_LOGOFF);
+            yield put ({ type: BEGIN_LOGOFF});
+            
+            let config = {...action};
+            config.logonInfo = yield select(selectLogonInfo)
+            let payload      = yield call (sasLogoff, config);
+            yield put(payload);
            }
     }
 }
-
 function sasLogon (action) {
     let config  = { ...action.payload };
-    /* */
-
     if (config.authType === VIYA_LOGON_SERVER|| config.authType === VIYA_LOGON_IMPLICIT) {
         return {
             type   : config.authType,
@@ -82,10 +79,17 @@ function viyaLogonError (payload) {
     }
 }
 
-function sasLogoff (action){
+function sasLogoff (config){
     let t = SASLogoffOauthLink();
-    return {
-        type: VIYA_LOGOFF,
-    }
+    config.link = t.link;
+    return (t.logoff(config)
+            .then(response => {
+                return {type: VIYA_LOGOFF_COMPLETE, error: false, payload: response}
+            })
+            .catch(error => {
+                return {type: VIYA_LOGOFF_COMPLETE, error: true, payload: error}
+            })
+    )
 }
+
 export default logonAction;

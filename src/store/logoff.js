@@ -26,11 +26,18 @@ function logoff (store) {
     return new Promise((resolve, reject) => {
         let action = {
             type   : VIYA_LOGOFF,
-            payload: {},
-           
+            payload: {}   
         };
         let logoffExit = () => {
-            resolve(true);
+            let newState = store.getState().connections;
+            let runStatus = newState.get('runStatus');
+                if (runStatus === 'idle') {
+                    unSubscribe();
+                    resolve(runStatus);
+                } else if (runStatus === 'error') {
+                    unSubscribe();
+                    reject(newState.get('statusInfo').toJS());
+                }
         };
 
         unSubscribe = store.subscribe(logoffExit);

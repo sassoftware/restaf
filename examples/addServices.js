@@ -57,6 +57,8 @@ async function setup (payload, ...args) {
 
     console.log(JSON.stringify(files.links('files', 'link'), null, 4));
 
+    store.endStore();
+    console.log(store.getServices());
     return true;
     }
 

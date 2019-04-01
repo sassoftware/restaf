@@ -17,8 +17,8 @@
  */
 
 'use strict';
-
+import {END} from "redux-saga"
 const endStore = (store) => {
-    store.dispatch({ type: 'END' });
+    store.dispatch(END);
 };
 export default endStore;

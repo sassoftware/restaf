@@ -1,7 +1,12 @@
 # Changes 
 
 # 1.1.0 
+   - Support passing pem for https calls as part of the configuration object to initStore. Make sure SAS_SSL_ENABLED is set to YES in the env file. (Tip: Use openssl x509 command to create pem from ssl certificate).
+       
+         let store = restaf.initStore({pem: 'your pem'});
 
+   - Finished support for store.logoff(). Be aware that the store object is not useful. If necessary recreate the store with another nitStore call. 
+   
 #1.0.0
 
    - Moving restaf to version 1 - no point on postponing it 

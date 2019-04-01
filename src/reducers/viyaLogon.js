@@ -22,7 +22,8 @@
 let Immutable = require('immutable');
 const { Map, fromJS } = Immutable;
 
-import { VIYA_LOGON_COMPLETE, BEGIN_LOGON, VIYA_LOGOFF, VIYA_LOGON_SERVER, VIYA_LOGON_IMPLICIT } from '../actionTypes'
+import { VIYA_LOGON_COMPLETE, BEGIN_LOGON, VIYA_LOGOFF, VIYA_LOGON_SERVER, VIYA_LOGON_IMPLICIT, VIYA_LOGOFF_COMPLETE,
+         BEGIN_LOGOFF} from '../actionTypes'
 import { setGoodStatus, setBadStatus, statusInfoStruct } from '../utils';
 
 let  initialState = fromJS(
@@ -44,11 +45,9 @@ export function viyaLogon (state = initialState, action) {
         case BEGIN_LOGON: {
             return  state.set('runStatus', 'busy');
         }
+
         case VIYA_LOGON_SERVER: {
-            /**/
             let config    = action.payload.iconfig;
-          
-            /* */
             let newOne = {
                 type     : 'server',
                 id       : 1,
@@ -74,8 +73,6 @@ export function viyaLogon (state = initialState, action) {
             return fromJS(temp);
         }
         case VIYA_LOGON_IMPLICIT: {
-            /* */
-
             let config    = action.payload.iconfig;
 
             if (action.error === true) {
@@ -123,10 +120,22 @@ export function viyaLogon (state = initialState, action) {
             });
         }
 
-        case  VIYA_LOGOFF: {
-           return initialState;
-           }
+        case VIYA_LOGOFF: {
+           return state;
+        }
 
+        case BEGIN_LOGOFF: {
+            return  state.set('runStatus', 'busy');
+        }
+        case VIYA_LOGOFF_COMPLETE: {
+            if (action.error === true) {
+                return state.withMutations(s => {
+                    s.set('runStatus', 'error').set('statusInfo', fromJS(setBadStatus(action.payload)))
+                });
+            }
+            
+            return initialState;
+        }
         default:
             return state ;
     }

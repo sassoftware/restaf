@@ -7,7 +7,7 @@ let casSetup = require('./lib/casSetup');
 let prtUtil  = require('../prtUtil')
 
 let store = restaf.initStore();
-async function example() {
+async function example () {
        let {session} = await casSetup(store, payload, 'cas');
        // console.log(JSON.stringify(session.links(), null, 4));
        let casl = `
@@ -19,8 +19,8 @@ async function example() {
             action table.fetch r=r2/
               table= { caslib= 'casuser', name= 'b' } ;
               run;
-           r = {a:100};
-           send_response({a=r1, b=r2});
+           c = {a=10, b=20};
+           send_response({a=r1, b=r2, c=c});
         `;
              
         let p = {
@@ -31,13 +31,12 @@ async function example() {
         let r =  await store.runAction(session,p);
         debugger;
        
-        console.log( r.items().toJS());
+        console.log (r.items().toJS());
         let a = r.items().toJS();
         console.log(a);
-        //console.log(r.items('results').toJS());
         return 'done';
-    };
+    }
 
 example() 
- .then ( r => console.log(r))
- .catch( err => console.log(err))
+ .then (r => console.log(r))
+ .catch (err => console.log(err))

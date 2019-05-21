@@ -22,7 +22,7 @@ let restaf         = require('../lib/restaf');
 let payload     = require('./config')('restaf.env');
 
 let store = restaf.initStore();
-async function casSession (store, payload, sessionName) {
+async function casSession (store, payload, sesName) {
 
     // logon
 
@@ -40,7 +40,7 @@ async function casSession (store, payload, sessionName) {
    debugger;
     let casserver = servers.itemsList(0);
     console.log(`cas servername: ${casserver}`);
-    let session = await store.apiCall(servers.itemsCmd(casserver, 'createSession'), { data: { name: sessionName } });
+    let session = await store.apiCall(servers.itemsCmd(casserver, 'createSession'), { data: { name: sesName } });
     console.log('--------------------------------------');
     console.log(session.links('execute' , 'link', 'href'));
     console.log('--------------------------------------');
@@ -48,19 +48,39 @@ async function casSession (store, payload, sessionName) {
     let sessionList = await store.apiCall(servers.itemsCmd(casserver, 'sessions'));
 
     console.log('List of sessions');
-    console.log(`No of sessions: ${sessionList.size}`);
+    console.log(`No of sessions: ${sessionList.itemsList().size}`);
 
     sessionList.itemsList().map((l, k) => {
         console.log(`${k} = ${l}`);
+        let thttp = sessionList.items(l, 'cmds', 'execute', 'link', 'href');
+        let tproxy = sessionList.items(l, 'cmds', 'casproxy', 'link', 'href');
     });
 
-    console.log(`rels  for a session links`);
-    session.links().forEach((s,k) => {
-        console.log(k);
-    });
-    return 'ok';
+    let sessionName = sessionList.itemsList(sessionList.itemsList().size - 1);
+    console.log(sessionName);
+    payload = {
+        action: 'echo',
+        data  : {x: `Hi there old friend`}
+    }
+    let execcmd = sessionList.items(sessionName, 'cmds', 'execute');
+   // console.log(JSON.stringify(execcmd, null,4));
+
+    let r   = await store.apiCall(sessionList.items(sessionName, 'cmds', 'execute'), payload);
+   // console.log(JSON.stringify(r.items(), null, 4));
+
+    let selfcmd = sessionList.items(sessionName, 'cmds', 'self');
+    session = await store.apiCall(selfcmd);
+    payload = {
+        action: 'echo',
+        data  : {x: `paul's example`}
+    }
+
+    r = await store.runAction(session, payload);
+
+    console.log(JSON.stringify(r.items(), null,4));
+    return 'done';
 }
 
 casSession(store, payload, 'last')
     .then(r => console.log(r))
-    .catch(err => console.log(err));
+    .catch(err => console.log(JSON.stringify(err, null,4)));

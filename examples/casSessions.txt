@@ -44,10 +44,6 @@ async function casSession (store, payload, sesName) {
 
     console.log(`name of New session: ${session.items('name')}`);
     console.log(`id of New  session: ${id}`);
-    console.log(JSON.stringify(session.links('execute', 'link', 'href'), null, 4));
-    console.log(JSON.stringify(session.links('casproxy', 'link', 'href'), null, 4));
-    console.log(JSON.stringify(session.links('self', 'link'), null, 4));
-
 
 
     //
@@ -75,9 +71,6 @@ async function casSession (store, payload, sesName) {
     id = sessionList.items(name, 'data','id');
 
     console.log(`Found id: ${id}`)
-    console.log(JSON.stringify(sessionList.itemsCmd(name, 'execute', 'link'), null, 4));
-    console.log(JSON.stringify(sessionList.itemsCmd(name, 'casproxy', 'link'), null, 4));
-    console.log(JSON.stringify(sessionList.itemsCmd(name, 'self', 'link'), null, 4));
 
     //
     // need to reattach to the session that was found
@@ -89,10 +82,6 @@ async function casSession (store, payload, sesName) {
 
     console.log(`Attached session name: ${session.items('name')}`);
     console.log(`Attached Session id: ${session.items('id')}`);
-    console.log(JSON.stringify(session.links('execute', 'link', 'href'), null, 4));
-    console.log(JSON.stringify(session.links('casproxy', 'link', 'href'), null, 4));
-    console.log(JSON.stringify(sessionList.itemsCmd(name, 'self', 'link'), null, 4));
-
 
     //
     // Now use the attached session

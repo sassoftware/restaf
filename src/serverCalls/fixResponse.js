@@ -15,6 +15,12 @@
  ---------------------------------------------------------------------------------------*/
  'use strict';
 
+ let fixImages = require('./fixImages');
+ let fixReports = require('./fixReports');
+ let casSessionLinks = require('./casSessionLinks');
+ let reduceCasResults = require('./reduceCasResults');
+
+
  function fixResponse (response) {
  
      //
@@ -42,23 +48,18 @@
      let iLink = response.data.iconfig.link;
  
      fixCas(iLink, response);
-     fixImages(iLink, response);
-     fixReports(iLink, response);
+     if (iLink.href.indexOf("reportImages/jobs") > 0){
+        fixImages(response);
+     }
+     if (iLink.href === "/reports/reports" && iLink.method === "GET") {
+        fixReports(response);
+     }
      return response;
  }
  
- function fixImages (iLink, response){
-     if (iLink.href.indexOf('reportImages/jobs') > 0) {
-         if (response.data.results.hasOwnProperty('images') === true) {
-             let images = response.data.results.images;
-             let items = (Array.isArray(images) === true) ? [].concat(images) : Object.assign({}, images);
-             items[0].id = 'image';
-             response.data.results.items = items;
-             delete response.data.results.images;
-         }
-     }
- }
- // TODO: rework this routine - it is a mess
+ // Plan:
+ // step 1: propogate server name and cashttp info
+
  function fixCas (iLink, response){
      // special handling for cas
      debugger;
@@ -66,44 +67,42 @@
      if (iLink.rel === 'self' && iLink.type === 'application/vnd.sas.cas.session.summary') {
         response.data.results.links = response.data.results.links.concat(fixCasSession(iLink, response.data.results));
         response.data.results.name2 = response.data.results.name.split(':')[0];
-        
-        // response.data.results       = { items: [ Object.assign( {}, response.data.results ) ] };
     }
  
     // create a new session
      else if (iLink.rel === 'createSession' && iLink.responseType === 'application/vnd.sas.cas.session') {
          response.data.results.links = response.data.results.links.concat(fixCasSession(iLink, response.data.results));
          response.data.results.name2 = response.data.results.name.split(':')[0];
-         
-         // response.data.results       = { items: [ Object.assign( {}, response.data.results ) ] };
      }
  
      if (iLink.hasOwnProperty('itemType') && iLink.itemType === 'application/vnd.sas.cas.session.summary') {
          debugger;
          let items = response.data.results.items;
-         let harray = iLink.href.split('/');
+         /* let harray = iLink.href.split('/');
          harray.shift();
          let server = harray [ 2 ];
-         // let pre   = `/casProxy/servers/${server}/cas/sessions`;
+         */
+         // let pre   = `/casProxy/servers/${iLink.server}/cas/sessions`;
  
          let pre = `/${iLink.casHttp}/cas/sessions`;
          for (let i = 0; i < items.length; i++) {
              let item = items [i];
-             let uri = `/casProxy/servers/${server}/cas/sessions/${item.id}`;
+             let uri = `/casProxy/servers/${iLink.server}/cas/sessions/${item.id}`;
              let urihttp = `${pre}/${item.id}`;
              debugger;
              item.links = item.links.map(l => {
-                l.casHttp=iLink.casHttp;
+                l.casHttp = iLink.casHttp;
+                l.server  = iLink.server;
                 return l;
             });
-             item.links = item.links.concat(casSessionLinks(uri, urihttp, iLink.casHttp));
+             item.links = item.links.concat(casSessionLinks(uri, urihttp, iLink.casHttp, iLink.server));
              
          }
      }
  
      if (iLink.hasOwnProperty('customHandling')) {
          debugger;
-         response.data.results = reduceCasResult(response.data.results);
+         response.data.results = reduceCasResults(response.data.results);
          response.data.results = { items: Object.assign({}, response.data.results) };
          response.data.results.castomHandling = iLink.customHandling;
      }
@@ -128,6 +127,7 @@
              let name = item.name;
              let ll = item.links.map(l => {
                  l.casHttp = `${name}-http`; /* save the http info to propogate to sessions */
+                 l.server  = name;
                  return l;
              });
              item.links = ll;
@@ -137,111 +137,32 @@
  
  }
  
- function fixReports (iLink, response) {
-     if (iLink.href === '/reports/reports' && iLink.method === 'GET') {
-         let items = response.data.results.items;
-         for (let i = 0; i < items.length; i++) {
-             let reportUri = `/SASReportViewer/?reportUri=/reports/reports/${items[i].id}`;
-             let l = {
-                 method  : 'GET',
-                 href    : reportUri,
-                 rel     : 'viewer',
-                 uri     : reportUri,
-                 type    : 'text/html',
-                 itemType: 'text/html',
-                 title   : 'Report Viewer',
-                 extended: true
-             };
- 
-             items[i].links.push(l);
-         }
-     }
- }
  
  function fixCasSession (iLink, results) {
      debugger;
      // proprogate casHttp
      results.links = results.links.map(l => {
-        l.casHttp=iLink.casHttp;
+        l.casHttp = iLink.casHttp;
+        l.server  = iLink.server;
         return l;
     });
      return sessionLinks(iLink, results.id).concat(results.links);
  }
  
- function reduceCasResult (data){
-     let tables = {} ;
-     if (data.hasOwnProperty ('results') === false) {
-         return data ;
-     }
-     let results = Object.assign({}, data.results);
-     for (let k in results) {
-         //noinspection JSUnfilteredForInLoop
-         let o = results[ k ];
-         if (o.hasOwnProperty('_ctb') === true  && o[ '_ctb' ] === true) {
-             //noinspection JSUnfilteredForInLoop
-             tables[ k ] = Object.assign({}, o);
-             //noinspection JSUnfilteredForInLoop
-            // delete data.results[ k ];
-         }
-     }
-     data.tables = tables;
-     return data;
- 
- }
  
  function sessionLinks (iLink, sessionId) {
      /**/
  
-     let harray = iLink.href.split('/');
+    /* let harray = iLink.href.split('/');
      let server = harray[harray.findIndex((s=> s === 'servers'))+1];
-     let uri = `/casProxy/servers/${server}/cas/sessions/${sessionId}`;
+     */
+
+     let uri = `/casProxy/servers/${iLink.server}/cas/sessions/${sessionId}`;
      let urihttp = `/${iLink.casHttp}/cas/sessions/${sessionId}`;
-     return casSessionLinks(uri, urihttp, iLink.casHttp);
+     // propgate server name also
+     return casSessionLinks(uri, urihttp, iLink.casHttp, iLink.server);
  }
- function casSessionLinks (uri, urihttp, casHttp){
  
-     return  [
-         {
-             method        : 'POST',
-             href          : `${uri}/actions`,/* payload: data:...., qs: {action: ...} */
-             rel           : 'casproxy',
-             uri           : `${uri}/actions`,
-             responseType  : 'application/json',
-             type          : 'application/json',
-             itemType      : 'application/json',
-             title         : 'Run CAS Action',
-             customHandling: 'casExecute',
-             casHttp       : casHttp,
-             extended      : true
-         },
-         {
-            method        : 'POST',
-            href          : `${urihttp}/actions`,/* payload: data:...., qs: {action: ...} */
-            rel           : 'execute',
-            uri           : `${urihttp}/actions`,
-            responseType  : 'application/json',
-            type          : 'application/json',
-            itemType      : 'application/json',
-            title         : 'Run CAS Action',
-            customHandling: 'casExecute',
-            casHttp       : casHttp,
-            extended      : true
-        },
-         {
-             method        : 'GET',
-             href          : `${uri}/isIdle`, /* need to convert true/false to busy and completed */
-             rel           : 'state',
-             uri           : `${uri}/isIdle`,
-             responseType  : 'application/json',
-             type          : 'application/json',
-             itemType      : 'application/json',
-             title         : 'state',
-             customHandling: 'casState',
-             casHttp       : casHttp,
-             extended      : true
-         }
-     ];
- }
  
  export default fixResponse;
  

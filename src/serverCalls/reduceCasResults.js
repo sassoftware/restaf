@@ -5,6 +5,25 @@
 "use strict";
 module.exports = function reduceCasResult (data) {
   let tables = {};
+  let tableNames = [];
+  if (data.hasOwnProperty("results") === false) {
+    return data;
+  }
+  for (let k in data.results) {
+    //noinspection JSUnfilteredForInLoop
+    let o = data.results[k];
+    if (o.hasOwnProperty("_ctb") === true && o["_ctb"] === true) {
+      //noinspection JSUnfilteredForInLoop
+      tables[k] = o;
+      tableNames.push(o.name);
+    }
+  }
+  data.tables     = tables;
+  data.tableNames = tableNames;
+  return data;
+};
+/*
+ let tables = {};
   if (data.hasOwnProperty("results") === false) {
     return data;
   }
@@ -21,4 +40,4 @@ module.exports = function reduceCasResult (data) {
   }
   data.tables = tables;
   return data;
-};
+  */

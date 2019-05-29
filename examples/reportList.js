@@ -16,10 +16,10 @@
  *
  */
 
-'use strict';
+"use strict";
 
-let restaf     = require ('../lib/restaf');
-let payload = require ('./config')('restaf.env');
+let restaf  = require("../lib/restaf");
+let payload = require("./config")("restaf.env");
 
 // Keys to the kingdom
 // Create the restaf
@@ -30,23 +30,23 @@ let store = restaf.initStore();
 // scrollCount limits number of 'next' calls
 
 async function example (store, logonPayload, counter) {
-    await store.logon(logonPayload);
-    let {reports} = await store.addServices('reports');
+  await store.logon(logonPayload);
+  let { reports } = await store.addServices("reports");
 
-    let reportsList = await store.apiCall(reports.links('reports'));
+  let reportsList = await store.apiCall(reports.links("reports"));
+  printList(reportsList.itemsList());
+  let next;
+  // do this loop while the service returns the next link or counter is 0
+  while ((next = reportsList.scrollCmds("next")) !== null && --counter > 0) {
+    reportsList = await store.apiCall(next);
     printList(reportsList.itemsList());
-    let next;
-    // do this loop while the service returns the next link or counter is 0
-    while(((next = reportsList.scrollCmds('next')) !== null) && --counter > 0)  {
-        reportsList = await store.apiCall(next);
-        printList(reportsList.itemsList());
-    }
+  }
 
-    return 'All Done';
+  return "All Done";
 }
 
-const printList =  (itemsList) => console.log(JSON.stringify(itemsList, null, 4));
+const printList = itemsList => console.log(JSON.stringify(itemsList, null, 4));
 
 example(store, payload, 2)
-   .then (status => console.log(status))
-   .catch(err => console.log(err));
+  .then(status => console.log(status))
+  .catch(err => console.log(err));

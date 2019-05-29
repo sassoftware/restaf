@@ -19,33 +19,30 @@
 /*
  * Simple echo action example
  */
-'use strict';
+"use strict";
 
-let restaf = require('../lib/restaf');
-let payload = require('./config')('restaf.env');
-let casSetup = require('./lib/casSetup');
-let fs= require('fs');
+let restaf = require("../lib/restaf");
+let payload = require("./config")("restaf.env");
+let casSetup = require("./lib/casSetup");
+let fs = require("fs");
 
 let pem = fs.readFileSync(`${process.env.PEMFILE}`);
-let prtUtil = require('../prtUtil')
+let prtUtil = require("../prtUtil");
 
-let store = restaf.initStore({pem: pem});
+let store = restaf.initStore({ pem: pem });
 async function example () {
-    let { session } = await casSetup(store, payload, 'cas');
-    // console.log(JSON.stringify(session.links(), null, 4));
-    let p = {
-        action: 'echo',
-        data  : { code: 'data casuser.data1; x=1;put x= ; run; ' }
-    };
-    debugger;
-    let r = await store.runAction(session, p);
-    console.log(r.items('log'));
-    return 'done';
+  let { session } = await casSetup(store, payload, "cas");
+  // console.log(JSON.stringify(session.links(), null, 4));
+  let p = {
+    action: "echo",
+    data  : { code: "data casuser.data1; x=1;put x= ; run; " }
+  };
+  debugger;
+  let r = await store.runAction(session, p);
+  console.log(r.items("log"));
+  return "done";
 }
 
 example()
-    .then(r => console.log(r))
-    .catch(err => console.log(err))
-
-
-
+  .then(r => console.log(r))
+  .catch(err => console.log(err));

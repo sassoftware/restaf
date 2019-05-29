@@ -16,39 +16,38 @@
  *
  */
 
-'use strict';
+"use strict";
 
-let restaf  = require('../lib/restaf');
-let payload = require ('./config')('restaf.env') ;
+let restaf  = require("../lib/restaf");
+let payload = require("./config")("restaf.env");
 
 let store = restaf.initStore();
 
 // Pagination
 
 async function example (store, logonPayload, counter) {
-    await store.logon(logonPayload);
-    let {files} = await store.addServices('files');
+  await store.logon(logonPayload);
+  let { files } = await store.addServices("files");
 
-    let filesList = await store.apiCall(files.links('files'));
+  let filesList = await store.apiCall(files.links("files"));
+  printList(filesList.itemsList());
+  let next;
+  // do this loop while the service returns the next link or counter is 0
+
+  while ((next = filesList.scrollCmds("next")) !== null && --counter > 0) {
+    filesList = await store.apiCall(next);
     printList(filesList.itemsList());
-    let next;
-    // do this loop while the service returns the next link or counter is 0
+  }
 
-    while(((next = filesList.scrollCmds('next')) !== null) && --counter > 0)  {
-        filesList = await store.apiCall(next);
-        printList(filesList.itemsList());
-
-    }
-
-    return 'All Done';
+  return "All Done";
 }
 
-const printList =  (itemsList) => {
-    console.log('------------------------------');
-    itemsList.map(m => console.log(m));
-    // you can also do console.log(JSON.stringify(itemsList, null,4))
-}
+const printList = itemsList => {
+  console.log("------------------------------");
+  itemsList.map(m => console.log(m));
+  // you can also do console.log(JSON.stringify(itemsList, null,4))
+};
 
 example(store, payload, 10)
-   .then (status => console.log(status))
-   .catch(err => console.log(err));
+  .then(status => console.log(status))
+  .catch(err => console.log(err));

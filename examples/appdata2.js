@@ -19,9 +19,9 @@
 /*
  * Testing Application Data Management (setAppData and getAppData)
  */
-'use strict';
-let restaf = require('../lib/restaf');
-let prtUtil  = require('../prtUtil');
+"use strict";
+let restaf = require("../lib/restaf");
+let prtUtil = require("../prtUtil");
 
 debugger;
 let store1 = restaf.initStore();
@@ -30,22 +30,21 @@ let store2 = restaf.initStore();
 
 // Test appdata
 async function setup () {
+  debugger;
+  store1.setAppData("aaa", { x: 1, y: 1 });
+  let d = store1.getAppData();
+  prtUtil.printObj(d, "After first set");
 
-    debugger;
-    store1.setAppData('aaa', {x: 1, y: 1});
-    let d = store1.getAppData();
-    prtUtil.printObj(d, 'After first set');
+  store2.setAppData("aaa", { x: 2, y: 2 });
+  d = store2.getAppData();
+  prtUtil.printObj(d, "After first set");
 
-    store2.setAppData('aaa', {x: 2, y:2 });
-    d = store2.getAppData();
-    prtUtil.printObj(d, 'After first set');
+  d = store1.getAppData();
+  prtUtil.printObj(d, "After first set");
 
-    d = store1.getAppData();
-    prtUtil.printObj(d, 'After first set');
-    
-    return 'completed';
-    }
+  return "completed";
+}
 
 setup()
-   .then (r => console.log(r))
-   .catch(e => console.log(e));
+  .then(r => console.log(r))
+  .catch(e => console.log(e));

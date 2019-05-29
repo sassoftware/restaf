@@ -16,28 +16,27 @@
  *
  */
 
-'use strict';
+"use strict";
 
+let restaf = require("../lib/restaf");
+let payload = require("./config")("restaf.env");
+let store = restaf.initStore();
+let prtUtil = require("../prtUtil");
 
-let restaf     = require('../lib/restaf');
-let payload = require('./config')('restaf.env') ;
-let store   = restaf.initStore();
-let prtUtil = require('../prtUtil');
-
- /* --------------------------------------------------------------------------------
+/* --------------------------------------------------------------------------------
  * Logon to the restaf server and setup file service
  * ---------------------------------------------------------------------------------
  */
 
 async function setup (payload, ...args) {
-    let msg = await store.logon(payload);
-    prtUtil.print(`Logon status: ${msg}`);
-    let restafLinks = await store.addServices(...args);
-    prtUtil.print(store.getServices(), 'Current Service Folders');
-   
-    return true;
-    }
+  let msg = await store.logon(payload);
+  prtUtil.print(`Logon status: ${msg}`);
+  let restafLinks = await store.addServices(...args);
+  prtUtil.print(store.getServices(), "Current Service Folders");
 
-setup(payload, 'modelPublishing')
-   .then (r => console.log(r))
-   .catch(e => console.log(JSON.stringify(e, null, 4)));
+  return true;
+}
+
+setup(payload, "modelPublishing")
+  .then(r => console.log(r))
+  .catch(e => console.log(JSON.stringify(e, null, 4)));

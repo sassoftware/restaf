@@ -18,56 +18,55 @@
 /*
  * running a simple data step in CAS
  */
-'use strict';
+"use strict";
 
-let restaf      = require('../lib/restaf');
-let payload     = require('./config')('restaf.env');
-let casSetup    = require('./lib/casSetup');
-let listCaslibs = require('./lib/listCaslibs');
-let printCasTable = require('./lib/printCasTable');
-let prtUtil     = require('../prtUtil');
+let restaf = require("../lib/restaf");
+let payload = require("./config")("restaf.env");
+let casSetup = require("./lib/casSetup");
+let listCaslibs = require("./lib/listCaslibs");
+let printCasTable = require("./lib/printCasTable");
+let prtUtil = require("../prtUtil");
 
-let store = restaf.initStore({casProxy: true});
+let store = restaf.initStore({ casProxy: true });
 
 async function example (store, logonPayload, sessionName) {
-    let {apiCall} = store;
+  let { apiCall } = store;
 
-    let {servers, session} = await casSetup(store, payload, sessionName);
-    let p = {
-        action: 'datastep.runCode',
-        data  : { code: 'data casuser.score; x1=10;x2=20;x3=30; score1 = x1+x2+x3;run; '  }
-    };
-    await store.runAction(session, p);
+  let { servers, session } = await casSetup(store, payload, sessionName);
+  let p = {
+    action: "datastep.runCode",
+    data  : {
+      code: "data casuser.score; x1=10;x2=20;x3=30; score1 = x1+x2+x3;run; "
+    }
+  };
+  await store.runAction(session, p);
 
-    p = {
-        action: 'table.tableExists',
-        data  : { caslib: 'casuser', name: `score` }
-    };
-    await store.runAction(session, p);
+  p = {
+    action: "table.tableExists",
+    data  : { caslib: "casuser", name: `score` }
+  };
+  await store.runAction(session, p);
 
-    p = {
-        action: 'table.fetch',
-        data  : { table: { caslib: 'casuser', name: 'score' } }
-    };
+  p = {
+    action: "table.fetch",
+    data  : { table: { caslib: "casuser", name: "score" } }
+  };
 
-    let fetchResult = await store.runAction(session, p);
-    printCasTable(fetchResult, 'Fetch');
+  let fetchResult = await store.runAction(session, p);
+  printCasTable(fetchResult, "Fetch");
 
-    p = {
-        action: 'table.tableDetails',
-        data  : { caslib: 'casuser', name: `score` }
-    };
-    await store.runAction(session, p)
+  p = {
+    action: "table.tableDetails",
+    data  : { caslib: "casuser", name: `score` }
+  };
+  await store.runAction(session, p);
 
-   // await apiCall(session.links('delete'));
+  // await apiCall(session.links('delete'));
 
-    return 'Success';
+  return "Success";
 }
 
 // Run the example
-example(store, payload, 'example1')
-    .then  (msg => console.log(msg))
-    .catch (err => prtUtil.printErr(err));
-
-
-
+example(store, payload, "example1")
+  .then(msg => console.log(msg))
+  .catch(err => prtUtil.printErr(err));

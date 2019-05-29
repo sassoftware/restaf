@@ -16,43 +16,30 @@
  *
  */
 
-'use strict';
-/*
- * Copyright (c) 2017 by SAS Institute Inc., Cary, NC USA 27513
- * Author       : K. Deva Kumar
- * Last Modified: 9/3/17 11:04 AM
- *
- */
+"use strict";
 
-
- /* --------------------------------------------------------------------------------
+/* --------------------------------------------------------------------------------
  * Logon to the Viya server
  * ---------------------------------------------------------------------------------
  */
-let restaf   = require('../lib/restaf');
-let payload = require ('./config')('restaf.env') ;
-let fs = require('fs');
+let restaf  = require("../lib/restaf");
+let payload = require("./config")("restaf.env");
+let fs      = require("fs");
 
 let pem = fs.readFileSync(`${process.env.PEMFILE}`);
 
 //
 // Pass pem to store for https calls
 //
- 
-let store = restaf.initStore({pem: pem});
 
-store.logon(payload)
-    .then (msg => {
-        console.log(`Logon Status: ${msg}`);
-        console.log('calling logoff');
-        return store.logoff();
-    })
-    .then (lmsg => console.log(lmsg))
-    .catch(err => console.log(err));
+let store = restaf.initStore({ pem: pem });
 
-
-
-
-
-
-
+store
+  .logon(payload)
+  .then(msg => {
+    console.log(`Logon Status: ${msg}`);
+    console.log("calling logoff");
+    return store.logoff();
+  })
+  .then(lmsg => console.log(lmsg))
+  .catch(err => console.log(err));

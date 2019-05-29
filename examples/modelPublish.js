@@ -16,57 +16,54 @@
  *
  */
 
-'use strict';
+"use strict";
 
-
-let restaf     = require('../lib/restaf');
-let payload = require('./config')('restaf.env') ;
+let restaf  = require("../lib/restaf");
+let payload = require("./config")("restaf.env");
 let store   = restaf.initStore();
-let prtUtil = require('../prtUtil');
+let prtUtil = require("../prtUtil");
 
- /* --------------------------------------------------------------------------------
+/* --------------------------------------------------------------------------------
  * Logon to the restaf server and setup file service
  * ---------------------------------------------------------------------------------
  */
 
 async function setup (payload, ...args) {
-    let msg = await store.logon(payload);
-    prtUtil.print(`Logon status: ${msg}`);
-    debugger;
-    let {modelPublish} = await store.addServices(...args);
-    console.log(store.getServices());
+  let msg = await store.logon(payload);
+  prtUtil.print(`Logon status: ${msg}`);
+  debugger;
+  let { modelPublish } = await store.addServices(...args);
+  console.log(store.getServices());
 
-    let links = modelPublish.links();
-    //console.log(JSON.stringify(links, null, 4));
+  let links = modelPublish.links();
+  //console.log(JSON.stringify(links, null, 4));
 
-    console.log('------------- root links');
-    links.map((v,k) => {
-        console.log(`rel: ${k}`);
-        console.log(JSON.stringify(v.get('link'), null, 4));
+  console.log("------------- root links");
+  links.map((v, k) => {
+    console.log(`rel: ${k}`);
+    console.log(JSON.stringify(v.get("link"), null, 4));
+  });
 
-    })
-    
-    payload = {
-        qs: {
-            limit: 1000
-        }
+  payload = {
+    qs: {
+      limit: 1000
     }
+  };
 
-    let r = await store.apiCall(modelPublish.links('getPublishedModel'), payload);
+  let r = await store.apiCall(modelPublish.links("getPublishedModel"), payload);
 
-    console.log('------------------ links from getPublishedModel');
-    links = r.links();
-    links.map((v,k) => {
-        console.log(`rel: ${k}`);
-        console.log(JSON.stringify(v.get('link'), null, 4));
+  console.log("------------------ links from getPublishedModel");
+  links = r.links();
+  links.map((v, k) => {
+    console.log(`rel: ${k}`);
+    console.log(JSON.stringify(v.get("link"), null, 4));
+  });
 
-    })
+  r = await store.apiCall(r.links("up"));
 
-    r = await store.apiCall(r.links('up'));
+  return true;
+}
 
-    return true;
-    }
-
-setup(payload,'modelPublish')
-   .then (r => console.log(r))
-   .catch(e => console.log(JSON.stringify(e, null, 4)));
+setup(payload, "modelPublish")
+  .then(r => console.log(r))
+  .catch(e => console.log(JSON.stringify(e, null, 4)));

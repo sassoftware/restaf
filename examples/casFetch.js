@@ -19,48 +19,61 @@
 /*
  * Run a cas data step and then retrieve the created table
  */
-'use strict';
+"use strict";
 
-let restaf         = require('../lib/restaf');
-let casSetup    = require('./lib/casSetup');
+let restaf = require("../lib/restaf");
+let casSetup = require("./lib/casSetup");
 
-let prtUtil        = require('../prtUtil');
+let prtUtil = require("../prtUtil");
 
-let payload = require('./config')('restaf.env');
-let store   = restaf.initStore();
+let payload = require("./config")("restaf.env");
+let store = restaf.initStore();
 
-async function example (store, payload, sessionName){
+async function example (store, payload, sessionName) {
+  let { session } = await casSetup(store, payload, sessionName);
 
-    let {session} = await casSetup(store, payload, sessionName);
+  let actionPayload = {
+    action: "datastep.runCode",
+    data  : {
+      single: "YES",
+      code  : "data casuser.score; x1=10;x2=20;x3=30; score1 = x1+x2+x3;run; "
+    }
+  };
+  await store.runAction(session, actionPayload);
 
-    let actionPayload = {
-        action: 'datastep.runCode',
-        data  : { code: 'data casuser.score; x1=10;x2=20;x3=30; score1 = x1+x2+x3;run; '  }
-    };
-    await store.runAction(session, actionPayload );
+  // run fetch action
+  actionPayload = {
+    action: "table.fetch",
+    data  : { table: { caslib: "casuser", name: "score" } }
+  };
+  let actionResult = await store.runAction(session, actionPayload);
+  console.log("------------------ results from fetch");
+  // console.log(JSON.stringify(actionResult.items('results'), null, 4));
+  console.log(JSON.stringify(actionResult.items("tables"), null, 4));
+  console.log(JSON.stringify(actionResult.items("tableNames"), null, 4));
 
-   // run fetch action
-    actionPayload = {
-        action: 'table.fetch',
-        data  : { table: { caslib: 'casuser', name: 'score' } }
-    };
-    let actionResult = await store.runAction(session, actionPayload);
-    console.log(JSON.stringify(actionResult.items(), null, 4));
-    /*
-    prtUtil.view(actionResult, 'Result of fetch action');
-*/
+  // use fedsql to get the data
 
-    // delete session
-    await store.apiCall(session.links('delete'));
+  actionPayload = {
+    action: "sccasl.runcasl",
+    data  : {
+      code: `action fedsql.execDirect r= result/query="select * from casuser.score"; send_response(result);`
+    }
+  };
 
-    console.log(`session closed with Status Code ${actionResult.status}`);
-    return true;
+  actionResult = await store.runAction(session, actionPayload);
+  console.log("------------------------------------");
+  console.log("------------------- fedsql results");
+  //  console.log(JSON.stringify(actionResult.items('results'), null, 4));
+  console.log(JSON.stringify(actionResult.items("tables"), null, 4));
+  console.log(JSON.stringify(actionResult.items("tableNames"), null, 4));
+  // delete session
+  await store.apiCall(session.links("delete"));
+
+  console.log(`session closed with Status Code ${actionResult.status}`);
+  return true;
 }
 
-example(store, payload, 'cas')
-    .then(r => prtUtil.print({Status: 'All Done'}))
-    .catch(err => prtUtil.printErr(err));
-
-
-
-
+example(store, payload, "cas")
+  .then(r => prtUtil.print({ Status: "All Done" }))
+  .catch(err => prtUtil.printErr(err));

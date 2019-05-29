@@ -16,32 +16,16 @@
  *
  */
 
-'use strict';
-/*
- * Copyright (c) 2017 by SAS Institute Inc., Cary, NC USA 27513
- * Author       : K. Deva Kumar
- * Last Modified: 9/3/17 11:04 AM
- *
- */
+"use strict";
 
-
- /* --------------------------------------------------------------------------------
- * Logon to the Viya server
- * ---------------------------------------------------------------------------------
- */
-let restaf     = require('../lib/restaf');
+let restaf = require("../lib/restaf");
 
 let store = restaf.initStore();
 let payload = {
-    url   : 'https://www.sas.com',
-    method: 'GET'
-}
-store.request(payload)
-    .then (msg => console.log(`call complete`))
-    .catch(err => console.log(err));
-
-
-
-
-
-
+  url   : "https://www.sas.com",
+  method: "GET"
+};
+store
+  .request(payload)
+  .then(msg => console.log(`call complete`))
+  .catch(err => console.log(err));

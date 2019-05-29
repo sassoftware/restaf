@@ -18,72 +18,68 @@
 
 // running a  compute job
 
-'use strict';
+"use strict";
 
-let restaf      = require('../lib/restaf');
-let payload     = require('./config')('restaf.env');
+let restaf  = require("../lib/restaf");
+let payload = require("./config")("restaf.env");
 
 let store = restaf.initStore();
 
 async function example (store, logonPayload) {
+  let apiCall = store.apiCall;
+  // logon;
 
-    let apiCall = store.apiCall ;
-    // logon;
-    
-    let msg = await store.logon(logonPayload);
+  let msg = await store.logon(logonPayload);
 
-    // get root end points, get list of contexts and create a sessuin ysubg the first context
-    let {compute} = await store.addServices('compute');
+  // get root end points, get list of contexts and create a sessuin ysubg the first context
+  let { compute } = await store.addServices("compute");
 
-    let contexts  = await apiCall(compute.links('contexts'));
+  let contexts = await apiCall(compute.links("contexts"));
 
-    // lookup the name of the first context and then use it to get the associated createSession restafLink
-    let createSession = contexts.itemsCmd(contexts.itemsList(0), 'createSession');
-    let session       = await apiCall(createSession);
+  // lookup the name of the first context and then use it to get the associated createSession restafLink
+  let createSession = contexts.itemsCmd(contexts.itemsList(0), "createSession");
+  let session       = await apiCall(createSession);
 
-    // Now run a simple data step in that session
-    let payload = {
-            data: { code: [ `data _null_; do i = 1 to 100; x=1; end; run; ` ]  }
-    };
+  // Now run a simple data step in that session
+  let payload = {
+    data: { code: [ `data _null_; do i = 1 to 100; x=1; end; run; ` ] }
+  };
 
-    // Now execute the data step and wait for completion
-    let job    = await apiCall(session.links('execute'), payload);
-    let status = await store.jobState(job, null, 5, 2);
+  // Now execute the data step and wait for completion
+  let job = await apiCall(session.links("execute"), payload);
+  let status = await store.jobState(job, null, 5, 2);
 
-    if (status.data === 'running') {
-        throw `ERROR: Job did not complete in allotted time`;
-    } else {
-        let f = await store.apiCall(status.job.links('log'));
-        viewer(f);
-        switch(status.data) {
-            case 'warning': console.log(`Warning: check your log for warnings`); break;
-            case 'error':
-                throw `Please correct errors and rerun program`;
-            default:
-               break;
-        }
+  if (status.data === "running") {
+    throw `ERROR: Job did not complete in allotted time`;
+  } else {
+    let f = await store.apiCall(status.job.links("log"));
+    viewer(f);
+    switch (status.data) {
+      case "warning":
+        console.log(`Warning: check your log for warnings`);
+        break;
+      case "error":
+        throw `Please correct errors and rerun program`;
+      default:
+        break;
     }
+  }
 
-
-    return 'All Done';
+  return "All Done";
 }
 
-function viewer (folder){
-    let dataL = folder.items();
-    dataL.map((data) => {
-        let line = data.get('line').replace(/(\r\n|\n|\r)/gm, "");
-        if (line.length === 0) {
-            line = '  ';
-        }
-        console.log(line);
-    });
-
+function viewer (folder) {
+  let dataL = folder.items();
+  dataL.map(data => {
+    let line = data.get("line").replace(/(\r\n|\n|\r)/gm, "");
+    if (line.length === 0) {
+      line = "  ";
+    }
+    console.log(line);
+  });
 }
 
 // Run the example
 example(store, payload)
-    .then  (status  => console.log(status))
-    .catch (err => console.log(err));
-
-
-
+  .then(status => console.log(status))
+  .catch(err => console.log(err));

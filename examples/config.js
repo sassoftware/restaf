@@ -16,38 +16,39 @@
  *
  */
 
-'use strict';
+"use strict";
 
-let fs = require('fs');
+let fs = require("fs");
 
 module.exports = function config (defEnv) {
-
-    console.log(process.argv [ 2 ]);
-    let appEnv = (process.argv[ 2 ]  == null) ? defEnv : process.argv[ 2 ];
-    let data = fs.readFileSync(appEnv, 'utf8');
-    let d = data.split(/\r?\n/);
-    console.log('Configuration specified via restaf.env');
-    d.forEach(l => {
-        if (l.length > 0 && l.indexOf('#') === -1) {
-            let la = l.split('=');
-            if (la.length > 0) {
-                process.env[la[0]] = la[1];
-                console.log(`${la[0]}=${la[1]}`)
-            }
-        }
-    });
-    process.env.SAS_PROTOCOL = (process.env.SAS_SSL_ENABLED === 'YES') ? 'https://' : 'http://';
-    let viyaServer = process.env.VIYA_SERVER;
-    if ( viyaServer.indexOf('http') < 0 ) {
-        viyaServer = `${process.env.SAS_PROTOCOL}${process.env.VIYA_SERVER}`;
+  console.log(process.argv[2]);
+  let appEnv = process.argv[2] == null ? defEnv : process.argv[2];
+  let data = fs.readFileSync(appEnv, "utf8");
+  let d = data.split(/\r?\n/);
+  console.log("Configuration specified via restaf.env");
+  d.forEach(l => {
+    if (l.length > 0 && l.indexOf("#") === -1) {
+      let la = l.split("=");
+      if (la.length > 0) {
+        process.env[la[0]] = la[1];
+        console.log(`${la[0]}=${la[1]}`);
+      }
     }
-    return {
-        authType    : 'password',
-        host        : viyaServer,
-        user        : process.env['USER'],
-        password    : process.env['PASSWORD'],
-        clientID    : process.env['CLIENTID'],
-        clientSecret: (process.env.hasOwnProperty('CLIENTSECRET')) ? process.env[ 'CLIENTSECRET' ] : ''
-        };
-
-}
+  });
+  process.env.SAS_PROTOCOL =
+    process.env.SAS_SSL_ENABLED === "YES" ? "https://" : "http://";
+  let viyaServer = process.env.VIYA_SERVER;
+  if (viyaServer.indexOf("http") < 0) {
+    viyaServer = `${process.env.SAS_PROTOCOL}${process.env.VIYA_SERVER}`;
+  }
+  return {
+    authType    : "password",
+    host        : viyaServer,
+    user        : process.env["USER"],
+    password    : process.env["PASSWORD"],
+    clientID    : process.env["CLIENTID"],
+    clientSecret: process.env.hasOwnProperty("CLIENTSECRET")
+      ? process.env["CLIENTSECRET"]
+      : ""
+  };
+};

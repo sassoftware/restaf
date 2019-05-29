@@ -19,66 +19,62 @@
 /*
  * Adding a Service
  */
-'use strict';
+"use strict";
 
-let restaf         = require('../lib/restaf');
-let payload        = require('./config')('restaf.env');
-let prtUtil        = require('../prtUtil');
-let casSetup       = require('./lib/casSetup');
-let printCasTable  = require('./lib/printCasTable')
+let restaf        = require("../lib/restaf");
+let payload       = require("./config")("restaf.env");
+let prtUtil       = require("../prtUtil");
+let casSetup      = require("./lib/casSetup");
+let printCasTable = require("./lib/printCasTable");
 
 let store = restaf.initStore();
 
 async function example (store, logonPayload) {
+  let { apiCall } = store;
 
-    let {apiCall} = store ;
-    
-    // get root end points of casManagement
-    let {servers, session} = await casSetup(store,  logonPayload)
+  // get root end points of casManagement
+  let { servers, session } = await casSetup(store, logonPayload);
 
-    // get list of caslibs
-    let casServer = servers.itemsList(0);
-    let caslibs = await apiCall(servers.itemsCmd(casServer, 'caslibs'));
+  // get list of caslibs
+  let casServer = servers.itemsList(0);
+  let caslibs = await apiCall(servers.itemsCmd(casServer, "caslibs"));
 
-    prtUtil.view(caslibs, 'caslibs');
-    let executeCmd = session.links('execute');
+  prtUtil.view(caslibs, "caslibs");
+  let executeCmd = session.links("execute");
 
-    for (let i=0; i < caslibs.itemsList().size ; i++) {
-        let s = caslibs.itemsList(i);
-        let parms = {
-            allFiles: true,
-            caslib: s
-        };
-        let p = {
-            action: 'table.fileInfo',
-            data: parms
-        }
-        let tables = await apiCall(executeCmd, p);
-        printCasTable(tables, 'FileInfo');
-    }
+  for (let i = 0; i < caslibs.itemsList().size; i++) {
+    let s = caslibs.itemsList(i);
+    let parms = {
+      allFiles: true,
+      caslib  : s
+    };
+    let p = {
+      action: "table.fileInfo",
+      data  : parms
+    };
+    let tables = await apiCall(executeCmd, p);
+    printCasTable(tables, "FileInfo");
+  }
 
-    for (let i=0; i < caslibs.itemsList().size ; i++) {
-        let s = caslibs.itemsList(i);
-        let parms = {
-            allFiles: true,
-            caslib: s
-        };
-    
-       console.log( `-------------- ${s}`);
-       let tb = caslibs.itemsCmd(s, 'tables');
-       console.log( JSON.stringify(tb, null, 4));
-       let tables = await apiCall(tb);
-       console.log(JSON.stringify(tables.itemsList(), null, 4));
-       console.lo
-    }
+  for (let i = 0; i < caslibs.itemsList().size; i++) {
+    let s = caslibs.itemsList(i);
+    let parms = {
+      allFiles: true,
+      caslib  : s
+    };
 
-    return true;
+    console.log(`-------------- ${s}`);
+    let tb = caslibs.itemsCmd(s, "tables");
+    console.log(JSON.stringify(tb, null, 4));
+    let tables = await apiCall(tb);
+    console.log(JSON.stringify(tables.itemsList(), null, 4));
+    console.lo;
+  }
+
+  return true;
 }
 
 // Run the example
 example(store, payload)
-    .then  (msg => console.log(msg))
-    .catch (err => console.log(err));
-
-
-
+  .then(msg => console.log(msg))
+  .catch(err => console.log(err));

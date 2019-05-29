@@ -19,63 +19,59 @@
 /*
  * Sentiment Analysis using casActions
  */
-'use strict';
+"use strict";
 
-let restaf         = require('../lib/restaf');
-let payload     = require('./config')('restaf.env');
-let casSetup    = require('./lib/casSetup');
-let prtUtil        = require('../prtUtil');
+let restaf = require("../lib/restaf");
+let payload = require("./config")("restaf.env");
+let casSetup = require("./lib/casSetup");
+let prtUtil = require("../prtUtil");
 
-let store   = restaf.initStore();
+let store = restaf.initStore();
 
-async function example (store, payload, sessionName){
+async function example (store, payload, sessionName) {
+  //setup CAS session
+  let { session } = await casSetup(store, payload, sessionName);
 
-    //setup CAS session
-    let {session} = await casSetup(store, payload, sessionName);
+  let actionPayload = {
+    action: "builtins.loadActionSet",
+    data  : { actionSet: "sentimentAnalysis" }
+  };
+  let actionResult = await store.runAction(session, actionPayload);
+  console.log("--------------------------------------------------------");
 
-     let actionPayload = {
-        action: 'builtins.loadActionSet',
-        data  : { actionSet: 'sentimentAnalysis' }
-    };
-    let actionResult = await store.runAction(session, actionPayload );
-    console.log('--------------------------------------------------------');
+  let p = {
+    action: "datastep.runCode",
+    data  : {
+      code: `data casuser.text;docId='test';text='this is very good stuff';run;`
+    }
+  };
+  await store.runAction(session, p);
+  //run data step action
+  actionPayload = {
+    action: "sentimentAnalysis.applySent",
+    data  : {
+      casout: {
+        caslib: "casuser",
+        name  : "sentiments"
+      },
+      table: {
+        caslib: "casuser",
+        name  : "text"
+      },
+      text : "text",
+      docId: "docId"
+    }
+  };
 
-    let p = {
-        action: 'datastep.runCode',
-        data  : { code: `data casuser.text;docId='test';text='this is very good stuff';run;`  }
-    };
-    await store.runAction(session, p );
-    //run data step action
-    actionPayload = {
-        action: 'sentimentAnalysis.applySent',
-        data: {
-            casout: {
-                caslib: 'casuser',
-                name  : 'sentiments'
-            },
-            table: {
-                caslib: 'casuser',
-                name  : 'text'
-            },
-            text : 'text',
-            docId: 'docId'
-        }
-    };
-    
+  actionResult = await store.runAction(session, actionPayload);
+  prtUtil.view(actionResult, "Result from sentiment analysis");
 
-    actionResult = await store.runAction(session, actionPayload );
-    prtUtil.view(actionResult, 'Result from sentiment analysis');
+  actionResult = await store.apiCall(session.links("delete"));
 
-    actionResult = await store.apiCall(session.links('delete'));
-
-    console.log(`session closed with Status Code ${actionResult.status}`);
-    return true;
+  console.log(`session closed with Status Code ${actionResult.status}`);
+  return true;
 }
 
-example(store, payload, 'cas')
-    .then(r => prtUtil.print({Status: 'All Done'}))
-    .catch(err => prtUtil.printErr(err));
-
-
-
-
+example(store, payload, "cas")
+  .then(r => prtUtil.print({ Status: "All Done" }))
+  .catch(err => prtUtil.printErr(err));

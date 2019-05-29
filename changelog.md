@@ -1,15 +1,20 @@
 # Changes
 
-## 1.4.1
+## next
 
-- Fixed issues with reconnecting with a previously created CAS session. (see examples/casSessions.js for usage)
+- Cleanup store.logon - too complex and confusing.
+- Add support for auto refresh of token(if valid for that flow)
+
+## 1.5.0
+
+- Fixed issues for reconnecting with a previously created CAS session. (see examples/casSessions.js for usage)
 - Pass 1 at cleaning up serverCalls/index.js
-- Added support for passing a previously created token to store.logon
+- Added support for passing a previously created valid token to store.logon
 
 ```Javascript
    let payload = {
         authType : 'server',
-        host     : 'your viya server,
+        host     : 'your viya server',
         token    : 'your authorization token',
         tokenType: 'bearer'
     };

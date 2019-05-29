@@ -44,8 +44,12 @@ async function casSession (store, payload, sesName) {
   );
   let id = session.items("id");
 
+  console.log('================================== Initial session information');
+
   console.log(`name of New session: ${session.items("name")}`);
   console.log(`id of New  session: ${id}`);
+  
+  console.log('----------------- Verify that the href is set correctly')
   console.log(
     JSON.stringify(session.links("execute", "link", "href"), null, 4)
   );
@@ -53,12 +57,38 @@ async function casSession (store, payload, sesName) {
     JSON.stringify(session.links("casproxy", "link", "href"), null, 4)
   );
   console.log(JSON.stringify(session.links("self", "link"), null, 4));
+  
+  console.log("================================ end initial session information");
+
+  let t2 = await store.apiCall(session.links('self'));
+  //
+  // Now use the attached session
+  //
+  payload = {
+    action: "echo",
+    data  : { x: `with t2 example` }
+  };
+
+  let r = await store.runAction(t2, payload);
+
+  console.log('------------------------- show the output results');
+
+  console.log(JSON.stringify(r.items("results"), null, 4));
+
 
   //
   // Assume you saved the id above and came back the next day and wanted to reattach to the same session
   //
   // Now filter on the list of sessions and find the one with desired id and reconnect
   //
+
+ 
+
+  //
+  // verify that we found the right session
+  //
+
+  console.log('=============================== find the old session');
 
   payload = {
     qs: {
@@ -69,11 +99,7 @@ async function casSession (store, payload, sesName) {
     servers.itemsCmd(casserver, "sessions"),
     payload
   );
-
-  //
-  // verify that we found the right session
-  //
-
+  console.log('-------------------- list information on found session')
   console.log(`List of sessions found ${sessionList.itemsList().size} `);
   let name = sessionList.itemsList(0);
 
@@ -91,6 +117,10 @@ async function casSession (store, payload, sesName) {
     JSON.stringify(sessionList.itemsCmd(name, "self", "link"), null, 4)
   );
 
+console.log('=============================== end of info on old session');
+
+
+  console.log('============================== connect to the old session');
   //
   // need to reattach to the session that was found
   // we use the self rel to accomplish this task.
@@ -98,7 +128,8 @@ async function casSession (store, payload, sesName) {
 
   let selfcmd = sessionList.itemsCmd(name, "self");
   session = await store.apiCall(selfcmd);
-
+  
+  console.log('------------------------- information on new session')
   console.log(`Attached session name: ${session.items("name")}`);
   console.log(`Attached Session id: ${session.items("id")}`);
   console.log(
@@ -111,6 +142,9 @@ async function casSession (store, payload, sesName) {
     JSON.stringify(sessionList.itemsCmd(name, "self", "link"), null, 4)
   );
 
+  console.log('============================== end of connect to the old session');
+
+  console.log('============================== execute the connected session');
   //
   // Now use the attached session
   //
@@ -119,9 +153,11 @@ async function casSession (store, payload, sesName) {
     data  : { x: `paul's example` }
   };
 
-  let r = await store.runAction(session, payload);
+   r = await store.runAction(session, payload);
 
-  console.log(JSON.stringify(r.items("disposition"), null, 4));
+  console.log('------------------------- show the output results');
+
+  console.log(JSON.stringify(r.items("results"), null, 4));
 
   return "done";
 }

@@ -5,6 +5,10 @@
 - Cleanup store.logon - too complex and confusing.
 - Add support for auto refresh of token(if valid for that flow)
 
+## 1.6.0
+
+- For cas output add a tableByName object to get to table output in a consistent manner for all cas actions that can return tables.
+
 ## 1.5.0
 
 - Fixed issues for reconnecting with a previously created CAS session. (see examples/casSessions.js for usage)

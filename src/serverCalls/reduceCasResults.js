@@ -4,8 +4,8 @@
  */
 "use strict";
 module.exports = function reduceCasResult (data) {
-  let tables = {};
-  let tableNames = [];
+  let tables      = {};
+  let tableByName = {};
   if (data.hasOwnProperty("results") === false) {
     return data;
   }
@@ -15,11 +15,11 @@ module.exports = function reduceCasResult (data) {
     if (o.hasOwnProperty("_ctb") === true && o["_ctb"] === true) {
       //noinspection JSUnfilteredForInLoop
       tables[k] = o;
-      tableNames.push(o.name);
+      tableByName[o.name] = o;
     }
   }
-  data.tables     = tables;
-  data.tableNames = tableNames;
+  data.tables       = tables; /* need to deprecate this */
+  data.tablesByName = tableByName;
   return data;
 };
 /*

@@ -18,15 +18,12 @@
 
 "use strict";
 
-let restaf = require("../lib/restaf");
+const ca = require('win-ca');
+let pem ='';
+let a = ca({format: ca.der2.pem,  store: [ 'root', 'ca' ], ondata: (c) => {pem = pem + c}});
+console.log(pem);
 
+// Alternate approach: save the pems and reuse them. In this case all you need to pass to restaf is roots.pem which has 
+// all the pems.
 
-let store = restaf.initStore();
-let payload = {
-  url   : "https://tes-svc.sas.com",
-  method: "GET"
-};
-store
-  .request(payload)
-  .then(msg => console.log(msg))
-  .catch(err => console.log(err));
+a = ca({format: ca.der2.pem,  store: [ 'root', 'ca' ], save: `${process.env.pems}`});

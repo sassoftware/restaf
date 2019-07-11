@@ -25,7 +25,7 @@ import { VIYA_LOGON, VIYA_LOGON_COMPLETE, BEGIN_LOGON, VIYA_LOGOFF, VIYA_LOGON_I
 
 function*  logonAction () {
     let f = true;
-
+    debugger;
     while (f) {
         let action = yield take(VIYA_LOGON);
         yield put ({ type: BEGIN_LOGON });

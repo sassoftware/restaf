@@ -201,7 +201,10 @@ function makeCall (config, iconfig, pem) {
     if (pem != null) {
         let agent = new Https.Agent({ca: pem, rejectUnauthorized: true});
         config.httpsAgent = agent;
-    } 
+    } else if (process.env.ALLOWUNATHORIZED === 'YES') {
+        let agent = new Https.Agent({rejectUnauthorized: false});
+        config.httpsAgent = agent;
+    }
     
 
     return new  Promise ((resolve, reject)  => {

@@ -25,7 +25,7 @@ function *apiPoll (action) {
     let payload = null;
     config.logonInfo = yield select(selectLogonInfo);
     yield put({type: config.serviceName + '_' + action.type + '_BEGIN', config: config});
-
+    console.log(delay)
     do {
         if (config.delay) {
             yield delay(config.delay * 1000)

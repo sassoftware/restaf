@@ -19,11 +19,11 @@
 "use strict";
 
 let restaf = require("../lib/restaf");
-
+require('win-ca/fallback');
 
 let store = restaf.initStore();
 let payload = {
-  url   : "https://tes-svc.sas.com",
+  url   : "https://sww.sas.com",
   method: "GET"
 };
 store

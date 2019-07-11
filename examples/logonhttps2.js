@@ -16,30 +16,30 @@
  *
  */
 
-"use strict";
+'use strict';
 
 /* --------------------------------------------------------------------------------
  * Logon to the Viya server
  * ---------------------------------------------------------------------------------
  */
-let restaf  = require("../lib/restaf");
-let payload = require("./config")();
-let fs      = require("fs");
+let restaf = require('../lib/restaf');
+let payload = require('./config')('restaf.env');
+let fs = require('fs');
 
-let pem = fs.readFileSync(`${process.env.PEMFILE}`, "utf8");
+const ca = require('win-ca');
+let pem ='';
+let a = ca({format: ca.der2.pem,  store: [ 'root', 'ca' ], /*save: true,*/ ondata: (c) => {pem = pem + c}});
 // console.log(pem);
-//
-// Pass pem to store for https calls
-//
 
-let store = restaf.initStore({ pem: pem });
 
+let store = restaf.initStore({pem: pem});
 store
-  .logon(payload)
-  .then(msg => {
-    console.log(`Logon Status: ${msg}`);
-    console.log("calling logoff");
-    return store.logoff();
-  })
-  .then(lmsg => console.log(lmsg))
-  .catch(err => console.log(err));
+	.logon(payload)
+	.then(msg => {
+		console.log(`Logon Status: ${msg}`);
+		console.log('calling logoff');
+		return store.logoff();
+	})
+	.then(lmsg => console.log(lmsg))
+	.catch(err => console.log(err));
+

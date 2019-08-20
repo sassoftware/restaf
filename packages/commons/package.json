@@ -1,0 +1,23 @@
+{
+  "name": "@restaf/commons",
+  "version": "1.6.1",
+  "description": "common functions",
+  "main": "./lib/@restaf/commons.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sassoftware/restaf/tree/master/packages/commons"
+  },
+  "author": "Deva Kumar <deva.kumar@sas.com>",
+  "license": "SEE LICENSE IN license.txt",
+  "engines": {
+    "node": ">=10.16.0",
+    "npm": ">=6.10.0"
+  },
+  "unpkg": "dist/@restaf/commons.min.js",
+  "bugs": {
+    "url": "https://github.com/sassoftware/restaf/issues"
+  },
+  "scripts": {
+    "build": "rimraf dist && webpack --env.node --config webpack.config.js && webpack --config webpack.config.js && webpack -p  -m --config webpack.config.js"
+  }
+}

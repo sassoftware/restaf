@@ -1,7 +1,7 @@
 {
-  "name": "restaf",
+  "name": "@restaf/examples",
   "version": "1.6.1",
-  "description": "Library for writing SAS Viya application using REST APIs",
+  "description": "Examples",
   "author": "Deva Kumaraswamy <deva.kumar@sas.com>",
   "license": "Apache-2.0",
   "keywords": [
@@ -10,26 +10,28 @@
     "Viya",
     "REST API"
   ],
+  "main": "index.js",
   "engines": {
     "node": ">=10.16.0",
     "npm": ">=6.10.0",
     "yarn": ">=1.17.3"
   },
-  "main": "lib/restaf",
-  "private": true,
-  "workspaces": [
-    "packages/*"
-  ],
-  "repository": "https://github.com/sassoftware/restaf.git",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sassoftware/restaf/tree/master/packages/examples"
+  },
   "bugs": {
     "url": "https://github.com/sassoftware/restaf/issues"
   },
   "scripts": {
-    "test": "cd ./packages/examples && node",
-    "debug": "cd ./packages/examples && node --inspect-brk",
-    "core:build": "cd ./packages/core && yarn run build",
-    "commons:build": "cd ./packages/commons && yarn run build",
+    "start": "node",
     "lint": "eslint . --fix"
+  },
+  "dependencies": {
+    "@restaf/commons": "1.6.1",
+    "jwt-decode": "^2.2.0",
+    "restaf": "1.6.1",
+    "win-ca": "^3.1.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.1.5",
@@ -60,15 +62,10 @@
     "eslint-plugin-redux-saga": "^0.10.0",
     "lerna": "^3.14.1",
     "prettyjson": "^1.2.1",
-    "rimraf": "^2.6.3",
     "showdown": "^1.9.0",
     "webpack": "^4.26.0",
     "webpack-cli": "^3.1.2",
     "webpack-node-externals": "^1.7.2",
-    "yargs": "^13.3.0"
-  },
-  "resolutions": {
-    "lodash": ">=4.17.15",
-    "mem": "^5.1.1"
+    "yargs": "^12.0.5"
   }
 }

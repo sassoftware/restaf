@@ -4,6 +4,7 @@ let nodeExternals  = require('webpack-node-externals');
 let webpack = require('webpack');
 let  path    = require('path');
 let library = 'restaf-commons';
+let globalName = 'restafCommons';
 let argv    = require('yargs').argv;
 let prod    = (argv.p === true) ;
 let env     =  argv.env;
@@ -39,7 +40,7 @@ let outputFile;
 
         output: {
             path          : (asNode === true) ? path.join(__dirname, 'lib') : path.join(__dirname, 'dist'),
-            library       : library,
+            library       : globalName,
             libraryTarget : 'umd',
             filename      : outputFile,
             umdNamedDefine: true

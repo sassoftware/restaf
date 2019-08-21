@@ -24,9 +24,9 @@ import selectLogonInfo from './selectLogonInfo';
 
 function ikeepAlive (store) {
     let logonInfo = selectLogonInfo(store.getState());
-    console.log('in ikeepalive');
     debugger;
     if (logonInfo.keepAlive != null) {
+        console.log('Making keepalive call');
         let action = {
             type   : KEEP_ALIVE,
             route  : 'keepAlive',

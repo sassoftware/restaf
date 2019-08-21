@@ -16,6 +16,7 @@ import jsonToDict      from './jsonToDict';
 import logLines        from './logLines';
 import runCompute      from './runCompute';
 import spBase          from './spBase';
+import decodeJwt       from './decodeJwt';
 
 export  {
     caslBase,
@@ -29,5 +30,6 @@ export  {
     jsonToDict,
     logLines,
     runCompute,
-    spBase
+    spBase,
+    decodeJwt
 };

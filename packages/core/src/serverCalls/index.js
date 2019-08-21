@@ -128,7 +128,6 @@ function request (iconfig) {
             return data ;
         },
         validateStatus: function (status) {
-            console.log(status);
             return (status >= 200 && status < 300) || status === 302;
         },
     };
@@ -199,7 +198,6 @@ function makeCall (config, iconfig, pem, rejectUnauthorized) {
     return new  Promise ((resolve, reject)  => {
         axios(config)
             .then (response => {
-                console.log(response.status);
                 if (response.status === 302) {
                     console.log(status.headers.location);
                 }
@@ -277,7 +275,6 @@ function fullType (type) {
 
 function keepAlive (payload) {
     debugger;
-    console.log(payload);
     let config = {
         url   : payload.keepAlive,
         method: 'GET'

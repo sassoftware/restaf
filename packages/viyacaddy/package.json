@@ -1,0 +1,24 @@
+{
+  "name": "viyacaddy",
+  "version": "1.0.0",
+  "description": "registering app utility",
+  "main": "cli.js",
+  "repository": {
+    "type": "git",
+    "url": "https://gitlab.sas.com/kumar/viyacaddy"
+  },
+  "bin": {
+    "viyacaddy": "cli.js"
+  },
+  "author": "Deva Kumar <deva.kumar@sas.com>",
+  "license": "SEE LICENSE IN license.txt",
+  "dependencies": {
+    "qs": "^6.7.0",
+    "restaf": "^1.6.1",
+    "vorpal": "^1.12.0",
+    "yargs": "^13.2.4"
+  },
+  "scripts": {
+    "start": "node --no-warnings cli"
+  }
+}

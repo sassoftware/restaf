@@ -1,0 +1,20 @@
+{
+    "name": "@restaf/utility",
+    "version": "1.0.0",
+    "description": "registering app utility",
+    "main": "lib/index.js",
+    "repository": {
+      "type": "git",
+      "url": "https://gitlab.sas.com/kumar/util"
+    },
+    "author": "Deva Kumar <deva.kumar@sas.com>",
+    "license": "SEE LICENSE IN license.txt",
+    "dependencies": {
+      "yargs": "^13.2.4",
+      "win-ca": "latest"
+    },
+    "scripts": {
+      "build": "rimraf lib && babel src --out-dir lib"
+    }
+  }
+  

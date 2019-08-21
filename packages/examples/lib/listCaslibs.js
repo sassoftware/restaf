@@ -17,7 +17,7 @@
  */
 
 'use strict';
-let prtUtil    = require('.././prtUtil');
+
 module.exports = async function listSessionTables(store, servers, session) {
     let casserver = servers.itemsList(0);
     let caslibs   = await store.apiCall(servers.itemsCmd(casserver, 'caslibs'));

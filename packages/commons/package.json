@@ -17,6 +17,9 @@
   "bugs": {
     "url": "https://github.com/sassoftware/restaf/issues"
   },
+  "dependencies": {
+    "jwt-decode": "latest"
+  },
   "scripts": {
     "build": "rimraf dist && webpack --env.node --config webpack.config.js && webpack --config webpack.config.js && webpack -p  -m --config webpack.config.js"
   }

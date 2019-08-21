@@ -21,7 +21,7 @@
  * @returns {object}  standard return value from apiCall
  */
 'use strict';
-let casSetup    = require('./casSetup');
+
 let jsonToDict  = require('./jsonToDict');
 //
 // Notes: Function to call cas 

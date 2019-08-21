@@ -1,6 +1,6 @@
 {
-  "name": "restaf",
-  "version": "1.6.1",
+  "name": "@restaf/core",
+  "version": "1.6.2",
   "description": "Library for writing SAS Viya application using REST APIs",
   "author": "Deva Kumaraswamy <deva.kumar@sas.com>",
   "license": "Apache-2.0",
@@ -26,7 +26,7 @@
   "unpkg": "dist/restaf.min.js",
   "scripts": {
     "test": "node",
-    "build": "rimraf dist && webpack --env.node --config webpack.config.js && webpack --config webpack.config.js && webpack -p  -m --config webpack.config.js",
+    "build": "rimraf dist && rimraf lib && webpack --env.node --config webpack.config.js && webpack --config webpack.config.js && webpack -p  -m --config webpack.config.js",
     "babel": "babel src --out-dir jslib",
     "lint": "eslint . --fix"
   },

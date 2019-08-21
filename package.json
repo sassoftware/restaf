@@ -25,10 +25,12 @@
     "url": "https://github.com/sassoftware/restaf/issues"
   },
   "scripts": {
-    "test": "cd ./packages/examples && node",
-    "debug": "cd ./packages/examples && node --inspect-brk",
     "core:build": "cd ./packages/core && yarn run build",
     "commons:build": "cd ./packages/commons && yarn run build",
+    "utility:build": "cd ./packages/utility && yarn run build",
+    "caddy:start": "cd ./packages/viyacaddy && yarn start",
+
+    "test": "cd ./packages/examples && node",
     "lint": "eslint . --fix"
   },
   "devDependencies": {

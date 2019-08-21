@@ -10,7 +10,7 @@
     "author": "Deva Kumar <deva.kumar@sas.com>",
     "license": "SEE LICENSE IN license.txt",
     "dependencies": {
-      "@restaf/core": "*",
+      "restaf": "1.6.2",
       "@restaf/utility": "1.0.0"
     },
     "scripts": {

@@ -5,7 +5,7 @@
   "author": "Deva Kumaraswamy <deva.kumar@sas.com>",
   "license": "Apache-2.0",
   "keywords": [
-    "@restaf/core",
+    "restaf",
     "SAS",
     "Viya",
     "REST API"
@@ -30,7 +30,7 @@
   "dependencies": {
     "@restaf/commons": "1.6.1",
     "jwt-decode": "^2.2.0",
-    "@restaf/core": "1.6.1",
+    "restaf": "1.6.2",
     "win-ca": "^3.1.0"
   },
   "devDependencies": {

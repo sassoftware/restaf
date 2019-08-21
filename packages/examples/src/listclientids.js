@@ -25,7 +25,7 @@
  //
  // For this to work the logon user must have admin credentials
  //
-let restaf  = require("@restaf/core");
+let restaf  = require('restaf');
 let {config} = require('@restaf/utility');
 let payload = config();
 

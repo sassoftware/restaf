@@ -1,8 +1,8 @@
 {
-  "name": "@restaf/commons",
+  "name": "restaf-commons",
   "version": "1.6.1",
   "description": "common functions",
-  "main": "./lib/@restaf/commons.js",
+  "main": "./lib/restaf-commons.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/sassoftware/restaf/tree/master/packages/commons"
@@ -13,7 +13,7 @@
     "node": ">=10.16.0",
     "npm": ">=6.10.0"
   },
-  "unpkg": "dist/@restaf/commons.min.js",
+  "unpkg": "dist/restaf-commons.min.js",
   "bugs": {
     "url": "https://github.com/sassoftware/restaf/issues"
   },
@@ -21,6 +21,6 @@
     "jwt-decode": "latest"
   },
   "scripts": {
-    "build": "rimraf dist && webpack --env.node --config webpack.config.js && webpack --config webpack.config.js && webpack -p  -m --config webpack.config.js"
+    "build": "rimraf dist && rimraf lib && webpack --env.node --config webpack.config.js && webpack --config webpack.config.js && webpack -p  -m --config webpack.config.js"
   }
 }

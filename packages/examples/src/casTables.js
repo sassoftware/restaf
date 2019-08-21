@@ -21,7 +21,7 @@
  */
 "use strict";
 
-let restaf        = require("@restaf/core");
+let restaf        = require('restaf');
 let {config} = require('@restaf/utility');
 let payload = config();
 let prtUtil       = require("../prtUtil");

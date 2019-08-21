@@ -18,7 +18,7 @@
 
 "use strict";
 
-let restaf = require("@restaf/core");
+let restaf = require("restaf");
 let {config, prtUtil} = require('@restaf/utility');
 let payload = config();
 let store = restaf.initStore();

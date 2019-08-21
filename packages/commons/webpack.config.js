@@ -3,7 +3,7 @@
 let nodeExternals  = require('webpack-node-externals');
 let webpack = require('webpack');
 let  path    = require('path');
-let library = '@restaf/commons';
+let library = 'restaf-commons';
 let argv    = require('yargs').argv;
 let prod    = (argv.p === true) ;
 let env     =  argv.env;

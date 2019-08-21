@@ -1,5 +1,5 @@
 {
-  "name": "@restaf/core",
+  "name": "restaf",
   "version": "1.6.2",
   "description": "Library for writing SAS Viya application using REST APIs",
   "author": "Deva Kumaraswamy <deva.kumar@sas.com>",

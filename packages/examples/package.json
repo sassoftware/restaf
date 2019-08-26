@@ -11,7 +11,7 @@
     "license": "SEE LICENSE IN license.txt",
     "dependencies": {
       "restaf": "1.6.2",
-      "@restaf/utility": "1.0.0"
+      "restaf-commons": "1.6.1"
     },
     "scripts": {
       "test": "node test"

@@ -24,7 +24,7 @@
 let restaf = require('restaf');
 let {config} = require('@restaf/utility');
 let payload = config();
-let casSetup = require("@restaf/commons/casSetup");
+let casSetup = require("restaf-commons/casSetup");
 let fs = require("fs");
 
 let pem = fs.readFileSync(`${process.env.PEMFILE}`);

@@ -28,7 +28,7 @@
     "lint": "eslint . --fix"
   },
   "dependencies": {
-    "@restaf/commons": "1.6.1",
+    "restaf-commons": "1.6.1",
     "jwt-decode": "^2.2.0",
     "restaf": "1.6.2",
     "win-ca": "^3.1.0"

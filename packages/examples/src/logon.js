@@ -23,7 +23,7 @@
  */
 let restaf   = require('restaf');
 let {config} = require('@restaf/utility');
-let {decodeJwt} = require('@restaf/commons');
+let {decodeJwt} = require('restaf-commons');
 
 let payload  = config();
 let store = restaf.initStore();

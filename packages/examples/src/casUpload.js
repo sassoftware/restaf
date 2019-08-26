@@ -21,7 +21,7 @@
 let restaf     = require('restaf');
 let fs         = require('fs');
 let prtUtil    = require('../prtUtil');
-let {casSetup} = require('@restaf/commons');
+let {casSetup} = require('restaf-commons');
 
 let printCasTable = require('../lib/printCasTable');
 

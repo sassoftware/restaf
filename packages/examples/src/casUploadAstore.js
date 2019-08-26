@@ -21,7 +21,7 @@
 let restaf     = require('restaf');
 let fs         = require('fs');
 let path       = require('path');
-let {casSetup} = require('@restaf/commons');
+let {casSetup} = require('restaf-commons');
 
 let {config} = require('@restaf/utility');
 let payload = config();

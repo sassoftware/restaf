@@ -22,7 +22,7 @@
 'use strict';
 
 let restaf     = require('restaf');
-let {casSetup} = require('@restaf/commons');
+let {casSetup} = require('restaf-commons');
 
 let prtUtil = require('../prtUtil');
 

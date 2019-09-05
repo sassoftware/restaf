@@ -16,7 +16,6 @@
  *
  */
 
-"use strict";
 
 import { trustedGrant, keepAlive, request } from  '../serverCalls' ;
 import { VIYA_LOGON_PASSWORD } from '../actionTypes';
@@ -58,13 +57,13 @@ const SASLogoffOauthLink = function () {
             }
         });
 
-}
+};
 
 const SASKeepAlive = function () {
     return {
 
-    }
-}
+    };
+};
 /*
  * redirectUri not specified - /SASLogon/oauth/token?
  */

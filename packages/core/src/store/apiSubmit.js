@@ -16,7 +16,7 @@
  *
  */
 
-'use strict';
+
 
 import jobState  from './jobState';
 import iapiCall from './iapiCall';

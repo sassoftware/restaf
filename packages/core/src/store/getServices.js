@@ -16,7 +16,7 @@
  *
  */
 
-'use strict';
+
 function getServices (store) {
     let list = store.getState();
     let services = [];

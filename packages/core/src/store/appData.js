@@ -16,7 +16,7 @@
  *
  */
 
-'use strict';
+
 
 
 // import {APP_DATA} from '../actionTypes';

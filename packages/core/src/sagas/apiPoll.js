@@ -12,7 +12,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
  ---------------------------------------------------------------------------------------*/
-'use strict';
+
 
 import {delay} from 'redux-saga/effects';
 import {put, call, select} from 'redux-saga/effects';
@@ -28,7 +28,7 @@ function *apiPoll (action) {
 
     do {
         if (config.delay) {
-            yield delay(config.delay * 1000)
+            yield delay(config.delay * 1000);
         }
         payload = yield call(httpCallWait, config);
     } while (payload === null);

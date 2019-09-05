@@ -26,10 +26,11 @@
   },
   "scripts": {
     "core:build": "cd ./packages/core && yarn run build",
+    "core:babel": "cd ./packages/core && yarn run babel",
     "commons:build": "cd ./packages/commons && yarn run build",
+    "core:build2": "cd ./packages/core && yarn run build2",
     "utility:build": "cd ./packages/utility && yarn run build",
     "caddy:start": "cd ./packages/viyacaddy && yarn start",
-
     "test": "cd ./packages/examples && node",
     "lint": "eslint . --fix"
   },
@@ -47,16 +48,19 @@
     "@babel/plugin-proposal-logical-assignment-operators": "^7.0.0",
     "@babel/plugin-proposal-nullish-coalescing-operator": "^7.0.0",
     "@babel/plugin-proposal-numeric-separator": "^7.0.0",
+    "@babel/plugin-proposal-object-rest-spread": "^7.5.5",
     "@babel/plugin-proposal-optional-chaining": "^7.0.0",
     "@babel/plugin-proposal-pipeline-operator": "^7.0.0",
     "@babel/plugin-proposal-throw-expressions": "^7.0.0",
     "@babel/plugin-syntax-dynamic-import": "^7.0.0",
     "@babel/plugin-syntax-import-meta": "^7.0.0",
+    "@babel/plugin-transform-destructuring": "^7.5.0",
     "@babel/plugin-transform-regenerator": "^7.0.0",
     "@babel/plugin-transform-runtime": "^7.1.0",
-    "@babel/preset-env": "^7.1.6",
+    "@babel/preset-env": "^7.5.5",
     "babel-eslint": "^10.0.1",
     "babel-loader": "^8.0.4",
+    "browserslist": "^4.7.0",
     "eslint": "^5.12.1",
     "eslint-plugin-react": "^7.11.1",
     "eslint-plugin-redux-saga": "^0.10.0",
@@ -72,5 +76,8 @@
   "resolutions": {
     "lodash": ">=4.17.15",
     "mem": "^5.1.1"
+  },
+  "dependencies": {
+    "regenerator": "^0.14.2"
   }
 }

@@ -9,6 +9,8 @@ let prod    = (argv.p === true) ;
 let env     =  argv.env;
 let asNode  = false;
 
+
+
 if (env != null) {
     asNode = (env.node === true);
 }
@@ -36,6 +38,9 @@ let outputFile;
         entry  : [
             APP_PATH + '/index'
          ],
+         optimization: {
+             minimize: true
+         },
 
         output: {
             path          : (asNode === true) ? path.join(__dirname, 'lib') : path.join(__dirname, 'dist'),
@@ -48,8 +53,20 @@ let outputFile;
         module: {
             rules: [
                 {
-                    test   : /\.(js|jsx)$/,
-                    use    : [ { loader: "babel-loader" } ],
+                    test: /\.(js|jsx)$/,
+                    use : { 
+                        loader   : "babel-loader",
+                        "options": {
+                            rootMode: "upward"
+                        }
+                        /*
+                        options: {
+                            presets: [ '@babel/preset-env' ],
+                            plugins: [ "@babel/plugin-proposal-object-rest-spread",
+                                        '@babel/plugin-transform-destructuring' ]
+                        }
+                        */
+                    },
                     include: APP_PATH,
                     exclude: /node_modules/
                 }

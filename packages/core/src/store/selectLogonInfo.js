@@ -16,7 +16,7 @@
  *
  */
 
-'use strict';
+
 
 export default function selectLogonInfo (mainState) {
     let state     = mainState.connections ;

@@ -16,7 +16,7 @@
  *
  */
 
-'use strict';
+
 import extendFolder from './extendFolder';
 
 function getServiceRoot (store, serviceName){

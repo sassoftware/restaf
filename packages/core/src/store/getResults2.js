@@ -16,8 +16,6 @@
  *
  */
 
-"use strict";
-
 import iGetResults from './iGetResults';
 
 function getResults2 (store, iroute, prePath, ...args) {

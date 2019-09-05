@@ -16,14 +16,14 @@
  *
  */
 
-'use strict';
+
 
 import createReducer  from './createReducer';
 // https://stackoverflow.com/questions/32968016/how-to-dynamically-load-reducers-for-code-splitting-in-a-redux-application/33044701#33044701
 const injectAsyncReducers = function (store, name, asyncReducer) {
 
     if (store.asyncReducers.hasOwnProperty(name)) {
-        delete store.asyncReducers[ name ]
+        delete store.asyncReducers[ name ];
     }
 
     store.asyncReducers[ name ] = asyncReducer;

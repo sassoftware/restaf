@@ -13,7 +13,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
  ---------------------------------------------------------------------------------------*/
- 'use strict';
+ 
 
  let fixImages = require('./fixImages');
  let fixReports = require('./fixReports');
@@ -116,7 +116,7 @@
                  l.patch    = 'cas'; /* flag to indicate we need to patch cas related stuff */
              }
              return l;
-         })
+         });
      }
      // A seperate loop in case casManagement fixes the issue
      if (iLink.hasOwnProperty('patch') && iLink.rel === 'servers') {

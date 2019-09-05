@@ -16,6 +16,11 @@
     "npm": ">=6.10.0",
     "yarn": ">=1.17.3"
   },
+  "browserslist": [
+    "last 2 versions",
+    "IE >=11",
+    "Edge >=17"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/sassoftware/restaf.git"
@@ -27,10 +32,12 @@
   "scripts": {
     "test": "node",
     "build": "rimraf dist && rimraf lib && webpack --env.node --config webpack.config.js && webpack --config webpack.config.js && webpack -p  -m --config webpack.config.js",
-    "babel": "babel src --out-dir jslib",
+    "build2": "rimraf dist && rimraf lib && webpack --env.node --config webpack.config2.js && webpack --config webpack.config2.js && webpack -p  -m --config webpack.config2.js",
+    "babel": "babel src --root-mode upward --debug --out-dir jslib",
     "lint": "eslint . --fix"
   },
   "dependencies": {
+    "@babel/polyfill": "^7.4.4",
     "@babel/runtime": "^7.1.5",
     "axios": "^0.19.0",
     "immutable": "^4.0.0-rc.12",
@@ -38,6 +45,44 @@
     "query-string": "^6.8.1",
     "redux": "^4.0.4",
     "redux-saga": "^1.0.5",
+    "regenerator": "^0.14.2",
     "uuid": "^3.3.2"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.1.5",
+    "@babel/core": "^7.1.6",
+    "@babel/plugin-proposal-class-properties": "^7.1.0",
+    "@babel/plugin-proposal-decorators": "^7.1.6",
+    "@babel/plugin-proposal-do-expressions": "^7.0.0",
+    "@babel/plugin-proposal-export-default-from": "^7.0.0",
+    "@babel/plugin-proposal-export-namespace-from": "^7.0.0",
+    "@babel/plugin-proposal-function-bind": "^7.0.0",
+    "@babel/plugin-proposal-function-sent": "^7.1.0",
+    "@babel/plugin-proposal-json-strings": "^7.0.0",
+    "@babel/plugin-proposal-logical-assignment-operators": "^7.0.0",
+    "@babel/plugin-proposal-nullish-coalescing-operator": "^7.0.0",
+    "@babel/plugin-proposal-numeric-separator": "^7.0.0",
+    "@babel/plugin-proposal-optional-chaining": "^7.0.0",
+    "@babel/plugin-proposal-pipeline-operator": "^7.0.0",
+    "@babel/plugin-proposal-throw-expressions": "^7.0.0",
+    "@babel/plugin-syntax-dynamic-import": "^7.0.0",
+    "@babel/plugin-syntax-import-meta": "^7.0.0",
+    "@babel/plugin-transform-destructuring": "^7.5.0",
+    "@babel/plugin-transform-regenerator": "^7.0.0",
+    "@babel/plugin-transform-runtime": "^7.1.0",
+    "@babel/preset-env": "^7.5.5",
+    "babel-eslint": "^10.0.1",
+    "babel-loader": "^8.0.4",
+    "eslint": "^5.12.1",
+    "eslint-plugin-react": "^7.11.1",
+    "eslint-plugin-redux-saga": "^0.10.0",
+    "lerna": "^3.14.1",
+    "prettyjson": "^1.2.1",
+    "rimraf": "^2.6.3",
+    "showdown": "^1.9.0",
+    "webpack": "^4.26.0",
+    "webpack-cli": "^3.1.2",
+    "webpack-node-externals": "^1.7.2",
+    "yargs": "^13.3.0"
   }
 }

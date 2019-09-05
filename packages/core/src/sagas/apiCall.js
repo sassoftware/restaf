@@ -14,7 +14,7 @@
  limitations under the License.
  ---------------------------------------------------------------------------------------*/
 
-'use strict';
+
 
 import { delay } from 'redux-saga/effects';
 import { put, call, select  } from 'redux-saga/effects';

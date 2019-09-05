@@ -16,14 +16,12 @@
  *
  */
 
-"use strict";
-
 import iGetResults from './iGetResults';
 
 function getResults (store, iroute, path) {
     
     if (path != undefined) {
-        return iGetResults(store, iroute, false, path)
+        return iGetResults(store, iroute, false, path);
     } else {
         return iGetResults(store, iroute);
     }

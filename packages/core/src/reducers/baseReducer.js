@@ -16,7 +16,7 @@
  *
  */
 
-'use strict';
+
 
 import responseReducer  from './responseReducer';
 import { ADD_SERVICE, API_CALL, API_POLL, APP_DATA, API_STATUS , DELETE_RAF_OBJECT, API_XSRF} from '../actionTypes';
@@ -67,7 +67,7 @@ const baseReducer = (root) => (state = fromJS(tLinkStruct(root, 'links', root)),
                 // delete payload.route;
                 // parent = parent.set( 'runStatus', 'busy' ).set( 'payload', fromJS( payload ) );
 
-                parent = parent.set('runStatus', 'busy')
+                parent = parent.set('runStatus', 'busy');
                 path = searchPath.slice(1);
                 return state.setIn(path, parent);
             }
@@ -135,7 +135,7 @@ const baseReducer = (root) => (state = fromJS(tLinkStruct(root, 'links', root)),
             }
 
             default: {
-                return state
+                return state;
 
             }
 

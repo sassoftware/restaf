@@ -16,7 +16,7 @@
  *
  */
 
-'use strict';
+
 
 import apiCallAll   from './apiCallAll';
 function ijobStateAll (store, jobs , ipayload) {
@@ -74,8 +74,8 @@ function ijobStateAll (store, jobs , ipayload) {
             })
             .catch(err => {
                 reject(err);
-            })
+            });
 
-    })
+    });
 }
 export default ijobStateAll;

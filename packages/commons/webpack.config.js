@@ -53,7 +53,7 @@ let outputFile;
             rules: [
                 {
                     test   : /\.(js|jsx)$/,
-                    use    : [ { loader: "babel-loader" } ],
+                    use    : [ {loader: "babel-loader"} ],
                     include: APP_PATH,
                     exclude: /node_modules/
                 }

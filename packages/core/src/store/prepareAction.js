@@ -16,7 +16,7 @@
  *
  */
 
-'use strict';
+
 
 let Immutable = require('immutable');
 

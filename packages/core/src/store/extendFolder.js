@@ -16,18 +16,18 @@
  *
  */
 
-'use strict';
+
 
 import getResults2 from  './getResults2' ;
 function extendFolder (store, f) {
 
     let wrapper = (prePath) => (...args) => {
-        return getResults2(store, f, prePath, args)
+        return getResults2(store, f, prePath, args);
     };
 
     let wrapperItemsCmd = (prePath) => (...args) => {
         args.splice(1, 0, 'cmds');
-        return getResults2(store, f, prePath, args)
+        return getResults2(store, f, prePath, args);
     };
 
     return {
@@ -47,7 +47,7 @@ function extendFolder (store, f) {
         statusInfo: f.get('statusInfo').toJS(),
         type      : f.get('type'),
         route     : f.get('route')
-    }
+    };
 
 }
 export default extendFolder;

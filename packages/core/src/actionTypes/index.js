@@ -16,7 +16,7 @@
  *
  */
 
-'use strict';
+
 /*
  * Copyright (c) 2017 by SAS Institute Inc., Cary, NC USA 27513
  * Author          : K. Deva Kumar

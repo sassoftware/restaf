@@ -13,9 +13,9 @@
  limitations under the License.
  ---------------------------------------------------------------------------------------*/
 
-'use strict';
 
-import { all }           from 'redux-saga/effects'
+
+import { all }           from 'redux-saga/effects';
 import logonAction       from './logonAction';
 import apiCallAction     from './apiCallAction';
 import apiCallAllAction  from './apiCallAllAction';
@@ -32,6 +32,6 @@ function* rootSaga () {
         apiPollAction(),
         appDataAction()
         // keepAliveAction()
-    ])
+    ]);
 }
 export default rootSaga;

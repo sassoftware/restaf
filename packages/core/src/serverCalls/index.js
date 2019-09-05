@@ -33,7 +33,7 @@ axios.interceptors.response.use(
 
 /* X-Uaa-Csrf */
 function trustedGrant (iconfig) {
-    'use strict';
+    
     
     let link   = iconfig.link ;
     
@@ -80,7 +80,7 @@ function trustedGrant (iconfig) {
 
 
 function request (iconfig) {
-    'use strict';
+    
     let { link, logonInfo } = iconfig;
 
     let iLink = {...link } ;
@@ -135,7 +135,7 @@ function request (iconfig) {
    if (logonInfo.token !== null) {
         config.headers = {
             Authorization: logonInfo.tokenType + ' ' + logonInfo.token
-        }
+        };
    } else {
       config.headers = {};
       config.withCredentials = (iconfig.withCredentials == null)? true: iconfig.withCredentials;
@@ -168,7 +168,7 @@ function request (iconfig) {
     }  
    
     if (ixsrf !== null) {
-        let xsrfHeaderName = ixsrf['x-csrf-header']
+        let xsrfHeaderName = ixsrf['x-csrf-header'];
         config.xsrfHeaderName = xsrfHeaderName;
         config.headers[xsrfHeaderName] = ixsrf['x-csrf-token']; 
     }
@@ -218,11 +218,11 @@ function makeCall (config, iconfig, pem, rejectUnauthorized) {
                         iconfig.data = null;
                         response.data = { results: response.data , iconfig: Object.assign({}, iconfig) };
                         resolve (fixResponse(response));
-                    })
+                    });
             })
             .catch (error => {
                 reject(error);
-            })
+            });
         });
     }
 
@@ -243,7 +243,7 @@ function parseJSON (data) {
                 resolve(data);
             }
         }
-    })
+    });
 }
 
 function hasItem (payload, name) {
@@ -278,10 +278,10 @@ function keepAlive (payload) {
     let config = {
         url   : payload.keepAlive,
         method: 'GET'
-    }
+    };
     return axios(config)
         .then (r => true)
-        .catch (e => false)
+        .catch (e => false);
 }
 
 

@@ -16,8 +16,6 @@
  *
  */
 
-"use strict";
-
 import {request } from  '../serverCalls' ;
 
 
@@ -34,7 +32,7 @@ const SASLogoffOauthLink = function () {
             }
         });
 
-}
+};
 /*
  * redirectUri not specified - /SASLogon/oauth/token?
  */

@@ -34,16 +34,7 @@ async function setup (payload, ...args) {
   prtUtil.print(`Logon status: ${msg}`);
   debugger;
   let { modelPublish } = await store.addServices(...args);
-  console.log(store.getServices());
-
-  let links = modelPublish.links();
-  //console.log(JSON.stringify(links, null, 4));
-
-  console.log("------------- root links");
-  links.map((v, k) => {
-    console.log(`rel: ${k}`);
-    console.log(JSON.stringify(v.get("link"), null, 4));
-  });
+  prtUtil.view(modelPublish, 'ModelPublish root links');
 
   payload = {
     qs: {
@@ -51,20 +42,44 @@ async function setup (payload, ...args) {
     }
   };
 
-  let r = await store.apiCall(modelPublish.links("getPublishedModel"), payload);
+  // get list of publish destinations
 
-  console.log("------------------ links from getPublishedModel");
-  links = r.links();
-  links.map((v, k) => {
-    console.log(`rel: ${k}`);
-    console.log(JSON.stringify(v.get("link"), null, 4));
-  });
+  let r1 = await store.apiCall(modelPublish.links('destinations'));
+  prtUtil.view(r1, 'Destinations at the start of this example');
 
-  r = await store.apiCall(r.links("up"));
+  // remove old copy of our test publish destination
+  if (r1.itemsList().indexOf('test_dest') >= 0) {
+    console.log('test_dest exists');
+    let r = await store.apiCall(r1.itemsCmd('test_dest', 'delete'));
+    console.log(r.status);
+  }
+
+  payload = {
+
+      data: {
+        name            : 'test_dest',
+        casServerName   : 'cas-shared-default',
+        casLibrary      : 'casuser',
+        destinationTable: 'testdest'
+      }
+    };
+  
+  console.log('creating destinations');
+  console.log(JSON.stringify(modelPublish.links('createDestinationCAS'), null,4));
+  let r2 = await store.apiCall (modelPublish.links('createDestinationCAS'), payload);
+  
+  prtUtil.view(r2,'createdestination');
+
+  r1 = await store.apiCall(modelPublish.links('destinations'));
+  prtUtil.view(r1, 'current destinations');
+
 
   return true;
 }
 
 setup(payload, "modelPublish")
   .then(r => console.log(r))
-  .catch(e => console.log(JSON.stringify(e, null, 4)));
+  .catch(e => {
+    console.log('error');
+    console.log(e);
+  });

@@ -23,7 +23,7 @@ let titleColors = require('./titleColors');
 let prettyjson  = require('prettyjson');
 
 function printErr (msg) {
-    let msg1 = (typeof msg === 'object') ? msg : {Error: msg}
+    let msg1 = (typeof msg === 'object') ? msg : {Error: msg};
     console.log(prettyjson.render(msg1, errColors)) ;
 }
 
@@ -67,7 +67,7 @@ function viewLinks  (type, itemsList, title) {
     printTitle({title: `${title}  type: ${type} size:  ${itemsList.size}` });
     itemsList.forEach((l, k) => {
         print({rel: k }) ;
-    })
+    });
 }
 
 function printObj (d, title) {

@@ -16,7 +16,7 @@
  *
  */
 
-
+'use strict';
 
 import  initStore from './initStore';
 import  endStore  from './endStore';
@@ -26,4 +26,4 @@ export {
     initStore,
     endStore,
     restoreStore
-};
+}

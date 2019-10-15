@@ -12,7 +12,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
  ---------------------------------------------------------------------------------------*/
-
+'use strict';
 
 import {takeLatest, spawn, call, put } from 'redux-saga/effects' ;
 import {KEEP_ALIVE} from '../actionTypes';
@@ -20,14 +20,12 @@ import {SASLogonOauthLink} from '../utils';
 
 
 function* keepAliveAction () {
-    debugger;
+    
     let action = yield takeLatest(KEEP_ALIVE, keepAlivei);
-    // yield put({ type: KEEP_ALIVE});
-    console.log('keepAlive');
+    // yield put({ type: KEEP_ALIVE}););
 }
 
 function* keepAlivei (payload){
-        console.log('detected keepAlive');
         let r = yield spawn (test, payload);
         return r;
         

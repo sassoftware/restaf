@@ -16,11 +16,11 @@
  *
  */
 
-
+'use strict';
 
 import { API_CALL_PARALLEL, API_CALL } from '../actionTypes';
 
-import getResults    from './getResults';
+import getResults    from './getResults'
 import prepareAction from './prepareAction';
 import extendFolder  from './extendFolder';
 
@@ -42,7 +42,7 @@ const  apiCallAll =  (store, allActions, delay) => {
                         err : 'Invalid route and/or rafLink',
                         args: JSON.stringify(acti, null, 4)
                     }
-                );
+                )
             }
             return action;
         });

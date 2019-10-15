@@ -16,7 +16,7 @@
  *
  */
 
-
+'use strict';
 
 let Immutable = require('immutable');
 
@@ -70,7 +70,7 @@ const prepareAction = function (store, iroute, actionType, payload, delay,
         link
     } ;
 
-    debugger;
+    
     if (link.href.indexOf('casProxy') >= 0) {
         serviceName = 'casProxy';
     }

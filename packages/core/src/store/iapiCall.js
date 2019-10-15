@@ -16,9 +16,9 @@
  *
  */
 
+'use strict';
 
-
-import getResults    from './getResults';
+import getResults    from './getResults'
 import extendFolder  from './extendFolder';
 import prepareAction from './prepareAction';
 import ikeepAlive from './ikeepAlive';
@@ -52,7 +52,7 @@ const  iapiCall =  (store, iroute, actionType, payload, delay, eventHandler, par
                 start = false;
                 return;
             }
-            debugger;
+            
             let f = getResults(store,  route);
 
             if (!f) { /* should never happen, hmmm! */
@@ -67,9 +67,8 @@ const  iapiCall =  (store, iroute, actionType, payload, delay, eventHandler, par
                     unSubscribe();
                     reject(f.get('statusInfo'));
                 } else if (runStatus === 'ready') {
-                    debugger;
+                    
                     unSubscribe();
-        
                     let efolder = extendFolder(store, f);
                     ikeepAlive(store);
                     resolve(efolder);

@@ -16,7 +16,7 @@
  *
  */
 
-
+'use strict';
 
 import {APP_DATA_ROOT, API_STATUS_ROOT, API_XSRF_ROOT} from '../actionTypes';
 function tLinkStruct (name, type, service) {
@@ -85,7 +85,7 @@ function itemsStruct () {
         resultType: '',
         cmds      : null,
         data      : null
-    };
+    }
 }
 
 function statusInfoStruct () {
@@ -94,7 +94,7 @@ function statusInfoStruct () {
        statusText: ' ',
        error     : false,
        details   : ' '
-   };
+   }
 
 }
 

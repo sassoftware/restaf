@@ -16,7 +16,7 @@
  *
  */
 
-
+'use strict';
 import {initStore, endStore, restoreStore}  from './store';
 export { initStore, endStore, restoreStore };
 

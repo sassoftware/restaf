@@ -17,7 +17,7 @@
  *
  */
 
-
+'use strict';
 
 import { VIYA_LOGON, VIYA_LOGOFF, VIYA_LOGON_SERVER, VIYA_LOGON_IMPLICIT, VIYA_LOGON_PASSWORD }
         from '../actionTypes';
@@ -123,7 +123,7 @@ function getToken (payload) {
     if (payload.redirect != null) {
         //noinspection JSUnresolvedVariable
         let redirectUri = `${window.location.protocol}//${window.location.host}/${payload.redirect}?host=${payload.host}`;
-        x = `${x}&redirect_uri=${redirectUri}`;
+        x = `${x}&redirect_uri=${redirectUri}`
     }
     window.location.replace(x);
 }
@@ -131,7 +131,7 @@ function getToken (payload) {
 // only parse for implicit callback
 function parseUrl () {
     let payload = null;
-    debugger;
+    
     if (window != null && window.location != null && window.location.hasOwnProperty('hash')) {
         let windowLocation = window.location;
         let host = qs.parse(windowLocation.search);

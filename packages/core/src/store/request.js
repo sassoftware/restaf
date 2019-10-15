@@ -16,7 +16,7 @@
  *
  */
 
-
+'use strict';
 
 let axios = require ('axios');
 async function request (payload, reducer) {

@@ -16,7 +16,7 @@
  *
  */
 
-
+'use strict';
 
 let unSubscribe;
 import { VIYA_LOGOFF } from '../actionTypes';
@@ -43,6 +43,6 @@ function logoff (store) {
         unSubscribe = store.subscribe(logoffExit);
         store.dispatch(action);
 
-    });
+    })
 }
 export default logoff;

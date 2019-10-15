@@ -16,14 +16,14 @@
  *
  */
 
-
+'use strict';
 
 /* import uuid from 'uuid' ;*/
 let Immutable = require('immutable');
 const { Map, fromJS } = Immutable;
 
 import { VIYA_LOGON_COMPLETE, BEGIN_LOGON, VIYA_LOGOFF, VIYA_LOGON_SERVER, VIYA_LOGON_IMPLICIT, VIYA_LOGOFF_COMPLETE,
-        KEEP_ALIVE, BEGIN_LOGOFF} from '../actionTypes';
+        KEEP_ALIVE, BEGIN_LOGOFF} from '../actionTypes'
 import { setGoodStatus, setBadStatus, statusInfoStruct } from '../utils';
 
 let  initialState = fromJS(
@@ -82,7 +82,7 @@ function viyaLogon (state = initialState, action) {
 
             if (action.error === true) {
                 return state.withMutations(s => {
-                    s.set('runStatus', 'error').set('statusInfo', fromJS(setBadStatus(action.payload)));
+                    s.set('runStatus', 'error').set('statusInfo', fromJS(setBadStatus(action.payload)))
                 });
             }
             let newOne = {
@@ -105,10 +105,10 @@ function viyaLogon (state = initialState, action) {
         }
 
         case VIYA_LOGON_COMPLETE: {
-            debugger;
+            
             if (action.error === true) {
                 return state.withMutations(s => {
-                    s.set('runStatus', 'error').set('statusInfo', fromJS(setBadStatus(action.payload)));
+                    s.set('runStatus', 'error').set('statusInfo', fromJS(setBadStatus(action.payload)))
                 });
             }
             let temp = {
@@ -121,7 +121,7 @@ function viyaLogon (state = initialState, action) {
             return state.withMutations (s => {
                 //noinspection JSUnresolvedFunction
                 s.set('connections', s.get('connections').push(Map(newConnection(action.payload))))
-               .merge(fromJS(temp));
+               .merge(fromJS(temp))
             });
         }
 
@@ -135,7 +135,7 @@ function viyaLogon (state = initialState, action) {
         case VIYA_LOGOFF_COMPLETE: {
             if (action.error === true) {
                 return state.withMutations(s => {
-                    s.set('runStatus', 'error').set('statusInfo', fromJS(setBadStatus(action.payload)));
+                    s.set('runStatus', 'error').set('statusInfo', fromJS(setBadStatus(action.payload)))
                 });
             }
             
@@ -143,8 +143,6 @@ function viyaLogon (state = initialState, action) {
         }
 
         case KEEP_ALIVE: {
-            debugger;
-            console.log('in keep alive reducer');
             return state;
         }
         
@@ -156,7 +154,7 @@ function viyaLogon (state = initialState, action) {
 
 function newConnection (payload) {
     let { results, iconfig } = payload.data;
-    debugger;
+    
     return {
         type     : 'connection',
         id       : 1,

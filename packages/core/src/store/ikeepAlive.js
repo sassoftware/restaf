@@ -16,7 +16,7 @@
  *
  */
 
-
+'use strict';
 
 
 import {KEEP_ALIVE} from '../actionTypes';
@@ -24,9 +24,8 @@ import selectLogonInfo from './selectLogonInfo';
 
 function ikeepAlive (store) {
     let logonInfo = selectLogonInfo(store.getState());
-    debugger;
+    
     if (logonInfo.keepAlive != null) {
-        console.log('Making keepalive call');
         let action = {
             type   : KEEP_ALIVE,
             route  : 'keepAlive',

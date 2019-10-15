@@ -14,7 +14,7 @@
  limitations under the License.
  ---------------------------------------------------------------------------------------*/
 
-
+'use strict';
 
 import { delay } from 'redux-saga/effects';
 import { put, call, select  } from 'redux-saga/effects';
@@ -32,7 +32,7 @@ function *apiCall (action) {
         yield delay (action.delay * 1000);
     }
     let payload = yield call(httpCall, config);
-    debugger;
+    
     yield put(payload);
     
 }

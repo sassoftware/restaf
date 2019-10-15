@@ -33,12 +33,12 @@ axios.interceptors.response.use(
 
 /* X-Uaa-Csrf */
 function trustedGrant (iconfig) {
-    
+    'use strict';
     
     let link   = iconfig.link ;
     
     let auth1 = Buffer.from(iconfig.clientID + ':' + iconfig.clientSecret).toString('base64');
-    debugger;
+    
     auth1 = 'Basic ' + auth1;
     let config = {
         method: link.method,
@@ -80,7 +80,7 @@ function trustedGrant (iconfig) {
 
 
 function request (iconfig) {
-    
+    'use strict';
     let { link, logonInfo } = iconfig;
 
     let iLink = {...link } ;
@@ -128,6 +128,7 @@ function request (iconfig) {
             return data ;
         },
         validateStatus: function (status) {
+          
             return (status >= 200 && status < 300) || status === 302;
         },
     };
@@ -135,7 +136,7 @@ function request (iconfig) {
    if (logonInfo.token !== null) {
         config.headers = {
             Authorization: logonInfo.tokenType + ' ' + logonInfo.token
-        };
+        }
    } else {
       config.headers = {};
       config.withCredentials = (iconfig.withCredentials == null)? true: iconfig.withCredentials;
@@ -168,7 +169,7 @@ function request (iconfig) {
     }  
    
     if (ixsrf !== null) {
-        let xsrfHeaderName = ixsrf['x-csrf-header'];
+        let xsrfHeaderName = ixsrf['x-csrf-header']
         config.xsrfHeaderName = xsrfHeaderName;
         config.headers[xsrfHeaderName] = ixsrf['x-csrf-token']; 
     }
@@ -198,6 +199,7 @@ function makeCall (config, iconfig, pem, rejectUnauthorized) {
     return new  Promise ((resolve, reject)  => {
         axios(config)
             .then (response => {
+            
                 if (response.status === 302) {
                     console.log(status.headers.location);
                 }
@@ -218,11 +220,11 @@ function makeCall (config, iconfig, pem, rejectUnauthorized) {
                         iconfig.data = null;
                         response.data = { results: response.data , iconfig: Object.assign({}, iconfig) };
                         resolve (fixResponse(response));
-                    });
+                    })
             })
             .catch (error => {
                 reject(error);
-            });
+            })
         });
     }
 
@@ -243,7 +245,7 @@ function parseJSON (data) {
                 resolve(data);
             }
         }
-    });
+    })
 }
 
 function hasItem (payload, name) {
@@ -274,14 +276,14 @@ function fullType (type) {
 // Code below is for experimenting.
 
 function keepAlive (payload) {
-    debugger;
+  
     let config = {
         url   : payload.keepAlive,
         method: 'GET'
-    };
+    }
     return axios(config)
         .then (r => true)
-        .catch (e => false);
+        .catch (e => false)
 }
 
 

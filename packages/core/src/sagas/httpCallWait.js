@@ -13,7 +13,7 @@
  limitations under the License.
  ---------------------------------------------------------------------------------------*/
 
-
+'use strict';
 
 import { request } from  '../serverCalls' ;
 
@@ -35,7 +35,7 @@ function httpCallWait (config) {
             }
             return httpDone(error, config, true);
         })
-    );
+    )
 }
 
 function httpDone (payload, config, error) {

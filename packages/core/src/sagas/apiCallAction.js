@@ -13,7 +13,7 @@
  limitations under the License.
  ---------------------------------------------------------------------------------------*/
 
-
+'use strict';
 
 import { takeEvery } from 'redux-saga/effects' ;
 

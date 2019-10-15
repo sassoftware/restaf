@@ -15,14 +15,14 @@
  * ---------------------------------------------------------------------------------------
  *
  */
-
+'use strict';
 
 import iapiCall from './iapiCall';
 
 import { API_CALL } from '../actionTypes';
 
 const  apiCall =  (store, iroute, payload, delay) => {
-    debugger;
+    
     return iapiCall(store, iroute, API_CALL, payload, delay , null);
 };
 

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<!--
+  ~ /* ------------------------------------------------------------------------------------
+  ~  * Copyright (c) SAS Institute Inc.
+  ~  *  Licensed under the Apache License, Version 2.0 (the "License");
+  ~  * you may not use this file except in compliance with the License.
+  ~  * You may obtain a copy of the License at
+  ~  *
+  ~  * http://www.apache.org/licenses/LICENSE-2.0
+  ~  *
+  ~  *  Unless required by applicable law or agreed to in writing, software
+  ~  * distributed under the License is distributed on an "AS IS" BASIS,
+  ~  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~  * See the License for the specific language governing permissions and
+  ~ * limitations under the License.
+  ~ ----------------------------------------------------------------------------------------*/
+  ~
+  -->
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <script crossorigin src="https://unpkg.com/react@16/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-polyfill/6.26.0/polyfill.min.js"></script>
+    <script type="text/javascript" src="/shared/helpers/showAlert.js "></script>
+    <script type="text/javascript" src="/shared/helpers/env.js "></script>
+    <link rel="stylesheet" type="text/css" href="/shared/css/raf.css">
+
+
+    <script src="https://unpkg.com/restaf/dist/restaf.min.js"></script> 
+
+
+    <style>
+        .container {
+            display: flex;
+            flex-direction: column;
+            flex-wrap: nowrap;
+            min-height: 800px;
+        }
+        .elabel{
+            display: inline-block;
+            float: left;
+            clear: left;
+            width: 250px;
+            text-align: right;
+        }
+        .einput {
+            display: inline-block;
+            float: left;
+        }
+        .div1 {
+            border: 1px solid black;
+            background: lightskyblue;
+
+        }
+        .div2 {
+            border: 1px solid black;
+            background: lightskyblue;
+            height: 200px;
+        }
+    </style>
+
+</head>
+<body>
+<script>
+      let store   = restaf.initStore();
+      let session = null;
+      let servers = null;
+      async function initSession() {
+          let initResults = await setup('astore', 'image', 'modelPublishing');
+      }
+</script>
+</body>
+</html>

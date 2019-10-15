@@ -21,7 +21,7 @@
 let restaf  = require("restaf");
 let payload = require('./config')();
 let store   = restaf.initStore();
-let print = require("./print");
+let {print} = require('restaflib');
 
 /* --------------------------------------------------------------------------------
  * Logon to the restaf server and setup file service
@@ -30,19 +30,12 @@ let print = require("./print");
 
 async function setup (payload, ...args) {
   let msg = await store.logon(payload);
-  print.print(`Logon status: ${msg}`);
+ 
   debugger;
   let { modelPublish } = await store.addServices(...args);
   console.log(store.getServices());
 
-  let links = modelPublish.links();
-  //console.log(JSON.stringify(links, null, 4));
-
-  console.log("------------- root links");
-  links.map((v, k) => {
-    console.log(`rel: ${k}`);
-    console.log(JSON.stringify(v.get("link"), null, 4));
-  });
+  print.links(modelPublish, 'Root Links for modePublish');
 
   payload = {
     qs: {
@@ -52,15 +45,9 @@ async function setup (payload, ...args) {
 
   let r = await store.apiCall(modelPublish.links("getPublishedModel"), payload);
 
-  console.log("------------------ links from getPublishedModel");
-  links = r.links();
-  links.map((v, k) => {
-    console.log(`rel: ${k}`);
-    console.log(JSON.stringify(v.get("link"), null, 4));
-  });
+  print.itemsList(r, 'List of published models');
 
-  r = await store.apiCall(r.links("up"));
-
+  print.object(r.items(r.itemsList(0), 'data'),'body of first item');
   return true;
 }
 

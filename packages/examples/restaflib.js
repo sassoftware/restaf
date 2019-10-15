@@ -58,7 +58,7 @@ async function setup () {
   print.logListLines(log);
 
   let {casSetup, caslRun} = restaflib;
-  let {session} = await casSetup(store, null);
+  let session = await casSetup(store, null);
   /* usually you will get this from a repo */
   let casl = `
           print 'input values';

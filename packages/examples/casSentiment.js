@@ -30,7 +30,7 @@ let store = restaf.initStore();
 
 async function example (store, payload) {
   //setup CAS session
-  let { session } = await casSetup(store, payload);
+  let {session} = await casSetup(store, payload);
 
   let actionPayload = {
     action: 'builtins.loadActionSet',

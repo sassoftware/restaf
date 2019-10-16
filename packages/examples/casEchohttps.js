@@ -31,7 +31,7 @@ let print = require("./print");
 
 let store = restaf.initStore({ pem: pem });
 async function example () {
-  let { session } = await casSetup(store, payload);
+  let {session} = await casSetup(store, payload);
   // console.log(JSON.stringify(session.links(), null, 4));
   let p = {
     action: "echo",

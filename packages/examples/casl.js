@@ -6,7 +6,7 @@ let {casSetup, print} = require('restaflib');
 
 let store = restaf.initStore();
 async function example () {
-  let { session } = await casSetup (store, payload);
+  let {session} = await casSetup (store, payload);
   // console.log(JSON.stringify(session.links(), null, 4));
   let casl = `
            action datastep.runcode/ single='YES' code = 'data casuser.a; x=1; run;';

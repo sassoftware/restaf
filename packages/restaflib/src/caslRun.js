@@ -27,15 +27,15 @@ import jsonToDict from './jsonToDict';
 // Notes: Function to call cas 
 // See README file for notes on REUSECASSESSION
 //
-async function caslRun (store, session, src, args, env) {
+async function caslRun (store, session, src, env) {
     //
     // create casl statements for arguments and appenv
     //
     debugger;
-    let _args_   = jsonToDict((args !== null) ? args : {}, '_args_') 
+    // let _args_   = jsonToDict((args !== null) ? args : {}, '_args_') 
     let _appEnv_ = jsonToDict((env  !== null) ? env  : {}, '_appEnv_');
 
-    let code = _args_ + ' ' + _appEnv_ + ' ' + src;
+    let code =  _appEnv_ + ' ' + src;
     
     // Patch for issues with sccasl.runcasl via REST API
 

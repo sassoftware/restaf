@@ -28,7 +28,7 @@ let payload = require('./config')();
 let store = restaf.initStore();
 
 async function example (store, payload) {
-  let { session } = await casSetup(store, payload);
+  let {session} = await casSetup(store, payload);
 
   let actionPayload = {
     action: 'datastep.runCode',

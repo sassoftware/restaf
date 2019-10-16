@@ -33,10 +33,20 @@ async function setup () {
   let msg = await store.logon(payload);
   console.log(restaflib);
 
+  let {casSetup, caslRun} = restaflib;
+  let {session} = await casSetup(store, null);
+  let control = {
+    from  : 1,
+    count : 20,
+    format: true
+  }
+  debugger;
+  let data = await restaflib.casFetchData(store, session, {caslib: 'Public', name: 'cars'}, control);
+  print.object(data, 'result from fetch');
+
   /* json to dictionary */
 
   let {jsonToDict} = restaflib;
-  console.log(jsonToDict);
   let x= {a: 10, b: 'abc'};
   let t = jsonToDict (x, '_a_');
   print.object(t, 'jsonToDict');
@@ -57,8 +67,7 @@ async function setup () {
   let log = await getLog (store, computeSummary);
   print.logListLines(log);
 
-  let {casSetup, caslRun} = restaflib;
-  let session = await casSetup(store, null);
+  
   /* usually you will get this from a repo */
   let casl = `
           print 'input values';
@@ -78,6 +87,8 @@ async function setup () {
 
   let result = await caslRun(store, session, casl, args, null);
   print.object(result.items('results', 'c'), 'Selected Cas Results');
+
+  
 
   return true;
 }

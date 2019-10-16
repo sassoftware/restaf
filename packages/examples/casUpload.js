@@ -31,7 +31,7 @@ let store = restaf.initStore();
 
 async function example () {
   // setup session
-  let { session } = await casSetup(store, payload);
+  let {session} = await casSetup(store, payload);
 
   // setup header for upload and the rest of the payload
   let JSON_Parameters = {

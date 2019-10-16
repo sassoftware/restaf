@@ -25,9 +25,9 @@ import programs from './programs';
 
 async function caslScore (store, session, scenario) {
     debugger;
-    let src    = programs['scoreCasl']();
+    let src    = programs['commonCasl']() + ' ' + programs['scoreCasl']();
     let appEnv = {path: '/score', ...scenario};
-    let result = await caslRun(store, session, src, null, appEnv);
+    let result = await caslRun(store, session, src, appEnv);
     return result.items('results', 'casResults').toJS();
 }
 export default caslScore;

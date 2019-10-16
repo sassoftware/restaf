@@ -32,7 +32,7 @@ let store = restaf.initStore({ casProxy: true });
 async function example (store, logonPayload) {
   let { apiCall } = store;
 
-  let { session } = await casSetup(store, logonPayload);
+  let {session} = await casSetup(store, logonPayload);
   let p = {
     action: "datastep.runCode",
     data  : {

@@ -38,7 +38,7 @@ async function casSetup (store, logonPayload) {
 	let servers = await store.apiCall(casManagement.links('servers'));
 	let casserver = servers.itemsList(0);
 	let session = await store.apiCall(servers.itemsCmd(casserver, 'createSession'));
-	return session;
+	return {servers, session};
 }
 export default casSetup;
 

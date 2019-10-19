@@ -1,17 +1,64 @@
-<h2> I can name that score in 2 lines </h2>
+<h2> Rapid Application Development - Part I - Scoring in CAS </h2> </h2>
 
 One of the repeating pattern I encounter in working with our pre-sales
-teams is scoring user input. Besides MAS they use CAS server for scoring. 
-In this scenario there are three use cases:
+teams is scoring user input using the cas server. 
+This blog shows how one can solve this common use case with very little code using the restaflib and restaf libraries.
 
+
+<h2> Scoring Scenarios covered in this blog</h2>
+The three common use cases are:
 <ol>
     <li> Model is published to a CAS destination</li>
     <li> Model code is datastep code stored in a modelTable(sashdat)</li>
-    <li> Model code is in an astore</li>
+    <li> Model code is in an astore stored in a sashdat.</li>
 </ol>
 
-After several such engagements I have created a js library(restaflib) based on restaf that 
-simplifies the code to 2 lines, ignoring the setup code and the code needed for post-processing the results.
+<blockquote> <em>The other common use case is scoring with models published to MAS. The MAS use case will be discussed in a 
+    later blog</em>
+</blockquote>
 
-Sidebar: The restaflib has several methods for common use cases like 
+<h2>What is restaflib</h2>
+
+restaflib is a Javascript library build on top of SAS REST APIs and restaf library to address several common use cases.
+This library has multiple methods for simplifying the use of:
+<ol>
+    <li>Scoring using a CAS server</li>
+    <li>Scripting of cas using casl</li>
+    <li>Executing code using Compute service</li>
+    <li>Executing code using Job Execution service</li>
+    <li>Reading CAS tables with pagination</li>
+</ol> 
+
+In this blog the scoring is discussed,
+
 </pre>
+
+<h2> Flow </h2>
+The flow for scoring is shown in the diagram below.
+
+<img>
+
+<h2> Sample Code</h2>
+
+A simple 
+<pre>
+
+    async function example() {
+        let {session} = await casSetup(store);
+
+        // Scoring with model published to a CAS destination
+        let scenario = {
+            modelName: 'Gradient_Boosting_7adb0404_85e3_474d_9d03_1059ef7ae008',
+            model    : { caslib: 'public', name: 'testpublish' },
+            scenario : {
+                sensor_ratio       : 4.3,
+                days_out_of_service: 5
+            }
+        };
+        let r = await caslScore(store, session, scenario);
+        print.object(r, 'Scoring Results for a published model');
+
+    }
+    
+</pre>
+

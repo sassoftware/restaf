@@ -33,8 +33,20 @@ async function setup () {
   let msg = await store.logon(payload);
   console.log(restaflib);
 
+  /*
+  let {jesSetup, jesRun} = restaflib;
+  let jes = await jesSetup(store);
+  let code = 'data a; x=&value;run; proc print; run;';
+  let args = {
+    value: 10
+  };
+
+  let jesResult = await jesRun(store, jes,code, null, args)
+  print.items(jesResult, 'jesResults');
+*/
+
   let {casSetup, caslRun} = restaflib;
-  let {session} = await casSetup(store, null);
+  let {session} = await casSetup(store);
   let control = {
     from  : 1,
     count : 20,
@@ -54,16 +66,16 @@ async function setup () {
   /* run a compute service */
 
   let {computeSetup, computeRun, getLog} = restaflib;
-  let computeSession = await computeSetup(store, null, null);
+  let computeSession = await computeSetup(store);
   console.log('session');
 
   /* prep input */
   let src =   `data _null_; do i = 1 to &maxRows; x=1; end; run; `;
-  let args = {maxRows: 10};
+  let macros = {maxRows: 10};
 
   print.titleLine('Compute Service');
 
-  let computeSummary = await computeRun(store, computeSession, args, src);
+  let computeSummary = await computeRun(store, computeSession, macros, src);
   let log = await getLog (store, computeSummary);
   print.logListLines(log);
 
@@ -83,9 +95,9 @@ async function setup () {
            c = {a=10, b=20};
            send_response({a=r1, b=r2, c=c});
         `;
-  args   = {a: "this is arguments", b: "more data"};
+  let args   = {a: "this is arguments", b: "more data"};
 
-  let result = await caslRun(store, session, casl, args, null);
+  let result = await caslRun(store, session, casl, args);
   print.object(result.items('results', 'c'), 'Selected Cas Results');
 
   
@@ -98,5 +110,5 @@ async function setup () {
   .then(r => console.log(r))
   .catch(e => {
        console.log('failed');
-       console.log(JSON.stringify(e, null,4));
+       console.log(e);
   });

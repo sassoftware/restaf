@@ -20,6 +20,10 @@ import getReportImage  from './getReportImage';
 import getReportUri    from './getReportUri';
 
 import getSasTableRows from './getSasTableRows';
+
+import jesSetup        from './jesSetup';
+import jesRun          from './jesRun';
+
 import jsonToDict      from './jsonToDict';
 import getLog          from './getLog';
 import getListing      from './getListing';
@@ -39,6 +43,8 @@ export {
     getReportImage,
     getReportUri,
     getSasTableRows,
+    jesSetup,
+    jesRun,
     jsonToDict,
     getLog,
     getListing,

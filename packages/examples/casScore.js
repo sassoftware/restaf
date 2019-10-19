@@ -23,10 +23,11 @@
 
 let restaf = require('restaf');
 let payload = require('./config')();
-let {casSetup, print, caslScore } = require('restaflib');
+
 
 let store = restaf.initStore();
 async function example () {
+	let {casSetup, print, caslScore } = require('restaflib');
 	let {session} = await casSetup(store, payload);
 
 	// Scoring with model published to a CAS destination

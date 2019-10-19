@@ -51,7 +51,9 @@ function initStore (iconfig) {
     
     return  {
         logon     : logon.bind(null, store),
+        connect   : logon.bind(null,store),
         logoff    : logoff.bind(null, store),
+        disconnect: logoff.bind(null,store),
         connection: loggedOn.bind(null, store),
         decodeJWT : decodeJWT.bind(null, store),
 

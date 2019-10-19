@@ -31,7 +31,7 @@
 'use strict';
 async function casSetup (store, logonPayload) {
 
-	if (logonPayload !== null) {
+	if (logonPayload != null) {
 			await store.logon(logonPayload);
 	}
 	let {casManagement} = await store.addServices('casManagement');

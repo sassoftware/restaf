@@ -21,10 +21,13 @@ async function jesRunBase (store, jes, payload){
     console.log(payload);
     let job    = await store.apiCall(jes.links('create'), payload);
     debugger;
+    
     let status = await store.jobState(job, null, 5, 2);
     debugger;
     if (status.data === 'running') {
         throw `ERROR: Job did not complete in allotted time`;
+    } else if (status.data === 'failed') {
+        throw JSON.stringify(status);
     } else {
         let results = await jesSummary (store, status.job);
         return results;

@@ -27,8 +27,10 @@ let payload = require('./config')();
 
 let store = restaf.initStore();
 async function example () {
+	await store.logon(payload);
+
 	let {casSetup, print, caslScore } = require('restaflib');
-	let {session} = await casSetup(store, payload);
+	let {session} = await casSetup(store);
 
 	// Scoring with model published to a CAS destination
 	let scenario = {
@@ -41,10 +43,10 @@ async function example () {
 	};
     let r = await caslScore(store, session, scenario);
 	print.object(r, 'Scoring Results for a published model');
+	console.log(JSON.stringify(r, null,4));
 
 	// Scoring with a model saved in a modelTable - scoring code is datastep
 	scenario = {
-	
 		model   : { caslib: 'models', name: 'cms_sdoh_risk_stratification_cluster' },
 		scenario: {
 			SDOH_Physically_Unhealthy_Days_: 4.3,
@@ -55,6 +57,7 @@ async function example () {
 	};
 	r = await caslScore(store, session, scenario);
 	print.object(r, 'Scoring Results for a model as datastep code');
+	
 
 	// Scoring with a model saved as an astore
 	scenario = {

@@ -18,7 +18,7 @@
 
 import jesRunBase from './jesRunBase';
 
-async function jesRun (store,jes, src, jobDefinitionName, args, context){
+async function jesRun (store,jes, src, jobDefinitionName, args){
  
     // generate macro variables
 
@@ -26,8 +26,10 @@ async function jesRun (store,jes, src, jobDefinitionName, args, context){
     //jobRequest.type = 'Compute';
 
     let jobDefinition = {};
+    
 
     if (jobDefinitionName !== null) {
+        debugger;
         jobRequest.jobDefinitionUri = await jobDefUri(store, jobDefinitionName);
     }
     debugger;
@@ -35,9 +37,10 @@ async function jesRun (store,jes, src, jobDefinitionName, args, context){
 
     // Concat macro to code
     if (src !=- null) {
-       jobDefinition.code = src.split(/\r?\n/);
+       jobDefinition.code = src; /*src.split(/\r?\n/);*/
     }
 
+    jobDefinition.type ='Compute';
     if (args !== null) {
         jobDefinition.parameters = args;
     }
@@ -51,7 +54,9 @@ async function jesRun (store,jes, src, jobDefinitionName, args, context){
     // run code and get results
     debugger;
     console.log(JSON.stringify(payload, null,4));
+    debugger;
     let jobResult = await jesRunBase(store, jes, payload);
+    debugger;
 
     return jobResult;
 }

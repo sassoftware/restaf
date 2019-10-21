@@ -11,7 +11,7 @@ module.exports = function scoreCasl (){
         proc cas;   
          
      
-        _appEnv_1 = {   
+        _args_1 = {   
             path  = '/describe',  
             model = { caslib='models', name='cms_sdoh_risk_stratification_cluster'},  
             table = { caslib= "public", name = "cluster_test2"}, 
@@ -24,7 +24,7 @@ module.exports = function scoreCasl (){
       
         };   
      
-        _appEnv_2 = {   
+        _args_2 = {   
             path  = '/score',  
             model = { caslib='models', name='cms_sdoh_risk_stratification_cluster'},  
             table = { caslib= "public", name = "cluster_test2"}, 
@@ -37,7 +37,7 @@ module.exports = function scoreCasl (){
       
         };   
      
-        _appEnv_3 = {   
+        _args_3 = {   
             path  = '/describe',  
             model = { caslib='modelstore', name='_LBP6S3ZAQGO614AJKDJT3AF93'}, 
             table = { caslib='', name=''},  
@@ -48,7 +48,7 @@ module.exports = function scoreCasl (){
         };   
      
          
-        _appEnv_4 = {   
+        _args_4 = {   
             path  = '/score',  
             model = { caslib='modelstore', name='_LBP6S3ZAQGO614AJKDJT3AF93'}, 
             table = { caslib='', name=''},  
@@ -59,7 +59,7 @@ module.exports = function scoreCasl (){
         };   
      
      
-        _appEnv_5 = {   
+        _args_5 = {   
             path = '/score',  
             modelName= 'Gradient_Boosting_3f3c7c89_13ac_469e_a761_28ee066e5b87' 
             model    = { caslib='casuser', name='testdest'}, 
@@ -70,7 +70,7 @@ module.exports = function scoreCasl (){
             } 
         };   
      
-     _appEnv_6 = {   
+     _args_6 = {   
             path = '/score',  
             modelName= 'Gradient_Boosting_7adb0404_85e3_474d_9d03_1059ef7ae008' 
             model    = { caslib='public', name='testpublish'}, 
@@ -81,38 +81,38 @@ module.exports = function scoreCasl (){
             } 
         };   
 
-        result = runMain(_appEnv_1); 
-        result = runMain(_appEnv_2); 
-        result = runMain(_appEnv_3); 
-        result = runMain(_appEnv_4); 
-        result = runMain(_appEnv_5); 
+        result = runMain(_args_1); 
+        result = runMain(_args_2); 
+        result = runMain(_args_3); 
+        result = runMain(_args_4); 
+        result = runMain(_args_5); 
     */ 
      
-        result = runMain(_appEnv_); 
+        result = runMain(_args_); 
         send_response(result); 
         /* print result; */
      
      
-        function runMain(_appEnv_) ; 
+        function runMain(_args_) ; 
             r = {Error= 'No path'};   
-            print _appEnv_;   
-            if ( _appEnv_.path eq '/selectors') then do;   
-                r = selectionLists(_appEnv_.selectors, _appEnv_.table.caslib, _appEnv_.table.name);   
+            print _args_;   
+            if ( _args_.path eq '/selectors') then do;   
+                r = selectionLists(_args_.selectors, _args_.table.caslib, _args_.table.name);   
             end;   
-            else if ( _appEnv_.path eq '/contents') then do;  
-                r = contents(_appEnv_.table.caslib, _appEnv_.table.name);  
+            else if ( _args_.path eq '/contents') then do;  
+                r = contents(_args_.table.caslib, _args_.table.name);  
             end;  
-            else if (_appEnv_.path eq '/describe') then do; 
-               r = describeModel(_appEnv_); 
+            else if (_args_.path eq '/describe') then do; 
+               r = describeModel(_args_); 
             end; 
-            else if (_appEnv_.path eq '/scenario' ) then do;
-              r = fetchData(_appenv_.filter, _appEnv_.table);
+            else if (_args_.path eq '/scenario' ) then do;
+              r = fetchData(_args_.filter, _args_.table);
             end;
-            else if (_appEnv_.path eq '/score') then do;  
-                r =  runScoreCode(_appEnv_.model,  _appEnv_.scenario, _appEnv_.modelName);   
+            else if (_args_.path eq '/score') then do;  
+                r =  runScoreCode(_args_.model,  _args_.scenario, _args_.modelName);   
             end;   
             else do; 
-              r = {Errors = 'Invalid action option specified' || _appEnv_.path}; 
+              r = {Errors = 'Invalid action option specified' || _args_.path}; 
             end; 
                  
             result = {casResults = r};  
@@ -126,24 +126,24 @@ module.exports = function scoreCasl (){
         /* describeModel                           */ 
         /*-----------------------------------------*/ 
      
-        function describeModel(_appEnv_) ; 
-            s = checkAndLoadTable(_appEnv_.model.caslib, _appEnv_.model.name);   
+        function describeModel(_args_) ; 
+            s = checkAndLoadTable(_args_.model.caslib, _args_.model.name);   
             if ( s ne 0 ) then do;   
-                results = {Errors= 'Unable to access ' ||_appEnv.model.caslib||'.'||_appenv_.model.name};   
+                results = {Errors= 'Unable to access ' ||_args_.model.caslib||'.'||_args_.model.name};   
                 return results;   
                 end; 
      
-            mtype = isModel(_appEnv_.model.caslib, _appEnv_.model.name); 
+            mtype = isModel(_args_.model.caslib, _args_.model.name); 
             if ( mtype EQ 'astore' ) then do; 
-               r = astoreDescribe(_appEnv_.model); 
+               r = astoreDescribe(_args_.model); 
             end; 
             else if (mtype EQ 'ds' or mtype EQ 'ds2') then do;
-               s = checkAndLoadTable(_appEnv_.table.caslib, _appEnv_.table.name);   
+               s = checkAndLoadTable(_args_.table.caslib, _args_.table.name);   
               if ( s ne 0 ) then do;   
-                results = {Errors= 'Unable to access ' ||_appEnv_.table.caslib||'.'||_appEnv_.table.name};   
+                results = {Errors= 'Unable to access ' ||_args_.table.caslib||'.'||_args_.table.name};   
                 return results;   
                 end; 
-               r = contents( _appEnv_.table.caslib, _appEnv_.table.name); 
+               r = contents( _args_.table.caslib, _args_.table.name); 
             end; 
          return r; 
         end;             

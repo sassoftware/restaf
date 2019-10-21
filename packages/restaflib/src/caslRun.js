@@ -18,36 +18,18 @@
  * @param {object} args     - user input args
  * @param {object} env      - app specific vales
  * 
- * @returns {object}  standard return value from apiCall
+ * @returns {object}  returns results from cas
  */
 'use strict';
 
-import jsonToDict from './jsonToDict';
+import caslRunBase from './caslRunBase';
 //
 // Notes: Function to call cas 
 // See README file for notes on REUSECASSESSION
 //
 async function caslRun (store, session, src, env) {
-    //
-    // create casl statements for arguments and appenv
-    //
+    let result  = await caslRunBase(store,session, src, env);
     debugger;
-    // let _args_   = jsonToDict((args !== null) ? args : {}, '_args_') 
-    let _appEnv_ = jsonToDict((env  !== null) ? env  : {}, '_appEnv_');
-
-    let code =  _appEnv_ + ' ' + src;
-    
-    // Patch for issues with sccasl.runcasl via REST API
-
-    code = code.replace(/\r?\n|\r/g, '');
-    // setup payload for runAction
-    let payload = {
-        action: 'sccasl.runcasl',
-        data  : {code: code}
-    }
-
-    let result  = await store.runAction(session, payload);
-    debugger;
-    return result;
+    return result.items('results').toJS();
 }
 export default caslRun;

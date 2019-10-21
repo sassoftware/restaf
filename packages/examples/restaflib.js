@@ -21,46 +21,28 @@
 let restaf = require("restaf");
 let payload = require('./config')();
 let restaflib = require('restaflib');
-let {print} = restaflib;
+let {casSetup, caslRun, computeSetup, computeRun, casFetchData, print} = restaflib;
 
-/* --------------------------------------------------------------------------------
- * Logon to the restaf server and setup file service
- * ---------------------------------------------------------------------------------
- */
+let store = restaf.initStore();
 
-async function setup () {
-  let store = restaf.initStore();
-  await store.logon(payload);
+store.logon(payload)
+  .then(r => runExamples(store))
+  .catch(e => {
+       console.log(e);
+  });
 
-  let {casSetup, caslRun} = restaflib;
-  let {session} = await casSetup(store);
-  let control = {
-    from  : 1,
-    count : 20,
-    format: true
-  }
-  debugger;
-  let data = await restaflib.casFetchData(store, session, {caslib: 'Public', name: 'cars'}, control);
-  print.object(data, 'result from fetch');
+async function runExamples () {
+  await test_caslRun();
+  await test_computeRun();
+  await test_casFetchData();
+}
 
-  /* run a compute service */
-
-  let {computeSetup, computeRun, getLog} = restaflib;
-  let computeSession = await computeSetup(store);
-  console.log('session');
-
-  /* prep input */
-  let src =   `data work.a; do i = 1 to &maxRows; x=1; end; run; `;
-  let macros = {maxRows: 10};
-
-  print.titleLine('Compute Service');
-
-  let computeSummary = await computeRun(store, computeSession, macros, src);
-  let log = await getLog (store, computeSummary);
-  print.logListLines(log);
-
-  
-  /* usually you will get this from a repo */
+//
+// caslRun 
+//
+async function test_caslRun () {
+  let {session} = await restaflib.casSetup (store);
+  /* Recommendation: Store the casl code in a repository */
   let casl = `
           print 'input values';
           print _args_;
@@ -77,15 +59,47 @@ async function setup () {
         `;
   let args   = {a: "this is arguments", b: "more data"};
 
-  let result = await caslRun(store, session, casl, args);
-  print.object(result.items('results', 'c'), 'Selected Cas Results');
+  let result = await restaflib.caslRun (store, session, casl, args);
+  print.object(result.c, 'Selected Cas Results');
+  await store.apiCall(session.links('delete'));
+ }
 
-  return true;
+ //
+ // computeRun
+ //
+ async function test_computeRun () {
+   let {getLog} = restaflib;
+  let computeSession = await computeSetup(store);
+  console.log('session');
+
+  /* prep input */
+  let macros = {maxRows: 10};
+  let src =   `data work.a; do i = 1 to &maxRows; x=1; end; run; `;
+  
+  print.titleLine('Compute Service');
+
+  let computeSummary = await computeRun(store, computeSession, macros, src);
+  let log = await getLog (store, computeSummary);
+  print.logListLines(log);
+
+  await store.apiCall(computeSession.links('delete'));
 }
 
- setup()
+//
+// casFetchData
+//
+async function test_casFetchData () {
+  let {session} = await casSetup(store);
+  let control = {
+    from  : 1,
+    count : 20,
+    format: true
+  }
+  debugger;
+  let data = await restaflib.casFetchData(store, session, {caslib: 'Public', name: 'cars'}, control);
+  print.object(data.pagination, 'Pagination information');
+  print.object(data, 'result from fetch');
+  await store.apiCall(session.links('delete'));
+}
+ 
 
-  .then(r => console.log(r))
-  .catch(e => {
-       console.log(e);
-  });

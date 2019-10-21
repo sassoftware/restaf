@@ -70,5 +70,8 @@
   "resolutions": {
     "lodash": ">=4.17.15",
     "mem": "^5.1.1"
+  },
+  "dependencies": {
+    "jsdoc": "^3.6.3"
   }
 }

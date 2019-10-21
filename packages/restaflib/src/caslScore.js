@@ -20,14 +20,14 @@
  */
 'use strict';
 
-import caslRun from './caslRun';
+import caslRunBase from './caslRunBase';
 import programs from './programs';
 
 async function caslScore (store, session, scenario) {
     debugger;
     let src    = programs['commonCasl']() + ' ' + programs['scoreCasl']();
     let appEnv = {path: '/score', ...scenario};
-    let result = await caslRun(store, session, src, appEnv);
+    let result = await caslRunBase(store, session, src, appEnv);
     let finalResult = result.items('results', 'casResults').toJS()[0];
     return finalResult;
 }

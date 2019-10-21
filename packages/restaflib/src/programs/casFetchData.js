@@ -5,7 +5,7 @@
 
 function casFetchData () {
     let code =`
-    results = casFetchData(_appEnv_.table.caslib, _appEnv_.table.name , _appEnv_.from, _appEnv_.count,  _appEnv_.format);   
+    results = casFetchData(_args_.table.caslib, _args_.table.name , _args_.from, _args_.count,  _args_.format);   
     send_response({casResults = results});  
         
     function casFetchData(caslib, name, from, count, format) ;    

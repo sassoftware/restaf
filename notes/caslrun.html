@@ -1,18 +1,9 @@
 <h2> Introduction </h2> 
 
-One of the repeating pattern I encounter in working with our pre-sales
-teams is scoring user input using the cas server. 
+In the blog titled <a href="https://blogs.sas.com/content/sgf/2019/06/25/cas-stored-process-runcasl/" target="_blank">
+    "CAS Stored Process" with my Favorite Action Hero runCas</a> I discussed how to script the Cas server using casl.
 
-The three common use cases are:
-<ol>
-    <li> Model is published to a CAS destination</li>
-    <li> Model code is datastep code stored in a modelTable(sashdat)</li>
-    <li> Model code is in an astore stored in a sashdat.</li>
-</ol>
-
-<blockquote> <em>The other common use case is scoring with models published to MAS. The MAS use case will be discussed in a 
-    later blog</em>
-</blockquote>
+In this blog I show how to use the restaflib library to simplify that code  
 
 <h2>Main tools used in this blog</h2>
 
@@ -47,46 +38,49 @@ Import these into your nodejs application.
 </pre>
 
 <h2> Flow </h2>
-The flow for scoring is shown in the diagram below. This flow applies for the three scoring scenarios mentioned earlier.
+The flow for scoring is shown in the diagram below. Notice this is similar to the flow discussed in the blog on scoring(link).
 
-<a href="http://sww.sas.com/blogs/wp/techoffice/files/2019/10/caslScore.png"><img src="http://sww.sas.com/blogs/wp/techoffice/files/2019/10/caslScore-1024x314.png" alt="" width="640" height="196" class="alignnone size-large wp-image-4416" /></a>
+IMG here
 
-<h2> Sample Code for scoring with model published to a Cas destination</h2>
-
-
-
-<blockquote>
+<h2> Sample Code</h2>
+<h3> Sidebar </h3>
 The payload to store.logon depends on your authentication flow. Please see this link for details on the payload.
-</blockquote>
 
-A typical code for scoring using models published to cas destination is shown below. The payload for the scoring has three key parts:
-
-<ul>
-    <li> The name of the model - this is used only in the case of model published to a cas destination</li>
-    <li> The caslib and name of where the model is stored(a sashdat)</li>
-    <li> An object with the values to be used for scoring</li>
-</ul>
+A typical code is  shown below. 
 
 <pre>
 
-    let store = restaf.initStore();                                               /* (1)   */
+    let store = restaf.initStore();                                                            /* (1)   */
     store.logon(payload)
       .then ( () => example())
       .catch(err) => console.log(e)
 
-    async function example() {
-    
-        let {session} = await casSetup(store);                                    /* (2) */
+    async function example() {                                          
+       
+        let {session} = await restaflib.casSetup (store);                                       /* (2) */
+      
+        let casl = `                                                                            /* (3) */
+                print 'input values';
+                print _args_;
+                 action datastep.runcode/ single='YES' code = 'data casuser.a; x=1; run;';
+                 action table.fetch r=r1/
+                    table= { caslib= 'casuser', name= 'a' } ;
+                    run;
+                    action datastep.runcode/ single='YES' code = 'data casuser.b; y=1; run;';
+                  action table.fetch r=r2/
+                    table= { caslib= 'casuser', name= 'b' } ;
+                    run;
+                 c = {a=10, b=20};
+                 send_response({a=r1, b=r2, c=c});
+              `;
+        let args   = {a: "this is arguments", b: "more data"};
+      
+        let result = await restaflib.caslRun (store, session, casl, args);
+        print.object(result.c, 'Selected Cas Results');
+        await store.apiCall(session.links('delete'));
+        `;
 
-        let scenario = {                                                          /* (3) */
-            modelName: 'Gradient_Boosting_7adb0404_85e3_474d_9d03_1059ef7ae008',
-            model    : { caslib: 'public', name: 'testpublish' },
-            scenario : {
-                sensor_ratio       : 4.3,
-                days_out_of_service: 5
-            }
-        };
-        let r = await caslScore(store, session, scenario);                         /* (4) */
+        let r = await caslRun(store, session, src, args);                                          /* (4) */
 
         console.log(JSON.stringify(r, null,4));
 
@@ -94,7 +88,10 @@ A typical code for scoring using models published to cas destination is shown be
     
 </pre>
 
-The result is a Javascript object with the data returned from scoring. In the example above the result is:
+<blockquote>
+    The 4th argument to caslRun is passed to the casl program as a dictionary named _args_. 
+</blockquote>
+The result is a Javascript object with the standard output from a cas action call. The  
 
 <pre>
     {

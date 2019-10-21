@@ -23,7 +23,7 @@
  * @module casSetup
  * 
  * @param {object} store         - restaf store
- * @param {object} logonPayload  - if not null, then use this logon
+ * @param {object} logonPayload  - if not null, then use this logon to Viya
 
  * 
  * @returns {object}  returns an object {session: xxx, servers: yyy}

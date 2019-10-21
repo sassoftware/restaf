@@ -15,8 +15,7 @@
  * @param {object} store    - restaf store
  * @param {object} session  - cas session
  * @param {object} src      - casl src statements
- * @param {object} args     - user input args
- * @param {object} env      - app specific vales
+ * @param {object} args     - arguments to pass to on to CAS as _args_
  * 
  * @returns {object}  standard return value from apiCall
  */
@@ -27,13 +26,13 @@ import jsonToDict from './jsonToDict';
 // Notes: Function to call cas 
 // See README file for notes on REUSECASSESSION
 //
-async function caslRunBase (store, session, src, env) {
+async function caslRunBase (store, session, src, args) {
     //
     // create casl statements for arguments and appenv
     //
     debugger;
    
-    let _args_ = jsonToDict((env  !== null) ? env  : {}, '_args_');
+    let _args_ = jsonToDict((args  !== null) ? args  : {}, '_args_');
 
     let code =  _args_ + ' ' + src;
     

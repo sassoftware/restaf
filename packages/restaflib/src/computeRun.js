@@ -9,22 +9,25 @@
  * @module spBase
  * 
  * @param {object} store - restaf store
- * @param {object} args - args from graphql server(enhanced)
+ * @param {object} session - current compute service session
  * @param {string} src  - code to execute
+ * @param {object} args - args to be passed on as macros
  * 
  * @returns {object} computeSummary object
  * 
  */
 import computeRunBase from './computeRunBase';
-async function computeRun (store,session, args, src){
+async function computeRun (store,session, src, args){
  
     // generate macro variables
 
     debugger;
     let code =[];
-    for (let arg in args) {
-        let c = `%let ${arg} = ${args[arg]};`;
-        code.push(c);
+    if (args != null) {
+        for (let arg in args) {
+            let c = `%let ${arg} = ${args[arg]};`;
+            code.push(c);
+        }
     }
  
     // Concat macro to code

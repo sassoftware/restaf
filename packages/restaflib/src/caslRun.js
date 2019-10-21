@@ -16,7 +16,7 @@
  * @param {object} session  - cas session
  * @param {object} src      - casl src statements
  * @param {object} args     - user input args
- * @param {object} env      - app specific vales
+
  * 
  * @returns {object}  returns results from cas
  */
@@ -27,8 +27,8 @@ import caslRunBase from './caslRunBase';
 // Notes: Function to call cas 
 // See README file for notes on REUSECASSESSION
 //
-async function caslRun (store, session, src, env) {
-    let result  = await caslRunBase(store,session, src, env);
+async function caslRun (store, session, src, args) {
+    let result  = await caslRunBase(store,session, src, args);
     debugger;
     return result.items('results').toJS();
 }

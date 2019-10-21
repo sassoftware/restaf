@@ -43,7 +43,6 @@ async function example () {
 	};
     let r = await caslScore(store, session, scenario);
 	print.object(r, 'Scoring Results for a published model');
-	console.log(JSON.stringify(r, null,4));
 
 	// Scoring with a model saved in a modelTable - scoring code is datastep
 	scenario = {

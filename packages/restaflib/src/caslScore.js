@@ -16,7 +16,7 @@
  * @param {object} session  - cas session
  * @param {object} scenario   - scenario values
  * 
- * @returns {object}  standard return value from apiCall
+ * @returns {object}  returns the scores as an object
  */
 'use strict';
 

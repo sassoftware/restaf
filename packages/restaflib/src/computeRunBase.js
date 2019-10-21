@@ -13,7 +13,7 @@
  * @param {object} sore - restaf store
  * @param {code} code - SAS code to be executed
  * 
- * @returns {object} rafobject of the results from a sas compute job
+ * @returns {object} computeSummary Object
  * 
  */
 import computeSummary from  './computeSummary';

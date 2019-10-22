@@ -33,8 +33,10 @@ store.logon(payload)
 
 async function runExamples () {
   await test_caslRun();
+  /*
   await test_computeRun();
   await test_casFetchData();
+  */
 }
 
 //
@@ -60,7 +62,11 @@ async function test_caslRun () {
   let args   = {a: "this is arguments", b: "more data"};
 
   let result = await restaflib.caslRun (store, session, casl, args);
-  print.object(result.results, 'Cas Results');
+  // print.object(result, 'Cas Results');
+  console.log(`Job status: ${result.status}`);
+  print.object(result.log, 'Log');
+  print.object(result.disposition, 'Disposition');
+  print.object(result.results, 'Data of real interest');
   await store.apiCall(session.links('delete'));
  }
 

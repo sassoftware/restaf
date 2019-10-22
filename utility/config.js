@@ -38,6 +38,10 @@ function config () {
 		*/
 		
 	let viyaServer = process.env.VIYA_SERVER;
+	if (viyaServer == null) {
+		console.log("Please specify a viya server");
+		process.exit(0);
+	}
 	if (viyaServer.indexOf("http") < 0) {
 		viyaServer = `http://${process.env.VIYA_SERVER}`;
 	}

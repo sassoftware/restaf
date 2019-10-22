@@ -30,6 +30,6 @@ import caslRunBase from './caslRunBase';
 async function caslRun (store, session, src, args) {
     let result  = await caslRunBase(store,session, src, args);
     debugger;
-    return result.items('results').toJS();
+    return result.items().toJS();
 }
 export default caslRun;

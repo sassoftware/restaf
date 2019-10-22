@@ -39,6 +39,10 @@ module.exports = function config () {
 	let viyaServer = process.env.VIYA_SERVER;
 	
 	// left for backward compatability - preferred way is to specify http in the url
+	if (viyaServer == null) {
+		console.log('Please set the VIYA_SERVER either thru env variables or the env file');
+		process.exit(0);
+	}
 	if (viyaServer.indexOf("http") < 0) {
 		viyaServer = `${process.env.SAS_PROTOCOL}${process.env.VIYA_SERVER}`;
 	}

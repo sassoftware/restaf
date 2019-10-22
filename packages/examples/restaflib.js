@@ -28,7 +28,7 @@ let store = restaf.initStore();
 store.logon(payload)
   .then(r => runExamples(store))
   .catch(e => {
-       console.log(e);
+       print.object(e);
   });
 
 async function runExamples () {
@@ -60,7 +60,7 @@ async function test_caslRun () {
   let args   = {a: "this is arguments", b: "more data"};
 
   let result = await restaflib.caslRun (store, session, casl, args);
-  print.object(result.c, 'Selected Cas Results');
+  print.object(result.results, 'Cas Results');
   await store.apiCall(session.links('delete'));
  }
 
@@ -78,7 +78,7 @@ async function test_caslRun () {
   
   print.titleLine('Compute Service');
 
-  let computeSummary = await computeRun(store, computeSession, macros, src);
+  let computeSummary = await computeRun(store, computeSession, src,  macros);
   let log = await getLog (store, computeSummary);
   print.logListLines(log);
 

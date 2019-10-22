@@ -44,7 +44,6 @@ async function setup (payload, ...args) {
   };
 
   let r = await store.apiCall(modelPublish.links("getPublishedModel"), payload);
-
   print.itemsList(r, 'List of published models');
 
   print.object(r.items(r.itemsList(0), 'data'),'body of first item');

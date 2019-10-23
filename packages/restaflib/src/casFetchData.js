@@ -26,12 +26,11 @@
 import caslRunBase from './caslRunBase';
 import programs from './programs';
 
-async function casFetchData (store, session, table, control){
+async function casFetchData (store, session, payload){
     debugger;
     let src    = programs['commonCasl']() + ' ' +  programs['casFetchData']();
     debugger;
-    let appEnv = {...control, table};
-    let result = await caslRunBase(store, session, src, appEnv);
+    let result = await caslRunBase(store, session, src, payload);
     debugger;
    // console.log(JSON.stringify(result.items(), null,4));
     return result.items('results', 'casResults').toJS();    

@@ -32,11 +32,12 @@ store.logon(payload)
   });
 
 async function runExamples () {
-  await test_caslRun();
   /*
+  await test_caslRun();
   await test_computeRun();
-  await test_casFetchData();
   */
+  await test_casFetchData();
+  
 }
 
 //
@@ -52,12 +53,11 @@ async function test_caslRun () {
            action table.fetch r=r1/
               table= { caslib= 'casuser', name= 'a' } ;
               run;
-              action datastep.runcode/ single='YES' code = 'data casuser.b; y=1; run;';
             action table.fetch r=r2/
-              table= { caslib= 'casuser', name= 'b' } ;
+              table= { caslib= 'public', name= 'cars' } ;
               run;
            c = {a=10, b=20};
-           send_response({a=r1, b=r2, c=c});
+           send_response({a=r1, cars=r2, c=c});
         `;
   let args   = {a: "this is arguments", b: "more data"};
 
@@ -96,15 +96,35 @@ async function test_caslRun () {
 //
 async function test_casFetchData () {
   let {session} = await casSetup(store);
-  let control = {
+  let payload = {
     from  : 1,
     count : 20,
-    format: true
+    format: true,
+    table : {caslib: 'Public', name: 'cars'}
   }
   debugger;
-  let data = await restaflib.casFetchData(store, session, {caslib: 'Public', name: 'cars'}, control);
-  print.object(data.pagination, 'Pagination information');
-  print.object(data, 'result from fetch');
+  let result = await restaflib.casFetchData(store, session, payload);
+  console.log(`The next start is at: ${result.pagination.next.from}`);
+  console.log(result.data.rows[0].toString());
+
+  // Scroll forward
+  while (result.pagination.next.from !== -1) {
+    console.log(`The start is at: ${result.pagination.next.from}`);
+     result = await restaflib.casFetchData(store, session, result.pagination.next);
+     console.log(`The next start is at: ${result.pagination.next.from}`);
+     console.log(result.data.rows[0].toString());
+  }
+  
+  console.log('--------------------------------------- scroll backwards');
+  // use the last prev to start scrollin backwards
+  
+  while (result.pagination.prev.from !== -1) {
+    console.log(`The start is at: ${result.pagination.prev.from}`);
+    result = await restaflib.casFetchData(store, session, result.pagination.prev);
+    console.log(`The next start is at: ${result.pagination.prev.from}`);
+    console.log(result.data.rows[0].toString());
+ }
+
   await store.apiCall(session.links('delete'));
 }
  

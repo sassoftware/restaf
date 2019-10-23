@@ -13,7 +13,7 @@ function casFetchData () {
        rc = checkAndLoadTable(caslib, name);
     
        if (rc ne 0) then do;
-         results = {Errors= 'Unable to access ' ||table.caslib||'.'||table.name};   
+         results = {Errors= 'Unable to access ' ||caslib||'.'||name};   
          return results;   
          end;  
 
@@ -68,14 +68,24 @@ function casFetchData () {
           i = i + 1;
         end;
 
-        pagePrev = max(from - count, 1);    
+        pagePrev = max(from - count, -1);
+        if (from ne 1) then do;
+           pagePrev = max(pagePrev,1);
+        end;   
         if ( to eq rowCount ) then do;    
             pageNext = -1;    
         end;    
         else do ;    
             pageNext = min(to + 1, rowCount);    
         end;   
-       return ({pagination = {prev=pagePrev, next=pageNext, count=count}, rc=0 , data = {schema=columns, rows=rows } } ); 
+        table = {caslib=caslib, name=name};
+        pagination = {next= {from=pageNext, count=count, format=format, table=table}, prev={from=pagePrev, count=count, format=format, table=table}};
+
+       /*return ({pagination = {table = {caslib=caslib, name=name}, prev=pagePrev, next=pageNext, count=count}, rc=0 , data = {schema=columns, rows=rows } } ); */
+
+       return( 
+         {pagination = pagination, data = {schema=columns, rows=rows }}
+         );
     end;    
     
     /*

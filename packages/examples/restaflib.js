@@ -103,11 +103,14 @@ async function test_casFetchData () {
     table : {caslib: 'Public', name: 'cars'}
   }
   debugger;
+
+  // Get the first 20 records
   let result = await restaflib.casFetchData(store, session, payload);
+  console.log(result.data.toString());
   console.log(`The next start is at: ${result.pagination.next.from}`);
   console.log(result.data.rows[0].toString());
 
-  // Scroll forward
+  // Scroll forward to the end 
   while (result.pagination.next.from !== -1) {
     console.log(`The start is at: ${result.pagination.next.from}`);
      result = await restaflib.casFetchData(store, session, result.pagination.next);
@@ -116,12 +119,12 @@ async function test_casFetchData () {
   }
   
   console.log('--------------------------------------- scroll backwards');
-  // use the last prev to start scrollin backwards
+  // use the last prev to start scrolling backwards to the top
   
   while (result.pagination.prev.from !== -1) {
     console.log(`The start is at: ${result.pagination.prev.from}`);
     result = await restaflib.casFetchData(store, session, result.pagination.prev);
-    console.log(`The next start is at: ${result.pagination.prev.from}`);
+    console.log(`The previous start is at: ${result.pagination.prev.from}`);
     console.log(result.data.rows[0].toString());
  }
 

@@ -41,9 +41,26 @@ async function casSession (store, payload, sesName) {
   console.log(`cas servername: ${casserver}`);
   let session = await store.apiCall(
     servers.itemsCmd(casserver, "createSession"),
-    { data: { name: sesName } }
+    { data: { name: sesName} }
   );
   let id = session.items("id");
+  payload = {
+    action: "sessionProp.setSessopt",
+    data  : {timeout: 86000 }
+  };
+
+  let r = await store.runAction(session, payload);
+  
+  payload = {
+    action: "sessionProp.getSessopt",
+    data  : {name: 'TIMEOUT' }
+  };
+  r = await store.runAction(session, payload);
+  console.log('------------------------------------------------------');
+
+  console.log(`Current timeout = ${r.items()}`);
+
+  console.log('------------------------------------------------');
 
   console.log('================================== Initial session information');
 
@@ -65,12 +82,9 @@ async function casSession (store, payload, sesName) {
   //
   // Now use the attached session
   //
-  payload = {
-    action: "echo",
-    data  : { x: `with t2 example` }
-  };
 
-  let r = await store.runAction(t2, payload);
+
+
 
   console.log('------------------------- show the output results');
 

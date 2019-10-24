@@ -13,7 +13,7 @@
  * @returns {string} - the svg of the report
  * 
  */
-let findReport = require('./findReport');
+import findReport from './findReport';
 
 async function getReportImage (store, name) {
     let reportImages = store.rafObject('reportImages');

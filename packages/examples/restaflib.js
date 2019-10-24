@@ -32,10 +32,10 @@ store.logon(payload)
   });
 
 async function runExamples () {
-  /*
+  await test_computeRun();
+  
   await test_caslRun();
   await test_computeRun();
-  */
   await test_casFetchData();
   
 }

@@ -6,12 +6,17 @@
 
 async function getLog (store, computeSummary){
     debugger;
-    let log = '';
-    let result;
+    let log = [];
+   
     if (computeSummary.log !== null) {
        let result = await store.apiCall(computeSummary.log);
-       log = log + result.items('data');
-       do while (result.itemsCmd('next') !)
+       log = log.concat(result.items().toJS());
+       let next;
+       while ((next = result.scrollCmds("next")) !== null) {
+        result = await store.apiCall(next);
+        log = log.concat(result.items().toJS());
+       }
+    }
     return log;
 }
 export default getLog;

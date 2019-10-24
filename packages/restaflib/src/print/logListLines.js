@@ -17,15 +17,14 @@
  */
 import colors from 'colors/safe';
 
-async function logListLines (folder) {
+async function logListLines (dataL) {
     debugger;
-    let dataL = folder.items();
     dataL.map((data) => {
-        let line = data.get('line').replace(/(\r\n|\n|\r)/gm, "");
+        let line = data.line.replace(/(\r\n|\n|\r)/gm, "");
         if (line.length === 0) {
            console.log(' ');
         }
-        let type = data.get('type');
+        let type = data.type; 
         if (type === 'title') {
             console.log(colors.bold(line));
         } else {

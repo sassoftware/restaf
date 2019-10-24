@@ -12,7 +12,7 @@
  * 
  * @returns {string} url for the report
  */
-let findReport  = require('./findReport');
+import findReport from './findReport';
 async function getReportUri (store, name) {
     let reportsList = await findReport(store, name);
     if (reportsList === null) {

@@ -19,11 +19,13 @@
 "use strict";
 
 const ca = require('win-ca');
+
+
+let a = ca({format: ca.der2.pem,  store: [ 'root', 'ca' ], save: 'c:/public/env/pems'});
+
 let pem ='';
 // let a = ca({format: ca.der2.pem,  store: [ 'root', 'ca' ], ondata: (c) => {pem = pem + c}});
 console.log(pem);
 
 // Alternate approach: save the pems and reuse them. In this case all you need to pass to restaf is roots.pem which has 
 // all the pems.
-
-let a = ca({format: ca.der2.pem,  store: [ 'root', 'ca' ], save: './pems'});

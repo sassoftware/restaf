@@ -26,33 +26,29 @@ let restaf  = require("restaf");
 let payload = require("./config")();
 let fs      = require("fs");
 
-let pemFile = process.env.SSL_CERT_FILE;
-console.log(`pemfile = ${pemFile}`);
-let pem = (pemFile != null) ? fs.readFileSync(pemFile, 'utf8') : null;
+// The following are set in the environment
+// NODE_EXTRA_CA_CERTS=c:/public/env/pems/roots.pem or wherever your pem file is stored
 
-let rejectUnauth = (process.env.NODE_TLS_REJECT_UNAUTHORIZED === 0) ? true : false;
+
 /*
-console.log(`pemfile = ${pemFile}`);
-console.log(`unauthorized: ${rejectUnauth}`);
-
+let pemFile = process.env.SSL_CERT_FILE;
+console.log(pemFile);
+console.log(process.env.NODE_TLS_REJECT_UNAUTHORIZED);
+// console.log(`pemfile = ${pemFile}`);
 let pem = (pemFile != null) ? fs.readFileSync(pemFile, 'utf8') : null;
-let rejectUnauthorized = (rejectUnauth == null) ? null 
-                         :  (rejectUnauth === 'YES') ? true : false;
-// console.log(pem);
-//
-// Pass pem to store for https calls
-//
 */
 
-// let store = restaf.initStore({pem: null, rejectUnauthorized: false });
+let pemFile = process.env.PEMFILE;
 
-let store = restaf.initStore();
+console.log(`NODE_TLS_REJECT_UNAUTHORIZED=${process.env.NODE_TLS_REJECT_UNAUTHORIZED}`);
+console.log(`pemfile = ${pemFile}`);
+let pem = (pemFile != null) ? fs.readFileSync(pemFile, 'utf8') : null;
+let store = restaf.initStore({pem: pem})
 store
   .logon(payload)
   .then(msg => {
     console.log(`Logon Status: ${msg}`);
     console.log("calling logoff");
-    console.log(store.connection());
     return store.logoff();
   })
   .then(lmsg => console.log(lmsg))

@@ -29,6 +29,9 @@ import getLog          from './getLog';
 import getListing      from './getListing';
 import getODS          from './getODS';
 
+import masSetup        from './masSetup';
+import masRun          from './masRun';
+
 import print           from './print';
 
 export {
@@ -50,5 +53,7 @@ export {
     getListing,
     getODS,
     print,
-    caslScore
+    caslScore,
+    masSetup,
+    masRun
 };

@@ -24,28 +24,12 @@
  */
 let restaf  = require("restaf");
 let payload = require("./config")();
-let fs      = require("fs");
 
-let pemFile = process.env.SSL_CERT_FILE;
-console.log(`pemfile = ${pemFile}`);
-let pem = (pemFile != null) ? fs.readFileSync(pemFile, 'utf8') : null;
+// The following are set in the environment
+// Allow unauthorized:  process.env.NODE_TLS_REJECT_UNAUTHORIZED=0
+// DisAllow unauthorized: process.env.NODE_TLS_REJECT_UNAUTHORIZED=1
 
-let rejectUnauth = (process.env.NODE_TLS_REJECT_UNAUTHORIZED === 0) ? true : false;
-/*
-console.log(`pemfile = ${pemFile}`);
-console.log(`unauthorized: ${rejectUnauth}`);
-
-let pem = (pemFile != null) ? fs.readFileSync(pemFile, 'utf8') : null;
-let rejectUnauthorized = (rejectUnauth == null) ? null 
-                         :  (rejectUnauth === 'YES') ? true : false;
-// console.log(pem);
-//
-// Pass pem to store for https calls
-//
-*/
-
-// let store = restaf.initStore({pem: null, rejectUnauthorized: false });
-
+// let store = restaf.initStore({rejectUnauthorized: process.env.NODE_TLS_REJECT_UNAUTHORIZED});
 let store = restaf.initStore();
 store
   .logon(payload)

@@ -18,6 +18,8 @@
 
 "use strict";
 
+// let NODE_EXTRA_CA_CERTS='c:/public/env/pems/roots.pem';
+
 /* --------------------------------------------------------------------------------
  * Logon to the Viya server
  * ---------------------------------------------------------------------------------
@@ -26,33 +28,13 @@ let restaf  = require("restaf");
 let payload = require("./config")();
 let fs      = require("fs");
 
-let pemFile = process.env.SSL_CERT_FILE;
-console.log(`pemfile = ${pemFile}`);
-let pem = (pemFile != null) ? fs.readFileSync(pemFile, 'utf8') : null;
-
-let rejectUnauth = (process.env.NODE_TLS_REJECT_UNAUTHORIZED === 0) ? true : false;
-/*
-console.log(`pemfile = ${pemFile}`);
-console.log(`unauthorized: ${rejectUnauth}`);
-
-let pem = (pemFile != null) ? fs.readFileSync(pemFile, 'utf8') : null;
-let rejectUnauthorized = (rejectUnauth == null) ? null 
-                         :  (rejectUnauth === 'YES') ? true : false;
-// console.log(pem);
-//
-// Pass pem to store for https calls
-//
-*/
-
-// let store = restaf.initStore({pem: null, rejectUnauthorized: false });
-
-let store = restaf.initStore();
+console.log(`NODE_TLS_REJECT_UNAUTHORIZED=${process.env.NODE_TLS_REJECT_UNAUTHORIZED}`);
+let store = restaf.initStore()
 store
   .logon(payload)
   .then(msg => {
     console.log(`Logon Status: ${msg}`);
     console.log("calling logoff");
-    console.log(store.connection());
     return store.logoff();
   })
   .then(lmsg => console.log(lmsg))

@@ -41,6 +41,7 @@ async function example (payload, models) {
   };
   let result = await restaflib.masRun (store, masControl, models[0], scenario);
   print.object(result);
+  console.log(result);
 
 }
 example (payload, [ 'sdktgo_iris' ])

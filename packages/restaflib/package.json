@@ -1,6 +1,6 @@
 {
   "name": "restaflib",
-  "version": "1.6.11",
+  "version": "1.6.12",
   "description": "collection of useful functions for common scenarios",
   "main": "./lib/restaflib.js",
   "repository": {

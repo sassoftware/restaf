@@ -34,7 +34,7 @@ const SASLogoffOauthLink = function () {
             }
         });
 
-}
+};
 /*
  * redirectUri not specified - /SASLogon/oauth/token?
  */

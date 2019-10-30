@@ -16,9 +16,11 @@
   */
 async function computeSummary (store, job){
     let cResult = {
+        job    : job,
         log    : null,
         listing: null,
         ods    : null,
+        others : {},
         tables : {}
     };
     cResult.log     = job.links('log');
@@ -34,9 +36,17 @@ async function computeSummary (store, job){
                 if (type === 'ods') {
                     cResult.ods = results.itemsCmd(resultItem, 'self');
                 } else if (type === 'table') {
-                    cResult.tables[resultItem] = results.itemsCmd(resultItem, 'self');
-                } else {
-                  console.log (`what is ${type} ?`)
+                    let r= {
+                        self   : results.itemsCmd(resultItem, 'self'),
+                        current: null
+                    };
+                    cResult.tables[resultItem] = r;
+                } else  {
+                    let r= {
+                        self   : results.itemsCmd(resultItem, 'self'),
+                        current: null
+                    };
+                    cResult.others[resultItem] = r;
                 }
             }
         }

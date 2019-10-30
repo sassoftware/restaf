@@ -28,7 +28,7 @@ function *apiPoll (action) {
 
     do {
         if (config.delay) {
-            yield delay(config.delay * 1000)
+            yield delay(config.delay * 1000);
         }
         payload = yield call(httpCallWait, config);
     } while (payload === null);

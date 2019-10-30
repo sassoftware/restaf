@@ -27,7 +27,7 @@ function jsonToDict (obj, name) {
     } else {
         o1 = (Array.isArray(obj) === true)? handleArray(obj) : handleObject(obj);
     }
-    return `${name} = ${o1};`
+    return `${name} = ${o1};`;
 }
 function handleObject (obj) {
     let r    = '{ ';

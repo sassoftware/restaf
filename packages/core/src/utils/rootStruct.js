@@ -85,7 +85,7 @@ function itemsStruct () {
         resultType: '',
         cmds      : null,
         data      : null
-    }
+    };
 }
 
 function statusInfoStruct () {
@@ -94,7 +94,7 @@ function statusInfoStruct () {
        statusText: ' ',
        error     : false,
        details   : ' '
-   }
+   };
 
 }
 

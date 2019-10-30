@@ -47,7 +47,7 @@ async function example (store, payload) {
   let actionResult = await store.runAction(session, actionPayload);
 
   print.object(actionResult.items('tables'), 'Fetched data');
-  print.object(actionResult.items('tableNames'), 'Fetched TableNames')
+  print.object(actionResult.items('tableNames'), 'Fetched TableNames');
 
   // use fedsql to get the data
 

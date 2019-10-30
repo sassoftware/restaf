@@ -83,7 +83,7 @@ const responseReducer  = (action, parentPath)  => {
             resultType: contentType,
             data      : (typeof results === 'string') ? results : Object.assign({}, results),
             cmds      : null
-        }
+        };
     }
 
 
@@ -112,7 +112,7 @@ const responseReducer  = (action, parentPath)  => {
                 qs     : (hc.params == null) ? {} : ((typeof hc.params === 'object') ? Object.assign({},hc.params) : hc.params),
             }
         }
-    }
+    };
     return response;
 
 };
@@ -247,7 +247,7 @@ function itemsReducer (results, parentPath){
 
         itemsResponse.type   = 'itemsList';
         response.itemsList   = [ ...idList ];
-        response.type        = 'itemsList'
+        response.type        = 'itemsList';
     } else {
         /**/
         itemsResponse.data       = [ ...results.items ];

@@ -216,4 +216,4 @@ module.exports = function scoreCasl (){
         
     `;
     return casl;
-  }
+  };

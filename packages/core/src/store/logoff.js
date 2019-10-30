@@ -43,6 +43,6 @@ function logoff (store) {
         unSubscribe = store.subscribe(logoffExit);
         store.dispatch(action);
 
-    })
+    });
 }
 export default logoff;

@@ -13,7 +13,7 @@ async function masSetup (store,models, logonPayload){
     if (models != null) {
        for (let i=0; i < models.length; i++) {
            let m = models[i];
-           let result = await getScoreStep(store, microanalyticScore, m)
+           let result = await getScoreStep(store, microanalyticScore, m);
            steps[m] = result; 
        }
     }
@@ -26,7 +26,7 @@ async function getScoreStep (store, microanalyticScore, name) {
       qs: {
           filter: `eq(name,'${name}')`
       }
-    }
+    };
     
     let modList = await store.apiCall(microanalyticScore.links('modules'), payload);
    // print.itemsList(modList, 'list of all models');

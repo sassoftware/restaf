@@ -25,7 +25,7 @@ let restaf = require('restaf');
 let config = require('./config');
 let payload  = config();
 let store    = restaf.initStore();
-let {print}   = require('restaflib')
+let {print}   = require('restaflib');
 payload.keepAlive = null;
 store
   .logon(payload)

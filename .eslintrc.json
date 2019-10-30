@@ -48,6 +48,10 @@
     "space-before-function-paren": [
       2,
       "always"
+    ],
+    "semi": [
+      2,
+      "always"
     ]
 
 

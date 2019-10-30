@@ -23,7 +23,7 @@ import createReducer  from './createReducer';
 const injectAsyncReducers = function (store, name, asyncReducer) {
 
     if (store.asyncReducers.hasOwnProperty(name)) {
-        delete store.asyncReducers[ name ]
+        delete store.asyncReducers[ name ];
     }
 
     store.asyncReducers[ name ] = asyncReducer;

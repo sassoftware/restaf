@@ -49,4 +49,4 @@ module.exports = function casSessionLinks (uri, urihttp, casHttp, server){
             extended      : true
         }
     ];
-}
+};

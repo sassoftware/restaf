@@ -21,6 +21,6 @@ const createReducer = (asyncReducer) => {
     reducerList = {...reducerList, ...asyncReducer};
     return combineReducers (reducerList);
 
-}
+};
 export default createReducer;
 

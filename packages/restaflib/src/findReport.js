@@ -21,7 +21,7 @@ async function findReport (store, name) {
         qs: {
             filter: `eq(name,'${name}')`
         }
-    }
+    };
     // call the reports service
     let reportsList = await store.apiCall(reports.links('reports'), payload);
     // check to see if atleast one report was found(hopefully one only)

@@ -21,7 +21,7 @@ import { ADD_SERVICE, API_CALL_PARALLEL } from '../actionTypes';
 
 import getResults   from './getResults';
 import extendFolder from './extendFolder';
-import injectAsyncReducers  from '../reducers/injectAsyncReducers'
+import injectAsyncReducers  from '../reducers/injectAsyncReducers';
 import baseReducer          from '../reducers/baseReducer';
 
 const iaddServices = (store, services)  => {

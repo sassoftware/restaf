@@ -29,11 +29,8 @@ async function jesRun (store,jes, src, jobDefinitionName, args){
     
 
     if (jobDefinitionName !== null) {
-        debugger;
         jobRequest.jobDefinitionUri = await jobDefUri(store, jobDefinitionName);
     }
-    debugger;
-
 
     // Concat macro to code
     if (src !=- null) {
@@ -50,7 +47,7 @@ async function jesRun (store,jes, src, jobDefinitionName, args){
 
     let payload = {
         data: jobRequest
-    }
+    };
     // run code and get results
     debugger;
     console.log(JSON.stringify(payload, null,4));
@@ -68,8 +65,8 @@ async function jobDefUri (store, name) {
         qs: {
             filter: `eq(name,'${name}')`
         }
-    }
-    // call the reports service
+    };
+  
     debugger;
     let jdefList = await jesRunBase(store, payload);
     debugger;
@@ -77,7 +74,7 @@ async function jobDefUri (store, name) {
         throw `Error: ${name} not found in the system`;
     } 
     else {
-        uri = jdefList.itemsCmd(name, 'self', 'link', 'uri')
+        uri = jdefList.itemsCmd(name, 'self', 'link', 'uri');
     }
     return uri;
 }

@@ -76,7 +76,7 @@ function restoreStore (store) {
         getServiceRoot: getServiceRoot.bind(null, store),
 
         request: request
-    } 
+    }; 
     let newStore = {store, ...newx};
     return newStore;
 }

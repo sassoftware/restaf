@@ -19,18 +19,18 @@
 'use strict';
 import apiCall from './apiCall';
 
-async function runAction(store, session, payload) {
-    let rel = ( store.config.casProxy === true ) ? 'casproxy' : 'execute'; /* fix for issues with casproxy */
+async function runAction (store, session, payload) {
+    let rel = (store.config.casProxy === true) ? 'casproxy' : 'execute'; /* fix for issues with casproxy */
     let actionResult = await apiCall(store, session.links(rel), payload, 0);
-    if ( casError(actionResult) === true ) {
+    if (casError(actionResult) === true) {
         throw JSON.stringify(actionResult.items());
     }
     return actionResult;
 }
-function casError(actionResult) {
+function casError (actionResult) {
     let statusCode =  actionResult.items('disposition', 'statusCode');
     let severity   = actionResult.items ('disposition', 'severity');
-    return ( statusCode !== 0 || severity === 'Error') ? true : false;
+    return (statusCode !== 0 || severity === 'Error') ? true : false;
  }
 
 export default runAction;

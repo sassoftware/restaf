@@ -40,6 +40,6 @@ exports.setBadStatus  = function (payload) {
        statusText: payload.message,
        detail    : detail,
        error     : true
-   })
+   });
 
 };

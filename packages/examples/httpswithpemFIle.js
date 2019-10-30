@@ -43,7 +43,7 @@ let pemFile = process.env.PEMFILE;
 console.log(`NODE_TLS_REJECT_UNAUTHORIZED=${process.env.NODE_TLS_REJECT_UNAUTHORIZED}`);
 console.log(`pemfile = ${pemFile}`);
 let pem = (pemFile != null) ? fs.readFileSync(pemFile, 'utf8') : null;
-let store = restaf.initStore({pem: pem})
+let store = restaf.initStore({pem: pem});
 store
   .logon(payload)
   .then(msg => {

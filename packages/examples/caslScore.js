@@ -74,7 +74,7 @@ async function example () {
 			NINQ   : 1, 
 			YOJ    : 10
 			}
-		}
+		};
 
 	r = await caslScore(store, session, scenario);
 	print.object(r, 'Scoring Results for a model as astore');

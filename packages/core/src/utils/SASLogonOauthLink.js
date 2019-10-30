@@ -58,13 +58,13 @@ const SASLogoffOauthLink = function () {
             }
         });
 
-}
+};
 
 const SASKeepAlive = function () {
     return {
 
-    }
-}
+    };
+};
 /*
  * redirectUri not specified - /SASLogon/oauth/token?
  */

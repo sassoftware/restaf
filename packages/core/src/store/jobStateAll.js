@@ -34,7 +34,7 @@ function jobStateAll (store, jobList, payload, maxTries) {
                     return {
                         rafLink: j.job.links('self'),
                         payload: null
-                    }
+                    };
                 });
 
                 apiCallAll(store, rafLinkSelf, null)
@@ -46,12 +46,12 @@ function jobStateAll (store, jobList, payload, maxTries) {
                     })
                     .catch(err => {
                         reject(err);
-                    })
+                    });
             } else {
                 resolve(result);
             }
-        })
-    })
+        });
+    });
 }
 
 function checkStatus (store, jobList, payload, tries, cb) {
@@ -72,7 +72,7 @@ function checkStatus (store, jobList, payload, tries, cb) {
         })
         .catch(err => {
             cb(err);
-        })
+        });
 }
 
 export default jobStateAll;

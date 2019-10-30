@@ -50,6 +50,6 @@ function casTable (result, table) {
         // print.object(row, `Row ${i+1}`);
         return row;
     });
-    print.object(allRows, `Data for ${table}`)
+    print.object(allRows, `Data for ${table}`);
 }
 export default casTable;

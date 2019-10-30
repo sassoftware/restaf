@@ -74,8 +74,8 @@ function ijobStateAll (store, jobs , ipayload) {
             })
             .catch(err => {
                 reject(err);
-            })
+            });
 
-    })
+    });
 }
 export default ijobStateAll;

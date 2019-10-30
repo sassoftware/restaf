@@ -29,7 +29,7 @@ let payload = require("./config")();
 let fs      = require("fs");
 
 console.log(`NODE_TLS_REJECT_UNAUTHORIZED=${process.env.NODE_TLS_REJECT_UNAUTHORIZED}`);
-let store = restaf.initStore()
+let store = restaf.initStore();
 store
   .logon(payload)
   .then(msg => {

@@ -21,7 +21,7 @@ async function masRun (store, masControl, modelName, scenario, step) {
     let score = {};
     outputs.map (m => {
         score[m.name] = m.value;
-    })
+    });
     return score;
 }
 export default masRun;

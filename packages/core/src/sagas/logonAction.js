@@ -45,7 +45,7 @@ function*  logonAction () {
             yield put ({ type: BEGIN_LOGOFF});
             
             let config = {...action};
-            config.logonInfo = yield select(selectLogonInfo)
+            config.logonInfo = yield select(selectLogonInfo);
             let payload      = yield call (sasLogoff, config);
             yield put(payload);
            }
@@ -75,7 +75,7 @@ function sasLogon (action) {
             payload: {
                 iconfig: config
             }
-        }
+        };
     } else {
 
         let t = SASLogonOauthLink(config.authType);
@@ -83,7 +83,7 @@ function sasLogon (action) {
         return (t.logon(config)
                   .then(response => viyaLogonSuccess(response))
                   .catch(error => viyaLogonError(error))
-        )
+        );
     }
 }
 function test (action){
@@ -95,7 +95,7 @@ function viyaLogonSuccess (payload) {
         type : VIYA_LOGON_COMPLETE,
         error: false,
         payload
-    }
+    };
 }
 
 function viyaLogonError (payload) {
@@ -103,7 +103,7 @@ function viyaLogonError (payload) {
         type : VIYA_LOGON_COMPLETE,
         error: true,
         payload
-    }
+    };
 }
 
 function sasLogoff (config){
@@ -111,12 +111,12 @@ function sasLogoff (config){
     config.link = t.link;
     return (t.logoff(config)
             .then(response => {
-                return {type: VIYA_LOGOFF_COMPLETE, error: false, payload: response}
+                return {type: VIYA_LOGOFF_COMPLETE, error: false, payload: response};
             })
             .catch(error => {
-                return {type: VIYA_LOGOFF_COMPLETE, error: true, payload: error}
+                return {type: VIYA_LOGOFF_COMPLETE, error: true, payload: error};
             })
-    )
+    );
 }
 
 export default logonAction;

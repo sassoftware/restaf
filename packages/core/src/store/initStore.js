@@ -90,7 +90,7 @@ function initStore (iconfig) {
         getServiceRoot: getServiceRoot.bind(null, store),
 
         request: request
-    } }
+    }; }
 
 function decodeJWT (store) {
     let token = loggedOn(store)['token'];

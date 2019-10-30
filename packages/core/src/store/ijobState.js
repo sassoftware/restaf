@@ -48,15 +48,15 @@ function ijobState (store, job, payload, delay, waitFlag, eventHandler, jobConte
                     if  (data === 'running' || data === 'pending') {
                         running = 1;
                     }
-                    resolve({ running: running, detail: detail, jobState: result })
+                    resolve({ running: running, detail: detail, jobState: result });
 
                 })
                 .catch(err => {
                     
                     reject(err);
-                })
+                });
         }
-    })
+    });
 
 }
 

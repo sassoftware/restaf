@@ -67,7 +67,7 @@ async function casSession (store, payload, sesName) {
   console.log(`name of New session: ${session.items("name")}`);
   console.log(`id of New  session: ${id}`);
   
-  console.log('----------------- Verify that the href is set correctly')
+  console.log('----------------- Verify that the href is set correctly');
   console.log(
     JSON.stringify(session.links("execute", "link", "href"), null, 4)
   );
@@ -114,7 +114,7 @@ async function casSession (store, payload, sesName) {
     servers.itemsCmd(casserver, "sessions"),
     payload
   );
-  console.log('-------------------- list information on found session')
+  console.log('-------------------- list information on found session');
   console.log(`List of sessions found ${sessionList.itemsList().size} `);
   let name = sessionList.itemsList(0);
 
@@ -144,7 +144,7 @@ console.log('=============================== end of info on old session');
   let selfcmd = sessionList.itemsCmd(name, "self");
   session = await store.apiCall(selfcmd);
   
-  console.log('------------------------- information on new session')
+  console.log('------------------------- information on new session');
   console.log(`Attached session name: ${session.items("name")}`);
   console.log(`Attached Session id: ${session.items("id")}`);
   console.log(

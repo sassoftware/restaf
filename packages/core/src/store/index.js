@@ -26,4 +26,4 @@ export {
     initStore,
     endStore,
     restoreStore
-}
+};

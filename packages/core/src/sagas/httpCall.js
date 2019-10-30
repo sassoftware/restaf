@@ -20,7 +20,7 @@ function httpCall (config) {
     return (request (config)
             .then  (response => httpDone(response, config, false))
             .catch (error    => httpDone(error, config, true))
-    )
+    );
 }
 function httpDone (payload, config, error) {
     return {

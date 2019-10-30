@@ -18,7 +18,7 @@
 
 'use strict';
 
-import getResults    from './getResults'
+import getResults    from './getResults';
 import extendFolder  from './extendFolder';
 import prepareAction from './prepareAction';
 import ikeepAlive from './ikeepAlive';

@@ -13,7 +13,7 @@
  limitations under the License.
  ---------------------------------------------------------------------------------------*/
 
-'use strict';
+  'use strict';
 
 import { request } from  '../serverCalls' ;
 

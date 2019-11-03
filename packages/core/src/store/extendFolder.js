@@ -16,7 +16,7 @@
  *
  */
 
-'use strict';
+  'use strict';
 
 import getResults2 from  './getResults2' ;
 function extendFolder (store, f) {

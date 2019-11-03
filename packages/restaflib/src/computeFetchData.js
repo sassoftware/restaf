@@ -3,13 +3,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-async function computeTable (store, computeSummary, table, direction) {
+async function computeFetchData (store, computeSummary, table, direction) {
 	let data = null;
 	let tableInfo;
 	debugger;
 	if (computeSummary.tables.hasOwnProperty(table) === true) {
 		tableInfo = computeSummary.tables[table];
-		if (tableInfo.current === null) {
+		if (tableInfo.current === null || direction == null) {
 			let t1 = await store.apiCall(tableInfo.self);
 			let result = await store.apiCall(t1.links('rowSet'));
 			tableInfo.current = result;
@@ -40,10 +40,7 @@ async function computeTable (store, computeSummary, table, direction) {
 					columns: datax.columns,
                     rows   : datax.rows,
                     
-					scrollOptions: result
-						.scrollCmds()
-						.keySeq()
-						.toJS()
+					scrollOptions: result.scrollCmds().keySeq().toJS()
 				};
 			}
 		}
@@ -52,4 +49,4 @@ async function computeTable (store, computeSummary, table, direction) {
 	return data;
 }
 
-export default computeTable;
+export default computeFetchData;

@@ -15,7 +15,7 @@
  * ---------------------------------------------------------------------------------------
  *
  */
-'use strict';
+  'use strict';
 
 import { ADD_SERVICE, API_CALL_PARALLEL } from '../actionTypes';
 

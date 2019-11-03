@@ -16,6 +16,11 @@
     "npm": ">=6.10.0",
     "yarn": ">=1.17.3"
   },
+  "browserslist": [
+    "last 2 versions",
+    "ie >= 11",
+    "maintained node versions"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/sassoftware/restaf.git"
@@ -37,7 +42,6 @@
     "jwt-decode": "^2.2.0",
     "query-string": "^6.8.1",
     "redux": "^4.0.4",
-    "redux-saga": "^1.0.5",
     "uuid": "^3.3.2"
   }
 }

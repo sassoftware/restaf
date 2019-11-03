@@ -17,7 +17,7 @@
  *
  */
 
-'use strict';
+  'use strict';
 
 import { VIYA_LOGON, VIYA_LOGOFF, VIYA_LOGON_SERVER, VIYA_LOGON_IMPLICIT, VIYA_LOGON_PASSWORD }
         from '../actionTypes';

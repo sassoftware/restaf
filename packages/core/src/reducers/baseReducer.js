@@ -16,7 +16,7 @@
  *
  */
 
-'use strict';
+  'use strict';
 
 import responseReducer  from './responseReducer';
 import { ADD_SERVICE, API_CALL, API_POLL, APP_DATA, API_STATUS , DELETE_RAF_OBJECT, API_XSRF} from '../actionTypes';

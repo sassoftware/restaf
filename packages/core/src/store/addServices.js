@@ -15,7 +15,7 @@
  * ---------------------------------------------------------------------------------------
  *
  */
-'use strict';
+  'use strict';
 
 import iaddServices from './iaddServices';
 

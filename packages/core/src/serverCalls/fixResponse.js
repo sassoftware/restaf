@@ -13,7 +13,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
  ---------------------------------------------------------------------------------------*/
- 'use strict';
+   'use strict';
 
  let fixImages = require('./fixImages');
  let fixReports = require('./fixReports');
@@ -151,7 +151,7 @@
  
  
  function sessionLinks (iLink, sessionId) {
-     /**/
+      'use strict';
  
     /* let harray = iLink.href.split('/');
      let server = harray[harray.findIndex((s=> s === 'servers'))+1];

@@ -18,7 +18,8 @@
 
 "use strict";
 
-// let NODE_EXTRA_CA_CERTS='c:/public/env/pems/roots.pem';
+// must be set prior to start of app: NODE_EXTRA_CA_CERTS='c:/public/env/pems/roots.pem';
+// https://github.com/nodejs/node/issues/20432
 
 /* --------------------------------------------------------------------------------
  * Logon to the Viya server
@@ -28,7 +29,6 @@ let restaf  = require("restaf");
 let payload = require("./config")();
 let fs      = require("fs");
 
-console.log(`NODE_TLS_REJECT_UNAUTHORIZED=${process.env.NODE_TLS_REJECT_UNAUTHORIZED}`);
 let store = restaf.initStore();
 store
   .logon(payload)

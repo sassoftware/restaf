@@ -16,7 +16,7 @@
  *
  */
 
-'use strict';
+  'use strict';
 
 import getResults    from './getResults';
 import extendFolder  from './extendFolder';

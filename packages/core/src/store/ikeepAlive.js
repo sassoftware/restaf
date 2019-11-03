@@ -16,7 +16,7 @@
  *
  */
 
-'use strict';
+  'use strict';
 
 
 import {KEEP_ALIVE} from '../actionTypes';

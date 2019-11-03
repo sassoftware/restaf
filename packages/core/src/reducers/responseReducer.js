@@ -16,7 +16,7 @@
  *
  */
 
-'use strict';
+  'use strict';
 
 import { setGoodStatus, setBadStatus } from '../utils';
 import { tLinkStruct, itemsStruct } from '../utils/rootStruct';
@@ -249,7 +249,7 @@ function itemsReducer (results, parentPath){
         response.itemsList   = [ ...idList ];
         response.type        = 'itemsList';
     } else {
-        /**/
+         'use strict';
         itemsResponse.data       = [ ...results.items ];
         itemsResponse.resultType = results.accept;
         itemsResponse.type       = 'itemsArray';

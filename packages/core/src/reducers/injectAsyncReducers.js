@@ -16,7 +16,7 @@
  *
  */
 
-'use strict';
+  'use strict';
 
 import createReducer  from './createReducer';
 // https://stackoverflow.com/questions/32968016/how-to-dynamically-load-reducers-for-code-splitting-in-a-redux-application/33044701#33044701

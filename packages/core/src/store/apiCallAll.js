@@ -16,7 +16,7 @@
  *
  */
 
-'use strict';
+  'use strict';
 
 import { API_CALL_PARALLEL, API_CALL } from '../actionTypes';
 

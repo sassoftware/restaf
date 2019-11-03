@@ -16,7 +16,7 @@
  *
  */
 
-'use strict';
+  'use strict';
 
 import {APP_DATA_ROOT, API_STATUS_ROOT, API_XSRF_ROOT, APP_DATA, API_XSRF, APP_DATA_SETSTATE} from '../actionTypes';
 

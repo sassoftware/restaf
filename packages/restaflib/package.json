@@ -1,6 +1,6 @@
 {
   "name": "restaflib",
-  "version": "1.6.12",
+  "version": "1.6.13",
   "description": "collection of useful functions for common scenarios",
   "main": "./lib/restaflib.js",
   "repository": {
@@ -13,6 +13,11 @@
     "node": ">=10.16.0",
     "npm": ">=6.10.0"
   },
+  "browserslist": [
+    "last 2 versions",
+    "ie >= 11",
+    "maintained node versions"
+  ],
   "unpkg": "dist/restaflib.min.js",
   "bugs": {
     "url": "https://github.com/sassoftware/restaf/issues"

@@ -15,7 +15,7 @@
  * ----------------------------------------------------------------------------------------
  *
  */
-'use strict';
+  'use strict';
 import {DELETE_RAF_OBJECT} from '../actionTypes';
 import Immutable from 'immutable';
 

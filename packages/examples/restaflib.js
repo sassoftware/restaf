@@ -34,7 +34,6 @@ store.logon(payload)
 async function runExamples () {
   await test_computeRun();
   await test_caslRun();
-  await test_computeRun();
   await test_casFetchData();
 }
 
@@ -77,11 +76,11 @@ async function test_caslRun () {
   console.log('session');
 
   /* prep input */
-  let macros = {maxRows: 100};
+  let macros = {maxRows: 500};
   let src =  `ods html style=barrettsblue;
   data work.dtemp1;
       array x{10};  
-      do j = 1 to 300;  
+      do j = 1 to &maxRows;  
         do i = 1 to 10;  
           x{i} = i * 10;  
           end;  
@@ -96,19 +95,35 @@ async function test_caslRun () {
 
   let computeSummary = await restaflib.computeRun(store, computeSession, src,  macros);
 
-  let log = await restaflib.computeResult(store, computeSummary, 'log');
+  let log = await restaflib.computeResults(store, computeSummary, 'log');
   print.logListLines(log);
-  let list = await restaflib.computeResult(store, computeSummary, 'listing');
+  let list = await restaflib.computeResults(store, computeSummary, 'listing');
   print.logListLines(list);
-  let ods = await restaflib.computeResult(store, computeSummary, 'ods');
+  let ods = await restaflib.computeResults(store, computeSummary, 'ods');
   console.log(ods);
 
-  let data = await restaflib.computeTable(store,computeSummary, 'DTEMP1');
+  let data = await restaflib.computeFetchData(store,computeSummary, 'DTEMP1');
+  
   console.log(data.columns);
-  console.log(data.rows[0]);
-  console.log(data.scrollOptions);
+  console.log(`First row in set: ${data.rows[0]}`);
+  console.log(`Last row in set: ${data.rows[data.rows.length-1]}`);
+  console.log(`Pagination links: ${data.scrollOptions}`);
+  console.log('\n');
+  
   do {
-    data = await restaflib.computeTable(store,computeSummary, 'DTEMP1', 'next');
+    data = await restaflib.computeFetchData(store,computeSummary, 'DTEMP1', 'next');
+    if (data !== null) {
+     // print.object(computeSummary.tables['DTEMP1'].current.raw('data', 'results','links'), 'pagination links');
+      console.log(`First row in set: ${data.rows[0]}`);
+      console.log(`Last row in set: ${data.rows[data.rows.length-1]}`);
+      console.log(`Pagination links: ${data.scrollOptions}`);
+      console.log('\n');
+    }
+  } while (data != null);
+
+  console.log('-----------------now scroll backwards');
+  do {
+    data = await restaflib.computeFetchData(store,computeSummary, 'DTEMP1', 'prev');
     if (data !== null) {
       console.log(data.rows[0]);
       console.log(data.scrollOptions);

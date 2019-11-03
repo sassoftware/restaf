@@ -16,7 +16,7 @@
  *
  */
 
-'use strict';
+  'use strict';
 
 /* import uuid from 'uuid' ;*/
 let Immutable = require('immutable');

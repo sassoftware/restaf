@@ -18,11 +18,9 @@
 
 'use strict';
 
-import jwtdecode  from 'jwt-decode';
-
 import configureSagaStore from './configureSagaStore';
 import {APP_DATA_ROOT, API_STATUS_ROOT, APP_DATA, API_XSRF} from '../actionTypes';
-
+import actionTypes from '../actionTypes';
 
 import apiCall         from './apiCall';
 import apiCallAll      from './apiCallAll';
@@ -44,7 +42,6 @@ import appData         from './appData';
 import getXsrfData     from './getXsrfData';
 import deleteRafObject from './deleteRafObject';
 
-
 function initStore (iconfig) {
     let config = (iconfig == null) ? {} : iconfig;
     let store = configureSagaStore(config);
@@ -55,7 +52,6 @@ function initStore (iconfig) {
         logoff    : logoff.bind(null, store),
         disconnect: logoff.bind(null,store),
         connection: loggedOn.bind(null, store),
-        decodeJWT : decodeJWT.bind(null, store),
 
         addServices: addServices.bind(null, store),
         getServices: getServices.bind(null, store),
@@ -85,17 +81,13 @@ function initStore (iconfig) {
         getState: store.getState,
         endStore: endStore.bind(null, store),
         store   : store,
-        config  : {...config},
+        config  : /*{...config},*/ config,
 
         getServiceRoot: getServiceRoot.bind(null, store),
 
         request: request
     }; }
 
-function decodeJWT (store) {
-    let token = loggedOn(store)['token'];
-    return (token === null) ? {} : jwtdecode(token);
-}
 function loggedOn (store) {
     return   selectLogonInfo(store.getState());
 }

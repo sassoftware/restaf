@@ -16,7 +16,7 @@
  *
  */
 
-'use strict';
+  'use strict';
 
 
 import {API_XSRF} from '../actionTypes';

@@ -16,7 +16,7 @@
  *
  */
 
-'use strict';
+  'use strict';
 
 let unSubscribe;
 import { VIYA_LOGOFF } from '../actionTypes';

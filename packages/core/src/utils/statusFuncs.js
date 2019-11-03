@@ -16,7 +16,7 @@
  *
  */
 
-'use strict';
+  'use strict';
 
 exports.setGoodStatus = function (payload) {
     return ({

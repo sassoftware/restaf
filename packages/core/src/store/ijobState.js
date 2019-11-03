@@ -16,7 +16,7 @@
  *
  */
 
-'use strict';
+  'use strict';
 
 import iapiCall  from './iapiCall';
 import {API_CALL, API_POLL} from '../actionTypes';

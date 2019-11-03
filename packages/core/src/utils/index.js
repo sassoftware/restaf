@@ -16,7 +16,7 @@
  *
  */
 
-'use strict';
+  'use strict';
 
 import { setGoodStatus, setBadStatus  } from './statusFuncs';
 import { SASLogonOauthLink } from './SASLogonOauthLink';

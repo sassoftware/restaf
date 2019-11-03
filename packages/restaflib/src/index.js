@@ -11,11 +11,11 @@ import casSetup        from './casSetup';
 import casFetchData    from './casFetchData';
 import casTableToJson  from './casTableToJson';
 
-import computeRun      from './computeRun';
-import computeSetup    from './computeSetup';
-import computeSummary  from './computeSummary';
-import computeResult   from './computeResult';
-import computeTable    from './computeTable';
+import computeRun       from './computeRun';
+import computeSetup     from './computeSetup';
+import computeSummary   from './computeSummary';
+import computeResults   from './computeResults';
+import computeFetchData from './computeFetchData';
 
 import findReport      from './findReport';
 import getReportImage  from './getReportImage';
@@ -41,7 +41,7 @@ export {
     computeRun,
     computeSetup,
     computeSummary,
-    computeTable,
+    computeFetchData,
     findReport,
     getReportImage,
     getReportUri,
@@ -49,7 +49,7 @@ export {
     jesSetup,
     jesRun,
     jsonToDict,
-    computeResult,
+    computeResults,
     print,
     caslScore,
     masSetup,

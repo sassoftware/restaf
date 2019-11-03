@@ -33,7 +33,7 @@ axios.interceptors.response.use(
 
 /* X-Uaa-Csrf */
 function trustedGrant (iconfig) {
-    'use strict';
+      'use strict';
     
     let link   = iconfig.link ;
     
@@ -80,7 +80,7 @@ function trustedGrant (iconfig) {
 
 
 function request (iconfig) {
-    'use strict';
+      'use strict';
     let { link, logonInfo } = iconfig;
 
     let iLink = {...link } ;

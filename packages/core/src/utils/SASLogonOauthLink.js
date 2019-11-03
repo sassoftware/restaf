@@ -16,7 +16,7 @@
  *
  */
 
-"use strict";
+  'use strict';
 
 import { trustedGrant, keepAlive, request } from  '../serverCalls' ;
 import { VIYA_LOGON_PASSWORD } from '../actionTypes';

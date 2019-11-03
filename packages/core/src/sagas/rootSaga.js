@@ -13,7 +13,7 @@
  limitations under the License.
  ---------------------------------------------------------------------------------------*/
 
-'use strict';
+  'use strict';
 
 import { all }           from 'redux-saga/effects';
 import logonAction       from './logonAction';

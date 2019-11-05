@@ -16,16 +16,14 @@
  * ---------------------------------------------------------------------------------------
  *
  */
-let restaf           = require('restaf');
+let restaf    = require('restaf');
+let {casSetup, caslScore, masSetup, masRun } = require('restaflib');
 
 let  {
         getLogonPayload,
         parseEvent,
-        runCasl,
         setError,
         setPayload} = require('../lib');
-
-let dsScoreCasl    = require('../program/scoreCasl');
 
 //
 // Get Viya logon info from environment variables and logon to Viya Server 
@@ -36,19 +34,30 @@ let dsScoreCasl    = require('../program/scoreCasl');
 module.exports.dsScore  = async function (event, context) {
 
 	let store   = restaf.initStore({pem: null, rejectUnauthorized: false }); /* initialize restaf         */
-	
-	let path = {path: event.path.toLowerCase()};
+	let session = null;
 	
 	try {
-		let inParms = await parseEvent(event);
-		let payload = await getLogonPayload(inParms);
-		await store.logon(payload);
-		let results = await runCasl(store, [ dsScoreCasl ],{...inParms, ...path});
-		let casResults = results.items('results').toJS();
-		return setPayload(casResults);
+		let inParms   = await parseEvent(event);
+		let payload   = await getLogonPayload(inParms);
+		let results;
+	
+		if (inParms.masModel != null) {
+			let model = [ inParms.model.name ];
+			let masControl = await masSetup(store, model, payload);
+			results = await masRun(store, masControl, inParms.model.name, inParms.scenario, (inParms. step != null) ?inParms.step:null); 
+		} else {
+			let r  = await casSetup(store, payload);
+			session = r.session;
+			results   = await caslScore(store, session,inParms);
+			await store.apiCall(session.links('delete'));
+		}
+		return setPayload(results);
 	} 
 	catch(err) {
+		if (session !== null) {
+			await store.apiCall(session.links('delete'));
+		}
 		return setError(err);
 	}
-}
+};
 

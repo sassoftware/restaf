@@ -17,9 +17,14 @@
   },
   "main": "lib/restaf",
   "private": true,
-  "workspaces": [
-    "packages/*"
-  ],
+  "workspaces": {
+    "packages": [
+      "packages/*"
+    ],
+    "nohoist": [
+      "**/serverless-*/**"
+    ]
+  },
   "repository": "https://github.com/sassoftware/restaf.git",
   "bugs": {
     "url": "https://github.com/sassoftware/restaf/issues"
@@ -30,8 +35,9 @@
     "restaf:build": "cd ./packages/restaf && yarn run build && npx cp -r ./dist/restaf.js ../uidemos/public/shared/dist/restaf.js",
     "restaflib:build": "cd ./packages/restaflib && yarn run build  && npx cp -r ./dist/restaflib.js ../uidemos/public/shared/dist/restaflib.js",
     "uilibrary:build": "cd ./packages/uilibrary && yarn run build  && npx cp -r ./dist/uiLibrary.js ../uidemos/public/shared/dist/uiLibrary.js",
-    "uidemos:implicit": "cd ./packages/uidemos && npm run implicit", 
-    "uidemos:code": "cd ./packages/uidemos && npm run code"
+    "uidemos:implicit": "cd ./packages/uidemos && npm run implicit",
+    "uidemos:code": "cd ./packages/uidemos && npm run code",
+    "slsscore": "cd ./packages/serverless-score && getawskey &&sls offline"
   },
   "devDependencies": {
     "@babel/cli": "^7.1.5",
@@ -80,6 +86,7 @@
     "mem": "^5.1.1"
   },
   "dependencies": {
+    "aws-sdk": "^2.563.0",
     "jwt-decode": "^2.2.0",
     "restaf-server": "^7.0.6"
   }

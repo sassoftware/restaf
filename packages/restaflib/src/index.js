@@ -33,6 +33,8 @@ import masRun          from './masRun';
 
 import print           from './print';
 
+import decodeJwt       from './decodeJwt';
+
 export {
     caslRun,
     casSetup,
@@ -53,5 +55,6 @@ export {
     print,
     caslScore,
     masSetup,
-    masRun
+    masRun,
+    decodeJwt
 };

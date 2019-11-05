@@ -1,0 +1,8 @@
+castablebrowser:
+    image: docker.sas.com/castablebrowser:latest
+    restart: always
+    ports:
+      - 4000:8080
+    environment:
+      - VIYA_SERVER=http://kdkbosh2.stobosh.sashq-d.openstack.sas.com
+      - CLIENTID=casbrowser

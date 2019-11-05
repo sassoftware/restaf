@@ -1,18 +1,19 @@
 
 ---
 
-Migrating to mono-repo
+Packages in the repository
 
 ---
 
-# restAF - Making development of Viya Apps a snap
+The core libraries are:
 
+- restaf    - The restaf library - the foundation for the rest of the packages
+- restaflib - A library of convenience functions to address common use cases
+- uilibrary - a collection of ui components based on react and material-ui
 
-**restAF** is a small library to do the following:
+Examples of using the core libraries to build applications
 
-   - Provide an easy-to-use API to accomplish the following:
-      - UI framework agnostics
-      - Manage connections to a Viya Server
-      - Manage and execute links returned by the REST calls using a simple API
-      - Provides a UMD library for use with browser-based apps
-      - Can also be used in nodejs applications
+- examples  - Examples showing the use of restaf and restaflib for writing nodejs programs
+- uidemos   - Examples of web apps using restaf, restaflib and uilibrary
+- serverless-score - Scoring using AWS serverless functionality
+

@@ -25,8 +25,15 @@ let restaf = require('restaf');
 let config = require('./config');
 let payload  = config();
 let store    = restaf.initStore();
+let qs = require('qs');
+
 let {print}   = require('restaflib');
 payload.keepAlive = null;
+let hash = '#a=10&b=20';
+let loc = qs.parse(hash);
+console.log(loc);
+
+
 store
   .logon(payload)
   .then(msg => {
@@ -43,3 +50,4 @@ store
     console.log(`Connection status after logoff: ${lmsg}`);
   })
   .catch(err => console.log(err));
+  

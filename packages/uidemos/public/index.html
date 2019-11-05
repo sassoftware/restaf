@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<!--
+  ~ Copyright (c) SAS Institute Inc.
+  ~  Licensed under the Apache License, Version 2.0 (the "License");
+  ~  you may not use this file except in compliance with the License.
+  ~  You may obtain a copy of the License at
+  ~
+  ~  http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~  Unless required by applicable law or agreed to in writing, software
+  ~  distributed under the License is distributed on an "AS IS" BASIS,
+  ~  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~  See the License for the specific language governing permissions and
+  ~  limitations under the License.
+  ~
+  ~
+  -->
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>restAF viyaapp using implicit flow</title>
+    <style>
+        a.noclick       {
+            pointer-events: none;
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-polyfill/6.26.0/polyfill.min.js"></script>
+    
+    <script src="/shared/dist/restaf.js"></script>
+    <script type="text/javascript" src="/appenv"></script>
+    <script type="text/javascript" src="/shared/showAlert.js"></script> 
+
+    <script>
+        let store;
+        let logInfo;
+        function setup() {
+            console.log(LOGONPAYLOAD);
+            store =  restaf.initStore(/*(LOGONPAYLOAD.authType === 'server') ? {casProxy:true} :null*/);
+            store.logon(LOGONPAYLOAD)
+                    .then ( msg => {
+                        logInfo = store.connection();
+                        return true;
+                    })
+                    .then (r => {
+                        return store.addServices('files')
+                    })
+                    .then (f => alert('done'))
+                    .catch( err => {
+                        showAlert( err );
+                        return false;
+                    });
+        }   
+
+        function showDemo(w) {
+            debugger;
+            let href = `${window.location.protocol}//${window.location.host}${w}`;
+            if (LOGONPAYLOAD.authType === 'implicit') {
+                href = `${href}?host=${logInfo.host}#token_type=bearer&access_token=${logInfo.token}`;
+            } 
+            window.open(href);
+        }
+        window.onload = setup;
+    
+    </script>
+</head>
+
+<body>
+
+<h1> Using restAF to build web apps </h1>
+<p> These are examples demonstrating how restAF
+    makes it a snap to build web apps for SAS Viya.
+    My hope is that you will study the source code behind these examples and develop your own application using restAF.
+    Again writing apps for SAS Viya using restAF is a snap.</p>
+
+<h2> Listing items</h2>
+<ul>
+    <li> <a href="javascript:showDemo(`/viyaapp/test.html`)" > test </a></li>
+    <li> <a href="javascript:showDemo(`/viyaapp/casserver.html`)" > List cas servers </a></li>
+    <li> <a href="javascript:showDemo(`/viyaapp/computecontexts.html`)"> List of compute contexts</a></li>
+    <li> <a href="javascript:showDemo(`/viyaapp/paginate.html`)" > Paginates thru files using files service</a></li>
+</ul>
+<br>
+<h2> Cas Action Examples</h2>
+<ul>
+    <li> <a href="javascript:showDemo(`/viyaapp/casEchoAction.html`)" > Create a session and run the echo action </a></li>
+    <li> <a href="javascript:showDemo(`/viyaapp/casFileInfo.html`)" > Create a session and run table.fileInfo </a></li>
+    <li> <a href="javascript:showDemo(`/viyaapp/casListNodes.html`)" > List Nodes </a></li>
+    <li> <a href="javascript:showDemo(`/viyaapp/casDMS.html`)" > Create a session and run user specified action </a></li>
+    <li> <a href="javascript:showDemo(`/viyaapp/casUpload.html`)" disabled > Explore CAS Actions </a></li>
+
+</ul>
+
+<h2> Apps using Cas Actions and Scripting with Casl </h2>
+<ul>
+    <li> <a href="javascript:showDemo(`/viyaapp/casTableExplorer.html`)" >Cas Table Explorer</a> </li>
+    <li> <a href="javascript:showDemo(`/viyaapp/casSentiment.html`)" > Using Analytics to make friends</a> </li>
+    <li> <a href="javascript:showDemo(`/viyaapp/casLoanScore.html`)" > Scoring for Loan </a></li>
+    <li> <a href="javascript:showDemo(`/viyaapp/uberApp.html`)" > Configurable Scoring Application </a></li>
+    <li> <a href="javascript:showDemo(`/viyaapp/teststuff.html`)" > test stuff</a></li>
+</ul>
+
+<h2> Compute Server Examples </h2>
+<ul>
+    <li> <a href="javascript:showDemo(`/viyaapp/computeJob.html`)" > Run a simple sas job </a></li>
+    <li> <a href="javascript:showDemo(`/viyaapp/computeDMS.html`)" > Enter a SAS program and run it </a></li>
+</ul>
+<br>
+
+<h2> Handling long running jobs</h2>
+<ul>
+    <li> <a href="javascript:showDemo(`/viyaapp/apisubmitecho.html`)" > Submit echo test </a></li>
+    <li> <a href="javascript:showDemo(`/viyaapp/apisubmit.html`)" > Submit compute test </a></li>
+</ul>
+
+<br>
+
+<h2> Reporting examples</h2>
+<ul>
+    <li> <a href="javascript:showDemo(`/viyaapp/reportBrowser.html`)" > Simple dashboard using VA sdk</a></li>
+    <li> <a href="javascript:showDemo(`/viyaapp/vasdkSimple.html`)" >VA SDK Example </a> </li>
+
+    <li> <a href="javascript:showDemo(`/viyaapp/reportdashboardSimple.html`)" > Simple dashboard</a></li>
+    <li> <a href="javascript:showDemo(`/viyaapp/oneImage.html`)" >Report Browser with embedded Visual Analytics Reports </a> </li>
+    
+</ul>
+
+
+<h2> Miscellaneous Services </h2>
+<ul>
+    <li> <a href="javascript:showDemo(`/viyaapp/postfile.html`)" > Post a new file and view it</a></li>
+</ul>
+
+</body>
+</html>

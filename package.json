@@ -27,9 +27,11 @@
   "scripts": {
     "test": "cd ./packages/examples && node",
     "debug": "cd ./packages/examples && node --inspect-brk",
-    "core:build": "cd ./packages/core && yarn run build",
-    "restaflib:build": "cd ./packages/restaflib && yarn run build",
-    "lint": "eslint . --fix"
+    "restaf:build": "cd ./packages/restaf && yarn run build && npx cp -r ./dist/restaf.js ../uidemos/public/shared/dist/restaf.js",
+    "restaflib:build": "cd ./packages/restaflib && yarn run build  && npx cp -r ./dist/restaflib.js ../uidemos/public/shared/dist/restaflib.js",
+    "uilibrary:build": "cd ./packages/uilibrary && yarn run build  && npx cp -r ./dist/uiLibrary.js ../uidemos/public/shared/dist/uiLibrary.js",
+    "uidemos:implicit": "cd ./packages/uidemos && npm run implicit", 
+    "uidemos:code": "cd ./packages/uidemos && npm run code"
   },
   "devDependencies": {
     "@babel/cli": "^7.1.5",
@@ -61,10 +63,13 @@
     "eslint": "^5.12.1",
     "eslint-plugin-react": "^7.11.1",
     "eslint-plugin-redux-saga": "^0.10.0",
+    "jsdoc": "^3.6.3",
     "lerna": "^3.14.1",
     "prettyjson": "^1.2.1",
     "rimraf": "^2.6.3",
+    "shelljs": "^0.8.3",
     "showdown": "^1.9.0",
+    "shx": "^0.3.2",
     "webpack": "^4.26.0",
     "webpack-cli": "^3.1.2",
     "webpack-node-externals": "^1.7.2",
@@ -75,6 +80,7 @@
     "mem": "^5.1.1"
   },
   "dependencies": {
-    "jsdoc": "^3.6.3"
+    "jwt-decode": "^2.2.0",
+    "restaf-server": "^7.0.6"
   }
 }

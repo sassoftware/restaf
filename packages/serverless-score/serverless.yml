@@ -1,0 +1,117 @@
+# Welcome to Serverless!
+#
+# This file is the main config file for your service.
+# It's very minimal at this point and uses default values.
+# You can always add more config options for more control.
+# We've included some commented out config examples here.
+# Just uncomment any of them to get that config option.
+#
+# For full config options, check the docs:
+#    docs.serverless.com
+#
+# Happy Coding!
+
+service: serverless-score
+
+# You can pin your service to only deploy with a specific Serverless version
+# Check out our docs for more details
+# frameworkVersion: "=X.X.X"
+
+plugins:
+ - serverless-offline
+
+variableSyntax: "\\${{([ ~:a-zA-Z0-9._\\'\",\\-\\/\\(\\)]+?)}}"
+
+#
+# Use awsenv.yml to set the variables
+# Edit awsenv,yml to set the proper values and 
+# modify the custom key below to point to your awsenv.yml
+#
+
+custom: ${file(../../../awsenv.yml)}
+provider: 
+  name: aws
+  runtime: nodejs10.x
+  region: us-east-1
+  stage: demo
+  role: ${self:custom.role}
+  vpc: ${self:custom.vpc}
+  deploymentBucket: 
+    name: ${self:custom.deploymentBucketName}
+  timeout: 30
+  memorySize: 1024
+
+  environment: ${self:custom.environment}
+
+
+# apiKeys:
+#  - loan
+
+# you can add packaging information here
+package:
+  include:
+    - src/**
+    - ../../serverless-lib/**
+    - public/**
+    - programs/**
+    
+# exclude:
+
+functions:
+  app: 
+    handler: src/app.app
+    events:
+      - http:
+          path: app
+          method: get
+          cors: 
+            origin: '*'
+          request:
+            parameters:
+              paths:
+                id: true
+  describe:
+      handler: src/dsScore.dsScore
+      events:
+        - http:
+            path: describe
+            method: post
+            cors: 
+              origin: '*'
+  selectors:
+      handler: src/dsScore.dsScore
+      events:
+        - http:
+            path: selectors
+            method: post
+            cors: 
+              origin: '*'      
+  contents:
+      handler: src/dsScore.dsScore
+      events:
+        - http:
+            path: contents
+            method: post
+            cors: 
+              origin: '*'
+  dsscore:
+      handler: src/dsScore.dsScore
+      events:
+        - http:
+            path: score
+            method: post
+            cors: 
+              origin: '*'
+  scenario:
+      handler: src/dsScore.dsScore
+      events:
+        - http:
+            path: scenario
+            method: post
+            cors: 
+              origin: '*'
+             
+              
+
+
+

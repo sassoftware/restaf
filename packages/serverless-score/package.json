@@ -1,0 +1,24 @@
+{
+  "name": "serverless-scoremodel",
+  "version": "1.0.0",
+  "description": "serverless function for scoring with datastep or astore",
+  "main": "index.js",
+  "repository": "https://github.com/sassoftware/restaf-demos",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Deva Kumar <deva.kumar@sas.com>",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "prettyjson": "^1.2.1",
+    "restaf": "^1.6.2",
+    "restaflib": "1.6.13"
+  },
+  "devDependencies": {
+    "serverless-offline": "latest"
+  },
+  "resolutions": {
+    "lodash": ">=4.17.15",
+    "mem": "^5.1.1"
+  }
+}

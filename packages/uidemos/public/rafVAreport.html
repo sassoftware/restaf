@@ -1,0 +1,121 @@
+
+<!DOCTYPE html>
+<!--
+  ~ Copyright (c) SAS Institute Inc.
+  ~  Licensed under the Apache License, Version 2.0 (the "License");
+  ~  you may not use this file except in compliance with the License.
+  ~  You may obtain a copy of the License at
+  ~
+  ~  http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~  Unless required by applicable law or agreed to in writing, software
+  ~  distributed under the License is distributed on an "AS IS" BASIS,
+  ~  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~  See the License for the specific language governing permissions and
+  ~  limitations under the License.
+  ~
+  ~
+  -->
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Report 1, Page 1</title>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/16.2.0/umd/react.production.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/16.2.0/umd/react-dom.production.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-polyfill/6.26.0/polyfill.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.38/browser.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/webcomponentsjs/0.7.24/webcomponents.min.js"></script>
+
+
+    <script src="/appenv"></script>
+    <script type="text/javascript" src="/shared/showAlert.js"></script>
+    <script type="text/javascript" src="/shared/util.js"></script>
+    <script src="https://unpkg.com/restaf@dev/dist/restaf.min.js"></script>
+    <script src="https://unpkg.com/restaf-uicomponents/dist/restaf-uicomponents.js"></script>
+    <link rel="stylesheet" type="text/css" href="/shared/app.css">
+    <link rel="import" href="/shared/raf-vareport.html">
+</head>
+
+<body>
+
+<script type="text/javascript">
+
+    let store = restaf.initStore( );
+
+    //
+    // Setup connections and app info
+    // This example uses the reports and reportImages services.
+    // Notes: remember that an async function returns a promise
+    //
+    async function setup( ) {
+        let msg  = await store.logon(LOGONPAYLOAD);
+        let { reports, reportImages } = await store.addServices( 'reports', 'reportImages' );
+        let reportsList = await store.apiCall( reports.links( 'reports' ) );
+        /*
+        let payload = {
+            data: {
+                reportUri   : reportsList.itemsCmd( reportsList.itemsList( 0 ), 'self', 'link', 'uri' ),
+                layoutType  : 'entireSection',
+                size        : "450x450",
+                sectionIndex: 0
+            }
+        } ;
+    
+        let job = await store.apiCall( reportImages.links( 'createJob' ), payload );
+        debugger;
+        let status = await store.jobState( job, { qs: { wait: 1.5} } , 5, 2 );
+        debugger;
+        if ( status.data === 'running' ) {
+            throw { ERROR: 'Job is still running' };
+        } else if ( status.data !== 'completed' )  {
+            throw { ERROR: `Final state was ${status.jobState.data}` };
+        } else {
+            console.log( 'cool' );
+            job = status.job;
+        }
+*/
+        return {reportsList: reportsList, reportImages: reportImages};
+    }
+
+    //
+    // Run the setup function and then initialize viewer component
+    //
+
+    setup( )
+        .then ( r => {
+            debugger;
+            console.log(VIYA_HOST);
+            document.getElementById( 'va' ).properties = {
+                host          : VIYA_HOST,
+                store         : store,
+                imagesService : r.reportImages,
+                reportsList   : r.reportsList,
+                reportNo      : 0,
+                sectionIndex  : 0,
+                options       : { appSwitcherDisabled: true},
+                aspectRatio   : 'none'
+            } } )
+        .catch ( err => {
+            debugger;
+            showAlert( err );
+        })
+
+</script>
+
+<h2> Zero to Embedded VA Report in 5 mins</h2>
+<h4> restAF at Work</h4>
+
+<div class="wrapper-2">
+        <div class="main">
+            <raf-vareport id="va"></raf-vareport>
+        </div>
+</div>
+
+
+
+</body>
+</html>

@@ -1,0 +1,114 @@
+/*
+* Copyright © 2019, SAS Institute Inc., Cary, NC, USA.  All Rights Reserved.
+* SPDX-License-Identifier: Apache-2.0
+*/
+
+import React, {useState} from 'react';
+
+import FormControl from '@material-ui/core/FormControl';
+import Button from '@material-ui/core/button';
+import { makeStyles } from '@material-ui/core/styles';
+import InputLabel from '@material-ui/core/InputLabel';
+import Input from '@material-ui/core/Input';
+import Container from '@material-ui/core/Container';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import FormLabel from '@material-ui/core/FormLabel';
+import FormGroup from '@material-ui/core/FormGroup';
+import Paper from '@material-ui/core/Paper';
+
+ function EditScenario(props){
+    const [state, setState] = useState(props.data);
+    const {setScenario} = props;
+
+    const useStyles = makeStyles(theme => ({
+        root: {
+            display: 'flex',
+          },
+        formControl: {
+             margin: theme.spacing(3),
+         },
+        container: {
+          display: 'flex',
+          flexWrap: 'wrap',
+        },
+        paper: {
+          padding: theme.spacing(3, 2), 
+          marginLeft: theme.spacing(2),
+          marginRight: theme.spacing(2),
+          marginTop: theme.spacing(3),
+          marginBotton: theme.spacing(3)
+        },
+
+        inputField: {
+          marginLeft: theme.spacing(1),
+          marginRight: theme.spacing(1),
+          marginTop: theme.spacing(3),
+          marginBotton: theme.spacing(3),
+          width: 200,
+        },
+        dense: {
+          marginTop: 19,
+        },
+        menu: {
+          width: 200,
+        },
+        button: {
+            color: 'primary',
+            padding: '0 30px'
+          }
+      }));
+    const classes = useStyles();
+   
+    function handleChange(event) {
+        setState({ ...state, [event.target.name]: event.target.value });
+      };
+
+    const onSubmit = () => {
+        setScenario(state);
+    };
+
+    let table = [];
+ 
+    for ( let key in state) {
+      
+        let t = <FormControl variant="outlined" margin="normal">
+            <InputLabel htmlFor= {key}>{key}</InputLabel>
+            <Input id={key} type="text"
+                value={state[key]}
+                onChange  ={handleChange}
+                className = {classes.inputField}
+                disabled={false}
+                name={key}
+            />
+
+            </FormControl>;
+        table.push(t)
+    }
+     
+      let button = 
+        <FormControl>
+            <Button variant="contained" color="primary" onClick={onSubmit}>
+                Run Scenario
+            </Button>
+        </FormControl>;
+    table.push(button);
+
+    let show = 
+    <React.Fragment>
+        <CssBaseline />
+        <Container maxWidth="sm">
+        <Paper className={classes.paper} >
+        <FormControl className={classes.formControl}>
+            <FormLabel> Scenario</FormLabel>
+            <FormGroup>
+                {table}
+            </FormGroup>
+        </FormControl>
+        </Paper>
+        </Container>
+      </React.Fragment>
+
+    return show;
+
+}
+export default EditScenario;

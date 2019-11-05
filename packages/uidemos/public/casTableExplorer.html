@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<!--
+/*
+* Copyright © 2019, SAS Institute Inc., Cary, NC, USA.  All Rights Reserved.
+* SPDX-License-Identifier: Apache-2.0
+*/
+-->
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-polyfill/6.26.0/polyfill.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/16.8.6/umd/react.development.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/16.8.6/umd/react-dom.development.js"></script>
+
+    <!-- needed for react-select component-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!----------------->
+
+    <script src="https://unpkg.com/restaf@dev/dist/restaf.min.js"></script>
+    <script src="https://unpkg.com/restaflib@1.6.1/dist/restaflib.min.js"></script>
+
+    <script src="/shared/dist/uiLibrary.js"></script>
+    <script src="/appenv"></script>
+    <style>
+      .h1 {
+        background: "blue";
+        color: '#fff';
+        padding: '10px';
+      }
+
+      ;
+
+      .button {
+        background-color: DodgerBlue;
+        /* Blue background */
+        border: none;
+        /* Remove borders */
+        color: white;
+        /* White text */
+        padding: 12px 16px;
+        /* Some padding */
+        font-size: 16px;
+        /* Set a font size */
+        cursor: pointer;
+        /* Mouse pointer on hover */
+      }
+
+      ;
+    </style>
+
+    <script>
+        let store = restaf.initStore((LOGONPAYLOAD.authType === 'server') ? {casProxy:true} : null);
+
+        async function startup () {
+            try {
+              debugger;
+               let {session} = await restaflib.casSetup(store, LOGONPAYLOAD);
+               uiLibrary.display('CasTableSelectorp', {store: store, session: session}, document.getElementById('display'));
+            }
+            catch(err) {
+                alert(err);
+            }
+      }
+
+    </script>
+
+
+  </head>
+
+  <body onload="startup()">
+    <h1> Cas Table Browser</h1>
+    <div class="container">
+      <div id="display"> </div>
+    </div>
+
+  </body>
+
+</html>

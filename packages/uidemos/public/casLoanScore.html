@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+        <script src="/shared/dist/restaf.js"></script>
+        <script src="/shared/dist/restaflib.js"></script>
+        
+        <script type="text/javascript" src="/appenv"></script>
+        
+        <style>
+            body {
+                font-family: "Lato", sans-serif;
+            }
+            .chart {
+                margin-left: 318px;
+                margin-top: 500;
+
+            }
+            .sidebar {
+                height: 100%;
+                width: 260px;
+                position: fixed;
+                z-index: 1;
+                top: 0;
+                left: 0;
+                background-color: #107D31;
+                overflow-x: hidden;
+                padding-top: 0px;
+            }
+
+            .sidebar a {
+                padding: 6px 6px 6px 30px;
+                text-decoration: none;
+                font: Segoe, "Segoe UI", "DejaVu Sans", "Trebuchet MS", Verdana, "sans-serif";
+                font-size: 18px;
+                color: #f1f1f1;
+                display: block;
+            }
+
+            .sidebar a:hover {
+                background-color: #0E702C;
+            }
+
+            .sidebar a i {
+                padding: 0px 10px 0px 0px;
+                color: #f1f1f1;
+            }
+
+            .sidebar hdr {
+                padding: 1em;
+                text-decoration: none;
+                font: Segoe, "Segoe UI", "DejaVu Sans", "Trebuchet MS", Verdana, "sans-serif";
+                font-size: 20px;
+                color: #f1f1f1;
+                background-color: #0E702C;
+                height: 70px;
+                display: block;
+            }
+
+            .personpic {
+                margin-left: 318px;
+                height: 254px;
+                width: 254px;
+                margin-top: 117px;
+            }
+
+            .main {
+                margin-left: 260px;
+                /* Same as the width of the sidenav */
+                padding: 0px 10px;
+            }
+
+            @media screen and (max-height: 450px) {
+                .sidebar {
+                    padding-top: 5px;
+                }
+                .sidebar a {
+                    font-size: 18px;
+                }
+            }
+
+            img {
+                border-radius: 50%;
+                height: 254px;
+                width: 254px;
+            }
+
+            .content-form {
+                padding: 10% 15% 0 561px;
+                background-color: #F8F8F8;
+            }
+
+            .content-top {
+                padding: 0 15% 0 50%;
+                margin-left: 0px;
+                margin-bottom: 0px;
+
+            }
+            svg {
+                width: 40%;
+                height: 40%;
+                margin: 0 300px;
+            }
+            .half-donut .label {
+                font-size: 4rem;
+            }
+        </style>
+        <script>
+            let svg;
+            let session;
+            debugger;
+            let store = restaf.initStore((LOGONPAYLOAD.authType === 'server') ? {casProxy:true} : null);
+
+            let defaults = {
+                JOB: 'J1', CLAGE: 100, CLNO: 20, DEBTINC: 20, DELINQ: 2, DEROG: 0, MORTDUE: 4000, NINQ: 1, YOJ: 10
+            };
+            let ids = [ 'LOAN', 'VALUE' ];
+            //
+            // This section creates a cas session
+            //
+            function setup() {
+                debugger;
+               restaflib.casSetup(store,LOGONPAYLOAD)
+                .then ( r => {
+                    debugger;
+                    session = r.session;
+                })
+                .catch( e => {
+                    debugger;
+                    console.log(e)
+                    alert(e);
+                });
+            }
+            
+            // This section takes user input and sends it to CAS for scoring
+            //
+
+            function onSubmit() {
+                // create user data payload
+                let inputValues = Object.assign({}, defaults);
+                ids.map(name => {
+                    inputValues[ name ] = parseFloat(document.getElementById(name).value);
+                });
+
+                // if model is published then the model refers to the sashdat associated with the destination
+                // modelName is required if using published model(ignored for all other cases)
+
+                let payload = {
+                    model    :  {caslib: 'public', name: 'GRADIENT_BOOSTING___BAD_2'},
+                    modelName: '',
+                    scenario : inputValues
+                };
+                restaflib.caslScore(store, session, payload)
+                 .then ( r => viewDial(r.P_BAD))
+                 .catch( e => alert(e))
+            }
+            
+            //
+            // setup the display of the resulting score(D3 is ei)
+            //
+            function viewDial(value) {
+                var text = Math.round(value * 450 + 350)
+                var data = [ value, 1 - value ]
+
+                // Settings
+                var width = 400
+                var height = 200
+                var anglesRange = 0.5 * Math.PI
+                var radis = Math.min(width, 2 * height) / 2
+                var thickness = 100
+                // Utility 
+                //     var colors = d3.scale.category10();
+                var colors = [ "#07A018", "#F5F5F5" ]
+
+                var pies = d3.layout.pie()
+                    .value(d => d)
+                    .sort(null)
+                    .startAngle(anglesRange * -1)
+                    .endAngle(anglesRange)
+
+                var arc = d3.svg.arc()
+                    .outerRadius(radis)
+                    .innerRadius(radis - thickness)
+
+                var translation = (x, y) => `translate(${x}, ${y})`
+
+                // Feel free to change or delete any of the code you see in this editor!
+
+                if (d3.select('body').select("svg") != null) {
+                    d3.select('body').select("svg").remove();
+                }
+
+                svg = d3.select("body").append("svg")
+                    .attr("width", width)
+                    .attr("height", height)
+                    .attr("class", "half-donut")
+                    .append("g")
+                    .attr("transform", translation(width / 2, height))
+
+
+                svg.selectAll("path")
+                    .data(pies(data))
+                    .enter()
+                    .append("path")
+                    .attr("fill", (d, i) => colors[ i ])
+                    .attr("d", arc)
+
+                svg.append("text")
+                    .text(d => text)
+                    .attr("dy", "-3rem")
+                    .attr("class", "label")
+                    .attr("text-anchor", "middle")
+            }
+
+        </script>
+
+
+    </head>
+
+    <body onload="setup()">
+
+
+        <div class="content-form">
+
+            <!--	Top form with income is not passed to the model and is to be ignored -->
+
+            <h1> Simple Loan Application</h1>
+
+            <form action="">
+
+                <div class="form-group">
+                    <label for="LOAN">Amount of the loan request</label>
+                    <input type="viyaatt" class="form-control" id="LOAN" placeholder="Enter value ex: 1100-89900,18600">
+                </div>
+
+
+
+                <div class="form-group">
+                    <label for="VALUE">Value of assets</label>
+                    <input type="viyaatt" class="form-control" id="VALUE" placeholder="Enter value ex: 8000-855900, 89000">
+                </div>
+
+                <p class="help-block">All answers above are required.</p>
+
+            </form>
+            <button class="btn btn-default" onclick="onSubmit()">Submit</button>
+
+        </div>
+
+        <div>
+        </div>
+    </body>
+
+</html>

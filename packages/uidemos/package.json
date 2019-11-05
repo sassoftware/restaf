@@ -1,0 +1,19 @@
+{
+  "name": "restaf-uidemos",
+  "version": "2.2.0",
+  "description": "UI demos for Viya using restaf, restaflib and uilibrary",
+  "scripts": {
+    "implicit": "npx restaf-server --env=./env/overridesBos.env --docker=./env/Dockerfile",
+    "start": "npx restaf-server --env=./env/overridesBosc.env --docker=./env/Dockerfile",
+    "indocker": "npx restaf-server",
+    "buildapp": "docker build -f Dockerfile -t viyaapp .",
+    "runapp": "docker run -p 8080:8080  --env-file overrides.env  -t viyaapp"
+  },
+  "repository": "https://github.com/sassoftware/restaf-uidemos",
+  "keywords": [],
+  "author": "Deva Kumar <deva.kumar@sas.com>",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "restaf-server": "^7.0.3"
+  }
+}

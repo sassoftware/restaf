@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<!--
+/*
+ * Copyright © 2019, SAS Institute Inc., Cary, NC, USA.  All Rights Reserved.
+ * SPDX-License-Identifier: Apache-2.0
+*/
+-->
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <script crossorigin src="https://unpkg.com/react@16/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-polyfill/6.26.0/polyfill.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.js" integrity="sha256-XmdRbTre/3RulhYk/cOBUMpYlaAp2Rpo/s556u0OIKk=" crossorigin="anonymous"></script>
+
+
+
+    <style>
+        .container {
+            display: flex;
+            flex-direction: column;
+            flex-wrap: nowrap;
+            min-height: 800px;
+        }
+        .elabel{
+            display: inline-block;
+            clear: left;
+            width: 250px;
+            text-align: right;
+        }
+        .einput {
+            display: inline-block;
+        }
+        .div1 {
+            border: 1px solid black;
+            background: lightskyblue;
+
+        }
+        .div2 {
+            border: 1px solid black;
+            background: lightskyblue;
+            height: 200px;
+        }
+    </style>
+
+<script>
+    let href = window.location.href;
+    let n = href.lastIndexOf('/app');
+    let host = href.substring(0, n);
+    
+    function onStartup() {
+        console.log('placeholder');
+    }
+    
+    function onSubmit() {
+        let state = document.getElementById('state').value.trim();
+        let year  = document.getElementById('year').value;
+        if (state.length === 0 || year.length === 0 ) {
+           alert ('Missing data');
+           return;
+        }
+        debugger;
+        let filter = {
+            state: state,
+            year : parseInt(year)
+        };
+
+        /* create where clause here - better string manipulation*/
+        
+        // let filter = `state eq """${state.toUpperCase()}""" and  year eq ${parseInt(year)}`;
+     
+        debugger;
+        let payload = {
+            url: `${host}/score`,
+            method: 'POST',
+            data: {filter: filter},
+            headers: {
+                'content-type': 'application/json',
+            }
+
+        }
+        console.log(payload);
+        axios(payload)
+           .then ( r => {
+               // alert(JSON.stringify(r.data, null,4));
+               document.getElementById('cluster').value = r.data.casResults[0]._CLUSTER_ID__67;
+               console.log(JSON.stringify(r.data, null,4));
+           })
+           .catch( err => {
+               alert(JSON.stringify(err, null,4));
+               console.log(JSON.stringify(err, null,4));
+           })
+    }
+</script>
+</head>
+<body onload="onStartup()">
+<div class="content-form">
+        <h1> test merge </h1>
+        <form action="">
+        
+        <div class="form-group">
+            <label for="state">Enter State</label>
+            <input type="text" class="form-control" id="state" placeholder="AL">
+        </div>	
+    
+    
+        <br/>
+        <br/>
+
+        <div class="form-group">
+            <label for="year">Year</label>
+            <input type="text" class="form-control" id="year" placeholder="2010">
+        </div>		
+        
+        <p class="help-block">All the information is required.</p>
+
+        <div class="form-group">
+            <label for="cluster">Cluster ID</label>
+            <input type="text" class="form-control" id="cluster" disabled>
+        </div>	
+
+    </form>
+        <button class="btn btn-default" onclick="onSubmit()">Submit</button>
+    
+        
+        </div>
+        
+    <div>
+        </div>
+<script>
+      
+</script>
+</body>
+</html>

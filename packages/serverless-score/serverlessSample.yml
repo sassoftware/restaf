@@ -1,0 +1,92 @@
+# Welcome to Serverless!
+#
+# This file is the main config file for your service.
+# It's very minimal at this point and uses default values.
+# You can always add more config options for more control.
+# We've included some commented out config examples here.
+# Just uncomment any of them to get that config option.
+#
+# For full config options, check the docs:
+#    docs.serverless.com
+#
+# Happy Coding!
+
+service: sls-score-loan
+
+# You can pin your service to only deploy with a specific Serverless version
+# Check out our docs for more details
+# frameworkVersion: "=X.X.X"
+
+plugins:
+ - serverless-offline
+
+variableSyntax: "\\${{([ ~:a-zA-Z0-9._\\'\",\\-\\/\\(\\)]+?)}}"
+
+# custom: ${file(./awsenv.yml)}
+provider: 
+  name: aws
+  runtime: nodejs8.10
+  region: us-east-1
+  stage: demo
+  role: <iam role>
+  vpc:
+    securityGroupIds:
+      - <sgid>
+    subnetIds:
+      - subnet1
+      - subnet2
+  deploymentBucket: 
+    name: <your S3 bucket>
+  timeout: 30
+  memorySize: 1024
+
+# Specify key if you want the users to use key to get to the functions
+# apiKeys:
+#  - loan
+
+  environment:
+
+    VIYA_SERVER: <your viys server>
+    CLIENTID: <your clientid>
+    CLIENTSECRET: <your clientsecret>
+    USER: <userid>
+    PASSWORD: <password>
+    
+# see the data subir for sample scoring model
+    caslib: casuser
+    name: GRADIENT_BOOSTING___BAD_2
+
+
+# you can add packaging information here
+package:
+  include:
+    - src/**
+    - lib/**
+    - public/**
+# exclude:
+
+functions:
+  app: 
+    handler: src/app.app
+    events:
+      - http:
+          path: app
+          method: get
+          cors: 
+            origin: '*'
+          request:
+            parameters:
+              paths:
+                id: true  
+
+  score:
+    handler: src/score.score
+    events:
+      - http:
+          path: score
+          method: post
+          cors: 
+            origin: '*'
+
+
+

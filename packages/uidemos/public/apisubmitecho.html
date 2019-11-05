@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<!--
+  ~ Copyright (c) SAS Institute Inc.
+  ~  Licensed under the Apache License, Version 2.0 (the "License");
+  ~  you may not use this file except in compliance with the License.
+  ~  You may obtain a copy of the License at
+  ~
+  ~  http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~  Unless required by applicable law or agreed to in writing, software
+  ~  distributed under the License is distributed on an "AS IS" BASIS,
+  ~  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~  See the License for the specific language governing permissions and
+  ~  limitations under the License.
+  ~
+  ~
+  -->
+
+<!--suppress JSUnfilteredForInLoop -->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Submit Example for CAS Actions</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/16.2.0/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/16.2.0/umd/react-dom.production.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-polyfill/6.26.0/polyfill.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.38/browser.min.js"></script>
+
+
+<script src="/appenv"></script>
+<script type="text/javascript" src="/shared/showAlert.js"></script>
+<script type="text/javascript" src="/shared/util.js"></script>
+
+<script type="text/babel" src="shared/lib/SubmitItemViewer.js"></script>
+<script src="https://unpkg.com/restaf@dev/dist/restaf.min.js"></script>
+
+    <style>
+        .elabel{
+            display: inline-block;
+            float: left;
+            clear: left;
+            width: 60px;
+            text-align: right;
+        }
+        .einput {
+            display: inline-block;
+            width: 300px;
+            float: left;
+        }
+        .info {
+            border: 2px;
+            margin: 2px;
+        }
+    </style>
+
+    <script type="text/javascript">
+        debugger;
+        let store = restaf.initStore((LOGONPAYLOAD.authType === 'server') ? {casProxy:true} : null);
+        let sessions = [];
+        let createSession;
+        let jobCount = 1;
+
+        function progress( status, jobContext ) {
+            let today   = new Date();
+            let time    = today.toISOString();
+            document.getElementById('progress').value = ` ${jobContext} ${status} @ ${time} `;
+            return false;
+        }
+        function onCompletion( err, status, jobContext ) {
+            debugger;
+            if ( err ) {
+                document.getElementById( 'completed').value = `Job failed :-(` ;
+            } else {
+                document.getElementById('completed').value = `${jobContext}:  ${status.data}`;
+            }
+            viewLog();
+        }
+        async function initApp () {
+            let msg     = await store.logon (LOGONPAYLOAD);
+            let {casManagement} = await store.addServices ('casManagement');
+            let servers         = await store.apiCall(casManagement.links('servers'));
+            let casServerName   = servers.itemsList(0);
+            createSession       = servers.itemsCmd( casServerName, 'createSession');
+        }
+
+        async function runDemo(noOfJobs, delay, progresscb, completioncb) {
+            debugger;
+            document.getElementById( 'completed').value = '';
+            document.getElementById('progress').value   = '';
+            for ( let i = 0 ; i < noOfJobs; i++ ) {
+                let payload = {
+                    data: { name: `raf${jobCount}`}
+                };
+                sessions[jobCount] = await store.apiCall(createSession, payload);
+                let executeCmd = sessions[jobCount].links('execute');
+                let p = {
+                    action: 'echo',
+                    data  : { x: `Job No is: ${jobCount}` }
+                };
+                let job = store.submit(executeCmd, p, delay, `jobNo${jobCount}`, completioncb, progresscb);
+                jobCount++;
+            }
+            return true;
+        }
+
+        function onClick() {
+            debugger;
+            let jobCount = document.getElementById('jobCount').value;
+            let delay = document.getElementById('delay').value;
+            let progresscb   = (document.getElementById('progresscb').checked)   ? progressb     : null;
+            let completioncb = (document.getElementById('completioncb').checked) ? onCompletionb : null;
+            runDemo(jobCount, delay, progresscb, completioncb)
+                    .then( r => {
+                        document.getElementById('progress').value = "Job Submitted"
+                    })
+        }
+
+        function viewLog() {
+            ReactDOM.render(
+                    React.createElement(SubmitItemViewer, {store: store, serviceType: 'CAS'}, null),
+                    document.getElementById('logPanel')
+            );
+        }
+    let onClickb      = onClick.bind(null);
+    let viewLogb      = viewLog.bind(null);
+    let progressb     = progress.bind(this);
+    let onCompletionb = onCompletion.bind(this);
+
+    debugger;
+   // initApp();
+    </script>
+
+</head>
+
+<body onload="initApp()">
+    <h1> Demonstration of submit  - CAS action</h1>
+    <h3>Type here to simulate doing something useful :-) </h3>
+    <div>
+        <textarea rows="4" cols="50">
+        type here...
+        </textarea>
+    </div>
+
+    <div>        <form border="2px">
+        <label for="jobCount" class="elabel">Job Count </label>
+            <input type="number" id="jobCount" value="1">
+        <br>
+        <label for="delay" class="elabel">Delay(sec): </label>
+            <input  type="number" id="delay" value="5">
+        <br>
+        <input type="checkbox" id="progresscb" value="Report Progress" checked="true">
+        <label for="progresscb">Report Progress</label>
+        <br>
+        <input type="checkbox" id="completioncb" value="On completion" checked="true">
+        <label for="completioncb">Report completion</label>
+        <br>
+        <input type="button" value="Click to run Job"  onclick="onClickb()">
+            </form>
+        <br>
+        <br>
+
+        <form class="info">
+            <label for="progress" class="elabel">Progress </label>
+            <input class="einput" type="text" id="progress" disabled value="">
+            <br>
+            <label for="completed" class="elabel">Completed</label>
+            <input class="einput" type="text" id="completed" disabled value="">
+        </form>
+        <br>
+    </div>
+
+    <h1> View Log on Demand</h1>
+
+    <div id="logPanel"></div>
+
+</body>
+</html>

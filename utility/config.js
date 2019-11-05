@@ -54,7 +54,7 @@ function config () {
 		clientSecret: process.env.hasOwnProperty("CLIENTSECRET")
 		? process.env["CLIENTSECRET"]
 		: ""
-	}
+	};
 }
 
 function iconfig (appEnv) {

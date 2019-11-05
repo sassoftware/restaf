@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<!--
+  ~ Copyright (c) SAS Institute Inc.
+  ~  Licensed under the Apache License, Version 2.0 (the "License");
+  ~  you may not use this file except in compliance with the License.
+  ~  You may obtain a copy of the License at
+  ~
+  ~  http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~  Unless required by applicable law or agreed to in writing, software
+  ~  distributed under the License is distributed on an "AS IS" BASIS,
+  ~  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~  See the License for the specific language governing permissions and
+  ~  limitations under the License.
+  ~
+  ~
+  -->
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Report 1, Page 1</title>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/16.2.0/umd/react.production.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/16.2.0/umd/react-dom.production.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-polyfill/6.26.0/polyfill.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.38/browser.min.js"></script>
+
+
+    <script src="/appenv"></script>
+    <script type="text/javascript" src="/shared/showAlert.js"></script>
+    <script type="text/javascript" src="/shared/util.js"></script>
+    <script src="https://unpkg.com/restaf@dev/dist/restaf.min.js"></script>
+    <style>
+        .notes {
+            border: 2px;
+            background: cyan;
+        }
+        .left{
+            float:left;
+            flex-grow: 1;
+            overflow:hidden;
+            border-style: solid;
+            border: 5px;
+            height: 80%;
+        }
+        .right{
+            float:left;
+            flex-grow: 1;
+            overflow:hidden;
+            border-style: solid;
+            border: 5px;
+            height: 100%;
+        }
+
+        .imagediv {
+            border-style: groove;
+        }
+        .container {
+            height: 100vh;
+            width: auto;
+        }
+        .grid {
+            display: table;
+            width: calc(100% + 1.75rem);
+            border-collapse: separate;
+            border-spacing: 1rem;
+            margin: -1rem;
+            height: inherit;
+        }
+        .gridRow {
+            display: table-row;
+        }
+        .gridCell {
+            display: table-cell;
+            width: 50%;
+            padding-bottom: 56.25%;
+            position: relative;
+        }
+        .component {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            display: flex;
+            flex-flow: column;
+        }
+        .componentIframe {
+            border: 1px solid #000000;
+            margin-top: 0.5rem;
+            display: flex;
+            align-items: flex-start;
+            flex: 1;
+        }
+        .componentHeader {
+            height: 20px;
+            width: 100%;
+            display: flex;
+            align-items: flex-start;
+        }
+        .container {
+            height: 100vh;
+            width: auto;
+        }
+    </style>
+</head>
+<body>
+
+<script type="text/javascript">
+
+    let reports      = null;
+    let reportImages = null;
+    let reportsList         = null;
+    let sectionName         = null;
+    let currentHref         = null;
+    let reportNo;
+
+    //
+    // create image payload
+    //
+
+    async function getImage() {
+        let page1 = document.getElementById( "page" ).value;
+        let page = parseInt(page1);
+        debugger;
+        reportNo = document.getElementById( "reportNo" ).selectedIndex;
+        document.getElementById('progress').style.display = 'block';
+        document.getElementById('getreport').disabled = true;
+        let p = imagePayload( reportsList, reportNo, page );
+        let job = await store.apiCall( reportImages.links( 'createJob' ), {data: p} );
+        let status = await store.jobState( job, { qs: { wait: 1.5} } , 5, 2 );
+        if ( status.data !== 'completed' ) {
+            throw `Job failed ${status.data}`;
+        } else {
+            sectionName = status.job.items(status.job.itemsList(0), 'data', 'sectionName');
+            let image = await store.apiCall(status.job.itemsCmd(status.job.itemsList(0), 'image'))
+            viewer(image.items());
+        }
+    }
+
+    function viewer( image ) {
+        debugger;
+        document.getElementById('reportViewer').style.display ='none';
+        document.getElementById('imageViewer').style.display  = 'block';
+
+        currentHref = reportsList.itemsCmd( reportsList.itemsList( reportNo ), 'self', 'link', 'href' ) ;
+
+        let svg = document.getElementById( `imageViewer` );
+        svg.innerHTML =  image;
+        let box = svg.getBBox();
+        let viewBox = [box.x, box.y, box.width, box.height ].join( " " );
+        svg.setAttribute( "viewBox", viewBox );
+        svg.setAttribute( "preserveAspectRatio", "none" );
+
+        document.getElementById('progress').style.display = 'none';
+        document.getElementById('getreport').disabled = false;
+    }
+
+    function imagePayload( reportsList, index, page ) {
+        let data =
+            {
+                reportUri: reportsList.itemsCmd(reportsList.itemsList(index), 'self', 'link', 'uri'),
+                sectionIndex: page,
+                layoutType: 'entireSection',
+                size: "400x400"
+            }
+        console.log(data)
+        debugger;
+        return data;
+    }
+
+
+    function createUI() {
+        let select = document.getElementById( 'reportNo' );
+        reportsList.itemsList().forEach( v => {
+            let option = document.createElement( "option" );
+            option.text = v;
+            select.options.add( option );
+        } );
+    }
+
+    function getImageHandler () {
+        getImage()
+            .catch ( err  => showAlert( err ) )
+    }
+    let gotoGetImage = getImageHandler.bind( this );
+
+    function getReportHandler () {
+        let host = store.connection().host;
+        console.log(host);
+        document.getElementById('reportViewer').style.display ='block';
+        document.getElementById('imageViewer').style.display = 'none';
+        let options = "&appSwitcherDisabled=true&reportViewOnly=true&printEnabled=true&sharedEnabled=true&informationEnabled=true&commentEnabled=true&reportViewOnly=true";
+        let href = `${host}/SASReportViewer/?reportUri=${currentHref}&page=${sectionName}${options}`
+        document.getElementById('reportViewer').setAttribute('src',href);
+        console.log(href);
+    }
+    let gotoGetReport = getReportHandler.bind( this );
+
+    async function setup() {
+        let msg = await store.logon(LOGONPAYLOAD);
+        let services  = await store.addServices ('reports', 'reportImages');
+        reports       = services.reports;
+        reportImages  = services.reportImages;
+        reportsList = await store.apiCall( reports.links( 'reports' ) );
+        if ( reportsList.itemsList().size === 0 ) {
+            throw 'No reports to view';
+        }
+        createUI();
+
+        document.getElementById('progress').style.display = 'none';
+        document.getElementById('getreport').disabled = true;
+        return true;
+    }
+
+    let store = restaf.initStore( );
+    debugger;
+    setup() 
+            .then (r => console.log( r ))
+            .catch (err => showAlert(err));
+
+
+</script>
+
+<h1> Report Viewer </h1>
+    <div id="container" class="content" >
+
+        <p id="freport" ></p>
+        <p id="ereport"> </p>
+
+        <p id="tabfreport"> </p>
+
+        Report No:  <select id="reportNo"> </select>
+        Section Number: <input type="number" name="Section" id="page" value="0" >
+        <br>
+        <br>
+        <progress id="progress" value="50" max="100"  style="display: none;"></progress>
+
+            <div class="wrapper2">
+                    <div class="grid">
+                        <div class="gridRow">
+                            <div class="gridCell">
+                                <div id="component1" class="component">
+                                    <div id="component1-header" class="componentHeader">
+                                        <button id="getimage" onclick="gotoGetImage();"> Get Image </button>
+                                        <button id="getreport" onclick="gotoGetReport()" > Get report </button>
+                                    </div>
+                                    <svg id="imageViewer" class="componentIframe" ></svg>
+                                    <iframe id="reportViewer" class="componentIframe" allowfullscreen style="display: none;"></iframe>
+                                    <p id="err" style="display: none;"></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+            </div>
+
+
+    </div>
+
+</body>
+</html>

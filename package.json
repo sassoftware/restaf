@@ -73,6 +73,7 @@
     "lerna": "^3.14.1",
     "prettyjson": "^1.2.1",
     "rimraf": "^2.6.3",
+    "set-versions": "^1.0.3",
     "shelljs": "^0.8.3",
     "showdown": "^1.9.0",
     "shx": "^0.3.2",
@@ -87,6 +88,7 @@
   },
   "dependencies": {
     "aws-sdk": "^2.563.0",
+    "axios": "^0.19.0-beta.1",
     "jwt-decode": "^2.2.0",
     "restaf-server": "^7.0.6"
   }

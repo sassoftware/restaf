@@ -1,6 +1,6 @@
 {
   "name": "examples",
-  "version": "1.6.1",
+  "version": "1.7.0",
   "description": "Examples",
   "author": "Deva Kumaraswamy <deva.kumar@sas.com>",
   "license": "Apache-2.0",
@@ -28,9 +28,9 @@
     "lint": "eslint . --fix"
   },
   "dependencies": {
-    "restaflib": "1.6.9",
+    "restaflib": "1.7.0",
     "jwt-decode": "^2.2.0",
-    "restaf": "1.6.1",
+    "restaf": "1.7.0",
     "win-ca": "^3.1.0"
   },
   "devDependencies": {

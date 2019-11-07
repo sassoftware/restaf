@@ -37,16 +37,12 @@
         let logInfo;
         function setup() {
             console.log(LOGONPAYLOAD);
-            store =  restaf.initStore(/*(LOGONPAYLOAD.authType === 'server') ? {casProxy:true} :null*/);
+            store =  restaf.initStore((LOGONPAYLOAD.authType === 'server') ? {casProxy:true} :null);
             store.logon(LOGONPAYLOAD)
                     .then ( msg => {
                         logInfo = store.connection();
                         return true;
                     })
-                    .then (r => {
-                        return store.addServices('files')
-                    })
-                    .then (f => alert('done'))
                     .catch( err => {
                         showAlert( err );
                         return false;
@@ -76,7 +72,7 @@
 
 <h2> Listing items</h2>
 <ul>
-    <li> <a href="javascript:showDemo(`/viyaapp/test.html`)" > test </a></li>
+   
     <li> <a href="javascript:showDemo(`/viyaapp/casserver.html`)" > List cas servers </a></li>
     <li> <a href="javascript:showDemo(`/viyaapp/computecontexts.html`)"> List of compute contexts</a></li>
     <li> <a href="javascript:showDemo(`/viyaapp/paginate.html`)" > Paginates thru files using files service</a></li>
@@ -132,5 +128,9 @@
     <li> <a href="javascript:showDemo(`/viyaapp/postfile.html`)" > Post a new file and view it</a></li>
 </ul>
 
+<h2> For testing browser supports</h2>
+<li> <a href="javascript:showDemo(`/viyaapp/testrestaf.html`)" > test using restaf (axios)</a></li>
+<li> <a href="javascript:showDemo(`/viyaapp/testfetch.html`)" > test using with fetch </a></li>
+<li> <a href="javascript:showDemo(`/viyaapp/testajax.html`)" > test using with ajax </a></li>
 </body>
 </html>

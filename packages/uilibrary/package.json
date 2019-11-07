@@ -1,6 +1,6 @@
 {
   "name": "uilibrary",
-  "version": "2.2.0",
+  "version": "1.7.0",
   "description": "UI demos for Viya using restaf",
   "scripts": {
     "build": "webpack --config=webpack.config.js"
@@ -12,14 +12,14 @@
   "dependencies": {
     "@material-ui/core": "^4.5.0",
     "@material-ui/icons": "^4.4.3",
-    "axios": "^0.19.0",
+    "axios": "^0.19.0-be",
     "css-loader": "^3.2.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-json-pretty": "^2.1.0",
     "react-router-dom": "^5.1.2",
     "react-select": "^2.4.4",
-    "restaflib": "^1.6.11"
+    "restaflib": "1.7.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.1.5",

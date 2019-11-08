@@ -40,15 +40,16 @@ debugger;
       return;
     }
    //  setFullName(caslib.value + "." + name.value);
-   setFullName({caslib: caslib.value, name: name.value})
+   setFullName({caslib: caslib.value, name: name.value});
   };
 
   // get list of caslibs
   useEffect(() => {
     debugger;
-    runCasl(store, session, [ 'caslibListCasl' ], null, null)
+    runCasl(store, session, [ 'caslibListCasl' ], null)
       .then(actionResult => {
-        setCaslibList(actionResult.items("results", "casResults").toJS());
+        setCaslibList(actionResult);
+        debugger;
         setErrors(null);
       })
       .catch(err => {
@@ -61,9 +62,9 @@ debugger;
     if (caslib == null) {
       return;
     }
-    runCasl (store, session, [ 'casTableListCasl' ], { caslib: caslib.value }, null)
+    runCasl (store, session, [ 'casTableListCasl' ], { caslib: caslib.value })
       .then(actionResult => {
-        setTableList(actionResult.items("results", "casResults").toJS());
+        setTableList(actionResult);
         setErrors(null);
       })
       .catch(err => {
@@ -71,6 +72,7 @@ debugger;
       });
   }, [ caslib ]);
 
+  debugger;
   let show = 
     <div className="container">
      <form className="form-horizontal">

@@ -5,6 +5,7 @@
 
 
 import caslRun         from './caslRun';
+import caslRunBase     from './caslRunBase';
 import caslScore       from './caslScore';
 import casSetup        from './casSetup';
 
@@ -37,6 +38,7 @@ import decodeJwt       from './decodeJwt';
 
 export {
     caslRun,
+    caslRunBase,
     casSetup,
     casTableToJson,
     casFetchData,

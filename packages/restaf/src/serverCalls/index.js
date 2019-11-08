@@ -91,7 +91,6 @@ function request (iconfig) {
     let ixsrf      = null;
     let casAction  = null;
  
-    debugger;
     if (payload !== null) {
         casAction     = hasItem(payload, 'action');
         iqs           = hasItem(payload, 'qs');
@@ -180,7 +179,7 @@ function request (iconfig) {
 
     config.data = (idata === null) ? {} : idata;
     config.maxContentLength = 2 * 10063256;
-    debugger;
+
     return makeCall(config, iconfig, logonInfo.pem, logonInfo.rejectUnauthorized);
 }
 

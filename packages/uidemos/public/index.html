@@ -25,10 +25,14 @@
             pointer-events: none;
         }
     </style>
+    <script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-polyfill/6.26.0/polyfill.min.js"></script>
     
     <script src="/shared/dist/restaf.js"></script>
+    <script src="/shared/dist/restaflib.js"></script>
+    <script src="/shared/dist/uiLibrary.js"></script>
     <script type="text/javascript" src="/appenv"></script>
     <script type="text/javascript" src="/shared/showAlert.js"></script> 
 
@@ -37,6 +41,8 @@
         let logInfo;
         function setup() {
             console.log(LOGONPAYLOAD);
+            console.log(uiLibrary);
+            console.log(restaflib);
             store =  restaf.initStore((LOGONPAYLOAD.authType === 'server') ? {casProxy:true} :null);
             store.logon(LOGONPAYLOAD)
                     .then ( msg => {

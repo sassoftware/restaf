@@ -7,25 +7,25 @@
 import React from "react";
 
 function TableBrowser (props) {
-
+    let {columns, rows} = props;
     debugger;
-    let columns = props.data.tableData.columns;
+    let justify = [];
+
     for (let i=0; i < columns.length; i++) {
         let type = columns[i].Type;
-        columns[i].justify = (type === 'double' || type === 'int') ? 'right' : 'left';
+        justify[i] = (type === 'double' || type === 'int') ? 'right' : 'left';
     }
-    let rows    = props.data.tableData.rows;
- 
+  
     let theadcols = columns.map((c) => <th key={c.Column} scope="col">{c.Column}</th>);
     let thead = <thead><tr>{theadcols}</tr></thead>;
 
     let trows = rows.map((dataRow, rowno) => {
         let rone = dataRow.map((r,i) => {
-            return <td align={columns[i].justify} key={rowno+i}>{r}</td>
-        })
-        return <tr key={rowno}>{rone}</tr>
-    })
-    let tbody = <tbody>{trows}</tbody>
+            return <td align={justify[i]} key={rowno+i}>{r}</td>;
+        });
+        return <tr key={rowno}>{rone}</tr>;
+    });
+    let tbody = <tbody>{trows}</tbody>;
 
     debugger;
 

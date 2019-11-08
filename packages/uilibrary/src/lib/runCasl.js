@@ -3,18 +3,18 @@
 * SPDX-License-Identifier: Apache-2.0
 */
 'use strict';
-import restaflib from 'restaflib';
+import {caslRun} from 'restaflib';
 import programs from '../programs';
 
 /* read programs */
-async function runCasl (store, session, casl, args, inParms) {
+async function runCasl (store, session, casl, args) {
     let src = '';
     casl.forEach(s => {
-        src = src + ' ' + programs[s];
+        src = src + ' ' + programs[s]();
     });
     debugger;
-    let result = restaflib.caslBase (store, session, src, args, inParms);
-    return result;
+    let result = await caslRun(store, session, src, args);
+    return result.results.casResults;
 }
 
 export default runCasl;

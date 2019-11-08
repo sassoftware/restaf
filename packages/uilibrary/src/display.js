@@ -6,7 +6,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 // eslint-disable-next-line no-unused-vars
-let  Viewers = require('./viewers');
+import Viewers from './viewers';
 function display (Viewer, props, element){
     let ThisComponent = Viewers[Viewer];
     debugger;

@@ -32,9 +32,12 @@ store.logon(payload)
   });
 
 async function runExamples () {
+  
   await test_computeRun();
+  /*
   await test_caslRun();
   await test_casFetchData();
+  */
 }
 
 //
@@ -126,14 +129,12 @@ async function test_caslRun () {
     data = await restaflib.computeFetchData(store,computeSummary, 'DTEMP1', 'prev');
     if (data !== null) {
       console.log(data.rows[0]);
-      console.log(data.scrollOptions);
+      console.log(JSON.stringify(data.scrollOptions, null,4));
     }
   } while (data != null);
 
   await store.apiCall(computeSession.links('delete'));
 }
-
-
 
 //
 // casFetchData
@@ -150,11 +151,12 @@ async function test_casFetchData () {
 
   // Get the first 20 records
   let result = await restaflib.casFetchData(store, session, payload);
-  console.log(result.data.toString());
+  console.log(result.data.schema);
   console.log(`The next start is at: ${result.pagination.next.from}`);
   console.log(result.data.rows[0].toString());
 
   // Scroll forward to the end 
+  
   while (result.pagination.next.from !== -1) {
     console.log(`The start is at: ${result.pagination.next.from}`);
      result = await restaflib.casFetchData(store, session, result.pagination.next);
@@ -171,6 +173,7 @@ async function test_casFetchData () {
     console.log(`The previous start is at: ${result.pagination.prev.from}`);
     console.log(result.data.rows[0].toString());
  }
+ 
 
   await store.apiCall(session.links('delete'));
 }

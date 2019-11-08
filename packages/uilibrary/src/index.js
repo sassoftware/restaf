@@ -4,7 +4,7 @@
 */
 'use strict';
 import display from './display';
-const Viewers = require('./viewers');
+import Viewers from './viewers';
 
 export {display, Viewers};
 

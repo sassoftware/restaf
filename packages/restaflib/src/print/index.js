@@ -23,7 +23,7 @@ import titleColors  from './titleColors';
 import casTable     from './casTable';
 import logListLines from './logListLines';
 
-let prettyjson = require('prettyjson');
+import prettyjson from 'prettyjson';
 
 function errMsg (msg) {
 	let msg1 = typeof msg === 'object' ? msg : { Error: msg };

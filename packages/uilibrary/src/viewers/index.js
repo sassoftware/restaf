@@ -15,7 +15,7 @@ import SideBar from './SideBar';
 
 import TestStuff from './TestStuff';
 
-export {
+export default {
 	Apps,
 	CasTableBrowserp,
 	CasTableSelectorp,

@@ -42,10 +42,10 @@ module.exports = {
 
 
   externals: {
+    "restaflib": "restaflib",
     "react"    : "React",
     "react-dom": "ReactDOM",
-    "axios"    : "axios",
-    "restaflib": "restaflib"
+    "axios"    : "axios"
   },
   
 

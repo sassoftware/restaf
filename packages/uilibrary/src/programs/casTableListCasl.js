@@ -24,4 +24,4 @@ function casTableListCasl () {
   return code;
 
 }
-export default casTableListCasl
+export default casTableListCasl;

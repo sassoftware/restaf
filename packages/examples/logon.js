@@ -27,18 +27,17 @@ let payload  = config();
 let store    = restaf.initStore();
 let qs = require('qs');
 
-let {print}   = require('restaflib');
+let {print, decodeJwt}   = require('restaflib');
 payload.keepAlive = null;
 let hash = '#a=10&b=20';
 let loc = qs.parse(hash);
 console.log(loc);
 
-
 store
   .logon(payload)
   .then(msg => {
     console.log(JSON.stringify(store.connection(), null, 4));
-    let jwt = store.decodeJWT();
+    let jwt = decodeJwt(store.connection().token);
     print.object(jwt, 'JWT');
     console.log(`Logon Status: ${msg}`);
     console.log("calling logoff");

@@ -3,13 +3,13 @@
 * SPDX-License-Identifier: Apache-2.0
 */
 
-let axios = require('axios');
+import axios from 'axios';
 
  module.exports = async function queryGraphql (host, graphqlQuery, filter,resultcb, errorcb){
    
     let data = {
         query: graphqlQuery
-      }
+      };
 
     if (filter !== null){
       data.variables = filter;
@@ -20,7 +20,7 @@ let axios = require('axios');
       withCredentials: true,
       method         : 'POST',
       data           : data
-    }
+    };
   
     try {
       let r = await axios(config);
@@ -40,4 +40,4 @@ let axios = require('axios');
       errorcb(JSON.stringify(err, null,4));
       return err;
     }
- }
+ };

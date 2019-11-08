@@ -9,6 +9,7 @@ import React from "react";
 import JSONPretty from "react-json-pretty";
 import TableBrowser from "../helpers/TableBrowser";
 import runCasl from '../lib/runCasl';
+import {casFetchData} from 'restaflib';
 
 function CasTableBrowserp (props) {
   const { useState, useEffect, useRef } = React;
@@ -33,9 +34,7 @@ function CasTableBrowserp (props) {
 
   useEffect(() => {
     const handleResult = r => {
-      let rr = r.items("results", "casResults").toJS();
-
-      setResult(rr);
+      setResult(r);
       setErrors(null);
     };
 
@@ -50,14 +49,14 @@ function CasTableBrowserp (props) {
     }
     debugger;
     
-    runCasl(store, session, [ 'browseCasTableCasl' ], control, null)
+    casFetchData(store, session, control)
       .then(r => handleResult(r))
       .catch(err => handleErrors(err));
   }, [ from, props.table ]);
 
   const _onScroll = direction => {
     let f =
-      direction === "up" ? result.pagination.prev : result.pagination.next;
+      direction === "up" ? result.pagination.prev.from : result.pagination.next.from;
     setFrom(f);
     control = {
       table : props.table,
@@ -80,7 +79,7 @@ function CasTableBrowserp (props) {
             </button>
             <button
               className="btn btn-secondary"
-              disabled={result === null || result.pagination.next === -1}
+              disabled={result === null || result.pagination.next.from === -1}
               onClick={() => _onScroll("down")}>
               down
             </button>
@@ -90,7 +89,7 @@ function CasTableBrowserp (props) {
 
       <div className="form-group form-group-lg">
         <div className="form-group">
-          {result !== null ?  <TableBrowser data={result} /> :
+          {result !== null ?  <TableBrowser rows={result.data.rows} columns={result.data.schema} /> :
            errors !== null ?  <JSONPretty data={errors} />   :
            null}
         </div>

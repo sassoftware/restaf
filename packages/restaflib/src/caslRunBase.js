@@ -45,6 +45,7 @@ async function caslRunBase (store, session, src, args) {
         data  : {code: code}
     };
 
+    debugger;
     let result  = await store.runAction(session, payload);
     debugger;
     return result;

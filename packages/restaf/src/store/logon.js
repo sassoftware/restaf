@@ -55,7 +55,6 @@ const logon = (store, ipayload) => {
             // this allows users of restaf-server to LOGONPAYLOAD unconditionally to logon
             //
             
-            debugger;
         
             if (payload === null || payload.authType === VIYA_LOGON_IMPLICIT) {
                 urlInfo = parseUrlNext();

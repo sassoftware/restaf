@@ -23,6 +23,9 @@ async function computeResults (store, computeSummary, type) {
 			result = await store.apiCall(computeSummary.ods);
 		}
 		return result.items();
+	} else if (type === 'tables') {
+		debugger;
+		return Object.keys(computeSummary.tables);
 	} else {
 		throw `Error: Invalid type ${type}`;
 	}

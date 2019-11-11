@@ -13,7 +13,7 @@ import EditScenario from '../helpers/EditScenario';
 import ShowScore from '../helpers/ShowScore';
 
 import { ServerStyleSheets } from '@material-ui/styles';
-import Grid from '@material-ui/core/Grid'
+import Grid from '@material-ui/core/Grid';
 
 function DsScoring (props) {
 
@@ -95,20 +95,20 @@ function DsScoring (props) {
             if (m.Role !== 'Target') {
                tempScenario[cl] = '';
             }
-          })
+          });
         } else {
           tempScenario = {...model.scenario};
         }
         setInitialValues({describe: {}, editRow: tempScenario});
         setErrors(null);
         lastModel.current = model.name;
-      }
+      };
       
     const makeSelectionList = (invalue) =>  {
       let type = typeof invalue[0] === 'number' ? 'number': 'text';
       let options = invalue.map(v => {
         return { value: v, label: v, type: type};
-      })
+      });
       return options;
     };
 
@@ -135,7 +135,7 @@ function DsScoring (props) {
           ...selectedValues,
           [event.target.name]: value
         }
-      )
+      );
 
       }
 
@@ -156,7 +156,7 @@ function DsScoring (props) {
       console.log(err);
       setErrors(JSON.stringify(err));
     });
-  }
+  };
 
   function scenarioData (casResults) {
     let oldrow = casResults.scenario[0];
@@ -171,7 +171,7 @@ function DsScoring (props) {
       editRow[k] = describe[k];
     }
 
-    return {describe: describe, editRow: editRow} 
+    return {describe: describe, editRow: editRow}; 
   }
 
   const getNewValues = (newValues) => {
@@ -202,19 +202,19 @@ function DsScoring (props) {
       console.log(err);
       setErrors(JSON.stringify(err));
     });
-  }
+  };
   let show =
   <Grid container spacing={2} >
     <Grid item xs={12}>
-      <Grid container justify="center" spacing={2}>
-        <Grid key={1} item>
+      <Grid container  spacing={2}>
+        <Grid key={1} justify={"flex-start"} item>
           <ShowSelectors selectors={selectorValues}  selectedValues={selectedValues}
                         handleChange={handleChange} onSubmit={onFilter}/>
           {errors}
          
         </Grid>
         {(initialValues !==null) ? 
-           <Grid key={2} item>
+           <Grid key={2} justify={"flex-end"} item>
               <EditScenario data={initialValues.editRow} setScenario={getNewValues} />
           </Grid> : null }
         {(scenarioResult !== null) ? 
@@ -223,7 +223,7 @@ function DsScoring (props) {
             </Grid> : null }
       </Grid>
     </Grid>
-  </Grid>
+  </Grid>;
 
   return show;
 }

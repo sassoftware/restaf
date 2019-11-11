@@ -104,9 +104,12 @@ async function test_caslRun () {
   print.logListLines(list);
   let ods = await restaflib.computeResults(store, computeSummary, 'ods');
   console.log(ods);
+  
+  debugger;
+  let tables = await restaflib.computeResults(store, computeSummary, 'tables');
+  print.object(tables, 'List of tables');
 
   let data = await restaflib.computeFetchData(store,computeSummary, 'DTEMP1');
-  
   console.log(data.columns);
   console.log(`First row in set: ${data.rows[0]}`);
   console.log(`Last row in set: ${data.rows[data.rows.length-1]}`);

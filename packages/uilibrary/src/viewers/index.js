@@ -12,6 +12,7 @@ import ItemsTableViewer from './ItemsTableViewer';
 import PlaceHolder from './PlaceHolder';
 import ProblemDescription from './ProblemDescription';
 import SideBar from './SideBar';
+import CasOutput from './CasOutput';
 
 import TestStuff from './TestStuff';
 
@@ -19,6 +20,7 @@ export default {
 	Apps,
 	CasTableBrowserp,
 	CasTableSelectorp,
+	CasOutput,
 	DsScoring,
 	ItemsListViewer,
 	ItemsTableViewer,

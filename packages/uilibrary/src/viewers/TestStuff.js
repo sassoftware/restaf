@@ -14,7 +14,7 @@ function TestStuff (props) {
         <sas-report url={sdk.url} reportUri={sdk.reportUri} authenticationType={sdk.credentials}
          className={sdk.class}></sas-report>
       </div>
-    )
+    );
   }
 
 // let TestStuff = withRouter(_TestStuff);

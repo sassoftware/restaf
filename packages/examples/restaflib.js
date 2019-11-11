@@ -128,6 +128,7 @@ async function test_caslRun () {
   } while (data != null);
 
   console.log('-----------------now scroll backwards');
+  
   do {
     data = await restaflib.computeFetchData(store,computeSummary, 'DTEMP1', 'prev');
     if (data !== null) {
@@ -135,6 +136,7 @@ async function test_caslRun () {
       console.log(JSON.stringify(data.scrollOptions, null,4));
     }
   } while (data != null);
+
 
   await store.apiCall(computeSession.links('delete'));
 }
@@ -167,6 +169,7 @@ async function test_casFetchData () {
      console.log(result.data.rows[0].toString());
   }
   
+
   console.log('--------------------------------------- scroll backwards');
   // use the last prev to start scrolling backwards to the top
   
@@ -176,7 +179,7 @@ async function test_casFetchData () {
     console.log(`The previous start is at: ${result.pagination.prev.from}`);
     console.log(result.data.rows[0].toString());
  }
- 
+
 
   await store.apiCall(session.links('delete'));
 }

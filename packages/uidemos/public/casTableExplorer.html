@@ -16,7 +16,7 @@
     
     <script src="/shared/dist/restaf.js"></script>
     <script src="/shared/dist/restaflib.js"></script>
-    <script src="/shared/dist/uiLibrary.js"></script>
+    <script src="/shared/dist/uilibrary.js"></script>
     <script type="text/javascript" src="/appenv"></script>
     <script type="text/javascript" src="/shared/showAlert.js"></script> 
     
@@ -66,7 +66,7 @@
             try {
               debugger;
                let {session} = await restaflib.casSetup(store, LOGONPAYLOAD);
-               uiLibrary.display('CasTableSelectorp', {store: store, session: session}, document.getElementById('display'));
+               uilibrary.display('CasTableSelectorp', {store: store, session: session}, document.getElementById('display'));
             }
             catch(err) {
                 alert(err);

@@ -35,8 +35,8 @@ module.exports = {
 
   output: {
     path         : path.resolve(__dirname, "dist"),
-    filename     : "uiLibrary.js",
-    library      : "uiLibrary",
+    filename     : "uilibrary.js",
+    library      : "uilibrary",
     libraryTarget: "umd"
   },
 

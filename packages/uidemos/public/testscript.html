@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <!--
   ~ Copyright (c) SAS Institute Inc.
@@ -20,15 +19,13 @@
 <!--suppress JSUnfilteredForInLoop -->
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Echo Action</title>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- meta charset="UTF-8">-->
+
         <script src="https://cdnjs.cloudflare.com/ajax/libs/react/16.8.6/umd/react.development.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/16.8.6/umd/react-dom.development.js"></script>
         
          
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js"></script>
+        <!--script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js"></script>
         
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -37,43 +34,41 @@
         <!-- script src="https://unpkg.com/restaf@dev/dist/restaf.min.js"></script> -->
         <script type="text/javascript" src="/shared/dist/restaf.js"></script>
         <script type="text/javascript" src="/shared/dist/restaflib.js"></script>
-        <script type="text/javascript" src="/shared/dist/uilibrary.js"></script>
-        <script type="text/javascript" src="/shared/showAlert.js"></script>
+        <script type="module" src="/shared/dist/uilibrary.js"></script>
         <script type="text/javascript" src="/appenv"></script>
 
-    <script type="text/javascript">
+    <style>
+        body {
+            height: 100%;
+        }
+        .content {
+            height: 100%;
+        }
+        .button {
+            margin: 10px;
+        }
+        .idTable {
+            background-color: bisque;
 
-        let store = restaf.initStore((LOGONPAYLOAD.authType === 'server') ? {casProxy:true} : null);
-
-        async function setup() {
-            let {session} = await restaflib.casSetup(store, LOGONPAYLOAD);
-            debugger;
-            p = {
-                action: 'builtins.echo',
-                data  : { x: '1' }
-            };
-            let actionResult = await store.runAction( session, p );;
-            debugger;
-            let props = {
-                store  : store,
-                session: session,
-                title  : 'Results from echo action',
-                folder : actionResult
-            }
-            return uilibrary.display('CasOutput', props,  document.getElementById('container'));
-            return true;
         }
 
-        setup()
-            .then ( r => console.log( r ))
-            .catch( err => showAlert(err))
+    </style>
+  
+    <script type="text/javascript">
+        debugger;
 
+        let store;
+        let logInfo;
+        function setup() {
+            alert('in setup');
+            console.log(uilibrary);
+            alert(uilibrary);
+        } 
 
-    </script>
+</script>
 </head>
-
-<body>
-<h1> Results from "echo" action</h1>
+<body onload="setup()">
+    <h1> Test access to Viya Service</h1>
 
     <div id="container" class="content" >
         </div>

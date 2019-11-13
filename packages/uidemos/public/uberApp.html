@@ -16,7 +16,7 @@
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
         <script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
         <script src="https://unpkg.com/restaf@dev/dist/restaf.min.js"></script>
-        <script type="text/javascript" src="/shared/dist/uiLibrary.js"></script>
+        <script type="text/javascript" src="/shared/dist/uilibrary.js"></script>
         <script type="text/javascript" src="/appenv"></script>
         
         <style>
@@ -71,7 +71,7 @@
             function showApp(appConfigf) {
                 appConfig = JSON.parse(appConfigf);
                 document.getElementById('prompter').style.display = 'none';
-                uiLibrary.display('Apps', {store: store, models: appConfig.models, serverless: appConfig.serverless}, document.getElementById('showApp'));
+                uilibrary.display('Apps', {store: store, models: appConfig.models, serverless: appConfig.serverless}, document.getElementById('showApp'));
             }
          
         </script>

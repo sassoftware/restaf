@@ -1,4 +1,8 @@
+
+
+
 <!DOCTYPE html>
+
 <!--
   ~ Copyright (c) SAS Institute Inc.
   ~  Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,7 +22,7 @@
 
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+    <!-- meta charset="UTF-8">-->
     <title>restAF viyaapp using implicit flow</title>
     <style>
         a.noclick       {
@@ -30,9 +34,11 @@
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js"></script>
     
-    <script src="/shared/dist/restaf.js"></script>
-    <script src="/shared/dist/restaflib.js"></script>
-    <script src="/shared/dist/uiLibrary.js"></script>
+  
+    <script type="module" src="/shared/dist/restaf.js"></script>
+    <script type="module" src="/shared/dist/restaflib.js"></script>
+      <!-- script type="module" src="/shared/dist/uilibrary.js"></script>-->
+    
     <script type="text/javascript" src="/appenv"></script>
     <script type="text/javascript" src="/shared/showAlert.js"></script> 
 
@@ -40,8 +46,9 @@
         let store;
         let logInfo;
         function setup() {
+            debugger;
             console.log(LOGONPAYLOAD);
-            console.log(uiLibrary);
+            // console.log(uilibrary);
             console.log(restaflib);
             store =  restaf.initStore((LOGONPAYLOAD.authType === 'server') ? {casProxy:true} :null);
             store.logon(LOGONPAYLOAD)
@@ -59,16 +66,16 @@
             debugger;
             let href = `${window.location.protocol}//${window.location.host}${w}`;
             if (LOGONPAYLOAD.authType === 'implicit') {
-                href = `${href}?host=${logInfo.host}#token_type=bearer&access_token=${logInfo.token}`;
+                href = `${href}?host=${logInfo.host}#token_type=${logInfo.tokenType}&access_token=${logInfo.token}`;
             } 
             window.open(href);
         }
-        window.onload = setup;
+       //  window.onload = setup;
     
     </script>
 </head>
 
-<body>
+<body onload="setup()">
 
 <h1> Using restAF to build web apps </h1>
 <p> These are examples demonstrating how restAF
@@ -138,5 +145,6 @@
 <li> <a href="javascript:showDemo(`/viyaapp/testrestaf.html`)" > test using restaf (axios)</a></li>
 <li> <a href="javascript:showDemo(`/viyaapp/testfetch.html`)" > test using with fetch </a></li>
 <li> <a href="javascript:showDemo(`/viyaapp/testajax.html`)" > test using with ajax </a></li>
+<li> <a href="javascript:showDemo(`/viyaapp/testscript.html`)" > test script </a></li>
 </body>
 </html>

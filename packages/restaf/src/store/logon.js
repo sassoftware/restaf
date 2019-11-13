@@ -141,11 +141,20 @@ function parseUrlNext () {
         return null;
     }
 
-    let payload = {};
-    payload.host      = q.host;
-    payload.authType  = VIYA_LOGON_IMPLICIT;
-    payload.tokenType = 'Bearer ' /*loc['#token_type']*/; 
-    payload.token     = loc.access_token;
+    let tokenType = 'bearer';
+
+    if (loc['#token_type'] != null) {
+        tokenType = loc['#token_type'];
+    } else if (loc['token_type'] != null) {
+        tokenType = loc['token_type'];
+    }
+    let payload = {
+       host     : q.host,
+       authType : VIYA_LOGON_IMPLICIT,
+       tokenType: tokenType,
+       token    : loc.access_token
+    };
+    console.log(loc);
     return payload;
 }
 

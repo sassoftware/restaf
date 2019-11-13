@@ -45,6 +45,7 @@ async function setup (payload, ...args) {
   let models = await store.apiCall(modelRepository.links("models"), payload);
   print.itemsList(models, 'List of models');
 
+
   // get the content information on the first model 
 
   print.msg(models.itemsList(1));
@@ -52,6 +53,8 @@ async function setup (payload, ...args) {
   let c1 = await store.apiCall(contentLink);
 
   print.itemsList(c1, `List of items in the content for model ${models.itemsList(0)}`);
+
+  /*
 
   // Now print the content link for the first item 
 
@@ -64,7 +67,8 @@ async function setup (payload, ...args) {
 
   print.object(actualcontent.items(), 'final content');
   print.itemsList(actualcontent);
-  
+  */
+
 
   return true;
 }

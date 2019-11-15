@@ -8,6 +8,7 @@ import caslRun         from './caslRun';
 import caslRunBase     from './caslRunBase';
 import caslScore       from './caslScore';
 import casSetup        from './casSetup';
+import casAction       from './casAction';
 
 import casFetchData    from './casFetchData';
 import casTableToJson  from './casTableToJson';
@@ -40,6 +41,7 @@ export {
     caslRun,
     caslRunBase,
     casSetup,
+    casAction,
     casTableToJson,
     casFetchData,
     computeRun,

@@ -33,6 +33,7 @@ let  {
 //
 module.exports.dsScore  = async function (event, context) {
 
+	// use rejectUnauthorized for demos only 
 	let store   = restaf.initStore({pem: null, rejectUnauthorized: false }); /* initialize restaf         */
 	let session = null;
 	
@@ -44,7 +45,7 @@ module.exports.dsScore  = async function (event, context) {
 		if (inParms.masModel != null) {
 			let model = [ inParms.model.name ];
 			let masControl = await masSetup(store, model, payload);
-			results = await masRun(store, masControl, inParms.model.name, inParms.scenario, (inParms. step != null) ?inParms.step:null); 
+			results = await masRun(store, masControl, inParms.model.name, inParms.scenario, (inParms. step != null) ? inParms.step:null); 
 		} else {
 			let r  = await casSetup(store, payload);
 			session = r.session;

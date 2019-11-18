@@ -28,15 +28,15 @@ module.exports.app  = async function () {
         statusCode: 200,
         headers   : { 'Content-Type': 'text/html' },
         body      : h
-    }
+    };
     return r;
-}
+};
 function ht (id) {
     return new Promise((resolve, reject) => {
         let indexPath = path.resolve (__dirname, `../public/${id}.html`);
         fs.readFile(indexPath, 'utf8', (err, data) => {
             if (err) {
-                reject(setError(JSON.stringify(err)))
+                reject(setError(JSON.stringify(err)));
             } else {
                 resolve(data);
             }

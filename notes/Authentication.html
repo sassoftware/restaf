@@ -54,6 +54,13 @@ For simplicity of programming pass the same payload to logon in the redirected h
 parse the incoming url for token.
 
 <h2> Authorization_code flow</h2>
+
+<blockquote>
+
+<strong>Do not use this option until the release of a maintenance for Viya 3.5 </blockquote></strong>
+
+</blockquote>
+
 This is designed for use by your app server to authenticate the session. restaf-server supports this.
 If you are using some other app server look for documentation on Oauth support for that app server.
 
@@ -74,6 +81,9 @@ your browser session authenticated for longer than 30 mins(or whatever the defau
 
 
 <h2> With authorization token</h2>
+
+
+
 If you already have a valid Oauth token then use this payload.
 
 <pre>

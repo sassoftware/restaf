@@ -34,11 +34,9 @@ store.logon(payload)
 async function runExamples () {
   
   await test_casAction();
-  /*
   await test_computeRun();
   await test_caslRun();
   await test_casFetchData();
-  */
 }
 
 //
@@ -53,7 +51,8 @@ async function test_casAction () {
     data  : { table: { caslib: 'public', name: 'cars' } }
   };
   let casResults = await restaflib.casAction(store, session, p);
-  print.object(casResults.tables.Fetch, 'Fetched Table');
+  print.object(casResults, 'results from a fetch');
+  // print.object(casResults.tables.Fetch, 'Fetched Table');
   await store.apiCall(session.links('delete'));
 }
 //

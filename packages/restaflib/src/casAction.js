@@ -15,9 +15,6 @@
  * @param {object} store       - restaf store
  * @param {object} session     - cas session
  * @param {object} parameters  - parameters for the action
- * @param {object} headers     - use for custom headers
- 
-
  * 
  * @returns {object}  returns results from cas
  */

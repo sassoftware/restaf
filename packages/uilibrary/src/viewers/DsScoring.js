@@ -12,7 +12,6 @@ import ShowSelectors from '../helpers/ShowSelectors';
 import EditScenario from '../helpers/EditScenario';
 import ShowScore from '../helpers/ShowScore';
 
-import { ServerStyleSheets } from '@material-ui/styles';
 import Grid from '@material-ui/core/Grid';
 
 function DsScoring (props) {
@@ -23,15 +22,6 @@ function DsScoring (props) {
   let appEnv = appContext.viya.appEnv;
   let store = appContext.store;
   debugger;
-  */
-  
- 
-  /*
-   * planned process;
-   * Initialize the selectors based on incoming filter
-   * When user selects some condition and says describe retrieve the default values into scenario
-   * When user says score - run the scenario and load result into scenarioResult
-  
   */
 
   // const [routePath, setRoutePath] = useState(props.match.path);
@@ -64,10 +54,6 @@ function DsScoring (props) {
       // setSelectedValues(null);
       setInitialValues(null);
       setScenarioResult(null);
-      /*
-      setSelectorValues(null);
-      setSelectedValues(null);
-      */
 
       const initStep = async (store, model) => {
         let selectors = {};

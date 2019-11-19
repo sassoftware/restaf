@@ -1,6 +1,6 @@
 {
   "name": "uilibrary",
-  "version": "1.7.2",
+  "version": "1.7.3",
   "description": "UI demos for Viya using restaf",
   "scripts": {
     "build": "webpack --config=webpack.config.js"
@@ -25,7 +25,7 @@
     "react-json-pretty": "^2.1.0",
     "react-router-dom": "^5.1.2",
     "react-select": "^2.4.4",
-    "restaflib": "1.7.2"
+    "restaflib": "1.7.3"
   },
   "devDependencies": {
     "@babel/cli": "^7.1.5",

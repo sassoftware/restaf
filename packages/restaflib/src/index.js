@@ -25,8 +25,10 @@ import getReportUri    from './getReportUri';
 
 import getSasTableRows from './getSasTableRows';
 
+/* needs to be completed
 import jesSetup        from './jesSetup';
 import jesRun          from './jesRun';
+*/
 
 import jsonToDict      from './jsonToDict';
 
@@ -52,8 +54,10 @@ export {
     getReportImage,
     getReportUri,
     getSasTableRows,
+    /*
     jesSetup,
     jesRun,
+    */
     jsonToDict,
     computeResults,
     print,

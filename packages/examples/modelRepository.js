@@ -42,30 +42,39 @@ async function setup (payload, ...args) {
     }
   };
 
-  let models = await store.apiCall(modelRepository.links("models"), payload);
-  print.itemsList(models, 'List of models');
+  let repos = await store.apiCall(modelRepository.links("repositories"), payload);
+  print.itemsList(repos, 'List of reposs');
+
+  let n = repos.itemsList(1);
+  let folder = await store.apiCall(repos.itemsCmd(n, 'folder'));
+  print.links(folder, 'folder links');
+  let members = await store.apiCall(folder.links('members'));
+  print.itemsList(members, 'members');
+
+  print.object(members.itemsCmd(members.itemsList(0)), 'member cmds');
+  let resource = await store.apiCall(members.itemsCmd(members.itemsList(0,'getResource')));
+  print.items(resource, 'resource links');
 
 
   // get the content information on the first model 
 
-  print.msg(models.itemsList(1));
-  let contentLink = models.itemsCmd(models.itemsList(1), 'contents');
+  // print.msg(models.itemsList(1));
+  /*
+  let contentLink = models.itemsCmd(models.itemsList(0), 'contents');
   let c1 = await store.apiCall(contentLink);
 
   print.itemsList(c1, `List of items in the content for model ${models.itemsList(0)}`);
 
-  /*
-
   // Now print the content link for the first item 
 
-  let firstcontent = c1.itemsList(2);
-  print.object(c1.itemsCmd('dmcas_scoreinputs.json', 'content', 'link'), `content link for dmcas_scoreinputs.json`);
+  let itemName = c1.itemsList(2);
+  print.object(c1.itemsCmd(itemName, 'content'), `links for ${itemName}`);
   
   // now try to get the content
-  let actualcontent = await store.apiCall(c1.itemsCmd(firstcontent, 'content'));
-  console.log(actualcontent.type);
-
+  let actualcontent = await store.apiCall(c1.itemsCmd(itemName, 'content'));
+  
   print.object(actualcontent.items(), 'final content');
+  
   print.itemsList(actualcontent);
   */
 

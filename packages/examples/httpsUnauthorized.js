@@ -26,8 +26,8 @@ let restaf  = require("restaf");
 let payload = require("./config")();
 
 // The following are set in the environment( externally and not thru env)
-// Allow unauthorized:  process.env.NODE_TLS_REJECT_UNAUTHORIZED=0
-// DisAllow unauthorized: process.env.NODE_TLS_REJECT_UNAUTHORIZED=1
+// Allow unauthorized:  NODE_TLS_REJECT_UNAUTHORIZED=0
+// DisAllow unauthorized: NODE_TLS_REJECT_UNAUTHORIZED=1
 
 let store = restaf.initStore();
 store

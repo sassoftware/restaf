@@ -215,6 +215,7 @@ function itemsReducer (results, parentPath){
         return (response);
     } else if  (results.items [0].hasOwnProperty('links')) {
         let index = -1;
+        let prevName = ''; /* need for models since they allow duplicate names - ugh! */
         for (let item of results.items) {
             index++;
             let name;
@@ -227,7 +228,15 @@ function itemsReducer (results, parentPath){
                            ? item.id
                            : `${index}`;
             }
+            debugger;
+            if (prevName === name) {
+               let rev = (item.hasOwnProperty('id') === true) ? item.id : index;
+               name = `${name}_${rev}`;
+            } else {
+                prevName = name;
+            }
             idList.push(name);
+          
             let tRoute  = [ ...parentPath,  'items', 'data', name ] ;
             let rowcmds = setupRelPaths(item.links, tRoute, 'cmds');
 
@@ -244,12 +253,11 @@ function itemsReducer (results, parentPath){
         }
         itemsResponse.data       = rows;
         itemsResponse.resultType = results.accept;
-
+        
         itemsResponse.type   = 'itemsList';
         response.itemsList   = [ ...idList ];
         response.type        = 'itemsList';
     } else {
-         'use strict';
         itemsResponse.data       = [ ...results.items ];
         itemsResponse.resultType = results.accept;
         itemsResponse.type       = 'itemsArray';

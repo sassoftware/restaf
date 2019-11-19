@@ -71,6 +71,12 @@ function links (f, title) {
 	});
 }
 
+function itemsCmd (f, title) {
+	titleLine(`${title}  size:  ${f.links().size}`);
+	f.itemsCmd().forEach((l, k) => {
+		object({ rel: k });
+	});
+}
 function items (f, title) {
 	titleLine(`${title}  size:  ${itemsList.size}`);
 	object(f.items().toJS());
@@ -96,6 +102,7 @@ export default {
 	itemsList,
 	links,
 	items,
+	itemsCmd,
 	object,
 	errMsg,
 	msg,

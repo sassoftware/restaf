@@ -154,7 +154,6 @@ function parseUrlNext () {
        tokenType: tokenType,
        token    : loc.access_token
     };
-    console.log(loc);
     return payload;
 }
 

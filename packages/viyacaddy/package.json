@@ -1,0 +1,27 @@
+{
+  "name": "@sassoftware/viyacaddy",
+  "version": "1.7.3",
+  "description": "collection of clis using rest apis",
+  "scripts": {
+    "start": "node --no-warnings cli"
+  },
+  "repository": "https://github.com/sassoftware/restaf",
+  "keywords": [
+    "Viya",
+    "restaf",
+    "casl",
+    "REST API"
+  ],
+  "author": "Deva Kumar <deva.kumar@sas.com>",
+  "license": "Apache-2.0",
+  "bin": {
+    "@sassofware/viyacaddy": "cli.js"
+   },
+  "dependencies": {
+    "qs": "^6.7.0",
+    "restaf": "1.7.3",
+    "vorpal": "^1.12.0",
+    "yargs": "^13.2.4"
+  },
+  "main": "index.js"
+}

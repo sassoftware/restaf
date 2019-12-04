@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<!--
+/*
+ * Copyright © 2019, SAS Institute Inc., Cary, NC, USA.  All Rights Reserved.
+ * SPDX-License-Identifier: Apache-2.0
+*/
+-->
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <script crossorigin src="https://unpkg.com/react@16/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-polyfill/6.26.0/polyfill.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.js" integrity="sha256-XmdRbTre/3RulhYk/cOBUMpYlaAp2Rpo/s556u0OIKk=" crossorigin="anonymous"></script>
+
+
+
+    <style>
+        .container {
+            display: flex;
+            flex-direction: column;
+            flex-wrap: nowrap;
+            min-height: 800px;
+        }
+        .elabel{
+            display: inline-block;
+            clear: left;
+            width: 250px;
+            text-align: right;
+        }
+        .einput {
+            display: inline-block;
+        }
+        .div1 {
+            border: 1px solid black;
+            background: lightskyblue;
+
+        }
+        .div2 {
+            border: 1px solid black;
+            background: lightskyblue;
+            height: 200px;
+        }
+    </style>
+
+<script>
+    let host = 'https://vr0j58zp29.execute-api.us-east-1.amazonaws.com/awsitest';
+    
+    function onStartup() {
+        console.log('placeholder');
+    }
+    
+    function onSubmit() {
+        let varNames = ['petallengthcm', 'petalwidthcm', 'sepallengthcm', 'sepalwidthcm'];
+        let scenario = {};
+        let errors   = 0;
+        document.getElementById('msg').innerHTML = '';
+        for ( k of varNames) {
+            console.log(k);
+            let v = document.getElementById(k).value;
+            if (v.length ===0) {
+                errors++;
+            } else {
+              let vf = parseFloat(v);
+              console.log(vf);
+              if ( isNaN(vf) === true ) {
+                  errors++;
+              } else {
+                  scenario [k] = vf;
+              }
+            }
+        }
+        if ( errors > 0 ) {
+            document.getElementById('msg').innerHTML = '<h2> Please fix errors </h2>';
+        } else {
+            let data = {
+                "test": { "host": "http://10.104.84.141", "clientID": "raf", "clientSecret": "raf", "user": "omitest", "password": "metadata1$"},
+                 src: 'hi there',
+                 args: {x: 1}
+            }
+            let payload = {
+                url: `${host}/casl`,
+                method: 'POST',
+                data: data,
+                headers: {
+                    'content-type': 'application/json',
+                }
+            }
+            console.log(payload);
+            axios(payload)
+            .then ( r => {
+                // alert(JSON.stringify(r.data, null,4));
+                document.getElementById('species').value = r.data['I_Species'];
+            })
+            .catch( err => {
+                alert(JSON.stringify(err, null,4));
+                console.log(JSON.stringify(err, null,4));
+            })
+        }
+    }
+</script>
+</head>
+<body onload="onStartup()">
+<div class="content-form">
+        <h1> Iris Data Model</h1>
+        <form action="">
+        
+        <div class="form-group">
+            <label for="petallengthcm">Petal Length</label>
+            <input type="text" class="form-control" id="petallengthcm" placeholder="1.5">
+        </div>	
+
+        <div class="form-group">
+            <label for="petalwidthcm">Petal Length</label>
+            <input type="text" class="form-control" id="petalwidthcm" placeholder="0.2">
+        </div>
+        <div class="form-group">
+            <label for="sepallengthcm">Petal Length</label>
+            <input type="text" class="form-control" id="sepallengthcm" placeholder="5">
+        </div>
+        <div class="form-group">
+            <label for="sepalwidthcm">Petal Length</label>
+            <input type="text" class="form-control" id="sepalwidthcm" placeholder="3">
+        </div>
+        
+        <p class="help-block">All the information is required.</p>
+
+        <div class="form-group">
+            <label for="species">Species</label>
+            <input type="text" class="form-control" id="species" disabled>
+        </div>	
+
+    </form>
+        <button class="btn btn-default" onclick="onSubmit()">Submit</button>
+    
+        <p id="msg"> </p>
+        </div>
+        
+    <div>
+        </div>
+<script>
+      
+</script>
+</body>
+</html>

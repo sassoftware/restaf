@@ -29,7 +29,7 @@ let payload = require("./config")();
 // Allow unauthorized:  NODE_TLS_REJECT_UNAUTHORIZED=0
 // DisAllow unauthorized: NODE_TLS_REJECT_UNAUTHORIZED=1
 
-let store = restaf.initStore();
+let store = restaf.initStore({rejectUnauthorized: process.env.NODE_TLS_REJECT_UNAUTHORIZED});
 store
   .logon(payload)
   .then(msg => {

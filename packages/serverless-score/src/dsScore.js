@@ -34,7 +34,7 @@ let  {
 module.exports.dsScore  = async function (event, context) {
 
 	// use rejectUnauthorized for demos only 
-	let store   = restaf.initStore({pem: null, rejectUnauthorized: false }); /* initialize restaf         */
+	let store   = restaf.initStore({pem: null, rejectUnauthorized: 0 }); /* initialize restaf         */
 	let session = null;
 	
 	try {

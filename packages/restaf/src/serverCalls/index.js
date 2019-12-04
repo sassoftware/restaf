@@ -74,7 +74,7 @@ function trustedGrant (iconfig) {
             return (qs.stringify(data));
         }
     };
-    
+    debugger;
     return (makeCall(config, iconfig, iconfig.pem, iconfig.rejectUnauthorized));
 }
 
@@ -82,7 +82,7 @@ function trustedGrant (iconfig) {
 function request (iconfig) {
       'use strict';
     let { link, logonInfo } = iconfig;
-
+    debugger;
     let iLink = {...link } ;
     let payload    = iconfig.hasOwnProperty('payload') ? iconfig.payload : null ;
     let iqs        = null;
@@ -179,18 +179,27 @@ function request (iconfig) {
 
     config.data = (idata === null) ? {} : idata;
     config.maxContentLength = 2 * 10063256;
+    console.log(logonInfo);
 
     return makeCall(config, iconfig, logonInfo.pem, logonInfo.rejectUnauthorized);
 }
 
 function makeCall (config, iconfig, pem, rejectUnauthorized) {
-    
-    if (pem != null) {
-        let rej = (rejectUnauthorized === null) ? true : rejectUnauthorized ;
-        let agent = new Https.Agent({ca: pem, rejectUnauthorized: rej});
-        config.httpsAgent = agent;
-    } else if (rejectUnauthorized != null) {
-        let agent = new Https.Agent({rejectUnauthorized: rejectUnauthorized});
+    debugger;
+    // for nodejs apps use the nodejs env variables instead of restaf config.
+    // NODE_TLS_REJECT_UNAUTHORIZED
+    // SSL_CERT_FILE
+    if (config.url.indexOf('https') !== -1) {
+        let opt = {};
+        if (pem != null) {
+            opt.ca = pem; 
+        }
+
+        if (rejectUnauthorized != null) {
+            opt.rejectUnauthorized = rejectUnauthorized;
+        }
+
+        let agent = new Https.Agent(opt);
         config.httpsAgent = agent;
     }
     

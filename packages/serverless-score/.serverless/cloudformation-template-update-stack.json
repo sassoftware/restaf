@@ -43,7 +43,7 @@
       "Properties": {
         "Code": {
           "S3Bucket": "sas-gle",
-          "S3Key": "serverless/serverless-score/demo/1570592140418-2019-10-09T03:35:40.418Z/serverless-score.zip"
+          "S3Key": "serverless/serverless-score/demo/1574961999525-2019-11-28T17:26:39.525Z/serverless-score.zip"
         },
         "FunctionName": "serverless-score-demo-app",
         "Handler": "src/app.app",
@@ -72,14 +72,14 @@
         "AppLogGroup"
       ]
     },
-    "AppLambdaVersionYmbezKP953xadlbfubDzw4SWmUUVXEfG91RNUi48": {
+    "AppLambdaVersionjouLZGPfKNI6gJSq3Gl2H0JvC4Q6L0HdxVWYxBffg": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "AppLambdaFunction"
         },
-        "CodeSha256": "oJxvXult7WRYRLi6iYyu60a81E+BA/hhhxq9SenHhZ8="
+        "CodeSha256": "scKMWlvnuyOHTo3ZCp09OjTKWmcxrZGfC0+Gf/cd8mw="
       }
     },
     "DescribeLambdaFunction": {
@@ -87,7 +87,7 @@
       "Properties": {
         "Code": {
           "S3Bucket": "sas-gle",
-          "S3Key": "serverless/serverless-score/demo/1570592140418-2019-10-09T03:35:40.418Z/serverless-score.zip"
+          "S3Key": "serverless/serverless-score/demo/1574961999525-2019-11-28T17:26:39.525Z/serverless-score.zip"
         },
         "FunctionName": "serverless-score-demo-describe",
         "Handler": "src/dsScore.dsScore",
@@ -116,14 +116,14 @@
         "DescribeLogGroup"
       ]
     },
-    "DescribeLambdaVersionpPnczvK2l4qAaJLGotMxWiOM6N6ARPuK866082UKY8Y": {
+    "DescribeLambdaVersionB7gnSj60weAUB6uYF0YyNY1fdyaxUDULHzgXuwUFgTE": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "DescribeLambdaFunction"
         },
-        "CodeSha256": "oJxvXult7WRYRLi6iYyu60a81E+BA/hhhxq9SenHhZ8="
+        "CodeSha256": "scKMWlvnuyOHTo3ZCp09OjTKWmcxrZGfC0+Gf/cd8mw="
       }
     },
     "SelectorsLambdaFunction": {
@@ -131,7 +131,7 @@
       "Properties": {
         "Code": {
           "S3Bucket": "sas-gle",
-          "S3Key": "serverless/serverless-score/demo/1570592140418-2019-10-09T03:35:40.418Z/serverless-score.zip"
+          "S3Key": "serverless/serverless-score/demo/1574961999525-2019-11-28T17:26:39.525Z/serverless-score.zip"
         },
         "FunctionName": "serverless-score-demo-selectors",
         "Handler": "src/dsScore.dsScore",
@@ -160,14 +160,14 @@
         "SelectorsLogGroup"
       ]
     },
-    "SelectorsLambdaVersionjL32x2BKXFTqFTJvEIgNTpxaLlnIngBU2Xsj7HIgc": {
+    "SelectorsLambdaVersioneS9GqmOnUJf43kziqs2n1EZedids7fhMXc1L8BaMRAg": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "SelectorsLambdaFunction"
         },
-        "CodeSha256": "oJxvXult7WRYRLi6iYyu60a81E+BA/hhhxq9SenHhZ8="
+        "CodeSha256": "scKMWlvnuyOHTo3ZCp09OjTKWmcxrZGfC0+Gf/cd8mw="
       }
     },
     "ContentsLambdaFunction": {
@@ -175,7 +175,7 @@
       "Properties": {
         "Code": {
           "S3Bucket": "sas-gle",
-          "S3Key": "serverless/serverless-score/demo/1570592140418-2019-10-09T03:35:40.418Z/serverless-score.zip"
+          "S3Key": "serverless/serverless-score/demo/1574961999525-2019-11-28T17:26:39.525Z/serverless-score.zip"
         },
         "FunctionName": "serverless-score-demo-contents",
         "Handler": "src/dsScore.dsScore",
@@ -204,14 +204,14 @@
         "ContentsLogGroup"
       ]
     },
-    "ContentsLambdaVersionFxQxdDAd5Keiwat7bM3LmskFyBrTSzHKPcsNuOBDs": {
+    "ContentsLambdaVersionntzlS1lk6S41WimFIEAZjz4gShFtG2tvkTF2tOuR84": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "ContentsLambdaFunction"
         },
-        "CodeSha256": "oJxvXult7WRYRLi6iYyu60a81E+BA/hhhxq9SenHhZ8="
+        "CodeSha256": "scKMWlvnuyOHTo3ZCp09OjTKWmcxrZGfC0+Gf/cd8mw="
       }
     },
     "DsscoreLambdaFunction": {
@@ -219,7 +219,7 @@
       "Properties": {
         "Code": {
           "S3Bucket": "sas-gle",
-          "S3Key": "serverless/serverless-score/demo/1570592140418-2019-10-09T03:35:40.418Z/serverless-score.zip"
+          "S3Key": "serverless/serverless-score/demo/1574961999525-2019-11-28T17:26:39.525Z/serverless-score.zip"
         },
         "FunctionName": "serverless-score-demo-dsscore",
         "Handler": "src/dsScore.dsScore",
@@ -248,14 +248,14 @@
         "DsscoreLogGroup"
       ]
     },
-    "DsscoreLambdaVersionYlUzbvFblcXZ1sYmIz7CfWcpEVUxR82VWMbMGJ4ezY": {
+    "DsscoreLambdaVersionK7TVBGT1z51H5CxQuDAeCqQYHbPsI2JpAGULqgT5M": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "DsscoreLambdaFunction"
         },
-        "CodeSha256": "oJxvXult7WRYRLi6iYyu60a81E+BA/hhhxq9SenHhZ8="
+        "CodeSha256": "scKMWlvnuyOHTo3ZCp09OjTKWmcxrZGfC0+Gf/cd8mw="
       }
     },
     "ScenarioLambdaFunction": {
@@ -263,7 +263,7 @@
       "Properties": {
         "Code": {
           "S3Bucket": "sas-gle",
-          "S3Key": "serverless/serverless-score/demo/1570592140418-2019-10-09T03:35:40.418Z/serverless-score.zip"
+          "S3Key": "serverless/serverless-score/demo/1574961999525-2019-11-28T17:26:39.525Z/serverless-score.zip"
         },
         "FunctionName": "serverless-score-demo-scenario",
         "Handler": "src/dsScore.dsScore",
@@ -292,14 +292,14 @@
         "ScenarioLogGroup"
       ]
     },
-    "ScenarioLambdaVersionWWomk4PTAkdOp3DKScceirjaGNa27JP8v7L0XVxYzPY": {
+    "ScenarioLambdaVersionjAEjv59iGie2AAEvpZVmsxmuA6joCapbjOlvuR2lw": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "ScenarioLambdaFunction"
         },
-        "CodeSha256": "oJxvXult7WRYRLi6iYyu60a81E+BA/hhhxq9SenHhZ8="
+        "CodeSha256": "scKMWlvnuyOHTo3ZCp09OjTKWmcxrZGfC0+Gf/cd8mw="
       }
     },
     "ApiGatewayRestApi": {
@@ -945,7 +945,7 @@
         "MethodResponses": []
       }
     },
-    "ApiGatewayDeployment1570592129158": {
+    "ApiGatewayDeployment1574961937529": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "RestApiId": {
@@ -1198,37 +1198,37 @@
     "AppLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "AppLambdaVersionYmbezKP953xadlbfubDzw4SWmUUVXEfG91RNUi48"
+        "Ref": "AppLambdaVersionjouLZGPfKNI6gJSq3Gl2H0JvC4Q6L0HdxVWYxBffg"
       }
     },
     "DescribeLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "DescribeLambdaVersionpPnczvK2l4qAaJLGotMxWiOM6N6ARPuK866082UKY8Y"
+        "Ref": "DescribeLambdaVersionB7gnSj60weAUB6uYF0YyNY1fdyaxUDULHzgXuwUFgTE"
       }
     },
     "SelectorsLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "SelectorsLambdaVersionjL32x2BKXFTqFTJvEIgNTpxaLlnIngBU2Xsj7HIgc"
+        "Ref": "SelectorsLambdaVersioneS9GqmOnUJf43kziqs2n1EZedids7fhMXc1L8BaMRAg"
       }
     },
     "ContentsLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "ContentsLambdaVersionFxQxdDAd5Keiwat7bM3LmskFyBrTSzHKPcsNuOBDs"
+        "Ref": "ContentsLambdaVersionntzlS1lk6S41WimFIEAZjz4gShFtG2tvkTF2tOuR84"
       }
     },
     "DsscoreLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "DsscoreLambdaVersionYlUzbvFblcXZ1sYmIz7CfWcpEVUxR82VWMbMGJ4ezY"
+        "Ref": "DsscoreLambdaVersionK7TVBGT1z51H5CxQuDAeCqQYHbPsI2JpAGULqgT5M"
       }
     },
     "ScenarioLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "ScenarioLambdaVersionWWomk4PTAkdOp3DKScceirjaGNa27JP8v7L0XVxYzPY"
+        "Ref": "ScenarioLambdaVersionjAEjv59iGie2AAEvpZVmsxmuA6joCapbjOlvuR2lw"
       }
     },
     "ServiceEndpoint": {

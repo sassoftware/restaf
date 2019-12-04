@@ -19,11 +19,10 @@
 'use strict';
 
 /* --------------------------------------------------------------------------------
- * Logon to the Viya server
+ * getting ca certs
  * ---------------------------------------------------------------------------------
  */
-let restaf = require('restaf');
-let payload = require('./config')('restaf.env');
+
 let fs = require('fs');
 
 const ca = require('win-ca');
@@ -32,17 +31,3 @@ let a = ca({format: ca.der2.pem,  store: [ 'root', 'ca' ], /*save: true,*/ ondat
 console.log(pems.length);
 console.log(pems[pems.length-1]);
 
-	/*
-
-let store = restaf.initStore({pem: pem});
-store
-	.logon(payload)
-	.then(msg => {
-		console.log(`Logon Status: ${msg}`);
-		console.log('calling logoff');
-		return store.logoff();
-	})
-	.then(lmsg => console.log(lmsg))
-	.catch(err => console.log(err));
-
-*/

@@ -1,0 +1,68 @@
+<h1 id="registerapp">registerapp</h1>
+<p>Application to manange clientids. The application runs as a cli.
+It can be run in interactive mode or in batch mode.
+The user of this app must have admin rights.</p>
+<hr>
+<h2 id="-install-"><strong>Install</strong></h2>
+<hr>
+<pre><code class="lang-script">npm install -g git+https://gitlab.sas.com/kumar/registerapp.git</code></pre>
+<hr>
+<p>This installs the registerapp as a global command.</p>
+<h2 id="-configuration-"><strong>Configuration</strong></h2>
+<hr>
+<p>Create an env file ( call it register.env) with the following content</p>
+<pre><code class="lang-env">VIYA_SERVER=http://&lt;your viyaserver&gt;
+AUTHTYPE=password
+CLIENTID=sas.ec or a valid clientid( appears that sas.ec is shipped as a default clientid)
+CLIENTSECRET=</code></pre>
+<p>Now add this enviroment variable</p>
+<p>SET RESTAFENV=register.env</p>
+<hr>
+<h2 id="-interactive-mode-"><strong>Interactive mode</strong></h2>
+<hr>
+<p>Start the interactive session with this command:</p>
+<pre><code class="lang-script">
+registerapp</code></pre>
+<p>This will put you into an interactive session where you can issue commands. Use the exit command to end the session.</p>
+<h2 id="-batch-mode-"><strong>Batch mode</strong></h2>
+<p>This mode is useful when you want to run these commands as part of some process. I use them to setup all my clientids when I am configuring a new server</p>
+<p>Create a version of the register.env file with two additional keys - USER and PASSWORD</p>
+<pre><code class="lang-env">VIYA_SERVER=http://&lt;your viyaserver&gt;
+AUTHTYPE=password
+CLIENTID=sas.ec or a valid clientid( appears that sas.ec is shipped as a default clientid)
+CLIENTSECRET=
+USER=&lt;username&gt;
+PASSWORD=&lt;password&gt;</code></pre>
+<p>Run the following command</p>
+<pre><code class="lang-script">
+registerapp --file yourcmdfile</code></pre>
+<p>The cmd file is a list of the commands(see below). They are executed in order.</p>
+<pre><code class="lang-text">list
+add app1 -t implicit -r http://localhost:5000/app1
+add app2 -t authorization_code -s mysecret -r http://localhost:5000/callback
+list</code></pre>
+<h2 id="list-of-commands">List of commands</h2>
+<ul>
+<li>logon - logon on to Viya server</li>
+<li>list &lt; all &gt;   - list current clientid. Use all option to include system clientids</li>
+<li>delete clientid - delete the specified clientid( always returns 404 but works - no idea why)</li>
+<li>add clientid &lt; options &gt; - add a new clientid</li>
+</ul>
+<h3 id="options-for-the-add-command">Options for the add command</h3>
+<ul>
+<li>-t  == grant type ==  typically one of these: password | implicit | authorization_code)</li>
+<li>-s  == secret whatever you want(valid for password and authorization_code)</li>
+<li>-r  == redirect_uri == valid for implicit and authorization_code</li>
+</ul>
+<h2 id="coming-soon">Coming soon</h2>
+<ul>
+<li>support for https</li>
+<li>custom specificiation for the clientid&#39;s(see current default below)</li>
+</ul>
+<h2 id="notes">Notes</h2>
+<p>The current configuration for all clientids is shown below:</p>
+<pre><code class="lang-js">scope: [&#39;openid&#39;, &#39;*&#39;],
+resource_ids: &#39;none&#39;,
+autoapprove: true,
+access_token_validity: 86400,
+&#39;use-session&#39;: true</code></pre>

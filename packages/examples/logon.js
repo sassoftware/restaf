@@ -24,6 +24,7 @@
 let restaf = require('restaf');
 let config = require('./config');
 let payload  = config();
+
 let store    = restaf.initStore();
 let qs = require('qs');
 

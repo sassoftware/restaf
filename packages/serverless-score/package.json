@@ -1,6 +1,6 @@
 {
   "name": "serverless-scoremodel",
-  "version": "1.7.3",
+  "version": "1.7.4",
   "description": "serverless function for scoring with datastep or astore",
   "main": "index.js",
   "repository": "https://github.com/sassoftware/restaf-demos",
@@ -11,8 +11,8 @@
   "license": "Apache-2.0",
   "dependencies": {
     "prettyjson": "^1.2.1",
-    "restaf": "1.7.3",
-    "restaflib": "1.7.3"
+    "restaf": "1.7.4",
+    "restaflib": "1.7.4"
   },
   "devDependencies": {
     "serverless-offline": "latest"

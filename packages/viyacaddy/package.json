@@ -1,6 +1,6 @@
 {
   "name": "@sassoftware/viyacaddy",
-  "version": "1.7.3",
+  "version": "1.7.4",
   "description": "collection of clis using rest apis",
   "scripts": {
     "start": "node --no-warnings cli"
@@ -16,10 +16,10 @@
   "license": "Apache-2.0",
   "bin": {
     "@sassofware/viyacaddy": "cli.js"
-   },
+  },
   "dependencies": {
     "qs": "^6.7.0",
-    "restaf": "1.7.3",
+    "restaf": "1.7.4",
     "vorpal": "^1.12.0",
     "yargs": "^13.2.4"
   },

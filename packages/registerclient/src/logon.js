@@ -27,6 +27,7 @@ module.exports = async function logon (store, logonPayload, vorpal) {
 	}
 
 	await store.logon(logonPayload);
+    await store.addServices('SASLogon');
 	return 'done';
 };
 

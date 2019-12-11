@@ -84,7 +84,7 @@ function initStore (iconfig) {
 
         getServiceRoot: getServiceRoot.bind(null, store),
 
-        request: request
+        request: request.bind(null, store)
     }; }
 
 function loggedOn (store) {

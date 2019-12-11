@@ -22,13 +22,13 @@ let envFile = argv.env == null ? null : argv.env;
 let payload = config(envFile);
 debugger;
 // setup handling of https
-let initOpts = {pem: null, rejectUnauthorized: 0 };
-if (process.env.PEMFILE != null){
-    let pemFile = process.env.PEMFILE;
-    console.log(`pem file set to: ${process.env.PEMFILE}`);
-    let pem = (pemFile != null) ? fss.readFileSync(process.env.pemFile, 'utf8') : null;
-    initOpts = {pem: pem, rejectUnauthorized: 0 };
-} ;
+
+let pemFile = process.env.SSL_CERT_FILE;
+console.log(`pemfile = ${pemFile}`);
+let pem = (pemFile != null) ? fss.readFileSync(pemFile, 'utf8') : null;
+let rejectUnauth = (process.NODE_TLS_REJECT_UNAUTHORIZED != null) 
+                    ? process.NODE_TLS_REJECT_UNAUTHORIZED : 0;
+let initOpts = ({pem: pem, rejectUnauthorized: rejectUnauth});
 
 vorpal.log(initOpts);
 
@@ -82,7 +82,7 @@ function runCli (store, cmdFile) {
             .description('File containing the configuration for clientid registeration')
             .action ((args,cb) => {
                 fs.readFile(args.config, 'UTF8')
-                 .then ( dataraw => {
+                 .then (dataraw => {
                     clientConfig = JSON.parse(dataraw);
                     vorpal.log(`Clientid config set to:`);
                     vorpal.log(JSON.stringify(clientConfig, null,4));
@@ -103,8 +103,8 @@ function runCli (store, cmdFile) {
 
             .action ((args, cb) => {
                addClient(store, args.clientid, args.options, clientConfig)
-               .then(r => { vorpal.log(r); cb()})
-               .catch(e => { vorpal.log(e); cb()})
+               .then(r => { vorpal.log(r); cb();})
+               .catch(e => { vorpal.log(e); cb();});
             });
     vorpal
         .command('delete <clientid>')
@@ -112,13 +112,13 @@ function runCli (store, cmdFile) {
             .description('Delete specified client')
             .action ((args,cb) => {
                 delClient(store, args.clientid)
-                .then(r => { vorpal.log(r); cb()})
-                .catch(e => { vorpal.log(e); cb()});
+                .then(r => { vorpal.log(r); cb();})
+                .catch(e => { vorpal.log(e); cb();});
             });
 
 
     vorpal
-        .delimiter ( '>> ')
+        .delimiter ('>> ')
         .log('--------------------------------------')
         .log('.......................................')
         .log('Welcome to viya-client-register')

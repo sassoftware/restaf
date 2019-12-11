@@ -18,9 +18,21 @@
 
   'use strict';
 
-let axios = require ('axios');
-async function request (payload, reducer) {
-    let r = await axios(payload);
+import axios from 'axios';
+import Https from 'https';
+async function request (store, payload, reducer) {
+  
+    let config = {...payload};
+  
+    if (payload.url.indexOf('https') !== -1) {
+      let c = store.config;
+      let opt = {};
+      opt.pem = (c.pem != null) ? c.pem : null;
+      opt.rejectUnauthorized = (c.rejectUnauthorized != null) ? c.rejectUnauthorized : 0;
+      let agent = new Https.Agent(opt);
+      config.httpsAgent = agent;
+    }
+    let r = await axios(config);
     return (reducer == null) ? r : reducer(r);
 }
 

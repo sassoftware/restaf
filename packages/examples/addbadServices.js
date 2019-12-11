@@ -20,9 +20,9 @@
 
 let restaf  = require("restaf");
 let payload = require('./config')();
-
-let store     = restaf.initStore();
 let restaflib = require('restaflib');
+let fs = require('fs');
+
 let {print}   = restaflib;
 
 /* --------------------------------------------------------------------------------
@@ -30,16 +30,27 @@ let {print}   = restaflib;
  * ---------------------------------------------------------------------------------
  */
 
+let pemFile = process.env.SSL_CERT_FILE;
+console.log(`pemfile = ${pemFile}`);
+let pem = (pemFile != null) ? fs.readFileSync(pemFile, 'utf8') : null;
+let rejectUnauth = (process.NODE_TLS_REJECT_UNAUTHORIZED != null) 
+                    ? process.NODE_TLS_REJECT_UNAUTHORIZED : 0;
+let store = restaf.initStore({pem: pem, rejectUnauthorized: rejectUnauth});
+
 async function setup (payload, ...args) {
   let msg = await store.logon(payload);
   print.msg(`${msg}`, 'Logon Status');
-  let services = await store.addServices(...args);
-  print.object(store.getServices(), "Current Service Folders");
+  let {SASLogon}= await store.addServices(...args);
 
+  // list current clients
+
+  let users = await store.apiCall(SASLogon.links('authorization'));
+  print.items(users, 'client data');
+  print.links(users, 'client links');
   return true;
 }
 
-setup(payload, "modelPublishing")
+setup(payload, "SASLogon")
   .then(r => console.log(r))
   .catch(e => {
     console.log(JSON.stringify(e, null,4));

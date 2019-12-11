@@ -23,9 +23,17 @@
 
 let restaf     = require("restaf");
 let payload    = require('./config')();
+let fs =require('fs');
 let {casSetup, print} = require("restaflib");
 
-let store = restaf.initStore();
+let pemFile = process.env.SSL_CERT_FILE;
+console.log(`pemfile = ${pemFile}`);
+let pem = (pemFile != null) ? fs.readFileSync(pemFile, 'utf8') : null;
+let rejectUnauth = (process.NODE_TLS_REJECT_UNAUTHORIZED != null) 
+                    ? process.NODE_TLS_REJECT_UNAUTHORIZED : 0;
+
+let store = restaf.initStore({pem: pem, rejectUnauthorized: rejectUnauth});
+
 async function example () {
   let { session } = await casSetup(store, payload, "cas");
   

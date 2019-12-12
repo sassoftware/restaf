@@ -50,7 +50,7 @@ async function test_casAction () {
     action: 'table.fetch',
     data  : { table: { caslib: 'public', name: 'cars' } }
   };
-  let casResults = await restaflib.casAction(store, session, p);
+  let casResults = await restaflib.casActionRun(store, session, p);
   print.object(casResults, 'results from a fetch');
   // print.object(casResults.tables.Fetch, 'Fetched Table');
   await store.apiCall(session.links('delete'));

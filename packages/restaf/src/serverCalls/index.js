@@ -179,7 +179,7 @@ function request (iconfig) {
 
     config.data = (idata === null) ? {} : idata;
     config.maxContentLength = 2 * 10063256;
-    console.log(logonInfo);
+    
 
     return makeCall(config, iconfig, logonInfo.pem, logonInfo.rejectUnauthorized);
 }

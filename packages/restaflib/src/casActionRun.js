@@ -24,8 +24,8 @@
 // Notes: Function to call cas 
 // See README file for notes on REUSECASSESSION
 //
-async function casAction (store, session, parameters) {
+async function casActionRun (store, session, parameters) {
     let result  = await store.runAction(session, parameters);
     return result.items().toJS();
 }
-export default casAction;
+export default casActionRun;

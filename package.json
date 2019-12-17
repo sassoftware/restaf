@@ -22,7 +22,9 @@
       "packages/*"
     ],
     "nohoist": [
-      "**/serverless-*/**"
+      "**/serverless-*/**",
+      "**/registerclient/**",
+      "**/viyacaddy/**"
     ]
   },
   "repository": "https://github.com/sassoftware/restaf.git",

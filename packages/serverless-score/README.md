@@ -91,3 +91,8 @@ In place of the "key" you can specify the values of the secret as follows:
   }
   
 }
+```
+
+## Configuring SAS Viya Quick Start on AWS for serverless functions
+
+Please see this link for details <https://github.com/sassoftware/restaf/wiki/Configuring-SAS-Viya-AWS-Quick-Start-for-serverless-functions>

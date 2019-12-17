@@ -2,19 +2,18 @@
 
 An utility cli for some common scenarios when setting up a Viya Server
 
-## Installation
-
-```script
-
-git install -g  git+https://gitlab.sas.com/kumar/viyacaddy
-
-```
-
 ## Usage
 
 ```script
 
-viyacaddy
+From the root directory of the repo:
+
+npm run viyacaddy
+
+
+From the packages/viyacaddy
+
+npm start
 
 ```
 

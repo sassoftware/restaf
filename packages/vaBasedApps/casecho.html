@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<!--
+  ~ /* ------------------------------------------------------------------------------------
+  ~  * Copyright (c) SAS Institute Inc.
+  ~  *  Licensed under the Apache License, Version 2.0 (the "License");
+  ~  * you may not use this file except in compliance with the License.
+  ~  * You may obtain a copy of the License at
+  ~  *
+  ~  * http://www.apache.org/licenses/LICENSE-2.0
+  ~  *
+  ~  *  Unless required by applicable law or agreed to in writing, software
+  ~  * distributed under the License is distributed on an "AS IS" BASIS,
+  ~  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~  * See the License for the specific language governing permissions and
+  ~ * limitations under the License.
+  ~ ----------------------------------------------------------------------------------------*/
+  ~
+  -->
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-polyfill/6.26.0/polyfill.min.js"></script>
+    <script src="https://unpkg.com/restaf@dev/dist/restaf.min.js"></script>
+
+    <style>
+      .container {
+        display: flex;
+        flex-direction: column;
+        flex-wrap: nowrap;
+        min-height: 800px;
+      }
+    </style>
+
+    <script>
+            //
+            // setup restaf and cas session
+            //
+            let store   = restaf.initStore({casProxy: true});
+            let session = null;
+
+            function setup() {
+                connectToViya()
+                  .then ( (r) => {
+                      session = r;
+                  })
+                  .catch( err => {
+                      document.getElementById('result').innerHTML = err;
+                  })
+            }
+
+            // setup connection to Viya and create a cas session on the first cas server
+            async function connectToViya() {
+              let p = {
+                  authType: 'server',
+                  host: window.location.origin
+                }
+               let msg = await store.logon(p);
+               console.log(msg);
+
+               let {casManagement} = await store.addServices('casManagement');
+               let servers = await store.apiCall(casManagement.links('servers'));
+               let casServer = servers.itemsList(0);
+               let casSession = await store.apiCall(servers.itemsCmd(casServer, 'createSession'),
+                                                 {data: {name: 'test' }});
+
+                                                 session = await store.apiCall(servers.itemsCmd(serverName, 'createSession'), payload);
+
+            //test to Paul W.
+            let id = casSession.items('id');
+            console.log(`name of New session: ${casSession.items('name')}`);
+            console.log(`id of New  session: ${id}`);
+
+            payload =  {
+                qs: {
+                    filter: `eq( id,'${id}')`
+                }
+                }
+                debugger;
+            let sessionList = await store.apiCall(servers.itemsCmd(serverName, 'sessions'),payload);
+            debugger;
+            if (sessionList.itemsList().size > 0 ) {
+                let name  = sessionList.itemsList(0);
+                console.log(`Found name = ${name}`);
+                id = sessionList.items(name, 'data','id');
+                console.log(`Found id: ${id}`)
+                let selfcmd = sessionList.itemsCmd(name, 'self');
+                session = await store.apiCall(selfcmd);
+                console.log(`Attached session name: ${session.items('name')}`);
+                console.log(`Attached Session id: ${session.items('id')}`);
+
+                return (session);
+            }
+          }
+
+            // execute cas action - any action is valid.
+            async function sasexec(text){
+                  // setup payload
+                  p = {
+                      action: 'echo',
+                      data  : {code: text}
+                  };
+
+                  // run the action
+                 let r =  await store.runAction(session,p);
+                 return r;
+
+           }
+
+          // On user request run this
+          function runDemo() {
+              let text = document.getElementById('echoData').value;
+              sasexec(text)
+                  .then ( (r) => {
+                      document.getElementById('result').innerHTML = JSON.stringify(r.items(), null, 4);
+                  })
+                  .catch( err => {
+                      document.getElementById('result').innerHTML = JSON.stringify(err, null, 4);
+                  });
+          }
+              
+    </script>
+  </head>
+  <body onload="setup()">
+    <div>
+      <form>
+        <input id="echoData" placeholder="Enter any text to echo" />
+        <p>&nbsp;</p>
+        <input type="button" id="run" value="Run" onclick="runDemo()" />
+        <p>&nbsp;</p>
+        <input type="text" id="msg" length="200" />
+      </form>
+    </div>
+    <p>&nbsp;</p>
+    <div id="container" class="container">
+      <pre id="result"></pre>
+    </div>
+  </body>
+</html>

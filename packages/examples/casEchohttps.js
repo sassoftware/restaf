@@ -21,9 +21,9 @@
  */
 "use strict";
 
-let restaf = require("restaf");
+let restaf = require('@sassoftware/restaf');
 let payload = require('./config')();
-let {casSetup} = require('restaflib');
+let {casSetup} = require('@sassoftware/restaflib');
 let fs = require("fs");
 
 let pem = fs.readFileSync(`${process.env.PEMFILE}`);

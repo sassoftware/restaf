@@ -20,8 +20,8 @@
  * Testing Application Data Management (setAppData and getAppData)
  */
 "use strict";
-let restaf = require("restaf");
-let {print} = require('restaflib');
+let restaf = require('@sassoftware/restaf');
+let {print} = require('@sassoftware/restaflib');
 
 debugger;
 let store1 = restaf.initStore();

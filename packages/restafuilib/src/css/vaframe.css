@@ -1,0 +1,40 @@
+.grid {
+    display: table;
+    width: calc(100% + 1.75rem);
+    border-collapse: separate;
+    border-spacing: 1rem;
+    margin: -1rem;
+    height: inherit;
+}
+.gridRow {
+    display: table-row;
+}
+.gridCell {
+    display: table-cell;
+    width: 50%;
+    padding-bottom: 56.25%;
+    position: relative;
+}
+.component {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    flex-flow: column;
+}
+.componentIframe {
+    border: 1px solid #000000;
+    margin-top: 0.5rem;
+    display: flex;
+    align-items: flex-start;
+    flex: 1;
+}
+.componentHeader {
+    height: 20px;
+    width: 100%;
+    display: flex;
+    align-items: flex-start;
+}
+

@@ -248,7 +248,7 @@ function parseJSON (data) {
             try {
 
                let odata = JSON.parse(temp);
-                resolve(odata);
+               resolve(odata);
             } catch (err) {
                 resolve(data);
             }

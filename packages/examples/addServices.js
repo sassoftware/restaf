@@ -18,10 +18,10 @@
 
 "use strict";
 
-let restaf = require("restaf");
+let restaf = require('@sassoftware/restaf');
 let payload = require('./config')();
 let store = restaf.initStore();
-let restaflib = require('restaflib');
+let restaflib = require('@sassoftware/restaflib');
 let {print} = restaflib;
 
 /* --------------------------------------------------------------------------------

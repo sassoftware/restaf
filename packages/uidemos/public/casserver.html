@@ -21,18 +21,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/react/16.8.6/umd/react.development.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/16.8.6/umd/react-dom.development.js"></script>
         
-         
+        <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+        <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js"></script>
         
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
-        <!-- script src="https://unpkg.com/restaf@dev/dist/restaf.min.js"></script> -->
         <script type="text/javascript" src="/shared/dist/restaf.js"></script>
+        <!-- <script src="https://unpkg.com/restaf/dist/restaf.min.js"></script> -->
         <script type="text/javascript" src="/shared/dist/restaflib.js"></script>
         <script type="text/javascript" src="/shared/dist/uilibrary.js"></script>
         <script type="text/javascript" src="/appenv"></script>
@@ -64,7 +63,7 @@
         let store = restaf.initStore((LOGONPAYLOAD.authType === 'server') ? {casProxy:true} : null);
         async function setup( ) {
             await store.logon( LOGONPAYLOAD );
-            let logInfo = store.connection();
+            debugger;
             let {casManagement} = await store.addServices( 'casManagement' );
             let servers = await store.apiCall( casManagement.links( 'servers' ) );
             return servers;
@@ -86,11 +85,13 @@
 
 </script>
 </head>
-<body onload="show()">
+<body>
 <h1> List of CAS Servers</h1>
 
     <div id="container" class="content" >
         </div>
-
+<div>
+    <button id="but1" onclick="show()"> start</button>
+</div>
 </body>
 </html>

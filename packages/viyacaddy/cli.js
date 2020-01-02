@@ -5,9 +5,9 @@
  */
 'use strict';
 
-const restaf = require('restaf');
+const restaf = require('@sassoftware/restaf');
 const vorpal = require('vorpal')();
-const config = require('./config');
+const config = require('./src/config');
 const logon = require('./src/logon');
 const runCmds = require('./src/runCmds');
 const upload = require('./src/upload');

@@ -34,7 +34,7 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
-        <!-- script src="https://unpkg.com/restaf@dev/dist/restaf.min.js"></script> -->
+        
         <script type="text/javascript" src="/shared/dist/restaf.js"></script>
         <script type="text/javascript" src="/shared/dist/restaflib.js"></script>
         <script type="text/javascript" src="/shared/dist/uilibrary.js"></script>
@@ -43,7 +43,7 @@
 
     <script type="text/javascript">
 
-        let store = restaf.initStore((LOGONPAYLOAD.authType === 'server') ? {casProxy:true} : null);
+        
 
         async function setup() {
             let {session} = await restaflib.casSetup(store, LOGONPAYLOAD);

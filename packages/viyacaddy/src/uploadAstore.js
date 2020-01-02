@@ -39,6 +39,7 @@ module.exports = async function uploadAstore (store,session, type, source, outpu
       await store.runAction(session, payload);
 
     // upload table
+    
     payload = {
       action: 'astore.upload',
       data  : {

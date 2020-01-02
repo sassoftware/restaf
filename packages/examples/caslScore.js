@@ -21,7 +21,7 @@
  */
 'use strict';
 
-let restaf = require('restaf');
+let restaf = require('@sassoftware/restaf');
 let payload = require('./config')();
 
 
@@ -29,7 +29,7 @@ let store = restaf.initStore();
 async function example () {
 	await store.logon(payload);
 
-	let {casSetup, print, caslScore } = require('restaflib');
+	let {casSetup, print, caslScore } = require('@sassoftware/restaflib');
 	let {session} = await casSetup(store);
 
 	// Scoring with model published to a CAS destination

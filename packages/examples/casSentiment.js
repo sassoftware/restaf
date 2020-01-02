@@ -21,9 +21,9 @@
  */
 'use strict';
 
-let restaf     = require('restaf');
+let restaf     = require('@sassoftware/restaf');
 let payload    = require('./config')();
-let {casSetup, print} = require('restaflib');
+let {casSetup, print} = require('@sassoftware/restaflib');
 
 
 let store = restaf.initStore();

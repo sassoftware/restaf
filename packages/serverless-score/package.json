@@ -3,7 +3,7 @@
   "version": "1.7.5",
   "description": "serverless function for scoring with datastep or astore",
   "main": "index.js",
-  "repository": "https://github.com/sassoftware/restaf-demos",
+  "repository": "https://github.com/sassoftware/restaf/tree/gen2/packages/serverless-score",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -11,8 +11,8 @@
   "license": "Apache-2.0",
   "dependencies": {
     "prettyjson": "^1.2.1",
-    "restaf": "1.7.5",
-    "restaflib": "1.7.5"
+    "@sassoftware/restaf": "1.7.5",
+    "@sassoftware/restaflib": "1.7.5"
   },
   "devDependencies": {
     "serverless-offline": "latest"

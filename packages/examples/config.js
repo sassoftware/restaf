@@ -26,6 +26,9 @@ module.exports = function config () {
 	let argv   = yargs.argv;
 	let appEnv = argv.env == null ? process.env.RESTAFENV : argv.env;
 
+	if (appEnv == null) {
+		appEnv = 'env/restaf.env';
+	}
 	console.log('---------------------------------------');
 	console.log(`env file set to: ${appEnv}`);
 	console.log('---------------------------------------');

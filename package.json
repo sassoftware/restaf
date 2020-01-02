@@ -36,11 +36,11 @@
     "debug": "cd ./packages/examples && node --inspect-brk",
     "restaf:build": "cd ./packages/restaf && yarn run build && npx cp -r ./dist/restaf.js ../uidemos/public/shared/dist/restaf.js",
     "restaflib:build": "cd ./packages/restaflib && yarn run build  && npx cp -r ./dist/restaflib.js ../uidemos/public/shared/dist/restaflib.js",
-    "uilibrary:build": "cd ./packages/uilibrary && yarn run build  && npx cp -r ./dist/uiLibrary.js ../uidemos/public/shared/dist/uiLibrary.js",
+    "restafuilib:build": "cd ./packages/restafuilib && yarn run build  && npx cp -r ./dist/restafuilib.js ../uidemos/public/shared/dist/restafuilib.js",
     "uidemos:implicit": "cd ./packages/uidemos && npm run implicit",
     "uidemos:code": "cd ./packages/uidemos && npm run code",
     "slsscore": "cd ./packages/serverless-score && getawskey &&sls offline",
-    "regclient": "cd ./packages/registerclient && npm start",
+    "registerclient": "cd ./packages/registerclient && npm start",
     "viyacaddy": "cd ./packages/viyacaddy && npm start"
   },
   "devDependencies": {
@@ -92,11 +92,11 @@
     "vorpal/**/lodash": ">=4.17.15"
   },
   "dependencies": {
+    "@sassoftware/restaf-server": "^7.1.1",
     "aws-sdk": "^2.563.0",
     "axios": "^0.19.0-beta.1",
     "jwt-decode": "^2.2.0",
     "react-json-pretty": "^2.2.0",
-    "restaf-server": "^7.0.6",
     "serverless": "^1.58.0"
   }
 }

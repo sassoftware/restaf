@@ -1,0 +1,15 @@
+{
+  "name": "vabasedapps",
+  "version": "1.7.5",
+  "description": "collection of apps for use in VA web content/DDC",
+
+  "repository": "https://github.com/sassoftware/restaf/tree/gen2/packages/vaBasedApps",
+  "keywords": [
+    "Viya",
+    "restaf",
+    "casl",
+    "REST API"
+  ],
+  "author": "Deva Kumar <deva.kumar@sas.com>",
+  "license": "Apache-2.0"
+}

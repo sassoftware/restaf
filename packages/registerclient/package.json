@@ -2,25 +2,32 @@
   "name": "@sassoftware/registerclient",
   "version": "1.7.5",
   "description": "collection of clis using rest apis",
-  "scripts": {
-    "start": "node --no-warnings cli"
-  },
-  "repository": "https://github.com/sassoftware/restaf",
+  "author": "Deva Kumar <deva.kumar@sas.com>",
+  "license": "Apache-2.0",
   "keywords": [
     "Viya",
     "restaf",
     "casl",
     "REST API"
   ],
-  "author": "Deva Kumar <deva.kumar@sas.com>",
-  "license": "Apache-2.0",
+  "homepage": "https://github.com/sassoftware/restaf#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sassoftware/restaf/tree/gen2/packages/registerclient"
+  },
+  "bugs": {
+    "url": "https://github.com/sassoftware/restaf/issues"
+  },
+  "scripts": {
+    "start": "node --no-warnings cli"
+  },
   "unpkg": "cli.js",
   "bin": {
     "@sassoftware/registerclient": "cli.js"
   },
   "dependencies": {
     "qs": "^6.7.0",
-    "restaf": "1.7.5",
+    "@sassoftware/restaf": "1.7.5",
     "vorpal": "^1.12.0",
     "yargs": "^13.2.4"
   },

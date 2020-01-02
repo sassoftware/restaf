@@ -25,7 +25,7 @@
  * Logon to the Viya server
  * ---------------------------------------------------------------------------------
  */
-let restaf  = require("restaf");
+let restaf  = require('@sassoftware/restaf');
 let payload = require("./config")();
 let fs      = require("fs");
 

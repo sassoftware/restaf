@@ -21,18 +21,15 @@
  * Logon to the Viya server
  * ---------------------------------------------------------------------------------
  */
-let restaf = require('restaf');
+let restaf = require('@sassoftware/restaf');
 let config = require('./config');
 let payload  = config();
 
 let store    = restaf.initStore();
 let qs = require('qs');
 
-let {print, decodeJwt}   = require('restaflib');
+let {print, decodeJwt}   = require('@sassoftware/restaflib');
 payload.keepAlive = null;
-let hash = '#a=10&b=20';
-let loc = qs.parse(hash);
-console.log(loc);
 
 store
   .logon(payload)

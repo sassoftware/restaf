@@ -5,7 +5,7 @@
   "scripts": {
     "start": "node --no-warnings cli"
   },
-  "repository": "https://github.com/sassoftware/restaf",
+  "repository": "https://github.com/sassoftware/restaf/tree/gen2/packages/viyacaddy",
   "keywords": [
     "Viya",
     "restaf",
@@ -15,11 +15,12 @@
   "author": "Deva Kumar <deva.kumar@sas.com>",
   "license": "Apache-2.0",
   "bin": {
-    "@sassofware/viyacaddy": "cli.js"
+    "@sassoftware/viyacaddy": "cli.js"
   },
   "dependencies": {
     "qs": "^6.7.0",
-    "restaf": "1.7.5",
+    "@sassoftware/restaf": "1.7.5",
+    "@sassoftware/restaflib": "1.7.5",
     "vorpal": "^1.12.0",
     "yargs": "^13.2.4"
   },

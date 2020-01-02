@@ -1,5 +1,5 @@
 {
-  "name": "restaf",
+  "name": "@sassoftware/restaf",
   "version": "1.7.5",
   "description": "Library for writing SAS Viya application using REST APIs",
   "author": "Deva Kumaraswamy <deva.kumar@sas.com>",
@@ -10,7 +10,17 @@
     "Viya",
     "REST API"
   ],
+  "homepage": "https://github.com/sassoftware/restaf#README.md",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sassoftware/restaf/tree/gen2/packages/restaf"
+  },
+  "bugs": {
+    "url": "https://github.com/sassoftware/restaf/issues"
+  },
+  "unpkg": "/dist/restaf.min.js",
   "main": "./lib/restaf",
+
   "engines": {
     "node": ">=10.16.0",
     "npm": ">=6.10.0",
@@ -21,14 +31,6 @@
     "ie >= 11",
     "maintained node versions"
   ],
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/sassoftware/restaf.git"
-  },
-  "bugs": {
-    "url": "https://github.com/sassoftware/restaf/issues"
-  },
-  "unpkg": "/dist/restaf.min.js",
   "scripts": {
     "test": "node",
     "build": "webpack --env.node --config webpack.config.js && webpack --config webpack.config.js && webpack -p  -m --config webpack.config.js",

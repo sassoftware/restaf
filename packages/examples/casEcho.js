@@ -21,10 +21,10 @@
  */
 "use strict";
 
-let restaf     = require("restaf");
+let restaf     = require('@sassoftware/restaf');
 let payload    = require('./config')();
 let fs =require('fs');
-let {casSetup, print} = require("restaflib");
+let {casSetup, print} = require("@sassoftware/restaflib");
 
 let pemFile = process.env.SSL_CERT_FILE;
 console.log(`pemfile = ${pemFile}`);

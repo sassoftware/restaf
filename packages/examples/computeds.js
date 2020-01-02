@@ -20,9 +20,9 @@
 
 "use strict";
 
-let restaf  = require("restaf");
+let restaf  = require('@sassoftware/restaf');
 let payload = require('./config')();
-let restaflib = require('restaflib');
+let restaflib = require('@sassoftware/restaflib');
 let {computeSetup, computeRun, print, getLog} = restaflib;
 
 let store = restaf.initStore();
@@ -37,7 +37,7 @@ async function example (store, logonPayload) {
   let src =  `data _null_; do i = 1 to 100; x=1; end; run; `;
   
   // Execute code and print the log
-  let computeSummary = await computeRun(store, session, null, src);
+  let computeSummary = await computeRun(store, session, src, null);
   let log = await getLog (store, computeSummary);
   print.logListLines(log);
   return 'alldone';

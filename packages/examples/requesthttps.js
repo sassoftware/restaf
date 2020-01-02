@@ -19,7 +19,7 @@
 'use strict';
 
 let fs = require('fs');
-let restaf = require('restaf');
+let restaf = require('@sassoftware/restaf');
 let Https = require('https');
 let axios = require('axios');
 

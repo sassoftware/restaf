@@ -4,7 +4,7 @@
 Last updated: Jan 2, 2020
 
 > A Note To Current Users of restaf:
-> As time permits recommend you switch to this scoped version. New features will be added to the scoped versions described here. However we will continue to fix any issues that arise in the current non-scoped version of restaf.
+> As time permits recommend you switch to this scoped version. New features will be added to the scoped versions described here. However we will continue to fix any issues that arise in the current non-scoped version of restaf(1.5.5).
 
 ## Documentation
 

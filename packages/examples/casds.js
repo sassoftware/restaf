@@ -22,10 +22,9 @@
 
 let restaf        = require('@sassoftware/restaf');
 let payload       = require('./config')();
-let {casSetup}    = require('@sassoftware/restaflib');
-let listCaslibs   = require("./lib/listCaslibs");
-let printCasTable = require("./lib/printCasTable");
-let print = require("./print");
+let {casSetup, casActionRun, print}    = require('@sassoftware/restaflib');
+
+
 
 let store = restaf.initStore({ casProxy: true });
 
@@ -53,8 +52,11 @@ async function example (store, logonPayload) {
   };
 
   let fetchResult = await store.runAction(session, p);
-  printCasTable(fetchResult, "Fetch");
+  print.object(fetchResult.items(), 'results from a fetch');
 
+  // same with casActionRun
+  fetchResult = await casActionRun(store, session, p);
+  print.object(fetchResult, 'results from a fetch with casActionRun');
   p = {
     action: "table.tableDetails",
     data  : { caslib: "casuser", name: `score` }

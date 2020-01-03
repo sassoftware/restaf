@@ -28,13 +28,12 @@ let payload = require('./config')();
 
 let store = restaf.initStore();
 
-// function to loop thru the list of files and print their id
-// scrollCount limits number of 'next' calls
 
 async function example (store, logonPayload, counter) {
   await store.logon(logonPayload);
   let { reports, folders} = await store.addServices("reports", "folders");
 
+  /*
   let reportsList = await store.apiCall(reports.links("reports"));
   print.itemsList(reportsList, 'List of reports');
   let next;
@@ -43,22 +42,36 @@ async function example (store, logonPayload, counter) {
     reportsList = await store.apiCall(next);
     print.itemsList(reportsList, 'List of reports');
   }
+  */
 
   let foldersList = await store.apiCall(folders.links("folders"));
   print.itemsList(foldersList, 'List of folders');
 
   // do this loop while the service returns the next link or counter is 0
+  let next;
   while ((next = foldersList.scrollCmds("next")) !== null && --counter > 0) {
     foldersList = await store.apiCall(next);
     print.itemsList(foldersList, '...List of folders');
   }
 
+  // get the folder named "Samples" and get its folderURI.
 
-  // 
+  let payload = {
+    qs: {
+        filter: `eq(name,'Samples')`
+    }
+  };
+  let samplesFolder = await store.apiCall(folders.links("folders"), payload);
+  print.object(samplesFolder.items('Samples', 'data'), 'data');
+  
+
+
+  // now we need to the rest...
+  
   return "All Done";
 }
 
 
-example(store, payload, 2)
+example(store, payload, 10)
   .then(status => console.log(status))
   .catch(err => console.log(err));

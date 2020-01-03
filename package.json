@@ -41,7 +41,8 @@
     "uidemos:code": "cd ./packages/uidemos && npm run code",
     "slsscore": "cd ./packages/serverless-score && getawskey &&sls offline",
     "registerclient": "cd ./packages/registerclient && npm start",
-    "viyacaddy": "cd ./packages/viyacaddy && npm start"
+    "viyacaddy": "cd ./packages/viyacaddy && npm start",
+    "bldall": "npm run restaf:build && npm run restaflib:build && npm run restafuilib:build"
   },
   "devDependencies": {
     "@babel/cli": "^7.7.7",
@@ -87,9 +88,9 @@
     "yargs": "^15.1.0"
   },
   "resolutions": {
-    "lodash": ">=4.17.15",
-    "mem": "^5.1.1",
-    "vorpal/**/lodash": ">=4.17.15"
+    "**/lodash": ">=4.17.15",
+    "**/mem": "^5.1.1",
+    "**/core-js": "^3.6.1" 
   },
   "dependencies": {
     "@sassoftware/restaf-server": "^7.2.0",

@@ -71,9 +71,9 @@ function links (f, title) {
 	});
 }
 
-function itemsCmd (f, title) {
-	titleLine(`${title}  size:  ${f.links().size}`);
-	f.itemsCmd().forEach((l, k) => {
+function itemsCmd (f, name,title) {
+	titleLine(`${title}  size:  ${f.itemsCmd(name).size}`);
+	f.itemsCmd(name).forEach((l, k) => {
 		object({ rel: k });
 	});
 }

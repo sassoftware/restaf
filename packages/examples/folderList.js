@@ -62,12 +62,12 @@ async function example (store, logonPayload, counter) {
     }
   };
   let samplesFolder = await store.apiCall(folders.links("folders"), payload);
-  print.object(samplesFolder.items('Samples', 'data'), 'data');
+  // print.object(samplesFolder.items('Samples', 'data'), 'data');
   
-
+  print.itemsCmd(samplesFolder, 'Samples', 'Folder itemsCmd');
 
   // now we need to the rest...
-  
+
   return "All Done";
 }
 

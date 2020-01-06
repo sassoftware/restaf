@@ -78,7 +78,7 @@ function runCli (store, cmdFile) {
                 .catch(e => { vorpal.log(e); cb();});
             });
     vorpal
-        .command('config [config]')
+        .command('config <config>')
             .description('File containing the configuration for clientid registeration')
             .action ((args,cb) => {
                 fs.readFile(args.config, 'UTF8')

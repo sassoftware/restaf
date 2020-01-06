@@ -6,6 +6,7 @@
 let uploadModel    = require('./uploadModel');
 let uploadSasTable = require('./uploadSasTable');
 let uploadAstore   = require('./uploadAstore');
+let uploadCasl     = require('./uploadCasl');
 
 module.exports = async function upload (store, servers, args, vorpal){
 
@@ -17,10 +18,14 @@ module.exports = async function upload (store, servers, args, vorpal){
     
     switch(fext) {
         case 'sas':
-        case 'ds2':
-        case 'casl': {
+        case 'ds2': {
             type = 'CODE',
             handler = uploadModel;
+            break;
+        }
+        case 'casl': {
+            type = 'CODE';
+            handler = uploadCasl;
             break;
         }
         case 'sashdat' :

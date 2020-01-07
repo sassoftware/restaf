@@ -15,7 +15,7 @@ module.exports = async function uploadSasTable (store, session, type, source, ou
     if (name == null) {
         throw 'Please specify table as caslib.name';
     }
-    name = name.toUpperCase(name);
+    name = name.toLowerCase(name);
     let fext = source.split('.').pop();
     switch(fext) {
         case 'sas7bdat': {

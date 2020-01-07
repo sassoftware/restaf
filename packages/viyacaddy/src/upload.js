@@ -24,8 +24,8 @@ module.exports = async function upload (store, servers, args, vorpal){
             break;
         }
         case 'casl': {
-            type = 'CODE';
-            handler = uploadCasl;
+            type = 'CODE',
+            handler = uploadModel;
             break;
         }
         
@@ -36,10 +36,11 @@ module.exports = async function upload (store, servers, args, vorpal){
             handler = uploadSasTable;
             break;
         }
-        case 'astore':
+        case 'astore': {
             type = 'ASTORE';
             handler = uploadAstore;
             break;
+        }
         default: {
             vorpal.log(`File type ${fext} not supported at this time.`);
             return;

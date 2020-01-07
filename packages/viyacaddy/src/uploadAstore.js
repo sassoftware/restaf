@@ -14,11 +14,7 @@ module.exports = async function uploadAstore (store,session, type, source, outpu
     if (name == null) {
       throw 'Please specify table as caslib.name';
     }
-    
-    let fext = source.split('.').pop();
-    if (fext !== 'astore') {
-      throw 'File has to have an astore file extension';
-    }
+    name = name.toLowerCase(name);
 
     let data = await fs.readFile(source);
     let astoreBuf = new Buffer.from(data).toString("base64");

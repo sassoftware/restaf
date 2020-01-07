@@ -13,7 +13,7 @@ module.exports = async function uploadModel (store, session, type, source, outpu
       throw 'Please specify table as caslib.name';
     }
    
-    name = name.toUpperCase(name);
+    name = name.toLowerCase(name);
 
     let fext = source.split('.').pop();
     let varname = (fext ==='sas')   ? 'dataStepSrc' 
@@ -26,53 +26,36 @@ module.exports = async function uploadModel (store, session, type, source, outpu
     // eslint-disable-next-line no-control-regex
     isrc = isrc.replace(/[^\x00-\x7F]/g,"");
     let src =  isrc.replace(/\r?\n/g, '');
+    // Now translate quotes to some non-SAS standard char
     src = src.replace(/'/g, '^');
     src = src.replace(/"/g, '#');
 
 
     let casl = `
-        _args_ = {modelName = '${name}', ${varname}="${src}" };
-        caslib = '${caslib}';
-        name   = '${name}';
+      caslib = '${caslib}';
+      name   = '${name}';
 
-        result = reclaimSource(_args_);
+      action table.droptable /
+       caslib= caslib  name= name quiet=true;
 
-        print result;
-    
-        function reclaimSource(_arg_ );  
-            caslib = 'casuser';
-            name   = '_reclaimSource';
+      action table.deleteSource/
+      caslib= caslib  source= '${name}.sashdat' quiet=true; 
 
-            action table.droptable/ 
-                caslib=caslib name=name quiet=TRUE; 
-            action table.deleteSource/
-                 caslib=caslib  source=name quiet=true;   
-    
-            i = 1; 
-            print 'data deleted';
+        action datastep.runCode r = result/
+        single='YES'
+        code = "data ${caslib}.${name} ;
+            length modelName varchar(128) ${varname} varchar(*) temp varchar(*);
+            modelName = '${name}';
+            temp = tranwrd('${src}', '^', ""'"");
+            ${varname} = tranwrd(temp, '#', '""');
+            drop temp;
+            run;
+        ";
+        action table.save r = result / 
+           table = {caslib=caslib name=name} replace=true
+           caslib=caslib name=name;
 
-            do key,obj over _arg_; 
-                columns[i] = key; 
-                row[i] = obj; 
-                if ( isString(obj) ) then 
-                    type[i] = 'varchar';  
-                else if ( isInteger(obj) ) then  
-                    type[i] = 'int';  
-                else type[i] = 'double'; 
-                i = i + 1; 
-                end;   
-            data1 = newTable('data1', columns, type, row );  
-        
-            saveresult data1 casout=name caslib=casuser replace; 
-            print 'result saved';
-        
-            action table.save r = result / 
-               caslib=caslib name=name replace=true
-
-               table={caslib=casuser name=name};
-               
-            return result;
-            end;  
+        send_response(result);
         `;
       
 

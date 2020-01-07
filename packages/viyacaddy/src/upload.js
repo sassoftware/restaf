@@ -18,7 +18,7 @@ module.exports = async function upload (store, servers, args, vorpal){
     
     switch(fext) {
         case 'sas':
-        case 'ds2': {
+        case 'ds2':  {
             type = 'CODE',
             handler = uploadModel;
             break;
@@ -28,6 +28,7 @@ module.exports = async function upload (store, servers, args, vorpal){
             handler = uploadCasl;
             break;
         }
+        
         case 'sashdat' :
         case 'sas7bdat':
         case 'csv'     : {

@@ -109,7 +109,7 @@ function runCli (store, cmdFile) {
 		.delimiter('>> ')
 		.log('Welcome to viyacaddy')
 		.log('Enter help to get a list of all the commands')
-		.log('Use logon command to logon')
+		.log('Use logon command to start your SAS Viya session')
 		.log('');
 
 	if (cmdFile === null) {

@@ -4,6 +4,7 @@
 */
 'use strict';
 let fs = require('fs').promises;
+let restaflib = require('@sassoftware/restaflib');
 
 module.exports = async function uploadModel (store, session, type, source, output, vorpal){
 
@@ -25,17 +26,23 @@ module.exports = async function uploadModel (store, session, type, source, outpu
     // eslint-disable-next-line no-control-regex
     isrc = isrc.replace(/[^\x00-\x7F]/g,"");
     let src =  isrc.replace(/\r?\n/g, '');
+    src = src.replace(/'/g, '^');
+    src = src.replace(/"/g, '#');
+
 
     let casl = `
         _args_ = {modelName = '${name}', ${varname}="${src}" };
         caslib = '${caslib}';
         name   = '${name}';
 
-        result = argsToTable(_args_, caslib, name);
+        result = reclaimSource(_args_);
 
         print result;
     
-        function argsToTable(_arg_, caslib, name );  
+        function reclaimSource(_arg_ );  
+            caslib = 'casuser';
+            name   = '_reclaimSource';
+
             action table.droptable/ 
                 caslib=caslib name=name quiet=TRUE; 
             action table.deleteSource/
@@ -55,7 +62,7 @@ module.exports = async function uploadModel (store, session, type, source, outpu
                 i = i + 1; 
                 end;   
             data1 = newTable('data1', columns, type, row );  
-            casuser ='casuser';
+        
             saveresult data1 casout=name caslib=casuser replace; 
             print 'result saved';
         
@@ -69,14 +76,7 @@ module.exports = async function uploadModel (store, session, type, source, outpu
         `;
       
 
-    let payload = {
-        action: 'sccasl.runcasl',
-        data  : {code: casl}
-    };
-
-  
-    let r = await store.runAction(session, payload);
-    // vorpal.log(JSON.stringify(r.items('disposition'), null,4));
+    let r = await restaflib.caslRun(store, session, casl, null);
     vorpal.log(`Upload of ${source} to ${output} completed`);
 };
     

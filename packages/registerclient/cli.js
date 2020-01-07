@@ -123,7 +123,7 @@ function runCli (store, cmdFile) {
         .log('.......................................')
         .log('Welcome to viya-client-register')
         .log('Enter help to get a list of all the commands')
-        .log('Use logon command to logon')
+        .log('Use logon command to start your SAS Viya session')
         .log(initOpts)
         .log('');
 

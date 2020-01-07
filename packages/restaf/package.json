@@ -1,6 +1,6 @@
 {
   "name": "@sassoftware/restaf",
-  "version": "1.7.8",
+  "version": "1.7.9",
   "description": "Library for writing SAS Viya application using REST APIs",
   "author": "Deva Kumaraswamy <deva.kumar@sas.com>",
   "license": "Apache-2.0",
@@ -34,6 +34,7 @@
     "test": "node",
     "build": "webpack --env.node --config webpack.config.js && webpack --config webpack.config.js && webpack -p  -m --config webpack.config.js",
     "babel": "babel src --out-dir jslib",
+    "publish": "npm publish --access public",
     "lint": "eslint . --fix"
   },
   "dependencies": {

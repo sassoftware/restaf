@@ -1,6 +1,6 @@
 list 
-delete appix
-delete appcx2
+del appix
+del appcx2
 add appix -t implicit -r http://localhost:8080/viyaapp/index.html
 add appcx2 -t authorization_code -s secret -r http://localhost:8080/viyaapp,http://l7e818.na.sas.com:8080/viyaapp
 list

@@ -17,6 +17,11 @@ module.exports = async function delClient (store, clientid) {
 		let r = await store.request(payload);
 		return `${clientid} has been deleted`;
 	} catch(err) {
-		return err.response.status;
+		// why do we get a 404 on successful deletion?
+		if (err.response.status === 404) {
+			return `${clientid} has been deleted and/or not found. Use list command to verify`;
+		} else {
+			return err.response.status;
+		}
 	}
 };

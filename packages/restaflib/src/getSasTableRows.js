@@ -18,7 +18,8 @@
  * @param {object} computeSummary - computeSummary
  * @param {string} tableName - name of the table
  * 
- * @returns {object} - resulting json
+ * @returns {promise} - get retrieved rows [{var1:value, var2:...}]
+ * @alias module: getSASTableRows
  */
 async function getSasTableRows (store, computeSummary, tableName){
 

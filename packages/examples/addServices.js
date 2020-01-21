@@ -38,37 +38,11 @@ async function setup (payload, ...args) {
   let msg = await store.logon(payload);
   print.object(msg, `Logon status`);
   debugger;
-  let { compute, casManagement, modelPublish, files } = await store.addServices(
+  let s = await store.addServices(
     ...args
   );
   console.log('List of active services');
   console.log(store.getServices());
-
-
-  debugger;
-  let r = store.getXsrfData();
-  print.titleLine('current xsrf tokens for services');
-  print.object(r);
-
-
-  /*
-  let s = store.rafObject("modelPublish");
-  // console.log(s);
-
-  console.log(JSON.stringify(modelPublish.links("getPublishedModel"), null, 4));
-  payload = {
-    qs: {
-      limit: 1000
-    }
-  };
-  */
-
-  debugger;
-  r = await store.apiCall(modelPublish.links("getPublishedModel"), payload);
-
-  print.itemsList(r, 'Published Models');
-
-  // console.log(JSON.stringify(files.links("files", "link"), null, 4));
 
   store.endStore();
   return true;

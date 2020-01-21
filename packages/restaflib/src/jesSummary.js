@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
 */ 
  
- /**
+ /*
   *  Reduce the job information into consummable form(async)
   * 
   * @async

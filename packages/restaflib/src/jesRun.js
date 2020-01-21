@@ -4,7 +4,7 @@
 */
 'use strict';
 
-/**
+/*
  * Prepare data for runCompute(@async)
  * @module spBase
  * 

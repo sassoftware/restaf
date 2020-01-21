@@ -1,6 +1,6 @@
 {
   "name": "restaf",
-  "version": "1.7.8",
+  "version": "1.7.9",
   "description": "Library for writing SAS Viya application using REST APIs",
   "author": "Deva Kumaraswamy <deva.kumar@sas.com>",
   "license": "Apache-2.0",
@@ -42,7 +42,12 @@
     "slsscore": "cd ./packages/serverless-score && getawskey &&sls offline",
     "registerclient": "cd ./packages/registerclient && npm start",
     "viyacaddy": "cd ./packages/viyacaddy && npm start",
-    "bldall": "npm run restaf:build && npm run restaflib:build && npm run restafuilib:build"
+    "bldall": "npm run restaf:build && npm run restaflib:build && npm run restafuilib:build",
+    "restaf:pub": "cd ./packages/restaf && npm run pub",
+    "restaflib:pub": "cd ./packages/restaflib && npm run pub",
+    "registerclient:pub": "cd ./packages/registerclient && npm run pub",
+    "viyacaddy:pub": "cd ./packages/viyacaddy && npm run pub",
+    "publish": "npm run restaf:pub && npm run restaflib:pub && npm run registerclient:pub && npm run viyacaddy:pub"
   },
   "devDependencies": {
     "@babel/cli": "^7.7.7",
@@ -76,6 +81,7 @@
     "eslint-plugin-react": "^7.17.0",
     "eslint-plugin-redux-saga": "^1.1.3",
     "jsdoc": "^3.6.3",
+    "jsdoc-to-markdown": "^5.0.3",
     "lerna": "^3.20.2",
     "prettyjson": "^1.2.1",
     "rimraf": "^3.0.0",

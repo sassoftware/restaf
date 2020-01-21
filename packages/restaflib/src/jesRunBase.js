@@ -6,7 +6,7 @@
 //
 // Notes: Run compute service 
 //
-/**
+/*
  * Reduce compute service to an consummable form(async)
  * @module jesRunBase
  * 

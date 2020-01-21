@@ -11,6 +11,7 @@
  * @param {string} name  - name of the report
  * 
  * @returns {string} - the svg of the report
+ * @alias module: getReportImage
  * 
  */
 import findReport from './findReport';

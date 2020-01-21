@@ -10,15 +10,15 @@
  * Calls cas server and returns the results(async)
  * 
  * @async
- * @module caslBase
+ * @function caslRun
  * 
  * @param {object} store    - restaf store
  * @param {object} session  - cas session
  * @param {object} src      - casl src statements
- * @param {object} args     - user input args
+ * @param {object} args     - user input args (reference this as _args_ in casl program)
 
  * 
- * @returns {object}  returns results from cas
+ * @returns {promise}  returns results from cas
  */
 'use strict';
 

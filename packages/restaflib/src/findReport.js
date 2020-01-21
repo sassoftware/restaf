@@ -13,6 +13,7 @@
  * @param {string} name - name of the VA report 
  * 
  * @returns {object} - either null or rafObject for the report
+ * @alias module: findReport
  */
 
 async function findReport (store, name) {

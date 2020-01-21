@@ -34,7 +34,7 @@
     "test": "node",
     "build": "webpack --env.node --config webpack.config.js && webpack --config webpack.config.js && webpack -p  -m --config webpack.config.js",
     "babel": "babel src --out-dir jslib",
-    "publish": "npm publish --access public",
+    "pub": "npm publish --access public",
     "lint": "eslint . --fix"
   },
   "dependencies": {

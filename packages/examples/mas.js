@@ -32,19 +32,37 @@ let {print} = restaflib;
 async function example (payload, models) {
   await store.logon(payload);
   let masControl = await restaflib.masSetup(store, models);
+  let defaults = {
+    prescriber_count : 1,
+    strength_per_unit: 15,
+    age              : 74,
 
-  let scenario = {
-    petallengthcm: 1.5,
-    petalwidthcm : 0.2,
-    sepallengthcm: 5,
-    sepalwidthcm : 3
+    avg_opioid_prescriber_rate: 10.4,
+
+    doctorshop_med : 1,
+    max_avg_med_90 : 10,
+    max_mme_per_day: 40,
+
+    max_opioid_prescriber_rate: 13.21,
+
+    opioid_days: 3
   };
-  let result = await restaflib.masRun (store, masControl, models[0], scenario);
-  print.object(result);
-  console.log(result);
+  
+  let inp = restaflib.masDescribe(masControl, models[0], 'score');
+  print.object(inp, 'describe for score model');
+  
+  inp = inp.map((n) => {
+    n.value = defaults[n.name];
+    return n;
+  });
 
+  print.object(inp, 'updated input for score model');
+
+  let result = await restaflib.masRun (store, masControl, models[0], inp, 'score');
+  print.object(result, 'scoring result');
+ 
 }
-example (payload, [ 'sdktgo_iris' ])
+example (payload, [ 'manuelsgradientboost2' ])
   .then(r => console.log('done'))
   .catch(e => {
        console.log('failed');

@@ -25,7 +25,7 @@ module.exports = async function upload (store, servers, args, vorpal){
         }
         case 'casl': {
             type = 'CODE',
-            handler = uploadModel;
+            handler = uploadCasl;
             break;
         }
         

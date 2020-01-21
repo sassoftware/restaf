@@ -5,19 +5,19 @@
  'use strict';
 
 /**
- * Produce a string with casl dictionary suitable for inclsion in casl code
+ * Produce a string with casl dictionary suitable for inclusion in casl code
  * 
  * @module jsonToDict
  * @param {object} obj - the JS object of interest
  * @param {string} name - the name to assign to the dictionary
  * 
  * @returns {string} returns the string containing the casl dictionary
- * 
+ * @alias module: jsonToDict
  * @example
  * 
  *  obj = {x: 1, b:2, c: ['a','b']};
  *  name ='_appEnv_';
- *  result is a string _appEnv_ = {x=2, b=3, c={"a', "b"}}
+ *  result is a string _appEnv_ = {x=2, b=3, c={"a", "b"}}
  */
  
 function jsonToDict (obj, name) {

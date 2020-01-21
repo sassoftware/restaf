@@ -26,7 +26,7 @@ let {casSetup, casActionRun, print}    = require('@sassoftware/restaflib');
 
 
 
-let store = restaf.initStore({ casProxy: true });
+let store = restaf.initStore();
 
 async function example (store, logonPayload) {
   let { apiCall } = store;

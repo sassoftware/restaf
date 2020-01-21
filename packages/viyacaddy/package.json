@@ -1,9 +1,10 @@
 {
   "name": "@sassoftware/viyacaddy",
-  "version": "1.7.8",
+  "version": "1.7.9",
   "description": "collection of clis using rest apis",
   "scripts": {
-    "start": "node --no-warnings cli"
+    "start": "node --no-warnings cli",
+    "pub": "npm publish --access public"
   },
   "repository": "https://github.com/sassoftware/restaf/tree/gen2/packages/viyacaddy",
   "keywords": [
@@ -19,8 +20,8 @@
   },
   "dependencies": {
     "qs": "^6.9.1",
-    "@sassoftware/restaf": "1.7.8",
-    "@sassoftware/restaflib": "1.7.8",
+    "@sassoftware/restaf": "1.7.9",
+    "@sassoftware/restaflib": "1.7.9",
     "vorpal": "^1.12.0",
     "yargs": "^15.1.0"
   },

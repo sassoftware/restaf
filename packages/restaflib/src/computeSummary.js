@@ -12,7 +12,8 @@
   * @param {object} store - restaf store
   * @param {object} job - rafObject representing the compute service job
   * 
-  * @returns {object} - the computeSummary object for easy handling of logs,listing,ods, tables
+  * @returns {promise} - the computeSummary object for easy handling of logs,listing,ods, tables
+  * @alias module: computeSummary
   */
 async function computeSummary (store, job){
     let cResult = {

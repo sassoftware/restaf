@@ -16,7 +16,8 @@
  * @param {object} session  - cas session
  * @param {object} scenario   - scenario values
  * 
- * @returns {object}  returns the scores as an object
+ * @returns {promise}  returns the scores as an object
+ * @alias module: caslScore
  */
 'use strict';
 

@@ -60,7 +60,7 @@
     <script type="text/javascript">
         debugger;
 
-        let store = restaf.initStore((LOGONPAYLOAD.authType === 'server') ? {casProxy:true} : null);
+        let store = restaf.initStore({casProxy: true});
         async function setup( ) {
             await store.logon( LOGONPAYLOAD );
             debugger;
@@ -85,13 +85,10 @@
 
 </script>
 </head>
-<body>
+<body onload="show()">
 <h1> List of CAS Servers</h1>
 
     <div id="container" class="content" >
         </div>
-<div>
-    <button id="but1" onclick="show()"> start</button>
-</div>
 </body>
 </html>

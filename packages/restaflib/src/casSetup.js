@@ -26,7 +26,8 @@
  * @param {object} logonPayload  - if not null, then use this logon to Viya
 
  * 
- * @returns {object}  returns an object {session: xxx, servers: yyy}
+ * @returns {promise}  returns an object {session: xxx, servers: yyy}
+ * @alias module: casSetup
  */
 'use strict';
 async function casSetup (store, logonPayload) {

@@ -8,31 +8,56 @@
  */
 /**
  *
- * Fetch rows from cas Tables
+ * @description Fetch rows from cas Tables
  * 
  * @async
  * @module casFetchData
  * 
- * @param {object} store    - restaf store
- * @param {object} session  - cas session
- * @param {object} table    - table {caslib: x, name: y} to read from
- * @param {object} control  - what to read {from: n, count:n , format: true|false}
- * @returns {object}   see doc. {pagination: {prev: pagePrev, next: pageNext, count: count},  data:  {schema: columns, rows: rows } }
+ * @param {object}    store    - restaf store
+ * @param {object}    session  - cas session
+ * @param {object}    payload  - info to read data
+ * @returns {promise} returns data and data for scrolling.
  * 
- * Notes:
- *  The returned object has the retrieved data and the information to paginate ( prev and next)
- *  The prev and next are as follows:  Either it is -1 to indicate EOF or a number to start the next obs no to start the fetc from
+ * @alias module: casFetchData
+ * @example
+ *  async function test_casFetchData () {
+ *    let {session} = await casSetup(store);
+ *    let payload = {
+ *     from  : 1,
+ *     count : 20,
+ *     format: true,
+ *     table : {caslib: 'Public', name: 'cars'}
+ *    };
+ * 
+ *   let result = await restaflib.casFetchData(store, session, payload);
+ *   console.log(result.data.schema);
+ *   console.log('The next start is at:' + result.pagination.next.from);
+ *   console.log(result.data.rows[0].toString());
+ * 
+ *   while (result.pagination.next.from !== -1) {
+ *     console.log('The start is at: ' + result.pagination.next.from);
+ *     result = await restaflib.casFetchData(store, session, result.pagination.next);
+ *     console.log('The next start is at:' + result.pagination.next.from);
+ *     console.log(result.data.rows[0].toString());
+ *   };
+ *   console.log('--------------------------------------- scroll backwards');
+ *
+ *   while (result.pagination.prev.from !== -1) {
+ *     console.log('The start is at: ' + result.pagination.prev.from);
+ *     result = await restaflib.casFetchData(store, session, result.pagination.prev);
+ *     console.log('The previous start is at: ' +  result.pagination.prev.from);
+ *     console.log(result.data.rows[0].toString());
+ *   };
+ *
+ *   await store.apiCall(session.links('delete'));
+ * }
  */
 import caslRunBase from './caslRunBase';
 import programs from './programs';
 
 async function casFetchData (store, session, payload){
-    debugger;
     let src    = programs['commonCasl']() + ' ' +  programs['casFetchData']();
-    debugger;
     let result = await caslRunBase(store, session, src, payload);
-    debugger;
-   // console.log(JSON.stringify(result.items(), null,4));
     return result.items('results', 'casResults').toJS();    
 }
 export default casFetchData;

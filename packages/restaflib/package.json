@@ -1,6 +1,6 @@
 {
   "name": "@sassoftware/restaflib",
-  "version": "1.7.8",
+  "version": "1.7.9",
   "description": "collection of useful functions for common scenarios",
   "main": "./lib/restaflib.js",
   "repository": {
@@ -23,9 +23,11 @@
     "url": "https://github.com/sassoftware/restaf/issues"
   },
   "scripts": {
-    "build": "rimraf dist && rimraf lib && webpack --env.node --config webpack.config.js && webpack --config webpack.config.js && webpack -p  -m --config webpack.config.js"
+    "build": "rimraf dist && rimraf lib && webpack --env.node --config webpack.config.js && webpack --config webpack.config.js && webpack -p  -m --config webpack.config.js",
+    "pub": "npm publish --access public"
   },
   "dependencies": {
-    "colors": "^1.4.0"
+    "colors": "^1.4.0",
+    "jsdoc": "^3.6.3"
   }
 }

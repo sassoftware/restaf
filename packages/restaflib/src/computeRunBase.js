@@ -6,11 +6,12 @@
 //
 // Notes: Run compute service 
 //
-/**
+/*
  * Reduce compute service to an consummable form(async)
- * @module runCompute
+ * @module computeRunBase
  * 
- * @param {object} sore - restaf store
+ * @param {object} store - restaf store
+ * @param {object} session - compute service session
  * @param {code} code - SAS code to be executed
  * 
  * @returns {object} computeSummary Object

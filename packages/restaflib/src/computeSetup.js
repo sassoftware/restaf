@@ -12,7 +12,8 @@
  * @param {string} contextName - name of the context( if null the first context in the list is used)
  * @param {object} payload     - logon payload - If null assumes that logon was done earlier.
  * 
- * @returns {object} - returns a compute session
+ * @returns {promise} - returns a compute session
+ * @alias compute: computeSetup
  */
 async function computeSetup (store, contextName, payload){
     if (payload != null) {

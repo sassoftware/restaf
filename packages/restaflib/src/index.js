@@ -33,6 +33,8 @@ import jesRun          from './jesRun';
 import jsonToDict      from './jsonToDict';
 
 import masSetup        from './masSetup';
+import masDescribe     from './masDescribe';
+
 import masRun          from './masRun';
 
 import print           from './print';
@@ -63,6 +65,7 @@ export {
     print,
     caslScore,
     masSetup,
+    masDescribe,
     masRun,
     decodeJwt
 };

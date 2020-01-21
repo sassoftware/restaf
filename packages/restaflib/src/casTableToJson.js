@@ -4,12 +4,14 @@
 */
 'use strict';
 /**
- * Converts a cas table to form needed by graphql
+ * Converts a cas table to JSON(utility)
  * @module casTableToJson
- * @param {object} result - the raf object retrned from a call to cas
+ * @param {object} result - the raf object returned from a call to cas
  * @param {string} table - the name of the table
  * 
- * @returns {object} - the new json version
+ * @returns {object} - the new json version [{var1: value1, var2: value2,...}, {...}]
+ * @alias module: casTableToJson
+ * 
  */
 
 function casTableToJson (result, table){

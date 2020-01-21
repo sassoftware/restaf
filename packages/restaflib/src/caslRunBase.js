@@ -5,12 +5,12 @@
 /** 
  * lib
  */
-/**
+/*
  *
  * Calls cas server and returns the results(async)
  * 
  * @async
- * @module caslBase
+ * @function caslRunBase(async)
  * 
  * @param {object} store    - restaf store
  * @param {object} session  - cas session

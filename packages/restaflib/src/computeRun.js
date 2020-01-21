@@ -6,14 +6,16 @@
 
 /**
  * Prepare data for runCompute(@async)
- * @module spBase
+ * @async
+ * @module computeRun
  * 
  * @param {object} store - restaf store
  * @param {object} session - current compute service session
  * @param {string} src  - code to execute
  * @param {object} args - args to be passed on as macros
  * 
- * @returns {object} computeSummary object
+ * @returns {promise} computeSummary object
+ * @alias module: computeRun
  * 
  */
 import computeRunBase from './computeRunBase';

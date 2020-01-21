@@ -43,7 +43,7 @@
 
     <script type="text/javascript">
 
-        
+        let store = restaf.initStore({casProxy: false});
 
         async function setup() {
             let {session} = await restaflib.casSetup(store, LOGONPAYLOAD);

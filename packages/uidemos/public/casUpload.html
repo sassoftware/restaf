@@ -30,28 +30,18 @@
 
     </style>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/react/16.2.0/umd/react.production.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/16.2.0/umd/react-dom.production.min.js"></script>
-
+<script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+<script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-polyfill/6.26.0/polyfill.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.38/browser.min.js"></script>
 
 
 <script src="/appenv"></script>
 <script type="text/javascript" src="/shared/showAlert.js"></script>
 <script type="text/javascript" src="/shared/util.js"></script>
-<script type="text/babel" src="/shared/lib/casTableViewer.js"></script>
-    <script type="text/javascript" src="/shared/lib/selectElement.js"></script>
-    <script type="text/javascript" src="/shared/lib/listCasOutputTables.js"></script>
+<script type="text/javascript" src="/shared/lib/selectElement.js"></script>
     <script src="/shared/dist/restaf.js"></script>
     <script src="/shared/dist/restaflib.js"></script>
-    <script src="/shared/dist/uilibrary.js"></script>
-<!-- script src="https://unpkg.com/restaf-uicomponents/dist/restaf-uicomponents.js"></script> -->
-<script src="/shared/lib/restaf-uicomponents.js"></script>
-
-<link rel="stylesheet" href="https://unpkg.com/react-table@latest/react-table.css">
-<script src="https://unpkg.com/react-table@latest/react-table.min.js"></script>
+    <script src="/shared/dist/restafuilib.js"></script>
 
 </head>
     <body>
@@ -59,9 +49,9 @@
 
         // init restAF
         debugger;
-        let store      = restaf.initStore(/*(LOGONPAYLOAD.authType === 'server') ? {casProxy:true} : null*/);
-        let ReactTable = window.ReactTable.default;
+        let store      = restaf.initStore({casProxy: true}/*(LOGONPAYLOAD.authType === 'server') ? {casProxy:true} : null*/);
         let session    = null;
+        let servers    = null;
         let caslibs    = null;
     
         let dmsOutput   = null;
@@ -69,17 +59,11 @@
         async function setup(){
             try {
                 debugger;
-                let msg             = await store.logon(LOGONPAYLOAD);
-                let {casManagement} = await store.addServices(  'casManagement' );
-
-                let servers    = await store.apiCall( casManagement.links( 'servers' ) );
-                let payload    = { data: { name: 'restAF' } };
-                let serverName = servers.itemsList( 0 );
-                session        = await store.apiCall(servers.itemsCmd( serverName, 'createSession' ), payload );
-            
+                let r = await restaflib.casSetup (store, LOGONPAYLOAD);
+                servers = r.servers;
+                session = r.session;
                 caslibs        = await store.apiCall( servers.itemsCmd( serverName, 'caslibs'));
                 selectElement(caslibs, 'caslib');
-                editor();
             }
             catch ( err ){
                 showAlert( err );
@@ -87,24 +71,6 @@
         }
 
            debugger;
-
-       function editor ( ) {
-           let it = "return ( { \n" +
-                    "action: ' ',\n" +
-                    "data  : {}\n" +
-                    "} );";
-
-           let props = {
-               onRun: runCode,
-               text : it,
-               mode : 'javascript',
-               button: 'Run Action',
-               msg  : ' ',
-               upload: false
-           };
-           debugger;
-           rafuip.TextEditor( props, "#sourcediv" );
-       }
 
        function upload() {
            debugger;
@@ -139,91 +105,14 @@
            debugger;
            store.runAction( session, payload )
                .then ( r => {
-                   viewData(name);
+                   alert('data uploaded')
                })
                .catch (err => showAlert(err))
 
        }
        let uploadb = upload.bind(this);
 
-       function viewData(name) {
-           debugger;
-
-           p = {
-               action: 'table.fetch',
-               data: {
-                   table: {
-                       caslib: document.getElementById('caslib').value,
-                       name: name
-                   }
-               }
-           };
-           store.runAction(session, p)
-                .then(fetchResult => {
-                    casTableViewer(fetchResult, 'Fetch', '#container');
-                    return true;
-                })
-                .catch(err => {
-                    showAlert(err);
-                    return true;
-                })
-       }
-
-       function runCode ( text, uploadFile, cb ) {
-            createPayload( text, uploadFile, ( err, payload ) => {
-                debugger;
-                if ( err == null ) {
-                    store.runAction( session, payload )
-                         .then( f => {
-                             dmsOutput = f;
-                             listCasOutputTables(f, "OUTPUTTABLES");
-                             cb( true );
-                         } )
-                         .catch( err => {
-                             debugger;
-                             showAlert( err );
-                             cb( false );
-                         } )
-
-                } else {
-                    alert( err );
-                    cb( false );
-                }
-            } );
-        }
-
-
-       function  selectTable() {
-           if (document.getElementById('OUTPUTTABLES').selectedIndex >= 0) {
-               let tableName = document.getElementById('OUTPUTTABLES').value;
-               casTableViewer(dmsOutput, tableName, '#CASOUTPUT');
-
-           }
-       }
-       let selectTableb = selectTable.bind(this);
-
-        // create payload for action
-   // qs is the action name
-   function createPayload( text, uploadFile, cb ) {
-       try {
-           let payload = ( text.length > 0 ) ? new Function( text )() : null;
-           if ( payload !== null ) {
-               if ( uploadFile != null ) {
-                  payload.data = uploadFile;
-               }
-               console.log( JSON.stringify( payload, null, 4 ) );
-               cb( null, payload );
-           } else {
-               cb( null, payload );
-           }
-       }
-       catch ( err ) {
-           alert( err );
-           cb( 'failed to parse input' );
-       }
-   }
-
-   setup();
+       
     </script>
 
 <h1>CAS Examples </h1>
@@ -242,7 +131,7 @@
             </form>
             <br>
             <br>
-            <button onclick="uploadb()">Upload</button>
+            <button onclick="upload()">Upload</button>
             <br>
         </div>
     <br>
@@ -251,26 +140,6 @@
         </div>
     </details>
 
-
-    <details>
-        <summary>Explore CAS Actions</summary>
-        <br>
-        <br>
-        <div id="container2" class="content" >
-            <div id="sourcediv" >
-                <br>
-            </div>
-        </div>
-        <div >
-            <div id="CASOUTPUT1" class="rafuip-content">
-               <label class="elabel"> Tables: </label> <select id="OUTPUTTABLES" onChange="selectTableb()"> </select>
-            </div>
-            <div id="CASOUTPUT">
-
-            </div>
-        </div>
-
-    </details>
     <br/>
 
 </body>

@@ -44,6 +44,11 @@ async function example (store, logonPayload, counter) {
     print.itemsList(reportsList, 'List of reports');
   }
 
+  //
+  // For comparison let us print the list of folders
+  // Notice that the pattern is the same
+  //
+  
   let foldersList = await store.apiCall(folders.links("folders"));
   print.itemsList(foldersList, 'List of folders');
 

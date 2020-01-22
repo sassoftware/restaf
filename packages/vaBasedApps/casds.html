@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <!--
   ~ /* ------------------------------------------------------------------------------------
@@ -20,17 +21,12 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-
-    <script crossorigin src="https://unpkg.com/react@16/umd/react.production.min.js"></script>
-    <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-polyfill/6.26.0/polyfill.min.js"></script>
     
      <script src="https://unpkg.com/@sassoftware/restaf/dist/restaf.min.js"></script> 
-     <script src="https://unpkg.com/restaf-uicomponents/dist/restaf-uicomponents.js"></script>
-     <script src="lib/casSetup.js"></script>
- 
-
+     <script src="https://unpkg.com/@sassoftware/restaflib/dist/restaflib.min.js"></script> 
+   
     <style>
    
     .container {
@@ -65,48 +61,36 @@
       debugger;
       let store   = restaf.initStore({casProxy: true});
       let session = null;
-      let runSAS  = null;
-      let href = window.location.origin;
-      console.log(href);
       function setup() {
-          console.log('initialization done');
+          /* do other setup for app */
+
+        let p = {
+           authType: 'server',
+           host: window.origin
+         }
+         restaflib.casSetup(store, p)
+           .then ( r => {
+               session = r.session;
+           })
+           .catch( err => {
+               document.getElementById('result').innerHTML = JSON.stringify(r, null, 4);
+           })
       }
 
       async function sasexec(){
-          debugger;
-        let href = window.origin;
-        console.log(href);
-        let p = {
-           authType: 'server',
-           host: href
-         }
-        let msg = await store.logon(p);
-        console.log(msg);
-
-        let {casManagement} = await store.addServices('casManagement');
-        let servers = await store.apiCall(casManagement.links('servers'));
-        let casserver = servers.itemsList(0);
-        let session = await store.apiCall(servers.itemsCmd(casserver, 'createSession')); 
-    
-        p = {
+         p = {
             action: 'datastep.runCode',
             data  : {code: 'data casuser.data1; x=1;put x= ; run; '}
         };
-        let r =  await store.runAction(session,p);
-        // console.log( r.items('log'));
-        // document.getElementById('result').innerHTML = JSON.stringify(r.items(), null, 4);
-        let props = {
-            store  : store,
-            folder : r
-        }
-        rafuip.CasOutput( props, '#result' );
+        let r =  await restaflib.casActionRun(store, session, p);
+        return r;
      }
 
 
     function runDemo() {
         sasexec()
-        .then ( () => {
-              console.log( 'run completed' );
+        .then ( (r) => {
+            document.getElementById('result').innerHTML = JSON.stringify(r, null, 4);
          })
         .catch( err => {
             console.log(JSON.stringify(err, null, 4) );

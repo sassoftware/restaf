@@ -1,3 +1,4 @@
+/* eslint-disable no-prototype-builtins */
 
 /*
  * ------------------------------------------------------------------------------------
@@ -109,7 +110,8 @@ const logon = (store, ipayload) => {
                 action.payload.pem = (store.config.hasOwnProperty('pem')) ? store.config.pem : null;
                 action.payload.rejectUnauthorized = (store.config.hasOwnProperty('rejectUnauthorized'))? store.config.rejectUnauthorized : null;
                 unSubscribe = store.subscribe(logonExit);
-                
+                store.config.casProxy = (payload.authType === VIYA_LOGON_SERVER) ? true : false;
+                console.log(store.config);
                 store.dispatch(action);
             }
         }

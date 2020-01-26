@@ -33,7 +33,7 @@
 
     <script type="text/javascript" src="/shared/dist/restaf.js"></script>
     <script type="text/javascript" src="/shared/dist/restaflib.js"></script>
-    <script type="text/javascript" src="/shared/dist/uilibrary.js"></script>
+    <script type="text/javascript" src="/shared/dist/restafuilib.js"></script>
     <script type="text/javascript" src="/appenv"></script>
 
     <style>
@@ -61,9 +61,7 @@
         debugger;
         async function setup ( ){
             debugger;
-            console.log(LOGONPAYLOAD);
             await store.logon(LOGONPAYLOAD);
-
             let {compute} = await store.addServices('compute');
             let contexts = await store.apiCall(compute.links('contexts'));
             return contexts;
@@ -72,7 +70,7 @@
         function show(){
             setup()
             .then( contexts => {
-                return uilibrary.display( 'ItemsTableViewer', {store: store, folder: contexts, title: 'Compute Contexts'},document.getElementById('container'))
+                return restafuilib.display( 'ItemsTableViewer', {store: store, folder: contexts, title: 'Compute Contexts'},document.getElementById('container'))
             })
             .catch( err => alert( JSON.stringify(err, null,4) ) );
         }

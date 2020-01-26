@@ -22,13 +22,11 @@ function Table (props) {
 	debugger;
 	let theadRows = data.get('schema').map(s => {
 		let name = s.get('name');
-		if (name !== '_Index_') {
-			return (
-				<th scope="col" style={{ backgroundColor: 'lightgrey' }}>
-					{name}
-				</th>
-			);
-		}
+		return (
+			<th key={name} scope="col" style={{ backgroundColor: 'lightgrey' }}>
+				{name}
+			</th>
+		);
 	});
 	let thead = <thead> {theadRows} </thead>;
 
@@ -36,10 +34,8 @@ function Table (props) {
 		let thisRow = (
 			<tr>
 				{row.map((col, index) => {
-					if (index > 0) {
-						let v = <input type="text" value={col} />;
-						return <td> {v} </td>;
-					}
+					let v = <input type="text" value={col} />;
+					return <td key={index}> {v} </td>;
 				})}
 			</tr>
 		);
@@ -61,14 +57,14 @@ class SimpleCasTableViewer extends React.Component {
 	constructor (props) {
 		super(props);
 		this.state = {
-			data     : props.results.items('tables', props.tableName),
+			data     : props.folder.items('tables', props.tableName),
 			tableName: props.tableName,
 			title    : props.title
 		};
 	}
 	componentWillReceiveProps (nextProps) {
 		this.setState({
-			data     : nextProps.results.items('tables', nextProps.tableName),
+			data     : nextProps.folder.items('tables', nextProps.tableName),
 			tableName: nextProps.TableName,
 			title    : nextProps.title
 		});

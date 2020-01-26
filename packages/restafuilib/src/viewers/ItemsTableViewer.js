@@ -56,6 +56,8 @@ class ItemsTableViewer extends React.Component {
 
 	makeMenu (folder) {
 		let { onClick } = this.state;
+		debugger;
+		console.log(folder);
 		let cmds = folder.scrollCmds();
 		let menu = [];
 		cmds.forEach((c, rel) => {

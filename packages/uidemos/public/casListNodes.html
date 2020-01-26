@@ -24,18 +24,15 @@
     <title>List Node Action</title>
     <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
     <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-polyfill/6.26.0/polyfill.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.38/browser.min.js"></script>
 
+    <script type="text/javascript" src="/shared/dist/restaf.js"></script>
+    <script type="text/javascript" src="/shared/dist/restaflib.js"></script>
+    <script type="text/javascript" src="/shared/dist/restafuilib.js"></script>
 
     <script src="/appenv"></script>
     <script type="text/javascript" src="/shared/showAlert.js"></script>
     <script type="text/javascript" src="/shared/util.js"></script>
-    <script src="https://unpkg.com/restaf@dev/dist/restaf.min.js"></script>
-    <!-- script src="https://unpkg.com/restaf-uicomponents/dist/restaf-uicomponents.js"></script> -->
-    <script src="/shared/lib/restaf-uicomponents.js"></script>
 
 
     <script type="text/javascript">
@@ -56,12 +53,15 @@
                 action: 'listNodes'
             };
             let actionResult = await store.runAction( session, p );
+            console.log(JSON.stringify(actionResult.items(), null,4));
             let props = {
                 store  : store,
-                folder : actionResult
+                folder : actionResult,
+                tableName: 'nodelist'
             };
+            console.log(JSON.stringify(actionResult.i))
+            restafuilib.display('SimpleCasTableViewer', props, document.getElementById('container'));
 
-            rafuip.CasOutput( props, '#container' );
             return true;
         }
 

@@ -13,6 +13,7 @@ import PlaceHolder from './PlaceHolder';
 import ProblemDescription from './ProblemDescription';
 import SideBar from './SideBar';
 import CasOutput from './CasOutput';
+import SimpleCasTableViewer from './SimpleCasTableViewer';
 
 import TestStuff from './TestStuff';
 
@@ -27,5 +28,6 @@ export default {
 	PlaceHolder,
 	ProblemDescription,
 	SideBar,
+	SimpleCasTableViewer,
 	TestStuff
 };

@@ -41,8 +41,10 @@ async function example () {
 			days_out_of_service: 5
 		}
 	};
+	
     let r = await caslScore(store, session, scenario);
 	print.object(r, 'Scoring Results for a published model');
+	
 
 	// Scoring with a model saved in a modelTable - scoring code is datastep
 	scenario = {
@@ -54,10 +56,11 @@ async function example () {
 			SDOH_Median_Household_Income   : 45493
 		}
 	};
+	
 	r = await caslScore(store, session, scenario);
 	print.object(r, 'Scoring Results for a model as datastep code');
 	
-
+	
 	// Scoring with a model saved as an astore
 	scenario = {
 		model   : { caslib: 'public', name: 'gradient_boosting___bad_2'},

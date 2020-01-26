@@ -33,7 +33,7 @@
         <script type="text/javascript" src="/shared/dist/restaf.js"></script>
         <!-- <script src="https://unpkg.com/restaf/dist/restaf.min.js"></script> -->
         <script type="text/javascript" src="/shared/dist/restaflib.js"></script>
-        <script type="text/javascript" src="/shared/dist/uilibrary.js"></script>
+        <script type="text/javascript" src="/shared/dist/restafuilib.js"></script>
         <script type="text/javascript" src="/appenv"></script>
 
         
@@ -62,10 +62,19 @@
 
         let store = restaf.initStore({casProxy: true});
         async function setup( ) {
-            await store.logon( LOGONPAYLOAD );
-            debugger;
-            let {casManagement} = await store.addServices( 'casManagement' );
-            let servers = await store.apiCall( casManagement.links( 'servers' ) );
+
+            //
+            // Using restaf methods
+            //
+            // await store.logon( LOGONPAYLOAD );
+            // let {casManagement} = await store.addServices( 'casManagement' );
+            // let servers = await store.apiCall( casManagement.links( 'servers' ) );
+            // return servers;
+
+            // Using the wrapper methods of restaflib
+            // Use restaf methods if you need finer control of your api calls
+            //
+            let {servers} = await restaflib.casSetup(store, LOGONPAYLOAD);
             return servers;
         }
         
@@ -78,7 +87,7 @@
                     folder: servers
                 }
                 debugger;
-                return uilibrary.display('ItemsTableViewer', props,  document.getElementById('container'));
+                return restafuilib.display('ItemsTableViewer', props,  document.getElementById('container'));
             })
             .catch( err => alert(JSON.stringify(err,null,4) ) );
         }

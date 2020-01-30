@@ -16,7 +16,7 @@
     
     <script src="/shared/dist/restaf.js"></script>
     <script src="/shared/dist/restaflib.js"></script>
-    <script src="/shared/dist/uilibrary.js"></script>
+    <script src="/shared/dist/restafuilib.js"></script>
     <script type="text/javascript" src="/appenv"></script>
     <script type="text/javascript" src="/shared/showAlert.js"></script> 
     
@@ -60,13 +60,13 @@
     </style>
 
     <script>
-        let store = restaf.initStore((LOGONPAYLOAD.authType === 'server') ? {casProxy:true} : null);
+        let store = restaf.initStore();
 
         async function startup () {
             try {
               debugger;
                let {session} = await restaflib.casSetup(store, LOGONPAYLOAD);
-               uilibrary.display('CasTableSelectorp', {store: store, session: session}, document.getElementById('display'));
+               restafuilib.display('CasTableSelectorp', {store: store, session: session}, document.getElementById('display'));
             }
             catch(err) {
                 alert(err);

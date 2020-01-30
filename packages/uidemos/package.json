@@ -1,10 +1,10 @@
 {
   "name": "restaf-uidemos",
-  "version": "1.7.10",
+  "version": "1.7.11",
   "description": "UI demos for Viya using restaf, restaflib and uilibrary",
   "scripts": {
     "implicit": "npx restaf-server --env=./env/overrideImplicit.env --docker=./env/Dockerfile",
-    "start": "npx restaf-server --env=./env/overridesBosc.env --docker=./env/Dockerfile",
+    "code": "npx restaf-server --env=./env/overrideCode.env --docker=./env/Dockerfile",
     "indocker": "npx restaf-server",
     "buildapp": "docker build -f Dockerfile -t viyaapp .",
     "runapp": "docker run -p 8080:8080  --env-file overrides.env  -t viyaapp"

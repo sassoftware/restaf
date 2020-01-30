@@ -19,8 +19,10 @@
 'use strict';
 function selectElement( folder, elementId) {
     let select = document.getElementById( elementId );
+    console.log(folder.itemsList().size);
     folder.itemsList().forEach( v => {
         let option = document.createElement( "option" );
+        console.log(v);
         option.text = v;
         select.options.add( option );
     } );

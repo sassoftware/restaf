@@ -44,26 +44,30 @@
     <script type="text/javascript" src="/shared/util.js"></script>
     <script type="text/javascript" src="/shared/lib/selectElement.js"></script>
 
-</head>
-    <body>
     <script type="text/javascript">
 
         // init restAF
         debugger;
-        let store      = restaf.initStore({casProxy: true}/*(LOGONPAYLOAD.authType === 'server') ? {casProxy:true} : null*/);
+        let store      = restaf.initStore();
         let session    = null;
         let servers    = null;
         let caslibs    = null;
     
         let dmsOutput   = null;
-
-        async function setup(){
+        function setup() {
+            appInit()
+             .then(r => console.log(r))
+             .catch(e => consolo(e));
+        }
+        async function appInit(){
             try {
                 debugger;
                 let r = await restaflib.casSetup (store, LOGONPAYLOAD);
                 servers = r.servers;
                 session = r.session;
+                let serverName = servers.itemsList(0);
                 caslibs        = await store.apiCall( servers.itemsCmd( serverName, 'caslibs'));
+                restaflib.print.itemsList(caslibs, 'caslibs');
                 selectElement(caslibs, 'caslib');
             }
             catch ( err ){
@@ -106,7 +110,7 @@
            debugger;
            store.runAction( session, payload )
                .then ( r => {
-                   alert('data uploaded')
+                   document.getElementById('output').innerHTML = JSON.stringify(r.items(), null,4);
                })
                .catch (err => showAlert(err))
 
@@ -115,6 +119,9 @@
 
        
     </script>
+</head>
+<body onload="setup()">
+   
 
 <h1>CAS Examples </h1>
         <details>
@@ -138,6 +145,7 @@
     <br>
     <br>
         <div id="container" class="content" >
+            <pre id='output'></pre>
         </div>
     </details>
 

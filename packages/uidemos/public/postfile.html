@@ -37,33 +37,42 @@
 
     </style>
 
+    <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-polyfill/6.26.0/polyfill.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.38/browser.min.js"></script>
+        
 
+    <script type="text/javascript" src="/shared/dist/restaf.js"></script>
+    <script type="text/javascript" src="/shared/dist/restaflib.js"></script>
+    <script type="text/javascript" src="/shared/dist/restafuilib.js"></script>
+    
     <script src="/appenv"></script>
     <script type="text/javascript" src="/shared/util.js"></script>
     <script type="text/javascript" src="/shared/showAlert.js"></script>
-    <script src="https://unpkg.com/restaf@dev/dist/restaf.min.js"></script>
 
     <script type="text/babel">
-        let store = restaf.initStore((LOGONPAYLOAD.authType === 'server') ? {casProxy:true} : null);
+        let store = restaf.initStore();
 
         async function setup(){
             await store.logon(LOGONPAYLOAD);
             let {files}   = await store.addServices('files');
             let payload   = { data: { x:1}, headers: { 'content-type': 'application/json'}};
+            debugger;
             let createCmd = files.links( 'create'  );
             let newFile = await store.apiCall( createCmd, payload );
+            debugger;
 
             let content = await store.apiCall(newFile.links('content'));
-            document.getElementById( 'container' ).textContent = JSON.stringify( content.items() );
+            document.getElementById( 'filecontent' ).textContent = JSON.stringify( content.items() );
             return true;
             }
 
-        setup()
+        function run() {
+            setup()
             .then( r =>console.log(r))
             .catch( err => showAlert(err));
+        }
+        
 
     </script>
 </head>
@@ -72,7 +81,8 @@
 <h1> Save and retrieve data from File Service</h1>
 
     <div id="container" class="content" >
-        <p id="filecontent"> </p>
+        <button id="runcode" onclick="run()"> Runit</button>
+        <pre id="filecontent"> </pre>
         </div>
 
 </body>

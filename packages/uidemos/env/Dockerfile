@@ -12,7 +12,7 @@ EXPOSE 8080
 ENV APPNAME=viyaapp
 ENV APPLOC=./public
 ENV APPENV=./env/appenv.js
-ENV AUTHFLOW=implicit
+
 #
 # APPHOST - Leave this as specified belowm and override in the env file with the following value.
 #  *      = sets it to the hostname of where this code is runnning

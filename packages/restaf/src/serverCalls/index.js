@@ -1,3 +1,4 @@
+/* eslint-disable no-prototype-builtins */
 /*------------------------------------------------------------------------------------
  Copyright (c) SAS Institute Inc.
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -170,6 +171,7 @@ function request (iconfig) {
     if (ixsrf !== null) {
         let xsrfHeaderName = ixsrf['x-csrf-header'];
         config.xsrfHeaderName = xsrfHeaderName;
+        // https://github.com/axios/axios/issues/2024
         config.headers[xsrfHeaderName] = ixsrf['x-csrf-token']; 
     }
     
@@ -180,7 +182,8 @@ function request (iconfig) {
     config.data = (idata === null) ? {} : idata;
     config.maxContentLength = 2 * 10063256;
     
-
+    console.log(JSON.stringify(config.headers, null,4));
+    console.log(`withCredentials: ${config.withCredentials}`);
     return makeCall(config, iconfig, logonInfo.pem, logonInfo.rejectUnauthorized);
 }
 

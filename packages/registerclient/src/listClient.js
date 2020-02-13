@@ -13,25 +13,36 @@ module.exports = async function listClient (store, all, vorpal) {
 		}
 	};
 	
+	debugger;
 	
-
 	let r = await store.request(payload);
+	// console.log(`${r.data.length} clientids detected`);
+	// console.log(JSON.stringify(r.data, null,4));
+	
+	vorpal.log('>>>>>>>>>>>>>>User defined clientids');
 	r.data.resources.map(rr => {
-		if (all != null) {
+		if (rr.client_id.indexOf('sas.') === -1) {
 			vorpal.log(
-	`clientid  : ${rr.client_id}  
-		grantTypes : ${rr.authorized_grant_types}
-		redirect   : ${rr.redirect_uri}`
+`clientid  : ${rr.client_id}  
+	grantTypes: ${rr.authorized_grant_types}
+	redirect  : ${rr.redirect_uri}`
 			);
-		} else {
-			if (rr.client_id.indexOf('sas.') === -1) {
-				vorpal.log(
-	`clientid  : ${rr.client_id}  
-		grantTypes: ${rr.authorized_grant_types}
-		redirect  : ${rr.redirect_uri}`
-				);
 			}
-		}
 	});
+	
+	
+	if (all != null) {
+		vorpal.log('>>>>>>>>>>>>>>Viya System clientids');
+		r.data.resources.map(rr => {
+		if (rr.client_id.indexOf('sas.') !== -1) {
+			vorpal.log(
+`clientid  : ${rr.client_id}  
+	grantTypes: ${rr.authorized_grant_types}
+	redirect  : ${rr.redirect_uri}`
+			);
+		}
+			});
+		}
+	
 	return `${r.data.length} clientids detected`;
-};
+	};

@@ -14,7 +14,7 @@ import ProblemDescription from './ProblemDescription';
 import SideBar from './SideBar';
 import CasOutput from './CasOutput';
 import SimpleCasTableViewer from './SimpleCasTableViewer';
-
+import VasdkInReact from './VasdkInReact';
 import TestStuff from './TestStuff';
 
 export default {
@@ -29,5 +29,6 @@ export default {
 	ProblemDescription,
 	SideBar,
 	SimpleCasTableViewer,
+	VasdkInReact,
 	TestStuff
 };

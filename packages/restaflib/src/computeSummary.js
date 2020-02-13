@@ -15,14 +15,15 @@
   * @returns {promise} - the computeSummary object for easy handling of logs,listing,ods, tables
   * @alias module: computeSummary
   */
-async function computeSummary (store, job){
+async function computeSummary (store, session, job){
     let cResult = {
-        job    : job,
+        session: session,
         log    : null,
         listing: null,
         ods    : null,
-        others : {},
-        tables : {}
+        job    : job,
+        tables : {},
+        files  : {}
     };
     cResult.log     = job.links('log');
     cResult.listing = job.links('listing');
@@ -35,19 +36,28 @@ async function computeSummary (store, job){
                 let resultItem = results.itemsList(i);
                 let type = results.items(resultItem, 'data', 'type').toLowerCase();
                 if (type === 'ods') {
-                    cResult.ods = results.itemsCmd(resultItem, 'self');
+                    cResult['ods'] = results.itemsCmd(resultItem, 'self');
                 } else if (type === 'table') {
                     let r= {
                         self   : results.itemsCmd(resultItem, 'self'),
                         current: null
                     };
                     cResult.tables[resultItem] = r;
-                } else  {
+                } else if(type === 'file'){
                     let r= {
-                        self   : results.itemsCmd(resultItem, 'self'),
-                        current: null
+                        self   : resultItem,
+                        current: null,
+                        data   : null
                     };
-                    cResult.others[resultItem] = r;
+                    cResult.files[resultItem] = r;
+                } else {
+                    let r = {
+                        self   : resultItem,
+                        current: null,
+                        data   : null
+                    };
+                    cResult[type] = r;
+                    console.log(`New type: ${type}`);
                 }
             }
         }

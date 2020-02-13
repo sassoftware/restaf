@@ -1,6 +1,6 @@
 {
   "name": "examples",
-  "version": "1.7.11",
+  "version": "1.7.12",
   "description": "Examples",
   "author": "Deva Kumaraswamy <deva.kumar@sas.com>",
   "license": "Apache-2.0",
@@ -28,9 +28,9 @@
     "lint": "eslint . --fix"
   },
   "dependencies": {
-    "@sassoftware/restaflib": "1.7.11",
+    "@sassoftware/restaflib": "1.7.12",
     "jwt-decode": "^2.2.0",
-    "@sassoftware/restaf": "1.7.11",
+    "@sassoftware/restaf": "1.7.12",
     "win-ca": "^3.1.0"
   },
   "devDependencies": {

@@ -48,5 +48,5 @@ async function example () {
 }
 
 example()
-  .then(r => console.log(r))
+  .then(r => console.log(print.obuject(r)))
   .catch(err => console.log(err));

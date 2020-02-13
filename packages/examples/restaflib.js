@@ -33,10 +33,10 @@ store.logon(payload)
 
 async function runExamples () {
   
-  await test_casAction();
+  // await test_casAction();
   await test_computeRun();
-  await test_caslRun();
-  await test_casFetchData();
+  // await test_caslRun();
+  // await test_casFetchData();
 }
 
 //
@@ -94,8 +94,10 @@ async function test_caslRun () {
   console.log('session');
 
   /* prep input */
-  let macros = {maxRows: 500};
-  let src =  `ods html style=barrettsblue;
+  let macros = {maxRows: 5};
+  let src =  `
+  filename xxx filesrvc '/files/files/422f12e2-c7d9-474f-953e-bc51ae717125' old;
+  ods pdf file=xxx;
   data work.dtemp1;
       array x{10};  
       do j = 1 to &maxRows;  
@@ -107,18 +109,24 @@ async function test_caslRun () {
       end;  
       run;  
       proc print;run;  
-      ods html close;`;
+      ods pdf close;`;
   
   print.titleLine('Compute Service');
 
   let computeSummary = await restaflib.computeRun(store, computeSession, src,  macros);
 
+  
   let log = await restaflib.computeResults(store, computeSummary, 'log');
   print.logListLines(log);
+  /*
   let list = await restaflib.computeResults(store, computeSummary, 'listing');
   print.logListLines(list);
   let ods = await restaflib.computeResults(store, computeSummary, 'ods');
   console.log(ods);
+  */
+  let f = await restaflib.computeResults(store, computeSummary, 'file');
+  print.items(f);
+
   
   debugger;
   let tables = await restaflib.computeResults(store, computeSummary, 'tables');

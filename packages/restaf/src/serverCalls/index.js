@@ -182,8 +182,6 @@ function request (iconfig) {
     config.data = (idata === null) ? {} : idata;
     config.maxContentLength = 2 * 10063256;
     
-    console.log(JSON.stringify(config.headers, null,4));
-    console.log(`withCredentials: ${config.withCredentials}`);
     return makeCall(config, iconfig, logonInfo.pem, logonInfo.rejectUnauthorized);
 }
 

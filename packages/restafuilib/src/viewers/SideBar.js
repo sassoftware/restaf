@@ -11,17 +11,17 @@ function SideBar (props) {
    let {menu, store} = props;
 
    debugger;
-   let switches = menu.map (m => {
-     let s;
-     if (m.path === '/') {
-       s = <Route exact path={m.path} component={m.component} />
-     } else {
-       s = <Route path={m.path}    
-            render={(props) => <m.component {...props} store={store} model={m.model}  />}
-         />
-     }
-     return s;
-   })
+  let switches = menu.map(m => {
+    let s;
+    if (m.path === '/') {
+      s = <Route exact path={m.path} component={m.component} />;
+    } else {
+      s = <Route path={m.path}
+        render={(props) => <m.component {...props} store={store} model={m.model} />}
+      />;
+    }
+    return s;
+  });
    switches.push(<Redirect to="/" />);
    console.log(switches);
    debugger;

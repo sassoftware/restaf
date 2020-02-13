@@ -19,7 +19,7 @@ async function computeSetup (store, contextName, payload){
     if (payload != null) {
         let msg = await store.logon(payload);
     }
-    let { compute } = await store.addServices("compute");
+    let { compute} = await store.addServices('compute');
     let contexts = await store.apiCall(compute.links("contexts"));
     let name = (contextName == null) ? contexts.itemsList(0): contextName;
     let createSession = contexts.itemsCmd(name, "createSession");

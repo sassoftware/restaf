@@ -19,9 +19,11 @@
 import jesSummary from  './jesSummary';
 async function jesRunBase (store, jes, payload){
     console.log(payload);
+    console.log('creating job');
     let job    = await store.apiCall(jes.links('create'), payload);
     debugger;
-    
+    console.log('job created');
+    console.log(JSON.stringify(job.items(), null,4));
     let status = await store.jobState(job, null, 5, 2);
     debugger;
     if (status.data === 'running') {

@@ -4,33 +4,37 @@
  */
 
 module.exports = async function addClient (store, clientid, args, defaultConfigFile) {
-	let flow = args.type;
-
-	let clientSecret = args.secret;
-	let redirect = args.redirect;
+	let flow = args.type.trim();
+    
+	let clientSecret = (args.secret != null) ? args.secret.trim() : null;
+	let redirect = (args.redirect != null) ? args.redirect.trim() : null;
 	let configFile = (args.configFile == null) ? defaultConfigFile : args.configFile;
     if (clientid === 'code') {
 		clientid = 'authorization_code';
 	}
+
+	let flowA = flow.split(',');
+
 	let data = {
 		client_id   : clientid,
 		scope       : [ 'openid', '*' ],
 		resource_ids: 'none',
 		autoapprove : true,
 
-		authorized_grant_types: flow,
+		authorized_grant_types: flowA,
 		access_token_validity : 86400,
 		'use-session'         : true
 	};
 
+	
 	if (configFile != null) {
 		data = {...configFile};
 		data.client_id = clientid;
-		data.authorized_grant_types = flow;
+		data.authorized_grant_types = flowA;
 	
 	}
 
-	if (clientSecret != -null) {
+	if (clientSecret !== -null) {
 		data.client_secret = clientSecret;
 	}
 

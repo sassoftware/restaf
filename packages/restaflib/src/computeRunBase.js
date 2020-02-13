@@ -30,7 +30,7 @@ async function computeRunBase (store, session, code){
     if (status.data === 'running') {
         throw `ERROR: Job did not complete in allotted time`;
     } else {
-        let results = await computeSummary (store, status.job);
+        let results = await computeSummary (store, session, status.job);
         return results;
         }
 }

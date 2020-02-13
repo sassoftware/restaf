@@ -38,9 +38,17 @@ async function jesRun (store,jes, src, jobDefinitionName, args){
     }
 
     jobDefinition.type ='Compute';
+    /*
     if (args !== null) {
-        jobDefinition.parameters = args;
+        let props = [];
+        for (let r in args) {
+			let item = { name: r, value: args[r] };
+			props.push(item);
+		}
+        jobDefinition.properties = props;
     }
+    */
+    jobRequest.arguments = args;
 
    
     jobRequest.jobDefinition = jobDefinition;

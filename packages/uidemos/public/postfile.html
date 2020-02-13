@@ -56,13 +56,29 @@
         async function setup(){
             await store.logon(LOGONPAYLOAD);
             let {files}   = await store.addServices('files');
-            let payload   = { data: { x:1}, headers: { 'content-type': 'application/json'}};
+            //let payload   = { data: { x:1}, headers: { 'content-type': 'application/json'}};
+            let payload = {
+                data:' ', 
+                headers: {
+                        'Content-Disposition': `form-data; filename="testpdf.pdf" name="testpdf.pdf"`,
+                        'Content-Disposition': 'inline',
+                        'content-type': `application/pdf`
+                    }
+                }
             debugger;
             let createCmd = files.links( 'create'  );
             let newFile = await store.apiCall( createCmd, payload );
             debugger;
 
-            let content = await store.apiCall(newFile.links('content'));
+            let p = {
+                headers: {
+                    Accept: 'application/vnd.sas.file+json;application/pdf'
+                }
+            }
+            let uri = newFile.links('self', 'link', 'uri');
+            console.log(uri);
+            console.log(JSON.stringify(newFile.items(), null,4));
+            let content = await store.apiCall(newFile.links('content'), p);
             document.getElementById( 'filecontent' ).textContent = JSON.stringify( content.items() );
             return true;
             }

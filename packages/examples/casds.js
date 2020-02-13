@@ -71,4 +71,4 @@ async function example (store, logonPayload) {
 // Run the example
 example(store, payload)
   .then(msg => console.log(msg))
-  .catch(err => print.printErr(err));
+  .catch(err => print.object(err));

@@ -30,12 +30,14 @@ async function computeResults (store, computeSummary, type) {
 	} else if (type === 'ods') {
 		let result = '<h2> No ODS output </h2>';
 		if (computeSummary.ods !== null) {
+
 			result = await store.apiCall(computeSummary.ods);
 		}
 		return result.items();
 	} else if (type === 'tables') {
-		debugger;
 		return Object.keys(computeSummary.tables);
+	} else if (type === 'files') {
+		return Object.keys(computeSummary.files);
 	} else {
 		throw `Error: Invalid type ${type}`;
 	}

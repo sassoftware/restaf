@@ -57,19 +57,25 @@
     </style>
 
     <script>
-        let store = restaf.initStore((LOGONPAYLOAD.authType === 'server') ? {casProxy:true} : null);
+        let store = restaf.initStore();
+        let host = LOGONPAYLOAD.host;
 
-        async function startup () {
+        function startup() {
+          explore() 
+            .then ( r => console.log('done'))
+            .catch( err => alert(err));
+        }
+
+        async function explore () {
             try {
               debugger;
-               let {session} = await restaflib.casSetup(store, LOGONPAYLOAD);
-               let sdk = {
-                url: 'http://kdkw47v3.stobosh.sashq-d.openstack.sas.com',
-                reporUri: '/reports/reports/51a3a2c7-e285-4c99-b6dd-8412daa01930',
-                authenticationType: 'credentials',
-                class: 'vdk'
-            }
-               uilibrary.display('TestStuff', {store: store, session: session, sdk: sdk }, document.getElementById('display'));
+              let {session} = await restaflib.casSetup(store, LOGONPAYLOAD);
+              let {reports} = await store.addServices( 'reports');
+              let reportsList = await store.apiCall( reports.links( 'reports' ) );
+              if (reportsList.itemsList().size === 0) {
+                 throw 'No reports to View';
+              };
+               uilibrary.display('VasdkInReact', {store: store, session: session, reportList: reportList }, document.getElementById('display'));
             }
             catch(err) {
                 alert(err);

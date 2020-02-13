@@ -18,6 +18,7 @@ import computeSetup     from './computeSetup';
 import computeSummary   from './computeSummary';
 import computeResults   from './computeResults';
 import computeFetchData from './computeFetchData';
+import computeFileContent from './computeFileContent';
 
 import findReport      from './findReport';
 import getReportImage  from './getReportImage';
@@ -25,10 +26,10 @@ import getReportUri    from './getReportUri';
 
 import getSasTableRows from './getSasTableRows';
 
-/* needs to be completed
+
 import jesSetup        from './jesSetup';
 import jesRun          from './jesRun';
-*/
+import jesSummary      from './jesSummary';
 
 import jsonToDict      from './jsonToDict';
 
@@ -53,14 +54,16 @@ export {
     computeSetup,
     computeSummary,
     computeFetchData,
+    computeFileContent,
     findReport,
     getReportImage,
     getReportUri,
     getSasTableRows,
-    /*
+    
     jesSetup,
     jesRun,
-    */
+    jesSummary,
+    
     jsonToDict,
     computeResults,
     print,

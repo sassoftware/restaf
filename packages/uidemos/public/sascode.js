@@ -21,7 +21,7 @@ let sasCode= {
              'ods html style=barrettsblue;',
              'data;',
                  'array x{10};',
-                 'do j = 1 to 1000;',
+                 'do j = 1 to 50;',
                      'do i = 1 to 10;',
                      'x{i} = i * 10;',
                      'end;',

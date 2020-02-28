@@ -42,6 +42,8 @@ import print           from './print';
 
 import decodeJwt       from './decodeJwt';
 
+import casUpload       from './casUpload';
+
 
 export {
     caslRun,
@@ -71,5 +73,6 @@ export {
     masSetup,
     masDescribe,
     masRun,
-    decodeJwt
+    decodeJwt,
+    casUpload
 };

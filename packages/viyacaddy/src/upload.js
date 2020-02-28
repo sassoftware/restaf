@@ -3,65 +3,23 @@
 * SPDX-License-Identifier: Apache-2.0
 */
 'use strict';
-let uploadModel    = require('./uploadModel');
-let uploadSasTable = require('./uploadSasTable');
-let uploadAstore   = require('./uploadAstore');
-let uploadCasl     = require('./uploadCasl');
+let {casUpload } = require('@sassoftware/restaflib');
 
-module.exports = async function upload (store, servers, args, vorpal){
-
-    debugger;
-    let fext    = args.options.file.split('.').pop();
-    let type    = null;
-    let handler = null;
+module.exports = async function upload (store, servers, args, vorpal) {
     let session = null;
-    
-    switch(fext) {
-        case 'sas':
-        case 'ds2':  {
-            type = 'CODE',
-            handler = uploadModel;
-            break;
-        }
-        case 'casl': {
-            type = 'CODE',
-            handler = uploadCasl;
-            break;
-        }
-        
-        case 'sashdat' :
-        case 'sas7bdat':
-        case 'csv'     : {
-            type = 'DATA',
-            handler = uploadSasTable;
-            break;
-        }
-        case 'astore': {
-            type = 'ASTORE';
-            handler = uploadAstore;
-            break;
-        }
-        default: {
-            vorpal.log(`File type ${fext} not supported at this time.`);
-            return;
-        }
-          
-    }
-    runCmd(handler, store, servers, type, args, vorpal);
-    return 'running';
-};
-
-async function runCmd (handler, store, servers, type, args, vorpal){ 
-   let session = null;
     try {
         let casserver = servers.itemsList(0);
         session = await store.apiCall(servers.itemsCmd(casserver, 'createSession'));
-        let r = await handler(store, session, type, args.options.file, args.options.output, vorpal);
-        await session.links('delete');
+        let r = await casUpload(store, session, args.options.file, args.options.output, true);
+        await store.apiCall(session.links('delete'));
+        vorpal.log(r);
         return r;
-    } catch(err) {
+    } catch (err) {
         vorpal.log(err);
-        await session.apiCall('delete');
+        if (session !== null) {
+            await store.apiCall(session.links('delete'));
+        }
         throw err;
     }
+   
 }

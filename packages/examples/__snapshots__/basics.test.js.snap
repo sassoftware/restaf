@@ -1,0 +1,18 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`logon and get root links 1`] = `
+Array [
+  "_apistatus",
+  "_appdata",
+  "_xsrf",
+  "reports",
+  "reportImages",
+  "reportTransforms",
+  "compute",
+  "files",
+  "casManagement",
+  "modelPublish",
+  "jobExecution",
+  "casProxy",
+]
+`;

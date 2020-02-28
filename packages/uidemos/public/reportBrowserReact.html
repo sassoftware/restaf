@@ -46,7 +46,9 @@
     let host = LOGONPAYLOAD.host;
     let objectElement = {};
     let attached      = false;
-
+    window.addEventListener("vaReportComponents.loaded", () => {
+         console.log('loaded');
+    });
     async function setup( ) {
         await store.logon(LOGONPAYLOAD);
         let {reports} = await store.addServices( 'reports');
@@ -54,14 +56,8 @@
         if (reportsList.itemsList().size === 0) {
             throw 'No reports to View';
         };
-        // objectElement =  new  vaReportComponents.SASReportElement();
-        objectElement.authenticationType ="credentials";
-        objectElement.url           = host;
-        objectElement.reportUri     = '/reports/reports/xxxx';
-        objectElement.style = {};
-        objectElement.style.width   = '80vh';
-        objectElement.style.height  = '80vh';
-        objectElement.style.display = 'block';
+        restafuilib.display('TestStuff', {name: reportName, url: host, reportUri: reportUri, style: style, authenticationType: authenticationType },
+                            document.getElementById('report0'));
         return true;
     }
 
@@ -69,29 +65,6 @@
         .then( r  => createUI() )
         .catch ( err => alert(err) );
 
-    //
-    // Handle UI
-    //
-
-    function createUI() {
-        let select = document.getElementById('reportNo');
-        reportsList.itemsList().forEach(v => {
-            let option  = document.createElement('option');
-            option.text = v;
-            select.options.add(option);
-        });
-    }
-
-    function getReport() {
-        debugger;
-        let reportNo   = document.getElementById( "reportNo" ).selectedIndex;
-        let reportName = reportsList.itemsList(reportNo);
-        let reportUri  = reportsList.itemsCmd(reportName, 'self', 'link','uri');
-        console.log(reportUri);
-        objectElement.reportUri = reportUri;
-        restafuilib.display('TestStuff', {sdk: objectElement}, document.getElementById('report0'));
-        attached = true;
-    }
     
 
 </script>
@@ -100,10 +73,6 @@
 
 <div id="container" class="content" >
     <h1> View VA reports using  REST API and VA-SDK </h1>
-
-    Report: <select id="reportNo"> </select>
-   <!-- Section: <input type="number" name="Section" id="page" value="1" > -->
-    <button id="getreport" onclick="getReport();"> Get Report </button>
 
     <div class="wrapper-2">
         <div id="left">

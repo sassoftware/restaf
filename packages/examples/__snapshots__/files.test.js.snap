@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`computeService: basic 1`] = `
+Object {
+  "me": "hi there",
+}
+`;
+
+exports[`computeService: basic 2`] = `"done"`;

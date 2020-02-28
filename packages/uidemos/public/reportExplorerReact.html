@@ -1,0 +1,121 @@
+
+<!DOCTYPE html>
+<!--
+  ~ Copyright (c) SAS Institute Inc.
+  ~  Licensed under the Apache License, Version 2.0 (the "License");
+  ~  you may not use this file except in compliance with the License.
+  ~  You may obtain a copy of the License at
+  ~
+  ~  http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~  Unless required by applicable law or agreed to in writing, software
+  ~  distributed under the License is distributed on an "AS IS" BASIS,
+  ~  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~  See the License for the specific language governing permissions and
+  ~  limitations under the License.
+  ~
+  ~
+  -->
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>VA Reports</title>
+    <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js"></script>
+
+    <script type="text/javascript" src="/shared/dist/restaf.js"></script>
+    <script type="text/javascript" src="/shared/dist/restaflib.js"></script>
+    <script type="text/javascript" src="/shared/dist/restafuilib.js"></script>
+    <script type="text/javascript" src="/appenv"></script>
+
+
+    <link rel="stylesheet" type="text/css" href="/shared/app.css">
+    <!-- script async src="https://unpkg.com/@sassoftware/va-report-components@0.3/dist/umd/va-report-components.js"></script> -->
+    <script async src="http://dvr.na.sas.com/web-sdk-test/va-sdk/0.3.12/va-report-components.js"></script>
+    
+     <!-- <script src="https://unpkg.com/@webcomponents/custom-elements"></script> -->
+
+</head>
+<body>
+
+<script type="text/javascript">
+
+    let reportsList;
+    let store = restaf.initStore();
+    let host = LOGONPAYLOAD.host;
+    let style = {
+            width: '80vh',
+            height: '80vh',
+            display: 'block'};
+
+    window.addEventListener("vaReportComponents.loaded", () => {
+         console.log('loaded');
+    });
+    async function setup( ) {
+        await store.logon(LOGONPAYLOAD);
+        let {reports} = await store.addServices( 'reports');
+        reportsList = await restaflib.getReportUri(store, null);
+        return true;
+    }
+
+    setup()
+        .then( r  => createUI() )
+        .catch ( err => alert(err) );
+
+    //
+    // Handle UI
+    //
+
+    function createUI() {
+        let select = document.getElementById('reportNo');
+        reportsList.forEach(r => {
+            let option  = document.createElement('option');
+            option.text = r.name;
+            select.options.add(option);
+        });
+    }
+
+    function getReport() {
+        debugger;
+        let reportNo   = document.getElementById( "reportNo" ).selectedIndex;
+        let reportName = reportsList[reportNo].name;
+        let reportUri  = reportsList[reportNo].uri;
+        let authenticationType = 'credentials';
+        console.log(` Current Report:
+                        name: ${reportName}
+                        uri : ${reportUri}
+                        url : ${host}
+                        style: ${style}
+                    `
+                    );
+        
+        authenticationType = 'credentials';
+        restafuilib.display('ReportSinglesdk', {name: reportName, url: host, reportUri: reportUri, style: style, authenticationType: authenticationType },
+                            document.getElementById('report0'));
+    }
+
+</script>
+
+<!-- Visual part of the demo -->
+
+<div id="container" class="content" >
+    <h1> View VA reports using  REST API and VA-SDK </h1>
+
+    Report: <select id="reportNo"> </select>
+   <!-- Section: <input type="number" name="Section" id="page" value="1" > -->
+    <button id="getreport" onclick="getReport();"> Get Report </button>
+
+    <div class="wrapper-2">
+        <div id="left">
+            <div id="report0"> </div>
+        </div>
+    </div>
+
+
+</div>
+
+
+</body>
+</html>

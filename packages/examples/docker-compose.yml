@@ -1,0 +1,8 @@
+viyaruthere:
+  image: docker.sas.com/kumar/viyaruthere:latest
+  restart: always
+  environment:
+    - VIYA_SERVER=<your viya server>
+    - CLIENTID=sas.ec
+    - USER=yourname
+    - PASSWORD=yourpassword

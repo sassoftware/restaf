@@ -86,7 +86,7 @@ function runCli (store, cmdFile) {
 		})
 		.option(
 			'-f --file <file>',
-			'Currently supported extensions: sas, ds2, casl, sashdat, sasb7dat, astore , csv'
+			'Currently supported extensions: sas, ds2, casl, sashdat, sasb7dat, astore , sasast, csv'
 		)
 		.option(
 			'-o --output <output>',

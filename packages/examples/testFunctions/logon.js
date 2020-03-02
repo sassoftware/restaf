@@ -16,26 +16,33 @@
  *
  */
 
-"use strict";
-
+'use strict';
 /* --------------------------------------------------------------------------------
- * Logon to the restaf server and setup multiple services
+ * Logon to the Viya server
  * ---------------------------------------------------------------------------------
  */
-
 let restaf = require('@sassoftware/restaf');
-let { print } = require('@sassoftware/restaflib');
+let { print, decodeJwt } = require('@sassoftware/restaflib');
+let payload = require('./config')();
+let store = restaf.initStore();
 
-async function addServices (args) {
-  let payload = require('./config')();
-  let store = await restaf.initStore();
-  console.log('================' + process.env.VIYA_TOKEN);
-  let msg = await store.logon(payload);
-  
-  let s = await store.addServices(...args);
-  let l = store.getServices();
-  
-  print.object(l, 'list of services');
-  return l;
-}
-module.exports = addServices;
+payload.keepAlive = null;
+
+module.exports = async function logon () {
+	store
+		.logon(payload)
+		.then(msg => {
+			console.log(JSON.stringify(store.connection(), null, 4));
+			let token = store.connection().token;
+			process.env.VIYA_TOKEN = token;
+			let jwt = decodeJwt(token);
+			print.object(jwt, 'JWT');
+			console.log(`Logon Status: ${msg}`);
+			console.log('calling logoff');
+			let c = store.connection();
+			print.object(c, 'Connection information');
+			return 'done';
+		})
+		.catch(err => console.log(err));
+
+};

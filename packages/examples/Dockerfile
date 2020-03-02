@@ -1,5 +1,6 @@
 FROM node:13.8.0-alpine3.11
 LABEL maintainer="deva.kumar@sas.com"
+RUN apk add --no-cache --upgrade bash
 WORKDIR /usr/src/app
 # COPY package*.json ./
 COPY . .
@@ -19,4 +20,5 @@ ENV AUTHTYPE=password
 ENV CLIENTID=sas.ec
 ENV USER=omitest
 ENV PASSWORD=metadata1$
-CMD ["npx", "jest"]
+ENV TESTS=
+CMD ["./start.sh"]

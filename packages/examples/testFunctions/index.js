@@ -19,6 +19,8 @@ let casUploadAstore2 = require('./casUploadAstore2');
 let computeDS = require('./computeDS');
 let filesCreate = require('./filesCreate');
 let filesPaginate = require('./filesPaginate');
+let logon = require('./logon');
+
 
 module.exports = {
 	addServices,
@@ -35,5 +37,6 @@ module.exports = {
 	casUploadAstore2,
 	computeDS,
 	filesCreate,
-	filesPaginate
+	filesPaginate,
+	logon
 };

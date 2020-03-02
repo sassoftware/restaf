@@ -1,5 +1,10 @@
 let testFunctions = require("./testFunctions");
 
+test("logon to Viya and save token", async () => {
+  let l = await testFunctions.logon();
+  expect(l).toMatchSnapshot();
+});
+
 test("logon and get root links", async () => {
   let s = [
     "reports",
@@ -9,6 +14,7 @@ test("logon and get root links", async () => {
     "files",
     "casManagement",
     "modelPublish",
+    "modelRepository",
     "jobExecution"
   ];
   let l = await testFunctions.addServices(s);

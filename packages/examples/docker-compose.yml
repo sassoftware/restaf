@@ -2,7 +2,8 @@ viyaruthere:
   image: docker.sas.com/kumar/viyaruthere:latest
   restart: always
   environment:
-    - VIYA_SERVER=<your viya server>
+    - VIYA_SERVER=yourviyaserver
     - CLIENTID=sas.ec
     - USER=yourname
     - PASSWORD=yourpassword
+    - TESTS=basics.test.js

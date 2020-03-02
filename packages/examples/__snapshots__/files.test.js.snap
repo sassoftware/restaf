@@ -1,9 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`computeService: basic 1`] = `
+exports[`files - paginate thru files 1`] = `"done"`;
+
+exports[`files: create and retrieve content 1`] = `
 Object {
   "me": "hi there",
 }
 `;
-
-exports[`computeService: basic 2`] = `"done"`;

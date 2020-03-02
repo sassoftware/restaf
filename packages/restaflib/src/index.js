@@ -7,6 +7,7 @@
 import caslRun         from './caslRun';
 import caslRunBase     from './caslRunBase';
 import caslScore       from './caslScore';
+import caslDescribe    from './caslDescribe';
 import casSetup        from './casSetup';
 import casActionRun    from './casActionRun';
 
@@ -70,6 +71,7 @@ export {
     computeResults,
     print,
     caslScore,
+    caslDescribe,
     masSetup,
     masDescribe,
     masRun,

@@ -20,7 +20,7 @@
 
 let restaf = require('@sassoftware/restaf');
 let restaflib = require('@sassoftware/restaflib');
-let { casSetup, casUpload, print } = restaflib;
+let { casSetup, casUpload, caslDescribe, caslScore, print } = restaflib;
 
 module.exports = async function casUploadAstore2(save) {
 	let payload = require('./config.js')();
@@ -30,11 +30,40 @@ module.exports = async function casUploadAstore2(save) {
 	let r = await casUpload(
 		store,
 		session,
-		'./data/LeNet_snzrle.astore',
-		'casuser.lenet_snzrlejest',
+		'./data/paysimsvdd.sasast',
+		'casuser.paysimjest',
 		save
 	);
-	// run fetch action
+
+	let scenario = {
+		model: { caslib: 'casuser', name: 'paysimjest' },
+		scenario: {
+			type_n : 1,
+			amount : 10000,
+			newbalanceDest: 1000,
+			newbalanceOrig: 1000,
+			oldbalanceDest: 1000,
+			oldbalanceOrg: 1000,
+			isFraud      : 0
+			}
+		};
+
+    r = await caslDescribe(store, session, scenario);
+
+	let desc = r.casResults.describe;
+
+	print.object(desc, 'describe');
+	r = await caslScore(store, session, scenario);
+
+	print.object(r, 'score');
+	let result = {
+		describe: desc,
+		score   : r
+	}
+
+	return result;
+	
+	/*
 	let actionPayload = {
 		action: 'table.fetch',
 		data: {
@@ -45,10 +74,9 @@ module.exports = async function casUploadAstore2(save) {
 		}
 	};
 	let actionResult = await store.runAction(session, actionPayload);
-
-	// print.object(actionResult.items('tables'), 'Fetched data');
 	let t = actionResult.items('tables', 'Fetch').toJS();
 	t.attributes.CreateTime.value = 0.0;
 	await store.apiCall(session.links('delete'));
 	return t;
+	*/
 };

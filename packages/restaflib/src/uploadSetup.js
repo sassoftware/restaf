@@ -48,7 +48,8 @@ function uploadSetup(source, output) {
 			break;
 		}
 
-		case 'astore': {
+		case 'astore':
+		case 'sasast': {
 			fileType = fext;
 			handler = uploadAstore;
 			transform = toBase64;

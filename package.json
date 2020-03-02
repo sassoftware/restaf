@@ -92,7 +92,6 @@
     "prettyjson": "^1.2.1",
     "rimraf": "^3.0.0",
     "set-versions": "^1.0.3",
-    "shelljs": "^0.8.3",
     "showdown": "^1.9.1",
     "shx": "^0.3.2",
     "webpack": "^4.41.5",

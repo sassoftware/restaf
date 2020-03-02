@@ -20,7 +20,7 @@
 let testFunctions = require('./testFunctions');
 
 test('Upload astore', async () => {
-	let r = await testFunctions.casUploadAstore();
-	expect(r).toBe('done');
+	let l = await testFunctions.casUploadAstore2(true);
+	expect(l).toMatchSnapshot();
 });
 

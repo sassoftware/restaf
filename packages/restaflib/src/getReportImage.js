@@ -18,7 +18,7 @@ import findReport from './findReport';
 
 async function getReportImage (store, name) {
     let reportImages = store.rafObject('reportImages');
-    
+    debugger;
     let reportsList = await findReport(store, name);
     if (reportsList === null) {
         return `${name} was not found`;
@@ -34,6 +34,7 @@ async function getReportImage (store, name) {
 
     let p = { data: data };
 
+    console.log(JSON.stringify(reportImages.links('createJob', 'link')));
     let job = await store.apiCall(reportImages.links('createJob'), p);
     let status = await store.jobState(job, { qs: { wait: 1.5} } , 10, 2);
     if (status.data !== 'completed') {

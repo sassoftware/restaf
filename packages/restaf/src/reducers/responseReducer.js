@@ -228,7 +228,7 @@ function itemsReducer (results, parentPath){
                            ? item.id
                            : `${index}`;
             }
-            debugger;
+            
             if (prevName === name) {
                let rev = (item.hasOwnProperty('id') === true) ? item.id : index;
                name = `${name}_${rev}`;

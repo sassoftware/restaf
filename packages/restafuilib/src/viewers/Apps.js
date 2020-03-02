@@ -6,7 +6,7 @@ import DsScoring from './DsScoring';
 import CasTableSelectorp from './CasTableSelectorp';
 
 import PlaceHolder from './PlaceHolder';
-import TestStuff from './TestStuff';
+import TestStuff from './ReportSinglesdk';
 // import { AppContext } from './providers';
 
 let menuFuture = [

@@ -7,6 +7,7 @@
 import caslRun         from './caslRun';
 import caslRunBase     from './caslRunBase';
 import caslScore       from './caslScore';
+import caslDescribe    from './caslDescribe';
 import casSetup        from './casSetup';
 import casActionRun    from './casActionRun';
 
@@ -42,6 +43,8 @@ import print           from './print';
 
 import decodeJwt       from './decodeJwt';
 
+import casUpload       from './casUpload';
+
 
 export {
     caslRun,
@@ -68,8 +71,10 @@ export {
     computeResults,
     print,
     caslScore,
+    caslDescribe,
     masSetup,
     masDescribe,
     masRun,
-    decodeJwt
+    decodeJwt,
+    casUpload
 };

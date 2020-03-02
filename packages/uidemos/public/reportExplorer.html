@@ -32,9 +32,10 @@
 
 
     <link rel="stylesheet" type="text/css" href="/shared/app.css">
-    <script async src="https://unpkg.com/@sassoftware/va-report-components@0.3/dist/umd/va-report-components.js"></script>
-    
-     <!-- <script src="https://unpkg.com/@webcomponents/custom-elements"></script> -->
+    <!-- script async src="https://unpkg.com/@sassoftware/va-report-components@0.3/dist/umd/va-report-components.js"></script>-->
+    <script async src="http://dvrxxx/web-sdk-test/va-sdk/0.3.12/va-report-components.js"></script>
+
+     <!-- script src="https://unpkg.com/@webcomponents/custom-elements"></script> -->
 
 </head>
 <body>
@@ -47,13 +48,19 @@
     let objectElement = null;
     let attached      = false;
 
+    window.addEventListener("vaReportComponents.loaded", () => {
+         console.log('loaded');
+    });
+
     async function setup( ) {
         await store.logon(LOGONPAYLOAD);
         let {reports} = await store.addServices( 'reports');
-        reportsList = await store.apiCall( reports.links( 'reports' ) );
-        if (reportsList.itemsList().size === 0) {
+        reportsList = await restaflib.getReportUri( store, null );
+        if (reportsList === null) {
             throw 'No reports to View';
         };
+        
+        // const reportElement = new vaReportComponents.SASReportElement();
         objectElement =  new  vaReportComponents.SASReportElement();
         objectElement.authenticationType ="credentials";
         objectElement.url           = host;
@@ -62,35 +69,36 @@
         objectElement.style.height  = '80vh';
         objectElement.style.display = 'block';
         return true;
-    }
+        }
 
     setup()
         .then( r  => createUI() )
         .catch ( err => alert(err) );
 
     //
-    // Handle UI
+    // UI for selectors
     //
 
     function createUI() {
         let select = document.getElementById('reportNo');
-        reportsList.itemsList().forEach(v => {
+        reportsList.forEach(v => {
             let option  = document.createElement('option');
-            option.text = v;
+            option.text = v.name;
             select.options.add(option);
         });
     }
 
+    //
+    // display selected report
+    // need to create a new child for VA to refresh properly
+    //
     function getReport() {
         debugger;
         let reportNo   = document.getElementById( "reportNo" ).selectedIndex;
-        let reportName = reportsList.itemsList(reportNo);
-        let reportUri  = reportsList.itemsCmd(reportName, 'self', 'link','uri');
-        console.log(reportUri);
-        objectElement.reportUri = reportUri;
+        objectElement.reportUri =  reportsList[reportNo].uri;
+        
         if (attached === true) {
-            let l = document.getElementById("report0");
-            l.removeChild(l.childNodes[0]);
+             document.getElementById('report0').removeChild(objectElement);
         }
         document.getElementById('report0').appendChild(objectElement);
         attached = true;
@@ -105,14 +113,11 @@
     <h1> View VA reports using  REST API and VA-SDK </h1>
 
     Report: <select id="reportNo"> </select>
-   <!-- Section: <input type="number" name="Section" id="page" value="1" > -->
     <button id="getreport" onclick="getReport();"> Get Report </button>
 
     <div class="wrapper-2">
         <div id="left">
-            <p id="tabereport"> </p>
             <div id="report0" class="imagediv">
-                <!--raf-vareport id="va"> </raf-vareport> -->
             </div>
         </div>
     </div>

@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`logon and get root links 1`] = `
+Array [
+  "_apistatus",
+  "_appdata",
+  "_xsrf",
+  "reports",
+  "reportImages",
+  "reportTransforms",
+  "compute",
+  "files",
+  "casManagement",
+  "modelPublish",
+  "modelRepository",
+  "jobExecution",
+  "casProxy",
+]
+`;
+
+exports[`logon to Viya and save token 1`] = `undefined`;

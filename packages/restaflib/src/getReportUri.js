@@ -10,17 +10,25 @@
  * @param {object} store  - restaf store
  * @param {string} name - name of report
  * 
- * @returns {promise} url for the report
+ * @returns {promise} array of report's of the form {name: name, uri: uri} for the report(s)
  * @alias module: getReportUri
  */
 import findReport from './findReport';
 async function getReportUri (store, name) {
     let reportsList = await findReport(store, name);
     if (reportsList === null) {
-        throw `${name} was not found`;
+        let e = (name == null) ? 'No reports were found' : `${name} was not found`;
+        throw e;
     }
-    let uri = reportsList.itemsCmd(name, 'self', 'link', 'uri');
-    return uri;
+    let result = [];
+    reportsList.items().map((i,n) => {
+        let uri = {
+            name: n,
+            uri : reportsList.itemsCmd(n, 'self', 'link', 'uri')
+        };
+        result.push(uri);
+    });
+    return result;
 }
 export default getReportUri;
 

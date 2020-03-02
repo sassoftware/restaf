@@ -18,5 +18,5 @@
 export default {
     keysColor  : 'cyan',
     dashColor  : 'bold',
-    stringColor: 'black'
+    stringColor: 'bold'
 };

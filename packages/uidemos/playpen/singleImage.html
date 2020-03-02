@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<!--
+  ~ Copyright (c) SAS Institute Inc.
+  ~  Licensed under the Apache License, Version 2.0 (the "License");
+  ~  you may not use this file except in compliance with the License.
+  ~  You may obtain a copy of the License at
+  ~
+  ~  http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~  Unless required by applicable law or agreed to in writing, software
+  ~  distributed under the License is distributed on an "AS IS" BASIS,
+  ~  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~  See the License for the specific language governing permissions and
+  ~  limitations under the License.
+  ~
+  ~
+  -->
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Report 1, Page 1</title>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/16.2.0/umd/react.production.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/16.2.0/umd/react-dom.production.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-polyfill/6.26.0/polyfill.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.38/browser.min.js"></script>
+
+
+    <script src="/appenv"></script>
+    <script type="text/javascript" src="/shared/showAlert.js"></script>
+    <script type="text/javascript" src="/shared/util.js"></script>
+    <script src="https://unpkg.com/restaf@dev/dist/restaf.min.js"></script>
+    <script src="https://unpkg.com/restaf-uicomponents/dist/restaf-uicomponents.js"></script>
+
+    <link rel="import" href="/shared/va-viewer.html">
+
+    <style>
+        .imageDiv {
+            width: 800px;
+            height: 800px;
+        }
+    </style>
+</head>
+<body>
+
+<script type="text/javascript">
+    debugger;
+    let store = restaf.initStore((LOGONPAYLOAD.authType === 'server') ? {casProxy:true} : null);
+
+    debugger;
+    async function getReport( reportNo ) {
+        try {
+
+            let msg = await store.logon(LOGONPAYLOAD);
+            let {reports} = await store.addServices( 'reports' );
+            let reportList = await store.apiCall( reports.links( 'reports' ) );
+            let rafLink = reportList.itemsCmd( reportList.itemsList( 0 ), 'view' );
+
+            let report = await store.apiCall( rafLink );
+            viewer( report.items() );
+        }
+        catch ( err ) {
+            showAlert( err )
+        }
+    }
+
+    function viewer( content ) {
+        debugger;
+        let vaViewer= document.querySelector( "#myviewer" );
+        vaViewer.setAttribute( 'data-srcdoc', content );
+    }
+   getReport( 0 );
+
+</script>
+
+
+<h1> Iris data is a Classic Data</h1>
+<div id="container" class="content" >
+        <va-viewer id="myviewer" srcdoc="<h1>Hi</h1>" ></va-viewer>
+    </div>
+</div>
+
+
+</body>
+</html>

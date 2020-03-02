@@ -38,9 +38,9 @@ function msg (msg, title) {
 }
 
 function titleLine (msg) {
-	console.log('\n=======================================');
+	console.log(' ','\n=======================================');
 	console.log(prettyjson.render({ title: msg }, titleColors));
-	console.log('=======================================\n');
+	console.log(' ','=======================================\n');
 }
 
 function result (f, title) {
@@ -84,7 +84,7 @@ function items (f, title) {
 function object (d, title) {
 	let d1 = Immutable.Iterable.isIterable(d)
 		? d.toJS()
-		: typeof d === 'object'
+		: (typeof d === 'object') || Array.isArray(d)
 		? d
 		: { value: d };
 	print(d1, title);

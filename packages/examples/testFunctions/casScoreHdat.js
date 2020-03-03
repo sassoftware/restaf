@@ -22,7 +22,7 @@ let restaf = require('@sassoftware/restaf');
 let restaflib = require('@sassoftware/restaflib');
 let { casSetup, casUpload, caslScore, print } = restaflib;
 
-module.exports = async function casUploadbdat(save) {
+module.exports = async function casScoreHdat(save) {
 	let payload = require('./config.js')();
 	let store = restaf.initStore();
 	let { session } = await casSetup(store, payload);
@@ -34,6 +34,26 @@ module.exports = async function casUploadbdat(save) {
 		'casuser.GRADIENT_BOOSTING___BAD_2jest',
 		save
 	);
+
+	let scenario = {
+		model: { caslib: 'casuser', name: 'gradient_boosting___bad_2jest' },
+		scenario: {
+			LOAN: 100000,
+			VALUE: 10000,
+			JOB: 'J1',
+			CLAGE: 100,
+			CLNO: 20,
+			DEBTINC: 20,
+			DELINQ: 2,
+			DEROG: 0,
+			MORTDUE: 4000,
+			NINQ: 1,
+			YOJ: 10
+		}
+	};
+
+	r = await caslScore(store, session, scenario);
+	print.object(r, 'Scoring Results for a model as astore');
 	await store.apiCall(session.links('delete'));
-	return 'done';
+	return r;
 };

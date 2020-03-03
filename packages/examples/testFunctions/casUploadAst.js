@@ -20,9 +20,9 @@
 
 let restaf = require('@sassoftware/restaf');
 let restaflib = require('@sassoftware/restaflib');
-let { casSetup, casUpload, caslScore, print } = restaflib;
+let { casSetup, casUpload, caslDescribe, caslScore, print } = restaflib;
 
-module.exports = async function casUploadbdat(save) {
+module.exports = async function casUploadAst (save) {
 	let payload = require('./config.js')();
 	let store = restaf.initStore();
 	let { session } = await casSetup(store, payload);
@@ -30,10 +30,30 @@ module.exports = async function casUploadbdat(save) {
 	let r = await casUpload(
 		store,
 		session,
-		'./data/GRADIENT_BOOSTING___BAD_2.sashdat',
-		'casuser.GRADIENT_BOOSTING___BAD_2jest',
+		'./data/paysimsvdd.sasast',
+		'casuser.paysimjest',
 		save
 	);
-	await store.apiCall(session.links('delete'));
-	return 'done';
-};
+
+	let scenario = {
+		model: { caslib: 'casuser', name: 'paysimjest' },
+		scenario: {
+			type_n: 1,
+			amount: 10000,
+			newbalanceDest: 1000,
+			newbalanceOrig: 1000,
+			oldbalanceDest: 1000,
+			oldbalanceOrg: 1000,
+			isFraud: 0
+		}
+	};
+
+	r = await caslDescribe(store, session, scenario);
+
+	let desc = r.casResults.describe;
+
+	print.object(desc, 'describe');
+
+	return desc;
+
+}

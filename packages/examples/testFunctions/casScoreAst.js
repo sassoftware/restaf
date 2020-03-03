@@ -22,7 +22,7 @@ let restaf = require('@sassoftware/restaf');
 let restaflib = require('@sassoftware/restaflib');
 let { casSetup, casUpload, caslDescribe, caslScore, print } = restaflib;
 
-module.exports = async function casUploadAstore2(save) {
+module.exports = async function casastScore(save) {
 	let payload = require('./config.js')();
 	let store = restaf.initStore();
 	let { session } = await casSetup(store, payload);
@@ -63,20 +63,4 @@ module.exports = async function casUploadAstore2(save) {
 
 	return result;
 	
-	/*
-	let actionPayload = {
-		action: 'table.fetch',
-		data: {
-			table: {
-				caslib: 'casuser',
-				name: 'lenet_snzrlejest'
-			}
-		}
-	};
-	let actionResult = await store.runAction(session, actionPayload);
-	let t = actionResult.items('tables', 'Fetch').toJS();
-	t.attributes.CreateTime.value = 0.0;
-	await store.apiCall(session.links('delete'));
-	return t;
-	*/
 };

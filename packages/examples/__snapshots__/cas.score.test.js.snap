@@ -1,6 +1,14 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Upload astore 1`] = `
+exports[`Upload hdat and score 1`] = `
+Object {
+  "P_BAD": 0.30567335603563,
+  "_Index_": 1,
+  "_WARN_": "",
+}
+`;
+
+exports[`Upload sasast and score 1`] = `
 Object {
   "describe": Array [
     Object {

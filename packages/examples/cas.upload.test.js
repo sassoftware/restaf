@@ -42,6 +42,6 @@ test('upload a score hdat and score it using restaflib', async () => {
 });
 
 test('upload astore using restaflib', async () => {
-	let l = await testFunctions.casUploadAstore2(true);
+	let l = await testFunctions.casUploadAst(true);
 	expect(l).toMatchSnapshot();
 });

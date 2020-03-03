@@ -46,7 +46,7 @@ module.exports = async function casUploadbdat(save) {
 	};
 	let actionResult = await store.runAction(session, actionPayload);
 
-	print.object(actionResult.items('tables'), 'Fetched data');
+	// print.object(actionResult.items('tables'), 'Fetched data');
 	let t = actionResult.items('tables', 'Fetch').toJS();
 	t.attributes.CreateTime.value = 0.0;
 	await store.apiCall(session.links('delete'));

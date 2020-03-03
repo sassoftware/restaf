@@ -15,10 +15,12 @@ let casUploadProgram2 = require('./casUploadProgram2');
 let casUploadCsv2 = require('./casUploadCsv2');
 let casUploadbdat = require('./casUploadbdat');
 let casUploadhdat = require('./casUploadhdat');
-let casUploadAstore2 = require('./casUploadAstore2');
+let casUploadAst = require('./casUploadAst');
 let computeDS = require('./computeDS');
 let filesCreate = require('./filesCreate');
 let filesPaginate = require('./filesPaginate');
+let casScoreHdat = require('./casScoreHdat');
+let casScoreAst = require('./casScoreAst');
 let logon = require('./logon');
 
 
@@ -34,9 +36,11 @@ module.exports = {
 	casUploadCsv2,
 	casUploadbdat,
 	casUploadhdat,
-	casUploadAstore2,
+	casUploadAst,
 	computeDS,
 	filesCreate,
 	filesPaginate,
+	casScoreHdat,
+	casScoreAst,
 	logon
 };

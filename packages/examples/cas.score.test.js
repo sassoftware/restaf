@@ -19,10 +19,12 @@
 'use strict';
 let testFunctions = require('./testFunctions');
 
+
 test('Upload sasast and score', async () => {
 	let l = await testFunctions.casScoreAst(true);
 	expect(l).toMatchSnapshot();
 });
+
 
 test('Upload hdat and score', async () => {
 	let l = await testFunctions.casScoreHdat(true);

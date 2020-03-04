@@ -110,7 +110,13 @@ const logon = (store, ipayload) => {
                 action.payload.pem = (store.config.hasOwnProperty('pem')) ? store.config.pem : null;
                 action.payload.rejectUnauthorized = (store.config.hasOwnProperty('rejectUnauthorized'))? store.config.rejectUnauthorized : null;
                 unSubscribe = store.subscribe(logonExit);
-                store.config.casProxy = (payload.authType === VIYA_LOGON_SERVER) ? true : false;
+                store.config.casProxy = false;
+                if (payload.authType === VIYA_LOGON_SERVER) {
+                    if (payload.hasOwnProperty('token') !== true) {
+                        store.config.casProxy = true;
+                    } 
+                }
+               // store.config.casProxy = (payload.authType === VIYA_LOGON_SERVER) ? true : false;
                 store.dispatch(action);
             }
         }

@@ -1,6 +1,6 @@
 {
   "name": "restaf-uidemos",
-  "version": "1.7.14",
+  "version": "1.7.16",
   "description": "UI demos for Viya using restaf, restaflib and uilibrary",
   "scripts": {
     "implicit": "npx @sassoftware/restaf-server --appenv=./appenv.js --env=./overrideImplicit.env --docker=./Dockerfile",

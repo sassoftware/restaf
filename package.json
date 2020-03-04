@@ -1,6 +1,6 @@
 {
   "name": "restaf",
-  "version": "1.7.14",
+  "version": "1.7.16",
   "description": "Library for writing SAS Viya application using REST APIs",
   "author": "Deva Kumaraswamy <deva.kumar@sas.com>",
   "license": "Apache-2.0",
@@ -37,6 +37,7 @@
     "test": "cd ./packages/examples && npx jest ",
     "examples:dkrbuild": "cd packages/examples && npm run dkrbuild",
     "examples:dkrrun": "cd packages/examples && npm run dkrrun",
+    "examples:dkrup": "cd packages/examples && docker-compose up",
     "otest": "cd ./packages/examples && node",
     "debug": "cd ./packages/examples && node --inspect-brk",
     "restaf:build": "cd ./packages/restaf && yarn run build && npx cp -r ./dist/restaf.js ../uidemos/public/shared/dist/restaf.js",
@@ -52,7 +53,8 @@
     "restaflib:pub": "cd ./packages/restaflib && npm run pub",
     "registerclient:pub": "cd ./packages/registerclient && npm run pub",
     "viyacaddy:pub": "cd ./packages/viyacaddy && npm run pub",
-    "publish": "npm run restaf:pub && npm run restaflib:pub && npm run registerclient:pub && npm run viyacaddy:pub"
+    "publish": "npm run restaf:pub && npm run restaflib:pub && npm run registerclient:pub && npm run viyacaddy:pub",
+    "token": "cd ./packages/examples && node logon.js"
   },
   "devDependencies": {
     "@babel/cli": "^7.7.7",

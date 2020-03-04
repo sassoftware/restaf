@@ -18,7 +18,7 @@ ENV APPPORT=8080
 ENV APPNAME=ruthere
 ENV AUTHTYPE=password
 ENV CLIENTID=sas.ec
-ENV USER=omitest
-ENV PASSWORD=metadata1$
+ENV USER=
+ENV PASSWORD=
 ENV TESTS=
 CMD ["./start.sh"]

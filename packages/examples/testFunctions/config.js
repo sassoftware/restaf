@@ -54,6 +54,7 @@ module.exports = function config () {
 	}
 	let logonPayload = null;
 	if (process.env.VIYA_TOKEN != null) {
+		console.log('NOTE: Using supplied token.');
 		logonPayload = {
 			authType: 'server',
 			host: viyaServer,
@@ -61,6 +62,7 @@ module.exports = function config () {
 			tokenType: 'bearer'
 		};
 	} else {
+		// console.log('setting logonPayload');
 		logonPayload = {
 			authType: "password",
 			host: viyaServer,
@@ -71,6 +73,7 @@ module.exports = function config () {
 				? process.env[ "CLIENTSECRET" ] : ""
 		};
 	};
+	// console.log(logonPayload);
 	return logonPayload;
 
 	function iconfig (appEnv) {

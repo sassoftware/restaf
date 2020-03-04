@@ -22,26 +22,21 @@
  * ---------------------------------------------------------------------------------
  */
 let restaf = require('@sassoftware/restaf');
-let { print, decodeJwt } = require('@sassoftware/restaflib');
-let payload = require('./config')();
+let payload = require('./testFunctions/config')();
 let store = restaf.initStore();
+let fs = require('fs').promises;
 
 payload.keepAlive = null;
 
-module.exports = async function logon () {
-	store
-		.logon(payload)
-		.then(msg => {
-			console.log(JSON.stringify(store.connection(), null, 4));
-			let token = store.connection().token;
-			process.env.VIYA_TOKEN = token;
-			let jwt = decodeJwt(token);
-			print.object(jwt, 'JWT');
-			console.log(`Logon Status: ${msg}`);
-			let c = store.connection();
-			print.object(c, 'Connection information');
-			return 'done';
-		})
-		.catch(err => console.log(err));
+store
+	.logon(payload)
+	.then(msg => {
+		console.log(JSON.stringify(store.connection(), null, 4));
+		let token = store.connection().token;
+		return token;
+	})
+	.then(token => {
+		return fs.writeFile('.env', 'VIYA_TOKEN='+token);
+	})
+	.catch(err => console.log(err));
 
-};

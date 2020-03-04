@@ -17,5 +17,3 @@ Array [
   "casProxy",
 ]
 `;
-
-exports[`logon to Viya and save token 1`] = `undefined`;

@@ -45,15 +45,13 @@
     <script>
         let store;
         let logInfo;
+        let userName = '';
         function setup() {
-            debugger;
-            console.log(LOGONPAYLOAD);
-            // console.log(uilibrary);
-            console.log(restaflib);
-            store =  restaf.initStore((LOGONPAYLOAD.authType === 'server') ? {casProxy:true} :null);
-            store.logon(LOGONPAYLOAD)
-                    .then ( msg => {
+            store =  restaf.initStore();
+            logonUser() 
+                    .then ( name => {
                         logInfo = store.connection();
+                        document.getElementById('user').innerHTML = `Welcome ${name}`;
                         return true;
                     })
                     .catch( err => {
@@ -72,12 +70,19 @@
         }
        //  window.onload = setup;
     
+       async function logonUser() {
+           await store.logon(LOGONPAYLOAD);
+           let {identities} = await store.addServices('identities');
+           let r = await store.apiCall(identities.links('currentUser'));
+           return  r.items('name');
+       }
     </script>
 </head>
 
 <body onload="setup()">
 
 <h1> Using restAF to build web apps </h1>
+<h2 id="user"></h2>
 <p> These are examples demonstrating how restAF
     makes it a snap to build web apps for SAS Viya.
     My hope is that you will study the source code behind these examples and develop your own application using restAF.

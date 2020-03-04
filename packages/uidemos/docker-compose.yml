@@ -1,5 +1,5 @@
 uidemos:
-    image: docker.xxx.com/uidemos:latest
+    build: .
     restart: always
     ports:
       - 8080:8080

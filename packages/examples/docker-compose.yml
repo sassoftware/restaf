@@ -1,5 +1,5 @@
-viyaruthere:
-  image: ruthere:latest
+ruthere:
+  image: docker.sas.com/kumar/viyaruthere:latest
   restart: always
   env_file: 
     - override.env

@@ -26,7 +26,7 @@
 let restaf = require('@sassoftware/restaf');
 let { print } = require('@sassoftware/restaflib');
 
-async function addServices (args) {
+module.exports = async function addServices (args) {
   let payload = require('./config')();
   let store = await restaf.initStore();
   console.log('================' + process.env.VIYA_TOKEN);
@@ -38,4 +38,4 @@ async function addServices (args) {
   print.object(l, 'list of services');
   return l;
 }
-module.exports = addServices;
+

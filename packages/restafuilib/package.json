@@ -1,6 +1,6 @@
 {
   "name": "@sassoftware/restafuilib",
-  "version": "1.7.14",
+  "version": "1.7.16",
   "description": "UI demos for Viya using restaf",
   "scripts": {
     "build": "webpack --config=webpack.config.js"
@@ -24,7 +24,7 @@
     "react-json-pretty": "^2.2.0",
     "react-router-dom": "^5.1.2",
     "react-select": "^3.0.8",
-    "@sassoftware/restaflib": "1.7.14"
+    "@sassoftware/restaflib": "1.7.16"
   },
   "devDependencies": {
     "@babel/cli": "^7.7.7",

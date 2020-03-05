@@ -18,28 +18,32 @@
 
 'use strict';
 let testFunctions = require('./testFunctions');
+let testInfo;
+beforeAll(async () => {
+	testInfo = await require('./lib/setupAll')();
+});
 
 test('CAS Session', async () => {
-	let r = await testFunctions.casSession();
+	let r = await testFunctions.casSession(testInfo);
 	expect(r).toBe('done');
 });
 
 test('CAS Echo', async () => {
-	let r = await testFunctions.casEcho();
+	let r = await testFunctions.casEcho(testInfo);
 	expect(r).toBe('done');
 });
 
 test('CAS DataStep and Fetch', async () => {
-	let r = await testFunctions.casDSandFetch();
+	let r = await testFunctions.casDSandFetch(testInfo);
 	expect(r).toMatchSnapshot();
 });
 
 test('CAS Tables', async () => {
-	let r = await testFunctions.casTables();
+	let r = await testFunctions.casTables(testInfo);
 	expect(r).toMatchSnapshot();
 });
 
 test('CAS upload csv', async () => {
-	let r = await testFunctions.casUploadCsv();
+	let r = await testFunctions.casUploadCsv(testInfo);
 	expect(r).toMatchSnapshot();
 });

@@ -23,6 +23,7 @@ import titleColors  from './titleColors';
 import casTable     from './casTable';
 import logListLines from './logListLines';
 
+
 import prettyjson from 'prettyjson';
 
 function errMsg (msg) {
@@ -94,7 +95,7 @@ function print (msg, title) {
 	if (title) {
 		titleLine(title);
 	}
-	console.log(prettyjson.render(msg, stdColors));
+	console.log((prettyjson.render(msg, stdColors)));
 }
 
 export default {
@@ -108,5 +109,5 @@ export default {
 	msg,
 	titleLine,
 	casTable,
-	logListLines
+	logListLines,
 };

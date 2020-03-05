@@ -21,13 +21,11 @@
  */
 'use strict';
 
-let restaf = require('@sassoftware/restaf');
-let { casSetup, print } = require('@sassoftware/restaflib');
+let { casSetup} = require('@sassoftware/restaflib');
 
-module.exports = async function casDSandFetch() {
-	let payload = require('./config.js')();
-	let store = restaf.initStore();
-	let { session } = await casSetup(store, payload);
+module.exports = async function casDSandFetch(testInfo) {
+	let { store, logger } = testInfo;
+	let { session } = await casSetup(store, null);
 
 	let actionPayload = {
 		action: 'datastep.runCode',
@@ -45,11 +43,9 @@ module.exports = async function casDSandFetch() {
 		data: { table: { caslib: 'casuser', name: 'score' } }
 	};
 	let actionResult = await store.runAction(session, actionPayload);
-
-	// print.object(actionResult.items('tables'), 'Fetched data');
 	let t = actionResult.items('tables', 'Fetch').toJS();
 	t.attributes.CreateTime.value = 0.0;
-	
+	logger.info(t);
 	await store.apiCall(session.links('delete'));
 	return t;
 };

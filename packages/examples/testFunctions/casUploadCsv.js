@@ -19,13 +19,12 @@
 'use strict';
 
 let fs         = require('fs');
-let restaf = require('@sassoftware/restaf');
-let { casSetup, print } = require('@sassoftware/restaflib');
+let { casSetup } = require('@sassoftware/restaflib');
 
-module.exports = async function casUploadCsv () {
-	let payload = require('./config.js')();
-	let store = restaf.initStore();
-	let { session } = await casSetup(store, payload);
+module.exports = async function casUploadCsv (testInfo) {
+	let { store, logger } = testInfo;
+
+	let { session } = await casSetup(store, null);
 	let filename = 'cars';
 	let fileType = 'csv';
 	let outputName = filename + 'jest';
@@ -56,7 +55,7 @@ module.exports = async function casUploadCsv () {
 	};
 
 	let actionResult= await store.runAction(session, p);
-	print.object(actionResult.items('tables'), 'Fetched data');
+	logger.info(actionResult.items('tables'));
 	let t = actionResult.items('tables', 'Fetch').toJS();
 	t.attributes.CreateTime.value = 0.0;
 	

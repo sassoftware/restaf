@@ -21,10 +21,11 @@
 let fs = require('fs');
 let yargs = require('yargs');
 
-module.exports = function config () {
-
+module.exports = function config (logger) {
+	debugger;
 	let argv = yargs.argv;
 	let appEnv = argv.env == null ? process.env.RESTAFENV : argv.env;
+	
 
     /*
 	if (appEnv == null) {
@@ -32,9 +33,9 @@ module.exports = function config () {
 	}
 	*/
 
-	console.log('---------------------------------------');
-	console.log(`env file set to: ${appEnv}`);
-	console.log('---------------------------------------');
+	logger.info('---------------------------------------');
+	logger.info(`env file set to: ${appEnv}`);
+	logger.info('---------------------------------------');
 
 	if (appEnv != null) {
 		iconfig(appEnv);
@@ -46,7 +47,7 @@ module.exports = function config () {
 	
 	// left for backward compatability - preferred way is to specify http in the url
 	if (viyaServer == null) {
-		console.log('Please set the VIYA_SERVER either thru env variables or the env file');
+		logger.error('Please set the VIYA_SERVER either thru env variables or the env file');
 		process.exit(0);
 	}
 	if (viyaServer.indexOf("http") < 0) {
@@ -54,7 +55,7 @@ module.exports = function config () {
 	}
 	let logonPayload = null;
 	if (process.env.VIYA_TOKEN != null) {
-		console.log('NOTE: Using supplied token.');
+		logger.info('NOTE: Using supplied token.');
 		logonPayload = {
 			authType: 'server',
 			host: viyaServer,
@@ -62,7 +63,7 @@ module.exports = function config () {
 			tokenType: 'bearer'
 		};
 	} else {
-		// console.log('setting logonPayload');
+		// logger.info('setting logger.infoonPayload');
 		logonPayload = {
 			authType: "password",
 			host: viyaServer,
@@ -73,14 +74,14 @@ module.exports = function config () {
 				? process.env[ "CLIENTSECRET" ] : ""
 		};
 	};
-	// console.log(logonPayload);
+
 	return logonPayload;
 
 	function iconfig (appEnv) {
 		try {
 			let data = fs.readFileSync(appEnv, 'utf8');
 			let d = data.split(/\r?\n/);
-			console.log(`Configuration specified via env file ${appEnv}`);
+			logger.info(`Configuration specified via env file ${appEnv}`);
 			d.forEach(l => {
 				if (l.length > 0 && l.indexOf('#') === -1) {
 					let la = l.split('=');
@@ -88,14 +89,14 @@ module.exports = function config () {
 					if (la.length === 2 && la[ 1 ].length > 0) {
 						process.env[ envName ] = la[ 1 ];
 					} else {
-						console.log(
+						logger.info(
 							`${envName} inherited as ${process.env[ envName ]}`
 						);
 					}
 				}
 			});
 		} catch (err) {
-			console.log(err);
+			logger.error(err);
 			process.exit(0);
 		}
 	}

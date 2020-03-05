@@ -21,14 +21,11 @@
  */
 "use strict";
 
+let { casSetup} = require('@sassoftware/restaflib');
 
-let restaf = require('@sassoftware/restaf');
-let { casSetup, print } = require('@sassoftware/restaflib');
-
-module.exports = async function casEcho () {
-  let payload = require('./config.js')();
-  let store = restaf.initStore();
-  let { session } = await casSetup(store, payload);
+module.exports = async function casEcho (testInfo) {
+	let { store, logger } = testInfo;
+  let { session } = await casSetup(store, null);
     
   let p = {
     action: 'echo',
@@ -37,6 +34,7 @@ module.exports = async function casEcho () {
     }
   };
   let r = await store.runAction(session, p);
-  print.items(r, 'echo output')
+  logger.info(r);
+  await store.apiCall(session.links('delete'));
   return 'done';
 }

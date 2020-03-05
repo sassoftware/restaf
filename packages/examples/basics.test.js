@@ -1,5 +1,8 @@
 let testFunctions = require("./testFunctions");
-
+let testInfo;
+beforeAll(async () => {
+	testInfo = await require('./lib/setupAll')();
+});
 test("logon and get root links", async () => {
   let s = [
     "reports",
@@ -12,6 +15,6 @@ test("logon and get root links", async () => {
     "modelRepository",
     "jobExecution"
   ];
-  let l = await testFunctions.addServices(s);
+  let l = await testFunctions.addServices(s,testInfo);
   expect(l).toMatchSnapshot();
 });

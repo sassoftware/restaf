@@ -18,32 +18,35 @@
 
 'use strict';
 let testFunctions = require('./testFunctions');
-
+let testInfo;
+beforeAll(async () => {
+	testInfo = await require('./lib/setupAll')();
+});
 
 test('upload SAS program using restaflib', async () => {
-	let l = await testFunctions.casUploadProgram2(true);
+	let l = await testFunctions.casUploadProgram2(true, testInfo);
 	expect(l).toMatchSnapshot();
 });
 
 
 test('upload a CSV using restaflib', async () => {
-	let l = await testFunctions.casUploadCsv2(true);
+	let l = await testFunctions.casUploadCsv2(true, testInfo);
 	expect(l).toMatchSnapshot();
 });
 
 
 test('upload a bdat using restaflib', async () => {
-	let l = await testFunctions.casUploadbdat(true);
+	let l = await testFunctions.casUploadbdat(true, testInfo);
 	expect(l).toMatchSnapshot();
 });
 
 
 test('upload a score hdat and score it using restaflib', async () => {
-	let l = await testFunctions.casUploadhdat(true);
+	let l = await testFunctions.casUploadhdat(true, testInfo);
 	expect(l).toMatchSnapshot();
 });
 
 test('upload astore using restaflib', async () => {
-	let l = await testFunctions.casUploadAst(true);
+	let l = await testFunctions.casUploadAst(true, testInfo);
 	expect(l).toMatchSnapshot();
 });

@@ -18,15 +18,13 @@
 
 'use strict';
 
-let restaf = require('@sassoftware/restaf');
 let restaflib = require('@sassoftware/restaflib');
-let { casSetup, casUpload, print } = restaflib;
+let { casSetup, casUpload} = restaflib;
 
-module.exports = async function casUploadbdat(save) {
-	let payload = require('./config.js')();
-	let store = restaf.initStore();
-	let { session } = await casSetup(store, payload);
-	debugger;
+module.exports = async function casUploadbdat(save, testInfo) {
+	let { store } = testInfo;
+	let { session } = await casSetup(store, null);
+
 	let r = await casUpload(
 		store,
 		session,

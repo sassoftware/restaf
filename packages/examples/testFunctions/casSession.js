@@ -3,11 +3,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 'use strict';
-let restaf = require('@sassoftware/restaf');
+
 let restaflib = require('@sassoftware/restaflib');
-module.exports = async function casSession() {
-	let payload = require('./config')();
-	let store = await restaf.initStore();
-	let { session } = await restaflib.casSetup(store, payload);
+module.exports = async function casSession (testInfo) {
+	let {store} = testInfo;
+	let { session } = await restaflib.casSetup(store, null);
+	await store.apiCall(session.links('delete'));
 	return 'done';
 };

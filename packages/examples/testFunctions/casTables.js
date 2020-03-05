@@ -21,19 +21,17 @@
  */
 "use strict";
 
-let restaf = require('@sassoftware/restaf');
 let { casSetup, print } = require('@sassoftware/restaflib');
 
-module.exports = async function casTables() {
-	let payload = require('./config.js')();
-	let store = restaf.initStore();
-	let { servers, session } = await casSetup(store, payload);
+module.exports = async function casTables(testInfo) {
+	let { store, logger } = testInfo;
+	let { servers, session } = await casSetup(store, null);
 
 	// get list of caslibs
 	let casServer = servers.itemsList(0);
 	let caslibs = await store.apiCall(servers.itemsCmd(casServer, 'caslibs'));
 
-	print.itemsList(caslibs, 'List of caslibs');
+	logger.info(caslibs);
 
 	let executeCmd = session.links('execute');
 
@@ -49,11 +47,11 @@ module.exports = async function casTables() {
 		};
 		let tables = await store.apiCall(executeCmd, p);
 
-		print.titleLine(`caslib: ${s}`);
-		print.casTable(tables, `${s}`);
+		logger.info(`caslib: ${s}`);
+		logger.info(tables, `${s}`);
 	}
 
-  print.titleLine('Tables by caslib');
+  logger.info('Tables by caslib');
   let result = {};
 
 	for (let i = 0; i < caslibs.itemsList().size; i++) {
@@ -61,15 +59,12 @@ module.exports = async function casTables() {
 		let tb = caslibs.itemsCmd(s, 'tables');
 
 		let tables = await store.apiCall(tb);
-		print.itemsList(tables, `Tables in caslib ${s}`);
+		logger.info(tables);
 		if (s === 'SystemData') {
 			result[ s ] = tables.itemsList().toJS();
 		};
 		if (s === 'Public') {
-			print.object(
-				tables.items(tables.itemsList(0, 'data')),
-				'first table info'
-			);
+			logger.info(tables.items(tables.itemsList(0, 'data')));
 		}
 	}
 

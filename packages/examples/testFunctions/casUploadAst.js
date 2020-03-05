@@ -18,14 +18,13 @@
 
 'use strict';
 
-let restaf = require('@sassoftware/restaf');
 let restaflib = require('@sassoftware/restaflib');
-let { casSetup, casUpload, caslDescribe, caslScore, print } = restaflib;
+let { casSetup, casUpload, caslDescribe} = restaflib;
 
-module.exports = async function casUploadAst (save) {
-	let payload = require('./config.js')();
-	let store = restaf.initStore();
-	let { session } = await casSetup(store, payload);
+module.exports = async function casUploadAst (save, testInfo) {
+	let { store, logger } = testInfo;
+
+	let { session } = await casSetup(store, null);
 	debugger;
 	let r = await casUpload(
 		store,
@@ -52,7 +51,8 @@ module.exports = async function casUploadAst (save) {
 
 	let desc = r.casResults.describe;
 
-	print.object(desc, 'describe');
+	logger.info(desc);
+	await store.apiCall(session.links('delete'));
 
 	return desc;
 

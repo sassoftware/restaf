@@ -18,15 +18,18 @@
 
 'use strict';
 let testFunctions = require('./testFunctions');
-
+let testInfo;
+beforeAll(async () => {
+	testInfo = await require('./lib/setupAll')();
+});
 
 test('Upload sasast and score', async () => {
-	let l = await testFunctions.casScoreAst(true);
+	let l = await testFunctions.casScoreAst(true, testInfo);
 	expect(l).toMatchSnapshot();
 });
 
 
 test('Upload hdat and score', async () => {
-	let l = await testFunctions.casScoreHdat(true);
+	let l = await testFunctions.casScoreHdat(true, testInfo);
 	expect(l).toMatchSnapshot();
 });

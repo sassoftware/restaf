@@ -1,7 +1,9 @@
 let testFunctions = require("./testFunctions");
-
+let testInfo;
+beforeAll(async () => {
+	testInfo = await require('./lib/setupAll')();
+});
 test("computeService: basic", async () => {
-  console.log(testFunctions.computeDS);
-  let l = await testFunctions.computeDS();
+  let l = await testFunctions.computeDS(testInfo);
   expect(l).toMatchSnapshot();
 });

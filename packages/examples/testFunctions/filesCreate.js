@@ -3,16 +3,12 @@
 * SPDX-License-Identifier: Apache-2.0
 */
 'use strict';
-let restaf = require('@sassoftware/restaf');
-let { print } = require('@sassoftware/restaflib');
-module.exports = async function createFile () {
-    let store = restaf.initStore();
-    let payload = require('./config')();
-    await store.logon(payload);
 
+module.exports = async function createFile (testInfo) {
+    let { store, logger } = testInfo;
     let { files } = await store.addServices('files');
     name = 'testname';
-    payload = {
+    let payload = {
         data: { me: 'hi there'},
         headers: {
             'Content-Disposition': `inline; form-data; filename=${name} name=${name}`,
@@ -24,9 +20,9 @@ module.exports = async function createFile () {
     let newFile = await store.apiCall(createCmd, payload);
     debugger;
     let uri = newFile.links('self', 'link', 'uri');
-    console.log(uri);
+    logger.info(uri);
     // console.log(JSON.stringify(newFile.links(), null, 4));
     let c = await store.apiCall(newFile.links('content'));
-    print.object(c.items(), 'created file');
+    logger.info(c.items());
     return c.items().toJS();
     }

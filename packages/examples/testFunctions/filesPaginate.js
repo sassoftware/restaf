@@ -18,25 +18,21 @@
 
 "use strict";
 
-let restaf = require('@sassoftware/restaf');
-let { print } = require('@sassoftware/restaflib');
-
 // Pagination
 
-module.exports = async function filesPaginate () {
-  let store = restaf.initStore();
-  let payload = require('./config')();
-  await store.logon(payload);
+module.exports = async function filesPaginate (testInfo) {
+  let { store, logger } = testInfo;
+
   let { files } = await store.addServices("files");
 
   let filesList = await store.apiCall(files.links("files"));
-  console.log(JSON.stringify(filesList.itemsList(), null, 4));
+  logger.info(filesList.itemsList());
   let next;
   // do this loop while the service returns the next link or counter is 0
 
   while ((next = filesList.scrollCmds("next")) !== null) {
     filesList = await store.apiCall(next);
-    console.log(JSON.stringify(filesList.itemsList(), null, 4));
+    logger.info(filesList.itemsList());
   }
 
   return "done";

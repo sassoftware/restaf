@@ -23,12 +23,14 @@
  */
 let restaf = require('@sassoftware/restaf');
 let { print, decodeJwt } = require('@sassoftware/restaflib');
-let payload = require('./config')();
-let store = restaf.initStore();
+module.exports = async function logonTest () {
+	let payload = require('../lib/config')();
+	payload.keepAlive = null;
 
-payload.keepAlive = null;
-
-module.exports = async function logon () {
+	let store = restaf.initStore();
+	debugger;
+	console.log('in logonTest');
+	
 	store
 		.logon(payload)
 		.then(msg => {

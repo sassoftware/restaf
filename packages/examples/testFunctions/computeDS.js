@@ -18,17 +18,13 @@
 
 'use strict';
 
-let restaf = require('@sassoftware/restaf');
 let restaflib = require('@sassoftware/restaflib');
-let { computeSetup, print } = restaflib;
+let { computeSetup } = restaflib;
 
-module.exports = async function computeDS () {
-    let payload = require('./config')();
-    let store = restaf.initStore(); 
-	let computeSession = await computeSetup(store, null, payload );
+module.exports = async function computeDS (testInfo) {
+	let { store, logger } = testInfo;
 
-    console.log(computeSession);
-    
+	let computeSession = await computeSetup(store, null, null);
  
 	let macros = { maxRows: 5 };
 	let src = `
@@ -51,7 +47,7 @@ module.exports = async function computeDS () {
             ;
             `;
 
-	print.titleLine('Compute Service');
+	logger.info('Compute Service');
 
 	let computeSummary = await restaflib.computeRun(
 		store,
@@ -61,24 +57,24 @@ module.exports = async function computeDS () {
     );
     
 	let log = await restaflib.computeResults(store, computeSummary, 'log');
-	print.logListLines(log);
+	logger.info(log);
 	let ods = await restaflib.computeResults(store, computeSummary, 'ods');
-	console.log(ods);
+	logger.info(ods);
 
 	let tables = await restaflib.computeResults(
 		store,
 		computeSummary,
 		'tables'
 	);
-	print.object(tables, 'List of tables');
+	logger.info(tables);
 
 	let data = await restaflib.computeFetchData(
 		store,
 		computeSummary,
 		'DTEMP1'
 	);
-	console.log(data.columns);
-	console.log(`First row in set: ${data.rows[0]}`);
+	logger.info(data.columns);
+	logger.info(`First row in set: ${data.rows[0]}`);
 
 	await store.apiCall(computeSession.links('delete'));
     return data.rows;

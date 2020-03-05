@@ -18,19 +18,26 @@
 
 "use strict";
 
-/* --------------------------------------------------------------------------------
- * Logon to the restaf server and setup multiple services
- * ---------------------------------------------------------------------------------
- */
+// Pagination
 
-let restaf = require('@sassoftware/restaf');
+module.exports = async function foldersPaginate (testInfo) {
 
-module.exports = async function addServices (args, testInfo) {
   let { store, logger } = testInfo;
-  let s = await store.addServices(...args);
-  let l = store.getServices();
-  logger.info(l, 'list of services');
-  return l;
 
+  let { folders } = await store.addServices("folders");
+  logger.info(store.getXsrfData());
+
+  let foldersList = await store.apiCall(folders.links("folders"));
+  logger.info(foldersList.itemsList());
+  let next;
+  // do this loop while the service returns the next link or counter is 0
+
+  while ((next = foldersList.scrollCmds("next")) !== null) {
+    foldersList = await store.apiCall(next);
+    
+    logger.info(foldersList.itemsList());
+  }
+
+  return "done";
 }
 

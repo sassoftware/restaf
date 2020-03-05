@@ -23,7 +23,7 @@ let restaf = require('@sassoftware/restaf');
 let { casSetup, print } = require('@sassoftware/restaflib');
 
 module.exports = async function casUploadProgram() {
-	let payload = require('./config.js')();
+	let payload = require('../lib/config.js/index.js')();
 	let store = restaf.initStore();
 	let { session } = await casSetup(store, payload);
 	let filename = 'Cluster_SDOH1';

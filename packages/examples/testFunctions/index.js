@@ -21,10 +21,11 @@ let filesCreate = require('./filesCreate');
 let filesPaginate = require('./filesPaginate');
 let casScoreHdat = require('./casScoreHdat');
 let casScoreAst = require('./casScoreAst');
-let logon = require('./logon');
+let foldersPaginate = require('./foldersPaginate');
+let logonTest = require('./logonTest');
+debugger;
 
-
-module.exports = {
+module.exports =  {
 	addServices,
 	casSession,
 	casEcho,
@@ -40,7 +41,8 @@ module.exports = {
 	computeDS,
 	filesCreate,
 	filesPaginate,
+	foldersPaginate,
 	casScoreHdat,
 	casScoreAst,
-	logon
+	logonTest
 };

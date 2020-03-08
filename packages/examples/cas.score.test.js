@@ -24,12 +24,12 @@ beforeAll(async () => {
 });
 
 test('Upload sasast and score', async () => {
-	let l = await testFunctions.casScoreAst(true, testInfo);
+	let l = await testFunctions.casScoreAst(false, testInfo);
 	expect(l).toMatchSnapshot();
 });
 
 
 test('Upload hdat and score', async () => {
-	let l = await testFunctions.casScoreHdat(true, testInfo);
+	let l = await testFunctions.casScoreHdat(false, testInfo);
 	expect(l).toMatchSnapshot();
 });

@@ -23,6 +23,9 @@ let casScoreHdat = require('./casScoreHdat');
 let casScoreAst = require('./casScoreAst');
 let foldersPaginate = require('./foldersPaginate');
 let logonTest = require('./logonTest');
+let modelRepoRoot = require('./modelRepoRoot');
+let modelDestinationCas = require('./modelDestinationCas');
+
 debugger;
 
 module.exports =  {
@@ -44,5 +47,7 @@ module.exports =  {
 	foldersPaginate,
 	casScoreHdat,
 	casScoreAst,
-	logonTest
+	logonTest,
+	modelRepoRoot,
+	modelDestinationCas
 };

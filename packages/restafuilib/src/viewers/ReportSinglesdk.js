@@ -1,23 +1,23 @@
 import React from 'react';
-function ReportSinglesdk (props) {
-    debugger;
+import { Fragment } from 'react';
 
-  console.log(`now showing the report  ${props.name} = ${props.reportUri}`);
-  let show = (
-		<div>
-			<div>
-				<sas-report
-					url={props.url}
-					reportUri={props.reportUri}
-					authenticationType={props.credentials}
-					style={props.style}
-				></sas-report>
-			</div>
-		</div>
-  );
+function ReportSinglesdk(props) {
+	debugger;
 
-    return show;
-  }
+	console.log(`now showing the report  ${props.name} = ${props.reportUri}`);
+	
+	let show1 =	<Fragment><sas-report
+			url={props.url}
+			reportUri={props.reportUri}
+		    authenticationType={props.credentials}
+			style={props.style}
+		    className={props.className}
+	>
+		     </sas-report></Fragment>;
+
+	console.log(props.style);
+
+	return show1;
+}
 
 export default ReportSinglesdk;
-

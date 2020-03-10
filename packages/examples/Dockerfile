@@ -21,4 +21,5 @@ ENV CLIENTID=sas.ec
 ENV USER=omitest
 ENV PASSWORD=metadata1$
 ENV TESTS=
+ENV LOGGER=OFF
 CMD ["./start.sh"]

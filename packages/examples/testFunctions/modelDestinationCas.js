@@ -31,11 +31,12 @@ module.exports = async function modelDestinationCas(testInfo){
     r = await store.apiCall(modelPublish.links('createDestinationCAS'), payload);
     logger.info(r.items());
 
-    r = await store.apiCall(modelPublish.links('destinations'));
-    logger.info(r.itemsList());
+    let newList = await store.apiCall(modelPublish.links('destinations'));
+    logger.info(newList.itemsList());
 
     // now upload a sasast and then try to publish it to the new cas destination
 
+	/*
     let savedAstore = await casUpload(
 		store,
 		session,
@@ -44,7 +45,8 @@ module.exports = async function modelDestinationCas(testInfo){
 		true
 	);
 
-    ler astoreUri = savedAstore.items()
+	let astoreUri = savedAstore.items();
+	logger.info(astoreUri);
 	let scenario = {
 		model: { caslib: 'casuser', name: 'paysimjest' },
 		scenario: {
@@ -57,9 +59,9 @@ module.exports = async function modelDestinationCas(testInfo){
 			isFraud: 0
 		}
 	};
+    */
 
-
-    await store.apiCall(r.itemsCmd('testPublish', 'delete'));
+    await store.apiCall(newList.itemsCmd('testPublishjest', 'delete'));
 
     
     return 'done'

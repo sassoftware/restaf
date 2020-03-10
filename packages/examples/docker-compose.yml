@@ -1,5 +1,5 @@
 ruthere:
-  image: ruthere:latest
+  build: .
   restart: always
   env_file: 
     - override.env

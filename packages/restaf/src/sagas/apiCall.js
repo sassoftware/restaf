@@ -31,6 +31,7 @@ function *apiCall (action) {
     if (action.delay > 0) {
         yield delay (action.delay * 1000);
     }
+   
     let payload = yield call(httpCall, config);
     
     yield put(payload);

@@ -22,7 +22,7 @@
 let restaflib = require('@sassoftware/restaflib');
 let { casSetup, casUpload } = restaflib;
 
-module.exports = async function casUploadbdat(save, testInfo) {
+module.exports = async function casUploadbdat (save, testInfo) {
 	let { store } = testInfo;
 	let { session } = await casSetup(store, null);
 	debugger;

@@ -16,10 +16,9 @@
  *
  */
 
-  'use strict';
+'use strict';
 
-import {request } from  '../serverCalls' ;
-
+import { request } from  '../serverCalls' ;
 
 const SASLogoffOauthLink = function () {
     return (
@@ -38,4 +37,4 @@ const SASLogoffOauthLink = function () {
 /*
  * redirectUri not specified - /SASLogon/oauth/token?
  */
-export { SASLogoffOauthLink };
+export default SASLogoffOauthLink;

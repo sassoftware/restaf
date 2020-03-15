@@ -87,7 +87,7 @@ function loggedOn (store) {
 
 function getAppData (store, ...args){
     let list = store.getState()[APP_DATA_ROOT];
-    let path = (args.length > 0) ? [ 'userData' ].concat(args) : [ 'userData' ];
+    let path = (args.length > 0) ? ['userData'].concat(args) : ['userData'];
     return list.getIn(path, null);
 }
 
@@ -97,7 +97,7 @@ function getApiStatus (store, jobContext){
     if (!jobContext) {
         result = list.get('routeList');
     } else {
-        let r = list.getIn([ 'userData', jobContext ], null);
+        let r = list.getIn(['userData', jobContext], null);
         if (r !== null) {
             result     = r.toJS();
             result.job = routeToObj(store, result.route);

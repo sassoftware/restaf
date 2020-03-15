@@ -14,7 +14,7 @@
  ---------------------------------------------------------------------------------------*/
   'use strict';
 
-import {takeLatest, spawn, call, put } from 'redux-saga/effects' ;
+import {takeLatest, spawn } from 'redux-saga/effects' ;
 import {KEEP_ALIVE} from '../actionTypes';
 import {SASLogonOauthLink} from '../utils';
 
@@ -22,6 +22,7 @@ import {SASLogonOauthLink} from '../utils';
 function* keepAliveAction () {
     
     let action = yield takeLatest(KEEP_ALIVE, keepAlivei);
+    //ignore results for now - not sure what the corrective action is if this fails
     // yield put({ type: KEEP_ALIVE}););
 }
 

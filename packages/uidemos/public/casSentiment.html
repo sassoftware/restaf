@@ -29,18 +29,24 @@
 
     </style>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/react/16.2.0/umd/react.production.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/16.2.0/umd/react-dom.production.min.js"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/react/16.8.6/umd/react.development.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/16.8.6/umd/react-dom.development.js"></script>
+        
+         
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js"></script>
+        
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-polyfill/6.26.0/polyfill.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.38/browser.min.js"></script>
-
-
-<script src="/appenv"></script>
-<script type="text/javascript" src="/shared/showAlert.js"></script>
-<script type="text/javascript" src="/shared/util.js"></script>
-    <script src="https://unpkg.com/restaf@dev/dist/restaf.min.js"></script> 
+        
+        <script type="text/javascript" src="/shared/dist/restaf.js"></script>
+        <script type="text/javascript" src="/shared/dist/restaflib.js"></script>
+        <script type="text/javascript" src="/shared/dist/restafuilib.js"></script>
+        <script type="text/javascript" src="/shared/showAlert.js"></script>
+        <script type="text/javascript" src="/appenv"></script>t>
+        <script type="text/javascript" src="/shared/util.js"></script>
+   
     <script src="https://unpkg.com/restaf-uicomponents/dist/restaf-uicomponents.js"></script>
 
 </head>
@@ -49,7 +55,7 @@
 
         // init restAF
         debugger;
-        let store = restaf.initStore((LOGONPAYLOAD.authType === 'server') ? {casProxy:true} : null);
+        let store = restaf.initStore();
         let session    = null;
         let executeCmd = null ;
         let uploadF    = null;
@@ -64,7 +70,7 @@
                 let payload    = { data: { name: 'restAF' } };
                 let serverName = servers.itemsList( 0 );
                 session        = await store.apiCall( servers.itemsCmd( serverName, 'createSession' ), payload );
-               
+                debugger;
                 let p = {
                     action: 'builtins.loadActionSet',
                     data  : { actionSet: 'sentimentAnalysis' }
@@ -100,6 +106,7 @@
             uploadF = evt.target.files[0];
         }
         function runCode ( text, uploadF, cb ) {
+            debugger;
             runSentiment(text)
                 .then(r => cb(true))
                 .catch(err => {
@@ -109,6 +116,7 @@
         }
         async function runSentiment( doc ) {
             // Delete(drop) temp tables if it exists
+            debugger;
             payload = {
                 action: 'sentimentAnalysis.applySent',
                 data: {

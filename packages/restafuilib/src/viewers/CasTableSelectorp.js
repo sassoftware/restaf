@@ -14,14 +14,14 @@ function CasTableSelectorp (props) {
 
   const { useState, useEffect } = React;
 
-  let [ caslibList, setCaslibList ] = useState([]);
-  let [ tableList, setTableList ] = useState([]);
+  let [caslibList, setCaslibList] = useState([]);
+  let [tableList, setTableList] = useState([]);
 
-  let [ caslib, setCaslib ] = useState(null);
-  let [ name, setName ] = useState(null);
+  let [caslib, setCaslib] = useState(null);
+  let [name, setName] = useState(null);
 
-  let [ errors, setErrors ] = useState(null);
-  let [ fullName, setFullName ] = useState(null);
+  let [errors, setErrors] = useState(null);
+  let [fullName, setFullName] = useState(null);
 debugger;
   const _onCaslib = selectedValues => {
     setCaslib(selectedValues);
@@ -46,7 +46,7 @@ debugger;
   // get list of caslibs
   useEffect(() => {
     debugger;
-    runCasl(store, session, [ 'caslibListCasl' ], null)
+    runCasl(store, session, ['caslibListCasl'], null)
       .then(actionResult => {
         setCaslibList(actionResult);
         debugger;
@@ -62,7 +62,7 @@ debugger;
     if (caslib == null) {
       return;
     }
-    runCasl (store, session, [ 'casTableListCasl' ], { caslib: caslib.value })
+    runCasl (store, session, ['casTableListCasl'], { caslib: caslib.value })
       .then(actionResult => {
         setTableList(actionResult);
         setErrors(null);
@@ -70,7 +70,7 @@ debugger;
       .catch(err => {
         setErrors(JSON.stringify(err));
       });
-  }, [ caslib ]);
+  }, [caslib]);
 
   debugger;
   let show = 

@@ -9,8 +9,8 @@ import Select from '@material-ui/core/Select';
 function ReportExplorerApp (props) {
   debugger;
   let { host, style, credentials ,reportsList} = props;
-  let [ currentReport, setCurrentReport ] = useState(null);
-  let [ menuList, setMenuList ] = useState([]);
+  let [currentReport, setCurrentReport] = useState(null);
+  let [menuList, setMenuList] = useState([]);
 
   console.log(props);
 

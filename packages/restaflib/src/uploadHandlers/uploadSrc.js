@@ -21,7 +21,7 @@ async function uploadSrc (store, session, modelBuf, fileInfo, save){
 		},
 
 		importOptions: {
-			fileType : fileInfo.fileType, /* type of the file being uploaded */
+			fileType: fileInfo.fileType, /* type of the file being uploaded */
 		}
 	};
 	
@@ -29,13 +29,18 @@ async function uploadSrc (store, session, modelBuf, fileInfo, save){
 		JSON_Parameters.importOptions.delimiter = '\\';
 	}
 
+	debugger;
 	let p = {
-		headers: { 'JSON-Parameters': JSON_Parameters },
-		data   : modelBuf,
+		headers: {
+			'JSON-Parameters': JSON_Parameters,
+			'Content-Type'   : 'binary/octet-stream'
+		},
+		data  : modelBuf,
 		action: 'table.upload'
 	};
 
 	await store.runAction(session, p);
+	debugger;
 
 	if (save === true) {
 		let casl = `
@@ -46,9 +51,9 @@ async function uploadSrc (store, session, modelBuf, fileInfo, save){
 			send_response(result);
 			`;
 		let r = await caslRun(store, session, casl, null);
-	};
+	}
 
     return `Upload of ${fileInfo.source} to ${fileInfo.output,caslib}.${fileInfo.output.name} completed`;
-};
+}
 
 export default uploadSrc;

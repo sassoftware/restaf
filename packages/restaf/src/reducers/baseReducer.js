@@ -45,7 +45,7 @@ const baseReducer = (root) => (state = fromJS(tLinkStruct(root, 'links', root)),
 
             case root + '_' + ADD_SERVICE + '_COMPLETE': {
 
-                let result = responseReducer(action, [ root ]);
+                let result = responseReducer(action, [root]);
                 result.resultType = 'application/vnd.sas.api';
                 result.raw = {...action.payload};
                 result.responseHeaders = {...result.raw.headers};

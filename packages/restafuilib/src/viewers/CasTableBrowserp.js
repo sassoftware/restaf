@@ -14,9 +14,9 @@ import {casFetchData} from 'restaflib';
 function CasTableBrowserp (props) {
   const { useState, useEffect, useRef } = React;
   const { store, session } = props;
-  const [ from, setFrom ] = useState(props.from);
-  const [ result, setResult ] = useState(null);
-  const [ errors, setErrors ] = useState(null);
+  const [from, setFrom] = useState(props.from);
+  const [result, setResult] = useState(null);
+  const [errors, setErrors] = useState(null);
 
   let count = props.count;
   let lastTable = useRef("");
@@ -52,7 +52,7 @@ function CasTableBrowserp (props) {
     casFetchData(store, session, control)
       .then(r => handleResult(r))
       .catch(err => handleErrors(err));
-  }, [ from, props.table ]);
+  }, [from, props.table]);
 
   const _onScroll = direction => {
     let f =

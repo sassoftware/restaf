@@ -18,7 +18,7 @@
 import { request } from  '../serverCalls' ;
 
 function httpCallWait (config) {
-    let states = [ 'running', 'pending' ];
+    let states = ['running', 'pending'];
     let flag;
     return (request(config)
         .then(response => {

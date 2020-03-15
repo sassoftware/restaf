@@ -4,7 +4,7 @@
  */
 'use strict';
 
-async function uploadAstore(store, session, astoreBuf, fileInfo) {
+async function uploadAstore (store, session, astoreBuf, fileInfo) {
 	let { caslib, name } = fileInfo.output; 
 	if (name == null) {
 		throw 'Please specify table as caslib.name';
@@ -30,7 +30,7 @@ async function uploadAstore(store, session, astoreBuf, fileInfo) {
 
 	payload = {
 		action: 'astore.upload',
-		data: {
+		data  : {
 			rstore: { name: `${name}`, caslib: `${caslib}`, replace: true },
 			store : astoreBuf
 		}

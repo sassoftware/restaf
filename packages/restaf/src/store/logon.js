@@ -20,7 +20,7 @@
 
   'use strict';
 
-import { VIYA_LOGON, VIYA_LOGOFF, VIYA_LOGON_SERVER, VIYA_LOGON_IMPLICIT, VIYA_LOGON_PASSWORD }
+import { VIYA_LOGON, VIYA_LOGOFF, VIYA_LOGON_SERVER, VIYA_LOGON_IMPLICIT, VIYA_LOGON_PASSWORD, VIYA_LOGON_TOKEN }
         from '../actionTypes';
 
 import qs from 'qs';
@@ -35,6 +35,9 @@ const logon = (store, ipayload) => {
         let urlInfo = null;
 
         let payload = (ipayload == null) ? null : { ...ipayload };
+        if (payload.authType === VIYA_LOGON_TOKEN) { 
+            payload.authType = VIYA_LOGON_SERVER;
+        }
 
         if (store.getState().connections.get('currentConnection') >= 0) {
             resolve('ready');
@@ -79,7 +82,6 @@ const logon = (store, ipayload) => {
             // now make the final decision
 
             switch (payload.authType) {
-
                 case VIYA_LOGON_SERVER:
                     if (payload.host == null) {
                         payload.host = `${window.location.protocol}//${window.location.host}`;
@@ -101,16 +103,18 @@ const logon = (store, ipayload) => {
                 default:
                     break;
             }
-
+          
             if (!implicitLogon) {
                 action = {
                     type   : (payload.authType === 'LOGOFF') ? VIYA_LOGOFF : VIYA_LOGON,
                     payload: { ...payload }
                 };
                 action.payload.pem = (store.config.hasOwnProperty('pem')) ? store.config.pem : null;
-                action.payload.rejectUnauthorized = (store.config.hasOwnProperty('rejectUnauthorized'))? store.config.rejectUnauthorized : null;
+                action.payload.rejectUnauthorized = (store.config.hasOwnProperty('rejectUnauthorized')) ? store.config.rejectUnauthorized : null;
+                
                 unSubscribe = store.subscribe(logonExit);
                 store.config.casProxy = false;
+                action.storeConfig = store.config;
                 if (payload.authType === VIYA_LOGON_SERVER) {
                     if (payload.hasOwnProperty('token') !== true) {
                         store.config.casProxy = true;

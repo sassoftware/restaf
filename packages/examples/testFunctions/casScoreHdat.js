@@ -21,7 +21,7 @@
 let restaflib = require('@sassoftware/restaflib');
 let { casSetup, casUpload, caslScore} = restaflib;
 
-module.exports = async function casScoreHdat(save, testInfo) {
+module.exports = async function casScoreHdat (save, testInfo) {
 	let { store, logger } = testInfo;
 	let { session } = await casSetup(store, null);
 	debugger;
@@ -34,19 +34,19 @@ module.exports = async function casScoreHdat(save, testInfo) {
 	);
 
 	let scenario = {
-		model: { caslib: 'casuser', name: 'gradient_boosting___bad_2jest' },
+		model   : { caslib: 'casuser', name: 'gradient_boosting___bad_2jest' },
 		scenario: {
-			LOAN: 100000,
-			VALUE: 10000,
-			JOB: 'J1',
-			CLAGE: 100,
-			CLNO: 20,
+			LOAN   : 100000,
+			VALUE  : 10000,
+			JOB    : 'J1',
+			CLAGE  : 100,
+			CLNO   : 20,
 			DEBTINC: 20,
-			DELINQ: 2,
-			DEROG: 0,
+			DELINQ : 2,
+			DEROG  : 0,
 			MORTDUE: 4000,
-			NINQ: 1,
-			YOJ: 10
+			NINQ   : 1,
+			YOJ    : 10
 		}
 	};
 

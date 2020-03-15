@@ -17,7 +17,7 @@ import FormGroup from '@material-ui/core/FormGroup';
 import Paper from '@material-ui/core/Paper';
 
 function EditScenario (props) {
-	const [ state, setState ] = useState({ ...props.data });
+	const [state, setState] = useState({ ...props.data });
 	const { setScenario } = props;
 
 	const useStyles = makeStyles(theme => ({
@@ -62,7 +62,7 @@ function EditScenario (props) {
 
 	useEffect(() => {
 		setState({ ...props.data });
-	}, [ props.data ]);
+	}, [props.data]);
 
 	function handleChange (event) {
 		setState({ ...state, [event.target.name]: event.target.value });

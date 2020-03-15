@@ -7,12 +7,12 @@
 module.exports = async function createFile (testInfo) {
     let { store, logger } = testInfo;
     let { files } = await store.addServices('files');
-    name = 'testname';
+    let name = 'testname';
     let payload = {
-        data: { me: 'hi there'},
+        data   : { me: 'hi there'},
         headers: {
             'Content-Disposition': `inline; form-data; filename=${name} name=${name}`,
-            'content-type': `application/json`
+            'content-type'       : `application/json`
         }
     };
     debugger;
@@ -25,4 +25,4 @@ module.exports = async function createFile (testInfo) {
     let c = await store.apiCall(newFile.links('content'));
     logger.info(c.items());
     return c.items().toJS();
-    }
+    };

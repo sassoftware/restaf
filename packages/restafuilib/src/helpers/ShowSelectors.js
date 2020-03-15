@@ -79,7 +79,7 @@ function ShowSelectors (props){
                 >
             {selectors[key].map(m => <MenuItem value={m.value}>{m.label}</MenuItem>)}
             </Select>
-        </FormControl>
+        </FormControl>;
         t.push(tsub);
     }
     let button = 
@@ -103,7 +103,7 @@ function ShowSelectors (props){
         </FormControl>
         </Paper>
         </Container>
-      </React.Fragment>
+      </React.Fragment>;
 
 
     return outerForm;

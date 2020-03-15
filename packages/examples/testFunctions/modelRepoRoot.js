@@ -3,10 +3,10 @@
 * SPDX-License-Identifier: Apache-2.0
 */
 'use strict';
-module.exports = async function modelRepoRoot(testInfo){
+module.exports = async function modelRepoRoot (testInfo){
     let { store, logger } = testInfo;
     let { modelRepository } = await store.addServices('modelRepository');
 
     let rels = modelRepository.links().keySeq();
     return rels;
-}
+};

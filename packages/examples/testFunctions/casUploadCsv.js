@@ -33,7 +33,7 @@ module.exports = async function casUploadCsv (testInfo) {
 	let JSON_Parameters = {
 		casout: {
 			caslib: 'casuser' /* a valid caslib */,
-			name: outputName /* name of output file on cas server */
+			name  : outputName /* name of output file on cas server */
 		},
 
 		importOptions: {
@@ -43,15 +43,15 @@ module.exports = async function casUploadCsv (testInfo) {
 
 	let p = {
 		headers: { 'JSON-Parameters': JSON_Parameters },
-		data: readFile(filename, fileType),
-		action: 'table.upload'
+		data   : readFile(filename, fileType),
+		action : 'table.upload'
 	};
 
 	await store.runAction(session, p);
 
 	p = {
 		action: 'table.fetch',
-		data: { table: { caslib: 'casuser', name: outputName } }
+		data  : { table: { caslib: 'casuser', name: outputName } }
 	};
 
 	let actionResult= await store.runAction(session, p);
@@ -62,7 +62,7 @@ module.exports = async function casUploadCsv (testInfo) {
 	await store.apiCall(session.links('delete'));
 
 	return t;
-}
+};
 
 function readFile (filename, fileType) {
   let data = fs.readFileSync(`./data/${filename}.${fileType}`);

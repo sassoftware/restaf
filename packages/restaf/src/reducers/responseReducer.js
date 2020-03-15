@@ -134,7 +134,7 @@ function tLinkReducer (iLinks, parentPath) {
 }
 
 function setupRelPaths (iLinks, parentPath, subType){
-    let subCmds = [ 'next', 'prev', 'first', 'last' ];
+    let subCmds = ['next', 'prev', 'first', 'last'];
     let tlinks;
 
     if (subType === 'links') {
@@ -151,10 +151,10 @@ function setupRelPaths (iLinks, parentPath, subType){
     if (subType === 'lcmds') {
         subType = 'links';
     }
-    let tSearchPath =  [ ...parentPath, subType ];
+    let tSearchPath =  [...parentPath, subType];
     let linksMap = {};
     tlinks.map (l  => {
-        let ts = [ ...tSearchPath, l.rel ];
+        let ts = [...tSearchPath, l.rel];
         if (l.hasOwnProperty('title') === false) {
             l.title = l.rel ;
         }
@@ -162,7 +162,7 @@ function setupRelPaths (iLinks, parentPath, subType){
             link       : { ...l },
             method     : l.method,
             route      : ts.join(':/'),
-            parentRoute: [ ...parentPath ].join(':/'),
+            parentRoute: [...parentPath].join(':/'),
             paginator  : subCmds.includes(l.rel)
         };
         linksMap[l.rel] = { ...tLinkStruct(l.title, subType), ...lx };
@@ -237,7 +237,7 @@ function itemsReducer (results, parentPath){
             }
             idList.push(name);
           
-            let tRoute  = [ ...parentPath,  'items', 'data', name ] ;
+            let tRoute  = [...parentPath,  'items', 'data', name] ;
             let rowcmds = setupRelPaths(item.links, tRoute, 'cmds');
 
             let data = { ...item };
@@ -255,10 +255,10 @@ function itemsReducer (results, parentPath){
         itemsResponse.resultType = results.accept;
         
         itemsResponse.type   = 'itemsList';
-        response.itemsList   = [ ...idList ];
+        response.itemsList   = [...idList];
         response.type        = 'itemsList';
     } else {
-        itemsResponse.data       = [ ...results.items ];
+        itemsResponse.data       = [...results.items];
         itemsResponse.resultType = results.accept;
         itemsResponse.type       = 'itemsArray';
         response.type            = 'itemsArray';

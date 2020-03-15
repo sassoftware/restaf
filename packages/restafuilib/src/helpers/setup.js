@@ -21,7 +21,7 @@ setupViya(store, appEnv, window.optUI.logonPayload)
             </AppProvider>
         , document.querySelector('#root'));
     })
-    .catch(err => console.log(JSON.stringify(err, null, 4)))
+    .catch(err => console.log(JSON.stringify(err, null, 4)));
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.

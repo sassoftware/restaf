@@ -33,15 +33,15 @@ module.exports = async function casastScore (save, testInfo) {
 	);
 
 	let scenario = {
-		model: { caslib: 'casuser', name: 'paysimjest' },
+		model   : { caslib: 'casuser', name: 'paysimjest' },
 		scenario: {
-			type_n : 1,
-			amount : 10000,
+			type_n        : 1,
+			amount        : 10000,
 			newbalanceDest: 1000,
 			newbalanceOrig: 1000,
 			oldbalanceDest: 1000,
-			oldbalanceOrg: 1000,
-			isFraud      : 0
+			oldbalanceOrg : 1000,
+			isFraud       : 0
 			}
 		};
 
@@ -55,7 +55,7 @@ module.exports = async function casastScore (save, testInfo) {
 	let result = {
 		describe: desc,
 		score   : r
-	}
+	};
 	logger.info(result);
 	await store.apiCall(session.links('delete'));
 	return result;

@@ -34,6 +34,9 @@
     <script type="text/javascript" src="/shared/util.js"></script>
 
     <script type="text/javascript">
+        let newFile;
+        let uri;
+        let pdfContentUri;
         let store = restaf.initStore();
         async function getTempFile(id){
             let name = `${id}/pdfout.pdf`;
@@ -47,16 +50,22 @@
             };
             debugger;
             let createCmd = files.links('create');
-            let newFile = await store.apiCall (createCmd, payload);
+            newFile = await store.apiCall (createCmd, payload);
             debugger;
             let uri = newFile.links('self', 'link', 'uri');
+            pdfContentUri =  newFile.links('content', 'link', 'uri');
+            console.log(pdfContentUri);
+
             console.log(uri);
             return uri;
         }
         async function runDemo () {
-            let session = await restaflib.computeSetup(store, LOGONPAYLOAD);
-            let sessionid = computeSession.items('id');
-            let uri = await getTempFile(sessionid);
+            debugger;
+            let msg = await store.logon(LOGONPAYLOAD);
+            debugger;
+            let session = await restaflib.computeSetup(store,null,null);
+            let sessionid = session.items('id');
+            uri = await getTempFile(sessionid);
             let sasCode =
                         `ods html style=barrettsblue;
                     data;
@@ -88,14 +97,22 @@
                 `;
             
             let macros = { maxRows: 10};
-            let computeSummary = await restaflib.computeRun(store, session, src,macros)
-            let log = await restaflib.computeResults(store, computeSummary, 'log');
-            document.getElementById('logout').innerHTML = log;
+            debugger;
+            let computeSummary = await restaflib.computeRun(store, session, sasCode,macros)
+            let ods = await restaflib.computeResults(store, computeSummary, 'ods');
+            document.getElementById('ods').innerHTML = ods;
+            
+            /*
             let filelist = await restaflib.computeResults(store,computeSummary, 'files');
             let pdf = await restaflib.computeFileContent(store, computeSummary, filelist[0], false);
-            document.getElementById('pdfout').setAttribute('src', pdf);
+            document.getElementById('pdfout').setAttribute('src', APPENV.host + uri);
+            */
+            
         }
 
+        function showpdf() {
+           window.open(APPENV.host + pdfContentUri);
+        }
         function viewer ( store, folder, panel  ) {
             let props = {
                 store  : store,
@@ -114,16 +131,12 @@
 </head>
 
 <body>
-<h1> Log from Compute Server Job using restAF</h1>
-
-    <div id="log" class="content" >
-
-        </div>
+<h1> ODS from Compute Server Job using restAF</h1>
    <div>
-       <p id="ODS" >
+       <button onclick="showpdf()">View pdf output</button>
+       <p id="ods" >
          ODS output here...
        </p>
-
    </div>
 
 </body>

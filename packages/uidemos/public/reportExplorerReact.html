@@ -32,6 +32,7 @@
 
 
     <link rel="stylesheet" type="text/css" href="/shared/app.css">
+  
     <!-- script async src="https://unpkg.com/@sassoftware/va-report-components@0.3/dist/umd/va-report-components.js"></script> -->
     <script async src="http://dvr.na.sas.com/web-sdk-test/va-sdk/0.3.12/va-report-components.js"></script>
     
@@ -45,14 +46,22 @@
             flex-grow: 1;
             }
 
-            .va-report.sas_Pane-Pane_pane {
-            flex-grow: 1;
-            }
+        .va-report.sas_Pane-Pane_pane {
+        flex-grow: 1;
+        }
 
      </style>
 </head>
 <body>
+<script type="text/babel">
+    function SasReport(props, element) {
+        debugger;
+        let t = <sas-report url={props.url} reportUri={props.reportUri} authenticationType={props.authenticationType} style={props.style}> </sas-report>;
+        ReactDOM.render(t, document.getElementById(element));
+    }
+</script>
 
+</script>
 <script type="text/javascript">
 
     let reportsList;
@@ -94,6 +103,7 @@
 
     function getReport() {
         debugger;
+        
         let reportNo   = document.getElementById( "reportNo" ).selectedIndex;
         let reportName = reportsList[reportNo].name;
         let reportUri  = reportsList[reportNo].uri;
@@ -107,8 +117,12 @@
                     );
         
         authenticationType = 'credentials';
-        restafuilib.display('ReportSinglesdk', {name: reportName, url: host, className: "va-report", reportUri: reportUri, authenticationType: authenticationType },
+        
+        SasReport({name: reportName, url: host, style: style, reportUri: reportUri, authenticationType: authenticationType },'report0');
+        /*
+        restafuilib.display('SasReport', {name: reportName, url: host, style: style, reportUri: reportUri, authenticationType: authenticationType },
                             document.getElementById('report0'));
+        */
     }
 
 </script>
@@ -116,7 +130,7 @@
 <!-- Visual part of the demo -->
 
 <div id="container" class="content" >
-    <h1> View VA reports using  REST API and VA-SDK </h1>
+    <h1> View VA reports using  REST API and VA-SDK as a react component</h1>
 
     Report: <select id="reportNo"> </select>
    <!-- Section: <input type="number" name="Section" id="page" value="1" > -->

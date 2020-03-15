@@ -71,7 +71,6 @@ const  iapiCall =  (store, iroute, actionType, payload, delay, eventHandler, par
                     unSubscribe();
                     debugger;
                     let efolder = extendFolder(store, f);
-                    console.log('calling ikeepAlive');
                     ikeepAlive(store);
                     resolve(efolder);
                 }
@@ -83,7 +82,6 @@ const  iapiCall =  (store, iroute, actionType, payload, delay, eventHandler, par
         unSubscribe = store.subscribe(nextE);
 
         // dispatch action
-        action.storeConfig = store.config;
         store.dispatch(action);
 
     });

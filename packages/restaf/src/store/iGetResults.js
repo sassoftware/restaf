@@ -38,7 +38,7 @@ function iGetResults (store, iroute, keyOnly, ...args) {
         q           = route.split(':/');
         serviceName = q.shift();
         folder      = store.getState()[serviceName];
-        path = [ ...q, ...iquery ];
+        path = [...q, ...iquery];
 
     } else {
         path = iquery;

@@ -46,7 +46,7 @@
  
      // let contentType = cType.split(';') [0];
      let iLink = response.data.iconfig.link;
- 
+     debugger;
      fixCas(iLink, response);
      if (iLink.href.indexOf("reportImages/jobs") > 0){
         fixImages(response);
@@ -62,28 +62,25 @@
 
  function fixCas (iLink, response){
      // special handling for cas
-     
-     // do a refresh - mainly for reattaching to a cas session
-     if (iLink.rel === 'self' && iLink.type === 'application/vnd.sas.cas.session.summary') {
-        response.data.results.links = response.data.results.links.concat(fixCasSession(iLink, response.data.results));
-        response.data.results.name2 = response.data.results.name.split(':')[0];
-    }
- 
-    // create a new session
-     else if (iLink.rel === 'createSession' && iLink.responseType === 'application/vnd.sas.cas.session') {
-         response.data.results.links = response.data.results.links.concat(fixCasSession(iLink, response.data.results));
-         response.data.results.name2 = response.data.results.name.split(':')[0];
+     let casProxyFlag = false;
+     debugger;
+     if (response.data.hasOwnProperty('iconfig')) {
+         if (response.data.iconfig.storeConfig != null) {
+             casProxyFlag = response.data.iconfig.storeConfig.casProxy;
+         }
      }
- 
+     // do a refresh - mainly for reattaching to a cas session
+    
+     if ((iLink.rel === 'self' && iLink.type === 'application/vnd.sas.cas.session.summary') ||
+         (iLink.rel === 'createSession' && iLink.responseType === 'application/vnd.sas.cas.session')
+		) {
+			response.data.results.links = response.data.results.links.concat(fixCasSession(iLink, response.data.results, casProxyFlag));
+			response.data.results.name2 = response.data.results.name.split(':')[0];
+		}
+
      if (iLink.hasOwnProperty('itemType') && iLink.itemType === 'application/vnd.sas.cas.session.summary') {
          
          let items = response.data.results.items;
-         /* let harray = iLink.href.split('/');
-         harray.shift();
-         let server = harray [ 2 ];
-         */
-         // let pre   = `/casProxy/servers/${iLink.server}/cas/sessions`;
- 
          let pre = `/${iLink.casHttp}/cas/sessions`;
          for (let i = 0; i < items.length; i++) {
              let item = items [i];
@@ -95,7 +92,7 @@
                 l.server  = iLink.server;
                 return l;
             });
-             item.links = item.links.concat(casSessionLinks(uri, urihttp, iLink.casHttp, iLink.server));
+             item.links = item.links.concat(casSessionLinks(uri, urihttp, iLink.casHttp, iLink.server, casProxyFlag));
              
          }
      }
@@ -138,7 +135,7 @@
  }
  
  
- function fixCasSession (iLink, results) {
+ function fixCasSession (iLink, results, casProxyFlag) {
      
      // proprogate casHttp
      results.links = results.links.map(l => {
@@ -146,21 +143,15 @@
         l.server  = iLink.server;
         return l;
     });
-     return sessionLinks(iLink, results.id).concat(results.links);
+     return sessionLinks(iLink, results.id, casProxyFlag).concat(results.links);
  }
  
  
- function sessionLinks (iLink, sessionId) {
-      'use strict';
- 
-    /* let harray = iLink.href.split('/');
-     let server = harray[harray.findIndex((s=> s === 'servers'))+1];
-     */
-
+ function sessionLinks (iLink, sessionId, casProxyFlag) {
      let uri = `/casProxy/servers/${iLink.server}/cas/sessions/${sessionId}`;
      let urihttp = `/${iLink.casHttp}/cas/sessions/${sessionId}`;
      // propgate server name also
-     return casSessionLinks(uri, urihttp, iLink.casHttp, iLink.server);
+     return casSessionLinks(uri, urihttp, iLink.casHttp, iLink.server, casProxyFlag);
  }
  
  

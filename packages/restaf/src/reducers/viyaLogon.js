@@ -72,7 +72,7 @@ function viyaLogon (state = initialState, action) {
                 runStatus        : 'ready',
                 statusInfo       : {},
                 user             : 'You of course!',
-                connections      : [ newOne ]
+                connections      : [newOne]
             };
 
             return fromJS(temp);
@@ -98,7 +98,7 @@ function viyaLogon (state = initialState, action) {
                 runStatus        : 'ready',
                 statusInfo       : {},
                 user             : 'You of course!',
-                connections      : [ newOne ]
+                connections      : [newOne]
             };
 
             return fromJS(temp);

@@ -7,6 +7,6 @@ import config from './config';
 
 let e = {
     config: config
-}
+};
 export default e;
 

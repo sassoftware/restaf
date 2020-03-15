@@ -21,7 +21,7 @@
 const ca = require('win-ca');
 
 
-let a = ca({format: ca.der2.pem,  store: [ 'root', 'ca' ], save: 'c:/public/env/pems'});
+let a = ca({format: ca.der2.pem,  store: ['root', 'ca'], save: 'c:/public/env/pems'});
 
 let pem ='';
 // let a = ca({format: ca.der2.pem,  store: [ 'root', 'ca' ], ondata: (c) => {pem = pem + c}});

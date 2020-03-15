@@ -52,7 +52,9 @@ const iaddServices = (store, services)  => {
                 logonInfo  : null,
                 tLink      : null, /* null indicates root of service */
                 serviceName: service,
-                route      : service
+                route      : service,
+                
+                storeConfig: store.config
             };
         });
 

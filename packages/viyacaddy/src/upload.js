@@ -22,4 +22,4 @@ module.exports = async function upload (store, servers, args, vorpal) {
         throw err;
     }
    
-}
+};

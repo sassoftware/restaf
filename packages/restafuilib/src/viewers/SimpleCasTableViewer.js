@@ -23,29 +23,27 @@ function Table (props) {
 	let theadRows = data.get('schema').map(s => {
 		let name = s.get('name');
 		return (
-			<th key={name} scope="col" style={{ backgroundColor: 'lightgrey' }}>
-				{name}
-			</th>
+			<th key={name} scope="col" style={{ backgroundColor: 'lightgrey' }}>{name.trim()}</th>
 		);
 	});
-	let thead = <thead> {theadRows} </thead>;
+	let thead = <thead><tr>{theadRows}</tr></thead>;
 
-	let tbodyRows = data.get('rows').map(row => {
+	let tbodyRows = data.get('rows').map((row,irow) => {
 		let thisRow = (
-			<tr>
+			<tr key={irow}>
 				{row.map((col, index) => {
-					let v = <input type="text" value={col} />;
-					return <td key={index}> {v} </td>;
+					let v = <input type="text" defaultValue={col}/>;
+					return <td key={index}>{v}</td>;
 				})}
 			</tr>
 		);
 		return thisRow;
 	});
-	let tbody = <tbody> {tbodyRows} </tbody>;
+	let tbody = <tbody>{tbodyRows}</tbody>;
 
 	return (
 		<div>
-			<table class="table table-striped">
+			<table className="table table-striped">
 				{thead}
 				{tbody}
 			</table>

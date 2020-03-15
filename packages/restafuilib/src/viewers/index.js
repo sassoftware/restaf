@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import Apps from './Apps';
+
 import CasTableBrowserp from './CasTableBrowserp';
 import CasTableSelectorp from './CasTableSelectorp';
 import DsScoring from './DsScoring';
@@ -15,10 +15,9 @@ import SideBar from './SideBar';
 import CasOutput from './CasOutput';
 import SimpleCasTableViewer from './SimpleCasTableViewer';
 import ReportExplorerApp from './ReportExplorerApp';
-import ReportSinglesdk from './ReportSinglesdk';
+import SasReport from './SasReport';
 
 export default {
-	Apps,
 	CasTableBrowserp,
 	CasTableSelectorp,
 	CasOutput,
@@ -30,5 +29,5 @@ export default {
 	SideBar,
 	SimpleCasTableViewer,
 	ReportExplorerApp,
-	ReportSinglesdk
+	SasReport
 };

@@ -67,6 +67,7 @@ const prepareAction = function (store, iroute, actionType, payload, delay,
         eventHandler: eventHandler,
         parentRoute : parentRoute,
         jobContext  : jobContext,
+        storeConfig : store.config,
         link
     } ;
 

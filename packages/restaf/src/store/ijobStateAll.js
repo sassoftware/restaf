@@ -29,7 +29,7 @@ function ijobStateAll (store, jobs , ipayload) {
                     payload.push(ipayload);
                 }
             } else {
-                payload = [ ...ipayload ];
+                payload = [...ipayload];
             }
         } else {
             for (let i = 0; i < jobs.length; i++) {

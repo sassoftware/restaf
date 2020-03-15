@@ -1,4 +1,4 @@
-/* eslint-disable react-hooks/exhaustive-deps */
+
 import React from 'react';
 // import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
@@ -42,8 +42,8 @@ const styles = {
 
 function Header (props) {
 	const { useState, useEffect, useRef } = React;
-	let [ itemsList, setItemsList ] = useState(null);
-	let [ isOpen, setIsOpen ] = useState(false);
+	let [itemsList, setItemsList] = useState(null);
+	let [isOpen, setIsOpen] = useState(false);
 	const { classes } = props;
 
 	let lastMenu = useRef('');
@@ -67,7 +67,7 @@ function Header (props) {
 			let l = makeList(props.menu);
 			setItemsList(l);
 		}
-	}, [ props.menu ]);
+	}, [props.menu]);
 
 	let control = {
 		menu: props.menu

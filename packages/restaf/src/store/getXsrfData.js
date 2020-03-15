@@ -23,7 +23,7 @@
     let list = store.getState();
     list = list[API_XSRF_ROOT];
     
-    let path = (args.length > 0) ? [ 'userData' ].concat(args) : [ 'userData' ];
+    let path = (args.length > 0) ? ['userData'].concat(args) : ['userData'];
     let xsrf = list.getIn(path, null);
     
     return(xsrf !== null) ? xsrf.toJS() : null;

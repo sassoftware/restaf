@@ -43,7 +43,7 @@ module.exports.dsScore  = async function (event, context) {
 		let results;
 	
 		if (inParms.masModel != null) {
-			let model = [ inParms.model.name ];
+			let model = [inParms.model.name];
 			let masControl = await masSetup(store, model, payload);
 			results = await masRun(store, masControl, inParms.model.name, inParms.scenario, (inParms. step != null) ? inParms.step:null); 
 		} else {

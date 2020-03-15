@@ -52,8 +52,8 @@ function ShowScore (props){
         },
       }));
 
-    let [ score, setScore ] = useState(props.score);
-    let [ model, setModel ] = useState(props.model);
+    let [score, setScore] = useState(props.score);
+    let [model, setModel] = useState(props.model);
 
     const classes = useStyles();
 
@@ -61,12 +61,12 @@ function ShowScore (props){
       setScore(props.score);
       setModel(props.model);
       console.log(`setting score as ${props.score}`);
-    },[ props.score, props.model ])
+    },[props.score, props.model]);
 
     debugger;
   
 
-    let key = 'Score'
+    let key = 'Score';
     let t = 
          <FormControl variant="outlined" margin="normal">
             <InputLabel htmlFor= {key}>{key}</InputLabel>
@@ -90,7 +90,7 @@ function ShowScore (props){
         </FormControl>
         </Paper>
         </Container>
-      </React.Fragment>
+      </React.Fragment>;
 
 
     return outerForm;

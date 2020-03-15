@@ -23,15 +23,15 @@
 
 let { casSetup} = require('@sassoftware/restaflib');
 
-module.exports = async function casDSandFetch(testInfo) {
+module.exports = async function casDSandFetch (testInfo) {
 	let { store, logger } = testInfo;
 	let { session } = await casSetup(store, null);
 
 	let actionPayload = {
 		action: 'datastep.runCode',
-		data: {
+		data  : {
 			single: 'YES',
-			code:
+			code  :
 				'data casuser.score; x1=10;x2=20;x3=30; score1 = x1+x2+x3;run; '
 		}
 	};
@@ -40,7 +40,7 @@ module.exports = async function casDSandFetch(testInfo) {
 	// run fetch action
 	actionPayload = {
 		action: 'table.fetch',
-		data: { table: { caslib: 'casuser', name: 'score' } }
+		data  : { table: { caslib: 'casuser', name: 'score' } }
 	};
 	let actionResult = await store.runAction(session, actionPayload);
 	let t = actionResult.items('tables', 'Fetch').toJS();

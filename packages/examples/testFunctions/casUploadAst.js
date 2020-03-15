@@ -35,15 +35,15 @@ module.exports = async function casUploadAst (save, testInfo) {
 	);
 
 	let scenario = {
-		model: { caslib: 'casuser', name: 'paysimjest' },
+		model   : { caslib: 'casuser', name: 'paysimjest' },
 		scenario: {
-			type_n: 1,
-			amount: 10000,
+			type_n        : 1,
+			amount        : 10000,
 			newbalanceDest: 1000,
 			newbalanceOrig: 1000,
 			oldbalanceDest: 1000,
-			oldbalanceOrg: 1000,
-			isFraud: 0
+			oldbalanceOrg : 1000,
+			isFraud       : 0
 		}
 	};
 
@@ -56,4 +56,4 @@ module.exports = async function casUploadAst (save, testInfo) {
 
 	return desc;
 
-}
+};

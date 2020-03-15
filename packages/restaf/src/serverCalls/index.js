@@ -208,14 +208,10 @@ function makeCall (config, iconfig, pem, rejectUnauthorized) {
     return new  Promise ((resolve, reject)  => {
         axios(config)
             .then (response => {
-            
-                if (response.status === 302) {
-                    console.log(status.headers.location);
-                }
                 parseJSON(response.data)
                     .then (data => {
                         iconfig.data = null;/* get rid of the payload*/
-                        response.data = { results: data , iconfig: Object.assign({}, iconfig) };
+                        response.data = { results: data, iconfig: Object.assign({}, iconfig) };
                         if (data.hasOwnProperty('errorCode')) {
                             //noinspection JSUnresolvedVariable
                             response.status = response.data.results.httpStatusCode;
@@ -290,11 +286,7 @@ function keepAlive (payload) {
         url   : payload.keepAlive,
         method: 'GET'
     };
-    return axios(config)
-        .then (r => true)
-        .catch (e => false);
+    return axios(config);
 }
-
-
 
 export { trustedGrant, keepAlive, request };

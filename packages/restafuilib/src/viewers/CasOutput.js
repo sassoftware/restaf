@@ -10,15 +10,15 @@ import JSONPretty from 'react-json-pretty';
 
 function CasOutput (props) {
 	let { store, session, folder } = props;
-	let [ showData, setShowData ] = useState({Note: 'Please select from list on the left'});
-	let [ casResults, setCasResults ] = useState(null);
+	let [showData, setShowData] = useState({Note: 'Please select from list on the left'});
+	let [casResults, setCasResults] = useState(null);
 
 	debugger;
 
 	useEffect(() => {
 		setCasResults(folder.items().toJS());
 		setShowData({Note: 'Please select from list on the left'});
-	}, [ folder ]);
+	}, [folder]);
 
 	const handleSelect = m => {
     debugger;

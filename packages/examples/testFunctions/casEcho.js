@@ -29,7 +29,7 @@ module.exports = async function casEcho (testInfo) {
     
   let p = {
     action: 'echo',
-    data: {
+    data  : {
       code: 'data casuser.score; x1=10;x2=20;x3=30; score1 = x1+x2+x3;run; '
     }
   };
@@ -37,4 +37,4 @@ module.exports = async function casEcho (testInfo) {
   logger.info(r);
   await store.apiCall(session.links('delete'));
   return 'done';
-}
+};

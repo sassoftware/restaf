@@ -25,15 +25,15 @@ function DsScoring (props) {
   */
 
   // const [routePath, setRoutePath] = useState(props.match.path);
-  const [ selectorValues, setSelectorValues ] = useState(null);
-  const [ selectedValues, setSelectedValues ]  = useState({});
-  const [ initialValues, setInitialValues ] = useState(null);
-  const [ scenarioResult, setScenarioResult ] = useState(null);
-  const [ modelName, setModelName ] = useState(props.model.name);
+  const [selectorValues, setSelectorValues] = useState(null);
+  const [selectedValues, setSelectedValues]  = useState({});
+  const [initialValues, setInitialValues] = useState(null);
+  const [scenarioResult, setScenarioResult] = useState(null);
+  const [modelName, setModelName] = useState(props.model.name);
 
   let {store, model} = props;
   // const [scenarios, setScenarioValues] = useState(null)
-  const [ errors, setErrors ] = useState('loading...');
+  const [errors, setErrors] = useState('loading...');
 
   debugger;
 
@@ -108,8 +108,7 @@ function DsScoring (props) {
           setErrors(JSON.stringify(err));
         });
       }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [ modelName, props.model ]);
+  }, [modelName, props.model]);
 
     function handleChange (event) {
       console.log(event.target.name);

@@ -19,11 +19,10 @@
 
 import {takeEvery} from 'redux-saga/effects' ;
 import  {DELETE_RAF_OBJECT} from '../actionTypes';
-import {API_STATUS_ROOT, API_STATUS, API_STATUS_SETSTATE} from '../actionTypes';
 import {put} from 'redux-saga/effects';
 
 function* apiDataAction () {
-    yield takeEvery([ DELETE_RAF_OBJECT ] , rafObject);
+    yield takeEvery([DELETE_RAF_OBJECT] , rafObject);
 }
 
 function *rafObject (action) {

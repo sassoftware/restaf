@@ -19,8 +19,8 @@
   'use strict';
 
 import { setGoodStatus, setBadStatus  } from './statusFuncs';
-import { SASLogonOauthLink } from './SASLogonOauthLink';
-import { SASLogoffOauthLink } from './SASLogoffOauthLink';
+import SASLogonOauthLink  from './SASLogonOauthLink';
+import SASLogoffOauthLink  from './SASLogoffOauthLink';
 import routeOrFolder from './routeOrFolder';
 import { tLinkStruct, itemsStruct, statusInfoStruct } from './rootStruct';
 

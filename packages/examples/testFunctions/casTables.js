@@ -23,7 +23,7 @@
 
 let { casSetup, print } = require('@sassoftware/restaflib');
 
-module.exports = async function casTables(testInfo) {
+module.exports = async function casTables (testInfo) {
 	let { store, logger } = testInfo;
 	let { servers, session } = await casSetup(store, null);
 
@@ -39,11 +39,11 @@ module.exports = async function casTables(testInfo) {
 		let s = caslibs.itemsList(i);
 		let parms = {
 			allFiles: true,
-			caslib: s
+			caslib  : s
 		};
 		let p = {
 			action: 'table.fileInfo',
-			data: parms
+			data  : parms
 		};
 		let tables = await store.apiCall(executeCmd, p);
 
@@ -62,7 +62,7 @@ module.exports = async function casTables(testInfo) {
 		logger.info(tables);
 		if (s === 'SystemData') {
 			result[ s ] = tables.itemsList().toJS();
-		};
+		}
 		if (s === 'Public') {
 			logger.info(tables.items(tables.itemsList(0, 'data')));
 		}

@@ -13,19 +13,21 @@
  *    let t = uploadSetup('./cars.sashdat');
  */
 
-import { uploadSrc,  uploadAstore } from './uploadHandlers';
+import { uploadSrc, uploadAstore } from './uploadHandlers';
 
-function uploadSetup(source, output) {
-	
-
+function uploadSetup (source, output) {
 	let fileOptions = null; /* option for file reader */
-	let contentType = 'binary/octet-stream'; /* header content-type on API call */
+	let contentType =
+		'binary/octet-stream'; /* header content-type on API call */
 
 	let fileType; /* fileType for use in API call */
 	let handler = uploadSrc;
 	let transform = noChange;
 
-    let fext = source.split('.').pop().toLowerCase();
+	let fext = source
+		.split('.')
+		.pop()
+		.toLowerCase();
 	switch (fext) {
 		case 'sas7bdat': {
 			fileType = 'basesas';
@@ -69,41 +71,49 @@ function uploadSetup(source, output) {
 			throw `Currently file type of ${fext} is not supported`;
 		}
 	}
-	
-	let [ caslib, name ] = output.split('.');
+
+	let [caslib, name] = output.split('.');
 	return {
 		source     : source,
-		output     : {caslib: caslib, name: name.toLowerCase()},
-		fileType   : fileType, /* for cas actions */
+		output     : { caslib: caslib, name: name.toLowerCase() },
+		fileType   : fileType /* for cas actions */,
 		fileExt    : fext,
 		fileOptions: fileOptions,
 		transform  : transform,
 		contentType: contentType,
 		handler    : handler
 	};
-	function toBase64(data) {
+	function toBase64 (data) {
 		return new Buffer.from(data).toString('base64');
 	}
 	function toCsv (data, fileInfo) {
 		// preprocess to get rid of things that upset datastep
+		// eslint-disable-next-line no-control-regex
 		let isrc = data.replace(/[^\x00-\x7F]/g, '');
 		let src = isrc.replace(/\r?\n/g, '');
 		// convert to a csv
-		let fileType= fileInfo.fileExt;
+		let fileType = fileInfo.fileExt;
 		let varname =
 			fileType === 'sas'
 				? 'dataStepSrc'
 				: fileType === 'ds2'
 				? 'ds2Src'
 				: fileType === 'casl'
-				? 'caslSrc'
-				: 'dataStepsrc';
-		let csv = 'modelName' + '\\' + varname + '\n' +
-		 fileInfo.output.name + '\\' + ' ' + src + '\n';
+				? 'caslSrc' : 'dataStepsrc';
+		let csv =
+			'modelName' +
+			'\\' +
+			varname +
+			'\n' +
+			fileInfo.output.name +
+			'\\' +
+			' ' +
+			src +
+			'\n';
 		return csv;
 	}
 
-	function noChange(data) {
+	function noChange (data) {
 		return data;
 	}
 }

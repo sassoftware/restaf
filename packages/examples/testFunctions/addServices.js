@@ -32,5 +32,5 @@ module.exports = async function addServices (args, testInfo) {
   logger.info(l, 'list of services');
   return l;
 
-}
+};
 

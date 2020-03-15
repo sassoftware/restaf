@@ -10,6 +10,6 @@ function PlaceHolder (props) {
       <div id="page-wrap">
         <p> PlaceHolder for {model}</p>
       </div>
-    )
+    );
   }
 export default PlaceHolder;

@@ -3,14 +3,14 @@
 * SPDX-License-Identifier: Apache-2.0
 */
 'use strict';
-async function saveTable(store, session, caslib, name){
+async function saveTable (store, session, caslib, name){
    let  payload = {
 		action: 'table.save',
-		data: {
-			name: `${name}`,
-			caslib: `${caslib}`,
+		data  : {
+			name   : `${name}`,
+			caslib : `${caslib}`,
 			replace: true,
-			table: { name: `${name}`, caslib: `${caslib}` }
+			table  : { name: `${name}`, caslib: `${caslib}` }
 		}
 	};
 

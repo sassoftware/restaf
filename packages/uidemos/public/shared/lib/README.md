@@ -1,3 +1,1 @@
-# Notes
-Utility components and js files used in the demos
-
+# Utility components and js files used in the demos

@@ -21,7 +21,7 @@
 let restaflib = require('@sassoftware/restaflib');
 let { casSetup, casUpload} = restaflib;
 
-module.exports = async function casUploadbdat(save, testInfo) {
+module.exports = async function casUploadbdat (save, testInfo) {
 	let { store } = testInfo;
 	let { session } = await casSetup(store, null);
 
@@ -35,10 +35,10 @@ module.exports = async function casUploadbdat(save, testInfo) {
 	// run fetch action
 	let actionPayload = {
 		action: 'table.fetch',
-		data: {
+		data  : {
 			table: {
 				caslib: 'casuser',
-				name: 'cluster_test2jest'
+				name  : 'cluster_test2jest'
 			}
 		}
 	};

@@ -39,5 +39,5 @@ module.exports = async function foldersPaginate (testInfo) {
   }
 
   return "done";
-}
+};
 

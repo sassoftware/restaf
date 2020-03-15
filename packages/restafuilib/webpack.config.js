@@ -30,7 +30,7 @@ plugins.push( new webpack.DefinePlugin( {
 */
 
 module.exports = {
-  entry: [ "./src/index.js" ],
+  entry: ["./src/index.js"],
   mode : "development",
 
   output: {
@@ -53,7 +53,7 @@ module.exports = {
     rules: [
       { test: /\.(js|jsx)$/, use: "babel-loader" },
       { test: /\.svg$/, use: "raw-loader" },
-      { test: /\.css$/, use: [ "style-loader", "css-loader" ] }
+      { test: /\.css$/, use: ["style-loader", "css-loader"] }
     ]
   }
 };

@@ -1,3 +1,4 @@
+/* eslint-disable no-control-regex */
 /*
  * ------------------------------------------------------------------------------------
  *   Copyright (c) SAS Institute Inc.
@@ -22,7 +23,7 @@ let fs = require('fs');
 let restaf = require('@sassoftware/restaf');
 let { casSetup, print } = require('@sassoftware/restaflib');
 
-module.exports = async function casUploadProgram() {
+module.exports = async function casUploadProgram () {
 	let payload = require('../lib/config.js/index.js')();
 	let store = restaf.initStore();
 	let { session } = await casSetup(store, payload);
@@ -34,26 +35,26 @@ module.exports = async function casUploadProgram() {
 	let JSON_Parameters = {
 		casout: {
 			caslib: 'casuser' /* a valid caslib */,
-			name: outputName /* name of output file on cas server */
+			name  : outputName /* name of output file on cas server */
 		},
 
 		importOptions: {
-			fileType: 'csv' /* type of the file being uploaded */,
+			fileType : 'csv' /* type of the file being uploaded */,
 			delimiter: '\\'
 		}
 	};
 
 	let p = {
 		headers: { 'JSON-Parameters': JSON_Parameters },
-		data: readFile(filename, fileType),
-		action: 'table.upload'
+		data   : readFile(filename, fileType),
+		action : 'table.upload'
 	};
 
 	await store.runAction(session, p);
 
 	p = {
 		action: 'table.fetch',
-		data: { table: { caslib: 'casuser', name: outputName } }
+		data  : { table: { caslib: 'casuser', name: outputName } }
 	};
 
 	let actionResult = await store.runAction(session, p);
@@ -66,7 +67,7 @@ module.exports = async function casUploadProgram() {
 	return t;
 };
 
-function readFile(filename, fileType) {
+function readFile (filename, fileType) {
 	let isrc = fs.readFileSync(`./${filename}.${fileType}`, 'UTF8');
 	isrc = isrc.replace(/[^\x00-\x7F]/g, '');
 	let src = isrc.replace(/\r?\n/g, '');

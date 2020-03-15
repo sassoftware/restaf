@@ -20,7 +20,7 @@ import { API_POLL } from '../actionTypes';
 import apiPoll from './apiPoll';
 
 function* apiPollAction () {
-    yield takeEvery([ API_POLL ] , apiPoll);
+    yield takeEvery([API_POLL] , apiPoll);
 }
 
 export default apiPollAction ;

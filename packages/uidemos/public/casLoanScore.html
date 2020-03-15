@@ -119,6 +119,7 @@
         <script>
             let svg;
             let session;
+            let uploaded = false;
             debugger;
             let store = restaf.initStore((LOGONPAYLOAD.authType === 'server') ? {casProxy:true} : null);
 
@@ -156,16 +157,42 @@
                 // if model is published then the model refers to the sashdat associated with the destination
                 // modelName is required if using published model(ignored for all other cases)
 
-                let payload = {
-                    model    :  {caslib: 'public', name: 'GRADIENT_BOOSTING___BAD_2'},
-                    modelName: '',
-                    scenario : inputValues
-                };
-                restaflib.caslScore(store, session, payload)
+                
+                
+                uploadAndScore()
                  .then ( r => viewDial(r.P_BAD))
                  .catch( e => alert(e))
             }
             
+            async function uploadAndScore() {
+                debugger;
+                if (uploaded === false){
+                    let payload = {
+                        method: 'GET',
+                        url   : `${window.location.protocol}//${window.location.host}/data/gradBoost.sashdat`,
+                        headers: {
+                            'accept': 'binary/octet-stream'
+                        }
+                    }
+                    debugger;
+                    let d = await store.request(payload);
+                    debugger;
+                    let r = await restaflib.casUpload(store, session, 'gradBoost.sashdat', 'casuser.gradBoost', true, d.data);
+                    debugger;
+                    console.log(r);
+                    uploaded = true;
+                }
+                let scenario = {
+                    model    :  {caslib: 'casuser', name: 'gradBoost'},
+                    modelName: '',
+                    scenario : inputValues
+                };
+                r = await restaflib.caslScore(store, session, scenario);
+                console.log(r);
+                return r;
+            }
+                debugger;
+           
             //
             // setup the display of the resulting score(D3 is ei)
             //

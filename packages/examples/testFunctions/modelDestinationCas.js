@@ -5,7 +5,7 @@
 'use strict';
 
 let uuid = require('uuid');
-module.exports = async function modelDestinationCas(testInfo){
+module.exports = async function modelDestinationCas (testInfo){
     let { store, logger } = testInfo;
     let { modelPublish } = await store.addServices('modelPublish');
     logger.info(modelPublish.links().keySeq());
@@ -20,11 +20,11 @@ module.exports = async function modelDestinationCas(testInfo){
     let payload = {
         data: {
             
-			name: 'testPublishjest',
-			casServerName: 'cas-shared-default',
-			casLibrary: 'Public',
+			name            : 'testPublishjest',
+			casServerName   : 'cas-shared-default',
+			casLibrary      : 'Public',
             destinationTable: 'jest' + uuid.v1(),
-			destinationType: 'cas'
+			destinationType : 'cas'
 		}
 	};
     
@@ -64,5 +64,5 @@ module.exports = async function modelDestinationCas(testInfo){
     await store.apiCall(newList.itemsCmd('testPublishjest', 'delete'));
 
     
-    return 'done'
-}
+    return 'done';
+};

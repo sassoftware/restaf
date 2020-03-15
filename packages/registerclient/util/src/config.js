@@ -22,7 +22,7 @@ let fs = require('fs');
 
 
 module.exports = function config (envFile) {
-	let appEnv = (envFile === null ) ? process.env.RESTAFENV : envFile;
+	let appEnv = (envFile === null) ? process.env.RESTAFENV : envFile;
 
 	console.log('---------------------------------------');
 	console.log(`env file set to: ${appEnv}`);
@@ -55,8 +55,8 @@ module.exports = function config (envFile) {
 		clientSecret: process.env.hasOwnProperty("CLIENTSECRET")
 		? process.env["CLIENTSECRET"]
 		: ""
-	}
-}
+	};
+};
 
 function iconfig (appEnv) {
 	try {

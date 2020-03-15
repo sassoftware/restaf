@@ -17,7 +17,7 @@
   'use strict';
 
 import { delay } from 'redux-saga/effects';
-import { put, call, select  } from 'redux-saga/effects';
+import { put, call, select} from 'redux-saga/effects';
 
 import httpCall         from  './httpCall' ;
 import selectLogonInfo  from '../store/selectLogonInfo';
@@ -37,5 +37,4 @@ function *apiCall (action) {
     yield put(payload);
     
 }
-
 export default apiCall;

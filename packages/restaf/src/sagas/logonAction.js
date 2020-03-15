@@ -16,7 +16,7 @@
   'use strict';
 
 
-import { put, call, take, select, spawn, delay} from 'redux-saga/effects';
+import { put, call, take, select} from 'redux-saga/effects';
 import selectLogonInfo  from '../store/selectLogonInfo';
 import { SASLogonOauthLink} from '../utils';
 import { SASLogoffOauthLink} from '../utils';
@@ -34,13 +34,6 @@ function*  logonAction () {
         payload.keepAlive = (action.payload.keepAlive == null) ? null : action.payload.keepAlive;
         yield put(payload);
         if (payload.error === false) {
-
-            /*
-            if (action.payload.keepAlive != null) {
-               yield spawn (keepAlive, action.payload);
-            }
-            */
-            
             action           = yield take(VIYA_LOGOFF);
             yield put ({ type: BEGIN_LOGOFF});
             
@@ -52,23 +45,10 @@ function*  logonAction () {
     }
 }
 
-
-function* keepAlive (payload){
-    let doit = true; 
-    
-   
-    while (doit) {
-        yield delay(2000);
-        
-        let r = yield call(test, payload);
-    }
-  }
-  
-
 function sasLogon (action) {
     
-    let config  = { ...action.payload };
-    if (config.authType === VIYA_LOGON_SERVER|| config.authType === VIYA_LOGON_IMPLICIT) {
+    let config = { ...action.payload };
+    if (config.authType === VIYA_LOGON_SERVER || config.authType === VIYA_LOGON_IMPLICIT) {
         return {
             type   : config.authType,
             error  : false,
@@ -77,45 +57,21 @@ function sasLogon (action) {
             }
         };
     } else {
-
         let t = SASLogonOauthLink(config.authType);
         config.link = t.link;
         return (t.logon(config)
-                  .then(response => viyaLogonSuccess(response))
-                  .catch(error => viyaLogonError(error))
+            .then(response => { return { type: VIYA_LOGON_COMPLETE, error: false, payload: response }; })
+            .catch(error   => { return { type: VIYA_LOGON_COMPLETE, error: true, payload: error }; })
         );
     }
-}
-function test (action){
-    let t = SASLogonOauthLink('keepAlive');
-    return t.keepAlive(action);
-}
-function viyaLogonSuccess (payload) {
-    return {
-        type : VIYA_LOGON_COMPLETE,
-        error: false,
-        payload
-    };
-}
-
-function viyaLogonError (payload) {
-    return {
-        type : VIYA_LOGON_COMPLETE,
-        error: true,
-        payload
-    };
 }
 
 function sasLogoff (config){
     let t = SASLogoffOauthLink();
     config.link = t.link;
     return (t.logoff(config)
-            .then(response => {
-                return {type: VIYA_LOGOFF_COMPLETE, error: false, payload: response};
-            })
-            .catch(error => {
-                return {type: VIYA_LOGOFF_COMPLETE, error: true, payload: error};
-            })
+            .then(response => {return {type: VIYA_LOGOFF_COMPLETE, error: false, payload: response}; })
+            .catch(error   => {return {type: VIYA_LOGOFF_COMPLETE, error: true, payload: error};})
     );
 }
 

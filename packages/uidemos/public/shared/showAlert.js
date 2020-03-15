@@ -16,9 +16,9 @@
  */
 
 'use strict';
-function showAlert( err ) {
-    console.log( err );
-    alert( ( typeof err === 'object' )
-           ? JSON.stringify( err,null, 4)
-           : err ) ;
+function showAlert (err) {
+    console.log(err);
+    alert((typeof err === 'object')
+           ? JSON.stringify(err,null, 4)
+           : err) ;
 }

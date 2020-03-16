@@ -31,7 +31,9 @@
   "dependencies": {
     "@babel/runtime": "^7.8.7",
     "axios": "^0.19.2",
+    "eslint": "^6.8.0",
     "immutable": "^4.0.0-rc.12",
+    "minimist": "^1.2.2",
     "qs": "^6.9.1",
     "query-string": "^6.11.1",
     "redux": "^4.0.5",
@@ -62,7 +64,6 @@
     "@babel/preset-env": "^7.8.7",
     "babel-eslint": "^10.1.0",
     "babel-loader": "^8.0.4",
-    "eslint": "^5.12.1",
     "eslint-plugin-react": "^7.19.0",
     "eslint-plugin-redux-saga": "^0.10.0",
     "prettyjson": "^1.2.1",
@@ -71,5 +72,8 @@
     "webpack-cli": "^3.3.11",
     "webpack-node-externals": "^1.7.2",
     "yargs": "^12.0.5"
+  },
+  "resolutions": {
+    "**/minimist": "^1.2.2"
   }
 }

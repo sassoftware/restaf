@@ -1,10 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`logon and get root links 1`] = `
+exports[`logon and get root links for default services 1`] = `
 Array [
-  "_apistatus",
-  "_appdata",
-  "_xsrf",
   "reports",
   "reportImages",
   "reportTransforms",

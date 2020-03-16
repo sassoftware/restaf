@@ -28,7 +28,7 @@ let restaf = require('@sassoftware/restaf');
 module.exports = async function addServices (args, testInfo) {
   let { store, logger } = testInfo;
   let s = await store.addServices(...args);
-  let l = store.getServices();
+  let l = Object.keys(s);
   logger.info(l, 'list of services');
   return l;
 

@@ -22,4 +22,6 @@ ENV USER=omitest
 ENV PASSWORD=metadata1$
 ENV TESTS=
 ENV LOGGER=OFF
+ENV DEFAULT_VIYA_SERVICES=reports,reportImages,reportTransforms,compute,files,casManagement,modelPublish,modelRepository,jobExecution
+ENV VIYA_SERVICES=
 CMD ["./start.sh"]

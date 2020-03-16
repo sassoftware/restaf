@@ -3,18 +3,19 @@ let testInfo;
 beforeAll(async () => {
 	testInfo = await require('./lib/setupAll')();
 });
-test("logon and get root links", async () => {
-  let s = [
-    "reports",
-    "reportImages",
-    "reportTransforms",
-    "compute",
-    "files",
-    "casManagement",
-    "modelPublish",
-    "modelRepository",
-    "jobExecution"
-  ];
-  let l = await testFunctions.addServices(s,testInfo);
+test("logon and get root links for default services", async () => {
+  let s = process.env.DEFAULT_VIYA_SERVICES.split(',').map(s1 => {
+    return s1.trim();
+  });
+  let l = await testFunctions.addServices(s, testInfo);
   expect(l).toMatchSnapshot();
+});
+test('logon and get root links for VIYA_SERVICES env variable', async () => {
+  if (process.env.VIYA_SERVICES != null) {
+    let s = process.env.VIYA_SERVICES.split(',').map(s1 => {
+      return s1.trim();
+    });
+    let l = await testFunctions.addServices(s, testInfo);
+    expect(l).toEqual(s);
+  }
 });

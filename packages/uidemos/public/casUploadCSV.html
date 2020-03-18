@@ -54,8 +54,6 @@
         let caslibs    = null;
     
         let dmsOutput   = null;
-        let dataBuf;
-
         function setup() {
             appInit()
              .then(r => console.log(r))
@@ -78,22 +76,6 @@
         }
 
            debugger;
-        function readFile(file){
-            debugger;
-            let reader = new FileReader();
-            reader.onload = ( evt ) => {
-                dataBuf = evt.target.result;
-                let fname = document.getElementById('name').value;
-                let [name,type] = file.name.split('.')
-                if ( fname.length === 0 ) {
-                    fname = name;
-                }
-                restaflib.casUpload(store, session, file.name, 'casuser.'+ fname, true, dataBuf)
-                    .then ( r => document.getElementById('output').innerHTML = r)
-                    .catch( e => document.getElementById('output').innerHTML = e)
-            };
-            reader.readAsBinaryString( file );
-        }
 
        function upload() {
            debugger;
@@ -102,10 +84,36 @@
                showAlert( {Oops: 'You forgot to select a file'});
                return;
        }
-           
-           readFile(selectedFile);
+           let name = document.getElementById('name').value;
+           if ( name.length === 0 ) {
+               let [name,type] = selectedFile.name.split('.');
+              // document.getElementById('name').value = name;
+           }
+           let JSON_Parameters =  {
+               casout: {
+                   caslib: document.getElementById('caslib').value, /* a valid caslib */
+                   name  : name /* name of output file on cas server */
+               },
 
-          
+               importOptions: {
+                   fileType: 'csv' /* type of the file being uploaded */
+               }
+           };
+           debugger;
+           let payload = {
+               action: 'upload',
+               data: selectedFile,
+               headers: {
+                   "JSON-Parameters": JSON.stringify(JSON_Parameters)
+               }
+           }
+           debugger;
+           store.runAction( session, payload )
+               .then ( r => {
+                   document.getElementById('output').innerHTML = JSON.stringify(r.items(), null,4);
+               })
+               .catch (err => showAlert(err))
+
        }
        let uploadb = upload.bind(this);
 

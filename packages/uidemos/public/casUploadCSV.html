@@ -86,7 +86,7 @@
        }
            let name = document.getElementById('name').value;
            if ( name.length === 0 ) {
-               name = selectedFile.name.split('.')[0];
+               let [name,type] = selectedFile.name.split('.');
               // document.getElementById('name').value = name;
            }
            let JSON_Parameters =  {

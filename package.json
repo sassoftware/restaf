@@ -45,6 +45,7 @@
     "restafuilib:build": "cd ./packages/restafuilib && yarn run build  && npx cp -r ./dist/restafuilib.js ../uidemos/public/shared/dist/restafuilib.js",
     "uidemos:implicit": "cd ./packages/uidemos && npm run implicit",
     "uidemos:code": "cd ./packages/uidemos && npm run code",
+    "uidemos:rproxy": "cd ./packages/uidemos && npm run rproxy",
     "slsscore": "cd ./packages/serverless-score && getawskey &&sls offline",
     "registerclient": "cd ./packages/registerclient && npm start",
     "viyacaddy": "cd ./packages/viyacaddy && npm start",
@@ -107,7 +108,9 @@
     "**/mem": "^5.1.1"
   },
   "dependencies": {
+    "@hapi/h2o2": "^9.0.1",
     "@material-ui/icons": "^4.9.1",
+    "@sassoftware/restaf-server": "^7.4.3",
     "aws-sdk": "^2.639.0",
     "axios": "^0.19.2",
     "jwt-decode": "^2.2.0",

@@ -1,6 +1,5 @@
 list 
-del app
 add raf -t password -s raf
-add appi -t implicit -r http://localhost:8080/viyaapp
-add appc -t authorization_code -s secret -r http://localhost:8080/viyaapp
+add appli -t implicit -r http://localhost:8080/callback
+add applc -t authorization_code -s secret -r http://localhost:8080/callback
 list

@@ -1,7 +1,13 @@
 let testFunctions = require("./testFunctions");
 let testInfo;
 beforeAll(async () => {
-	testInfo = await require('./lib/setupAll')();
+  try {
+    testInfo = await require('./lib/setupAll')();
+  }
+  catch (err) {
+    console.log(err);
+    process.exit();
+  }
 });
 test("logon and get root links for default services", async () => {
   let s = process.env.DEFAULT_VIYA_SERVICES.split(',').map(s1 => {

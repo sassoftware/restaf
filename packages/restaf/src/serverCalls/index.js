@@ -141,7 +141,7 @@ function request (iconfig) {
       config.headers = {};
       config.withCredentials = (iconfig.withCredentials == null)? true: iconfig.withCredentials;
    }
-
+  
     let type   = fullType(iLink.type);
     if (iLink.hasOwnProperty('responseType')) {
         if (type !== null) {

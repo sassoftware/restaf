@@ -35,9 +35,6 @@ const logon = (store, ipayload) => {
         let urlInfo = null;
 
         let payload = (ipayload == null) ? null : { ...ipayload };
-        if (payload.authType === VIYA_LOGON_TOKEN) { 
-            payload.authType = VIYA_LOGON_SERVER;
-        }
 
         if (store.getState().connections.get('currentConnection') >= 0) {
             resolve('ready');
@@ -80,8 +77,9 @@ const logon = (store, ipayload) => {
         
             
             // now make the final decision
-
+       
             switch (payload.authType) {
+                case VIYA_LOGON_TOKEN:
                 case VIYA_LOGON_SERVER:
                     if (payload.host == null) {
                         payload.host = `${window.location.protocol}//${window.location.host}`;

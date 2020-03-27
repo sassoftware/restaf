@@ -1,6 +1,6 @@
 {
   "name": "restaf-uidemos",
-  "version": "1.7.20",
+  "version": "1.7.21",
   "description": "UI demos for Viya using restaf, restaflib and uilibrary",
   "main": "index.js",
   "scripts": {

@@ -1,7 +1,7 @@
 import React from "react";
 
 function ProblemDescription () {
-  debugger;
+  
   return (
     <div id = "page-wrap" >
       <h1 align="center"> Viya Apps</h1>

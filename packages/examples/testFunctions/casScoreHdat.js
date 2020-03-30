@@ -24,7 +24,7 @@ let { casSetup, casUpload, caslScore} = restaflib;
 module.exports = async function casScoreHdat (save, testInfo) {
 	let { store, logger } = testInfo;
 	let { session } = await casSetup(store, null);
-	debugger;
+	
 	let r = await casUpload(
 		store,
 		session,

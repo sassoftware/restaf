@@ -23,7 +23,7 @@
  * @alias module: getSASTableRows
  */
 async function computeFileContent (store, computeSummary, fileref, url) {
-	debugger;
+	
 	let fileInfo = computeSummary.files[fileref];
 	if (fileInfo == null) {
 		throw `Invalid fileref ${fileref}`;

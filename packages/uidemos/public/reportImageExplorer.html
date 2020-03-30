@@ -76,7 +76,7 @@
     async function setup( ) {
         await store.logon(LOGONPAYLOAD);
         let {reports, reportImages} = await store.addServices( 'reports', 'reportImages');
-        debugger;
+        ;
         reportsList = await restaflib.getReportUri( store, null );
         if (reportsList === null) {
             throw 'No reports to View';
@@ -103,9 +103,9 @@
     // need to create a new child for VA to refresh properly
     //
     function getReport() {
-        debugger;
+        ;
         let reportNo   = document.getElementById( "reportNo" ).selectedIndex;
-        debugger;
+        ;
         restaflib.getReportImage(store, reportsList[reportNo].name)
             .then(svg => addSvg('svg0', svg))
             .catch(err => alert(err));
@@ -114,7 +114,7 @@
     function addSvg( svgid, svgdata ) {
         let svg = document.getElementById( svgid );
         svg.innerHTML =  svgdata;
-        debugger;
+        ;
         let box = svg.getBBox();
         let viewBox = [box.x, box.y, box.width, box.height ].join( " " );
         svg.setAttribute( "viewBox", viewBox );

@@ -47,13 +47,13 @@
 
         async function setup() {
             let {session} = await restaflib.casSetup(store, LOGONPAYLOAD);
-            debugger;
+            ;
             p = {
                 action: 'builtins.echo',
                 data  : { x: '1' }
             };
             let actionResult = await store.runAction( session, p );;
-            debugger;
+            ;
             let props = {
                 store  : store,
                 session: session,

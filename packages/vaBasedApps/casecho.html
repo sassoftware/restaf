@@ -77,9 +77,9 @@
                     filter: `eq( id,'${id}')`
                 }
                 }
-                debugger;
+                ;
             let sessionList = await store.apiCall(servers.itemsCmd(serverName, 'sessions'),payload);
-            debugger;
+            ;
             if (sessionList.itemsList().size > 0 ) {
                 let name  = sessionList.itemsList(0);
                 console.log(`Found name = ${name}`);

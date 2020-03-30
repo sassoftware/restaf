@@ -7,7 +7,7 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 
 function ReportExplorerApp (props) {
-  debugger;
+  
   let { host, style, credentials ,reportsList} = props;
   let [currentReport, setCurrentReport] = useState(null);
   let [menuList, setMenuList] = useState([]);
@@ -15,7 +15,7 @@ function ReportExplorerApp (props) {
   console.log(props);
 
   useEffect(() => {
-    debugger;
+    
      let menuItems = reportsList.map(t => {
 			return (
 				<MenuItem key={t.uri} value={t.uri}>
@@ -27,10 +27,10 @@ function ReportExplorerApp (props) {
     setCurrentReport(reportsList[ 0 ].uri);
   }, []);
    
-  debugger;
+  
 
   const handleChange = (e) => {
-    debugger;
+    
     console.log(e.target.value);
     setCurrentReport(e.target.value);
     };

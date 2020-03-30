@@ -18,7 +18,7 @@
 import colors from 'colors/safe';
 
 async function logListLines (dataL) {
-    debugger;
+    
     dataL.map((data) => {
         let line = data.line.replace(/(\r\n|\n|\r)/gm, "");
         if (line.length === 0) {

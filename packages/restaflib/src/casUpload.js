@@ -11,14 +11,14 @@ import { saveTable } from './uploadHandlers';
 
 async function casUpload (store, session, source, output,save, altSrc){
 
-    debugger;
+    
     // parse source file to fgure out what we are uploading
     let fileInfo = uploadSetup(source, output);
     // read the file
 
     let buf = (altSrc != null) ? altSrc : await fs.readFile(source, fileInfo.fileOptions);
 
-    debugger;
+    
     // transfrom data if necessary for upload
     if (fileInfo.transform !== null) {
         buf = fileInfo.transform(buf, fileInfo);

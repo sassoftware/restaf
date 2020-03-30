@@ -17,7 +17,7 @@
 
 class IdViewer extends React.Component {
         constructor(props) {
-            debugger;
+            ;
             super(props);
             this.state = {
                 store: props.store,
@@ -32,7 +32,7 @@ class IdViewer extends React.Component {
         }
 
         render() {
-            debugger;
+            ;
             let {folder} = this.state;
             return (
                 <div>

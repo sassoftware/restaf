@@ -50,11 +50,11 @@
     <!-- this brings in the raf library -->
     
     <script type="text/javascript">
-        debugger;
+        ;
         let store = restaf.initStore();
-        debugger;
+        ;
         async function setup ( ){
-            debugger;
+            ;
             await store.logon(LOGONPAYLOAD);
             let {compute} = await store.addServices('compute');
             let contexts = await store.apiCall(compute.links('contexts'));

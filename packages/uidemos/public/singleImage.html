@@ -47,10 +47,10 @@
 <body>
 
 <script type="text/javascript">
-    debugger;
+    ;
     let store = restaf.initStore((LOGONPAYLOAD.authType === 'server') ? {casProxy:true} : null);
 
-    debugger;
+    ;
     async function getReport( reportNo ) {
         try {
 
@@ -68,7 +68,7 @@
     }
 
     function viewer( content ) {
-        debugger;
+        ;
         let vaViewer= document.querySelector( "#myviewer" );
         vaViewer.setAttribute( 'data-srcdoc', content );
     }

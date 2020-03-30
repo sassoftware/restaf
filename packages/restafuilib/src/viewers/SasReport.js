@@ -2,7 +2,7 @@ import React from 'react';
 import { Fragment } from 'react';
 
 function SasReport (props) {
-	debugger;
+	
 
 	console.log(`now showing the report  ${props.name} = ${props.reportUri}`);
 	

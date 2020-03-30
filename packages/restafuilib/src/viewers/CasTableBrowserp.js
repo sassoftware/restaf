@@ -47,7 +47,7 @@ function CasTableBrowserp (props) {
       setResult(null);
       setErrors(null);
     }
-    debugger;
+    
     
     casFetchData(store, session, control)
       .then(r => handleResult(r))

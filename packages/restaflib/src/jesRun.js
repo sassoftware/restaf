@@ -57,11 +57,11 @@ async function jesRun (store,jes, src, jobDefinitionName, args){
         data: jobRequest
     };
     // run code and get results
-    debugger;
+    
     console.log(JSON.stringify(payload, null,4));
-    debugger;
+    
     let jobResult = await jesRunBase(store, jes, payload);
-    debugger;
+    
 
     return jobResult;
 }
@@ -75,9 +75,9 @@ async function jobDefUri (store, name) {
         }
     };
   
-    debugger;
+    
     let jdefList = await jesRunBase(store, payload);
-    debugger;
+    
     if (jdefList.itemsList().size === 0) {
         throw `Error: ${name} not found in the system`;
     } 

@@ -48,10 +48,10 @@
                     'content-type'       : `application/pdf`
                 }
             };
-            debugger;
+            ;
             let createCmd = files.links('create');
             newFile = await store.apiCall (createCmd, payload);
-            debugger;
+            ;
             let uri = newFile.links('self', 'link', 'uri');
             pdfContentUri =  newFile.links('content', 'link', 'uri');
             console.log(pdfContentUri);
@@ -60,9 +60,9 @@
             return uri;
         }
         async function runDemo () {
-            debugger;
+            ;
             let msg = await store.logon(LOGONPAYLOAD);
-            debugger;
+            ;
             let session = await restaflib.computeSetup(store,null,null);
             let sessionid = session.items('id');
             uri = await getTempFile(sessionid);
@@ -97,7 +97,7 @@
                 `;
             
             let macros = { maxRows: 10};
-            debugger;
+            ;
             let computeSummary = await restaflib.computeRun(store, session, sasCode,macros)
             let ods = await restaflib.computeResults(store, computeSummary, 'ods');
             document.getElementById('ods').innerHTML = ods;

@@ -20,7 +20,7 @@ let argv = require('yargs').argv;
 let cmdFile = argv.file == null ? null : argv.file;
 let envFile = argv.env == null ? null : argv.env;
 let payload = config(envFile);
-debugger;
+
 // setup handling of https
 
 let pemFile = process.env.SSL_CERT_FILE;

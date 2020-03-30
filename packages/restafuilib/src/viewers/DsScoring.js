@@ -21,7 +21,7 @@ function DsScoring (props) {
   /*
   let appEnv = appContext.viya.appEnv;
   let store = appContext.store;
-  debugger;
+  ;
   */
 
   // const [routePath, setRoutePath] = useState(props.match.path);
@@ -35,7 +35,7 @@ function DsScoring (props) {
   // const [scenarios, setScenarioValues] = useState(null)
   const [errors, setErrors] = useState('loading...');
 
-  debugger;
+  
 
   const lastModel = useRef(null);
 
@@ -49,7 +49,7 @@ function DsScoring (props) {
   
     // get list of states and years - currently no refresh
 
-      debugger;
+      
    
       // setSelectedValues(null);
       setInitialValues(null);
@@ -99,12 +99,12 @@ function DsScoring (props) {
     };
 
     setErrors('...Retrieving filter information');
-    debugger;
+    
     if (lastModel.current !== model.model.name) {
       initStep(store, model)
         .then (r => console.log(r))
         .catch(err => {
-          debugger;
+          
           setErrors(JSON.stringify(err));
         });
       }
@@ -127,17 +127,17 @@ function DsScoring (props) {
   const onFilter = () => {
     setErrors('...Running');
     console.log(selectedValues);
-    debugger;
+    
     slsExecute('scenario', store, model, {filter: selectedValues})
     .then(casResults => {
       let t = scenarioData(casResults);
       console.log(t);
       setInitialValues(t);
       setErrors(null);
-      debugger;
+      
     })
     .catch(err => {
-      debugger;
+      
       console.log(err);
       setErrors(JSON.stringify(err));
     });
@@ -165,7 +165,7 @@ function DsScoring (props) {
     console.log(scenario);
     setErrors('...Running');
     setScenarioResult(null);
-    debugger;
+    
     console.log(scenario);
     slsExecute('score', store, model, {scenario: scenario}, props.serverless)
     .then(casResults => {
@@ -180,10 +180,10 @@ function DsScoring (props) {
       console.log(score);
       setScenarioResult(score);
       setErrors(null);
-      debugger;
+      
     })
     .catch(err => {
-      debugger;
+      
       console.log(err);
       setErrors(JSON.stringify(err));
     });

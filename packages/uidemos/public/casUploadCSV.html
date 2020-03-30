@@ -47,7 +47,7 @@
     <script type="text/javascript">
 
         // init restAF
-        debugger;
+        ;
         let store      = restaf.initStore();
         let session    = null;
         let servers    = null;
@@ -61,7 +61,7 @@
         }
         async function appInit(){
             try {
-                debugger;
+                ;
                 let r = await restaflib.casSetup (store, LOGONPAYLOAD);
                 servers = r.servers;
                 session = r.session;
@@ -75,10 +75,10 @@
             }
         }
 
-           debugger;
+           ;
 
        function upload() {
-           debugger;
+           ;
            var selectedFile = document.getElementById('file').files[0];
            if ( selectedFile == null ) {
                showAlert( {Oops: 'You forgot to select a file'});
@@ -99,7 +99,7 @@
                    fileType: 'csv' /* type of the file being uploaded */
                }
            };
-           debugger;
+           ;
            let payload = {
                action: 'upload',
                data: selectedFile,
@@ -107,7 +107,7 @@
                    "JSON-Parameters": JSON.stringify(JSON_Parameters)
                }
            }
-           debugger;
+           ;
            store.runAction( session, payload )
                .then ( r => {
                    document.getElementById('output').innerHTML = JSON.stringify(r.items(), null,4);

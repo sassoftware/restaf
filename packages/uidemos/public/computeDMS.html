@@ -93,7 +93,7 @@
         let currentJob     = null;
 
         async function setupDMS() {
-            debugger;
+            ;
             try {
                 let msg       = await store.logon(LOGONPAYLOAD) ;
                 let {compute} = await store.addServices( 'compute' );
@@ -109,7 +109,7 @@
         }
 
         function editor ( ) {
-            debugger;
+            ;
             let props = {
                 onRun: runCode,
                 text  : ' ',
@@ -124,7 +124,7 @@
         }
 
        function runCode ( text, uploadF, cb ) {
-           debugger;
+           ;
            let code    = text.split(/\r?\n/);
            let payload = { data: { code: code } };
 
@@ -133,7 +133,7 @@
 
            // Submit the program to SAS
            document.getElementById( 'results' ).style.visibility = 'hidden';
-           debugger;
+           ;
            store.apiCall( executeCmd, payload )
               .then( job => store.jobState( job , { qs: { timeout: 2 } }, 10 ) )
                 .then ( status  => {

@@ -1,10 +1,8 @@
 
 # restaf - An Easy Button To Access SAS Viya Using SAS Viya REST APIs
 
-Last updated: Jan 2, 2020
-
 > A Note To Current Users of restaf:
-> As time permits recommend you switch to this scoped version. New features will be added to the scoped versions described here. However we will continue to fix any issues that arise in the current non-scoped version of restaf(1.5.5).
+> As time permits recommend you switch to this scoped version. New features will be added to the scoped versions described here. However we will continue to fix any issues that arise in the current non-scoped version of restaf.
 
 ## Documentation
 
@@ -48,6 +46,8 @@ let restaflib = require('@sasoftware/restaflib');
 
 ## Examples using restaf and restaflib
 
+These are in this repository.
+
 - restafuilib - Examples of ui components based on react,material-ui and restaf
 - examples    - Examples showing the use of restaf and restaflib for writing nodejs programs
 - uidemos     - Examples of web apps using restaf, restaflib and uilibrary
@@ -56,7 +56,19 @@ let restaflib = require('@sasoftware/restaflib');
 - viyacaddy - upload tables, score code and astore to cas
 - vaBasedApps - example of using restaf in SAS Visual Analytics  web content and Data Driven Content components
 
-## Setup to run the examples in this repository
+## Other examples using restaf
+
+- [SAS® Optimization Web App Using REST APIs with Embedded SAS® Visual Analytics Reports](https://blogs.sas.com/content/operations/2020/03/11/sas-optimization-web-app-using-rest-apis-with-embedded-sas-visual-analytics-reports/)
+
+- [CAS Stored Process" with my Favorite Action Hero runCasl](https://blogs.sas.com/content/sgf/2019/06/25/cas-stored-process-runcasl/)
+
+- [GraphQL and SAS Viya applications - a good match](https://blogs.sas.com/content/sgf/2019/05/16/graphql-and-sas-viya-applications/)
+
+- [Serverless functions and SAS Viya - a good match](https://blogs.sas.com/content/sgf/2019/03/26/serverless-functions-for-scoring-with-sas-viya/)
+
+- [SAS REST APIs: a sample application](https://blogs.sas.com/content/sgf/2018/12/21/sas-rest-apis-sample-application/)
+
+## Setup to run the examples in this repository)
 
 1: The main package.json has scripts to build and run code in the packages.
 

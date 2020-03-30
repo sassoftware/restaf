@@ -54,7 +54,7 @@ class CasDataViewer extends React.Component {
         let rows = [];
         itemRows.map((r)=> {
             let row = {};
-            debugger;
+            ;
             r.map((value, j) => {
                 row[columns[j]] = value;
             });

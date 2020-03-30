@@ -30,7 +30,7 @@ async function getSasTableRows (store, computeSummary, tableName){
     let columns   = table.items('columns');
     let rows = table.items('rows');
     let result = [];
-    debugger;
+    ;
 
     let count = rows.size;
     for (let i=0; i < count; i++) {

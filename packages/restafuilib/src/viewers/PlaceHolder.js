@@ -4,7 +4,7 @@ import "../css/styles.css";
 
 function PlaceHolder (props) {
   // static contextType = AppContext;
-    debugger;
+    ;
     let model = props.match.path;
     return (
       <div id="page-wrap">

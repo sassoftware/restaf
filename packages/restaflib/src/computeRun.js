@@ -23,7 +23,7 @@ async function computeRun (store,session, src, args){
  
     // generate macro variables
 
-    debugger;
+    ;
     let code =[];
     if (args != null) {
         for (let arg in args) {
@@ -37,7 +37,7 @@ async function computeRun (store,session, src, args){
     code = code.concat(asrc);
 
     // run code and get results
-    debugger;
+    ;
     let resultSummary = await computeRunBase(store, session, code);
     return resultSummary;
 }

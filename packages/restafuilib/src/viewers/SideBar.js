@@ -10,7 +10,7 @@ function SideBar (props) {
 
    let {menu, store} = props;
 
-   debugger;
+   ;
   let switches = menu.map(m => {
     let s;
     if (m.path === '/') {
@@ -24,7 +24,7 @@ function SideBar (props) {
   });
    switches.push(<Redirect to="/" />);
    console.log(switches);
-   debugger;
+   ;
     return (
       <Router>
         <div id="App" className="sm-navy w-100 h-100">

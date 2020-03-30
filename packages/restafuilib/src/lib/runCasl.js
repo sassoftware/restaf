@@ -12,7 +12,7 @@ async function runCasl (store, session, casl, args) {
     casl.forEach(s => {
         src = src + ' ' + programs[s]();
     });
-    debugger;
+    ;
     let result = await caslRun(store, session, src, args);
     return result.results.casResults;
 }

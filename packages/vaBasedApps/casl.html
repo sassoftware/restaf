@@ -71,21 +71,21 @@
       }
 
       async function sasexec(){
-        debugger;
+        ;
         let p = {
            authType: 'server',
            host: window.location.origin
          }
         let msg = await store.logon(p);
         console.log(msg);
-        debugger;
+        ;
         let {casManagement} = await store.addServices('casManagement');
         let servers = await store.apiCall(casManagement.links('servers'));
         let casserver = servers.itemsList(0);
         session = await store.apiCall(servers.itemsCmd(casserver, 'createSession'));
         console.log(JSON.stringify(session.links('execute'), null, 4));                                      
 
-        debugger;
+        ;
         id = id + 1;
         let casl = `
 		action datastep.runCode/
@@ -107,7 +107,7 @@
             data  : {code: casl}
         };
         console.log(p);
-        debugger;
+        ;
         let r =  await store.runAction(session,p);
         return r; 
  

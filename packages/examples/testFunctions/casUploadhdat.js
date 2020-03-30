@@ -25,7 +25,7 @@ let { casSetup, casUpload } = restaflib;
 module.exports = async function casUploadbdat (save, testInfo) {
 	let { store } = testInfo;
 	let { session } = await casSetup(store, null);
-	debugger;
+	;
 	let r = await casUpload(
 		store,
 		session,

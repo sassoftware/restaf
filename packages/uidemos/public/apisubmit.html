@@ -81,7 +81,7 @@
     </style>
 
     <script type="text/javascript">
-        debugger;
+        ;
         let store = restaf.initStore();
         let sessions = [];
         let contexts;
@@ -95,7 +95,7 @@
             return false;
         }
         function onCompletion( err, status, JobId ) {
-            debugger;
+            ;
             if ( err ) {
                 document.getElementById( 'completed').value = `Job failed :-(` ;
             } else {
@@ -134,7 +134,7 @@
         }
 
         function onClick() {
-            debugger;
+            ;
             let jobCount = document.getElementById('jobCount').value;
             let delay    = document.getElementById('delay').value;
             let progresscb  = (document.getElementById('progresscb').checked)   ? progressb     : null;

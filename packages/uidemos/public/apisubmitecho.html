@@ -57,7 +57,7 @@
     </style>
 
     <script type="text/javascript">
-        debugger;
+        ;
         let store = restaf.initStore();
         let sessions = [];
         let createSession;
@@ -70,7 +70,7 @@
             return false;
         }
         function onCompletion( err, status, jobContext ) {
-            debugger;
+            ;
             if ( err ) {
                 document.getElementById( 'completed').value = `Job failed :-(` ;
             } else {
@@ -79,7 +79,7 @@
             viewLog();
         }
         async function initApp () {
-            debugger;
+            ;
             let msg     = await store.logon (LOGONPAYLOAD);
             let {casManagement} = await store.addServices ('casManagement');
             let servers         = await store.apiCall(casManagement.links('servers'));
@@ -88,7 +88,7 @@
         }
 
         async function runDemo(noOfJobs, delay, progresscb, completioncb) {
-            debugger;
+            ;
             document.getElementById( 'completed').value = '';
             document.getElementById('progress').value   = '';
             for ( let i = 0 ; i < noOfJobs; i++ ) {
@@ -108,7 +108,7 @@
         }
 
         function onClick() {
-            debugger;
+            ;
             let jobCount = document.getElementById('jobCount').value;
             let delay = document.getElementById('delay').value;
             let progresscb   = (document.getElementById('progresscb').checked)   ? progressb     : null;
@@ -130,7 +130,7 @@
     let progressb     = progress.bind(this);
     let onCompletionb = onCompletion.bind(this);
 
-    debugger;
+    ;
    // initApp();
     </script>
 

@@ -98,7 +98,7 @@
                 let payload = {
                     data: { code: [ `data _null_; do i = 1 to 100; x=1; end; run; ` ] }
                 };
-                debugger;
+                ;
                 let job = await apiCall(computeSession.links('execute'), payload);
                 let status = await store.jobState(job, null, 5, 2);
                 let f = await store.apiCall(status.job.links('log'));

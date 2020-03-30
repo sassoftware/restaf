@@ -28,13 +28,13 @@ function logViewer (store, job, type) {
              rafuip.LogList(props, "#SASContent");
          })
          .catch(err => {
-             debugger;
+             ;
              alert(err);
          });
 }
 
 function odsViewer (store, job, type) {
-    debugger;
+    ;
     findODS(store, job)
         .then(ods => {
             setButtonColor(type);

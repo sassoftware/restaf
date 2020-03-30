@@ -22,7 +22,7 @@ let fs = require('fs');
 let yargs = require('yargs');
 
 module.exports = function config (logger) {
-	debugger;
+	;
 	let argv = yargs.argv;
 	let appEnv = argv.env == null ? process.env.RESTAFENV : argv.env;
 	

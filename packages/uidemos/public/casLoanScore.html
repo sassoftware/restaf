@@ -120,7 +120,7 @@
             let svg;
             let session;
             let uploaded = false;
-            debugger;
+            ;
             let store = restaf.initStore((LOGONPAYLOAD.authType === 'server') ? {casProxy:true} : null);
 
             let defaults = {
@@ -131,14 +131,14 @@
             // This section creates a cas session
             //
             function setup() {
-                debugger;
+                ;
                restaflib.casSetup(store,LOGONPAYLOAD)
                 .then ( r => {
-                    debugger;
+                    ;
                     session = r.session;
                 })
                 .catch( e => {
-                    debugger;
+                    ;
                     console.log(e)
                     alert(e);
                 });
@@ -165,7 +165,7 @@
             }
             
             async function uploadAndScore() {
-                debugger;
+                ;
                 if (uploaded === false){
                     let payload = {
                         method: 'GET',
@@ -174,11 +174,11 @@
                             'accept': 'binary/octet-stream'
                         }
                     }
-                    debugger;
+                    ;
                     let d = await store.request(payload);
-                    debugger;
+                    ;
                     let r = await restaflib.casUpload(store, session, 'gradBoost.sashdat', 'casuser.gradBoost', true, d.data);
-                    debugger;
+                    ;
                     console.log(r);
                     uploaded = true;
                 }
@@ -191,7 +191,7 @@
                 console.log(r);
                 return r;
             }
-                debugger;
+                ;
            
             //
             // setup the display of the resulting score(D3 is ei)

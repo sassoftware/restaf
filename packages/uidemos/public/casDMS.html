@@ -50,7 +50,7 @@
     <script type="text/javascript">
 
         // init restAF
-        debugger;
+        ;
         let store = restaf.initStore((LOGONPAYLOAD.authType === 'server') ? {casProxy:true} : null);
         let session    = null;
         let executeCmd = null ;
@@ -58,7 +58,7 @@
 
         async function setupDMS(){
             try {
-                debugger;
+                ;
                 let msg             = await store.logon(LOGONPAYLOAD);
                 let {casManagement} = await store.addServices(  'casManagement' );
 
@@ -74,7 +74,7 @@
             }
         }
 
-           debugger;
+           ;
 
        function editor ( ) {
            let it = "return ( { \n" +
@@ -90,14 +90,14 @@
                msg  : ' ',
                upload: true
            };
-           debugger;
+           ;
            rafuip.TextEditor( props, "#sourcediv" );
            document.getElementById( 'CASOUTPUT1' ).textContent = 'ready';
        }
 
        function runCode ( text, uploadFile, cb ) {
             createPayload( text, uploadFile, ( err, payload ) => {
-                debugger;
+                ;
                 if ( err == null ) {
                     document.getElementById( 'CASOUTPUT1' ).textContent = 'Running...';
                     store.runAction( session, payload )
@@ -106,13 +106,13 @@
                                  store  : store,
                                  folder : f
                              };
-                             debugger;
+                             ;
                              document.getElementById( 'CASOUTPUT1' ).textContent = 'Running...';
                              rafuip.CasOutput( props, '#CASOUTPUT' );
                              cb( true );
                          } )
                          .catch( err => {
-                             debugger;
+                             ;
                              document.getElementById( 'CASOUTPUT1' ).textContent = JSON.stringify( err, null, 4 );
                              cb( false );
                          } )

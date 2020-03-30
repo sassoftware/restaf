@@ -27,7 +27,7 @@ async function findReport (store, name) {
         };
     }
     // call the reports service
-    debugger;
+    ;
     let reportsList = await store.apiCall(reports.links('reports'), payload);
     // check to see if atleast one report was found(hopefully one only)
     return (reportsList.itemsList().size === 0) ? null : reportsList; 

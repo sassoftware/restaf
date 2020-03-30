@@ -69,7 +69,7 @@ const  iapiCall =  (store, iroute, actionType, payload, delay, eventHandler, par
                 } else if (runStatus === 'ready') {
                     
                     unSubscribe();
-                    debugger;
+                    ;
                     let efolder = extendFolder(store, f);
                     ikeepAlive(store);
                     resolve(efolder);

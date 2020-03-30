@@ -25,7 +25,7 @@ import caslRunBase from './caslRunBase';
 import programs from './programs';
 
 async function caslDescribe (store, session, scenario) {
-    debugger;
+    ;
     let src    = programs['commonCasl']() + ' ' + programs['scoreCasl']();
     let appEnv = {path: '/describe', ...scenario};
     let result = await caslRunBase(store, session, src, appEnv);

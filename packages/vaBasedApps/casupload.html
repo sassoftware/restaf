@@ -65,7 +65,7 @@
 
         <script>
 
-            debugger;
+            ;
             let store = restaf.initStore({casProxy: true});
             let href = window.location.origin;
             console.log(href);
@@ -120,7 +120,7 @@
                         rafuip.CasOutput(props, '#result');
                     })
                     .catch(err => {
-                        debugger; console.log('in error'); console.log(err);
+                        ; console.log('in error'); console.log(err);
                         console.log(JSON.stringify(err, null, 4));
                         document.getElementById('result').innerHTML = JSON.stringify(err, null, 4);
                     });

@@ -20,7 +20,7 @@ import React from 'react';
 
 class ItemsTableViewer extends React.Component {
 	constructor (props) {
-		debugger;
+		;
 		super(props);
 		this.state = {
 			store : props.store,
@@ -37,7 +37,7 @@ class ItemsTableViewer extends React.Component {
 	}
 
 	render () {
-		debugger;
+		;
 		let { folder } = this.state;
 		return (
 			<div>
@@ -56,7 +56,7 @@ class ItemsTableViewer extends React.Component {
 
 	makeMenu (folder) {
 		let { onClick } = this.state;
-		debugger;
+		;
 		console.log(folder);
 		let cmds = folder.scrollCmds();
 		let menu = [];

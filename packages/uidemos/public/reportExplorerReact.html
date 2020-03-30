@@ -55,7 +55,7 @@
 <body>
 <script type="text/babel">
     function SasReport(props, element) {
-        debugger;
+        ;
         let t = <sas-report url={props.url} reportUri={props.reportUri} authenticationType={props.authenticationType} style={props.style}> </sas-report>;
         ReactDOM.render(t, document.getElementById(element));
     }
@@ -102,7 +102,7 @@
     }
 
     function getReport() {
-        debugger;
+        ;
         
         let reportNo   = document.getElementById( "reportNo" ).selectedIndex;
         let reportName = reportsList[reportNo].name;

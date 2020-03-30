@@ -29,7 +29,7 @@ async function uploadSrc (store, session, modelBuf, fileInfo, save){
 		JSON_Parameters.importOptions.delimiter = '\\';
 	}
 
-	debugger;
+	;
 	let p = {
 		headers: {
 			'JSON-Parameters': JSON_Parameters,
@@ -40,7 +40,7 @@ async function uploadSrc (store, session, modelBuf, fileInfo, save){
 	};
 
 	await store.runAction(session, p);
-	debugger;
+	;
 
 	if (save === true) {
 		let casl = `

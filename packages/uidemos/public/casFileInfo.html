@@ -37,7 +37,7 @@
     <script type="text/javascript">
 
         let store = restaf.initStore((LOGONPAYLOAD.authType === 'server') ? {casProxy:true} : null);
-        debugger;
+        ;
 
         async function setup() {
             let msg = await store.logon(LOGONPAYLOAD);

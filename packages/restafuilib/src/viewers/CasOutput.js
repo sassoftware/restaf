@@ -13,7 +13,7 @@ function CasOutput (props) {
 	let [showData, setShowData] = useState({Note: 'Please select from list on the left'});
 	let [casResults, setCasResults] = useState(null);
 
-	debugger;
+	;
 
 	useEffect(() => {
 		setCasResults(folder.items().toJS());
@@ -21,7 +21,7 @@ function CasOutput (props) {
 	}, [folder]);
 
 	const handleSelect = m => {
-    debugger;
+    ;
     if (m === 'status') {
       setShowData({status: casResults[m]}) ;
      } else {

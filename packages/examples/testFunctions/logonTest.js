@@ -28,7 +28,7 @@ module.exports = async function logonTest () {
 	payload.keepAlive = null;
 
 	let store = restaf.initStore();
-	debugger;
+	;
 	console.log('in logonTest');
 	
 	store

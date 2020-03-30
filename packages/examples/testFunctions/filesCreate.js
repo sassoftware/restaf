@@ -15,10 +15,10 @@ module.exports = async function createFile (testInfo) {
             'content-type'       : `application/json`
         }
     };
-    debugger;
+    ;
     let createCmd = files.links('create');
     let newFile = await store.apiCall(createCmd, payload);
-    debugger;
+    ;
     let uri = newFile.links('self', 'link', 'uri');
     logger.info(uri);
     // console.log(JSON.stringify(newFile.links(), null, 4));

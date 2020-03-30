@@ -63,7 +63,7 @@ function ShowScore (props){
       console.log(`setting score as ${props.score}`);
     },[props.score, props.model]);
 
-    debugger;
+    ;
   
 
     let key = 'Score';

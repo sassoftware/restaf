@@ -19,7 +19,7 @@
 import React from 'react';
 function Table (props) {
 	let { data } = props;
-	debugger;
+	;
 	let theadRows = data.get('schema').map(s => {
 		let name = s.get('name');
 		return (
@@ -80,7 +80,7 @@ export default SimpleCasTableViewer;
 /*
 function casTableViewer (result, tableName, title, container) {
     let data = result.items('tables', tableName);
-    debugger;
+    ;
     ReactDOM.render(<TableViewer data={data}  title={title} />,
         document.querySelector(container));
     return true;

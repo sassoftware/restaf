@@ -61,7 +61,7 @@
         }   
 
         function showDemo(w) {
-            debugger;
+            ;
             let href = `${window.location.protocol}//${window.location.host}${w}`;
             if (LOGONPAYLOAD.authType === 'implicit') {
                 href = `${href}?host=${logInfo.host}#token_type=${logInfo.tokenType}&access_token=${logInfo.token}`;

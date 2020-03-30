@@ -54,7 +54,7 @@
     <script type="text/javascript">
 
         // init restAF
-        debugger;
+        ;
         let store = restaf.initStore();
         let session    = null;
         let executeCmd = null ;
@@ -62,7 +62,7 @@
 
         async function setupDMS(){
             try {
-                debugger;
+                ;
                 let msg             = await store.logon(LOGONPAYLOAD);
                 let {casManagement} = await store.addServices( 'casManagement' );
 
@@ -70,7 +70,7 @@
                 let payload    = { data: { name: 'restAF' } };
                 let serverName = servers.itemsList( 0 );
                 session        = await store.apiCall( servers.itemsCmd( serverName, 'createSession' ), payload );
-                debugger;
+                ;
                 let p = {
                     action: 'builtins.loadActionSet',
                     data  : { actionSet: 'sentimentAnalysis' }
@@ -86,7 +86,7 @@
             }
         }
 
-           debugger;
+           ;
 
        function editor ( ) {
            let it = "";
@@ -106,7 +106,7 @@
             uploadF = evt.target.files[0];
         }
         function runCode ( text, uploadF, cb ) {
-            debugger;
+            ;
             runSentiment(text)
                 .then(r => cb(true))
                 .catch(err => {
@@ -116,7 +116,7 @@
         }
         async function runSentiment( doc ) {
             // Delete(drop) temp tables if it exists
-            debugger;
+            ;
             payload = {
                 action: 'sentimentAnalysis.applySent',
                 data: {

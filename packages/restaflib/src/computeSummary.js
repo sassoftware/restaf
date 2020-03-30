@@ -62,7 +62,7 @@ async function computeSummary (store, session, job){
             }
         }
     }
-    ;
+    
     return cResult;
 
 }

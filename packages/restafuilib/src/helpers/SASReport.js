@@ -5,7 +5,7 @@
 
 
  function SASReport (props){
-	;
+	
 	console.log(JSON.stringify(props, null, 4)) ;
 	let show = (
 			<div id="page-wrap">

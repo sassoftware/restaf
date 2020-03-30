@@ -8,7 +8,7 @@ import React from "react";
 
 function TableBrowser (props) {
     let {columns, rows} = props;
-    ;
+    
     let justify = [];
 
     for (let i=0; i < columns.length; i++) {
@@ -27,7 +27,7 @@ function TableBrowser (props) {
     });
     let tbody = <tbody>{trows}</tbody>;
 
-    ;
+    
 
     let table = <div className="table-responsive-md">
                     <table className="table table-bordered">

@@ -18,7 +18,7 @@ import findReport from './findReport';
 
 async function getReportImage (store, name) {
     let reportImages = store.rafObject('reportImages');
-    ;
+    
     let reportsList = await findReport(store, name);
     if (reportsList === null) {
         return `${name} was not found`;

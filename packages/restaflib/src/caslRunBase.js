@@ -30,7 +30,7 @@ async function caslRunBase (store, session, src, args) {
     //
     // create casl statements for arguments and appenv
     //
-    ;
+    
    
     let _args_ = jsonToDict((args  !== null) ? args  : {}, '_args_');
 
@@ -45,9 +45,9 @@ async function caslRunBase (store, session, src, args) {
         data  : {code: code}
     };
 
-    ;
+    
     let result  = await store.runAction(session, payload);
-    ;
+    
     return result;
 }
 export default caslRunBase;

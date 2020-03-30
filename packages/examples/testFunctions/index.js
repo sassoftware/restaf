@@ -26,7 +26,7 @@ let logonTest = require('./logonTest');
 let modelRepoRoot = require('./modelRepoRoot');
 let modelDestinationCas = require('./modelDestinationCas');
 
-;
+
 
 module.exports =  {
 	addServices,

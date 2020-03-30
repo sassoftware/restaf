@@ -19,7 +19,7 @@
 import React from 'react';
 function Table (props) {
 	let { data } = props;
-	;
+	
 	let theadRows = data.get('schema').map(s => {
 		let name = s.get('name');
 		return (

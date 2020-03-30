@@ -10,9 +10,9 @@ import App from './App';
 // eslint-disable-next-line no-unused-vars
 const $ = window.$;
 let appEnv = window.optUI.appEnv;
-;
+
 let store = restaf.initStore();
-;
+
 setupViya(store, appEnv, window.optUI.logonPayload)  
     .then ((r) => {
         ReactDOM.render(

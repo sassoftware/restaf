@@ -10,7 +10,7 @@ import Viewers from './viewers';
 
 function display (Viewer, props, element){
     let ThisComponent = Viewers[Viewer];
-    ;
+    
     ReactDOM.render(<ThisComponent {...props} />, element);
 
 }

@@ -13,10 +13,10 @@ runtest()
     .catch(e => console.log(e));
 
 async function runtest () {
-    ;
+    
     let msg = await store.logon(payload);
-    ;
+    
     let r = await store.addServices('files', 'casManagement');
-    ;
+    
     return 'done';
 }

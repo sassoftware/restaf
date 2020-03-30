@@ -46,7 +46,7 @@
  
      // let contentType = cType.split(';') [0];
      let iLink = response.data.iconfig.link;
-     ;
+     
      fixCas(iLink, response);
      if (iLink.href.indexOf("reportImages/jobs") > 0){
         fixImages(response);
@@ -63,7 +63,7 @@
  function fixCas (iLink, response){
      // special handling for cas
      let casProxyFlag = false;
-     ;
+     
      if (response.data.hasOwnProperty('iconfig')) {
          if (response.data.iconfig.storeConfig != null) {
              casProxyFlag = response.data.iconfig.storeConfig.casProxy;

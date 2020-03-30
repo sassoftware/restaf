@@ -13,7 +13,7 @@ module.exports = async function listClient (store, all, vorpal) {
 		}
 	};
 	
-	;
+	
 	
 	let r = await store.request(payload);
 	// console.log(`${r.data.length} clientids detected`);

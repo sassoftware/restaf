@@ -22,7 +22,7 @@ function CasTableSelectorp (props) {
 
   let [errors, setErrors] = useState(null);
   let [fullName, setFullName] = useState(null);
-;
+
   const _onCaslib = selectedValues => {
     setCaslib(selectedValues);
     setTableList([]);
@@ -45,11 +45,11 @@ function CasTableSelectorp (props) {
 
   // get list of caslibs
   useEffect(() => {
-    ;
+    
     runCasl(store, session, ['caslibListCasl'], null)
       .then(actionResult => {
         setCaslibList(actionResult);
-        ;
+        
         setErrors(null);
       })
       .catch(err => {
@@ -72,7 +72,7 @@ function CasTableSelectorp (props) {
       });
   }, [caslib]);
 
-  ;
+  
   let show = 
     <div className="container">
      <form className="form-horizontal">

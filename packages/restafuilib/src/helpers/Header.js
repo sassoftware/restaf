@@ -49,17 +49,17 @@ function Header (props) {
 	let lastMenu = useRef('');
 
 	const toggleMenu = state => () => {
-		;
+		
 		setIsOpen(state);
 	};
 	useEffect(() => {
-		;
+		
 		lastMenu.current = props.table;
 		let l = makeList(props.menu);
 		setItemsList(l);
 	}, []);
 
-	;
+	
 
 	useEffect(() => {
 		if (lastMenu.current !== props.menu) {
@@ -74,7 +74,7 @@ function Header (props) {
 	};
 
 	const makeList = menu => {
-		;
+		
 		let items = menu.map((m, key) => {
 			return (
 				<ListItemLink

@@ -64,7 +64,7 @@ function ShowSelectors (props){
       return null;
     }
  
-    ;
+    
     let t = [];
     for (let key in selectors) {
         let inputProps = {name: key, id: key};

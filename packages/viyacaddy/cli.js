@@ -18,7 +18,7 @@ let argv = require('yargs').argv;
 let cmdFile = argv.file == null ? null : argv.file;
 let envFile = argv.env == null ? null : argv.env;
 
-;
+
 // setup handling of https
 let initOpts = { pem: null, rejectUnathorized: 1 };
 if (process.env.PEMFILE != null) {

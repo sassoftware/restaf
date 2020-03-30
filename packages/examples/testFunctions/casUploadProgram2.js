@@ -25,7 +25,7 @@ module.exports = async function casUploadProgram2 (save,testInfo) {
 	let { store, logger } = testInfo;
 
 	let { session } = await casSetup(store, null);
-	;
+	
 	let r = await casUpload(
 		store,
 		session,

@@ -23,14 +23,11 @@
 let restaf = require("../lib/restaf");
 let prtUtil = require("../prtUtil");
 
-debugger;
 let store1 = restaf.initStore();
-debugger;
 let store2 = restaf.initStore();
 
 // Test appdata
 async function setup () {
-  debugger;
   store1.setAppData("aaa", { x: 1, y: 1 });
   let d = store1.getAppData();
   prtUtil.printObj(d, "After first set");

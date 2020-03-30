@@ -31,7 +31,6 @@ let prtUtil = require("../prtUtil");
 async function setup (payload, ...args) {
   let msg = await store.logon(payload);
   prtUtil.print(`Logon status: ${msg}`);
-  debugger;
   let { modelPublish } = await store.addServices(...args);
   console.log(store.getServices());
 

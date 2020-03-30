@@ -62,7 +62,6 @@
 
  function fixCas (iLink, response){
      // special handling for cas
-     debugger;
      // do a refresh - mainly for reattaching to a cas session
      if (iLink.rel === 'self' && iLink.type === 'application/vnd.sas.cas.session.summary') {
         response.data.results.links = response.data.results.links.concat(fixCasSession(iLink, response.data.results));
@@ -76,7 +75,6 @@
      }
  
      if (iLink.hasOwnProperty('itemType') && iLink.itemType === 'application/vnd.sas.cas.session.summary') {
-         debugger;
          let items = response.data.results.items;
          /* let harray = iLink.href.split('/');
          harray.shift();
@@ -89,7 +87,6 @@
              let item = items [i];
              let uri = `/casProxy/servers/${iLink.server}/cas/sessions/${item.id}`;
              let urihttp = `${pre}/${item.id}`;
-             debugger;
              item.links = item.links.map(l => {
                 l.casHttp = iLink.casHttp;
                 l.server  = iLink.server;
@@ -101,7 +98,6 @@
      }
  
      if (iLink.hasOwnProperty('customHandling')) {
-         debugger;
          response.data.results = reduceCasResults(response.data.results);
          response.data.results = { items: Object.assign({}, response.data.results) };
          response.data.results.castomHandling = iLink.customHandling;
@@ -139,7 +135,6 @@
  
  
  function fixCasSession (iLink, results) {
-     debugger;
      // proprogate casHttp
      results.links = results.links.map(l => {
         l.casHttp = iLink.casHttp;

@@ -28,14 +28,12 @@ async function casSession (store, payload, sesName) {
   await store.logon(payload);
 
   // get root end points of casManagement
-  debugger;
   let { casManagement } = await store.addServices("casManagement");
 
   // get list of current servers
   let servers = await store.apiCall(casManagement.links("servers"));
 
   // create a session on the first server
-  debugger;
   let casserver = servers.itemsList(0);
   console.log(`cas servername: ${casserver}`);
   let session = await store.apiCall(

@@ -35,7 +35,6 @@
         "args": "none"
       }
     ],
-    "no-debugger": 0,
     "react/prop-types": 0,
     "array-bracket-spacing": [
       2,

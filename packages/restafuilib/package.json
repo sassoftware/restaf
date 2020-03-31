@@ -1,15 +1,16 @@
 {
   "name": "@sassoftware/restafuilib",
   "version": "1.7.22",
-  "description": "UI demos for Viya using restaf",
+  "description": "react components using material-ui for Viya apps",
   "scripts": {
     "build": "webpack --config=webpack.config.js"
   },
   "main": "./src/index.js ",
-  "repository": "https://github.com/sassoftware/restaf/tree/gen2/packages/uilibrary",
+  "repository": "https://github.com/sassoftware/restaf/tree/gen2/packages/restafuilib",
   "keywords": [],
   "author": "Deva Kumar <deva.kumar@sas.com>",
   "license": "Apache-2.0",
+  "unpkg": "/dist/restafuilib.js",
   "browserslist": [
     "last 2 versions",
     "ie >= 11",

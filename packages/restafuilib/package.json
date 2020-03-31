@@ -7,10 +7,14 @@
   },
   "main": "./src/index.js ",
   "repository": "https://github.com/sassoftware/restaf/tree/gen2/packages/restafuilib",
-  "keywords": [],
+  "keywords": ["restaf", "SAS Viya","material-ui","react"],
   "author": "Deva Kumar <deva.kumar@sas.com>",
   "license": "Apache-2.0",
+  "homepage": "https://github.com/sassoftware/restaf#README.md",
   "unpkg": "/dist/restafuilib.js",
+   "bugs": {
+    "url": "https://github.com/sassoftware/restaf/issues"
+  },
   "browserslist": [
     "last 2 versions",
     "ie >= 11",

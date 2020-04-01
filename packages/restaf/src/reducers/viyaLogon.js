@@ -137,8 +137,8 @@ function viyaLogon (state = initialState, action) {
                 return state.withMutations(s => {
                     s.set('runStatus', 'error').set('statusInfo', fromJS(setBadStatus(action.payload)));
                 });
-            }
             
+            }
             return initialState;
         }
 

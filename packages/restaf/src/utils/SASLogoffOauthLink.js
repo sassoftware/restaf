@@ -27,7 +27,7 @@ const SASLogoffOauthLink = function () {
             link  : {
                 href        : '/SASLogon/logout',
                 method      : 'GET',
-                rel         : 'logon',
+                rel         : 'logoff',
                 responseType: 'application/json',
                 uri         : '/SASLogon/logout'
             }

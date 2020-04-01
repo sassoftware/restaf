@@ -66,11 +66,12 @@ function sasLogon (action) {
     }
 }
 
-function sasLogoff (config){
+function sasLogoff (config) {
+    
     let t = SASLogoffOauthLink();
     config.link = t.link;
     return (t.logoff(config)
-            .then(response => {return {type: VIYA_LOGOFF_COMPLETE, error: false, payload: response}; })
+        .then(response => {return { type: VIYA_LOGOFF_COMPLETE, error: false, payload: response };})
             .catch(error   => {return {type: VIYA_LOGOFF_COMPLETE, error: true, payload: error};})
     );
 }

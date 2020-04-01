@@ -19,8 +19,8 @@
   'use strict';
 
 export default function selectLogonInfo (mainState) {
-    let state     = mainState.connections ;
-    let currentNo = state.get('currentConnection');
+  let state     = mainState.connections ;
+  let currentNo = state.get('currentConnection');
     return  (currentNo === -1) ? null : state.get('connections').get(currentNo).toJS().logonInfo ;
 
 }

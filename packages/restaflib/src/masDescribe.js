@@ -16,11 +16,9 @@
  */
 function masDescribe (masControl, modelName, step) {
 
-	let steps = masControl[modelName];
-	let currentStep = (step == null) ? steps.itemsList(0) : step;
-	console.log(currentStep);
+	let steps = masControl[ modelName ];
+	let currentStep = (step == null) ? 'score' : step;
 	let desc = steps.items(currentStep, 'data', 'inputs').toJS();
-	console.log(desc);
 	return desc;
 }
 export default masDescribe;

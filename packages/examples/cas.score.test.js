@@ -33,3 +33,8 @@ test('Upload hdat and score', async () => {
 	let l = await testFunctions.casScoreHdat(false, testInfo);
 	expect(l).toMatchSnapshot();
 });
+
+test.skip('score thru Mas', async () => {
+	let l = await testFunctions.scoreMas(false, testInfo);
+	expect(l).toMatchSnapshot();
+});

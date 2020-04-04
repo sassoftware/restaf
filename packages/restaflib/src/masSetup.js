@@ -24,9 +24,9 @@ async function masSetup (store,models, logonPayload){
     let steps = [];
     if (models != null) {
        for (let i=0; i < models.length; i++) {
-           let m = models[i];
-           let result = await getScoreStep(store, microanalyticScore, m);
-           steps[m] = result; 
+        let m = models[i];
+        let result = await getScoreStep(store, microanalyticScore, m);
+        steps[m] = result; 
        }
     }
     return steps;
@@ -43,11 +43,11 @@ async function getScoreStep (store, microanalyticScore, name) {
     let modList = await store.apiCall(microanalyticScore.links('modules'), payload);
    // print.itemsList(modList, 'list of all models');
     if (modList.itemsList().size === 0) {
-      throw `Error: Model ${name} not found`;
+       throw `Error: Model ${name} not found`;
     }
   
     let steps = await store.apiCall(modList.itemsCmd(name, 'steps'));
-  
-  return steps;
-  }
+    return steps;
+}
+	
 export default masSetup;

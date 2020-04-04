@@ -41,7 +41,7 @@
  */
 async function masRun (store, masControl, modelName, scenario, step) {
 	let steps = masControl[modelName];
-	let currentStep = step == null ? steps.itemsList(0) : step;
+	
 	let inputIsArray = false;
 	let inputs = [];
 	if (Array.isArray(scenario) === false) {
@@ -58,12 +58,13 @@ async function masRun (store, masControl, modelName, scenario, step) {
 			inputs: (inputIsArray === true) ? scenario : inputs
 		}
 	};
-	let result = await store.apiCall(steps.itemsCmd(currentStep, 'execute'),scorePayload);
+
+	let currentStep = (step == null) ? 'score' : step;
+	let result = await store.apiCall(steps.itemsCmd(currentStep, 'execute'), scorePayload);
 	let outputs = result.items('outputs').toJS();
 	let score;
 	if (inputIsArray === true) {
 		score = outputs;
-
 	} else {
 		score = {};
 		outputs.map (m => {

@@ -1,6 +1,6 @@
 {
   "name": "@sassoftware/restafuilib",
-  "version": "1.7.23",
+  "version": "2.0.0",
   "description": "react components using material-ui for Viya apps",
   "main": "./src/index.js ",
   "repository": "https://github.com/sassoftware/restaf/tree/gen2/packages/restafuilib",
@@ -35,7 +35,7 @@
     "react-json-pretty": "^2.2.0",
     "react-router-dom": "^5.1.2",
     "react-select": "^3.0.8",
-    "@sassoftware/restaflib": "1.7.23"
+    "@sassoftware/restaflib": "2.0.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.7.7",

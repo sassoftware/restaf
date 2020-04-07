@@ -1,6 +1,6 @@
 {
   "name": "@sassoftware/registerclient",
-  "version": "1.7.22",
+  "version": "1.7.23",
   "description": "collection of clis using rest apis",
   "author": "Deva Kumar <deva.kumar@sas.com>",
   "license": "Apache-2.0",
@@ -28,7 +28,7 @@
   },
   "dependencies": {
     "qs": "^6.9.1",
-    "@sassoftware/restaf": "1.7.22",
+    "@sassoftware/restaf": "1.7.23",
     "vorpal": "^1.12.0",
     "yargs": "^15.1.0"
   },

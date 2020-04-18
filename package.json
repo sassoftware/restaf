@@ -55,7 +55,7 @@
     "registerclient:pub": "cd ./packages/registerclient && npm run pub",
     "viyacaddy:pub": "cd ./packages/viyacaddy && npm run pub",
     "publish": "npm run restaf:pub && npm run restaflib:pub && npm run registerclient:pub && npm run viyacaddy:pub",
-    "token": "cd ./packages/examples && node logon.js"
+    "token": "node token.js"
   },
   "devDependencies": {
     "@babel/cli": "^7.8.4",

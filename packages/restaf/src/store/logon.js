@@ -79,6 +79,7 @@ const logon = (store, ipayload) => {
             // now make the final decision
        
             switch (payload.authType) {
+                case 'code'          :
                 case VIYA_LOGON_TOKEN:
                 case VIYA_LOGON_SERVER:
                     if (payload.host == null) {
@@ -111,14 +112,13 @@ const logon = (store, ipayload) => {
                 action.payload.rejectUnauthorized = (store.config.hasOwnProperty('rejectUnauthorized')) ? store.config.rejectUnauthorized : null;
                 
                 unSubscribe = store.subscribe(logonExit);
-                store.config.casProxy = false;
+                // store.config.casProxy = false; preset to this value in initStore.
                 action.storeConfig = store.config;
                 if (payload.authType === VIYA_LOGON_SERVER) {
                     if (payload.hasOwnProperty('token') !== true) {
                         store.config.casProxy = true;
                     } 
                 }
-               // store.config.casProxy = (payload.authType === VIYA_LOGON_SERVER) ? true : false;
                 store.dispatch(action);
             }
         }

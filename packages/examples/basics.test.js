@@ -6,7 +6,7 @@ beforeAll(async () => {
   }
   catch (err) {
     console.log(err);
-    process.exit();
+    process.exit(1);
   }
 });
 test("logon and get root links for default services", async () => {

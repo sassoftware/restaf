@@ -16,27 +16,27 @@
  *
  */
 
-/*
- * Simple echo action example
+'use strict';
+/* --------------------------------------------------------------------------------
+ * Logon to the Viya server
+ * ---------------------------------------------------------------------------------
  */
-"use strict";
+let restaf = require('@sassoftware/restaf');
+let payload = require('./testFunctions/config')();
+let store = restaf.initStore();
+let fs = require('fs').promises;
 
-let { casSetup} = require('@sassoftware/restaflib');
+payload.keepAlive = null;
 
-module.exports = async function casEcho (testInfo) {
-	let { store, logger } = testInfo;
-  let { session } = await casSetup(store, null);
-  logger.info(session.items().toJS());
-    
-  let p = {
-    action: 'builtins.echo',
-    data  : {
-      code: 'data casuser.score; x1=10;x2=20;x3=30; score1 = x1+x2+x3;run; '
-    }
-  };
-  logger.info(p);
-  let r = await store.runAction(session, p);
-  logger.info(r);
-  await store.apiCall(session.links('delete'));
-  return 'done';
-};
+store
+	.logon(payload)
+	.then(msg => {
+		console.log(JSON.stringify(store.connection(), null, 4));
+		let token = store.connection().token;
+		return token;
+	})
+	.then(token => {
+		return fs.writeFile('.env', 'VIYA_TOKEN='+token);
+	})
+	.catch(err => console.log(err));
+

@@ -91,7 +91,7 @@ function request (iconfig) {
     let iheaders   = null;
     let ixsrf      = null;
     let casAction  = null;
- 
+    
     if (payload !== null) {
         casAction     = hasItem(payload, 'action');
         iqs           = hasItem(payload, 'qs');
@@ -209,7 +209,8 @@ function makeCall (config, iconfig, pem, rejectUnauthorized) {
         axios(config)
             .then (response => {
                 parseJSON(response.data)
-                    .then (data => {
+                    .then(data => {
+                        
                         iconfig.data = null;/* get rid of the payload*/
                         response.data = { results: data, iconfig: Object.assign({}, iconfig) };
                         if (data.hasOwnProperty('errorCode')) {
@@ -222,12 +223,14 @@ function makeCall (config, iconfig, pem, rejectUnauthorized) {
                         }
                     })
                     .catch(() => {
+                        
                         iconfig.data = null;
                         response.data = { results: response.data , iconfig: Object.assign({}, iconfig) };
                         resolve (fixResponse(response));
                     });
             })
-            .catch (error => {
+            .catch(error => {
+                
                 reject(error);
             });
         });

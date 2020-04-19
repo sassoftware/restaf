@@ -35,8 +35,13 @@ async function casSetup (store, logonPayload) {
 	if (logonPayload != null) {
 			await store.logon(logonPayload);
 	}
-	let {casManagement} = await store.addServices('casManagement');
+
+	let { casManagement } = await store.addServices('casManagement');
 	let servers = await store.apiCall(casManagement.links('servers'));
+	
+	if (servers.itemsList().size === 0) {
+		throw { Error: 'No cas servers were found' };
+	} 
 	let casserver = servers.itemsList(0);
 	let session = await store.apiCall(servers.itemsCmd(casserver, 'createSession'));
 	return {servers, session};

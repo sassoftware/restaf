@@ -21,7 +21,7 @@
 let fs = require('fs');
 let yargs = require('yargs');
 
-module.exports = function config () {
+module.exports = function config2 () {
 	;
 	let argv = yargs.argv;
 	let appEnv = argv.env == null ? process.env.RESTAFENV : argv.env;
@@ -47,7 +47,7 @@ module.exports = function config () {
 	
 	// left for backward compatability - preferred way is to specify http in the url
 	if (viyaServer == null) {
-		logger.error('Please set the VIYA_SERVER either thru env variables or the env file');
+		console.log('Please set the VIYA_SERVER either thru env variables or the env file');
 		process.exit(0);
 	}
 	if (viyaServer.indexOf("http") < 0) {
@@ -96,7 +96,7 @@ module.exports = function config () {
 				}
 			});
 		} catch (err) {
-			logger.error(err);
+			console.log(err);
 			process.exit(0);
 		}
 	}

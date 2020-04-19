@@ -6,8 +6,9 @@
 
 let restaflib = require('@sassoftware/restaflib');
 module.exports = async function casSession (testInfo) {
-	let {store} = testInfo;
+	let {store, logger} = testInfo;
 	let { session } = await restaflib.casSetup(store, null);
+	logger.info(session.items().toJS());
 	await store.apiCall(session.links('delete'));
 	return 'done';
 };

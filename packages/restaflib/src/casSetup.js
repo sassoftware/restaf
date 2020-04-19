@@ -35,10 +35,8 @@ async function casSetup (store, logonPayload) {
 	if (logonPayload != null) {
 			await store.logon(logonPayload);
 	}
-	
+
 	let { casManagement } = await store.addServices('casManagement');
-	console.log(casManagement);
-	
 	let servers = await store.apiCall(casManagement.links('servers'));
 	
 	if (servers.itemsList().size === 0) {

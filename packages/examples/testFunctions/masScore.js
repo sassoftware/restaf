@@ -21,11 +21,11 @@
 let restaflib = require('@sassoftware/restaflib');
 let { masDescribe, masRun } = restaflib;
 
-module.exports = async function casastScore (save, testInfo) {
+module.exports = async function masScore (save, testInfo) {
 	let { store, logger } = testInfo;
-	let models = ['iris_NN'];
+	let models = [process.env.MASMODEL];
 	let masControl = await restaflib.masSetup(store, models);
-	let desc = masDescribe(masControl, 'iris_NN', null);
+	let desc = masDescribe(masControl, models[0], null);
 	let scenario = desc.map((m) => {
 		m.value = 1.5;
 		return m;
@@ -33,5 +33,5 @@ module.exports = async function casastScore (save, testInfo) {
 	logger.info(scenario);
 	let result = await masRun(store, masControl, models[ 0 ], scenario);
 	logger.info(result);
-	return result;
+	return 'done';
 };

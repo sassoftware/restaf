@@ -82,36 +82,3 @@ Object {
   },
 }
 `;
-
-exports[`score thru Mas 1`] = `
-Array [
-  Object {
-    "name": "EM_CLASSIFICATION",
-    "value": ".",
-  },
-  Object {
-    "name": "EM_EVENTPROBABILITY",
-    "value": 0.004432174682851474,
-  },
-  Object {
-    "name": "EM_PROBABILITY",
-    "value": 0.889188194070936,
-  },
-  Object {
-    "name": "I_Species",
-    "value": "versicolor",
-  },
-  Object {
-    "name": "P_Speciessetosa",
-    "value": 0.10637963124621268,
-  },
-  Object {
-    "name": "P_Speciesversicolor",
-    "value": 0.889188194070936,
-  },
-  Object {
-    "name": "P_Speciesvirginica",
-    "value": 0.004432174682851474,
-  },
-]
-`;

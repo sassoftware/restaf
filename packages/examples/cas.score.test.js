@@ -24,17 +24,22 @@ beforeAll(async () => {
 });
 
 test('Upload sasast and score', async () => {
+	expect.assertions();
 	let l = await testFunctions.casScoreAst(false, testInfo);
 	expect(l).toMatchSnapshot();
 });
 
 
 test('Upload hdat and score', async () => {
+	expect.assertions();
 	let l = await testFunctions.casScoreHdat(false, testInfo);
 	expect(l).toMatchSnapshot();
 });
 
-test.skip('score thru Mas', async () => {
-	let l = await testFunctions.scoreMas(false, testInfo);
-	expect(l).toMatchSnapshot();
+test('score thru Mas', async () => {
+	expect.assertions();
+	if (process.env.MASMODEL != null) {
+		let l = await testFunctions.masScore(false, testInfo);
+		expect(l).toBe('done');
+	} 
 });

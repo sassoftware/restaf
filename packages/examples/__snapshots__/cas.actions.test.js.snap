@@ -74,23 +74,6 @@ Object {
 }
 `;
 
-exports[`CAS Tables 1`] = `
-Object {
-  "SystemData": Array [
-    "AUDIT",
-    "CAS",
-    "CAS_NODE",
-    "CAS_SYSTEM",
-    "POSTGRES",
-    "POSTGRES_TABLE_SIZE",
-    "RABBITMQ",
-    "RABBITMQ_EXCHANGE",
-    "RABBITMQ_NODE",
-    "RABBITMQ_VHOST",
-  ],
-}
-`;
-
 exports[`CAS upload csv 1`] = `
 Object {
   "_ctb": true,

@@ -57,6 +57,7 @@ module.exports = async function casUploadCsv (testInfo) {
 	let actionResult= await store.runAction(session, p);
 	logger.info(actionResult.items('tables'));
 	let t = actionResult.items('tables', 'Fetch').toJS();
+	console.log(JSON.stringify(t, null, 4));
 	t.attributes.CreateTime.value = 0.0;
 	
 	await store.apiCall(session.links('delete'));

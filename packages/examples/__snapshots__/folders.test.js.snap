@@ -1,3 +1,3 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`files - paginate thru folders 1`] = `"done"`;
+exports[`folders - paginate thru folders 1`] = `"done"`;

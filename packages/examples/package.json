@@ -28,7 +28,7 @@
     "test": "npx jest",
     "lint": "eslint . --fix",
     "dkrbuild": "docker build -f Dockerfile -t ruthere .",
-    "dkrrun": "docker run --env-file override.env  -t ruthere"
+    "dkrrun": "docker run --env-file ./override.env  -t ruthere"
   },
   "jest": {
     "testTimeout": 10000000,

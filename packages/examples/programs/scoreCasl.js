@@ -306,7 +306,7 @@ module.exports = function scoreCasl (){
                     table = {caslib='casuser' name='input'};   
             end;  
             else if (mtype eq 'ds2' ) then do; 
-               print 'Scoring with d2'; 
+               print 'Scoring with ds2'; 
                action ds2.runModel r = result/ 
                   modelTable = {caslib=model.caslib, name=model.name} 
                   modelName = modelName 

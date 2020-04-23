@@ -3,22 +3,26 @@ import React from 'react';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import {Link} from 'react-router-dom';
-class ListItemLink extends React.Component {
-    renderLink = itemProps => <Link to={this.props.to} {...itemProps} />;
-    ;
+import { Link } from 'react-router-dom';
+
+function ListItemLink (props) {
+	const { icon, primary, to, classes } = props;
+	
+	const CustomLink = React.useMemo(() =>
+		React.forwardRef((linkProps, ref) => (
+			<Link ref={ref} to={to}  {...linkProps} />
+		)), [to]
+	);
+
+	return (
+		<li>
+			<ListItem button component={CustomLink} className={classes.list} >
+				{(icon != null) ? <ListItemIcon>{icon}</ListItemIcon> : null}
+				<ListItemText primary={primary} />
+			</ListItem>
+		</li>
+	);
+}
 
 
-    render () {
-      const { icon, primary, styles} = this.props;
-       return (
-        <li>
-          <ListItem button component={this.renderLink} className={styles.list} >
-            {(icon != null) ? <ListItemIcon>{icon}</ListItemIcon> : null}
-            <ListItemText primary={primary}  />
-          </ListItem>
-        </li>
-      );
-    }
-  }
 export default ListItemLink;

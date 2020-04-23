@@ -9,17 +9,22 @@ beforeAll(async () => {
 	}
 });
 test('logon and get root links for default services', async () => {
-	let s = process.env.DEFAULT_VIYA_SERVICES.split(',').map((s1) => {
+	let sall =
+		process.env.DEFAULT_VIYA_SERVICES != null
+			? process.env.DEFAULT_VIYA_SERVICES
+			: 'reports,reportImages,reportTransforms,compute,files,folders,casManagement,jobExecution,modelPublish,modelRepository';
+	
+	let sa = sall.split(',').map((s1) => {
+		return s1.trim();
+	});
+	let s = sa.map((s1) => {
 		return s1.trim();
 	});
 
-	try {
-		let l = await testFunctions.addServices(s, testInfo);
-		expect(l).toMatchSnapshot();
-	} catch (err) {
-		testInfo.logger.info(err);
-	}
+	let l = await testFunctions.addServices(s, testInfo);
+	expect(l).toMatchSnapshot();
 });
+
 test('logon and get root links for VIYA_SERVICES env variable', async () => {
 	
 	// expect.assertions();
@@ -27,9 +32,7 @@ test('logon and get root links for VIYA_SERVICES env variable', async () => {
 		let s = process.env.VIYA_SERVICES.split(',').map((s1) => {
 			return s1.trim();
 		});
-
 		let l = await testFunctions.addServices(s, testInfo);
-		console.log(l);
 		expect(l).toEqual(s);
 	}
 });

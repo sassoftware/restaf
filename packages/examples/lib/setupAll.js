@@ -4,15 +4,10 @@
  */
 
 module.exports = async function setupAll () {
-	let casProxy = (process.env.CASPROXY === 'ON') ? true : false;
-	if (casProxy === true) {
-		console.log('-----------------------------------------------------');
-		console.log('casProxy is turned on');
-		console.log('-----------------------------------------------------');
-	}
-	let store = require('@sassoftware/restaf').initStore({casProxy: casProxy});
+	let payload = require('./config')();
 	let logger = require('./testLogger')();
-	let payload = require('./config')(logger);
+	let casProxy = (process.env.CASPROXY === 'YES') ? true : false;
+	let store = require('@sassoftware/restaf').initStore({casProxy: casProxy});
 	await store.logon(payload);
 	
 	return { store: store, logger: logger }

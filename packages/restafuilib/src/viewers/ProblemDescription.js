@@ -5,7 +5,7 @@ function ProblemDescription () {
   return (
     <div id = "page-wrap" >
       <h1 align="center"> Viya Apps</h1>
-        <p align="justify"> <b> What is this: </b>A collection of applications to show case Via Capabilities
+        <p align="justify"> <b> What is this: </b>A collection of applications to show case Via Capabilities</p>
          <br/>
           <b> Objective: </b>Demonstrates the use of the following technologies
           <ul align="justify">
@@ -13,7 +13,7 @@ function ProblemDescription () {
             <li align="justify"> <b> CASL: </b>CAS server side scripting with Casl.</li>
             <li align="justify"> <b> Scoring: </b>Developing applications with scoring</li>
           </ul>
-        </p>
+        
     </div>
 
   );

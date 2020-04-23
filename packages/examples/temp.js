@@ -14,9 +14,7 @@ runtest()
 async function runtest () {
     let store = restaf.initStore();
     let msg = await store.logon(logonPayload);
-    await computeDS(store);
 
-    /*
     debugger;
     let { session } = await restaflib.casSetup(store, logonPayload);
     let p = {
@@ -30,7 +28,7 @@ async function runtest () {
     debugger;
     await store.apiCall(session.links('delete'));
     return 'done';
-    */
+    
 }
 
 async function computeDS (store) {

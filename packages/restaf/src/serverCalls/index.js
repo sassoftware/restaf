@@ -204,10 +204,9 @@ function makeCall (config, iconfig, pem, rejectUnauthorized) {
         config.httpsAgent = agent;
     }
     
-
     return new  Promise ((resolve, reject)  => {
         axios(config)
-            .then (response => {
+            .then(response => {
                 parseJSON(response.data)
                     .then(data => {
                         
@@ -223,14 +222,12 @@ function makeCall (config, iconfig, pem, rejectUnauthorized) {
                         }
                     })
                     .catch(() => {
-                        
                         iconfig.data = null;
                         response.data = { results: response.data , iconfig: Object.assign({}, iconfig) };
                         resolve (fixResponse(response));
                     });
             })
             .catch(error => {
-                
                 reject(error);
             });
         });

@@ -6,10 +6,10 @@ beforeAll(async () => {
 test("List repositories", async () => {
 	expect.assertions();
 	let l = await testFunctions.modelRepoRoot(testInfo);
-	expect(l).toBe('done');
+	expect(l).toMatchSnapshot();
 });
-test('Create CAS Destination', async () => {
+test.skip('Create CAS Destination', async () => {
 	expect.assertions();
 	let l = await testFunctions.modelDestinationCas(testInfo);
-	expect(l).toBe('done');
+	expect(l).toMatchSnapshot();
 });

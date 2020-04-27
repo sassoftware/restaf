@@ -16,109 +16,60 @@ import ShowScore from '../helpers/ShowScore';
 import Grid from '@material-ui/core/Grid';
 
 function MasScoring (props) {
-	const [selectorValues, setSelectorValues] = useState(null);
+	const [steps, setSteps] = useState(null);
+	const [stepsList, setStepsList] = useState(null);
 	const [selectedValues, setSelectedValues] = useState({});
-	const [initialValues, setInitialValues]   = useState(null);
 	const [scenarioResult, setScenarioResult] = useState(null);
-	const [modelName, setModelName]           = useState(props.model.name);
+	const [modelName, setModelName] = useState(useParams().name);
 
-	let { store, model } = props;
 	// const [scenarios, setScenarioValues] = useState(null)
 	const [errors, setErrors] = useState('loading...');
+	const { store, modList } = props;
 
 	const lastModel = useRef(null);
+	let { name } = useParams();
 
 	useEffect(() => {
-		lastModel.current = props.model.name;
+		lastModel.current = modelName;
 	});
 
-	// get initial values
+	// get initial values if new model
 	useEffect(() => {
-		// setSelectedValues(null);
-		setInitialValues(null);
-		setScenarioResult(null);
+		// clear old values
 
-		const initStep = async (store, model) => {
-			let selectors = {};
-			let defaultSelection = {};
-			if (model.table.hasOwnProperty('name') === true) {
-				let casResults = await slsExecute('selectors', store, model, {});
-				for (let idvar in casResults) {
-					selectors[idvar] = makeSelectionList(casResults[idvar]);
-					defaultSelection[idvar] = '';
-				}
-				setSelectorValues(selectors);
-				setSelectedValues(defaultSelection);
-				console.log(selectedValues);
-			} else {
-				setSelectorValues(null);
-				setSelectedValues({});
-			}
+		if (lastModel.current !== name) {
+			setScenarioResult(null);
+			setSelectedValues(null);
 
-			let tempScenario = null;
-			if (typeof model.scenario === 'string') {
-				let tresult = await slsExecute('describe', store, model, {});
-				tempScenario = {};
-				tresult.describe.forEach((m) => {
-					let cl = m.Name.toLowerCase().trim();
-					if (m.Role !== 'Target') {
-						tempScenario[cl] = '';
-					}
-				});
-			} else {
-				tempScenario = { ...model.scenario };
-			}
-			setInitialValues({ describe: {}, editRow: tempScenario });
-			setErrors(null);
-			lastModel.current = model.name;
-		};
-
-		const makeSelectionList = (invalue) => {
-			let type = typeof invalue[0] === 'number' ? 'number' : 'text';
-			let options = invalue.map((v) => {
-				return { value: v, label: v, type: type };
-			});
-			return options;
-		};
-
-		setErrors('...Retrieving filter information');
-
-		if (lastModel.current !== model.model.name) {
-			initStep(store, model)
-				.then((r) => console.log(r))
-				.catch((err) => {
-					setErrors(JSON.stringify(err));
-				});
+			store.apiCall(
+				modList
+					.itemsCmd(name, 'steps')
+					.then((r) => {
+						setSteps(r);
+						let stepSelect = r
+							.itemsList()
+							.toJ()
+							.map((n) => {
+								let s = { label: n, value: n , key: n};
+								return s;
+							});
+						setStepsList(stepSelect);
+						setModelName(name);
+					})
+					.catch((e) => {
+						setErrors(e);
+					})
+			);
 		}
-	}, [modelName, props.model]);
+	}, [name]);
 
+	function onStepSelection () {
+		
+	}
 	function handleChange (event) {
 		console.log(event.target.name);
 		console.log(event.target.value);
-		let type = selectorValues[event.target.name][0].type;
-		let value = type === 'number' ? parseFloat(event.target.value) : event.target.value;
-		setSelectedValues({
-			...selectedValues,
-			[event.target.name]: value,
-		});
 	}
-
-	const onFilter = () => {
-		setErrors('...Running');
-		console.log(selectedValues);
-
-		slsExecute('scenario', store, model, { filter: selectedValues })
-			.then((casResults) => {
-				let t = scenarioData(casResults);
-				console.log(t);
-				setInitialValues(t);
-				setErrors(null);
-			})
-			.catch((err) => {
-				console.log(err);
-				setErrors(JSON.stringify(err));
-			});
-	};
 
 	function scenarioData (casResults) {
 		let oldrow = casResults.scenario[0];
@@ -128,51 +79,21 @@ function MasScoring (props) {
 			describe[kl] = oldrow[k];
 		}
 
-		let editRow = {};
-		for (let k in model.scenario) {
-			editRow[k] = describe[k];
-		}
-
-		return { describe: describe, editRow: editRow };
+		return;
 	}
 
-	const getNewValues = (newValues) => {
-		// let scenario = {...initialValues.describe, ...newValues};
-		let scenario = { ...newValues };
-		console.log(scenario);
-		setErrors('...Running');
-		setScenarioResult(null);
+	const getNewValues = (newValues) => {};
 
-		console.log(scenario);
-		slsExecute('score', store, model, { scenario: scenario }, props.serverless)
-			.then((casResults) => {
-				let results = casResults[0];
-				let target = model.target.toLowerCase();
-				let score;
-				for (let k in results) {
-					if (k.toLowerCase() === target) {
-						score = results[k];
-					}
-				}
-				console.log(score);
-				setScenarioResult(score);
-				setErrors(null);
-			})
-			.catch((err) => {
-				console.log(err);
-				setErrors(JSON.stringify(err));
-			});
-	};
 	let show = (
 		<Grid container spacing={2}>
 			<Grid item xs={12}>
 				<Grid container spacing={2}>
 					<Grid key={1} justify={'flex-start'} item>
 						<ShowSelectors
-							selectors={selectorValues}
-							selectedValues={selectedValues}
+							selectors={stepsList}
+							selectedValues={selectedStepValue}
 							handleChange={handleChange}
-							onSubmit={onFilter}
+							onSubmit={onStepSelection}
 						/>
 						{errors}
 					</Grid>

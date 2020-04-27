@@ -8,6 +8,7 @@ function MasApp (props) {
 	let { store } = props;
 	const [menu, setMenu] = useState(null);
 	const [err, setErr] = useState(null);
+	const [modelList, setModelList] = useState(null);
 	
 	useEffect(() => {
 		getList(store)
@@ -16,7 +17,7 @@ function MasApp (props) {
 			})
 			.catch(e => {
 				console.log(e);
-				setErr('failed to get list of models');
+				setErr('Error: Failed to get list of models from MAS');
 			});
 	}, []);
 
@@ -39,23 +40,27 @@ function MasApp (props) {
 		});
 		menux = [
 			{
-				path     : '/',
-				text     : 'Home',
-				icon     : null,
-				name     : 'Home',
+				path: '/',
+				text: 'Home',
+				icon: null,
+				name: 'Home',
+
 				Component: ProblemDescription,
 			},
 		].concat(menux);
 		console.log(menux);
+		setModelList(modList);
 		return menux;
 	}
 	let show;
 	if (err !== null) {
 		show = <h2> Failed to get list of models. See console for messages</h2>;
 	} else if (menu === null) {
-		show = <h2> Reading the list of models</h2>;
-	} else {
-		show = <SideBar menu={menu} {...props} />;
+		show = <h2> Reading the list of models from MAS</h2>;
+	} else {	
+		let modList = { modList: modelList };
+		let newProps = { ...props, ...modList };
+		show = <SideBar menu={menu} {...newProps}  />;
 	}
     return show;
 }

@@ -115,6 +115,21 @@ function runCli (store, cmdFile) {
                 .then(r => { vorpal.log(r); cb();})
                 .catch(e => { vorpal.log(e); cb();});
             });
+    vorpal
+        .command('token <file>')
+        .description('save token to specified file')
+        .action((args, cb) => {
+            let token = store.connection().token;
+            fs.writeFile(args.file, token)
+                .then(r => {
+                    vorpal.log(`token written to ${args.file}`);
+                    cb();
+                })
+                .catch(e => {
+                    vorpal.log(e);
+                    cb();
+                });
+        });
 
 
     vorpal

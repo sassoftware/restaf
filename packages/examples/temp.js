@@ -12,7 +12,7 @@ runtest()
 	.catch((e) => console.log(JSON.stringify(e,null,4)));
 
 async function runtest () {
-    let store = restaf.initStore();
+    let store = restaf.initStore({casProxy: true});
     let msg = await store.logon(logonPayload);
 
     debugger;

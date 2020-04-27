@@ -21,7 +21,7 @@
 let fs = require('fs');
 let yargs = require('yargs');
 
-module.exports = function config() {
+module.exports = function config () {
 	let argv = yargs.argv;
 	let appEnv = argv.env == null ? process.env.RESTAFENV : argv.env;
 	if (appEnv != null) {
@@ -39,6 +39,10 @@ module.exports = function config() {
 		viyaServer = `${process.env.SAS_PROTOCOL}${process.env.VIYA_SERVER}`;
 	}
 	let logonPayload = null;
+	if (process.env.TOKENFILE != null) {
+		let data = fs.readFileSync(process.env.TOKENFILE, 'utf8');
+		process.env.VIYA_TOKEN = data;
+	}
 	if (process.env.VIYA_TOKEN != null) {
 		logonPayload = {
 			authType : 'server',
@@ -57,7 +61,7 @@ module.exports = function config() {
 			clientSecret: process.env.hasOwnProperty('CLIENTSECRET') ? process.env['CLIENTSECRET'] : '',
 		};
 	}
-
+	// console.log(logonPayload);
 	return logonPayload;
 
 	function iconfig(appEnv) {
@@ -79,3 +83,5 @@ module.exports = function config() {
 		}
 	}
 };
+
+

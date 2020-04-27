@@ -4,7 +4,6 @@ WORKDIR /usr/src/app
 COPY package*.json ./
 RUN npm install
 COPY . .
-RUN npm run build
 EXPOSE 8080
 
 #
@@ -16,5 +15,5 @@ ENV APPPORT=8080
 ENV APPNAME=viyaapp
 ENV APPLOC=./public
 ENV APPENTRY=index.html
-ENV APPENV=./env/appenv.js
+ENV APPENV=./appenv.js
 CMD ["npm", "run", "indocker"]

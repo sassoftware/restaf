@@ -7,10 +7,11 @@ Array [
   "reportTransforms",
   "compute",
   "files",
+  "folders",
   "casManagement",
+  "jobExecution",
   "modelPublish",
   "modelRepository",
-  "jobExecution",
   "casProxy",
 ]
 `;

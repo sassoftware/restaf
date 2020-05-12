@@ -68,6 +68,6 @@ module.exports = async function casTables (testInfo) {
 		}
 	}
 
-  return result;
+  return 'done';
 };
 

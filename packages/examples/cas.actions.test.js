@@ -24,11 +24,13 @@ beforeAll(async () => {
 });
 
 test('CAS Session', async () => {
+
 	let r = await testFunctions.casSession(testInfo);
 	expect(r).toBe('done');
 });
 
-test.only('CAS Echo', async () => {
+test('CAS Echo', async () => {
+
 	let r = await testFunctions.casEcho(testInfo);
 	expect(r).toBe('done');
 });
@@ -40,7 +42,7 @@ test('CAS DataStep and Fetch', async () => {
 
 test('CAS Tables', async () => {
 	let r = await testFunctions.casTables(testInfo);
-	expect(r).toMatchSnapshot();
+	expect(r).toBe('done');
 });
 
 test('CAS upload csv', async () => {

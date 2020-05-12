@@ -69,6 +69,7 @@
              casProxyFlag = response.data.iconfig.storeConfig.casProxy;
          }
      }
+   
      // do a refresh - mainly for reattaching to a cas session
     
      if ((iLink.rel === 'self' && iLink.type === 'application/vnd.sas.cas.session.summary') ||

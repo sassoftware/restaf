@@ -24,29 +24,34 @@ beforeAll(async () => {
 });
 
 test('upload SAS program using restaflib', async () => {
+	expect.assertions();
 	let l = await testFunctions.casUploadProgram2(true, testInfo);
 	expect(l).toMatchSnapshot();
 });
 
 
 test('upload a CSV using restaflib', async () => {
+	expect.assertions();
 	let l = await testFunctions.casUploadCsv2(true, testInfo);
 	expect(l).toMatchSnapshot();
 });
 
 
 test('upload a bdat using restaflib', async () => {
+	expect.assertions();
 	let l = await testFunctions.casUploadbdat(true, testInfo);
 	expect(l).toMatchSnapshot();
 });
 
 
 test('upload a score hdat and score it using restaflib', async () => {
+	expect.assertions();
 	let l = await testFunctions.casUploadhdat(true, testInfo);
 	expect(l).toMatchSnapshot();
 });
 
 test('upload astore using restaflib', async () => {
+	expect.assertions();
 	let l = await testFunctions.casUploadAst(true, testInfo);
 	expect(l).toMatchSnapshot();
 });

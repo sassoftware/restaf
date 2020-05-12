@@ -25,13 +25,6 @@ class ItemsListViewer extends React.Component {
 		this.state = {
 			store : props.store,
             folder: props.folder,
-            
-			onClick: {
-				first: this.doCommand.bind(this, 'first'),
-				next : this.doCommand.bind(this, 'next'),
-				prev : this.doCommand.bind(this, 'prev'),
-				last : this.doCommand.bind(this, 'last')
-			}
 		};
 	}
 
@@ -59,7 +52,7 @@ class ItemsListViewer extends React.Component {
 		let menu = [];
 		cmds.forEach((c, rel) => {
 			menu.push(
-				<button key={rel} onClick={onClick[rel]} className="button">
+				<button key={rel} onClick={this.doCommand(rel)} className="button">
 					{' '}
 					{rel}{' '}
 				</button>

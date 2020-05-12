@@ -21,7 +21,6 @@ module.exports = async function runCmds (store, cmdFile, vorpal) {
 			vorpal.log('------------------------------------');
 			vorpal.log(`Command in line[${i + 1}]: ${cmd}`);
 			try {
-				
 				await vorpal.exec(cmd);
 				vorpal.log('------------------------------------');
 			} catch(err) {

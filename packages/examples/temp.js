@@ -12,8 +12,9 @@ runtest()
 	.catch((e) => console.log(JSON.stringify(e,null,4)));
 
 async function runtest () {
-    let store = restaf.initStore();
-    debugger;
+    let store = restaf.initStore({casProxy: true});
+    let msg = await store.logon(logonPayload);
+
     let { session } = await restaflib.casSetup(store, logonPayload);
     let p = {
         action: 'builtins.echo',
@@ -23,7 +24,53 @@ async function runtest () {
     };
     let r = await store.runAction(session, p);
     console.log(JSON.stringify(r.items(), null, 4));
-    debugger;
+    
     await store.apiCall(session.links('delete'));
     return 'done';
+    
+}
+
+async function computeDS (store) {
+
+	let computeSession = await restaflib.computeSetup(store,null, null);
+
+	let macros = { maxRows: 5 };
+	let src = `
+
+        ods html style=barrettsblue; 
+
+        data work.dtemp1;
+            array x{10};  
+            do j = 1 to &maxRows;  
+                do i = 1 to 10;  
+                x{i} = i * 10;  
+                end;  
+            output;  
+            put _ALL_;  
+            end;  
+            run;  
+            proc print;run;  
+            ods html close;
+            run;
+            ;
+            `;
+
+	console.log('Compute Service');
+
+	let computeSummary = await restaflib.computeRun(store, computeSession, src, macros);
+    console.log('computesummary');
+	let log = await restaflib.computeResults(store, computeSummary, 'log');
+	console.info(log);
+	let ods = await restaflib.computeResults(store, computeSummary, 'ods');
+	console.log(ods);
+
+	let tables = await restaflib.computeResults(store, computeSummary, 'tables');
+	console.info(tables);
+
+	let data = await restaflib.computeFetchData(store, computeSummary, 'DTEMP1');
+	console.log(data.columns);
+	console.log(`First row in set: ${data.rows[0]}`);
+
+	await store.apiCall(computeSession.links('delete'));
+	return data.rows;
 }

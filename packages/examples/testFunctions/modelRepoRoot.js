@@ -8,5 +8,6 @@ module.exports = async function modelRepoRoot (testInfo){
     let { modelRepository } = await store.addServices('modelRepository');
 
     let rels = modelRepository.links().keySeq();
-    return rels;
+    logger.info(rels);
+    return 'done';
 };

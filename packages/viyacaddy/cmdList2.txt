@@ -1,0 +1,4 @@
+reports import c:/public/dev/reports * -f Public
+tables import ../../data Cluster_SDOH6.sas -c public
+
+

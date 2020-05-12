@@ -10,8 +10,6 @@ function NestedMenu (props) {
    
 	function nestedLevel (menus, handleSelect, level) {
 		let showMenu = [];
-		
-		
 		for(let m in menus){
 			console.log(m);
 			if (m === 'tablesByName') {

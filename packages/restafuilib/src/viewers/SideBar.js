@@ -1,40 +1,31 @@
-import React from "react";
-import { BrowserRouter as Router, Route, Switch, Redirect} from "react-router-dom";
+import React from 'react';
+import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 
 import Header from '../helpers/Header.js';
 
-
-import "../css/styles.css";
+import '../css/styles.css';
 
 function SideBar (props) {
-
-   let {menu, store} = props;
-
-   
-  let switches = menu.map(m => {
+  let { menu, title, ...others } = props;
+  let switches = menu.map((m) => {
     let s;
-    if (m.path === '/') {
-      s = <Route exact path={m.path} component={m.component} />;
-    } else {
-      s = <Route path={m.path}
-        render={(props) => <m.component {...props} store={store} model={m.model} />}
-      />;
-    }
-    return s;
-  });
-   switches.push(<Redirect to="/" />);
-   console.log(switches);
-   
-    return (
-      <Router>
-        <div id="App" className="sm-navy w-100 h-100">
-            <Header menu={menu} title="Viya At Work"></Header>
-            <Switch>
-             {switches}
-            </Switch>
-          </div>
-      </Router>
-    );
-  }
-export default SideBar;
 
+		if (m.path === '/') {
+			s = <Route exact path={m.path} key={m.text} render={(props) => <m.Component {...others}  />} />;
+    } else {
+      let path = m.path + '/:name';
+      s = <Route path={path} key={m.text} render={(match) => <m.Component  {...others} mathc={match} />} />;
+		}
+		return s;
+	});
+  switches.push(<Redirect key="redirect" {...others} to="/" />);
+	return (
+		<Router>
+			<div id="App" className="sm-navy w-100 h-100">
+        <Header menu={menu} title={title} {...others} ></Header>
+				<Switch>{switches}</Switch>
+			</div>
+		</Router>
+	);
+}
+export default SideBar;

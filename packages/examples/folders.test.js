@@ -4,7 +4,8 @@ beforeAll(async () => {
 	testInfo = await require('./lib/setupAll')();
 });
 
-test('files - paginate thru folders', async () => {
+test('folders - paginate thru folders', async () => {
+	expect.assertions();
 	let l = await testFunctions.foldersPaginate(testInfo);
 	expect(l).toMatchSnapshot();
 });

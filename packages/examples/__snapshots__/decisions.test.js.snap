@@ -1,14 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`List repositories 1`] = `
-Immutable.Seq [
-  "self",
-  "models",
-  "createModel",
-  "createModelProject",
-  "projects",
-  "createProject",
-  "repositories",
-  "createRepository",
-]
-`;
+exports[`Create CAS Destination 1`] = `"done"`;
+
+exports[`List repositories 1`] = `"done"`;

@@ -42,7 +42,10 @@ import getXsrfData     from './getXsrfData';
 import deleteRafObject from './deleteRafObject';
 
 function initStore (iconfig) {
-    let config = (iconfig == null) ? {casProxy: false} : iconfig;
+    let config = { casProxy: false };
+    if (iconfig != null) {
+        config = { ...config, ...iconfig };
+    }
     let store = configureSagaStore(config);
     
     return  {

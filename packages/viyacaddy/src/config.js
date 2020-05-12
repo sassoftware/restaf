@@ -41,26 +41,34 @@ module.exports = function config (envFile) {
 		process.exit(0);
 	}
 
-	/*
-	process.env.SAS_PROTOCOL =
-		process.env.SAS_SSL_ENABLED === "YES" ? "https://" : "http://";
-	
-	*/
 	let viyaServer = process.env.VIYA_SERVER;
 	if (viyaServer.indexOf('http') < 0) {
 		viyaServer = `http://${process.env.VIYA_SERVER}`;
 	}
-	return {
-		authType: 'password',
-		host    : viyaServer,
-		user    : process.env['USER'],
-		password: process.env['PASSWORD'],
-		clientID: process.env['CLIENTID'],
+	if (process.env.TOKENFILE != null) {
+		let data = fs.readFileSync(process.env.TOKENFILE, 'utf8');
+		process.env.VIYA_TOKEN = data;
+	}
+	let logonPayload;
+	if (process.env.VIYA_TOKEN != null) {
+		logonPayload = {
+			authType : 'server',
+			host     : viyaServer,
+			token    : process.env.VIYA_TOKEN,
+			tokenType: 'bearer',
+		};
+	} else {
+		logonPayload = {
+			authType: 'password',
+			host    : viyaServer,
+			user    : process.env['USER'],
+			password: process.env['PASSWORD'],
+			clientID: process.env['CLIENTID'],
 
-		clientSecret: process.env.hasOwnProperty('CLIENTSECRET')
-			? process.env['CLIENTSECRET']
-			: ''
-	};
+			clientSecret: process.env.hasOwnProperty('CLIENTSECRET') ? process.env['CLIENTSECRET'] : '',
+		};
+	}
+	return logonPayload;
 };
 
 function iconfig (appEnv) {

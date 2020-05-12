@@ -5,17 +5,15 @@
 'use strict';
 let {casUpload } = require('@sassoftware/restaflib');
 
-module.exports = async function upload (store, servers, args, vorpal) {
+module.exports = async function upload (store, servers, args) {
     let session = null;
     try {
         let casserver = servers.itemsList(0);
         session = await store.apiCall(servers.itemsCmd(casserver, 'createSession'));
-        let r = await casUpload(store, session, args.options.file, args.options.output, true);
+        let r = await casUpload(store, session, args.options.file, args.options.output, true, null);
         await store.apiCall(session.links('delete'));
-        vorpal.log(r);
-        return r;
+        return `Import of ${args.options.file} as ${args.option.output} completed`;
     } catch (err) {
-        vorpal.log(err);
         if (session !== null) {
             await store.apiCall(session.links('delete'));
         }

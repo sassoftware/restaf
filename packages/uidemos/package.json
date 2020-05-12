@@ -1,6 +1,6 @@
 {
   "name": "restaf-uidemos",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "UI demos for Viya using restaf, restaflib and uilibrary",
   "main": "index.js",
   "scripts": {
@@ -15,7 +15,7 @@
   "keywords": [],
   "author": "Deva Kumar <deva.kumar@sas.com>",
   "license": "Apache-2.0",
-  "dependencies": {
-    "@sassoftware/restaf-server": "^8.0.0"
+  "devDependencies": {
+    "@sassoftware/restaf-server": "^8.0.2"
   }
 }

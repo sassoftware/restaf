@@ -6,7 +6,7 @@
 
 import CasTableBrowserp from './CasTableBrowserp';
 import CasTableSelectorp from './CasTableSelectorp';
-import DsScoring from './DsScoring';
+import MasScoring from './MasScoring';
 import ItemsListViewer from './ItemsListViewer';
 import ItemsTableViewer from './ItemsTableViewer';
 import PlaceHolder from './PlaceHolder';
@@ -16,12 +16,13 @@ import CasOutput from './CasOutput';
 import SimpleCasTableViewer from './SimpleCasTableViewer';
 import ReportExplorerApp from './ReportExplorerApp';
 import SasReport from './SasReport';
+import MasApp from './MasApp';
 
 export default {
 	CasTableBrowserp,
 	CasTableSelectorp,
 	CasOutput,
-	DsScoring,
+	MasScoring,
 	ItemsListViewer,
 	ItemsTableViewer,
 	PlaceHolder,
@@ -29,5 +30,6 @@ export default {
 	SideBar,
 	SimpleCasTableViewer,
 	ReportExplorerApp,
-	SasReport
+	SasReport,
+	MasApp
 };

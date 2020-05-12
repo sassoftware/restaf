@@ -1,11 +1,11 @@
 {
   "name": "restaf-uidemos",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "UI demos for Viya using restaf, restaflib and uilibrary",
   "main": "index.js",
   "scripts": {
     "implicit": "npx @sassoftware/restaf-server --appenv=./appenv.js --env=./overrideImplicit.env --docker=./Dockerfile",
-    "code": "npx @sassoftware/restaf-server@next --appenv=./appenv.js --env=./overrideCode.env --docker=./Dockerfile",
+    "code": "npx @sassoftware/restaf-server --appenv=./appenv.js --env=./overrideCode.env --docker=./Dockerfile",
     "rproxy": "npx @sassoftware/restaf-server  --appenv=./appenv.js --env=./overrideCoder.env --docker=./Dockerfile",
     "indocker": "npx @sassoftware/restaf-server",
     "buildapp": "docker build -f Dockerfile -t viyaapp .",
@@ -15,10 +15,7 @@
   "keywords": [],
   "author": "Deva Kumar <deva.kumar@sas.com>",
   "license": "Apache-2.0",
-  "dependencies": {
-    "@sassoftware/restaf-server": "^8.0.0"
-  },
   "devDependencies": {
-    "@sassoftware/restaf-server": "8.0.0"
+    "@sassoftware/restaf-server": "^8.0.2"
   }
 }

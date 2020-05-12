@@ -17,8 +17,6 @@ function Header (props) {
 	const { useState, useEffect, useRef } = React;
 	let [itemsList, setItemsList] = useState(null);
 	let [isOpen, setIsOpen] = useState(false);
-	debugger;
-	
 	const {classes} = props;
 
 	let lastMenu = useRef('');
@@ -29,7 +27,6 @@ function Header (props) {
 	useEffect(() => {
 		
 		lastMenu.current = props.menu;
-		debugger;
 		let l = makeList(props.menu);
 		setItemsList(l);
 	}, []);
@@ -39,7 +36,6 @@ function Header (props) {
 	useEffect(() => {
 		if (lastMenu.current !== props.menu) {
 			lastMenu.current = props.menu;
-			debugger;
 			let l = makeList(props.menu);
 			setItemsList(l);
 		}
@@ -54,7 +50,6 @@ function Header (props) {
 	const makeList = menu => {
 		
 		let items = menu.map((m, key) => {
-			debugger;
 			return (
 				<ListItemLink
 					to={m.path + '/' + m.name}

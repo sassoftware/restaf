@@ -5,12 +5,15 @@
   'use strict';
 module.exports = function casSessionLinks (uri, urihttp, casHttp, server, casProxyFlag){
  
-    return [
+	let href = (casProxyFlag === true) ? `${uri}/actions` : `${urihttp}/actions`;
+	let isIdle = casProxyFlag === true ? `${uri}/isdle` : `${urihttp}/isIdle`;
+	
+    let r =  [
 		{
 			method        : 'POST',
-			href          : `${uri}/actions` /* payload: data:...., qs: {action: ...} */,
-			rel           : (casProxyFlag === true) ? 'execute' : 'casProxy',
-			uri           : `${uri}/actions`,
+			href          : href,
+			rel           : 'execute',
+			uri           : href,
 			responseType  : 'application/json',
 			type          : 'application/json',
 			itemType      : 'application/json',
@@ -20,9 +23,10 @@ module.exports = function casSessionLinks (uri, urihttp, casHttp, server, casPro
 			server        : server,
 			extended      : true
 		},
+		/*
 		{
 			method        : 'POST',
-			href          : `${urihttp}/actions` /* payload: data:...., qs: {action: ...} */,
+			href          : `${urihttp}/actions`,
 			rel           : (casProxyFlag === false) ? 'execute' : 'cashttp',
 			uri           : `${urihttp}/actions`,
 			responseType  : 'application/json',
@@ -34,11 +38,13 @@ module.exports = function casSessionLinks (uri, urihttp, casHttp, server, casPro
 			server        : server,
 			extended      : true
 		},
+		*/
+
 		{
 			method        : 'GET',
-			href          : `${uri}/isIdle` /* need to convert true/false to busy and completed */,
+			href          : isIdle,
 			rel           : 'state',
-			uri           : `${uri}/isIdle`,
+			uri           : isIdle,
 			responseType  : 'application/json',
 			type          : 'application/json',
 			itemType      : 'application/json',
@@ -49,4 +55,5 @@ module.exports = function casSessionLinks (uri, urihttp, casHttp, server, casPro
 			extended      : true
 		}
 	];
+	return r;
 };

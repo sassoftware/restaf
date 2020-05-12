@@ -15,7 +15,6 @@ async function runtest () {
     let store = restaf.initStore({casProxy: true});
     let msg = await store.logon(logonPayload);
 
-    debugger;
     let { session } = await restaflib.casSetup(store, logonPayload);
     let p = {
         action: 'builtins.echo',
@@ -25,7 +24,7 @@ async function runtest () {
     };
     let r = await store.runAction(session, p);
     console.log(JSON.stringify(r.items(), null, 4));
-    debugger;
+    
     await store.apiCall(session.links('delete'));
     return 'done';
     
@@ -58,7 +57,6 @@ async function computeDS (store) {
 
 	console.log('Compute Service');
 
-    debugger;
 	let computeSummary = await restaflib.computeRun(store, computeSession, src, macros);
     console.log('computesummary');
 	let log = await restaflib.computeResults(store, computeSummary, 'log');

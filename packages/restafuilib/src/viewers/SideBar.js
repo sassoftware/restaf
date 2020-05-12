@@ -7,7 +7,6 @@ import '../css/styles.css';
 
 function SideBar (props) {
   let { menu, title, ...others } = props;
-  debugger;
   let switches = menu.map((m) => {
     let s;
 

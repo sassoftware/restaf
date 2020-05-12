@@ -1,6 +1,5 @@
 function Table(props) {
 	let { data, onCellEdit, title, edit, err } = props;
-	debugger;
 	let thead = (
 		<thead>
 			<tr>
@@ -11,7 +10,6 @@ function Table(props) {
 			</tr>
 		</thead>
 	);
-	debugger;
 
 	let tbody = (
 		<tbody>

@@ -2051,10 +2051,10 @@
   resolved "https://registry.yarnpkg.com/@redux-saga/types/-/types-1.1.0.tgz#0e81ce56b4883b4b2a3001ebe1ab298b84237204"
   integrity sha512-afmTuJrylUU/0OtqzaRkbyYFFNgCF73Bvel/sw90pvGrWIZ+vyoIJqA6eMSoA6+nb443kTmulmBtC9NerXboNg==
 
-"@sassoftware/restaf-server@^8.0.0":
-  version "8.0.0"
-  resolved "https://registry.yarnpkg.com/@sassoftware/restaf-server/-/restaf-server-8.0.0.tgz#1118ca50555296b8dbc304035f22cd634ad014b6"
-  integrity sha512-fVJeoByxVyi9X2vDEg+OXSln7DEZq+shZjV9EeDZPWNGvC4OHVyf0h0UK7lwA0zZkpxCRNhr5hMNAxvWqWwJGw==
+"@sassoftware/restaf-server@^8.0.2":
+  version "8.0.2"
+  resolved "https://registry.yarnpkg.com/@sassoftware/restaf-server/-/restaf-server-8.0.2.tgz#37f4001238af0b47e96bc65b50e9a04e04950cbf"
+  integrity sha512-U3CgpIravosFt73cpPLSXvyYgQHzwgLGTd/NOP1h9pWPC9rt59fBvT/hsd+Te3HxiZs7WBCH5rkTbTYOYdfcbw==
   dependencies:
     "@hapi/bell" "^12.0.0"
     "@hapi/boom" "^9.1.0"

@@ -2,7 +2,6 @@ import { useState, useEffect, useRef } from 'react';
 import { useParams } from 'react-router';
 
 function TestStuff (props) {
-	debugger;
 	let { name } = useParams();
 	let show = (
 		<div>

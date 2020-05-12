@@ -11,7 +11,7 @@ async function uploadSrc (store, session, modelBuf, fileInfo, save){
     if (name == null) {
       throw 'Please specify table as caslib.name';
     }
-	name = name.toLowerCase(name);
+	// name = name.toLowerCase(name);
     
   // setup header for upload and the rest of the payload
 	let JSON_Parameters = {
@@ -38,10 +38,9 @@ async function uploadSrc (store, session, modelBuf, fileInfo, save){
 		data  : modelBuf,
 		action: 'table.upload'
 	};
-
+	
 	await store.runAction(session, p);
 	
-
 	if (save === true) {
 		let casl = `
 			action table.save r = result / 

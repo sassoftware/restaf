@@ -13,7 +13,6 @@ import Viewers from './viewers';
 
 function display (Viewer, props, element,style){
     let ThisComponent = Viewers[ Viewer ];
-	debugger;
 	let jss = (style == null) ? defaultJss() : style;
 	console.log(jss);
 	const StyledComponent = withStyles(jss)(ThisComponent);

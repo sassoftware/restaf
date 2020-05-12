@@ -29,6 +29,7 @@ console.log(envFile);
 
 
 // setup handling of https
+/*
 let initOpts = { pem: null, rejectUnathorized: 1 };
 if (process.env.PEMFILE != null) {
 	console.log(`pem file set to: ${process.env.PEMFILE}`);
@@ -38,8 +39,9 @@ if (process.env.PEMFILE != null) {
 			: null;
 	initOpts = { pem: pem, rejectUnauthorized: 0 };
 }
+*/
 
-let store = restaf.initStore(initOpts);
+let store = restaf.initStore();
 let payload = config(envFile);
 
 runCli(store, cmdFile);
@@ -261,14 +263,13 @@ function runCli (store, cmdFile) {
 	} else {
 		logon(store, payload)
 			.then(r => {
-				console.log(r);
 				servers = r.servers;
 				vorpal.log(`command file: ${cmdFile}`);
 				return runCmds(store, cmdFile, vorpal);
 			})
 			.then(r => console.log(r))
 			.catch(err => {
-				vorpal.log(err);
+				vorpal.log(JSON.stringify(err,null,4));
 			});
 	}
 }

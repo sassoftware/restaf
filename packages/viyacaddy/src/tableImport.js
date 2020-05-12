@@ -30,7 +30,7 @@ module.exports = async function tableImport (store, server, args, vorpal) {
 		};
 
 		run1(store, server, newArgs, (err, r) => {
-			vorpal.log(err ? err : r);
+			vorpal.log(err ? JSON.stringify(err,null,4) : r);
 		});
 	
 	}

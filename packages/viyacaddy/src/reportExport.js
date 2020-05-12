@@ -19,7 +19,7 @@ module.exports = async function reportExport (store, args, vorpal) {
 			}
 		};
 		run1(store, reports, newArgs, ((err, r) => {
-			vorpal.log(err ? err : r);
+			vorpal.log(err ? JSON.stringify(err, null,4) : r);
 		}));
 	}
 	return 'Exports started';

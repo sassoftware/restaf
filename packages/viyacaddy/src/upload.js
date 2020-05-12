@@ -10,9 +10,11 @@ module.exports = async function upload (store, servers, args) {
     try {
         let casserver = servers.itemsList(0);
         session = await store.apiCall(servers.itemsCmd(casserver, 'createSession'));
+        debugger;
         let r = await casUpload(store, session, args.options.file, args.options.output, true, null);
+        debugger;
         await store.apiCall(session.links('delete'));
-        return `Import of ${args.options.file} as ${args.option.output} completed`;
+        return `Import of ${args.options.file} as ${args.options.output} completed`;
     } catch (err) {
         if (session !== null) {
             await store.apiCall(session.links('delete'));

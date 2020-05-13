@@ -6,10 +6,10 @@
 const fs = require('fs').promises;
 const upload = require('./upload');
 
-module.exports = async function tableImport (store, server, args, vorpal) {
+module.exports = async function tableImport (store, args, vorpal) {
 	let { dir, files } = args;
 	let { caslib } = args.options;
-
+	
 	if (files[ 0 ] === '*') {
 		files = await fs.readdir(dir);
 	}
@@ -29,7 +29,7 @@ module.exports = async function tableImport (store, server, args, vorpal) {
 			},
 		};
 
-		run1(store, server, newArgs, (err, r) => {
+		run1(store, newArgs, (err, r) => {
 			vorpal.log(err ? JSON.stringify(err,null,4) : r);
 		});
 	
@@ -38,8 +38,8 @@ module.exports = async function tableImport (store, server, args, vorpal) {
 	return 'All cmds processed - waiting on completion';
 };
 
-function run1 (store, server, args, cb) {
-	upload(store,server, args)
+function run1 (store, args, cb) {
+	upload(store, args)
 		.then((r) => cb(null, r))
 		.catch((e) => cb(e));
 }

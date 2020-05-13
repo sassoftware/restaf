@@ -18,9 +18,6 @@ const caslibList = require('./src/caslibList');
 const reportList = require('./src/reportList');
 const tablesList = require('./src/tablesList');
 
-const fs = require('fs');
-
-let servers = null;
 let argv = require('yargs').argv;
 let cmdFile = argv.file == null ? null : argv.file;
 let envFile = argv.env == null ? null : argv.env;
@@ -68,8 +65,7 @@ function runCli (store, cmdFile) {
 						result => {
 							payload.password = result.password;
 							logon(store, payload)
-								.then(r => {
-									servers = r.servers;
+								.then(() => {
 									vorpal.log('Logon Successful');
 									cb();
 								})
@@ -105,7 +101,7 @@ function runCli (store, cmdFile) {
 		)
 
 		.action((args, callback) => {
-			upload(store, servers, args, vorpal)
+			upload(store, args, vorpal)
 				.then(r => {
 					vorpal.log(r);
 					callback();
@@ -133,7 +129,7 @@ function runCli (store, cmdFile) {
 		.option('-c --caslib <caslib>', 'target caslib')
 
 		.action((args, callback) => {
-			tableImport(store,servers, args, vorpal)
+			tableImport(store, args, vorpal)
 				.then((r) => {
 					vorpal.log(r);
 					callback();
@@ -206,27 +202,12 @@ function runCli (store, cmdFile) {
 					callback();
 				});
 		});
-
-	vorpal
-		.command('file <cmdfile>', 'Command file to execute')
-		.description('Process the commands in the specified file')
-		.action((args, callback) => {
-			runCmds(store, args.cmdfile, vorpal)
-				.then(r => {
-					vorpal.log(r);
-					callback();
-				})
-				.catch(err => {
-					vorpal.log(err);
-					callback();
-				});
-		});
 	
 	vorpal
 		.command('caslibs', 'List all caslibs')
 		.description('List all active caslibs')
 		.action((args, callback) => {
-			caslibList(store, servers, vorpal)
+			caslibList(store, args, vorpal)
 				.then(() => {
 					callback();
 				})
@@ -241,7 +222,7 @@ function runCli (store, cmdFile) {
 		.command('tables list <caslib> ', 'List tables in a caslib')
 		.description('List tables in a specified caslib')
 		.action((args, callback) => {
-			tablesList(store, servers, args, vorpal)
+			tablesList(store, args, vorpal)
 				.then(() => {
 					callback();
 				})
@@ -262,8 +243,7 @@ function runCli (store, cmdFile) {
 		vorpal.show();
 	} else {
 		logon(store, payload)
-			.then(r => {
-				servers = r.servers;
+			.then(()=> {
 				vorpal.log(`command file: ${cmdFile}`);
 				return runCmds(store, cmdFile, vorpal);
 			})

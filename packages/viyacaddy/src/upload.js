@@ -5,14 +5,12 @@
 'use strict';
 let {casUpload } = require('@sassoftware/restaflib');
 
-module.exports = async function upload (store, servers, args) {
+module.exports = async function upload (store, args) {
     let session = null;
     try {
-        let casserver = servers.itemsList(0);
-        session = await store.apiCall(servers.itemsCmd(casserver, 'createSession'));
-        debugger;
-        let r = await casUpload(store, session, args.options.file, args.options.output, true, null);
-        debugger;
+        let servers = store.getAppData('servers').toJS();
+        session = await store.apiCall(servers.itemsCmd(servers.itemsList(0), 'createSession'));
+        await casUpload(store, session, args.options.file, args.options.output, true, null);
         await store.apiCall(session.links('delete'));
         return `Import of ${args.options.file} as ${args.options.output} completed`;
     } catch (err) {

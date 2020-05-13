@@ -25,13 +25,12 @@ module.exports = async function logon (store, logonPayload) {
 			await store.logoff();
 		}
 	}
-
 	await store.logon(logonPayload);
-	let {casManagement, reports, folders} = await store.addServices('casManagement', 'reports', 'folders');
+	let r = await store.addServices('casManagement', 'reports', 'folders');
+	let casManagement = r.casManagement;
 	let servers = await store.apiCall(casManagement.links('servers'));
-	let casserver = servers.itemsList(0);
-	let session = await store.apiCall(servers.itemsCmd(casserver, 'createSession'));
-	return {servers: servers, session: session, reports: reports, folders: folders};
+    store.setAppData('servers', servers);
+	return true;
 };
 
 

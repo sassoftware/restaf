@@ -31,7 +31,7 @@ module.exports = async function reportImport (store, args, vorpal) {
 	for (let i = 0; i < n; i++) {
 		let f = files[ i ];
 		let ix = f.lastIndexOf('.');
-		let name = f.substr(f, ix);
+		let name = (ix !== -1) ? f.substr(f, ix) : f;
 	
 		let newArgs = {
 			options: {
@@ -42,7 +42,7 @@ module.exports = async function reportImport (store, args, vorpal) {
 		};
 
 		run1(store, reports, newArgs, (err, r) => {
-			vorpal.log(err ? err : r);
+			vorpal.log(err ? JSON.stringify(err, null,4) : r);
 		});
 		
 	}

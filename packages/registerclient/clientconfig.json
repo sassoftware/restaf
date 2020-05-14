@@ -2,6 +2,6 @@
     "scope": ["openid", "*"],
 	"resource_ids": "none",
     "autoapprove": true,
-    "access_token_validity": 86400,
+    "access_token_validity": 2592000,
     "use-session": true
 }

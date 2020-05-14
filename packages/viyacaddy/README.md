@@ -21,7 +21,6 @@ You can install the cli as follows:
 
      npm install -g @sassoftware/viyacaddy
 
-You can also install it in a docker (see below)
 
 ## Usage
 

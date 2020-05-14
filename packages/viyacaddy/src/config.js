@@ -27,11 +27,6 @@ module.exports = function config (envFile) {
 		appEnv = 'env/clients.env';
 	}
 	
-	console.log('---------------------------------------');
-	console.log(`env file set to: ${appEnv}`);
-	console.log('---------------------------------------');
-
-
 	if (appEnv != null) {
 		iconfig(appEnv);
 	}
@@ -81,11 +76,7 @@ function iconfig (appEnv) {
 				let envName = la[0];
 				if (la.length === 2 && la[1].length > 0) {
 					process.env[envName] = la[1];
-				} else {
-					console.log(
-						`${envName} inherited as ${process.env[envName]}`
-					);
-				}
+				} 
 			}
 		});
 	} catch (err) {

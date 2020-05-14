@@ -218,7 +218,7 @@ function runCli (store, cmdFile) {
 	
 	vorpal
 		.delimiter('>> ')
-		.log('Welcome to viyacaddy')
+		.log('Welcome to @sassoftware/viyacaddy')
 		.log('Enter help to get a list of all the commands')
 		.log('Use logon command to start your SAS Viya session')
 		.log('');

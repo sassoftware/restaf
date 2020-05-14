@@ -125,7 +125,7 @@ function runCli (store, cmdFile) {
         .log('--------------------------------------')
         .log('Welcome to @sassoftware/registerclient')
         .log('Enter help to get a list of all the commands')
-        .log('Use logon command to start your SAS Viya session')
+        .log('Use logon command to start your SAS Viya session. User must be an admin.')
         .log('');
 
     if (cmdFile === null) {

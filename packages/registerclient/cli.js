@@ -106,6 +106,7 @@ function runCli (store, cmdFile) {
     vorpal
         .command('token <file>')
         .description('save token to specified file')
+        .hidden()
         .action((args, cb) => {
             let token = store.connection().token;
             fs.writeFile(args.file, token)

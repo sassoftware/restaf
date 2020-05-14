@@ -1,4 +1,4 @@
-# registerapp
+# registerclient
 
 Application to manange clientids. The application runs as a cli.
 It can be run in interactive mode or in batch mode.
@@ -12,7 +12,7 @@ The user of this app must have admin rights.
 ---
 
 ```script
-npm install -g git+https://gitlab.sas.com/kumar/registerapp.git
+npm install -g @sassoftware/registerclient
 ```
 
 ---

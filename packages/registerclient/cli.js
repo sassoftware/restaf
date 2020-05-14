@@ -14,25 +14,13 @@ const addClient  = require('./src/addClient');
 const delClient  = require('./src/delClient');
 const listClient = require('./src/listClient');
 const runCmds    = require('./src/runCmds');
-const fss        = require('fs');
 
 let argv = require('yargs').argv;
 let cmdFile = argv.file == null ? null : argv.file;
 let envFile = argv.env == null ? null : argv.env;
 let payload = config(envFile);
 
-// setup handling of https
-
-let pemFile = process.env.SSL_CERT_FILE;
-console.log(`pemfile = ${pemFile}`);
-let pem = (pemFile != null) ? fss.readFileSync(pemFile, 'utf8') : null;
-let rejectUnauth = (process.NODE_TLS_REJECT_UNAUTHORIZED != null) 
-                    ? process.NODE_TLS_REJECT_UNAUTHORIZED : 0;
-let initOpts = ({pem: pem, rejectUnauthorized: rejectUnauth});
-
-vorpal.log(initOpts);
-
-let store  = restaf.initStore(initOpts);
+let store  = restaf.initStore();
 let clientConfig = (process.env.CLIENTIDCONFIG != null) ? process.env.CLIENTIDCONFIG : null;
 
 runCli(store, cmdFile);
@@ -135,11 +123,9 @@ function runCli (store, cmdFile) {
     vorpal
         .delimiter ('>> ')
         .log('--------------------------------------')
-        .log('.......................................')
-        .log('Welcome to viya-client-register')
+        .log('Welcome to @sassoftware/registerclient')
         .log('Enter help to get a list of all the commands')
         .log('Use logon command to start your SAS Viya session')
-        .log(initOpts)
         .log('');
 
     if (cmdFile === null) {

@@ -21,22 +21,6 @@ const tablesList = require('./src/tablesList');
 let argv = require('yargs').argv;
 let cmdFile = argv.file == null ? null : argv.file;
 let envFile = argv.env == null ? null : argv.env;
-console.log(cmdFile);
-console.log(envFile);
-
-
-// setup handling of https
-/*
-let initOpts = { pem: null, rejectUnathorized: 1 };
-if (process.env.PEMFILE != null) {
-	console.log(`pem file set to: ${process.env.PEMFILE}`);
-	let pem =
-		process.env.pemFile != null
-			? fs.readFileSync(process.env.pemFile, 'utf8')
-			: null;
-	initOpts = { pem: pem, rejectUnauthorized: 0 };
-}
-*/
 
 let store = restaf.initStore();
 let payload = config(envFile);

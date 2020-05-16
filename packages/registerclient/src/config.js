@@ -24,10 +24,6 @@ let fs = require('fs');
 module.exports = function config (envFile) {
 	let appEnv = (envFile === null) ? process.env.RESTAFENV : envFile;
 
-	if (appEnv == null) {
-		appEnv = 'env/clients.env';
-	}
-
 	if (appEnv != null) {
 		iconfig(appEnv);
 	}

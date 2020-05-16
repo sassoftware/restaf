@@ -1,6 +1,6 @@
 {
   "name": "@sassoftware/registerclient",
-  "version": "2.0.4",
+  "version": "2.0.5",
   "description": "collection of clis using rest apis",
   "author": "Deva Kumar <deva.kumar@sas.com>",
   "license": "Apache-2.0",

@@ -49,23 +49,26 @@ function viyaLogon (state = initialState, action) {
         case VIYA_LOGON_SERVER: {
             let config    = action.payload.iconfig;
             let newOne = {
-                type     : 'server',
-                id       : 1,
-                user     : 'You',
-                desc     : 'Server',
-                logonInfo: {
-                    type     : 'server',
-                    host     : config.host,
-                    tokenType: (config.hasOwnProperty ('tokenType') === true) ? config.tokenType : null,
-                    token    : (config.hasOwnProperty ('token') === true) ? config.token : null,
-                    pem      : (config.hasOwnProperty('pem')) ? config.pem : null,
+				type     : 'server',
+				id       : 1,
+				user     : 'You',
+				desc     : 'Server',
+				logonInfo: {
+					type      : 'server',
+					host      : config.host,
+					tokenType : config.hasOwnProperty('tokenType') === true ? config.tokenType : null,
+					token     : config.hasOwnProperty('token') === true ? config.token : null,
+                    sslOptions: config.hasOwnProperty('sslOptions') === true ? config.sslOptions : null,
+                    
+                    // the next two are here for backward compatability but sslOptions is the correct way
 
-                    rejectUnauthorized: (config.hasOwnProperty('rejectUnauthorized')) ? config.rejectUnauthorized : null,
+					pem               : config.hasOwnProperty('pem') ? config.pem : null,
+					rejectUnauthorized: config.hasOwnProperty('rejectUnauthorized') ? config.rejectUnauthorized : null,
 
-                    withCredentials: (config.hasOwnProperty('withCredentials')) ? config.withCredentials : true,
-                    keepAlive      : (config.hasOwnProperty('keepAlive')) ? config.keepAlive : null
-                }
-            };
+					withCredentials: config.hasOwnProperty('withCredentials') ? config.withCredentials : true,
+					keepAlive      : config.hasOwnProperty('keepAlive') ? config.keepAlive : null,
+				},
+			};
 
             let temp = {
                 currentConnection: state.get('currentConnection') +  1,
@@ -105,7 +108,7 @@ function viyaLogon (state = initialState, action) {
         }
 
         case VIYA_LOGON_COMPLETE: {
-            
+
             if (action.error === true) {
                 return state.withMutations(s => {
                     s.set('runStatus', 'error').set('statusInfo', fromJS(setBadStatus(action.payload)));
@@ -164,10 +167,11 @@ function newConnection (payload) {
             type     : 'trusted',
             host     : iconfig.host,
             tokenType: results['token_type'],
-            token    : results['access_token'],
-            pem      : iconfig.pem,
+            token    : results[ 'access_token' ],
+            
+            sslOptions: iconfig.sslOptions,
 
-            rejectUnauthorized: (iconfig.hasOwnProperty('rejectUnauthorized')) ? iconfig.rejectUnauthorized : null,
+            // rejectUnauthorized: (iconfig.hasOwnProperty('rejectUnauthorized')) ? iconfig.rejectUnauthorized : null,
             
             keepAlive: (iconfig.keepAlive == null) ? null : iconfig.keepAlive
         },

@@ -3,7 +3,6 @@
   "version": "2.0.8",
   "description": "collection of clis using rest apis",
   "scripts": {
-    "preinstall": "npx npm-force-resolutions",
     "start": "node --no-warnings cli",
     "pub": "npm publish --access public"
   },
@@ -25,11 +24,6 @@
     "qs": "^6.9.1",
     "vorpal": "^1.12.0",
     "yargs": "^15.1.0"
-  },
-  "resolutions": {
-    "core-js": "^3.6.4",
-    "lodash": ">=4.17.15",
-    "mem": "^5.1.1"
   },
   "main": "cli.js"
 }

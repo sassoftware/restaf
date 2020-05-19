@@ -59,6 +59,28 @@ module.exports = function config (envFile) {
 			clientSecret: process.env.hasOwnProperty('CLIENTSECRET') ? process.env['CLIENTSECRET'] : '',
 		};
 	}
+	let tls = {};
+
+	if (process.env.TLS_CERT != null) {
+		tls.cert = fs.readFileSync(process.env.TLS_CERT, 'utf8');
+	}
+
+	if (process.env.TLS_KEY != null) {
+		tls.key = fs.readFileSync(process.env.TLS_KEY, 'utf8');
+	}
+
+	if (process.env.TLS_CABUNDLE != null) {
+		tls.CA = fs.readFileSync(process.env.TLS_CABUNDLE);
+	}
+
+	if (process.env.TLS_PFX != null) {
+		tls.pfx = fs.readFileSync(process.env.TLS_PFX);
+	}
+
+	if (process.env.TLS_PW != null) {
+		tls.passphrase = process.env.TLS_PW;
+	}
+	logonPayload.sslOptions = tls;
 	return logonPayload;
 };
 

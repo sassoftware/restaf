@@ -16,25 +16,16 @@
  *
  */
 
-  'use strict';
+"use strict";
 
-import axios from 'axios';
-import Https from 'https';
-async function request (store, payload, reducer) {
-  
-    let config = {...payload};
-  
-    if (payload.url.indexOf('https') !== -1) {
-      let c = store.config;
-      let opt = {};
-      if (c.sslOptions != null) {
-        opt = c.sslOptions;
-      }
-      let agent = new Https.Agent(opt);
-      config.httpsAgent = agent;
-    }
-    let r = await axios(config);
-    return (reducer == null) ? r : reducer(r);
-}
+const ca = require('win-ca');
+let f = process.argv[2];
 
-export default request;
+let a = ca({format: ca.der2.pem,  store: ['root', 'ca'], save: f});
+
+let pem ='';
+// let a = ca({format: ca.der2.pem,  store: [ 'root', 'ca' ], ondata: (c) => {pem = pem + c}});
+console.log(pem);
+
+// Alternate approach: save the pems and reuse them. In this case all you need to pass to restaf is roots.pem which has 
+// all the pems.

@@ -29,5 +29,10 @@
   "dependencies": {
     "colors": "^1.4.0",
     "jsdoc": "^3.6.3"
+  },
+  "resolutions": {
+    "**/core-js": "^3.6.4",
+    "**/lodash": ">=4.17.15",
+    "**/mem": "^5.1.1"
   }
 }

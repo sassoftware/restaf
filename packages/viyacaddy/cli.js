@@ -17,13 +17,19 @@ const reportExport = require('./src/reportExport');
 const caslibList = require('./src/caslibList');
 const reportList = require('./src/reportList');
 const tablesList = require('./src/tablesList');
+const fs = require('fs');
 
 let argv = require('yargs').argv;
 let cmdFile = argv.file == null ? null : argv.file;
 let envFile = argv.env == null ? null : argv.env;
 
-let store = restaf.initStore();
 let payload = config(envFile);
+
+
+let store = restaf.initStore({ sslOptions: payload.sslOptions });
+
+// let store = restaf.initStore();
+
 
 runCli(store, cmdFile);
 

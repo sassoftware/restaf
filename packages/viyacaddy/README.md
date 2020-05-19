@@ -1,7 +1,5 @@
 
-# @sassoftware/viyacaddy - a cli for importing and exporting
-
-## Introduction
+# Introduction
 
 One of the common activities is to import and export different contents in a Viya Server. The [viyacaddy package](https://github.com/sassoftware/restaf/tree/gen2/packages/viyacaddy) is make this job a little easier for a select set of data.
 
@@ -15,12 +13,17 @@ This cli is useful for:
 
 4. Importing .sas and .ds2 files into sashdat (for use with scoring actions)
 
+5. Importing .astore and .sasast files into sashdat
+
 ## Installing the cli
 
 You can install the cli as follows:
 
      npm install -g @sassoftware/viyacaddy
 
+### Notes
+
+1. If you do not have nodejs installed on your system you can use  
 
 ## Usage
 
@@ -28,41 +31,46 @@ The cli can be run in interactive mode or in "batch" mode.
 
 ### Interactive mode
 
-      npx @sassoftware/viyacaddy --env <your-env-file>
+```sh
+npx @sassoftware/viyacaddy --env <your-env-file>
+```
 
 You will get prompt to enter commands.
 
 The env file has the following format
 
-    ```env
-    VIYA_SERVER=http://your-viya-server
-    CLIENTID=<a password client>
-    CLIENTSECRET=<a client secret>
-    ```
+```ini
+VIYA_SERVER=http://your-viya-server
+CLIENTID=<a password client>
+CLIENTSECRET=<a client secret>
+```
 
 Note that the default clientid sas.ec (no secret)can be used (consult your SAS Administrator).
 
 ### Batch mode
 
-      npx @sassoftware/viyacaddy --env <your-env-file> -- file <cmdfile>
+```sh
+npx @sassoftware/viyacaddy --env <your-env-file> -- file <cmdfile>
+```
 
 The env file is now augmented with an userid and password as follows:
 
-    ```env
-        VIYA_SERVER=http://your-viya-server
-        CLIENTID=<a password client>
-        CLIENTSECRET=<a client secret>
-        USER=username
-        PASSWORD=password
-        ```
+```ini
+VIYA_SERVER=http://your-viya-server
+CLIENTID=<a password client>
+CLIENTSECRET=<a client secret>
+USER=username
+PASSWORD=password
+```
+
 You can use a previously generated token instead of userid and password. Create a token and save it in some file (say mytoken) and modify the env file as follows
 
-    ```env
-        VIYA_SERVER=http://your-viya-server
-        CLIENTID=<a password client>
-        CLIENTSECRET=<a client secret>
-        TOKEN_FILE=mytoken
-        ```
+```ini
+VIYA_SERVER=http://your-viya-server
+CLIENTID=<a password client>
+CLIENTSECRET=<a client secret>
+TOKEN_FILE=mytoken
+```
 
 The cmdfile is a text file with a list of valid viyacaddy commands. These commands are executed in parallel.
 
@@ -86,7 +94,6 @@ Also the new data will not be loaded into memory. That task is left to the appli
 - tables import   -- to import hdat, b7dat,csv, astore, ds2 and sas files into cas tables in a caslib
 
         tables import <input directory> <list of files|*> -c <caslib>
-
 
 - tables list -- to list the names of the tables in a specific caslib
 
@@ -114,32 +121,39 @@ Also the new data will not be loaded into memory. That task is left to the appli
 
 ## Examples
 
-    ```script
-    reports import ./reportfiles a.json b.json -f Public <-- import a.json and b.json from 
-    
-    reportfiles directory into Public folder
-    
-    reports import ./reportfiles * -f Public <-- import all files from reportfiles directory into Public folder
-   
-    reports import ./reportfiles 'a report with spaces'  -f Public <-- If file name has spaces enclose the name in quotes
-    
-    reports export a b -d ./reportfiles <-- export reports a and b as json files into the reportsfiles directory
+1. *Import a.json and b.json from reportfiles directory into Public folder*  
+    - **reports import** ./reportfiles a.json b.json -f Public 
 
-    reports list <-- list all the reports available to the user
-    
-    tables import  ./data  iris.csv retails.sas7bdat -c Public <-- import the two files from data directory into Public caslib
-    
-    tables import  ./data  *  -c Public <-- import all the files in data directory into Public caslib
+2. *Import all files from reportfiles directory into Public folder*
+    - **reports import** ./reportfiles * -f Public 
 
-    tables list public <-- list names of tables in the public caslib
+3. *Import files with spaces in name
+    - **reports import** ./reportfiles 'a report with spaces'  -f Public
 
-    ```
+4. *Export reports a and b as json files into the reportsfiles directory*
+    - **reports export** a b -d ./reportfiles
+
+5. *List all the reports available to the user*
+    - **reports list**
+
+6. *Import the two files from data directory into Public caslib*
+    - **tables import**  ./data  iris.csv retails.sas7bdat -c Public
+
+7. *Import all the files in data directory into Public caslib*
+    - **tables import**  ./data  *  -c Public
+
+8. *List names of tables in the public caslib*
+    - **tables list** public 
 
 ## Sample cmdfile
 
 Here is a sample command file
 
-    ```txt
+    # import all report in the specificed directory
     reports import c:/public/dev/reports * -f Public
+
+    # Import a sas program
     tables import ../../data Cluster_SDOH6.sas -c public
-    ```
+
+    # Import all data in a directory
+    tables import c:/public/dev/data * -c casuser

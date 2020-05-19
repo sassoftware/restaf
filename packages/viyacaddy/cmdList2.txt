@@ -1,4 +1,5 @@
-reports import c:/public/dev/reports * -f Public
-tables import ../../data Cluster_SDOH6.sas -c public
+reports import c:/public/dev/data/reports * -f Public
+tables import c:/public/dev/data/tables *  -c casuser
+
 
 

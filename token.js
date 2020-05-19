@@ -22,21 +22,21 @@
  * ---------------------------------------------------------------------------------
  */
 let restaf = require('@sassoftware/restaf');
-let payload = require('./testFunctions/config')();
-let store = restaf.initStore();
+let payload = require('./packages/examples/lib/config')();
 let fs = require('fs').promises;
-
-payload.keepAlive = null;
+let f = process.argv[2];
+let store = restaf.initStore({sslOptions: payload.sslOptions});
 
 store
 	.logon(payload)
 	.then(msg => {
-		console.log(JSON.stringify(store.connection(), null, 4));
 		let token = store.connection().token;
+		console.log(token);
+		
 		return token;
 	})
 	.then(token => {
-		return fs.writeFile('.env', 'VIYA_TOKEN='+token);
+		return fs.writeFile(f, 'VIYA_TOKEN='+token);
 	})
 	.catch(err => console.log(err));
 

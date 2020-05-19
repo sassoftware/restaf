@@ -1,0 +1,14 @@
+{
+  "name": "dkrviyacaddy",
+  "version": "1.0.0",
+  "description": "run viyacaddy in docker",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependency": {
+    "@sassoftware/viyacaddy": "latest"
+  },
+  "author": "Deva Kumar <deva.kumar@sas.com>",
+  "license": "SEE LICENSE IN license.txt"
+}

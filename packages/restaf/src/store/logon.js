@@ -108,9 +108,11 @@ const logon = (store, ipayload) => {
                     type   : (payload.authType === 'LOGOFF') ? VIYA_LOGOFF : VIYA_LOGON,
                     payload: { ...payload }
                 };
+                action.payload.sslOptions = store.config.hasOwnProperty('sslOptions') ? store.config.sslOptions : null;
+                /*
                 action.payload.pem = (store.config.hasOwnProperty('pem')) ? store.config.pem : null;
                 action.payload.rejectUnauthorized = (store.config.hasOwnProperty('rejectUnauthorized')) ? store.config.rejectUnauthorized : null;
-                
+                */
                 unSubscribe = store.subscribe(logonExit);
                 // store.config.casProxy = false; preset to this value in initStore.
                 action.storeConfig = store.config;

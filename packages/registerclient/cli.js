@@ -20,7 +20,7 @@ let cmdFile = argv.file == null ? null : argv.file;
 let envFile = argv.env == null ? null : argv.env;
 let payload = config(envFile);
 
-let store  = restaf.initStore();
+let store  = restaf.initStore({sslOptions: payload.sslOptions});
 let clientConfig = (process.env.CLIENTIDCONFIG != null) ? process.env.CLIENTIDCONFIG : null;
 
 runCli(store, cmdFile);
@@ -105,8 +105,7 @@ function runCli (store, cmdFile) {
             });
     vorpal
         .command('token <file>')
-        .description('save token to specified file')
-        .hidden()
+        .description('save current oauth token to specified file')
         .action((args, cb) => {
             let token = store.connection().token;
             fs.writeFile(args.file, token)

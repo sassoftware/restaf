@@ -20,20 +20,19 @@ async function masSetup (store,models, logonPayload){
         await store.logon(logonPayload);
     }
     let { microanalyticScore } = await store.addServices('microanalyticScore');
-
+   
     let steps = [];
     if (models != null) {
        for (let i=0; i < models.length; i++) {
-        let m = models[i];
-        let result = await getScoreStep(store, microanalyticScore, m);
-        steps[m] = result; 
+           let m = models[ i ];
+           let result = await getScoreStep(store, microanalyticScore, m);
+           steps[ m ] = result;
        }
     } else {
         let modList = await store.apiCall(microanalyticScore.links('modules'));
         let size = modList.itemsList().size;  /* TBD: Handle list of models with paging */
         for (let i = 0; i < size; i++) {
             let m = modList.itemsList(i);
-            console.log(m);
             let result = await store.apiCall(modList.itemsCmd(m, 'steps'));
             steps[ m ] = result;
         }

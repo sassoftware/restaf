@@ -38,7 +38,7 @@ import masSetup        from './masSetup';
 import masDescribe     from './masDescribe';
 
 import masRun          from './masRun';
-
+import masAddModel     from './masAddModel';
 import print           from './print';
 
 import decodeJwt       from './decodeJwt';
@@ -73,6 +73,7 @@ export {
     caslScore,
     caslDescribe,
     masSetup,
+    masAddModel,
     masDescribe,
     masRun,
     decodeJwt,

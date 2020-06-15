@@ -19,7 +19,7 @@
     "url": "https://github.com/sassoftware/restaf/issues"
   },
   "unpkg": "/dist/restaf.min.js",
-  "main": "./lib/restaf",
+  "main": "./lib/restaf.js",
   "engines": {
     "node": ">=10.16.0",
     "npm": ">=6.10.0",

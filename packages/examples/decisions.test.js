@@ -8,7 +8,7 @@ test("List repositories", async () => {
 	let l = await testFunctions.modelRepoRoot(testInfo);
 	expect(l).toMatchSnapshot();
 });
-test('Create CAS Destination', async () => {
+test.only('Create CAS Destination', async () => {
 	expect.assertions();
 	let l = await testFunctions.modelDestinationCas(testInfo);
 	expect(l).toMatchSnapshot();

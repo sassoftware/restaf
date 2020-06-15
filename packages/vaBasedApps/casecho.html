@@ -22,7 +22,7 @@
     <meta charset="UTF-8" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-polyfill/6.26.0/polyfill.min.js"></script>
-    <script src="https://unpkg.com/restaf@dev/dist/restaf.min.js"></script>
+    <script src="https://unpkg.com/@sassoftware/restaf/dist/restaf.min.js"></script>
 
     <style>
       .container {
@@ -37,7 +37,7 @@
             //
             // setup restaf and cas session
             //
-            let store   = restaf.initStore({casProxy: false});
+            let store   = restaf.initStore();
             let session = null;
 
             function setup() {

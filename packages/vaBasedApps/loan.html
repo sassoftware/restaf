@@ -10,8 +10,8 @@
         <script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
         <script src="https://unpkg.com/restaf/dist/restaf.min.js"></script>
 
-        <script src="https://unpkg.com/restaf@dev/dist/restaf.min.js"></script>
-        <script src="https;//unpkg.com/restaflib@dev/dist/restaflib.min.js"></script>
+        <script src="https://unpkg.com/@sassoftware/restaf/dist/restaf.min.js"></script>
+        <script src="https;//unpkg.com/@sassoftware/restaflib/dist/restaflib.min.js"></script>
 
         <style>
             body {
@@ -121,7 +121,7 @@
 
             let ids = [ 'LOAN', 'VALUE' ];
 
-            let store = restaf.initStore({casProxy: true});
+            let store = restaf.initStore();
 
             function setup() {
                 // viewDial(0.5, false);

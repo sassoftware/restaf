@@ -11,7 +11,8 @@ module.exports = async function modelDestinationCas (testInfo){
     logger.info(modelPublish.links().keySeq());
 
     let r = await store.apiCall(modelPublish.links('destinations'));
-    logger.info(r.itemsList());
+    console.log('after destinations');
+    logger.info(r);
 
     if (r.items('testPublishjest') !== null) {
         logger.info('testPublishjest exists');
@@ -27,8 +28,10 @@ module.exports = async function modelDestinationCas (testInfo){
 			destinationType : 'cas'
 		}
 	};
-    
+    logger.info(payload);
+    console.log('create destination');
     r = await store.apiCall(modelPublish.links('createDestinationCAS'), payload);
+    logger('after create');
     logger.info(r.items());
 
     let newList = await store.apiCall(modelPublish.links('destinations'));

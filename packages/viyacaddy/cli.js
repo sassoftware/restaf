@@ -60,7 +60,7 @@ function runCli (store, cmdFile) {
 									cb();
 								})
 								.catch(err => {
-									vorpal.log(err);
+									vorpal.log(JSON.stringify(err,null,4));
 									cb();
 								});
 						}

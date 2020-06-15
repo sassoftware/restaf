@@ -4,7 +4,8 @@
   "description": "collection of clis using rest apis",
   "scripts": {
     "start": "node --no-warnings cli",
-    "pub": "npm publish --access public"
+    "pub": "npm publish --access public",
+    "dkrbuild": "docker build "
   },
   "repository": "https://github.com/sassoftware/restaf/tree/gen2/packages/viyacaddy",
   "keywords": [

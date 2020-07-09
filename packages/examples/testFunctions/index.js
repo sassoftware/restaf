@@ -21,6 +21,7 @@ let filesCreate = require('./filesCreate');
 let filesPaginate = require('./filesPaginate');
 let casScoreHdat = require('./casScoreHdat');
 let casScoreAst = require('./casScoreAst');
+let casScoreAstFail = require('./casScoreAstFail');
 let foldersPaginate = require('./foldersPaginate');
 let logonTest = require('./logonTest');
 let modelRepoRoot = require('./modelRepoRoot');
@@ -29,7 +30,7 @@ let masScore = require('./masScore');
 
 
 
-module.exports =  {
+module.exports = {
 	addServices,
 	casSession,
 	casEcho,
@@ -42,14 +43,16 @@ module.exports =  {
 	casUploadbdat,
 	casUploadhdat,
 	casUploadAst,
+
 	computeDS,
 	filesCreate,
 	filesPaginate,
 	foldersPaginate,
 	casScoreHdat,
 	casScoreAst,
+	casScoreAstFail,
 	masScore,
 	logonTest,
 	modelRepoRoot,
-	modelDestinationCas
+	modelDestinationCas,
 };

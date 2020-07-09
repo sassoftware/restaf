@@ -31,7 +31,7 @@ module.exports = async function modelDestinationCas (testInfo){
     logger.info(payload);
     console.log('create destination');
     r = await store.apiCall(modelPublish.links('createDestinationCAS'), payload);
-    logger('after create');
+    logger.info('after create');
     logger.info(r.items());
 
     let newList = await store.apiCall(modelPublish.links('destinations'));

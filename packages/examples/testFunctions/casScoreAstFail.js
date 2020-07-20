@@ -19,9 +19,9 @@
 'use strict';
 
 let restaflib = require('@sassoftware/restaflib');
-let { casSetup, casUpload, caslDescribe, caslScore} = restaflib;
+let { casSetup, casUpload, caslDescribe, caslScore, print } = restaflib;
 
-module.exports = async function casScoreAst (save, testInfo) {
+module.exports = async function casScoreAstFail (save, testInfo) {
 	let { store, logger } = testInfo;
 	let { session } = await casSetup(store, null);
 	let r = await casUpload(
@@ -33,7 +33,7 @@ module.exports = async function casScoreAst (save, testInfo) {
 	);
 
 	let scenario = {
-		model   : { caslib: 'casuser', name: 'paysimjest' },
+		model   : { caslib: 'casuser', name: 'paysimjestx' },
 		scenario: {
 			type_n        : 1,
 			amount        : 10000,
@@ -44,17 +44,17 @@ module.exports = async function casScoreAst (save, testInfo) {
 			isFraud       : 0
 			}
 		};
-
-    r = await caslDescribe(store, session, scenario);
-
-	let desc = r.casResults.describe;
-
-	r = await caslScore(store, session, scenario);
-
 	
+	try {
+		r = await caslScore(store, session, scenario);
+	}
+	catch (err) {
+		logger.info(err);
+		return 'done';
+	}
+
 	let result = {
-		describe: desc,
-		score   : r
+		score: r
 	};
 	logger.info(result);
 	await store.apiCall(session.links('delete'));

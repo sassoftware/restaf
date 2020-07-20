@@ -7,6 +7,89 @@
 function commonCasl (){
     let casl = `
  
+ /*------------------------------------------------*/
+ /*Does the tables exist and if not try to load it */
+ /*
+    Typical usage:
+      rc = checkAndLoadTable(caslib, name);
+      if ( rc ne true) then do;
+         ...handle errors...
+      end; 
+      else do;
+         ...your stuff...
+      end;
+    rc = true   - the data is ready for use
+    rc = false  - the table could not be found
+    rc = -1     - the caslib does not exist
+ */
+ /*------------------------------------------------*/
+
+ function checkAndLoadTable(caslib, name);   
+
+        /* verify caslib is there */
+         table.queryCaslib status=status result=result/
+            caslib = caslib;
+        do k,v over result;   /* to handle casuser[user] */                       
+           rc = v;
+        end;
+        if ( rc eq false ) then 
+           return -1;
+        /*    
+        * Check to see if table is already loaded   
+        */   
+        action table.tableExists r=result/    
+            caslib = caslib    
+            name  = name;    
+        /*   
+        * if not loaded then try to load it   
+        */   
+        rc = true;
+        if (result.exists eq 0) then do;   
+            path = lookupPath(caslib, name);
+            if (path eq '*') then do;
+               rc = false;
+            end;
+            else do;
+	            action table.loadTable status=status/    
+	                caslib = caslib    
+	                source = path    
+	                casout={caslib= caslib name=name}; 
+	            if (status.statusCode ne 0 ) then rc = false;
+            end; 
+         end;        
+         return rc;  
+    end;   
+
+/*
+ * return path to table
+ */
+
+function lookupPath(caslib, name ) ; 
+    table.fileInfo r = result/ 
+    caslib=caslib; 
+
+    names = result.fileInfo[,4]; 
+    nameu = upcase(name)||'.SASHDAT'; 
+    cpath = '*'; 
+    count = 0; 
+
+    do n over names; 
+	    if (upcase(n) eq nameu)  then do; 
+	        count = count + 1; 
+	        if ( cpath eq '*') then do; 
+	            cpath = n; 
+	        end; 
+	    end; 
+    end; 
+    
+    if (count GT 1 ) then do; 
+        print 'Warning: ' count 'Files with names only different in case exist - First one chosen';
+        print 'Path: ' cpath ' will be used****';  
+    end; 
+    r = cpath; 
+    return r; 
+end; 
+
     /*-----------------------------------------*/ 
     /* isModel: is it model table              */  
     /*-----------------------------------------*/  
@@ -128,36 +211,6 @@ function commonCasl (){
     return true;   
     end;   
          
-    function checkAndLoadTable(caslib, name);   
-                     
-        /*    
-        * Verify that the table is loaded   
-        */   
-        action table.tableExists r=result/    
-            caslib = caslib    
-            name  = name;    
-             
-        /*   
-        * if necessary load the table   
-        */   
-       
-
-        if ( result.exists eq 0) then do;   
-            path = lookupPath(caslib, name);
-            if (path eq '*') then do;
-               return 1;
-            end;
-            action table.loadTable status=status/    
-                caslib = caslib    
-                source = path /*upcase(name) || '.sashdat' */   
-                casout={caslib= caslib name=name};    
-            return status.statusCode;   
-        end;    
-        else do;   
-            print name '  preloaded';   
-            return 0;   
-        end;   
-    end;   
          
     function dictToWhere(filter);   
         where ='';   
@@ -204,39 +257,7 @@ function commonCasl (){
         saveresult data1 casout=name caslib=caslib replace;   
     end;   
 
-    function lookupPath(caslib, name ) ; 
-        table.fileInfo r = result/ 
-        caslib=caslib; 
-    
-        names = result.fileInfo[,4]; 
-
-        nameu = upcase(name)||'.SASHDAT'; 
-        cpath = '*'; 
-        
-        count = 0; 
-        do n over names; 
-        if (upcase(n) eq nameu)  then do; 
-            count = count + 1; 
-            if ( cpath eq '*') then do; 
-                cpath = n; 
-            end; 
-        end; 
-        end; 
-        
-        if (count eq 0 ) then do; 
-        print {Error: Table not found}; 
-        r = '*'; 
-        end; 
-        else do; 
-        if (count > 1 ) then do; 
-            print 'Warning: ' count 'Files with names only different in case exist - First one chosen'; 
-        end; 
-        print 'Path: ' cpath ' will be used****'; 
-        r = cpath; 
-        end; 
-    return r; 
-end; 
-     `
+     `;
      ;
 return casl;
 }

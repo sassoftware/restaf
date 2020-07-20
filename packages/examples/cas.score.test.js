@@ -43,3 +43,9 @@ test('score thru Mas', async () => {
 		expect(l).toBe('done');
 	} 
 });
+
+test('test bad model name', async () => {
+	expect.assertions();
+	let l = await testFunctions.casScoreAstFail(false, testInfo);
+	expect(l).toBe('done');
+});

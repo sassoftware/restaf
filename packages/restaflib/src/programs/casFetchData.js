@@ -12,7 +12,7 @@ function casFetchData () {
      
        rc = checkAndLoadTable(caslib, name);
     
-       if (rc ne 0) then do;
+       if (rc ne true) then do;
          results = {Errors= 'Unable to access ' ||caslib||'.'||name};   
          return results;   
          end;  

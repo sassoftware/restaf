@@ -30,6 +30,14 @@ module.exports = async function addServices (args, testInfo) {
   let s = await store.addServices(...args);
   let l = Object.keys(s);
   logger.info(l, 'list of services');
+
+  // test adding existing service
+  let s1 = args[ 0 ];
+  console.log(s1);
+  let t1 = await store.addServices(s1);
+  console.log(t1 !== null);
+
+  let t2 = await store.addServices('reports', 'dataMining');
   return l;
 
 };

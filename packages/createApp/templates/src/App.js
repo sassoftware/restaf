@@ -38,4 +38,4 @@ function App (props) {
 export default App;
         `;
     return code;
-}
+};

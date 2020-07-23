@@ -8,7 +8,6 @@ This cli is an extension of create-react-app. It is designed to help developer's
 2. [restaflib](https://github.com/sassoftware/restaf/wiki)
 3. [restaf-server](https://github.com/sassoftware/restaf-server/wiki)
 
-
 ## App Creation
 
 ```sh

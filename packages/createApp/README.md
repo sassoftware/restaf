@@ -52,6 +52,8 @@ Only the react-appname is required. The optional parameters are:
 
 - script  -- a file which has some HTML script tags to be inserted into index.html - defaults is a comment line
 
+--i       -- install additional dependencies ( a quoted string like "next i18next")
+
 ---
 
 ## Using the Generated Application

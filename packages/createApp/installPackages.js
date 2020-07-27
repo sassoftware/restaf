@@ -3,12 +3,17 @@
 * SPDX-License-Identifier: Apache-2.0
 */
 let sh = require('shelljs');
-module.exports = installPackages = (appDirectory) => {
+module.exports = function installPackages (appDirectory, installList){
 	return new Promise((resolve) => {
 		console.log(`\nInstalling application dependencies in ${appDirectory}\n`);
-		sh.exec(`cd ${appDirectory} && yarn add rimraf @sassoftware/restaf-server @sassoftware/restaf @sassoftware/restaflib cross-env cross-spawn http-proxy-middleware && npm audit fix`, () => {
+		let list = `rimraf @sassoftware/restaf-server @sassoftware/restaf @sassoftware/restaflib cross-env cross-spawn http-proxy-middleware`;
+		if (installList !== null) {
+			list = list + ' ' + installList;
+		}
+		sh.exec(`cd ${appDirectory} && yarn add ${list} && npm audit fix`, () => {
 			console.log('\nFinished installing packages\n'.green);
 			resolve();
 		});
 	});
 };
+

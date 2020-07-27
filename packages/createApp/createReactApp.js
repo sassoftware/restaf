@@ -3,7 +3,7 @@
 * SPDX-License-Identifier: Apache-2.0
 */
 let sh = require('shelljs');
-module.exports = createReactApp = (appName) => {
+module.exports = function createReactApp (appName) {
     return new Promise((resolve) => {
         console.log('Running create-react-app');
         sh.exec(`npx create-react-app ${appName}`, () => {

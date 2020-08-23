@@ -27,7 +27,7 @@ let logonTest = require('./logonTest');
 let modelRepoRoot = require('./modelRepoRoot');
 let modelDestinationCas = require('./modelDestinationCas');
 let masScore = require('./masScore');
-
+let identities = require('./identities');
 
 
 module.exports = {
@@ -55,4 +55,6 @@ module.exports = {
 	logonTest,
 	modelRepoRoot,
 	modelDestinationCas,
+
+	identities,
 };

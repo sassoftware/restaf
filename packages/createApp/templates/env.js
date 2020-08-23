@@ -13,18 +13,41 @@ APPNAME=${appName}
 # to facilate switching between public/dev.html and build/index.html
 # APPENTRY=index.html
 APPLOC=
+HTTPS=false
 APPHOST=localhost
 APPPORT=5000
 VIYA_SERVER=
-AUTHFLOW=code
+
 # Enter the clientID that is registered for your app on your Viya server
 # Make sure this is your new authorization_code.
 # 
+AUTHFLOW=code
 CLIENTID=viyademo
 CLIENTSECRET=secret
+
+#
+# TLS support
+# file references below are sample paths
+#
+
+# HTTPS=true
+# SAMESITE=None,secure
+
+# Option 1: signed key and certificates
+# TLS_KEY=../certs/self/key.pem
+# TLS_CERT=../certs/self/certificate.pem
+
+# Option 2: If you pfx form of certificate use this
+# TLS_PFX=../certs/sascert/sascert2.pfx
+# TLS_PW=rafdemo
+
+# Optional ( can also be set in env)
+# TLS_BUNDLE=../certs/self/ca-bundle.pem
+# NODE_TLS_REJECT_UNAUTHORIZED=0
+
 #################################################################
 # Application Section
 #################################################################
     `;
     return code;
-}
+};

@@ -1,6 +1,6 @@
 {
   "name": "examples",
-  "version": "2.2.0",
+  "version": "2.2.2",
   "description": "Examples",
   "author": "Deva Kumaraswamy <deva.kumar@sas.com>",
   "license": "Apache-2.0",
@@ -26,6 +26,7 @@
   "scripts": {
     "start": "node",
     "test": "npx jest",
+    "debug": "node --inspect-brk ./node_modules/jest/bin/jest.js --runInBand",
     "lint": "eslint . --fix",
     "dkrbuild": "docker build -f Dockerfile -t ruthere .",
     "dkrrun": "docker run --env-file ./override.env  -t ruthere"
@@ -35,8 +36,8 @@
     "verbose": false
   },
   "dependencies": {
-    "@sassoftware/restaf": "2.2.0",
-    "@sassoftware/restaflib": "2.2.0",
+    "@sassoftware/restaf": "2.2.2",
+    "@sassoftware/restaflib": "2.2.2",
     "jest": "^25.1.0",
     "winston": "^3.2.1",
     "yargs": "^12.0.5"

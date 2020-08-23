@@ -1,3 +1,4 @@
+
 /*
  * ------------------------------------------------------------------------------------
  *   Copyright (c) SAS Institute Inc.
@@ -16,28 +17,13 @@
  *
  */
 
-"use strict";
 
-// Pagination
-
-module.exports = async function filesPaginate (testInfo) {
-  let { store, logger } = testInfo;
-
-  let { files } = await store.addServices("files");
-
-  let filesList = await store.apiCall(files.links("files"));
-  logger.info(filesList.itemsList());
-  console.log(filesList.items(filesList.itemsList(0), 'data').toJS());
-
-  let next;
-  // do this loop while the service returns the next link or counter is 0
-/*
-  while ((next = filesList.scrollCmds("next")) !== null) {
-    filesList = await store.apiCall(next);
-    logger.info(filesList.itemsList());
-  }
-  */
-
-  return "done";
+module.exports = async function identities (testInfo) {
+	let { store, logger } = testInfo;
+	let { identities } = await store.addServices('identities');
+	let c = await store.apiCall(identities.links('currentUser'));
+	logger.info(c.items());
+	let a = await store.apiCall(identities.links('currentUserAdmin'));
+	logger.info(a.items());
+    return 'done';
 };
-

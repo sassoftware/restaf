@@ -10,7 +10,7 @@ test("files: create and retrieve content", async () => {
 });
 
 
-test('files - paginate thru files', async () => {
+test.only('files - paginate thru files', async () => {
 	expect.assertions();
 	let l = await testFunctions.filesPaginate(testInfo);
 	expect(l).toMatchSnapshot();

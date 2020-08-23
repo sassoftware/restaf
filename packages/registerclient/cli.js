@@ -18,6 +18,10 @@ const runCmds    = require('./src/runCmds');
 let argv = require('yargs').argv;
 let cmdFile = argv.file == null ? null : argv.file;
 let envFile = argv.env == null ? null : argv.env;
+let host = argv.host == null ? null : argv.host;
+if (host !== null) {
+    process.env.VIYA_SERVER = host;
+}
 let payload = config(envFile);
 
 let store  = restaf.initStore({sslOptions: payload.sslOptions});

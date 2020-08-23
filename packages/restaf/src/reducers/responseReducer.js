@@ -22,7 +22,7 @@ import { setGoodStatus, setBadStatus } from '../utils';
 import { tLinkStruct, itemsStruct } from '../utils/rootStruct';
 
 const responseReducer  = (action, parentPath)  => {
-
+    
     let response = null;
      /* */
      
@@ -79,11 +79,14 @@ const responseReducer  = (action, parentPath)  => {
         response = tLinkStruct('data', 'data');
         response.type       = 'data';
         response.resultType = contentType;
-        response.items      = {
+        
+        response.items = {
             resultType: contentType,
-            data      : (typeof results === 'string') ? results : Object.assign({}, results),
-            cmds      : null
-        };
+        /* data      : (typeof results === 'string' || typeof results === 'boolean') ? results : Object.assign({}, results),*/
+            
+            data: (typeof results === 'object') ? Object.assign({}, results) : results,
+			cmds: null,
+		};
     }
 
 

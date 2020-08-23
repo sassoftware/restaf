@@ -16,7 +16,6 @@
  *
  */
 
-  'use strict';
 
 import iGetResults from './iGetResults';
 

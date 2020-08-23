@@ -19,6 +19,18 @@ npm install -g @sassoftware/registerclient
 
 This installs the registerapp as a global command.
 
+---
+
+## Quick start
+
+---
+
+The simplest way to use this cli is as follows:
+
+```cmd
+npx @sassoftware/registerclient --host <your viya server url>
+```
+
 ## **Configuration**
 
 ---

@@ -22,9 +22,12 @@ let fs = require('fs');
 
 module.exports = function config (envFile) {
 	let appEnv = envFile === null ? process.env.RESTAFENV : envFile;
+	let logonPayload;
 
 	if (appEnv != null) {
 		iconfig(appEnv);
+	} else {
+		process.env.CLIENTID = 'sas.ec';
 	}
 
 	if (process.env.VIYA_SERVER == null) {
@@ -40,7 +43,7 @@ module.exports = function config (envFile) {
 		let data = fs.readFileSync(process.env.TOKENFILE, 'utf8');
 		process.env.VIYA_TOKEN = data;
 	}
-	let logonPayload;
+	
 	if (process.env.VIYA_TOKEN != null) {
 		logonPayload = {
 			authType: 'server',

@@ -76,8 +76,9 @@ await fs.writeFile(appDir + '/server.js', server, 'utf8');
 
 let jString = await fs.readFile(appDir + '/package.json', 'utf8');
 let pjson = JSON.parse(jString);
-pjson.scripts.dev   = "cross-env APPENTRY=/develop APPLOC=./public node server --env=.env --docker=Dockerfile --appenv=appenv.js";
-pjson.scripts.app   = "cross-env APPENTRY=index.html APPLOC=./build node server --env=.env --docker=Dockerfile --appenv=appenv.js";
+pjson.scripts.dev   = "cross-env APPENTRY=/develop APPLOC=./public APPHOST=localhost node server --env=.env --docker=Dockerfile --appenv=appenv.js";
+pjson.scripts.app   = "cross-env APPENTRY=index.html APPHOST=localhost APPLOC=./build node server --env=.env --docker=Dockerfile --appenv=appenv.js";
+pjson.script.compose = "docker-compose up"
 await fs.writeFile(appDir + '/package.json', jsonFormat(pjson), 'utf8');
 
 }

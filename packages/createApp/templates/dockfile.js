@@ -27,5 +27,5 @@ ENV APPNAME=${appName}
 CMD ["npm", "run", "indocker"]
 
 `;
-return code;
-}
+    return code;
+};

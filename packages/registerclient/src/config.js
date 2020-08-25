@@ -28,8 +28,9 @@ module.exports = function config (envFile) {
 		iconfig(appEnv);
 	} else {
 		process.env.CLIENTID = 'sas.ec';
+		console.log(`clientID set to default`);
 	}
-
+	
 	if (process.env.VIYA_SERVER == null) {
 		console.log('Error: Please set VIYA_SERVER');
 		process.exit(0);

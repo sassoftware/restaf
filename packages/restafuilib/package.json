@@ -1,6 +1,6 @@
 {
   "name": "@sassoftware/restafuilib",
-  "version": "2.2.3",
+  "version": "2.2.4",
   "description": "react components using material-ui for Viya apps",
   "main": "./src/index.js ",
   "repository": "https://github.com/sassoftware/restaf/tree/gen2/packages/restafuilib",
@@ -18,7 +18,8 @@
     "url": "https://github.com/sassoftware/restaf/issues"
   },
   "scripts": {
-    "build": "webpack --config=webpack.config.js"
+    "build": "webpack --config=webpack.config.js",
+    "publish": "npm publish --tag test"
   },
   "browserslist": [
     "last 2 versions",

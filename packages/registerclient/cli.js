@@ -21,6 +21,7 @@ let envFile = argv.env == null ? null : argv.env;
 let host = argv.host == null ? null : argv.host;
 if (host !== null) {
     process.env.VIYA_SERVER = host;
+    console.log(`VIYA_SERVER set to: ${process.env.VIYA_SERVER}`);
 }
 let payload = config(envFile);
 

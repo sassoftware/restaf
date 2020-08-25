@@ -17,7 +17,7 @@ npm install -g @sassoftware/registerclient
 
 ---
 
-This installs the registerapp as a global command.
+This installs the registerclient as a global command.
 
 ---
 
@@ -57,7 +57,7 @@ Start the interactive session with this command:
 
 ```script
 
-registerapp
+registerclient
 
 ```
 
@@ -86,7 +86,7 @@ Run the following command
 
 ```script
 
-registerapp --file yourcmdfile
+registerclient --file yourcmdfile
 
 ```
 

@@ -31,7 +31,7 @@ function* rootSaga () {
         apiCallAllAction(),
         apiPollAction(),
         appDataAction()
-        // keepAliveAction()
+// keepAliveAction()
     ]);
 }
 export default rootSaga;

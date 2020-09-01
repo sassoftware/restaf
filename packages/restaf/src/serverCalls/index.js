@@ -286,7 +286,8 @@ function fullType (type) {
 // Code below is for experimenting.
 
 function keepAlive (payload) {
-  
+    console.log('calling logon');
+    debugger;
     let config = {
         url   : payload.keepAlive,
         method: 'GET'

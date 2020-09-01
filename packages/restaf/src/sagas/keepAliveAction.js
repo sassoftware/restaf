@@ -34,7 +34,8 @@ function* keepAlivei (payload){
 
 function test (action){
     
-    let t = SASLogonOauthLink ('keepAlive');
+    let t = SASLogonOauthLink('keepAlive');
+    debugger;
     return t.keepAlive(action);
 
 }

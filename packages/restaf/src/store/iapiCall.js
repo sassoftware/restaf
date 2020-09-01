@@ -21,7 +21,7 @@
 import getResults    from './getResults';
 import extendFolder  from './extendFolder';
 import prepareAction from './prepareAction';
-import ikeepAlive from './ikeepAlive';
+// import ikeepAlive from './ikeepAlive';
 
 
 const  iapiCall =  (store, iroute, actionType, payload, delay, eventHandler, parentRoute, jobContext) => {
@@ -71,7 +71,7 @@ const  iapiCall =  (store, iroute, actionType, payload, delay, eventHandler, par
                     unSubscribe();
                     
                     let efolder = extendFolder(store, f);
-                    ikeepAlive(store);
+                    //ikeepAlive(store); 
                     resolve(efolder);
                 }
             }

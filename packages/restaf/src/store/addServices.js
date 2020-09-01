@@ -29,7 +29,7 @@ async function addServices (store, ...services) {
         services.push('casProxy');
     }
   
-    // loo for initialized services
+    // loop for initialized services
     let subList = [];
     let ifolder = {};
     services.map(s => {

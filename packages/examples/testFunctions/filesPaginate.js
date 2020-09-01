@@ -27,11 +27,10 @@ module.exports = async function filesPaginate (testInfo) {
 
   let filesList = await store.apiCall(files.links("files"));
   logger.info(filesList.itemsList());
-  console.log(filesList.items(filesList.itemsList(0), 'data').toJS());
 
-  let next;
+  // let next;
   // do this loop while the service returns the next link or counter is 0
-/*
+  /*
   while ((next = filesList.scrollCmds("next")) !== null) {
     filesList = await store.apiCall(next);
     logger.info(filesList.itemsList());

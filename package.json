@@ -1,6 +1,6 @@
 {
   "name": "restaf",
-  "version": "2.2.4",
+  "version": "2.2.5",
   "description": "Library for writing SAS Viya application using REST APIs",
   "author": "Deva Kumaraswamy <deva.kumar@sas.com>",
   "license": "Apache-2.0",
@@ -34,7 +34,7 @@
     "url": "https://github.com/sassoftware/restaf/issues"
   },
   "scripts": {
-    "test": "cd ./packages/examples && npx jest ",
+    "test": "cd ./packages/examples && npm test",
     "examples:dkrbuild": "cd ./packages/examples && npm run dkrbuild",
     "examples:dkrrun": "cd ./packages/examples && npm run dkrrun",
     "examples:dkrup": "cd ./packages/examples && docker-compose up",
@@ -106,8 +106,10 @@
     "**/mem": "^5.1.1"
   },
   "dependencies": {
+    "@sassoftware/restaf-server": "^8.0.7",
     "aws-sdk": "^2.645.0",
     "axios": "^0.19.2",
+    "cross-env": "^7.0.2",
     "jwt-decode": "^2.2.0",
     "lodash": ">=4.17.20",
     "react-json-pretty": "^2.2.0",

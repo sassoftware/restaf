@@ -2083,6 +2083,38 @@
     uuid "^7.0.3"
     yargs "^15.3.1"
 
+"@sassoftware/restaf-server@^8.0.7":
+  version "8.0.7"
+  resolved "https://registry.yarnpkg.com/@sassoftware/restaf-server/-/restaf-server-8.0.7.tgz#1a84f8a26417b04ac80d1b4da71c104448cec09c"
+  integrity sha512-PXMCYSvh08R44uv0/M+r4uK5G2uj4lc1iqz+veBjimEhgfK6Rgkb/630H2EuL0eeFfNNNfTy+uvVaTDiFHf79g==
+  dependencies:
+    "@hapi/bell" "^12.0.0"
+    "@hapi/boom" "^9.1.0"
+    "@hapi/h2o2" "^9.0.1"
+    "@hapi/hapi" "^19.1.1"
+    "@hapi/inert" "^6.0.1"
+    "@hapi/joi" "^17.1.1"
+    "@hapi/vision" "^6.0.0"
+    axios "^0.19.2"
+    core-js "^3.6.4"
+    debug "^4.1.1"
+    docker-file-parser "^1.0.4"
+    eslint-config-prettier "^6.10.1"
+    handlebars "^4.7.6"
+    hapi-require-https "^5.0.0"
+    is-docker "^2.0.0"
+    jwt-decode "^2.2.0"
+    minimist "^1.2.5"
+    node-cache-promise "^1.0.2"
+    only "0.0.2"
+    qs "^6.9.3"
+    regenerator-runtime "^0.13.5"
+    request-debug "^0.2.0"
+    should-send-same-site-none "^2.0.4"
+    tcp-ping "^0.1.1"
+    uuid "^7.0.3"
+    yargs "^15.3.1"
+
 "@serverless/cli@^1.4.0":
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/@serverless/cli/-/cli-1.4.0.tgz#46c35c35c2ba8ae224033e7157754aed789074f0"
@@ -4157,6 +4189,13 @@ cron-parser@^2.7.3:
     is-nan "^1.2.1"
     moment-timezone "^0.5.25"
 
+cross-env@^7.0.2:
+  version "7.0.2"
+  resolved "https://registry.yarnpkg.com/cross-env/-/cross-env-7.0.2.tgz#bd5ed31339a93a3418ac4f3ca9ca3403082ae5f9"
+  integrity sha512-KZP/bMEOJEDCkDQAyRhu3RL2ZO/SUVrxQVI0G3YEQ+OLbRA3c6zgixe8Mq8a/z7+HKlNEjo8oiLUs8iRijY2Rw==
+  dependencies:
+    cross-spawn "^7.0.1"
+
 cross-spawn@6.0.5, cross-spawn@^6.0.0, cross-spawn@^6.0.5:
   version "6.0.5"
   resolved "https://registry.yarnpkg.com/cross-spawn/-/cross-spawn-6.0.5.tgz#4a5ec7c64dfae22c3a14124dbacdee846d80cbc4"
@@ -4181,6 +4220,15 @@ cross-spawn@^7.0.0:
   version "7.0.1"
   resolved "https://registry.yarnpkg.com/cross-spawn/-/cross-spawn-7.0.1.tgz#0ab56286e0f7c24e153d04cc2aa027e43a9a5d14"
   integrity sha512-u7v4o84SwFpD32Z8IIcPZ6z1/ie24O6RU3RbtL5Y316l3KuHVPx9ItBgWQ6VlfAFnRnTtMUrsQ9MUUTuEZjogg==
+  dependencies:
+    path-key "^3.1.0"
+    shebang-command "^2.0.0"
+    which "^2.0.1"
+
+cross-spawn@^7.0.1:
+  version "7.0.3"
+  resolved "https://registry.yarnpkg.com/cross-spawn/-/cross-spawn-7.0.3.tgz#f73a85b9d5d41d045551c177e2882d4ac85728a6"
+  integrity sha512-iRDPJKUPVEND7dHPO8rkbOnPpyDygcDFtWjpeWNCgy8WP2rXcxXL8TskReQl6OrB2G7+UJrags1q15Fudc7G6w==
   dependencies:
     path-key "^3.1.0"
     shebang-command "^2.0.0"
@@ -6175,6 +6223,18 @@ handlebars@^4.5.3:
   optionalDependencies:
     uglify-js "^3.1.4"
 
+handlebars@^4.7.6:
+  version "4.7.6"
+  resolved "https://registry.yarnpkg.com/handlebars/-/handlebars-4.7.6.tgz#d4c05c1baf90e9945f77aa68a7a219aa4a7df74e"
+  integrity sha512-1f2BACcBfiwAfStCKZNrUCgqNZkGsAT7UM3kkYtXuLo0KnaVfjKOyf7PRzB6++aK9STyT1Pd2ZCPe3EGOXleXA==
+  dependencies:
+    minimist "^1.2.5"
+    neo-async "^2.6.0"
+    source-map "^0.6.1"
+    wordwrap "^1.0.0"
+  optionalDependencies:
+    uglify-js "^3.1.4"
+
 hapi-require-https@^5.0.0:
   version "5.0.0"
   resolved "https://registry.yarnpkg.com/hapi-require-https/-/hapi-require-https-5.0.0.tgz#11237983e0c352d0e4ad1a3cddb35f54a779c121"
@@ -8019,15 +8079,10 @@ lodash.sortby@^4.7.0:
   resolved "https://registry.yarnpkg.com/lodash.sortby/-/lodash.sortby-4.7.0.tgz#edd14c824e2cc9c1e0b0a1b42bb5210516a42438"
   integrity sha1-7dFMgk4sycHgsKG0K7UhBRakJDg=
 
-lodash@4.17.x, lodash@>=4.17.15, lodash@^3.3.1, lodash@^4.17.11, lodash@^4.17.12, lodash@^4.17.13, lodash@^4.17.14, lodash@^4.17.15, lodash@^4.5.1, lodash@^4.8.0:
+lodash@4.17.x, lodash@>=4.17.15, lodash@>=4.17.20, lodash@^3.3.1, lodash@^4.17.11, lodash@^4.17.12, lodash@^4.17.13, lodash@^4.17.14, lodash@^4.17.15, lodash@^4.5.1, lodash@^4.8.0:
   version "4.17.19"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.19.tgz#e48ddedbe30b3321783c5b4301fbd353bc1e4a4b"
   integrity sha512-JNvd8XER9GQX0v2qJgsaN/mzFCNA5BRe/j8JN9d+tWyGLSodKQHKFicdwNYzWwI3wjRnaKPsGj1XkBjx/F96DQ==
-
-lodash@>=4.17.20:
-  version "4.17.20"
-  resolved "https://artifact.unx.sas.com:443/artifactory/api/npm/re-common-npm-virtual/lodash/-/lodash-4.17.20.tgz#b44a9b6297bcb698f1c51a3545a2b3b368d59c52"
-  integrity sha1-tEqbYpe8tpjxxRo1RaKzs2jVnFI=
 
 log-update@^1.0.2:
   version "1.0.2"
@@ -12295,6 +12350,11 @@ word-wrap@~1.2.3:
   version "1.2.3"
   resolved "https://registry.yarnpkg.com/word-wrap/-/word-wrap-1.2.3.tgz#610636f6b1f703891bd34771ccb17fb93b47079c"
   integrity sha512-Hz/mrNwitNRh/HUAtM/VT/5VH+ygD6DV7mYKZAtHOrbs8U7lvPS6xf7EJKMF0uW1KJCl0H701g3ZGus+muE5vQ==
+
+wordwrap@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/wordwrap/-/wordwrap-1.0.0.tgz#27584810891456a4171c8d0226441ade90cbcaeb"
+  integrity sha1-J1hIEIkUVqQXHI0CJkQa3pDLyus=
 
 wordwrap@~0.0.2:
   version "0.0.3"

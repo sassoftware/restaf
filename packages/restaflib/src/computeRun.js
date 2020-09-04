@@ -19,7 +19,7 @@
  * 
  */
 import computeRunBase from './computeRunBase';
-async function computeRun (store,session, src, args){
+async function computeRun (store,session, src, args, maxTime, delay){
  
     // generate macro variables
 
@@ -38,7 +38,7 @@ async function computeRun (store,session, src, args){
 
     // run code and get results
     
-    let resultSummary = await computeRunBase(store, session, code);
+    let resultSummary = await computeRunBase(store, session, code, maxTime, delay);
     return resultSummary;
 }
 export default computeRun;

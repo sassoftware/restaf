@@ -27,10 +27,13 @@ await fs.writeFile(appDir + '/public/index.html', ind, 'utf8');
 let app = require('./templates/src/App.js')(appName);
 let ind2 = require('./templates/src/index.js')();
 let setupProxy = require('./templates/src/setupProxy.js')(appName);
+let dockerrun = require('./templates/dockerrun.js')();
+
 
 await fs.writeFile(appDir + '/src/App.js', app, 'utf8');
 await fs.writeFile(appDir + '/src/index.js', ind2, 'utf8');
 await fs.writeFile(appDir + '/src/setupProxy.js', setupProxy, 'utf8');
+
 
 
 
@@ -72,13 +75,16 @@ await fs.writeFile(appDir + '/appenv.js', appenv, 'utf8');
 let server = require('./server')(appName);
 await fs.writeFile(appDir + '/server.js', server, 'utf8');
 
+await fs.writeFile(appDir + '/dockerrun.js', dockerrun, 'utf8');
+
 /* Final step: Update package.json scripts  */
 
 let jString = await fs.readFile(appDir + '/package.json', 'utf8');
 let pjson = JSON.parse(jString);
 pjson.scripts.dev   = "cross-env APPENTRY=/develop APPLOC=./public APPHOST=localhost node server --env=.env --docker=Dockerfile --appenv=appenv.js";
 pjson.scripts.app   = "cross-env APPENTRY=index.html APPHOST=localhost APPLOC=./build node server --env=.env --docker=Dockerfile --appenv=appenv.js";
-pjson.script.compose = "docker-compose up"
+pjson.scripts.dkrbuild = "docker build -f Dockerfile -t nova-app .";
+pjson.scripts.dkrrun = "node dockerrun.js";
 await fs.writeFile(appDir + '/package.json', jsonFormat(pjson), 'utf8');
 
 }

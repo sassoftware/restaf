@@ -26,25 +26,25 @@ module.exports = async function computeDS (testInfo) {
 
 	let computeSession = await computeSetup(store, null, null);
  
-	let macros = { maxRows: 5 };
+	let macros = { maxRows: 1000 };
 	let src = `
 
         ods html style=barrettsblue; 
-
         data work.dtemp1;
             array x{10};  
             do j = 1 to &maxRows;  
                 do i = 1 to 10;  
-                x{i} = i * 10;  
+				x{i} = i * 10;  
                 end;  
             output;  
-            put _ALL_;  
+			put _ALL_;  
             end;  
-            run;  
-            proc print;run;  
+			run;  
+		
+			proc print;run;  
             ods html close;
-            run;
-            ;
+			run;
+			
             `;
 
 	logger.info('Compute Service');
@@ -53,9 +53,10 @@ module.exports = async function computeDS (testInfo) {
 		store,
 		computeSession,
 		src,
-		macros
+		macros,
+		15,2
     );
-    
+	
 	let log = await restaflib.computeResults(store, computeSummary, 'log');
 	logger.info(log);
 	let ods = await restaflib.computeResults(store, computeSummary, 'ods');

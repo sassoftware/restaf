@@ -14,7 +14,7 @@ APPNAME=${appName}
 # APPENTRY=index.html
 APPLOC=
 HTTPS=false
-APPHOST=localhost
+# APPHOST=localhost
 APPPORT=5000
 VIYA_SERVER=
 

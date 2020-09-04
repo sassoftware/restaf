@@ -72,7 +72,13 @@ Set the following in the .env file:
 
 - CLIENTID  -- the default value is viyademo
 - CLIENTSECRET -- the default value is secret
-- VIYA_SERVER  -- no defaults.You must specify this(ex: <http://myviya.com>)
+
+Set VIYA_SERVER using your OS's set command. This can also be set in the env file. If you set this in env file then change
+the dkrrun script accordingly.
+
+```sh
+set VIYA_SERVER=<your viya server>.
+```
 
 ### Some defaults
 
@@ -120,6 +126,12 @@ cd to-the-app-directory
 yarn build
 yarn app
 ```
+
+
+## Testing in docker
+
+Use the dkrbuild and dkrrun scripts in package.json to build image and then to run it.
+
 
 ## React Context - AppContext
 
@@ -169,3 +181,4 @@ import * as restaflib from '@sassoftware/restaf/dist/restaflib.js';
 ```
 
 In all probablity you will not refer directly to restaf in your code. You will use the store object in the AppContext(see above). This value is set as part of the application startup.
+

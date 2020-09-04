@@ -18,19 +18,26 @@
  * 
  */
 import computeSummary from  './computeSummary';
-async function computeRunBase (store, session, code){
+async function computeRunBase (store, session, code, maxTime, delay){
 
+    let realDelay = (delay == null) ? 2 : delay;
+    let maxTries = (maxTime == null) ? 5 : Math.max(Math.floor(maxTime / realDelay), 1);
+   
     let payload  = {
         data: {code: code}
     };
     // Now execute the data step and wait for completion
 
-    let job    = await store.apiCall(session.links('execute'), payload);
-    let status = await store.jobState(job, null, 5, 2);
+    let job = await store.apiCall(session.links('execute'), payload);
+
+    let status = await store.jobState(job, null, maxTries, realDelay);
+   
     if (status.data === 'running') {
         throw `ERROR: Job did not complete in allotted time`;
     } else {
-        let results = await computeSummary (store, session, status.job);
+        let results = await computeSummary(store, session, status.job);
+        results.SASJobStatus = status.data;
+     
         return results;
         }
 }

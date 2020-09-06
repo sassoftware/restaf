@@ -125,7 +125,7 @@ Run the following script
 
 ```script
 set VIYA_SERVER=<your viya server: ex http://acme.com/viya>
-npm run viyacaddy
+npm run  viyacaddy
 ```
 
 To get started enter 'logon' and answer the prompts.

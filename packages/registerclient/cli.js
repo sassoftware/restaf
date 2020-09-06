@@ -13,12 +13,16 @@ const logon      = require('./src/logon');
 const addClient  = require('./src/addClient');
 const delClient  = require('./src/delClient');
 const listClient = require('./src/listClient');
+const detailClient = require('./src/detailClient');
+
 const runCmds    = require('./src/runCmds');
 
 let argv = require('yargs').argv;
 let cmdFile = argv.file == null ? null : argv.file;
 let envFile = argv.env == null ? null : argv.env;
 let host = argv.host == null ? null : argv.host;
+let ttl = argv.ttl == null ? null : argv.ttl;
+
 if (host !== null) {
     process.env.VIYA_SERVER = host;
     console.log(`VIYA_SERVER set to: ${process.env.VIYA_SERVER}`);
@@ -27,6 +31,7 @@ let payload = config(envFile);
 
 let store  = restaf.initStore({sslOptions: payload.sslOptions});
 let clientConfig = (process.env.CLIENTIDCONFIG != null) ? process.env.CLIENTIDCONFIG : null;
+
 
 runCli(store, cmdFile);
 
@@ -95,7 +100,7 @@ function runCli (store, cmdFile) {
             .option('-s --secret [secret]', 'Secret')
 
             .action ((args, cb) => {
-               addClient(store, args.clientid, args.options, clientConfig)
+               addClient(store, args.clientid, args.options, clientConfig, ttl)
                .then(r => { vorpal.log(r); cb();})
                .catch(e => { vorpal.log(e); cb();});
             });
@@ -108,6 +113,21 @@ function runCli (store, cmdFile) {
                 .then(r => { vorpal.log(r); cb();})
                 .catch(e => { vorpal.log(e); cb();});
             });
+     vorpal
+			.command('details <clientid>')
+			.alias('desc')
+			.description('Details of selected clienti')
+			.action((args, cb) => {
+				detailClient(store, args.clientid)
+					.then((r) => {
+						vorpal.log(r);
+						cb();
+					})
+					.catch((e) => {
+						vorpal.log(e);
+						cb();
+					});
+			});
     vorpal
         .command('token <file>')
         .description('save current oauth token to specified file')

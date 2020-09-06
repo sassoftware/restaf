@@ -28,7 +28,7 @@ This installs the registerclient as a global command.
 The simplest way to use this cli is as follows:
 
 ```cmd
-npx @sassoftware/registerclient --host <your viya server url>
+npx @sassoftware/registerclient --host <your viya server url>  
 ```
 
 ## **Configuration**
@@ -104,18 +104,14 @@ list
 - logon - logon on to Viya server
 - list \<all\> - list current clientid. Use all option to include system clientids
 - delete clientid - delete the specified clientid( always returns 404 but work - no idea why)
-- add clienid \< options \> - add a new clientid
+- add clientid \< options \> - add a new clientid
+- details clientid - print details of selected clientid
 
 ### Options for the add command
 
 - -t  == grant type ==  typically one of these: password | implicit | authorization_code)
 - -s  == secret whatever you want(valid for password and authorization_code)
 - -r  == redirect_uri == valid for implicit and authorization_code(if multiple redirects seperate them by comma(,))
-
-## Coming soon
-
-- support for https
-- custom specificiation for the clientid's(see current default below)
 
 ## Notes
 

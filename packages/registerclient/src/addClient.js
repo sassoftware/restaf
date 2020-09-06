@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-module.exports = async function addClient (store, clientid, args, defaultConfigFile) {
+module.exports = async function addClient (store, clientid, args, defaultConfigFile, ttl) {
 	let flow = args.type.trim();
     
 	let clientSecret = (args.secret != null) ? args.secret.trim() : null;
@@ -14,6 +14,7 @@ module.exports = async function addClient (store, clientid, args, defaultConfigF
 	}
 
 	let flowA = flow.split(',');
+	
 
 	let data = {
 		client_id   : clientid,
@@ -22,7 +23,7 @@ module.exports = async function addClient (store, clientid, args, defaultConfigF
 		autoapprove : true,
 
 		authorized_grant_types: flowA,
-		access_token_validity : 86400,
+		access_token_validity : (ttl == null) ? 86400 : ttl*24*60*60,
 		'use-session'         : true
 	};
 
@@ -42,7 +43,7 @@ module.exports = async function addClient (store, clientid, args, defaultConfigF
 		let redirectA = redirect.split(',');
 		data.redirect_uri = redirectA;
 	}
-
+	
 	let payload = {
 		url   : `${process.env.VIYA_SERVER}/SASLogon/oauth/clients`,
 		method: 'POST',

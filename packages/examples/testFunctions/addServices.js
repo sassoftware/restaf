@@ -37,6 +37,8 @@ module.exports = async function addServices (args, testInfo) {
   
   /* test calling addServies multiple times on the same service */
   await store.addServices('reports', 'dataMining');
+  console.log(store.getServices());
+  
   return l;
 
 };

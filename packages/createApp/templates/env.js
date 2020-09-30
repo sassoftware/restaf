@@ -4,34 +4,23 @@
 */
 module.exports = function env (appName) {
     let code = `
+
 ####################################################
 # Server configuration
 ####################################################
 
-APPNAME=${appName}
-# Note: See package.json script tag for how APPENTRY and APPLOC is being set
-# to facilate switching between public/dev.html and build/index.html
-# APPENTRY=index.html
-APPLOC=
-HTTPS=false
-# APPHOST=localhost
-APPPORT=5000
 VIYA_SERVER=
+APPNAME=${appName}
+KEEPALIVE=YES
+APPPORT=5000
 
-# Enter the clientID that is registered for your app on your Viya server
-# Make sure this is your new authorization_code.
-# 
-AUTHFLOW=code
-CLIENTID=viyademo
-CLIENTSECRET=secret
+###################################################
+# tls support
+##################################################
 
-#
-# TLS support
-# file references below are sample paths
-#
+# HTTPS=TRUE
+# TLS_CREATE=C:mcountry,ST:mystate,L:Cary,O:Myorg,OU:Mydept,CN:localhost
 
-# HTTPS=true
-# SAMESITE=None,secure
 
 # Option 1: signed key and certificates
 # TLS_KEY=../certs/self/key.pem

@@ -11,6 +11,7 @@ let colors = require('colors');
 let installPackages = require('./installPackages');
 let createReactApp = require('./createReactApp');
 let updateTemplates = require('./updateTemplates');
+let createFromTemplate = require('./createFromTemplate');
 
 let reactAppName = process.argv[ 2 ];
 let scriptTag = argv.script == null ? null : argv.script;
@@ -18,6 +19,9 @@ let installList = argv.i == null ? null : argv.i;
 let title = argv.title == null ? 'SAS/Viya Application' : argv.title;
 let appName = argv.webapp == null ? 'viyademo' : argv.appname;
 let appDirectory = `${process.cwd()}/${reactAppName}`;
+let template = argv.use == null ? null : argv.use;
+let repo = argv.repo == null ? 'https://github.com/sassoftware/restaf' : argv.repo;
+
 console.log('------------------------------------------------');
 console.log(`React appName: ${reactAppName}`);
 console.log(`appName      : ${appName}`);
@@ -25,20 +29,30 @@ console.log(`Title        : ${title}`);
 console.log(`scriptTag    : ${scriptTag}`);
 console.log(`install      : ${installList}`);
 console.log(`appDirectory : ${appDirectory}`);
+console.log(`use Template : ${template}`);
+console.log(`use repo     : ${repo}`);
 console.log('------------------------------------------------');
 
 const run = async () => {
-	let success = await createReactApp(reactAppName);
-	if (!success) {
-		console.log('Something went wrong while trying to create a new React app using create-react-app'.red);
-		return false;
+	if (template === null) {
+		let success = await createReactApp(reactAppName);
+		if (!success) {
+			console.log('Something went wrong while trying to create a new React app using create-react-viya-app'.red);
+			return false;
+		}
+		await installPackages(appDirectory, installList);
+		await updateTemplates(appDirectory, appName, scriptTag, title);
+	} else {
+		let success = await createFromTemplate(repo, template, reactAppName, appName, appDirectory);
+		if (!success) {
+			console.log('Something went wrong while trying to create a new React app using create-react-viya-app'.red);
+			return false;
+		}
 	}
-	await installPackages(appDirectory, installList);
-	await updateTemplates(appDirectory, appName, scriptTag, title);
 };
 
-if (reactAppName == null) {
-	console.log('Application name required'.red);
+if (reactAppName== null) {
+	console.log('Application directory required'.red);
 	process.exit(0);
 }
 run()

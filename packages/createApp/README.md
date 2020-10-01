@@ -35,7 +35,7 @@ If for some reason[*the author can think of none*] you would prefer to hand-code
 Issue the command below to create the default application.
 
 ```sh
-npx create-react-restaf-viya-app react-appname --webapp webapp-name  --title webapp-title --script scriptTags-file
+npx create-react-restaf-viya-app react-appname --webapp webapp-name  --title webapp-title --script scriptTags-file --use viya-app
 
 ```
 
@@ -53,6 +53,8 @@ Only the react-appname is required. The optional parameters are:
 - script  -- a file which has some HTML script tags to be inserted into index.html - defaults is a comment line
 
 --i       -- install additional dependencies ( a quoted string like "next i18next")
+
+--use viya-app   -- Build the viya app with builtin routing (see )
 
 ---
 

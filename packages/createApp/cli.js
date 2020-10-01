@@ -17,7 +17,7 @@ let reactAppName = process.argv[ 2 ];
 let scriptTag = argv.script == null ? null : argv.script;
 let installList = argv.i == null ? null : argv.i;
 let title = argv.title == null ? 'SAS/Viya Application' : argv.title;
-let appName = argv.webapp == null ? 'viyademo' : argv.appname;
+let appName = argv.webapp == null ? 'viyademo' : argv.webapp;
 let appDirectory = `${process.cwd()}/${reactAppName}`;
 let template = argv.use == null ? null : argv.use;
 let repo = argv.repo == null ? 'https://github.com/sassoftware/restaf' : argv.repo;

@@ -23,7 +23,7 @@ let template = argv.use == null ? null : argv.use;
 let repo = argv.repo == null ? 'https://github.com/sassoftware/restaf' : argv.repo;
 
 console.log('------------------------------------------------');
-console.log(`React appName: ${reactAppName}`);
+console.log(`Local Repo   : ${reactAppName}`);
 console.log(`appName      : ${appName}`);
 console.log(`Title        : ${title}`);
 console.log(`scriptTag    : ${scriptTag}`);

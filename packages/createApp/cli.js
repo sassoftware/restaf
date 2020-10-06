@@ -14,7 +14,7 @@ let updateTemplates = require('./updateTemplates');
 let createFromTemplate = require('./createFromTemplate');
 
 let reactAppName = process.argv[ 2 ];
-let scriptTag = argv.script == null ? null : argv.script;
+let scriptTag = argv.script == null ? ' ' : argv.script;
 let installList = argv.i == null ? null : argv.i;
 let title = argv.title == null ? 'SAS/Viya Application' : argv.title;
 let appName = argv.webapp == null ? 'viyademo' : argv.webapp;
@@ -43,7 +43,7 @@ const run = async () => {
 		await installPackages(appDirectory, installList);
 		await updateTemplates(appDirectory, appName, scriptTag, title);
 	} else {
-		let success = await createFromTemplate(repo, template, reactAppName, appName, appDirectory);
+		let success = await createFromTemplate(repo, template, reactAppName, appName, appDirectory,scriptTag, title);
 		if (!success) {
 			console.log('Something went wrong while trying to create a new React app using create-react-viya-app'.red);
 			return false;

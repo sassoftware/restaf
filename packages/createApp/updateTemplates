@@ -82,8 +82,9 @@ await fs.writeFile(appDir + '/dockerrun.js', dockerrun, 'utf8');
 let jString = await fs.readFile(appDir + '/package.json', 'utf8');
 let pjson = JSON.parse(jString);
 pjson.scripts.dev   = "cross-env APPENTRY=/develop APPLOC=./public APPHOST=localhost node server --env=.env --docker=Dockerfile --appenv=appenv.js";
+pjson.scripts.buildapp = `"node createRoutes && react-scripts build"`;
 pjson.scripts.app   = "cross-env APPENTRY=index.html APPHOST=localhost APPLOC=./build node server --env=.env --docker=Dockerfile --appenv=appenv.js";
-pjson.scripts.dkrbuild = "docker build -f Dockerfile -t nova-app .";
+pjson.scripts.dkrbuild = `"docker build -f Dockerfile -t ${appName} ."`;
 pjson.scripts.dkrrun = "node dockerrun.js";
 await fs.writeFile(appDir + '/package.json', jsonFormat(pjson), 'utf8');
 

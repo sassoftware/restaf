@@ -1,5 +1,6 @@
 module.exports = function index (appName, scriptTag, title) {
-    
+    let appenv = '/' + appName + '/appenv';
+
     let ht = `
         <!DOCTYPE html>
         <html lang="en">
@@ -9,12 +10,13 @@ module.exports = function index (appName, scriptTag, title) {
                 <meta name="viewport" content="width=device-width, initial-scale=1">
                 <meta name="theme-color" content="#000000">
                 <title>${title}</title>
-                <script type="text/javascript" src="/${appName}/appenv"></script>
-                <script async src="https://unpkg.com/@sassoftware/va-report-components@0.6/dist/umd/va-report-components.js"></script>
+                <script type="text/javascript" src="${appenv}"></script>
+                <!-- script async src="https://unpkg.com/@sassoftware/va-report-components@0.6/dist/umd/va-report-components.js"></script> -->
                 ${scriptTag}
             </head>
             <body>
                 <script>
+                console.log("%REACT_APP_APPNAME%");
                    window.appOptions = {appEnv: APPENV, logonPayload: LOGONPAYLOAD};
                 </script>
                 <div id="root">
@@ -23,4 +25,4 @@ module.exports = function index (appName, scriptTag, title) {
         </html>
     `;
     return ht;
-}
+};

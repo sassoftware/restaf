@@ -58,7 +58,7 @@
                     .then ( name => {
                         logInfo = store.connection();
                         document.getElementById('user').innerHTML = `Welcome ${name}`;
-                        store.keepViyaAlive(`${window.location.protocol}//${window.location.host}/${LOGONPAYLOAD.appName}/keepAlive`,5000, 60000);
+                        timerid = setInterval (useRestaf, 5000)
                         return true;
                     })
                     .catch( err => {

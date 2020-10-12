@@ -21,15 +21,29 @@ import getServices from './getServices';
 import getXsrfData from './getXsrfData';
 import selectLogonInfo from './selectLogonInfo';
 
-async function keepViyaAlive (store, aliveURL) {
-	let payload = {
-		url    : aliveURL,
-		method : 'GET',
-		headers: {
-			Accept: '*/*',
-		},
-	};
-	await request(store, payload);
+async function keepViyaAlive (store,aliveURL,interval, timeout) {
+    let keepTimer = setInterval(() => {
+        ikeepViyaAlive(store, aliveURL);
+    }, interval);
+
+    setTimeout(() => { 
+        console.log('Note: Stopping keepViyaAlive');
+        clearInterval(keepTimer);
+    }, timeout);
+    return true;
+}
+async function ikeepViyaAlive (store, aliveURL) {
+    if (aliveURL !== null) {
+        let payload = {
+            url    : aliveURL,
+            method : 'GET',
+            headers: {
+                Accept: '*/*',
+            },
+        };
+        await request(store, payload);
+    }
+
 	// This keeps the app server session alive
 
 	let services = getServices(store);

@@ -11,7 +11,8 @@ module.exports = function env (appName) {
 
 VIYA_SERVER=
 APPNAME=${appName}
-KEEPALIVE=YES
+# KEEPALIVE=YES
+# TIMERS=600000
 APPPORT=5000
 
 ###################################################

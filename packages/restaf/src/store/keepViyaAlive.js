@@ -24,12 +24,12 @@ import selectLogonInfo from './selectLogonInfo';
 async function keepViyaAlive (store,aliveURL,interval, timeout) {
     let keepTimer = setInterval(() => {
         ikeepViyaAlive(store, aliveURL);
-    }, interval);
+    }, interval*1000);
 
     setTimeout(() => { 
         console.log('Note: Stopping keepViyaAlive');
         clearInterval(keepTimer);
-    }, timeout);
+    }, timeout*1000);
     return true;
 }
 async function ikeepViyaAlive (store, aliveURL) {

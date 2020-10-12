@@ -46,11 +46,7 @@
         let store;
         let logInfo;
         let userName = '';
-        let timerId;
-        function useRestaf() {
-            let keepUrl = `${window.location.protocol}//${window.location.host}/${LOGONPAYLOAD.appName}/keepAlive`;
-             store.keepViyaAlive(keepUrl);
-        }
+       
         function setup() {
             store = restaf.initStore();
 
@@ -58,7 +54,7 @@
                     .then ( name => {
                         logInfo = store.connection();
                         document.getElementById('user').innerHTML = `Welcome ${name}`;
-                        store.keepViyaAlive(`${window.location.protocol}//${window.location.host}/${LOGONPAYLOAD.appName}/keepAlive`,5000, 60000);
+                        store.keepViyaAlive(`${window.location.protocol}//${window.location.host}/${LOGONPAYLOAD.appName}/keepAlive`,60, 14400);
                         return true;
                     })
                     .catch( err => {

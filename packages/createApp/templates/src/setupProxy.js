@@ -8,7 +8,7 @@ module.exports = function setupProxy () {
         const { createProxyMiddleware } = require('http-proxy-middleware');
         module.exports = function(app) {
         let p = (process.env.HTTPS == null) ?  'no' : process.env.HTTPS.toLowerCase();
-        let protocol = ( p === "YES || p === 'TRUE) ? 'https://' : 'http://';
+        let protocol = (p === 'yes' || p === 'true') ? 'https://' : 'http://';
         app.use(
             "/" + process.env.REACT_APP_APPNAME,
             createProxyMiddleware ({

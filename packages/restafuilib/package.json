@@ -1,6 +1,6 @@
 {
   "name": "@sassoftware/restafuilib",
-  "version": "2.3.1",
+  "version": "2.3.2",
   "description": "react components using material-ui for Viya apps",
   "main": "./src/index.js ",
   "repository": "https://github.com/sassoftware/restaf/tree/gen2/packages/restafuilib",

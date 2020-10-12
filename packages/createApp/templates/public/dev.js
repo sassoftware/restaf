@@ -25,6 +25,6 @@ module.exports = function dev (appName) {
 
     </html>
     
-    `
+    `;
     return ht;
-}
+};

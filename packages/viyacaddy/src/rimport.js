@@ -5,7 +5,7 @@
 'use strict';
 const fs = require('fs').promises;
 
-module.exports = async function rimport(store, reports, args) {
+module.exports = async function rimport (store, reports, args) {
 	let { file, name, uri } = args.options;
 	// delete old version of report
 	let p = {
@@ -24,7 +24,7 @@ module.exports = async function rimport(store, reports, args) {
 			parentFolderUri: uri,
 		},
 		data: {
-			name: name,
+			name       : name,
 			description: name,
 		},
 	};
@@ -42,7 +42,7 @@ module.exports = async function rimport(store, reports, args) {
 	payload = {
 		headers: {
 			'Content-Type': `application/vnd.sas.report.content+${type}`,
-			'Accept': '*/*',
+			'Accept'      : '*/*',
 		},
 		data: `${savedReport}`,
 	};

@@ -258,7 +258,7 @@ end;
     end;   
 
      `;
-     ;
+     
 return casl;
 }
 export default commonCasl;

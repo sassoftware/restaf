@@ -18,4 +18,4 @@ module.exports = function withAppContext () {
         export default withAppContext;
     `;
     return code;
-}
+};

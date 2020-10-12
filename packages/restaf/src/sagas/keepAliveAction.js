@@ -29,15 +29,11 @@ function* keepAliveAction () {
 function* keepAlivei (payload){
         let r = yield spawn (test, payload);
         return r;
-        
 }
 
 function test (action){
-    
     let t = SASLogonOauthLink('keepAlive');
-    debugger;
     return t.keepAlive(action);
-
 }
     
 

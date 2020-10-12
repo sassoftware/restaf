@@ -28,4 +28,4 @@ module.exports = function index () {
     
     `;
     return code;
-}
+};

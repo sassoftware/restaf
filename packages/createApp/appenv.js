@@ -8,4 +8,4 @@ module.exports = function appenv () {
        return placeholder;
        `;
     return code;
-}
+};

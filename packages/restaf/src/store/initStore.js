@@ -40,6 +40,7 @@ import selectLogonInfo from './selectLogonInfo';
 import appData         from './appData';
 import getXsrfData     from './getXsrfData';
 import deleteRafObject from './deleteRafObject';
+import keepViyaAlive   from './keepViyaAlive';
 
 function initStore (iconfig) {
     let config = { casProxy: false };
@@ -87,7 +88,9 @@ function initStore (iconfig) {
 
         getServiceRoot: getServiceRoot.bind(null, store),
 
-        request: request.bind(null, store)
+        request: request.bind(null, store),
+        
+        keepViyaAlive: keepViyaAlive.bind(null, store)
     }; }
 
 function loggedOn (store) {

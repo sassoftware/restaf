@@ -1,4 +1,4 @@
-module.exports = function devServer(appName) {
+module.exports = function devServer (appName) {
   
     let code = `
 let restafServer = require ('@sassoftware/restaf-server');
@@ -30,4 +30,4 @@ function getCustomHandler () {
     `;
     return code;
 
-}
+};

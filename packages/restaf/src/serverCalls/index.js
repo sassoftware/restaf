@@ -285,12 +285,8 @@ function fullType (type) {
 
 // Code below is for experimenting.
 
-function keepAlive (payload) {
-    let config = {
-        url   : payload.keepAlive,
-        method: 'GET'
-    };
-    return axios(config);
+function keepAlive (action) {
+    return axios(action.payload);
 }
 
 export { trustedGrant, keepAlive, request };

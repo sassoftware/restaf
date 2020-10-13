@@ -21,7 +21,7 @@ import apiCallAction     from './apiCallAction';
 import apiCallAllAction  from './apiCallAllAction';
 import apiPollAction     from './apiPollAction';
 import appDataAction     from './appDataAction';
-// import keepAliveAction   from './keepAliveAction';
+import keepAliveAction   from './keepAliveAction';
 
 
 function* rootSaga () {
@@ -30,8 +30,8 @@ function* rootSaga () {
         apiCallAction(),
         apiCallAllAction(),
         apiPollAction(),
-        appDataAction()
-// keepAliveAction()
+        appDataAction(), 
+        keepAliveAction()
     ]);
 }
 export default rootSaga;

@@ -20,6 +20,7 @@ import request from './request';
 import getServices from './getServices';
 import getXsrfData from './getXsrfData';
 import selectLogonInfo from './selectLogonInfo';
+import {KEEP_ALIVE} from '../actionTypes';
 
 async function keepViyaAlive (store,aliveURL,interval, timeout) {
     let keepTimer = setInterval(() => {
@@ -41,7 +42,12 @@ async function ikeepViyaAlive (store, aliveURL) {
                 Accept: '*/*',
             },
         };
-        await request(store, payload);
+        let action = {
+            type   : KEEP_ALIVE,
+            route  : 'keepAlive',
+            payload: payload
+        };
+        store.dispatch(action);
     }
 
 	// This keeps the app server session alive
@@ -70,6 +76,12 @@ async function ikeepViyaAlive (store, aliveURL) {
                     };
                     payload.headers[xsrfHeaderName] = ixsrf['x-csrf-token'];
                     await request(store, payload);
+                     let action = {
+							type   : KEEP_ALIVE,
+							route  : 'keepAlive',
+							payload: payload,
+						};
+						store.dispatch(action);
                 }
             }
 		}

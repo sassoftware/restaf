@@ -1,6 +1,6 @@
 {
   "name": "restaf",
-  "version": "2.3.3",
+  "version": "2.3.6",
   "description": "Library for writing SAS Viya application using REST APIs",
   "author": "Deva Kumaraswamy <deva.kumar@sas.com>",
   "license": "Apache-2.0",

@@ -1,0 +1,7 @@
+version: '3'
+services:
+  viyacaddy:
+    build: .
+    restart: always
+    environment:
+      - VIYA_SERVER=http:/kdk2017.fbi.sashq-d.openstack.sas.com

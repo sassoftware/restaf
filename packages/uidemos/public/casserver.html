@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<!--
+  ~ Copyright (c) SAS Institute Inc.
+  ~  Licensed under the Apache License, Version 2.0 (the "License");
+  ~  you may not use this file except in compliance with the License.
+  ~  You may obtain a copy of the License at
+  ~
+  ~  http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~  Unless required by applicable law or agreed to in writing, software
+  ~  distributed under the License is distributed on an "AS IS" BASIS,
+  ~  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~  See the License for the specific language governing permissions and
+  ~  limitations under the License.
+  ~
+  ~
+  -->
+
+<!--suppress JSUnfilteredForInLoop -->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+        
+        <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+        <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js"></script>
+    
+        <script type="text/javascript" src="/shared/dist/restaf.js"></script>
+        <script type="text/javascript" src="/shared/dist/restaflib.js"></script>
+        <script type="text/javascript" src="/shared/dist/restafuilib.js"></script>
+        <script type="text/javascript" src="/appenv"></script>
+
+        
+        
+
+
+    <style>
+        body {
+            height: 100%;
+        }
+        .content {
+            height: 100%;
+        }
+        .button {
+            margin: 10px;
+        }
+        .idTable {
+            background-color: bisque;
+
+        }
+
+    </style>
+  
+    <script type="text/javascript">
+        ;
+
+        let store = restaf.initStore();
+        async function setup( ) {
+
+            //
+            // Using restaf methods
+            //
+            // await store.logon( LOGONPAYLOAD );
+            // let {casManagement} = await store.addServices( 'casManagement' );
+            // let servers = await store.apiCall( casManagement.links( 'servers' ) );
+            // return servers;
+
+            // Using the wrapper methods of restaflib
+            // Use restaf methods if you need finer control of your api calls
+            //
+            let {servers} = await restaflib.casSetup(store, LOGONPAYLOAD);
+            return servers;
+        }
+        
+        function show() {
+            setup()
+            .then( servers => {
+                let props = {
+                    store : store,
+                    title : 'List of CAS Servers',
+                    folder: servers
+                }
+                ;
+                return restafuilib.display('ItemsTableViewer', props,  document.getElementById('container'));
+            })
+            .catch( err => alert(JSON.stringify(err,null,4) ) );
+        }
+
+</script>
+</head>
+<body onload="show()">
+<h1> List of CAS Servers</h1>
+
+    <div id="container" class="content" >
+        </div>
+</body>
+</html>

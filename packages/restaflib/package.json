@@ -1,0 +1,38 @@
+{
+  "name": "@sassoftware/restaflib",
+  "version": "2.3.6",
+  "description": "collection of useful functions for common scenarios",
+  "main": "./lib/restaflib.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sassoftware/restaf/tree/master/packages/restaflib"
+  },
+  "author": "Deva Kumar <deva.kumar@sas.com>",
+  "license": "Apache-2.0",
+  "engines": {
+    "node": ">=10.16.0",
+    "npm": ">=6.10.0"
+  },
+  "browserslist": [
+    "last 2 versions",
+    "ie >= 11",
+    "maintained node versions"
+  ],
+  "unpkg": "dist/restaflib.min.js",
+  "bugs": {
+    "url": "https://github.com/sassoftware/restaf/issues"
+  },
+  "scripts": {
+    "build": "rimraf dist && rimraf lib && webpack --env.node --config webpack.config.js && webpack --config webpack.config.js && webpack -p  -m --config webpack.config.js",
+    "pub": "npm publish --tag test"
+  },
+  "dependencies": {
+    "colors": "^1.4.0",
+    "jsdoc": "^3.6.3"
+  },
+  "resolutions": {
+    "**/core-js": "^3.6.4",
+    "**/lodash": ">=4.17.15",
+    "**/mem": "^5.1.1"
+  }
+}

@@ -1,0 +1,55 @@
+{
+  "name": "@sassoftware/restaf",
+  "version": "2.3.6",
+  "description": "Library for writing SAS Viya application using REST APIs",
+  "author": "Deva Kumaraswamy <deva.kumar@sas.com>",
+  "license": "Apache-2.0",
+  "keywords": [
+    "restaf",
+    "SAS",
+    "Viya",
+    "REST API"
+  ],
+  "homepage": "https://github.com/sassoftware/restaf#README.md",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sassoftware/restaf/tree/gen2/packages/restaf"
+  },
+  "bugs": {
+    "url": "https://github.com/sassoftware/restaf/issues"
+  },
+  "unpkg": "/dist/restaf.min.js",
+  "main": "./lib/restaf.js",
+  "engines": {
+    "node": ">=10.16.0",
+    "npm": ">=6.10.0",
+    "yarn": ">=1.17.3"
+  },
+  "browserslist": [
+    "last 2 versions",
+    "ie >= 11",
+    "maintained node versions"
+  ],
+  "scripts": {
+    "test": "node",
+    "build": "webpack --env.node --config webpack.config.js && webpack --config webpack.config.js && webpack -p  -m --config webpack.config.js",
+    "babel": "babel src --out-dir jslib",
+    "pub": "npm publish --tag test",
+    "lint": "eslint . --fix"
+  },
+  "dependencies": {
+    "@babel/runtime": "^7.7.7",
+    "axios": "0.19.0",
+    "immutable": "^4.0.0-rc.12",
+    "qs": "^6.9.1",
+    "redux": "^4.0.5",
+    "redux-saga": "^1.1.3",
+    "url-parse": "^1.4.7",
+    "uuid": "^3.3.3"
+  },
+  "resolutions": {
+    "**/core-js": "^3.6.4",
+    "**/lodash": ">=4.17.15",
+    "**/mem": "^5.1.1"
+  }
+}

@@ -1,0 +1,5 @@
+reports import c:/public/dev/data/reports * -f Public
+tables import c:/public/dev/data/tables *  -c casuser
+
+
+

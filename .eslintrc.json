@@ -1,10 +1,11 @@
 {
   "root": true,
-
+  "plugins":["react-hooks"],
   "env": {
     "browser": true,
     "node": true,
-    "es6": true
+    "es6": true,
+    "jest": true
   },
   "parser": "babel-eslint",
   "extends": [
@@ -35,10 +36,11 @@
         "args": "none"
       }
     ],
+    "no-debugger": 1,
     "react/prop-types": 0,
     "array-bracket-spacing": [
       2,
-      "always"
+      "never"
     ],
     "space-in-parens": [
       2,
@@ -47,8 +49,12 @@
     "space-before-function-paren": [
       2,
       "always"
-    ]
-
+    ],
+    "semi": [
+      2,
+      "always"
+    ],
+    "no-prototype-builtins": 0
 
   }
 }

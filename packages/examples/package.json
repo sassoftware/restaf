@@ -1,0 +1,48 @@
+{
+  "name": "examples",
+  "version": "2.3.6",
+  "description": "Examples",
+  "author": "Deva Kumaraswamy <deva.kumar@sas.com>",
+  "license": "Apache-2.0",
+  "keywords": [
+    "restaf",
+    "SAS",
+    "Viya",
+    "REST API"
+  ],
+  "main": "index.js",
+  "engines": {
+    "node": ">=10.16.0",
+    "npm": ">=6.10.0",
+    "yarn": ">=1.17.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sassoftware/restaf/tree/master/packages/examples"
+  },
+  "bugs": {
+    "url": "https://github.com/sassoftware/restaf/issues"
+  },
+  "scripts": {
+    "start": "node",
+    "test": "cross-env RESTAFENV=.env npx jest",
+    "debug": "node --inspect-brk ./node_modules/jest/bin/jest.js --runInBand",
+    "lint": "eslint . --fix",
+    "dkrbuild": "docker build -f Dockerfile -t ruthere .",
+    "dkrrun": "docker run --env-file ./override.env  -t ruthere"
+  },
+  "jest": {
+    "testTimeout": 10000000,
+    "verbose": false
+  },
+  "dependencies": {
+    "@sassoftware/restaf": "2.3.6",
+    "@sassoftware/restaflib": "2.3.6",
+    "jest": "^25.1.0",
+    "winston": "^3.2.1",
+    "yargs": "^12.0.5"
+  },
+  "devDependencies": {
+    "eslint": "^5.12.1"
+  }
+}

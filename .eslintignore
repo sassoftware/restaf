@@ -1,4 +1,7 @@
 node_modules
-public
+public/data
 dist
 lib
+data
+images
+.serverless

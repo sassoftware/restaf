@@ -19,34 +19,42 @@ let installList = argv.i == null ? null : argv.i;
 let title = argv.title == null ? 'SAS/Viya Application' : argv.title;
 let appName = argv.webapp == null ? 'viyademo' : argv.webapp;
 let appDirectory = `${process.cwd()}/${reactAppName}`;
-let template = argv.use == null ? null : argv.use;
+let template = argv._[ 1 ];
+console.log(argv);
+
+
 let repo = argv.repo == null ? 'https://github.com/sassoftware/restaf' : argv.repo;
+
 
 console.log('------------------------------------------------');
 console.log(`Local Repo   : ${reactAppName}`);
 console.log(`appName      : ${appName}`);
-console.log(`Title        : ${title}`);
+console.log(`title        : ${title}`);
 console.log(`scriptTag    : ${scriptTag}`);
 console.log(`install      : ${installList}`);
 console.log(`appDirectory : ${appDirectory}`);
-console.log(`use Template : ${template}`);
-console.log(`use repo     : ${repo}`);
+console.log(`template     : ${template}`);
+console.log(`template Repo: ${argv.repo}`);
 console.log('------------------------------------------------');
 
 const run = async () => {
-	if (template === null) {
+	if (template == null) {
 		let success = await createReactApp(reactAppName);
 		if (!success) {
 			console.log('Something went wrong while trying to create a new React app using create-react-viya-app'.red);
 			return false;
 		}
-		await installPackages(appDirectory, installList);
+		await installPackages(appDirectory, installList, true);
 		await updateTemplates(appDirectory, appName, scriptTag, title);
 	} else {
-		let success = await createFromTemplate(repo, template, reactAppName, appName, appDirectory,scriptTag, title);
+		let success = await createFromTemplate(repo, template, reactAppName, appName, appDirectory, scriptTag, title);
+		
 		if (!success) {
-			console.log('Something went wrong while trying to create a new React app using create-react-viya-app'.red);
+			console.log('Something went wrong while creating new React app using create-react-viya-app'.red);
 			return false;
+		}
+		if (installList !== null) {
+			await installPackages(appDirectory, installList, false);
 		}
 	}
 };

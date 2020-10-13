@@ -35,7 +35,7 @@ makeIndex('./src/components/viewers')
 async function makeIndex(dir) {
 
 	let files = await fs.readdir(dir);
-    let exp = '/* generated with createRoutes.js */ \n';
+    let exp = '/* generated with createRoutes.js */';
     let exportListNames = 'export default {\n';
 
 	let exportList = [];

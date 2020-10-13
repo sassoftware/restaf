@@ -19,6 +19,8 @@ async function setupViya() {
         'folders',
         'microanalyticScore'
     );
+
+
     return { store: store, appOptions: window.appOptions };
     }
 export default setupViya;

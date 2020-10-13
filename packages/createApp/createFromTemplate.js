@@ -12,6 +12,8 @@ module.exports = function createFromTemplate (repo, template, reactAppName, appN
         console.log(`git clone ${repo} ${reactAppName} -b ${template}`);
         if (sh.exec(`git clone ${repo} ${reactAppName} -b ${template}`).code === 0) {
             console.log(`Using ${template} as template`);
+
+            // Files for the root directory
             let dockfile = require('./templates/dockfile')(appName);
             fs.writeFileSync(appDir + '/Dockerfile', dockfile, 'utf8');
 
@@ -21,11 +23,35 @@ module.exports = function createFromTemplate (repo, template, reactAppName, appN
             let envlocal = require('./templates/envlocal')(appName);
             fs.writeFileSync(appDir + '/.env.local', envlocal, 'utf8');
 
-            let indx = require('./templates/public/index.js')(appName, scriptTag,title);
-            fs.writeFileSync(appDir + '/public/index.html', indx, 'utf8');
-
             let server = require('./server')(appName);
             fs.writeFileSync(appDir + '/server.js', server, 'utf8');
+
+
+            // src directory
+
+            let setupProxy = require('./templates/src/setupProxy.js')(appName);
+            fs.writeFileSync(appDir + '/src/setupProxy.js', setupProxy, 'utf8');
+
+            // src?providers
+
+            /*
+            sh.mkdir(appDir + '/src/providers');
+
+            let AppContext = require('./templates/src/providers/AppContext')();
+            let AppProvider = require('./templates/src/providers/AppProvider')();
+            let ind3 = require('./templates/src/providers/index')();
+            let withAppContext = require('./templates/src/providers/withAppContext')();
+            let setupViya = require('./templates/src/providers/setupViya')();
+            let itemsListViewer = require('./templates/src/components/ItemsListViewer')();
+            fs.writeFileSync(appDir + '/src/providers/AppContext.js', AppContext, 'utf8');
+            fs.writeFileSync(appDir + '/src/providers/AppProvider.js', AppProvider, 'utf8');
+            fs.writeFileSync(appDir + '/src/providers/index.js', ind3, 'utf8');
+            fs.writeFileSync(appDir + '/src/providers/withAppContext.js', withAppContext, 'utf8');
+            fs.writeFileSync(appDir + '/src/providers/setupViya.js', setupViya, 'utf8');
+            fs.writeFileSync(appDir + '/src/components/ItemsListViewer.js', itemsListViewer, 'utf8');
+            */
+            
+            // finally update the package.json
 
             let jString = fs.readFileSync(appDir + '/package.json', 'utf8');
             let pjson = JSON.parse(jString);
@@ -36,6 +62,8 @@ module.exports = function createFromTemplate (repo, template, reactAppName, appN
             pjson.scripts.dkrrun = `docker run --env-file .env  -p 5000:8080 -t ${appName}`;
             
             fs.writeFileSync(appDir + '/package.json', jsonFormat(pjson), 'utf8');
+
+            // now run yarn and install all the packages (except custom install)
             sh.cd(appDir);
             if (sh.exec('yarn').code === 0) {
                 resolve(true);

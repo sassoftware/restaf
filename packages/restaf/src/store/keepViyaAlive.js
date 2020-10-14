@@ -22,7 +22,7 @@ import getXsrfData from './getXsrfData';
 import selectLogonInfo from './selectLogonInfo';
 import {KEEP_ALIVE} from '../actionTypes';
 
-async function keepViyaAlive (store,aliveURL,interval, timeout) {
+async function keepViyaAlive (store,aliveURL,interval, timeout, onTimeout) {
     let keepTimer = setInterval(() => {
         ikeepViyaAlive(store, aliveURL);
     }, interval*1000);
@@ -30,6 +30,9 @@ async function keepViyaAlive (store,aliveURL,interval, timeout) {
     setTimeout(() => { 
         console.log('Note: Stopping keepViyaAlive');
         clearInterval(keepTimer);
+        if (onTimeout !== null) {
+            onTimeout();
+        }
     }, timeout*1000);
     return true;
 }

@@ -54,7 +54,10 @@
                     .then ( name => {
                         logInfo = store.connection();
                         document.getElementById('user').innerHTML = `Welcome ${name}`;
-                        store.keepViyaAlive(`${window.location.protocol}//${window.location.host}/${LOGONPAYLOAD.appName}/keepAlive`,60, 14400);
+                        store.keepViyaAlive(`${window.location.protocol}//${window.location.host}/${LOGONPAYLOAD.appName}/keepAlive`,5,60, () => {
+                            console.log('timedout at: ', Date());
+                            window.open(`${LOGONPAYLOAD.host}/SASLogon/timedout`);
+                        });
                         return true;
                     })
                     .catch( err => {

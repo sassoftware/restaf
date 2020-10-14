@@ -20,7 +20,7 @@ let title = argv.title == null ? 'SAS/Viya Application' : argv.title;
 let appName = argv.webapp == null ? 'viyademo' : argv.webapp;
 let appDirectory = `${process.cwd()}/${reactAppName}`;
 let template = argv._[ 1 ];
-console.log(argv);
+
 
 
 let repo = argv.repo == null ? 'https://github.com/sassoftware/restaf' : argv.repo;

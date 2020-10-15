@@ -28,6 +28,7 @@ let modelRepoRoot = require('./modelRepoRoot');
 let modelDestinationCas = require('./modelDestinationCas');
 let masScore = require('./masScore');
 let identities = require('./identities');
+let caslCommons = require('./caslCommons');
 
 
 module.exports = {
@@ -57,4 +58,5 @@ module.exports = {
 	modelDestinationCas,
 
 	identities,
+	caslCommons
 };

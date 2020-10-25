@@ -31,11 +31,11 @@ You can replace and/or add other react component libraries.
 Issue these command
 
 ```sh
-npx create-react-app <projectName>  --template viya-app-quickstart
+npx create-react-app <projectName>  --template @sassoftware/viya-app-quickstart
 
 
 ex:
-npx create-react-app myapp  --template viya-app-quickstart
+npx create-react-app myapp  --template @sassoftware/viya-app-quickstart
 
 ```
 
@@ -289,7 +289,6 @@ For every entry in viewers directory the application will create a route that ca
 
 Edit defaultStyles.json to set the styles to use with material-ui.
 
-
 ---
 
 ### TLS
@@ -298,9 +297,7 @@ Edit defaultStyles.json to set the styles to use with material-ui.
 
 Please see the .env file for notes on setting up tls.
 
-
 ## **Conclusion**
 
 That is all there is to adding new application - no wiring of routes, servers, code for authentication etc...
 Use your extra free time doing other interesting stuff.
-

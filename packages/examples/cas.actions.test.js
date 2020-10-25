@@ -49,9 +49,4 @@ test('CAS upload csv', async () => {
 	let r = await testFunctions.casUploadCsv(testInfo);
 	expect(r).toMatchSnapshot();
 });
-
-test.only('Commons test', async () => {
-	let r = await testFunctions.caslCommons(testInfo);
-	expect(r).toBe('done');
 	
-});

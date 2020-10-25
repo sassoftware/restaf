@@ -27,8 +27,8 @@
             "buildapp": "node createRoutes && env-cmd --file ./.env react-scripts build",
             "dev": "node createRoutes.js && cross-env APPENTRY=/develop APPLOC=./public node server --env=.env --docker=Dockerfile --appenv=appenv.js",
             "app": "cross-env  APPLOC=./build APPENTRY=index.html node server --env=.env --docker=Dockerfile --appenv=appenv.js",
-            "dkrbuild": "docker build -f Dockerfile -t nova-app .",
-            "dkrrun": "docker run --env-file .env  -p 5000:8080 -t nova-app",
+            "dkrbuild": "docker build -f Dockerfile -t viyaapp .",
+            "dkrrun": "docker run --env-file .env  -p 5000:8080 -t viyaapp",
             "format": "prettier-eslint --eslint-config-path ./.eslintrc.json --write '**/*.js'",
             "lint": "eslint . --ext .js packages"
         },

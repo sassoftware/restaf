@@ -1,0 +1,14 @@
+version: "3.3"
+services:
+  nova-app:
+    image: yourimage
+    restart: always
+    ports:
+      - 8080:8080
+    environment: 
+      - VIYA_SERVER=
+      - DEBUG=
+
+  # Mounts volume for tokens(if using saved tokens, and other files)
+  # volumes:
+  #   - c:/Public/dev/data/sas:/sasin

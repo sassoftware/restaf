@@ -110,6 +110,12 @@ These are good examples for learning how to use restaf to make REST API calls to
 
 ---
 
+## Running in Docker
+
+1. Edit docker-compose.yml and set the value of VIYA_SERVER.
+2. Run the command 'yarn compose'. This will run 'docker-compose build' followed by 'docker-compose up'
+3. Then visit the  site. If you used defaults the site would be <http://localhost:5000/viyaapp>
+
 ## Adding your own applications
 
 ---
@@ -164,7 +170,7 @@ The content of appOptions is:
 
 ```json
 {
-    appEnv:  < the object returned from appenv.js in the root directory. Used for passing application configuration information>
+    appEnv:  <the object returned from appenv.js in the root directory. Used for passing application configuration information>
     logonPayoad: < This has information related to logging on to Viya - used for implicit flow authentication >
 }
 

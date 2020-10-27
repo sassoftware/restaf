@@ -19,7 +19,7 @@ EXPOSE 443
 # Comment out APPPORT before running in docker container and use port redirection of docker
 
 ENV APPHOST=0.0.0.0
-# ENV APPPORT=8080
+ENV APPPORT=8080
 ENV APPNAME=viyaapp
 ENV AUTHFLOW=code
 ENV CLIENTID=viyaapp

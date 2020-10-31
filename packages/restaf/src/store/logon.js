@@ -25,6 +25,7 @@ import { VIYA_LOGON, VIYA_LOGOFF, VIYA_LOGON_SERVER, VIYA_LOGON_IMPLICIT, VIYA_L
 
 import qs from 'qs';
 import parse from 'url-parse';
+import keepViyaAlive from './keepViyaAlive';
 
 const logon = (store, ipayload) => {
     return new Promise((resolve, reject) => {
@@ -44,12 +45,28 @@ const logon = (store, ipayload) => {
                 let runStatus = newState.get('runStatus');
                 if (runStatus === 'ready') {
                     unSubscribe();
+                    if (ipayload != null && ipayload. keepAlive != null) {
+                        let interval = 300;
+                        let timeout  =  14400;
+                        if (ipayload.timers != null) {
+                            let timers = ipayload.timers;
+                            if (typeof timers === 'string') {
+                                let opts = timers.split(',');
+								interval = parseInt(opts[ 0 ]);
+                                timeout  = parseInt(opts[ 1 ]);
+                            } else {
+                                interval = timers[0];
+                                timeout  = timers[1];
+                            }
+                        }
+                        keepViyaAlive (store, ipayload.keepAlive,interval, timeout, ipayload.onTimeout) 
+                    }
                     resolve(runStatus);
-                } else if (runStatus === 'error') {
-                    unSubscribe();
-                    reject(newState.get('statusInfo').toJS());
-                }
-            };
+            } else if (runStatus === 'error') {
+                unSubscribe();
+                reject(newState.get('statusInfo').toJS());
+            }
+        };
     
             //
             // check url if not password (no window) or when payload is null

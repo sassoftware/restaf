@@ -1,30 +1,30 @@
 {
-    "name": "@sassoftware/cra-template-viya-app-quickstart",
-    "version": "0.3.1",
-    "keywords": [
-        "react",
-        "create-react-app",
-        "template",
-        "viya"
-    ],
-    "main": "template.json",
-    "description": "Template for typical SAS Viya Applications",
-    "homepage": "https://github.com/sassoftware/restaf/tree/gen2/packages/cra-template-viya-app-quickstart#README.md",
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/sassoftware/restaf/tree/gen2/packages/cra-template-viya-app-quickstart"
-    },
-    "license": "Apache-2",
-    "engine": {
-        "node": ">=12.14.0",
-        "npm": ">=6.13.4",
-        "yarn": ">=1.22.0"
-    },
-    "bugs": {
-        "url": "https://github.com/sassoftware/restaf/issues"
-    },
-    "files": [
-        "template",
-        "template.json"
-    ]
+  "name": "@sassoftware/cra-template-viya-app-quickstart",
+  "version": "0.4",
+  "keywords": [
+    "react",
+    "create-react-app",
+    "template",
+    "viya"
+  ],
+  "main": "template.json",
+  "description": "Template for typical SAS Viya Applications",
+  "homepage": "https://github.com/sassoftware/restaf/tree/gen2/packages/cra-template-viya-app-quickstart#README.md",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sassoftware/restaf/tree/gen2/packages/cra-template-viya-app-quickstart"
+  },
+  "license": "Apache-2",
+  "engine": {
+    "node": ">=12.14.0",
+    "npm": ">=6.13.4",
+    "yarn": ">=1.22.0"
+  },
+  "bugs": {
+    "url": "https://github.com/sassoftware/restaf/issues"
+  },
+  "files": [
+    "template",
+    "template.json"
+  ]
 }

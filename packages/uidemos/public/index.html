@@ -52,18 +52,9 @@
 
             logonUser() 
                     .then ( name => {
-                        logInfo = store.connection();
-                        document.getElementById('user').innerHTML = `Welcome ${name}`;
-                        store.keepViyaAlive(`${window.location.protocol}//${window.location.host}/${LOGONPAYLOAD.appName}/keepAlive`,5,60, () => {
-                            console.log('timedout at: ', Date());
-                            window.open(`${LOGONPAYLOAD.host}/SASLogon/timedout`);
-                        });
-                        return true;
+                        document.getElementById('user').innerHTML = name;
                     })
-                    .catch( err => {
-                        showAlert( err );
-                        return false;
-                    });
+                    .catch (err => alert(err));
         }   
 
         function showDemo(w) {
@@ -77,6 +68,10 @@
        //  window.onload = setup;
     
        async function logonUser() {
+           /*
+           LOGONPAYLOAD.timers = [20,120];
+           LOGONPAYLOAD.onTimeout = ()=> {alert('timedout')};
+           */
            await store.logon(LOGONPAYLOAD);
            let {identities} = await store.addServices('identities');
            let r = await store.apiCall(identities.links('currentUser'));

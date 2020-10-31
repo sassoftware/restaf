@@ -30,8 +30,13 @@ async function keepViyaAlive (store,aliveURL,interval, timeout, onTimeout) {
     setTimeout(() => { 
         console.log('Note: Stopping keepViyaAlive');
         clearInterval(keepTimer);
-        if (onTimeout !== null) {
+        if (onTimeout != null) {
             onTimeout();
+        } else {
+            let host = selectLogonInfo(store.getState()).host;
+            let params = `scrollbars=no,resizable=no,status=no,location=no,toolbar=no,menubar=no,width=0,height=0,left=-1000,top=-1000`;
+            console.log('timeout');
+			window.open(`${host}/SASLogon/timedout`, 'Timed Out', params);
         }
     }, timeout*1000);
     return true;

@@ -24,5 +24,6 @@ ENV APPNAME=viyaapp
 ENV AUTHFLOW=code
 ENV CLIENTID=viyaapp
 ENV CLIENTSECRET=secret
+ENV SAMESITE=None,secure
 CMD ["npx", "@sassoftware/restaf-server"]
 

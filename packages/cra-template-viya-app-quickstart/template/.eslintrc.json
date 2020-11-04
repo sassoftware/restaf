@@ -50,7 +50,8 @@
       2,
       "always"
     ],
-    "react-hooks/exhaustive-deps": "warn" 
+    "react-hooks/exhaustive-deps": "warn",
+    "no-debugger": "warn"
   }
 }
 

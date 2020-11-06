@@ -1,6 +1,6 @@
 {
   "name": "@sassoftware/create-react-restaf-viya-app",
-  "version": "0.3.3",
+  "version": "2.3.10",
   "description": "a cli for creating react+restaf based apps for Viya",
   "main": "cli.js",
   "scripts": {

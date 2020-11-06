@@ -24,7 +24,7 @@
  */
 
 let restaf = require('@sassoftware/restaf');
-
+let {lib}  = require('@sassoftware/restaflib');
 module.exports = async function addServices (args, testInfo) {
   let { store, logger } = testInfo;
   let s = await store.addServices(...args);
@@ -38,7 +38,9 @@ module.exports = async function addServices (args, testInfo) {
   /* test calling addServies multiple times on the same service */
   await store.addServices('reports', 'dataMining');
   console.log(store.getServices());
+  console.log(lib.computeResults);
   
+
   return l;
 
 };

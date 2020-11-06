@@ -39,45 +39,52 @@ import masDescribe     from './masDescribe';
 
 import masRun          from './masRun';
 import masAddModel     from './masAddModel';
-import print           from './print';
 
 import decodeJwt       from './decodeJwt';
 
 import casUpload       from './casUpload';
-import libx             from './lib';
 
-let lib = libx();
-export {
-    caslRun,
-    caslRunBase,
-    casSetup,
-    casActionRun,
-    casTableToJson,
-    casFetchData,
-    computeRun,
-    computeSetup,
-    computeSummary,
-    computeFetchData,
-    computeFileContent,
-    findReport,
-    getReportImage,
-    getReportUri,
-    getSasTableRows,
-    
-    jesSetup,
-    jesRun,
-    jesSummary,
-    
-    jsonToDict,
-    computeResults,
-    print,
-    caslScore,
-    caslDescribe,
-    masSetup,
-    masAddModel,
-    masDescribe,
-    masRun,
-    decodeJwt,
-    casUpload,
-    lib
-};
+
+function lib () {
+    return {
+        caslRun     : caslRun,
+        caslRunBase : caslRunBase,
+        casSetup    : casSetup,
+        casActionRun: casActionRun,
+        // casTableToJson,
+        casFetchData: casFetchData,
+
+        computeRun        : computeRun,
+        computeSetup      : computeSetup,
+        computeSummary    : computeSummary,
+        computeFetchData  : computeFetchData,
+        computeFileContent: computeFileContent,
+        computeResults    : computeResults,
+
+        findReport    : findReport,
+        getReportImage: getReportImage,
+        getReportUri  : getReportUri,
+
+        getSASTableRows: getSasTableRows,
+        
+        jesSetup  : jesSetup,
+        jesRun    : jesRun,
+        jesSummary: jesSummary,
+        
+        jsonToDict: jsonToDict,
+        
+        casTableToJson: casTableToJson,
+        
+        caslScore   : caslScore,
+        caslDescribe: caslDescribe,
+
+        masSetup   : masSetup,
+        masAddModel: masAddModel,
+        masDescribe: masDescribe,
+        masRun     : masRun,
+
+        decodeJwt: decodeJwt,
+        casUpload: casUpload,
+    };
+}
+export default lib;

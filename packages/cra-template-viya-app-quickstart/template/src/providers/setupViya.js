@@ -1,4 +1,5 @@
 import { initStore } from '@sassoftware/restaf/dist/restaf.js';
+import { lib } from '@sassoftware/restaflib/dist/restaflib.js';
 async function setupViya () {
 	let store = initStore();
 	await store.logon(window.appOptions.logonPayload);
@@ -8,6 +9,6 @@ async function setupViya () {
 	let text = await r.text();
 	let appOptions = { ...window.appOptions };
 	appOptions.README = text;
-	return { store: store, appOptions: appOptions };
+	return { store: store, restaflib: lib, appOptions: appOptions };
 }
 export default setupViya;

@@ -1519,7 +1519,7 @@
     },
     "serviceFilename": "serverless.yml",
     "layers": {},
-    "artifact": "C:\\Public\\gen2\\restaf\\packages\\serverless-score\\.serverless\\serverless-score.zip"
+    "artifact": "C:\\Public\\main\\restaf\\packages\\serverless-score\\.serverless\\serverless-score.zip"
   },
   "package": {
     "artifactDirectoryName": "serverless/serverless-score/demo/1574961999525-2019-11-28T17:26:39.525Z",

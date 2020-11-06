@@ -7,7 +7,7 @@
     "pub": "npm publish --tag test --access public",
     "dkrbuild": "docker build"
   },
-  "repository": "https://github.com/sassoftware/restaf/tree/gen2/packages/viyacaddy",
+  "repository": "https://github.com/sassoftware/restaf/tree/main/packages/viyacaddy",
   "keywords": [
     "Viya",
     "restaf",

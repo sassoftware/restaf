@@ -2,7 +2,7 @@
   "name": "vabasedapps",
   "version": "2.3.10",
   "description": "collection of apps for use in VA web content/DDC",
-  "repository": "https://github.com/sassoftware/restaf/tree/gen2/packages/vaBasedApps",
+  "repository": "https://github.com/sassoftware/restaf/tree/main/packages/vaBasedApps",
   "keywords": [
     "Viya",
     "restaf",

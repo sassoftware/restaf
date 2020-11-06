@@ -1,7 +1,7 @@
 
 # Introduction
 
-One of the common activities is to import and export different contents in a Viya Server. The [viyacaddy package](https://github.com/sassoftware/restaf/tree/gen2/packages/viyacaddy) is make this job a little easier for a select set of data.
+One of the common activities is to import and export different contents in a Viya Server. The [viyacaddy package](https://github.com/sassoftware/restaf/tree/main/packages/viyacaddy) is make this job a little easier for a select set of data.
 
 This cli is useful for:
 

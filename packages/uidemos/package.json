@@ -11,7 +11,7 @@
     "buildapp": "docker build -f Dockerfile -t viyaapp .",
     "runapp": "docker run -p 8080:8080  --env-file overrides.env  -t viyaapp"
   },
-  "repository": "https://github.com/sassoftware/restaf/tree/gen2/packages/uidemos",
+  "repository": "https://github.com/sassoftware/restaf/tree/main/packages/uidemos",
   "keywords": [],
   "author": "Deva Kumar <deva.kumar@sas.com>",
   "license": "Apache-2.0",

@@ -31,7 +31,7 @@ ENV APPNAME=${appName}
 ENV AUTHFLOW=code
 ENV CLIENTID=${appName}
 ENV CLIENTSECRET=secret
-# ENV SAMESITE=None,secure
+ENV SAMESITE=None,secure
 
 # TLS
 # ENV HTTPS=true

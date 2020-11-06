@@ -13,7 +13,7 @@
   "homepage": "https://github.com/sassoftware/restaf#README.md",
   "repository": {
     "type": "git",
-    "url": "https://github.com/sassoftware/restaf/tree/gen2/packages/restaf"
+    "url": "https://github.com/sassoftware/restaf/tree/main/packages/restaf"
   },
   "bugs": {
     "url": "https://github.com/sassoftware/restaf/issues"

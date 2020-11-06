@@ -13,7 +13,7 @@
   "homepage": "https://github.com/sassoftware/restaf#readme",
   "repository": {
     "type": "git",
-    "url": "https://github.com/sassoftware/restaf/tree/gen2/packages/registerclient"
+    "url": "https://github.com/sassoftware/restaf/tree/main/packages/registerclient"
   },
   "bugs": {
     "url": "https://github.com/sassoftware/restaf/issues"

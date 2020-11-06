@@ -3,7 +3,7 @@
   "version": "2.3.10",
   "description": "react components using material-ui for Viya apps",
   "main": "./src/index.js ",
-  "repository": "https://github.com/sassoftware/restaf/tree/gen2/packages/restafuilib",
+  "repository": "https://github.com/sassoftware/restaf/tree/main/packages/restafuilib",
   "keywords": [
     "restaf",
     "SAS Viya",

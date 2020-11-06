@@ -3,7 +3,7 @@
   "version": "2.3.10",
   "description": "serverless function for scoring with datastep or astore",
   "main": "index.js",
-  "repository": "https://github.com/sassoftware/restaf/tree/gen2/packages/serverless-score",
+  "repository": "https://github.com/sassoftware/restaf/tree/main/packages/serverless-score",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

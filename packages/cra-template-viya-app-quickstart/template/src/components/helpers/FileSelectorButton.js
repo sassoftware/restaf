@@ -13,14 +13,15 @@ function FileSelectorButton (props) {
     let { label, onSelect, classes } = props;
 
     let inputRef = createRef(null);
-    const _focusTextInput = () => inputRef.current.click();
+    const _focusTextInput = () => inputRef.current.click();  //.click() passes the value of inputref.current as a click() event
+    console.log(inputRef);
 
     const _handleData = () => {
           
         let file = inputRef.current.files[0];
         if (file == null) {
             if (onSelect !== null) {
-                onSelect(null, null);
+                onSelect(null, null, null);
             }
         } else {
             let fname = file.name;
@@ -28,7 +29,7 @@ function FileSelectorButton (props) {
 
             reader.onload = (evt) => {
                 if (onSelect !== null) {
-                    onSelect(evt.target.result, fname);
+                    onSelect(evt.target.result, fname, file);
                     if (inputRef.current !== null) {
                         inputRef.current.value = '';
                     }
@@ -56,6 +57,8 @@ function FileSelectorButton (props) {
 
     return show;
 }
+
+//buttion onClick gets the event object, contains the data, and then onChange will 'handle' the data
 FileSelectorButton.propTypes = {
     /** Text for File Selector Button */
     label   : PropTypes.string.isRequired,

@@ -28,6 +28,7 @@ module.exports = async function casTables (testInfo) {
 	let { servers, session } = await casSetup(store, null);
 
 	// get list of caslibs
+	
 	let casServer = servers.itemsList(0);
 	let caslibs = await store.apiCall(servers.itemsCmd(casServer, 'caslibs'));
 
@@ -67,6 +68,47 @@ module.exports = async function casTables (testInfo) {
 			logger.info(tables.items(tables.itemsList(0, 'data')));
 		}
 	}
+
+   
+
+    let serverName = servers.itemsList(0);
+    
+    // query for preferred caslib 
+    let p1 = {
+        qs: {
+            filter: `eq(name,Public)`
+        }
+    };
+	let caslibResult = await store.apiCall(servers.itemsCmd(serverName, 'caslibs'), p1);
+	console.log(JSON.stringify(servers.itemsCmd(serverName, 'caslibs'),null,4));
+	p1 = {
+        qs: {
+			filter: `eq(name,BASEBALL3)`
+
+        }
+    };
+	let sel = await store.apiCall(caslibResult.itemsCmd(caslibResult.itemsList(0),'tables'),p1);
+	/*
+	console.log(tables.type);
+	console.log(tables.links().toJS());
+	*/
+
+	logger.info(sel.items());
+
+	
+/*
+	p1 = {
+        qs: {
+			filter: `eq(name,'BASEBALL')`,
+			state : "loaded"
+        }
+    };
+	let tables = await store.apiCall(caslibResult.itemsCmd(caslibResult.itemsList(0),'tables'),p1);
+    console.log(tables.raw().toJS());
+	let t = await store.apiCall(tables.links('self'));
+
+	console.log(JSON.stringify(t.items(), null,4));
+*/
 
   return 'done';
 };

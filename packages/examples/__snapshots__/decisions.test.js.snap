@@ -3,3 +3,5 @@
 exports[`Create CAS Destination 1`] = `"done"`;
 
 exports[`List repositories 1`] = `"done"`;
+
+exports[`test mlPipeline 1`] = `"done"`;

@@ -43,6 +43,7 @@ import masAddModel     from './masAddModel';
 import decodeJwt       from './decodeJwt';
 
 import casUpload       from './casUpload';
+import uploadData      from './uploadData';
 
 
 function lib () {
@@ -84,7 +85,9 @@ function lib () {
         masRun     : masRun,
 
         decodeJwt: decodeJwt,
-        casUpload: casUpload,
+        
+        casUpload : casUpload,
+        uploadData: uploadData
     };
 }
 export default lib;

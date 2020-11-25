@@ -2,6 +2,7 @@
 * Copyright © 2019, SAS Institute Inc., Cary, NC, USA.  All Rights Reserved.
 * SPDX-License-Identifier: Apache-2.0
 */
+// eslint-disable-next-line import/no-anonymous-default-export
 
 export default [
 	{
@@ -38,5 +39,12 @@ export default [
 			three: 3,
 		},
 	},
+	{
+		component: 'JobManager',
+		hidden   : true,
+        props    : {
+            text: 'Job Manager'
+        }
+    }
 ];
 

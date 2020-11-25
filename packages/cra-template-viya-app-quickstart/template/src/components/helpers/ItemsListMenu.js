@@ -9,31 +9,34 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 
-function ListMenu (props) {
-    let { menus, onSelect, classes } = props;
-      
+function ItemsListMenu (props) {
+    let { result, onSelect, classes } = props;
     let newMenu = [];
-    menus.forEach((m, key) => {
-        let hide = (m.hide != null && m.hide === true) ? true : false;
-        if (m.component !== 'Home' &&  hide !== true) {
+    let menu = result.itemsList();
+    if (menu.size === 0 ) {
+        newMenu.push(<ListItem key={0} button  >
+                        <ListItemText primary="None" />
+                     </ListItem>)
+    } else {
+        menu.forEach((m, key) => {
             newMenu.push(
-                <ListItem key={key} button onClick={() => onSelect(m)} >
-                    <ListItemText primary={m.props.text} />
+                <ListItem key={key} button onClick={() => onSelect(m,key)} >
+                    <ListItemText primary={m} />
                 </ListItem>)
-        }
-    });
+        });
+    }
     let show =
         <Fragment>
-            <List component="nav" dense className={classes.list}>
+            <List component="nav" dense={true} className={classes.list}>
                 {newMenu}
             </List>
         </Fragment>;
 
     return show;
 }
-ListMenu.propTypes = {
-    /** Menu to be displayed */
-    menus: PropTypes.array.isRequired,
+ItemsListMenu.propTypes = {
+    /** current result */
+    result: PropTypes.object.isRequired,
 
 /** Selection handler */
     onSelect: PropTypes.func.isRequired,
@@ -42,4 +45,5 @@ ListMenu.propTypes = {
     classes: PropTypes.object.isRequired
 
 }
-export default ListMenu;
+export default ItemsListMenu;
+

@@ -2,7 +2,7 @@
  * Copyright © 2019, SAS Institute Inc., Cary, NC, USA.  All Rights Reserved.
  * SPDX-License-Identifier: Apache-2.0
  */
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect,Fragment } from 'react';
 import { PropTypes } from 'prop-types';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -15,9 +15,10 @@ import Typography from '@material-ui/core/Typography';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import Divider from '@material-ui/core/Divider';
 import Drawer from '@material-ui/core/Drawer'
+import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import { useHistory } from 'react-router-dom';
 import ListMenu    from './ListMenu';
-
+import QuickNotes from '../helpers/QuickNotes';
 
 /**
  * 
@@ -27,7 +28,7 @@ import ListMenu    from './ListMenu';
 function Header (props) {
 
     let [ menuIsOpen, setMenuIsOpen ] = useState(false);
-    const { store, title, classes, menu} = props;
+    const {store, title, classes, menu, appOptions} = props;
     let history = useHistory();
     let [ admin, setUserAdmin ] = useState(null);
       
@@ -53,7 +54,9 @@ function Header (props) {
         window.location.replace(url);
     };
 
-    
+    const _handleClickAway = (open) => {
+        setMenuIsOpen(open);
+      };
     const _toggleMenu = (state) =>  {
           
         setMenuIsOpen(state);
@@ -68,9 +71,18 @@ function Header (props) {
             history.push(payload);
     };
     
-    
+    let jobTracker = appOptions.appEnv.jobTracker;
+    /*
+    if (jobTracker == null) {
+        jobTracker = {
+            delay   : 5,
+            viewTime: 6
+        }
+    } 
+    */
     return (
         <div>
+        
             <AppBar position="static" className={classes.appBar1}>
                 <Toolbar>
                     <IconButton size="small"
@@ -96,7 +108,9 @@ function Header (props) {
                         <Typography variant="caption" color="inherit" className={classes.grow}>
                             {admin}
                         </Typography>
+                        
                         <Divider orientation="horizontal" flexItem></Divider>
+                        
                         <Button size="small"
                             className={classes.button}
                             color="inherit"
@@ -108,11 +122,12 @@ function Header (props) {
                     </div>
                 </Toolbar>
             </AppBar>
+           
             <Drawer
                 className={classes.drawer}
-                variant="persistent"
                 anchor="left"
                 open={menuIsOpen}
+                onClose={()=> _toggleMenu(false)}
                 classes={{
                     paper: classes.drawerPaper,
                 }}>
@@ -122,10 +137,15 @@ function Header (props) {
                     </IconButton>
                 </div>
                 <Divider />
-                <ListMenu menus={menu} onSelect={_routeTo} classes={classes} />
+                <ClickAwayListener onClickAway={()=>_handleClickAway(false)}>
+                <Fragment>
+                   <ListMenu menus={menu} onSelect={_routeTo} classes={classes} />
+                   </Fragment>
+                </ClickAwayListener>
             </Drawer>
-
+            {jobTracker != null ?<QuickNotes store={store} jobTracker={jobTracker} classes={classes} /> : null}
             <br></br>
+            
         </div>
     );
 

@@ -28,8 +28,7 @@ let modelRepoRoot = require('./modelRepoRoot');
 let modelDestinationCas = require('./modelDestinationCas');
 let masScore = require('./masScore');
 let identities = require('./identities');
-
-
+let mlPipeline = require('./mlPipeline');
 
 module.exports = {
 	addServices,
@@ -57,5 +56,6 @@ module.exports = {
 	modelRepoRoot,
 	modelDestinationCas,
 
-	identities
+	identities,
+	mlPipeline
 };

@@ -44,7 +44,8 @@ import print           from './print';
 import decodeJwt       from './decodeJwt';
 
 import casUpload       from './casUpload';
-import libx             from './lib';
+import uploadData      from './uploadData';
+import libx            from './lib';
 
 let lib = libx();
 export {
@@ -79,5 +80,6 @@ export {
     masRun,
     decodeJwt,
     casUpload,
+    uploadData,
     lib
 };

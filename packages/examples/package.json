@@ -1,6 +1,6 @@
 {
   "name": "examples",
-  "version": "2.3.10",
+  "version": "2.3.11",
   "description": "Examples",
   "author": "Deva Kumaraswamy <deva.kumar@sas.com>",
   "license": "Apache-2.0",
@@ -36,8 +36,8 @@
     "verbose": false
   },
   "dependencies": {
-    "@sassoftware/restaf": "2.3.10",
-    "@sassoftware/restaflib": "2.3.10",
+    "@sassoftware/restaf": "2.3.11",
+    "@sassoftware/restaflib": "2.3.11",
     "jest": "^25.1.0",
     "winston": "^3.2.1",
     "yargs": "^12.0.5"

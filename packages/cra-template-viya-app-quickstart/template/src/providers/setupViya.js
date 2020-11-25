@@ -9,6 +9,30 @@ async function setupViya () {
 	let text = await r.text();
 	let appOptions = { ...window.appOptions };
 	appOptions.README = text;
+	let progressb     = progress.bind(null, store)
+	let onCompletionb = onCompletion.bind(null,store);
+	appOptions.jobStatus = {progress: progressb, onCompletion: onCompletionb};
 	return { store: store, restaflib: lib, appOptions: appOptions };
+}
+
+function progress( store, data, JobId ) {
+	let today = new Date();
+	let time  = today.toISOString();
+	let jobStatus = {
+		log      : `Progress Status: ${JobId} ${data}`,
+		timeStamp:time
+	}
+	store.setAppData('_jobStatus', jobStatus);
+	return false;
+}
+function onCompletion( store, err, status, JobId ) {
+	let today = new Date();
+	let time  = today.toISOString();
+	let jobStatus = {
+		log      : ( err ) ? `Completion Error: ${JobId} failed. ${err}` : `Completion Status: ${JobId}:  ${status.data}`,
+		timeStamp: time
+	}
+	store.setAppData('_jobStatus', jobStatus);
+	return false;
 }
 export default setupViya;

@@ -5,6 +5,7 @@
   'use strict';
 module.exports = function fixMlPipelineAutomation (response) {
 
+  // for reasons unknown the objects are "frozen" - so this ugly looking code
   try {
     let items = unfreeze(response.data.results.items);
     for (let i = 0; i < items.length; i++) {
@@ -12,7 +13,7 @@ module.exports = function fixMlPipelineAutomation (response) {
       let c = items[i].championModel;
       if (c != null && c.links != null && c.links.length > 0){
         let clinks= unfreeze(c.links);
-        for(let j = 1; j < clinks.length ; j++){
+        for(let j = 0; j < clinks.length ; j++){
           let l = Object.assign({},clinks[j]);
           l.extended = true;
           links.push(l);

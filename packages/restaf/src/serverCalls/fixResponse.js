@@ -19,6 +19,7 @@
  let fixReports = require('./fixReports');
  let casSessionLinks = require('./casSessionLinks');
  let reduceCasResults = require('./reduceCasResults');
+ let fixMlPipelineAutomation = require('./fixMlPipelineAutomation');
 
 
  function fixResponse (response) {
@@ -53,6 +54,10 @@
      }
      if (iLink.href === "/reports/reports" && iLink.method === "GET") {
         fixReports(response);
+     }
+   
+     if (iLink.href === "/mlPipelineAutomation/projects" && iLink.method === "GET") {
+         fixMlPipelineAutomation(response);
      }
      return response;
  }

@@ -9,15 +9,12 @@ module.exports = async function mlPipeline (testInfo){
     let l = mlPipelineAutomation.links().keySeq();
     console.log(JSON.stringify(l, null,4));
 
-    let payload = {
-       qs: {
-        start: 1,
-        limit: 100
-       }
-    }
-    let projects = await store.apiCall(mlPipelineAutomation.links('collection'), payload);
+
+    let projects = await store.apiCall(mlPipelineAutomation.links('collection'));
     let size = projects.itemsList().size;
     console.log(size);
+    console.log(JSON.stringify(projects.itemsCmd(projects.itemsList(0)),null,4));
+    /*
     if (size > 0) {
         let m = projects.itemsList(0);
         console.log(`>>> ${m}`);
@@ -36,17 +33,10 @@ module.exports = async function mlPipeline (testInfo){
             detail.push(row);
         })
         console.log(JSON.stringify(detail, null,4));
+    }
+        */
         
 
-    
 
-    }
-    /*
-    for (let i = 0; i < size; i++) {
-         let m = projects.itemsList(i);
-         console.log(`deleting ${m}`);
-         await store.apiCall(projects.itemsCmd(m,'delete'));
-     }
-     */
     return 'done';
 };

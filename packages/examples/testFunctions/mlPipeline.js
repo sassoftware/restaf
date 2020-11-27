@@ -13,7 +13,15 @@ module.exports = async function mlPipeline (testInfo){
     let projects = await store.apiCall(mlPipelineAutomation.links('collection'));
     let size = projects.itemsList().size;
     console.log(size);
-    console.log(JSON.stringify(projects.itemsCmd(projects.itemsList(0)),null,4));
+    let x = projects.itemsCmd(projects.itemsList(0)).keySeq();
+    console.log(JSON.stringify(x,null,4));
+    // console.log(JSON.stringify(projects.itemsCmd(projects.itemsList(0)),null,4));
+    let next;
+    while ((next = projects.scrollCmds("next")) !== null) {
+        projects = await store.apiCall(next);
+        let x = projects.itemsCmd(projects.itemsList(0)).keySeq();
+        console.log(JSON.stringify(x,null,4));
+      }
     /*
     if (size > 0) {
         let m = projects.itemsList(0);

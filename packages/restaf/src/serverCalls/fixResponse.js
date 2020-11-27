@@ -56,7 +56,8 @@
         fixReports(response);
      }
    
-     if (iLink.href === "/mlPipelineAutomation/projects" && iLink.method === "GET") {
+     let il = iLink.href.split('?')[0];
+     if (il === "/mlPipelineAutomation/projects" && iLink.method === "GET") {
          fixMlPipelineAutomation(response);
      }
      return response;

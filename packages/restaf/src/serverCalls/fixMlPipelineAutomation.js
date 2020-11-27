@@ -15,6 +15,9 @@ module.exports = function fixMlPipelineAutomation (response) {
         let clinks= unfreeze(c.links);
         for(let j = 0; j < clinks.length ; j++){
           let l = Object.assign({},clinks[j]);
+          let h = l.href.split('?')[0];
+          l.uri = h;
+          l.href = h;
           l.extended = true;
           links.push(l);
         }

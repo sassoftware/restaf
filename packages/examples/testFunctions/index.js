@@ -29,6 +29,8 @@ let modelDestinationCas = require('./modelDestinationCas');
 let masScore = require('./masScore');
 let identities = require('./identities');
 let mlPipeline = require('./mlPipeline');
+let mlPipelinePublish = require('./mlPipelinePublish');
+let masList =require('./masList');
 
 module.exports = {
 	addServices,
@@ -57,5 +59,8 @@ module.exports = {
 	modelDestinationCas,
 
 	identities,
-	mlPipeline
+	mlPipeline,
+	mlPipelinePublish,
+
+	masList
 };

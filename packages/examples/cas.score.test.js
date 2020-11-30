@@ -36,8 +36,9 @@ test('Upload hdat and score', async () => {
 	expect(l).toMatchSnapshot();
 });
 
-test('score thru Mas', async () => {
+test.only('score thru Mas', async () => {
 	expect.assertions();
+	
 	if (process.env.MASMODEL != null) {
 		let l = await testFunctions.masScore(false, testInfo);
 		expect(l).toBe('done');

@@ -19,22 +19,23 @@
 'use strict';
 
 let restaflib = require('@sassoftware/restaflib');
-let { masDescribe, masRun } = restaflib;
 
-module.exports = async function masScore (save, testInfo) {
+
+module.exports = async function masList (testInfo) {
 	let { store, logger } = testInfo;
-	let models = [process.env.MASMODEL];
-	debugger;
-	let masControl = await restaflib.masSetup(store, models);
-	console.log(masControl);
-	let desc = masDescribe(masControl, models[0], 'score');
-	let scenario = desc.map((m) => {
-		m.value = 1.5;
-		return m;
-	});
-	logger.info(scenario);
-	let result = await masRun(store, masControl, models[ 0 ], scenario, 'score');
-	logger.info(result);
-	console.log(JSON.stringify(result, null,4));
+	let { microanalyticScore } = await store.addServices('microanalyticScore');
+	let modelList = await store.apiCall(microanalyticScore.links('modules'));
+	console.log(JSON.stringify(modelList.itemsList(), null, 4));
+
+	
+    let next;
+
+	// do this loop while the service returns the next link
+	while ((next = modelList.scrollCmds('next')) !== null) {
+		modelList = await store.apiCall(next);
+		console.log(JSON.stringify(modelList.itemsList(), null, 4));
+	}
+	
 	return 'done';
 };
+

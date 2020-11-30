@@ -39,7 +39,7 @@
  * print.object(result, 'scoring result');
  * }
  */
-async function masRun (store, masControl, modelName, scenario, step) {
+async function masRun (store, masControl, modelName, scenario, step, cmd) {
 	let steps = masControl[modelName];
 	
 	let inputIsArray = false;
@@ -60,7 +60,11 @@ async function masRun (store, masControl, modelName, scenario, step) {
 	};
 
 	let currentStep = (step == null) ? 'score' : step;
-	let result = await store.apiCall(steps.itemsCmd(currentStep, 'execute'), scorePayload);
+	let currentOp = (cmd == null) ? 'execute': cmd;
+	console.log(currrentOp);
+	let t = steps.itemsCmd(currentStep, currentOp);
+	console.log(t);
+	let result = await store.apiCall(steps.itemsCmd(currentStep, currentOp), scorePayload);
 	let outputs = result.items('outputs').toJS();
 	let score;
 	if (inputIsArray === true) {

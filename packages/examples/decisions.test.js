@@ -18,3 +18,13 @@ test.only('test mlPipeline', async () => {
 	let l = await testFunctions.mlPipeline(testInfo);
 	expect(l).toMatchSnapshot();
 });
+test('test mlPipelinePublish', async () => {
+	expect.assertions();
+	let l = await testFunctions.mlPipelinePublish(testInfo);
+	expect(l).toMatchSnapshot();
+});
+test('test masList', async () => {
+	expect.assertions();
+	let l = await testFunctions.masList(testInfo);
+	expect(l).toMatchSnapshot();
+});

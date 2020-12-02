@@ -24,16 +24,14 @@ let { masDescribe, masRun } = restaflib;
 module.exports = async function masScore (save, testInfo) {
 	let { store, logger } = testInfo;
 	let models = [process.env.MASMODEL];
-	debugger;
 	let masControl = await restaflib.masSetup(store, models);
-	console.log(masControl);
 	let desc = masDescribe(masControl, models[0], 'score');
 	let scenario = desc.map((m) => {
 		m.value = 1.5;
 		return m;
 	});
 	logger.info(scenario);
-	let result = await masRun(store, masControl, models[ 0 ], scenario, 'score');
+	let result = await masRun(store, masControl, models[ 0 ], scenario, 'score', 'execute');
 	logger.info(result);
 	console.log(JSON.stringify(result, null,4));
 	return 'done';

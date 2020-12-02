@@ -61,11 +61,22 @@ async function masRun (store, masControl, modelName, scenario, step, cmd) {
 
 	let currentStep = (step == null) ? 'score' : step;
 	let currentOp = (cmd == null) ? 'execute': cmd;
-	console.log(currrentOp);
-	let t = steps.itemsCmd(currentStep, currentOp);
-	console.log(t);
+	let rafLink = steps.itemsCmd(currentStep, currentOp);
+	if (rafLink == null) {
+		if (result == null) {
+			throw {Error: `Invalid ${currentStep}/${currentOp}`};
+		}
+	}
 	let result = await store.apiCall(steps.itemsCmd(currentStep, currentOp), scorePayload);
-	let outputs = result.items('outputs').toJS();
+	if (result == null) {
+		throw {Error: `Invalid result for ${currentStep}/${currentOp}`};
+	}
+	let outputs = result.items('outputs');
+	if (outputs === null) {
+		if (result == null) {
+			throw {Error: `Invalid output for ${currentStep}/${currentOp}`};
+		}
+	}
 	let score;
 	if (inputIsArray === true) {
 		score = outputs;

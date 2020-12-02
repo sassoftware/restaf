@@ -15,12 +15,16 @@
  *    let inputs = restaflib.masDescribe(masControl, 'modela', 'score');
  */
 function masDescribe (masControl, modelName, step) {
-	debugger;
 	let steps = masControl[ modelName ];
-	let currentStep = (step == null) ? 'score' : step;
+	if (steps === null) {
+		return [];
+	}
+	let currentStep = (step === null) ? 'score' : step;
+	let desc = steps.items(currentStep, 'data', 'inputs');
+	if (desc === null) {
+		return [];
+	} 
 
-	let desc = steps.items(currentStep, 'data', 'inputs').toJS();
-
-	return desc;
+	return desc.toJS();
 }
 export default masDescribe;

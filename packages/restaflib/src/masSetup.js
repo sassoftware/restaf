@@ -34,8 +34,13 @@ async function masSetup (store,models, logonPayload){
         let size = modList.itemsList().size;  /* TBD: Handle list of models with paging */
         for (let i = 0; i < size; i++) {
             let m = modList.itemsList(i);
-            let result = await store.apiCall(modList.itemsCmd(m, 'steps'));
-            steps[ m ] = result;
+            let rafLink = modList.itemsCmd(m, 'steps');
+            if (rafLink === null) {
+                steps[m] = null;
+            } else {
+                let result = await store.apiCall(rafLink);
+                steps[ m ] = result;       
+            }
         }
     }
     return steps;
@@ -52,11 +57,16 @@ async function getScoreStep (store, microanalyticScore, name) {
     let modList = await store.apiCall(microanalyticScore.links('modules'), payload);
    // print.itemsList(modList, 'list of all models');
     if (modList.itemsList().size === 0) {
-       throw `Error: Model ${name} not found`;
+       return null;
     }
-  
-    let steps = await store.apiCall(modList.itemsCmd(name, 'steps'));
-    return steps;
+   
+    let rafLink = modList.itemsCmd(name, 'steps');
+    if (rafLink != null) {
+        let steps = await store.apiCall(rafLink);
+        return steps;
+    } else {
+        return null;
+    }
 }
 	
 export default masSetup;

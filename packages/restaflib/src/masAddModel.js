@@ -15,12 +15,14 @@
  * @example 
  *   let masControl = await masSetup(store, ['modelA', 'modelB']);
  */
-async function masAddModel (store,masControl, models){
+async function masAddModel (store,masControl, models, options){
   
     let  microanalyticScore  = store.getServiceRoot('microanalyticScore');
         for (let i=0; i < models.length; i++) {
             let m = models[ i ];
-            if (masControl[ m ] == null) {
+            if (options === 'delete') {
+                masControl[ m ] = null;
+            } else if (masControl[ m ] == null) {
                 let result = await getScoreStep(store, microanalyticScore, m);
                 masControl[ m ] = result;
             }

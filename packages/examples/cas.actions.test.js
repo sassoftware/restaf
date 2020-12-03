@@ -40,7 +40,7 @@ test('CAS DataStep and Fetch', async () => {
 	expect(r).toMatchSnapshot();
 });
 
-test.only('CAS Tables', async () => {
+test('CAS Tables', async () => {
 	let r = await testFunctions.casTables(testInfo);
 	expect(r).toBe('done');
 });

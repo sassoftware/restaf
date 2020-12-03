@@ -26,7 +26,6 @@ async function masSetup (store,models, logonPayload){
        for (let i=0; i < models.length; i++) {
            let m = models[ i ];
            let result = await getScoreStep(store, microanalyticScore, m);
-           debugger;
            steps[ m ] = result;
        }
     } else {

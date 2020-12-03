@@ -1,6 +1,6 @@
 {
   "name": "@sassoftware/restaflib",
-  "version": "2.13.19",
+  "version": "2.13.20",
   "description": "collection of useful functions for common scenarios",
   "main": "./lib/restaflib.js",
   "repository": {

@@ -212,7 +212,6 @@ function makeCall (config, iconfig, sslOptions) {
     return new  Promise ((resolve, reject)  => {
         axios(config)
             .then(response => {
-                debugger;
                 parseJSON(response.data)
                     .then(data => {
                         

@@ -21,7 +21,6 @@ module.exports = function fixMlPipelineAutomation (response) {
             l.uri = h;
             l.href = h;
             l.type = 'application/json';
-            debugger;
             if (l.rel === 'championModel' && l.method.toUpperCase() === 'GET') {
               l.type = 'application/vnd.sas.analytics.ml.pipeline.automation.project.champion.model';
             } else if (l.rel === 'championModel' && l.method.toUpperCase() === 'PUT') {

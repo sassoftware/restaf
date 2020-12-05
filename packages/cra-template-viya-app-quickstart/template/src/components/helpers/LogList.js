@@ -7,7 +7,7 @@ import { computeResults } from '@sassoftware/restaflib/dist/restaflib.js';
  * @param {} props 
  */
 function LogList (props) {
-      let { store, computeInfo, type} = props;
+      let { store, restaflib, computeInfo, type} = props;
 
 		let [ log, setLog ] = useState('');
 		

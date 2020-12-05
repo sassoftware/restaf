@@ -15,7 +15,7 @@ function ListMenu (props) {
     let newMenu = [];
     menus.forEach((m, key) => {
         let hide = (m.hide != null && m.hide === true) ? true : false;
-        if (m.component !== 'Home' &&  hide !== true) {
+        if (hide !== true) {
             newMenu.push(
                 <ListItem key={key} button onClick={() => onSelect(m)} >
                     <ListItemText primary={m.props.text} />

@@ -59,6 +59,7 @@ async function getScoreStep (store, microanalyticScore, name) {
        return null;
     }
    
+    let cmds = modList.itemsCmd().keySeq();
     let rafLink = modList.itemsCmd(name, 'steps');
     if (rafLink != null) {
         let steps = await store.apiCall(rafLink);

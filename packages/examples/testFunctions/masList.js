@@ -18,14 +18,13 @@
 
 'use strict';
 
-let restaflib = require('@sassoftware/restaflib');
-
 
 module.exports = async function masList (testInfo) {
 	let { store, logger } = testInfo;
 	let { microanalyticScore } = await store.addServices('microanalyticScore');
 	let modelList = await store.apiCall(microanalyticScore.links('modules'));
 	console.log(JSON.stringify(modelList.itemsList(), null, 4));
+	console.log(JSON.stringify(modelList.itemsCmd(modelList.itemsList(0)).keySeq()));
 
 	
     let next;
@@ -34,6 +33,7 @@ module.exports = async function masList (testInfo) {
 	while ((next = modelList.scrollCmds('next')) !== null) {
 		modelList = await store.apiCall(next);
 		console.log(JSON.stringify(modelList.itemsList(), null, 4));
+		console.log(JSON.stringify(modelList.itemsCmd(modelList.itemsList(0)).keySeq()));
 	}
 	
 	return 'done';

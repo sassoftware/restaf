@@ -8,6 +8,7 @@ export default [
 	{
 		component: 'Home',
 		text     : 'Introduction',
+		hide     : true,
 		props    : {
 			text : 'Introduction',
 			title: 'Quick start SAS Viya Application Builder',

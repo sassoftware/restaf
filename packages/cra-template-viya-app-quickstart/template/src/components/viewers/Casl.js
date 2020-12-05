@@ -13,7 +13,6 @@ import Warning from '@material-ui/icons/Warning';
 import Error from '@material-ui/icons/Error';
 import Info from '@material-ui/icons/Info';
 
-import { casSetup, caslRun } from '@sassoftware/restaflib/dist/restaflib.js';
 import helpers from '../helpers';
 import { useLocation } from 'react-router-dom';
 import FileSelectorButton from '../helpers/FileSelectorButton';
@@ -26,7 +25,9 @@ import FileSelectorButton from '../helpers/FileSelectorButton';
  * } props
  */
 function Casl (props) {
-    let { store, classes } = props;
+    let { store, classes, restaflib } = props;
+    let {casSetup, caslRun} = restaflib;
+
     let [ currentTab, setCurrentTab ] = useState(0);
     let [ computeInfo, setComputeInfo ] = useState({
         session: null,

@@ -1,6 +1,9 @@
 
 let info = {
-       hello: 'Hello'
+       jobTrackerx: {
+              delay   : 5,
+              viewTime: 3
        }
+}
 return info;
        

@@ -7,10 +7,11 @@ import React, {useEffect, useState, useRef} from 'react';
 import Snackbar from '@material-ui/core/Snackbar';
 import Info from '@material-ui/icons/Info';
 import Button from '@material-ui/core/Button';
+import { CheckCircle } from '@material-ui/icons';
 
 function QuickNotes (props) {
     const [open, setOpen] = useState(true);
-    const [logInfo, setLogInfo]   = useState({timeStamp: null, log: null});
+    const [logInfo, setLogInfo]   = useState({timeStamp: null, log: null, completed: false});
     let {store, jobTracker, classes} = props;
     debugger;
     let lastStamp = useRef(null);
@@ -29,7 +30,7 @@ function QuickNotes (props) {
           let jobStatus = j.toJS();
           if (jobStatus.timeStamp !== lastStamp.current) {
             lastStamp.current = jobStatus.timeStamp;
-            setLogInfo({timeStamp: jobStatus.timeStamp, log: jobStatus.log });
+            setLogInfo({timeStamp: jobStatus.timeStamp, log: jobStatus.log, completed: jobStatus.completed});
             setOpen(true);
           }
         }
@@ -41,14 +42,16 @@ function QuickNotes (props) {
 
     if ( logInfo.log !== null) {
         let t = `@ ${logInfo.timeStamp}: ${logInfo.log}`;
-        let icon = <Info/>;
+        let icon = (logInfo.completed === true) ? <CheckCircle/> : <Info/>;
+        let c= (logInfo.completed === true) ? 'primary': 'default';
+
         show = <Snackbar 
                 anchorOrigin={{vertical: 'bottom',horizontal: 'center'}}
                 open={open}
                 autoHideDuration={jobTracker.viewTime*1000}
                 onClose={_handleClose}
                 message={t}>
-                <Button size="small" variant="outlined" color="default" className={classes.button}
+                <Button size="small" variant="outlined" color={c} className={classes.button}
                         startIcon={icon}>
                         {t}
                 </Button>

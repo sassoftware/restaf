@@ -15,12 +15,13 @@
  *    let inputs = restaflib.masDescribe(masControl, 'modela', 'score');
  */
 function masDescribe (masControl, modelName, step) {
-	let steps = masControl[ modelName ];
-	if (steps === null) {
+	let stepControl = masControl[ modelName ];
+	if (stepControl === null) {
 		return [];
 	}
-	let currentStep = (step === null) ? 'score' : step;
-	let desc = steps.items(currentStep, 'data', 'inputs');
+	debugger;
+	let currentStep = (step === null) ? stepControl.steps[0] : step;
+	let desc = stepControl.rafLink.items(currentStep, 'data', 'inputs');
 	if (desc === null) {
 		return [];
 	} 

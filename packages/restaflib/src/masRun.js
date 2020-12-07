@@ -40,7 +40,7 @@
  * }
  */
 async function masRun (store, masControl, modelName, scenario, step, cmd) {
-	let steps = masControl[modelName];
+	let stepControl = masControl[modelName];
 	
 	let inputIsArray = false;
 	let inputs = [];
@@ -58,16 +58,21 @@ async function masRun (store, masControl, modelName, scenario, step, cmd) {
 			inputs: (inputIsArray === true) ? scenario : inputs
 		}
 	};
-
-	let currentStep = (step == null) ? 'score' : step;
-	let currentOp = (cmd == null) ? 'execute': cmd;
-	let rafLink = steps.itemsCmd(currentStep, currentOp);
-	if (rafLink == null) {
-		if (result == null) {
-			throw {Error: `Invalid ${currentStep}/${currentOp}`};
-		}
+	
+	let indx = (step == null) ? 0 : stepControl.steps.findIndex(s => s === step);
+	if (indx === -1) {
+		throw {Error: `Invalid ${step}. Valid value are ${stepControl.steps}`};
 	}
-	let result = await store.apiCall(steps.itemsCmd(currentStep, currentOp), scorePayload);
+
+	let currentStep = (step == null) ? stepControl.steps[0] : step;
+	let currentOp = (cmd == null) ? 'execute': cmd;
+	let rafLink = stepControl.rafLink.itemsCmd(currentStep, currentOp);
+	if (rafLink == null) {
+		let v = stepControl.rafLink.itemsCmd().keySeq().toJS();
+		throw {Error: `Invalid action ${currentStep}. Valid value are ${v}`};
+	}
+	
+	let result = await store.apiCall(rafLink, scorePayload);
 	if (result == null) {
 		throw {Error: `Invalid result for ${currentStep}/${currentOp}`};
 	}

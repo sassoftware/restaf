@@ -15,41 +15,23 @@
  * @example 
  *   let masControl = await masSetup(store, ['modelA', 'modelB']);
  */
+import getScoreStep from './getScoreStep';
+
 async function masAddModel (store,masControl, models, options){
   
     let  microanalyticScore  = store.getServiceRoot('microanalyticScore');
-        for (let i=0; i < models.length; i++) {
-            let m = models[ i ];
-            if (options === 'delete') {
-                masControl[ m ] = null;
-            } else if (masControl[ m ] == null) {
-                let result = await getScoreStep(store, microanalyticScore, m);
-                masControl[ m ] = result;
-            }
+    for (let i=0; i < models.length; i++) {
+        let m = models[ i ];
+        if (options === 'delete') {
+            masControl[ m ] = null;
+        } else if (masControl[ m ] == null) {
+            let result = await getScoreStep(store, microanalyticScore, m);
+            masControl[ m ] = result;
+        }
     }
     return true;
 }
 
-async function getScoreStep (store, microanalyticScore, name) {
-    
-    let payload = {
-      qs: {
-          filter: `eq(name,'${name}')`
-      }
-    };
-    
-    let modList = await store.apiCall(microanalyticScore.links('modules'), payload);
-   // print.itemsList(modList, 'list of all models');
-    if (modList.itemsList().size === 0) {
-      return null;
-    }
-    let rafLink = modList.itemsCmd(name, 'steps');
-    if (rafLink != null) {
-        let steps = await store.apiCall(rafLink);
-        return steps;
-    } else {
-        return null;
-    }
-}
+
 	
 export default masAddModel;

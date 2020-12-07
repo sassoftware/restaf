@@ -84,6 +84,17 @@ These are accessed as usual:
  let {store, host, appName,appOptions} = props;
  ```
 
+### AppContext
+
+You can access the enhanced list of props using the useApp hook in the providers directory. The hook also returns the classes object created with the defaultStyles.js
+
+```js
+import {useApp} from '../../providers';
+
+let {store, appOptions, classes} = useApp();
+
+```
+
 `Group 2 props`
 
 The props provided in the menu defintion are available thru history as follows:

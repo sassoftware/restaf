@@ -21,8 +21,18 @@
 
 module.exports = async function masList (testInfo) {
 	let { store, logger } = testInfo;
+	let n = process.env.MASMODEL.trim();
+	let payload = {
+		qs: {
+			name: n
+		}
+	};
+	console.log(payload);
 	let { microanalyticScore } = await store.addServices('microanalyticScore');
-	let modelList = await store.apiCall(microanalyticScore.links('modules'));
+	debugger;
+	let modelList1 = await store.apiCall(microanalyticScore.links('modules'));
+	console.log(JSON.stringify(modelList1.itemsList(), null, 4));
+	let modelList = await store.apiCall(modelList1.links('self'),payload);
 	console.log(JSON.stringify(modelList.itemsList(), null, 4));
 	console.log(JSON.stringify(modelList.itemsCmd(modelList.itemsList(0)).keySeq()));
 

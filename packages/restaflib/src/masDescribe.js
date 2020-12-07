@@ -20,8 +20,8 @@ function masDescribe (masControl, modelName, step) {
 		return [];
 	}
 	debugger;
-	let currentStep = (step === null) ? stepControl.steps[0] : step;
-	let desc = stepControl.rafLink.items(currentStep, 'data', 'inputs');
+	let currentStep = (step === null) ? stepControl.stepIds[0]:step;
+	let desc = stepControl.stepsRafLink.items(currentStep, 'data', 'inputs');
 	if (desc === null) {
 		return [];
 	} 

@@ -8,44 +8,29 @@ async function getScoreStep (store, microanalyticScore, name) {
     
     let payload = {
       qs: {
-          filter: `eq(name,'${name}')`
+          filter: `eq(name,'${name.trim()}')`
       }
     };
-    
+    console.log(payload);
+    debugger;
     let modList = await store.apiCall(microanalyticScore.links('modules'), payload);
+    debugger;
    // print.itemsList(modList, 'list of all models');
     if (modList.itemsList().size === 0) {
+        console.log('failed to query');
        return null;
     }
-   
 
-    let cmds = modList.itemsCmd(name);
-    if (cmds === null) {
-        return null;
+    let rafLink = modList.itemsCmd(name, 'steps');
+    let allSteps = await store.apiCall(rafLink);
+    
+    let control = {
+        name        : name,
+        stepsRafLink: allSteps,
+        stepIds     : modList.items(name, 'data','stepIds').toJS()
     }
-    let cmdList = cmds.keySeq().toJS();
-    console.log(cmdList);
-    let stepName = 'steps';
-    if (cmdList.find((c => c === stepName)) == null) {
-        stepName = cmdList[0];
-    }
-    debugger;
-    console.log(stepName);
-    let rafLink = modList.itemsCmd(name, stepName);
-    if (rafLink != null) {
-        let steps = await store.apiCall(rafLink);
-        debugger;
-        let result = {
-            rafLink : steps,
-            stepName: stepName,
-            steps   : steps.items().keySeq().toJS()
-        }
-       
-        return result;
-    } else {
-        debugger;
-        return null;
-    }
+    return control;
+     
 }
 
 export default getScoreStep;

@@ -58,30 +58,25 @@ async function masRun (store, masControl, modelName, scenario, step, cmd) {
 			inputs: (inputIsArray === true) ? scenario : inputs
 		}
 	};
+
+	let currentStep = (step === null) ? stepControl.stepIds[0]:step;
 	
-	let indx = (step == null) ? 0 : stepControl.steps.findIndex(s => s === step);
-	if (indx === -1) {
-		throw {Error: `Invalid ${step}. Valid value are ${stepControl.steps}`};
+	let rafLink = stepControl.stepsRafLink.itemsCmd(currentStep,cmd)
+	console.log(rafLink.toJS());
+	console.log(currentStep, ' ', cmd);
+	if (rafLink === null) {
+		let t= [
+			{
+			name : 'Error',
+			type : 'string',
+			value: `name: ${name} step: ${step} operation: ${cmd} is an invalid combination`
+			}
+		];
+		return t;
 	}
 
-	let currentStep = (step == null) ? stepControl.steps[0] : step;
-	let currentOp = (cmd == null) ? 'execute': cmd;
-	let rafLink = stepControl.rafLink.itemsCmd(currentStep, currentOp);
-	if (rafLink == null) {
-		let v = stepControl.rafLink.itemsCmd().keySeq().toJS();
-		throw {Error: `Invalid action ${currentStep}. Valid value are ${v}`};
-	}
-	
 	let result = await store.apiCall(rafLink, scorePayload);
-	if (result == null) {
-		throw {Error: `Invalid result for ${currentStep}/${currentOp}`};
-	}
 	let outputs = result.items('outputs');
-	if (outputs === null) {
-		if (result == null) {
-			throw {Error: `Invalid output for ${currentStep}/${currentOp}`};
-		}
-	}
 	let score;
 	if (inputIsArray === true) {
 		score = outputs;

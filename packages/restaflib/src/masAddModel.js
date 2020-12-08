@@ -17,17 +17,15 @@
  */
 import getScoreStep from './getScoreStep';
 
-async function masAddModel (store,masControl, models, options){
+async function masAddModel (store,masControl, models){
   
     let  microanalyticScore  = store.getServiceRoot('microanalyticScore');
     for (let i=0; i < models.length; i++) {
         let m = models[ i ];
-        if (options === 'delete') {
-            masControl[ m ] = null;
-        } else if (masControl[ m ] == null) {
+        if (masControl[m] == null) {
             let result = await getScoreStep(store, microanalyticScore, m);
             masControl[ m ] = result;
-        }
+        } 
     }
     return true;
 }

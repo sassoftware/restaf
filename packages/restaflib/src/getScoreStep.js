@@ -12,9 +12,7 @@ async function getScoreStep (store, microanalyticScore, name) {
       }
     };
     console.log(payload);
-    debugger;
     let modList = await store.apiCall(microanalyticScore.links('modules'), payload);
-    debugger;
    // print.itemsList(modList, 'list of all models');
     if (modList.itemsList().size === 0) {
         console.log('failed to query');

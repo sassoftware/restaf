@@ -29,7 +29,6 @@ module.exports = async function masList (testInfo) {
 	};
 	console.log(payload);
 	let { microanalyticScore } = await store.addServices('microanalyticScore');
-	debugger;
 	let modelList1 = await store.apiCall(microanalyticScore.links('modules'));
 	console.log(JSON.stringify(modelList1.itemsList(), null, 4));
 	let modelList = await store.apiCall(modelList1.links('self'),payload);

@@ -2,9 +2,8 @@
 * Copyright © 2019, SAS Institute Inc., Cary, NC, USA.  All Rights Reserved.
 * SPDX-License-Identifier: Apache-2.0
 */
-// eslint-disable-next-line import/no-anonymous-default-export
 
-export default [
+let appMenus = [
 	{
 		component: 'Home',
 		text     : 'Introduction',
@@ -42,10 +41,11 @@ export default [
 	},
 	{
 		component: 'JobManager',
-		hidden   : true,
+		hide     : true,
         props    : {
             text: 'Job Manager'
         }
     }
 ];
 
+export default menus;

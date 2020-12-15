@@ -8,9 +8,9 @@ import { PropTypes } from 'prop-types';
 import PropertyTable from './PropertyTable';
 
 function SummaryViewer(props) {
-    let { result, selectedItem, classes} = props;
+    let { result, selectedItem} = props;
     let d = result.items(result.itemsList(selectedItem), 'data').toJS();
-    return <PropertyTable summary={d} classes={classes}></PropertyTable>
+    return <PropertyTable summary={d}></PropertyTable>
 }
 
 SummaryViewer.propTypes = {

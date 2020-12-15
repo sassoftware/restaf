@@ -173,9 +173,8 @@ function request (iconfig) {
         // https://github.com/axios/axios/issues/2024
         config.headers[xsrfHeaderName] = ixsrf['x-csrf-token']; 
     }
-    debugger;
+   
     if (iqs !== null) {
-        debugger;
         config.params = {...iqs};
     }
 

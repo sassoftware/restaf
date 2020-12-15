@@ -8,9 +8,12 @@ import { PropTypes } from 'prop-types';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
+import {useAppContext} from '../../providers';
 
 function ItemsListMenu (props) {
-    let { result, onSelect, classes } = props;
+    let { result, onSelect} = props;
+    let {classes} = useAppContext();
+    
     let newMenu = [];
     let menu = result.itemsList();
     if (menu.size === 0 ) {

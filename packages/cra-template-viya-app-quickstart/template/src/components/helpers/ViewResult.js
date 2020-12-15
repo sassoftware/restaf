@@ -8,11 +8,11 @@ import WrapAceEditor from './WrapAceEditor';
  * @param {} props 
  */
 function ViewResult (props) {
-	let { result, mode, ...others } = props;
+	let { result, mode} = props;
 
 	let docInfo = { doc: (typeof result === 'object') ? JSON.stringify(result, null, 4) : result };
 	let show = <Fragment>
-		<WrapAceEditor currentDoc={docInfo} mode={mode} {...others}/>
+		<WrapAceEditor currentDoc={docInfo} mode={mode}/>
         </Fragment>;
     return show;
     

@@ -4,8 +4,6 @@ import { computeResults } from '@sassoftware/restaflib/dist/restaflib.js';
 
 function ODS (props) {
     let { store, computeInfo} = props;
-
-    
     let [ odsp, setODSp ] = useState('');
 
     useEffect(() => {

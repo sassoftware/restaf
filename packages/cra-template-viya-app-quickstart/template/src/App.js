@@ -1,4 +1,4 @@
-import React, {createContext} from 'react';
+import React from 'react';
 
 // import PropTypes from 'prop-types';
 import AppRouter from './AppRouter';
@@ -12,11 +12,8 @@ function App (props) {
 	let { store, appOptions } = props;
 	let { host } = appOptions.logonPayload;
 	let appName = appOptions.logonPayload.appName;
-	// let {AppContext} = providers;
-	debugger;
-	
+
 	let classes = defaultStyles()();
-	
 	let contextValue = {classes: classes, ...props};
 	console.log(contextValue);
 	
@@ -37,7 +34,10 @@ function App (props) {
 			return true;
 		});
 	}
-	debugger;
+
+	// For convenience all the props are passed to the viewers
+	// helpers can get this info from useAppContext() or viewers can choose to pass them as props - user choice
+
 	let show = (
 		<AppContext.Provider value={contextValue}>
 			<AppRouter

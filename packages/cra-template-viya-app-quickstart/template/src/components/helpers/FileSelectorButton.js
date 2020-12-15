@@ -3,6 +3,7 @@ import { PropTypes } from 'prop-types';
 
 import FolderOpen from '@material-ui/icons/FolderOpen';
 import Button from '@material-ui/core/Button';
+import {useAppContext} from '../../providers';
 
 /**
  * Prompts user to select a file
@@ -10,7 +11,8 @@ import Button from '@material-ui/core/Button';
  */
 
 function FileSelectorButton (props) {
-    let { label, onSelect, classes } = props;
+    let { label, onSelect} = props;
+    let {classes} = useAppContext();
 
     let inputRef = createRef(null);
     const _focusTextInput = () => inputRef.current.click();  //.click() passes the value of inputref.current as a click() event

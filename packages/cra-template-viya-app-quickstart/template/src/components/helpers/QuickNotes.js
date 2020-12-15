@@ -8,12 +8,13 @@ import Snackbar from '@material-ui/core/Snackbar';
 import Info from '@material-ui/icons/Info';
 import Button from '@material-ui/core/Button';
 import { CheckCircle } from '@material-ui/icons';
+import {useAppContext} from '../../providers';
 
 function QuickNotes (props) {
     const [open, setOpen] = useState(true);
     const [logInfo, setLogInfo]   = useState({timeStamp: null, log: null, completed: false});
-    let {store, jobTracker, classes} = props;
-    debugger;
+    let {jobTracker} = props;
+    let {store, classes} = useAppContext();
     let lastStamp = useRef(null);
     const _handleClose = (event, reason) => {
         if (reason === 'clickaway') {
@@ -22,7 +23,6 @@ function QuickNotes (props) {
         setOpen(false);
       };
     let show = null;
-    debugger;
     useEffect(() => {
       const interval = setInterval(() => {
         let j = store.getAppData('_jobStatus');

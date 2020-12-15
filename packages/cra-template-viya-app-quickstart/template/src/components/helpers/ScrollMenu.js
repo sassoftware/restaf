@@ -16,10 +16,8 @@ function ScrollMenu (props) {
     let { folder, onSelect, refresh } = props;
     let paginationCmds = [ 'first', 'prev', 'next', 'last' ];
     let paginationIcons = [ <FirstPage />, <ChevronLeft />, <ChevronRight />, <LastPage /> ];
-    debugger;
     let cmds = folder.scrollCmds().keySeq().toJS();
-    
-      
+
     let menu = [];
     cmds.forEach((c, rel)  => {
         let t = <Button  onClick= {() => onSelect(c) } key={rel}>

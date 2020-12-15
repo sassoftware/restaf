@@ -1,18 +1,15 @@
 import React, {useState, useEffect}  from 'react';
-
-
 import ScrollMenu from './ScrollMenu';
 import ItemsListMenu from './ItemsListMenu';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
+import {useAppContext} from '../../useAppContext';
 
 function ItemsMenu(props) {
-    let {showMenu, onSelect, store, classes} = props;
+    let {showMenu, onSelect} = props;
+    let {store} = useAppContext();
     const [state, setState] = useState(null);
-    debugger;
-   
-   const  _onScroll = (rel) => {
-       debugger;
+    const  _onScroll = (rel) => {
        let raflink = (rel === 'self') ? state.links('self') : state.scrollCmds(rel);
         store.apiCall(raflink)
             .then (r => {
@@ -37,7 +34,7 @@ function ItemsMenu(props) {
                     </Grid>
                 </Grid>
                 <Grid item>
-                    <ItemsListMenu result={state} onSelect={onSelect} classes={classes} />
+                    <ItemsListMenu result={state} onSelect={onSelect} />
                 </Grid>
 
                 </Paper>

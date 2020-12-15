@@ -1,18 +1,16 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import { PropTypes } from 'prop-types';
-import { computeResults } from '@sassoftware/restaflib/dist/restaflib.js';
+import {useAppContext} from '../../providers';
 
 /**
  * Display Spre log or list
  * @param {} props 
  */
 function LogList (props) {
-      let { store, restaflib, computeInfo, type} = props;
-
-		let [ log, setLog ] = useState('');
+	  let {computeInfo, type} = props;
+	  let {store, restaflib, classes} = useAppContext();
+	  let [ log, setLog ] = useState('');
 		
-	
-
 	useEffect(() => {
 			const _logLines = (logl) => {
 				let outAll = [];
@@ -24,14 +22,14 @@ function LogList (props) {
 					let out;
 					if (l.type === 'title') {
 						out = (
-							<h2 key={i} className={'l'+type}>
+							<h2 key={i} className={classes['l'+type]}>
 								{' '}
 								{line}{' '}
 							</h2>
 						);
 					} else {
 						out = (
-							<p key={i} className={'l'+type}>
+							<p key={i} className={classes['l'+type]}>
 								{' '}
 								{line}{' '}
 							</p>
@@ -44,7 +42,7 @@ function LogList (props) {
 			};
 
 			const _format = async () => {
-				let tlog = await computeResults(store, computeInfo.result, (type === 'listing) '? 'listing' : 'log'));
+				let tlog = await restaflib.computeResults(store, computeInfo.result, (type === 'listing) '? 'listing' : 'log'));
 				return _logLines(tlog);
 			};
 			if (computeInfo.result !== null) {

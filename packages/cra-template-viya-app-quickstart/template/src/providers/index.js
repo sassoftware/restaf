@@ -1,11 +1,11 @@
 
         import AppContext from './AppContext';
         import setupViya from './setupViya';
-        import useApp from './useApp';
+        import useAppContext from './useAppContext';
 
         export {
             AppContext,
-            useApp,
+            useAppContext,
             setupViya
         };
     

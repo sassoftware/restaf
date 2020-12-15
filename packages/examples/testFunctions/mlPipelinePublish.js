@@ -10,7 +10,6 @@ module.exports = async function mlPipelinePublish (testInfo){
     console.log(JSON.stringify(l, null,4));
 
     let projects = await store.apiCall(mlPipelineAutomation.links('collection'));
-    debugger;
     let size = projects.itemsList().size;
     console.log(size);
    
@@ -24,7 +23,7 @@ module.exports = async function mlPipelinePublish (testInfo){
         }
     };
    
-   if ( projects.itemsList().size > 0 ){
+   if (projects.itemsList().size > 0){
     let rafLink = projects.itemsCmd(projects.itemsList(0), 'publishChampionModel');
 
     let r = await store.apiCall(rafLink,payload);

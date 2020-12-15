@@ -19,7 +19,6 @@ function masDescribe (masControl, modelName, step) {
 	if (stepControl === null) {
 		return [];
 	}
-	debugger;
 	let currentStep = (step === null) ? stepControl.stepIds[0]:step;
 	let desc = stepControl.stepsRafLink.items(currentStep, 'data', 'inputs');
 	if (desc === null) {

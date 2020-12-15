@@ -25,14 +25,12 @@ function ItemsViewerTest(props) {
     // setting up this way to allow more setup calls as needed
     const _setup = async () => {
         let r  = await store.addServices(service);
-        debugger;
         let result = await store.apiCall(r[service].links(initialRel));
         console.log(result);
         return result;
     }
 
     useEffect(() => {
-        debugger;
         _setup()
             .then((result) => {
                 setAppInfo({ result: result, msgText: null, msgIcon: null});

@@ -20,13 +20,11 @@ async function masSetup (store,models, logonPayload){
     if (logonPayload != null) {
         await store.logon(logonPayload);
     }
-    debugger;
     let { microanalyticScore } = await store.addServices('microanalyticScore');
    
     let steps = [];
     for (let i=0; i < models.length; i++) {
         let m = models[ i ];
-        debugger;
         let result = await getScoreStep(store, microanalyticScore, m);
         steps[ m ] = result;
     }

@@ -11,10 +11,12 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import {useAppContext} from '../../providers';
 
 
 function PropertyTable (props) {
-    let { summary, classes} = props;
+    let { summary} = props;
+    let {classes}= useAppContext();
    
     let thead = <TableHead>
         <TableRow>

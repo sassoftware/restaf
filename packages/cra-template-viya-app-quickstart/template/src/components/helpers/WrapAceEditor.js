@@ -13,11 +13,11 @@ import AceEditor from 'react-ace';
 import 'ace-builds/src-noconflict/mode-text';
 import 'ace-builds/src-noconflict/theme-github';
 import 'ace-builds/src-noconflict/ext-language_tools';
-
+import {useAppContext} from '../../providers'
 
 function WrapAceEditor (props) {
-      
-    let { currentDoc, mode, classes } = props;
+    let { currentDoc, mode} = props;
+    let {classes} = useAppContext();
 
     let show = (
         <Container>

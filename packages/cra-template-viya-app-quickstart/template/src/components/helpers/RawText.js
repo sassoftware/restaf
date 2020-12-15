@@ -5,7 +5,6 @@ import { Fragment } from 'react';
 function RawText (props) {
 
 	// eslint-disable-next-line no-unused-vars
-	let { host, folder, selectedItem } = props;
 	let m = (props.doc.doc === null) ? 'Select a file' : props.doc.doc;
 	let show = <Fragment>
 		<pre>{m} </pre>

@@ -4,7 +4,7 @@
  */
 
 let FormData = require('form-data');
-async function uploadData (caslib, fileName, file, type, store) {
+async function uploadData (caslib, fileName, file, type, store,scope) {
     //Making this self contained 
   
     let {casManagement} = await store.addServices('casManagement');
@@ -40,11 +40,12 @@ async function uploadData (caslib, fileName, file, type, store) {
     }
 
     // upload table using the upload rel
+    
     let formData = new FormData();
     formData.append('tableName', fileName);
     formData.append('format', type);
-    formData.append('scope', 'session');
-    formData.append('replace', true);
+    formData.append('scope', (scope == null) ? 'global' : scope);
+   // formData.append('replace', true);
     formData.append('containsHeaderRow', true);
     formData.append('file', file);  // note that we are passing the File object
     

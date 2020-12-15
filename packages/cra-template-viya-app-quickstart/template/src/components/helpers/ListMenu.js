@@ -8,9 +8,11 @@ import { PropTypes } from 'prop-types';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
+import {useAppContext} from '../../providers';
 
 function ListMenu (props) {
-    let { menus, onSelect, classes } = props;
+    let { menus, onSelect} = props;
+    let {classes} = useAppContext(); 
       
     let newMenu = [];
     menus.forEach((m, key) => {

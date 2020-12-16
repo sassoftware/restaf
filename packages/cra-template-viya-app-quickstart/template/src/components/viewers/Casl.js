@@ -17,7 +17,6 @@ import helpers from '../helpers';
 import { useLocation } from 'react-router-dom';
 import FileSelectorButton from '../helpers/FileSelectorButton';
 
-
 /**
  *
  * @param {

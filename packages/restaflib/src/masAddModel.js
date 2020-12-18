@@ -18,13 +18,12 @@
 import getScoreStep from './getScoreStep';
 
 async function masAddModel (store,masControl, models){
-  
-    let  microanalyticScore  = store.getServiceRoot('microanalyticScore');
+    let  microanalyticScore  = masControl.service;
     for (let i=0; i < models.length; i++) {
         let m = models[ i ];
-        if (masControl[m] == null) {
+        if (masControl.steps[m] == null) {
             let result = await getScoreStep(store, microanalyticScore, m);
-            masControl[ m ] = result;
+            masControl.steps[m] = result;
         } 
     }
     return true;

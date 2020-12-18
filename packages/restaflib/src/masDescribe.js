@@ -15,7 +15,7 @@
  *    let inputs = restaflib.masDescribe(masControl, 'modela', 'score');
  */
 function masDescribe (masControl, modelName, step) {
-	let stepControl = masControl[ modelName ];
+	let stepControl = masControl.steps[ modelName ];
 	if (stepControl === null) {
 		return [];
 	}

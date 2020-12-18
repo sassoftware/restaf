@@ -25,7 +25,9 @@ async function getScoreStep (store, microanalyticScore, name) {
     let control = {
         name        : name,
         stepsRafLink: allSteps,
-        stepIds     : modList.items(name, 'data','stepIds').toJS()
+        stepIds     : modList.items(name, 'data','stepIds').toJS(),
+        
+        microanalyticScore: microanalyticScore
     }
     return control;
      

@@ -40,7 +40,7 @@
  * }
  */
 async function masRun (store, masControl, modelName, scenario, step, cmd) {
-	let stepControl = masControl[modelName];
+	let stepControl = masControl.steps[modelName];
 	
 	let inputIsArray = false;
 	let inputs = [];
@@ -69,7 +69,7 @@ async function masRun (store, masControl, modelName, scenario, step, cmd) {
 			{
 			name : 'Error',
 			type : 'string',
-			value: `name: ${name} step: ${step} operation: ${cmd} is an invalid combination`
+			value: `name: ${modelName} step: ${step} operation: ${cmd} is an invalid combination`
 			}
 		];
 		return t;

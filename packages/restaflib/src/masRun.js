@@ -62,8 +62,6 @@ async function masRun (store, masControl, modelName, scenario, step, cmd) {
 	let currentStep = (step === null) ? stepControl.stepIds[0]:step;
 	
 	let rafLink = stepControl.stepsRafLink.itemsCmd(currentStep,cmd)
-	console.log(rafLink.toJS());
-	console.log(currentStep, ' ', cmd);
 	if (rafLink === null) {
 		let t= [
 			{

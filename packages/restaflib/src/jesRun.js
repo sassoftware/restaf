@@ -57,12 +57,7 @@ async function jesRun (store,jes, src, jobDefinitionName, args){
         data: jobRequest
     };
     // run code and get results
-    
-    console.log(JSON.stringify(payload, null,4));
-    
     let jobResult = await jesRunBase(store, jes, payload);
-    
-
     return jobResult;
 }
 

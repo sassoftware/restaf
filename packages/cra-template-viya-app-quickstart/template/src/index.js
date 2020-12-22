@@ -1,16 +1,14 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { setupViya } from './providers';
+import {setupViya} from './providers';
 import App from './App';
 //import * as serviceWorker from 'serviceWorker';
-
-
 setupViya(true)
     .then ((r) => {
-        ReactDOM.render(
-            <App {...r}/>
-        , document.querySelector('#root'));
+        ReactDOM.render(     
+            <App {...r}/>       
+            , document.querySelector('#root'));
     })
 .catch(err => console.log(JSON.stringify(err, null, 4)))
 

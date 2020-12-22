@@ -1,13 +1,10 @@
 import React from 'react';
-import {PropTypes} from 'prop-types'
+import {PropTypes} from 'prop-types';
 import { Fragment } from 'react';
 
 function SdkVa (props) {
     let { host, folder, selectedItem } = props;
-
-    
     let reportUri = folder.itemsCmd(folder.itemsList(selectedItem), 'self', 'link', 'uri');
-    
 
     let show = <Fragment>
          <sas-report

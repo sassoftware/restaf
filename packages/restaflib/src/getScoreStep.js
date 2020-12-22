@@ -11,11 +11,9 @@ async function getScoreStep (store, microanalyticScore, name) {
           filter: `eq(name,'${name.trim()}')`
       }
     };
-    console.log(payload);
     let modList = await store.apiCall(microanalyticScore.links('modules'), payload);
    // print.itemsList(modList, 'list of all models');
     if (modList.itemsList().size === 0) {
-        console.log('failed to query');
        return null;
     }
 
@@ -26,7 +24,6 @@ async function getScoreStep (store, microanalyticScore, name) {
         name        : name,
         stepsRafLink: allSteps,
         stepIds     : modList.items(name, 'data','stepIds').toJS(),
-        
         microanalyticScore: microanalyticScore
     }
     return control;

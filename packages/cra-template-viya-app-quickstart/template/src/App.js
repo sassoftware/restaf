@@ -12,11 +12,10 @@ function App (props) {
 	let { store, appOptions } = props;
 	let { host } = appOptions.logonPayload;
 	let appName = appOptions.logonPayload.appName;
-
+	
+	
 	let classes = defaultStyles()();
 	let contextValue = {classes: classes, ...props};
-	console.log(contextValue);
-	
 	// to keep the session active for longer than the default
 	if (appOptions.logonPayload.keepAlive != null) {
 		let interval = 120;
@@ -34,10 +33,7 @@ function App (props) {
 			return true;
 		});
 	}
-
-	// For convenience all the props are passed to the viewers
-	// helpers can get this info from useAppContext() or viewers can choose to pass them as props - user choice
-
+	
 	let show = (
 		<AppContext.Provider value={contextValue}>
 			<AppRouter

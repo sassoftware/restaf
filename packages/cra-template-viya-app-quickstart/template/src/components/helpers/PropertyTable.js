@@ -16,7 +16,7 @@ import {useAppContext} from '../../providers';
 
 function PropertyTable (props) {
     let { summary} = props;
-    let {classes}= useAppContext();
+    let {classes} = useAppContext();
    
     let thead = <TableHead>
         <TableRow>

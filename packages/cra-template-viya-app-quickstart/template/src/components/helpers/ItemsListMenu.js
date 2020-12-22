@@ -8,23 +8,26 @@ import { PropTypes } from 'prop-types';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
+import Typography from '@material-ui/core/Typography';
 import {useAppContext} from '../../providers';
 
-function ItemsListMenu (props) {
-    let { result, onSelect} = props;
+function ItemsListMenu(props) {
+    let { result, selected, onSelect} = props;
     let {classes} = useAppContext();
-    
     let newMenu = [];
     let menu = result.itemsList();
-    if (menu.size === 0 ) {
+    debugger;
+    if (menu.size === 0) {
         newMenu.push(<ListItem key={0} button  >
-                        <ListItemText primary="None" />
-                     </ListItem>)
+            <ListItemText primary="None" />
+        </ListItem>)
     } else {
         menu.forEach((m, key) => {
             newMenu.push(
-                <ListItem key={key} button onClick={() => onSelect(m,key)} >
-                    <ListItemText primary={m} />
+                <ListItem key={key} button onClick={() => onSelect(key, m, result)} selected={key === selected}>
+                <ListItem className={classes.listitem}>
+                    <Typography> {m} </Typography>
+                </ListItem>
                 </ListItem>)
         });
     }
@@ -41,11 +44,8 @@ ItemsListMenu.propTypes = {
     /** current result */
     result: PropTypes.object.isRequired,
 
-/** Selection handler */
-    onSelect: PropTypes.func.isRequired,
-
-/** default classes */
-    classes: PropTypes.object.isRequired
+    /** Selection handler */
+    onSelect: PropTypes.func.isRequired
 
 }
 export default ItemsListMenu;

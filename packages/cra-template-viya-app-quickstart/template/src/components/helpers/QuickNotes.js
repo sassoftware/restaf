@@ -4,6 +4,7 @@
  */
 
 import React, {useEffect, useState, useRef} from 'react';
+import { PropTypes } from 'prop-types';
 import Snackbar from '@material-ui/core/Snackbar';
 import Info from '@material-ui/icons/Info';
 import Button from '@material-ui/core/Button';
@@ -13,16 +14,17 @@ import {useAppContext} from '../../providers';
 function QuickNotes (props) {
     const [open, setOpen] = useState(true);
     const [logInfo, setLogInfo]   = useState({timeStamp: null, log: null, completed: false});
-    let {jobTracker} = props;
-    let {store, classes} = useAppContext();
+    let {store, classes, appOptions} = useAppContext;
+    let jobTracker = appOptions.appEnv.jobTracker;
     let lastStamp = useRef(null);
-    const _handleClose = (event, reason) => {
+    const _handleClose = (_event, reason) => {
         if (reason === 'clickaway') {
           return;
         }
         setOpen(false);
       };
     let show = null;
+    
     useEffect(() => {
       const interval = setInterval(() => {
         let j = store.getAppData('_jobStatus');
@@ -60,4 +62,11 @@ function QuickNotes (props) {
     return show;
 };
 
+QuickNotes.propTypes = {
+  /** msg to be displayed */
+  msg: PropTypes.string.isRequired,
+
+  /** title for dialog */
+  title: PropTypes.string.isRequired
+}
 export default QuickNotes;

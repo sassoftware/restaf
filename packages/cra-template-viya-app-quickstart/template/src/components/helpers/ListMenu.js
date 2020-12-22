@@ -12,14 +12,14 @@ import {useAppContext} from '../../providers';
 
 function ListMenu (props) {
     let { menus, onSelect} = props;
-    let {classes} = useAppContext(); 
+    let {classes} = useAppContext();
       
     let newMenu = [];
     menus.forEach((m, key) => {
         let hide = (m.hide != null && m.hide === true) ? true : false;
         if (hide !== true) {
             newMenu.push(
-                <ListItem key={key} button onClick={() => onSelect(m)} >
+                <ListItem key={key} button onClick={() => onSelect(key, m)}>
                     <ListItemText primary={m.props.text} />
                 </ListItem>)
         }

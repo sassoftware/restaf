@@ -23,6 +23,5 @@ function getCustomHandler () {
 			},
 		},
 	];
-	console.table(handler);
 	return handler;
 }

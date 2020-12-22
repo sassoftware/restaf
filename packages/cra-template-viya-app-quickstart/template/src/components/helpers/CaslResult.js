@@ -8,8 +8,8 @@ import ViewResult from './ViewResult';
  */
 
 function CaslResult (props) {
-	let { computeInfo} = props;
-    return <ViewResult result={computeInfo.result} mode="text"/>
+	let { computeInfo, ...others} = props;
+    return <ViewResult result={computeInfo.result} mode="text" {...others} />
 }
 
 CaslResult.propTypes = {

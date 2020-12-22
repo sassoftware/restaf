@@ -71,7 +71,7 @@ function Casl (props) {
                 currentInfo.current = r.session;
             })
             .catch((err) => {
-                alert(err);
+                alert(JSON.stringify(err, null,4));
             });
 
         return () => {

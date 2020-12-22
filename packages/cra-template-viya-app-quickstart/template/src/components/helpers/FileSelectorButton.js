@@ -13,10 +13,8 @@ import {useAppContext} from '../../providers';
 function FileSelectorButton (props) {
     let { label, onSelect} = props;
     let {classes} = useAppContext();
-
     let inputRef = createRef(null);
     const _focusTextInput = () => inputRef.current.click();  //.click() passes the value of inputref.current as a click() event
-    console.log(inputRef);
 
     const _handleData = () => {
           

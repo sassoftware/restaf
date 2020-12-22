@@ -39,7 +39,6 @@ async function computeFileContent (store, computeSummary, fileref, url) {
 			payload
 		);
 		result = await store.apiCall(result.itemsCmd(fileref, 'self'));
-		// console.log(JSON.stringify(result.items(), null,4));
 		fileInfo.current = result;
 	}
 	let r;

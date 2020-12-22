@@ -21,22 +21,22 @@ function ItemsViewerTest(props) {
         msgText: null,
         msgIcon: null
     });
-    console.log(service);
     // setting up this way to allow more setup calls as needed
     const _setup = async () => {
         let r  = await store.addServices(service);
+        
         let result = await store.apiCall(r[service].links(initialRel));
-        console.log(result);
         return result;
     }
 
     useEffect(() => {
+        
         _setup()
             .then((result) => {
                 setAppInfo({ result: result, msgText: null, msgIcon: null});
             })
             .catch((err) => {
-                alert(err);
+                alert(JSON.stringify(err, null,4));
             });
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [service]);

@@ -83,7 +83,7 @@ function ComputeService (props) {
                 currentInfo.current = session;
             })
             .catch((err) => {
-                alert(err);
+                alert(JSON.stringify(err, null,4));
             });
 
         return () => {

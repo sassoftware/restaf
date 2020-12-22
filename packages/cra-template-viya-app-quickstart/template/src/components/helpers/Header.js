@@ -19,22 +19,18 @@ import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import { useHistory } from 'react-router-dom';
 import ListMenu    from './ListMenu';
 import QuickNotes from '../helpers/QuickNotes';
+import {useAppContext} from '../../providers';
 
-/**
- * 
- * @param Displays an Header at the top of the page 
- * 
- */
+
 function Header (props) {
-
+    const {title, menu} = props;
     let [ menuIsOpen, setMenuIsOpen ] = useState(false);
-    const {store, title, classes, menu, appOptions} = props;
+    
+    let {store, classes, appOptions} = useAppContext();
     let history = useHistory();
     let [ admin, setUserAdmin ] = useState(null);
       
     async function isUserAdmin (store) {
-        
-
         let { identities } = await store.addServices('identities');
         let c = await store.apiCall(identities.links('currentUser'));
         let r = await store.apiCall(identities.links('currentUserAdmin'));
@@ -62,7 +58,7 @@ function Header (props) {
         setMenuIsOpen(state);
     };
 
-    const _routeTo = (m) => {
+    const _routeTo = (_index, m) => {
             let payload = {
                 pathname: `/${m.component}`,
                 state   : m.props,
@@ -72,17 +68,9 @@ function Header (props) {
     };
     
     let jobTracker = appOptions.appEnv.jobTracker;
-    /*
-    if (jobTracker == null) {
-        jobTracker = {
-            delay   : 5,
-            viewTime: 6
-        }
-    } 
-    */
+
     return (
         <div>
-        
             <AppBar position="static" className={classes.appBar1}>
                 <Toolbar>
                     <IconButton size="small"
@@ -143,7 +131,7 @@ function Header (props) {
                    </Fragment>
                 </ClickAwayListener>
             </Drawer>
-            {jobTracker != null ?<QuickNotes store={store} jobTracker={jobTracker} classes={classes} /> : null}
+            {jobTracker != null ?<QuickNotes /> : null}
             <br></br>
             
         </div>
@@ -152,11 +140,13 @@ function Header (props) {
 }
 
 Header.propTypes = {
+    /**
+     * 
+     * Displays an Header at the top of the page 
+     * 
+     */
     menu   : PropTypes.array.isRequired,
-    /** classes object for material-ui components */
-    classes: PropTypes.object.isRequired,
-    /** restaf store */
-    store  : PropTypes.object.isRequired,
+
     /** Text to display in the Header */
     title  : PropTypes.string.isRequired
 

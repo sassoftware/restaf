@@ -57,7 +57,6 @@ async function computeSummary (store, session, job){
                         data   : null
                     };
                     cResult[type] = r;
-                    console.log(`New type: ${type}`);
                 }
             }
         }

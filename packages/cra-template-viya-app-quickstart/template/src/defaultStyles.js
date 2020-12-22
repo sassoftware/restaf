@@ -15,6 +15,11 @@ function defaultStyles () {
 			foregroundColor: 'black',
 			textTransform  : 'none',
 		},
+		listitem: {
+			width: 'auto',
+			whiteSpace: 'normal',
+            wordBreak: 'break-word'
+		},
 		fullList: {
 			width: 'auto',
 		},
@@ -42,6 +47,7 @@ function defaultStyles () {
 		},
 		paper: {
 			backgroundColor: 'white',
+			margin         : "10px"
 		},
 		table: {
 			minWidth: 650,
@@ -104,6 +110,29 @@ function defaultStyles () {
 			color          : 'blue',
 			backgroundColor: 'white',
 		},
+		margin: {
+			height: theme.spacing(3),
+		  },
+		typography: {
+			border: '3px'
+		},
+		divborder: {
+			border: "3px",
+			padding: "10px"
+		},
+		slider: {
+			padding: "5px"
+		},
+		fabgood: {
+			color: "green",
+			textTransform  : 'none',
+		},
+		fabbad: {
+			color: "red",
+			textTransform  : 'none',
+		}
+
+
   }));
   
 	

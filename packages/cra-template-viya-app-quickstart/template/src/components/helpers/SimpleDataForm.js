@@ -4,6 +4,7 @@
  */
 
 import React, { useState, useEffect, Fragment } from 'react';
+import { PropTypes } from 'prop-types';
 
 import Button from '@material-ui/core/button';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -20,16 +21,38 @@ import {useAppContext} from '../../providers';
 function SimpleDataForm(props) {
 
     const [state, setState] = useState([]);
-    const {onSubmit, title, disabled } = props;
-    let {classes} = useAppContext();
+    const { onSubmit, title, disabled } = props;
+    const {classes} = useAppContext();
 
+
+    /*-----------------------------------------
+    props = [
+       {
+                    "name": "text",
+                    "label": "",
+                    "type": "string"|"number"|"file"|"selection",
+                    "attributes": {}
+                }
+            ];
+    ------------------------------------------------*/
+
+    
     useEffect(() => {
-
-        
-        let t = props.data.map(r => {
+        let t = props.data.map(ir => {
+            let r = {...ir};
             if (r.label == null) {
                 r.label = r.name;
             }
+            if (r.multiplier != null ){
+                r.value = r.value/r.multiplier;
+                if (r.min != null) {
+                    r.min = r.min/r.multiplier;
+                }
+                if (r.max != null) {
+                    r.max = r.max/r.multiplier;
+                }
+            }
+
             return r;
         })
         setState(t);
@@ -55,26 +78,47 @@ function SimpleDataForm(props) {
 
     const _onSubmit = () => {
         let stateAsObj = {};
+        debugger;
         state.forEach((s) => {
-            stateAsObj[s.name] = s.value;
-            if (typeof s.value === 'string' && (s.type === 'decimal' || s.type === 'number')) {
-                s.value = parseFloat(s.value * 1.0)
+            let value = s.value;
+            if (typeof value === 'string' && (s.type === 'decimal' || s.type === 'number')) {
+                value = parseFloat(value * 1.0);
             }
-            
+            if (s.multiplier != null) {
+                debugger;
+                value = value*s.multiplier;
+            }
+            stateAsObj[s.name] = value;
+        });
+        let r = props.data.map ( d => {
+            d.value = stateAsObj[d.name];
+            return d;
         })
-        onSubmit(state, stateAsObj);
+        onSubmit(r, stateAsObj);
     };
    
 
+    const _scaleFn = (scale) => {
+        const fn = (x) => x;
+        if (scale === 'log10') {
+            fn = (x) => Math.log10(x)
+        }
+        return fn;
+    }
+
     let table = state.map((s, i) => {
         let t;
-        let type = (s.type === 'decimal') ? 'number' : s.type
-
+        debugger;
+        let key = `${s.name}`;
+        let type = (s.type === 'decimal') ? 'number' : s.type;
+        if (s.viewType != null) {
+            type = s.viewType;
+        }
         if (type === 'file') {
-            t = <Grid item zeroMinWidth>
-                    <InputLabel key={`${s.name}_`} htmlFor={s.name}>{s.label}</InputLabel>
+            t = <Grid key={`${key}_grid`} item xs={5} zeroMinWidth>
+                    <InputLabel key={key} htmlFor={s.name}>{s.label}</InputLabel>
                     <OutlinedInput
-                        key={`${s.name}__`}
+                        key={`${key}1`}
                         id={s.name}
                         label={s.label}
                         type="string"
@@ -89,9 +133,10 @@ function SimpleDataForm(props) {
                     </Grid>
         } else if (type === 'select') {
             
-            t = <Grid item zeroMinWidth>
-                <InputLabel id={`${s.name}_label`}>{s.label}</InputLabel>
+            t = <Grid item key={`${key}_grid`} xs={5} zeroMinWidth>
+                <InputLabel key={`${key}_label`} id={`${s.name}_label`}>{s.label}</InputLabel>
                 <Select
+                    key={`${key}_select`}
                     labelId={`${s.name}_id`}
                     id={s.name}
                     value={s.value}
@@ -104,18 +149,19 @@ function SimpleDataForm(props) {
                 </Select>
             </Grid>
 
-        } else if (s.type === 'slider') {
+        } else if (type === 'slider') {
             let marks = [
                 {value: s.min, label: s.min},
                 {value: s.max, label: s.max}
             ];
-            let scalefn = (s.scalen == null) ? (x)=>x : s.scalen;
-            t =   <Grid item zeroMinWidth>
-                <Typography id="`${s.label}`" gutterBottom>
+            let scalefn = _scaleFn(s.scale);
+
+            t =   <Grid item key={`${key}_grid`} xs={10} zeroMinWidth>
+                <Typography key={`${key}_label`}id={`${s.label}`} gutterBottom>
                     {s.label}
                 </Typography>
                 <Slider className={classes.slider}
-                key={`${s.name}__`}
+                key={`${key}_slider`}
                 value={s.value}
                 aria-label={s.label}
                 aria-labelledby="`${s.label}`"
@@ -131,18 +177,18 @@ function SimpleDataForm(props) {
 
         } else {
             const inputPropsDecimal = {
-                inputmode: 'decimal',
+                inputMode: 'decimal',
                 step     : "any"
             };
         
             const inputPropsDefault = {
-                inputmode: (type === 'string') ? 'text' : 'numeric'
+                inputMode: (type === 'string') ? 'text' : 'numeric'
             };
 
-            t = <Grid item zeroMinWidth>
+            t = <Grid item key={`${key}_grid`} zeroMinWidth>
                 <InputLabel key={s.name} htmlFor={s.name}>{s.label}</InputLabel>
                 <OutlinedInput
-                    key={`${s.name}__`}
+                    key={`${key}_input`}
                     id={s.name}
                     type={type}
                     value={s.value}
@@ -155,33 +201,45 @@ function SimpleDataForm(props) {
                 />
             </Grid>
         }
-        return <div className={classes.divborder}>{t}<br></br></div>;
+        return <div key={`${key}_div`} className={classes.divborder}>{t}<br></br></div>;
     });
-
-    let button = (
-        <Grid item>
-            { setdisabled === false ?
-                <Button key="something" variant="contained" color="primary" onClick={_onSubmit}>
-                    Submit
-                </Button> : null}
-        </Grid>
-    );
-    table.push(button);
 
     let show =  
     <Paper>
-    <div className={classes.divborder}>
-            <Grid container xs={12} direction="column">
+    <div key="sdf" className={classes.divborder}>
+            <Grid container spacing={3} direction="row">
                 <Grid item zeroMinWidth>
-                    <Typography variant="subtitle1">
-                        {title}
+                    <Typography key="title" variant="h5">
+                    {title}
                     </Typography>
                 </Grid>
+                <br></br>
+                <Grid item>
+                   { setdisabled === false ?
+                    <Button key="something" variant="contained" color="primary" onClick={_onSubmit}>
+                        Submit
+                    </Button> : null}
+                  </Grid>
+            </Grid>
+            <Grid container  direction="column">
                 {table}
             </Grid>
     </div>
-    </Paper>
+    </Paper>;
 
     return show;
+}
+SimpleDataForm.propTypes = {
+    /** data  */
+    data: PropTypes.object.isRequired,
+    /** title */
+    title: PropTypes.string.isRequired,
+
+    /** call back on submit */
+    onSubmit: PropTypes.func.isRequired,
+
+    /**disable all components if true */
+    disabled: PropTypes.boolean
+        
 }
 export default SimpleDataForm;

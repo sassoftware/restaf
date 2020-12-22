@@ -10,7 +10,7 @@ import PropertyTable from './PropertyTable';
 function SummaryViewer(props) {
     let { result, selectedItem} = props;
     let d = result.items(result.itemsList(selectedItem), 'data').toJS();
-    return <PropertyTable summary={d}></PropertyTable>
+    return <PropertyTable summary={d} ></PropertyTable>
 }
 
 SummaryViewer.propTypes = {

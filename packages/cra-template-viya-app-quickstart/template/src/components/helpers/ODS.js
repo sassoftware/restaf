@@ -1,13 +1,14 @@
 import React, {Fragment, useEffect, useState } from 'react';
 import { PropTypes } from 'prop-types';
-import { computeResults } from '@sassoftware/restaflib/dist/restaflib.js';
+import {useAppContext} from '../../providers';
 
 function ODS (props) {
-    let { store, computeInfo} = props;
+    let {computeInfo} = props;
+    let {store, restaflib} = useAppContext();
+    let {computeResults} = restaflib;
     let [ odsp, setODSp ] = useState('');
 
     useEffect(() => {
-        
         const _format = async () => {
             let ods = await computeResults(store, computeInfo.result, 'ods');
             return ods;
@@ -16,7 +17,6 @@ function ODS (props) {
             _format()
                 .then(r => setODSp(r))
                 .catch(err => console.log(err))
-                    
         }
 
         // eslint-disable-next-line react-hooks/exhaustive-deps

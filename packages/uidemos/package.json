@@ -14,8 +14,5 @@
   "repository": "https://github.com/sassoftware/restaf/tree/main/packages/uidemos",
   "keywords": [],
   "author": "Deva Kumar <deva.kumar@sas.com>",
-  "license": "Apache-2.0",
-  "devDependencies": {
-    "@sassoftware/restaf-server": "^8.0.2"
-  }
+  "license": "Apache-2.0"
 }

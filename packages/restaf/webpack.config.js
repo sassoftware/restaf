@@ -12,7 +12,7 @@ let asNode  = false;
 if (env != null) {
     asNode = (env.node === true);
 }
-
+console.log('------------------' + asNode);
 let APP_PATH = path.resolve(__dirname, 'src');
 let plugins = [];
 let outputFile;
@@ -69,4 +69,3 @@ let outputFile;
     }
 
 module.exports = config;
-

@@ -103,7 +103,8 @@
   },
   "resolutions": {
     "**/lodash": ">=4.17.15",
-    "**/mem": "^5.1.1"
+    "**/mem": "^5.1.1",
+    "**/yargs-parser": ">=13.1.2"
   },
   "dependencies": {
     "aws-sdk": "^2.822.0",

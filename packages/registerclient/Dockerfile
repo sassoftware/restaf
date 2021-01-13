@@ -11,6 +11,6 @@ ENV APPPORT=8080
 ENV APPNAME=registerclient
 ENV AUTHTYPE=password
 ENV CLIENTID=sas.ec
-ENV USER=omitest
-ENV PASSWORD=metadata1$
+ENV USER=
+ENV PASSWORD=
 CMD ["npm", "run", "indocker"]

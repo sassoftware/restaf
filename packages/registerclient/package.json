@@ -25,9 +25,10 @@
     "runapp": "docker run -p 8080:8080  --env-file overrides.env  -t registerclient",
     "indocker": "node --no-warnings cli"
   },
-  "unpkg": "cli.js",
+  "main": "./cli.js",
+  "unpkg": "./cli.js",
   "bin": {
-    "@sassoftware/registerclient": "cli.js"
+    "@sassoftware/registerclient": "./cli.js"
   },
   "dependencies": {
     "@sassoftware/restaf": "3.0.1",
@@ -38,6 +39,6 @@
   "resolutions": {
     "**/lodash": ">=4.17.15",
     "**/mem": "^5.1.1"
-  },
-  "main": "cli.js"
+  }
+  
 }

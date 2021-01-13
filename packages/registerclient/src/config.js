@@ -28,6 +28,7 @@ module.exports = function config (envFile) {
 		iconfig(appEnv);
 	} else {
 		process.env.CLIENTID = 'sas.ec';
+		process.env.CLIENTSECRET='';
 		console.log(`clientID set to default`);
 	}
 	

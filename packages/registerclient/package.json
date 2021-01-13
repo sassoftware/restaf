@@ -1,6 +1,6 @@
 {
   "name": "@sassoftware/registerclient",
-  "version": "3.0.1",
+  "version": "3.0.2",
   "description": "collection of clis using rest apis",
   "author": "Deva Kumar <deva.kumar@sas.com>",
   "license": "Apache-2.0",
@@ -26,12 +26,11 @@
     "indocker": "node --no-warnings cli"
   },
   "main": "./cli.js",
-  "unpkg": "./cli.js",
   "bin": {
     "@sassoftware/registerclient": "./cli.js"
   },
   "dependencies": {
-    "@sassoftware/restaf": "3.0.1",
+    "@sassoftware/restaf": "3.0.2",
     "qs": "^6.9.1",
     "vorpal": "^1.12.0",
     "yargs": "^16.2.0"
@@ -40,5 +39,4 @@
     "**/lodash": ">=4.17.15",
     "**/mem": "^5.1.1"
   }
-  
 }

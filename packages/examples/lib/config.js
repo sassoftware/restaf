@@ -61,7 +61,7 @@ module.exports = function config () {
 			clientSecret: process.env.hasOwnProperty('CLIENTSECRET') ? process.env['CLIENTSECRET'] : '',
 		};
 	}
-	// console.log(logonPayload);
+	console.log(logonPayload);
 	return logonPayload;
 
 	function iconfig(appEnv) {

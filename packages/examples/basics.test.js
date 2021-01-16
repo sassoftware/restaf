@@ -1,8 +1,11 @@
 let testFunctions = require('./testFunctions');
 let testInfo;
+let setupAll = require('./lib/setupAll');
 beforeAll(async () => {
 	try {
-		testInfo = await require('./lib/setupAll')();
+		debugger;
+		console.log('calling setup');
+		testInfo = await setupAll();
 	} catch (err) {
 		console.log(err);
 		process.exit(1);

@@ -3,11 +3,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+ let restaf = require('@sassoftware/restaf');
 module.exports = async function setupAll () {
+	debugger;
 	let payload = require('./config')();
 	let logger = require('./testLogger')();
-	let casProxy = (process.env.CASPROXY === 'YES') ? true : false;
-	let store = require('@sassoftware/restaf').initStore({casProxy: casProxy});
+	console.log(payload);
+	let store = restaf.initStore();
+	console.log(payload);
 	await store.logon(payload);
 	
 	return { store: store, logger: logger }

@@ -24,7 +24,7 @@
   },
   "scripts": {
     "build": "rimraf dist && rimraf lib && webpack --env.node --config webpack.config.js && webpack --config webpack.config.js && webpack -p  -m --config webpack.config.js",
-    "pub": "npm publish --tag test"
+    "pub": "npm publish --tag next --access public"
   },
   "dependencies": {
     "colors": "^1.4.0",

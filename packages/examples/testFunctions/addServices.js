@@ -41,7 +41,7 @@ module.exports = async function addServices (args, testInfo) {
   console.log(lib.computeResults);
   
 
-  return l;
+  return 'done';
 
 };
 

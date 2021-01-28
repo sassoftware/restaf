@@ -1,17 +1,3 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`logon and get root links for default services 1`] = `
-Array [
-  "reports",
-  "reportImages",
-  "reportTransforms",
-  "compute",
-  "files",
-  "folders",
-  "casManagement",
-  "jobExecution",
-  "modelPublish",
-  "modelRepository",
-  "casProxy",
-]
-`;
+exports[`logon and get root links for default services 1`] = `"done"`;

@@ -32,25 +32,25 @@ module.exports = async function casTables (testInfo) {
 	let casServer = servers.itemsList(0);
 	let caslibs = await store.apiCall(servers.itemsCmd(casServer, 'caslibs'));
 
-	logger.info(caslibs);
+	logger.info(caslibs.itemsList());
 
 	let executeCmd = session.links('execute');
 
-	for (let i = 0; i < caslibs.itemsList().size; i++) {
-		let s = caslibs.itemsList(i);
-		let parms = {
-			allFiles: true,
-			caslib  : s
-		};
-		let p = {
-			action: 'table.fileInfo',
-			data  : parms
-		};
-		let tables = await store.apiCall(executeCmd, p);
+	
+	let s = caslibs.itemsList(0);
+	let parms = {
+		allFiles: true,
+		caslib  : s
+	};
+	let p = {
+		action: 'table.fileInfo',
+		data  : parms
+	};
+	let tables = await store.apiCall(executeCmd, p);
 
-		logger.info(`caslib: ${s}`);
-		logger.info(tables, `${s}`);
-	}
+	logger.info(`caslib: ${s}`);
+	logger.info(tables.items());
+	
 
   logger.info('Tables by caslib');
   let result = {};
@@ -60,13 +60,7 @@ module.exports = async function casTables (testInfo) {
 		let tb = caslibs.itemsCmd(s, 'tables');
 
 		let tables = await store.apiCall(tb);
-		logger.info(tables);
-		if (s === 'SystemData') {
-			result[ s ] = tables.itemsList().toJS();
-		}
-		if (s === 'Public') {
-			logger.info(tables.items(tables.itemsList(0, 'data')));
-		}
+		logger.info(tables.itemsList());
 	}
 
    
@@ -76,11 +70,13 @@ module.exports = async function casTables (testInfo) {
     // query for preferred caslib 
     let p1 = {
         qs: {
-            filter: `eq(name,Public)`
+            filter: `eq(name,Models)`
         }
     };
 	let caslibResult = await store.apiCall(servers.itemsCmd(serverName, 'caslibs'), p1);
-	console.log(JSON.stringify(servers.itemsCmd(serverName, 'caslibs'),null,4));
+	console.log(caslibResult.itemsList(0));
+	
+	/*
 	p1 = {
         qs: {
 			filter: `eq(name,BASEBALL3)`
@@ -88,15 +84,9 @@ module.exports = async function casTables (testInfo) {
         }
     };
 	let sel = await store.apiCall(caslibResult.itemsCmd(caslibResult.itemsList(0),'tables'),p1);
-	/*
-	console.log(tables.type);
-	console.log(tables.links().toJS());
-	*/
 
 	logger.info(sel.items());
 
-	
-/*
 	p1 = {
         qs: {
 			filter: `eq(name,'BASEBALL')`,

@@ -15,7 +15,7 @@ test('logon and get root links for default services', async () => {
 	let sall =
 		process.env.DEFAULT_VIYA_SERVICES != null
 			? process.env.DEFAULT_VIYA_SERVICES
-			: 'reports,reportImages,reportTransforms,compute,files,folders,casManagement,jobExecution,modelPublish,modelRepository';
+			: 'casManagement';
 	
 	let sa = sall.split(',').map((s1) => {
 		return s1.trim();
@@ -36,6 +36,6 @@ test('logon and get root links for VIYA_SERVICES env variable', async () => {
 			return s1.trim();
 		});
 		let l = await testFunctions.addServices(s, testInfo);
-		expect(l).toEqual(s);
+		expect(l).toBe('done');
 	}
 });

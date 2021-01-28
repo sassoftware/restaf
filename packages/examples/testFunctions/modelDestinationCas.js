@@ -8,19 +8,19 @@ let uuid = require('uuid');
 module.exports = async function modelDestinationCas (testInfo){
     let { store, logger } = testInfo;
 	let { modelPublish } = await store.addServices('modelPublish');
-    logger.info(modelPublish.links().keySeq());
+   // logger.info(modelPublish.links().keySeq());
 
     let r = await store.apiCall(modelPublish.links('destinations'));
-    logger.info(r);
-
-    if (r.items('testPublishjest') !== null) {
+   // logger.info(r);
+    logger.info(r.itemsList());
+    if (r.itemsList('testPublishjest') !== null) {
         logger.info('testPublishjest exists');
         await store.apiCall(r.itemsCmd('testPublishjest', 'delete'));
     } 
     let payload = {
         data: {
             
-			name            : 'testPublishjest',
+			name            : 'testPublishjestx',
 			casServerName   : 'cas-shared-default',
 			casLibrary      : 'Public',
             destinationTable: 'jest' + uuid.v1(),
@@ -37,7 +37,7 @@ module.exports = async function modelDestinationCas (testInfo){
 
     // now upload a sasast and then try to publish it to the new cas destination
 
-    await store.apiCall(newList.itemsCmd('testPublishjest', 'delete'));
+    await store.apiCall(newList.itemsCmd('testPublishjestx', 'delete'));
 
     
     return 'done';

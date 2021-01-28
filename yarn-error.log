@@ -1,8 +1,8 @@
 Arguments: 
-  C:\Program Files\nodejs\node.exe C:\Users\kumar\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js
+  C:\Program Files\nodejs\node.exe C:\Users\kumar\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js test
 
 PATH: 
-  C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Program Files\SASHome\SASFoundation\9.4\ets\sasexe;C:\Program Files\SASHome\Secure\ccme4;C:\HashiCorp\Vagrant\bin;C:\Program Files\Git\cmd;C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\bin;C:\Program Files\Microsoft VS Code\bin;C:\Program Files\PuTTY\;c:\bin;C:\Program Files\Amazon\AWSCLIV2DevPreview\;;C:\Program Files\Docker\Docker\resources\bin;C:\ProgramData\DockerDesktop\version-bin;C:\Program Files\nodejs\;C:\WINDOWS\System32\OpenSSH\;C:\Users\kumar\AppData\Local\Microsoft\WindowsApps;\\ronco\public\dnt\tools;\\ronco\public\dnt\tools\inetW7\bin;C:\Program Files\Microsoft VS Code\bin;C:\Users\kumar\AppData\Local\Microsoft\WindowsApps;c:\bin;C:\Program Files\Amazon\AWSCLIV2DevPreview;C:\Users\kumar\AppData\Roaming\Dashlane\6.2015.0.34173\bin\Firefox_Extension\{442718d9-475e-452a-b3e1-fb1ee16b8e9f}\components;C:\Users\kumar\AppData\Roaming\Dashlane\6.2015.0.34173\ucrt;C:\Users\kumar\AppData\Roaming\npm;
+  C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Program Files\SASHome\SASFoundation\9.4\ets\sasexe;C:\Program Files\SASHome\Secure\ccme4;C:\HashiCorp\Vagrant\bin;C:\Program Files\Git\cmd;C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\bin;C:\Program Files\Microsoft VS Code\bin;C:\Program Files\PuTTY\;c:\bin;C:\Program Files\Amazon\AWSCLIV2DevPreview\;;C:\Program Files\nodejs\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\Docker\Docker\resources\bin;C:\ProgramData\DockerDesktop\version-bin;C:\Users\kumar\AppData\Local\Microsoft\WindowsApps;\\ronco\public\dnt\tools;\\ronco\public\dnt\tools\inetW7\bin;C:\Program Files\Microsoft VS Code\bin;C:\Users\kumar\AppData\Local\Microsoft\WindowsApps;c:\bin;C:\Program Files\Amazon\AWSCLIV2DevPreview;C:\Users\kumar\AppData\Roaming\Dashlane\6.2015.0.34173\bin\Firefox_Extension\{442718d9-475e-452a-b3e1-fb1ee16b8e9f}\components;C:\Users\kumar\AppData\Roaming\Dashlane\6.2015.0.34173\ucrt;C:\Users\kumar\AppData\Roaming\npm;
 
 Yarn version: 
   1.22.5
@@ -14,7 +14,7 @@ Platform:
   win32 x64
 
 Trace: 
-  SyntaxError: C:\Public\dev\restaf\packages\registerclient\package.json: Unexpected token } in JSON at position 882
+  SyntaxError: C:\Public\dev\restaf\package.json: Unexpected token , in JSON at position 566
       at JSON.parse (<anonymous>)
       at C:\Users\kumar\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:1625:59
       at Generator.next (<anonymous>)
@@ -24,7 +24,7 @@ Trace:
 npm manifest: 
   {
     "name": "restaf",
-    "version": "3.0.1",
+    "version": "3.0.3",
     "description": "Library for writing SAS Viya application using REST APIs",
     "author": "Deva Kumaraswamy <deva.kumar@sas.com>",
     "license": "Apache-2.0",
@@ -41,10 +41,7 @@ npm manifest:
     },
     "main": "lib/restaf",
     "private": true,
-    "workspaces": {
-      "packages": [
-        "packages/*"
-      ],
+    
       "nohoist": [
         "**/serverless-*/**",
         "**/registerclient/**",
@@ -125,12 +122,11 @@ npm manifest:
       "win-ca": "^3.2.0",
       "yargs": "^16.2.0"
     },
-  
     "resolutions": {
       "**/lodash": ">=4.17.15",
       "**/yargs-parser": ">=13.1.2",
       "**/node-notifier": "^8.0.1"
-     },
+    },
     "dependencies": {
       "aws-sdk": "^2.822.0",
       "axios": "^0.21.1",

@@ -21,47 +21,44 @@
 let fs = require('fs');
 let yargs = require('yargs');
 
-module.exports = function config () {
+module.exports = function configtest () {
 	let argv = yargs.argv;
 	let appEnv = argv.env == null ? process.env.RESTAFENV : argv.env;
 	if (appEnv != null) {
 		iconfig(appEnv);
-	}
-	process.env.SAS_PROTOCOL = process.env.SAS_SSL_ENABLED === 'YES' ? 'https://' : 'http://';
-	let viyaServer = process.env.VIYA_SERVER;
+	} 
 
 	// left for backward compatability - preferred way is to specify http in the url
-	if (viyaServer == null) {
+	if (process.env.VIYA_SERVER == null) {
 		console.log('Please set the VIYA_SERVER either thru env variables or the env file');
 		process.exit(0);
 	}
-	if (viyaServer.indexOf('http') < 0) {
-		viyaServer = `${process.env.SAS_PROTOCOL}${process.env.VIYA_SERVER}`;
-	}
+
 	let logonPayload = null;
+	let token = null;
 	if (process.env.TOKENFILE != null) {
-		let data = fs.readFileSync(process.env.TOKENFILE, 'utf8');
-		process.env.VIYA_TOKEN = data;
+		console.log(process.env.TOKENFILE);
+		debugger;
+		token = fs.readFileSync(process.env.TOKENFILE, 'utf8');
 	}
-	if (process.env.VIYA_TOKEN != null) {
+	if (token !== null) {
 		logonPayload = {
 			authType : 'server',
 			host     : viyaServer,
-			token    : process.env.VIYA_TOKEN,
+			token    : token,
 			tokenType: 'bearer',
 		};
 	} else {
 		logonPayload = {
 			authType: 'password',
-			host    : viyaServer,
+			host    : process.env.VIYA_SERVER,
 			user    : process.env['USER'],
 			password: process.env['PASSWORD'],
-			clientID: process.env[ 'CLIENTID' ],
-			
-			clientSecret: process.env.hasOwnProperty('CLIENTSECRET') ? process.env['CLIENTSECRET'] : '',
+			clientID: process.env.CLIENTID,
+			clientSecret: (process.env.CLIENTSECRET == null) ? '' : process.env.CLIENTSECRET
 		};
-	}
-	console.log(logonPayload);
+	};
+	
 	return logonPayload;
 
 	function iconfig(appEnv) {

@@ -17,18 +17,14 @@
   },
   "main": "lib/restaf",
   "private": true,
-  "workspaces": {
-    "packages": [
-      "packages/*"
-    ],
-    "nohoist": [
-      "**/serverless-*/**",
-      "**/registerclient/**",
-      "**/viyacaddy/**",
-      "**/uidemos/**",
-      "**/examples/**"
-    ]
-  },
+  
+  "nohoist": [
+    "**/serverless-*/**",
+    "**/registerclient/**",
+    "**/viyacaddy/**",
+    "**/uidemos/**",
+    "**/examples/**"
+  ],
   "repository": "https://github.com/sassoftware/restaf.git",
   "bugs": {
     "url": "https://github.com/sassoftware/restaf/issues"

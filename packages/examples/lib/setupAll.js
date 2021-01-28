@@ -4,13 +4,12 @@
  */
 
  let restaf = require('@sassoftware/restaf');
+ let configtest = require('./configtest');
 module.exports = async function setupAll () {
 	debugger;
-	let payload = require('./config')();
+	let payload = configtest();
 	let logger = require('./testLogger')();
-	console.log(payload);
 	let store = restaf.initStore();
-	console.log(payload);
 	await store.logon(payload);
 	
 	return { store: store, logger: logger }

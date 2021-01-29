@@ -28,9 +28,12 @@
  * print.object(result, 'scoring result');
  * }
  */
+import masSetup from './masSetup';
+import masRun from './masRun';
+
 async function masScore (store, modelName, scenario) {
-	let masControl = await restaflib.masSetup(store,[modelName]);
-    let r = await restaflib.masRun(store,masControl, modelName, scenario, 'score', 'execute');
+	let masControl = await masSetup(store,[modelName]);
+    let r = await masRun(store,masControl, modelName, scenario, 'score', 'execute');
     return r;
 }
 export default masScore;

@@ -38,6 +38,7 @@ import masSetup        from './masSetup';
 import masDescribe     from './masDescribe';
 
 import masRun          from './masRun';
+import masScore        from './masScore';
 import masAddModel     from './masAddModel';
 import print           from './print';
 
@@ -78,6 +79,7 @@ export {
     masAddModel,
     masDescribe,
     masRun,
+    masScore,
     decodeJwt,
     casUpload,
     uploadData,

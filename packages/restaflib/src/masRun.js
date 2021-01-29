@@ -77,7 +77,7 @@ async function masRun (store, masControl, modelName, scenario, step, cmd) {
 	let outputs = result.items('outputs');
 	let score;
 	if (inputIsArray === true) {
-		score = outputs;
+		score = outputs.toJS();
 	} else {
 		score = {};
 		outputs.map (m => {

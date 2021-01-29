@@ -45,7 +45,7 @@
     "viyacaddy": "cd ./packages/viyacaddy && npm start",
     "viyacaddy:pub": "cd ./packages/viyacaddy && npm run pub",
     "buildall": "npm run restaf:build && npm run restaflib:build && npm run restafuilib:build",
-    "puball": "npm run restaf:pub && npm run restaflib:pub && npm run viyacaddy:pub && npm run registerclient:pub",
+    "puball": "yarn restaf:pub && yarn restaflib:pub && yarn viyacaddy:pub && yarn registerclient:pub",
     "token": "node token.js",
     "format": "prettier-eslint --eslint-config-path ./.eslintrc.json --write '**/*.js'",
     "lint": "eslint . --ext .js --fix"

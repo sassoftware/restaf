@@ -1,6 +1,6 @@
 {
   "name": "@sassoftware/viyacaddy",
-  "version": "3.0.6",
+  "version": "3.0.7",
   "description": "collection of clis using rest apis",
   "scripts": {
     "start": "node --no-warnings cli",
@@ -21,8 +21,8 @@
     "@sassoftware/viyacaddy": "./cli.js"
   },
   "dependencies": {
-    "@sassoftware/restaf": "3.0.6",
-    "@sassoftware/restaflib": "3.0.6",
+    "@sassoftware/restaf": "3.0.7",
+    "@sassoftware/restaflib": "3.0.7",
     "qs": "^6.9.1",
     "vorpal": "^1.12.0",
     "yargs": "^16.2.0"

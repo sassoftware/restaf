@@ -1,6 +1,6 @@
 {
   "name": "vabasedapps",
-  "version": "3.0.6",
+  "version": "3.0.7",
   "description": "collection of apps for use in VA web content/DDC",
   "repository": "https://github.com/sassoftware/restaf/tree/main/packages/vaBasedApps",
   "keywords": [

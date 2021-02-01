@@ -16,7 +16,7 @@ function ItemsListMenu(props) {
     let {classes} = useAppContext();
     let newMenu = [];
     let menu = result.itemsList();
-    debugger;
+    
     if (menu.size === 0) {
         newMenu.push(<ListItem key={0} button  >
             <ListItemText primary="None" />

@@ -11,7 +11,7 @@ import {useAppContext} from '../../providers';
 
 function MasModel (props) {
 	let {appOptions} = useAppContext();
-	debugger;
+	
 	let model = appOptions.appEnv.models[0];
 	let show = 
 		<Fragment>

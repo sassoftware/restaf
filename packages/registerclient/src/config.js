@@ -21,7 +21,7 @@
 let fs = require('fs');
 
 module.exports = function config (envFile) {
-	debugger;
+	
 	let appEnv = envFile == null ? process.env.RESTAFENV : envFile;
 	let logonPayload;
 

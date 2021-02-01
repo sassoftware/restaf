@@ -75,7 +75,7 @@ function trustedGrant (iconfig) {
             return (qs.stringify(data));
         }
     };
-    debugger;
+    
     return (makeCall(config, iconfig, iconfig.sslOptions));
 }
 
@@ -190,7 +190,7 @@ function makeCall (config, iconfig, sslOptions) {
     // NODE_TLS_REJECT_UNAUTHORIZED
     // SSL_CERT_FILE
     // let { sslOptions } = iconfig;
-    debugger;
+    
     if (config.url.indexOf('https') !== -1) {
         let opt = {};
         if (sslOptions != null) {
@@ -213,7 +213,7 @@ function makeCall (config, iconfig, sslOptions) {
     return new  Promise ((resolve, reject)  => {
         axios(config)
             .then(response => {
-                debugger;
+                
                 parseJSON(response.data)
                     .then(data => {
                         
@@ -235,7 +235,7 @@ function makeCall (config, iconfig, sslOptions) {
                     });
             })
             .catch(error => {
-                debugger;
+                
                 reject(error);
             });
         });

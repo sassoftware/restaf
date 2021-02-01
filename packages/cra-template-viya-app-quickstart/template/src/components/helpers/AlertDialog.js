@@ -21,7 +21,7 @@ function AlertDialog(props) {
   const handleClose = () => {
     setOpen(false);
   };
-  debugger;
+  
   let showmsg =  (typeof msg === 'object') ? JSON.stringify(msg, null,4) : msg;
   return (
     <div>

@@ -18,11 +18,11 @@ function MasRun(props) {
 
     const _getDesc = async () => {
         let name = result.itemsList(index);
-        debugger;
+        
         await restaflib.masAddModel(store, masControl, [name]);
-        debugger;
+        
         let desc = restaflib.masDescribe(masControl, name, 'score');
-        debugger;
+        
         return {desc: desc, name: name}
     }
 
@@ -55,7 +55,7 @@ function MasRun(props) {
                 setRunState({ desc: r.desc, scoreResult: null , name: r.name})
             })
     }, [index])
-    debugger;
+    
     let errShow = null;
     if ( errInfo != null) {
         errShow = <QuickDialog msg={errInfo.msg}/> 

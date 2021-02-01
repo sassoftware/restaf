@@ -3,7 +3,7 @@ let testInfo;
 let setupAll = require('./lib/setupAll');
 beforeAll(async () => {
 	try {
-		debugger;
+		
 		console.log('calling setup');
 		testInfo = await setupAll();
 	} catch (err) {

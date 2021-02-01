@@ -72,7 +72,7 @@ run()
 		let t = [
 			{ Library: 'restaf', Purpose: 'Use this to make API calls to SAS Viya' },
 			{ Library: 'restaflib', Purpose: 'Use this for common SAS Viya usage patterns' },
-			{ Library: 'restaf-server', Purpose: 'Authenticate with SAS Viya and server up the app' }
+			{ Library: 'viya-appserverjs', Purpose: 'Authenticate with SAS Viya and server up the app' }
 		];
 		console.table(t);
 		if (installList !== null) {

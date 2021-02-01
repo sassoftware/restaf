@@ -78,14 +78,14 @@ function SimpleDataForm(props) {
 
     const _onSubmit = () => {
         let stateAsObj = {};
-        debugger;
+        
         state.forEach((s) => {
             let value = s.value;
             if (typeof value === 'string' && (s.type === 'decimal' || s.type === 'number')) {
                 value = parseFloat(value * 1.0);
             }
             if (s.multiplier != null) {
-                debugger;
+                
                 value = value*s.multiplier;
             }
             stateAsObj[s.name] = value;
@@ -108,7 +108,7 @@ function SimpleDataForm(props) {
 
     let table = state.map((s, i) => {
         let t;
-        debugger;
+        
         let key = `${s.name}`;
         let type = (s.type === 'decimal') ? 'number' : s.type;
         if (s.viewType != null) {

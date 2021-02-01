@@ -70,7 +70,7 @@ const logon = (store, ipayload) => {
     
             //
             // check url if not password (no window) or when payload is null
-            // this allows users of restaf-server to LOGONPAYLOAD unconditionally to logon
+            // this allows users of restaf-server|viya-appserverjs to LOGONPAYLOAD unconditionally to logon
             //
             
         

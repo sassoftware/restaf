@@ -1,6 +1,6 @@
 {
   "name": "@sassoftware/create-react-restaf-viya-app",
-  "version": "3.0.7",
+  "version": "3.0.8",
   "description": "a cli for creating react+restaf based apps for Viya",
   "main": "cli.js",
   "scripts": {
@@ -17,7 +17,7 @@
     "viya",
     "react",
     "restaf",
-    "restaf-server",
+    "viya-appserverjs",
     "restaflib"
   ],
   "author": "Deva Kumar <deva.kumar@sas.com>",

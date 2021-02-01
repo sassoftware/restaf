@@ -65,9 +65,9 @@ function RunMasModel (props) {
     }
 
     const _score = async (newData) => {
-		debugger;
+		
 		let r = await restaflib.masRun(store, masControl, state.name, newData, 'score', 'execute');
-		debugger;
+		
 		let t = r.toJS();
 		let d = t.filter( t1 => t1.name === props.target);
 		console.log(d);

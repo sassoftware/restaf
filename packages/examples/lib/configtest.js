@@ -38,7 +38,7 @@ module.exports = function configtest () {
 	let token = null;
 	if (process.env.TOKENFILE != null) {
 		console.log(process.env.TOKENFILE);
-		debugger;
+		
 		token = fs.readFileSync(process.env.TOKENFILE, 'utf8');
 	}
 	if (token !== null) {

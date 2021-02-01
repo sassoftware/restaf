@@ -1,4 +1,4 @@
-let restafServer = require('@sassoftware/restaf-server');
+let restafServer = require('@sassoftware/viya-appserverjs');
 restafServer.icli(getCustomHandler);
 
 function getCustomHandler () {

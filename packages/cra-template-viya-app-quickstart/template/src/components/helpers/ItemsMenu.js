@@ -10,10 +10,10 @@ import {useAppContext} from '../../providers';
 function ItemsMenu(props) {
     let {result, showMenu, selected, onSelect} = props;
     let {store} = useAppContext();
-    debugger;
+    
    
    const  _onScroll = (rel) => {
-       debugger;
+       
        let raflink = (rel === 'self') ? result.links('self') : result.scrollCmds(rel);
         store.apiCall(raflink)
             .then (r => {
@@ -25,7 +25,7 @@ function ItemsMenu(props) {
             })
     }
 
-    debugger;
+    
     const _show = () => {
         let show = (
             <div>

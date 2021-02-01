@@ -6,7 +6,7 @@
  let restaf = require('@sassoftware/restaf');
  let configtest = require('./configtest');
 module.exports = async function setupAll () {
-	debugger;
+	
 	let payload = configtest();
 	let logger = require('./testLogger')();
 	let store = restaf.initStore();

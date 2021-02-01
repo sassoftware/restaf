@@ -27,14 +27,14 @@ function MasList(props) {
         let result = await store.apiCall(r[service].links(initialRel));
         let masControlx = await restaflib.masSetup(store, []);
         await restaflib.masAddModel(store, masControlx, [result.itemsList(0)]);
-        debugger;
+        
         return { result, masControlx };
     }
 
     useEffect(() => {
         _setUp()
             .then((x) => {
-                debugger;
+                
                 setMasControl(x.masControlx);
                 setAppInfo({ result: x.result, index: 0, name: x.result.itemsList(0)});
             })
@@ -46,10 +46,10 @@ function MasList(props) {
     const _onSelect = (index, name, result) => {
         let n = (name == null) ? result.itemsList(0) : name;
         errInfo = null;
-        debugger;
+        
         restaflib.masAddModel(store, masControl, [n])
         .then (() => {
-            debugger;
+            
             if (masControl.steps[n] === null) {
                 throw {Error: `Model ${n} not found. why?`}
             } 
@@ -81,7 +81,7 @@ function MasList(props) {
                 : null}
         </Fragment>
     );
-    debugger;
+    
     return show;
 
 }

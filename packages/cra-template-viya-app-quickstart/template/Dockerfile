@@ -5,7 +5,7 @@ RUN apk add --no-cache --upgrade curl
 
 WORKDIR /usr/src/app
 # COPY package.json .
-RUN npm install -g @sassoftware/restaf-server
+RUN npm install -g @sassoftware/viya-appserverjs
 COPY ./build ./public
 # COPY ./start.sh ./start.sh
 COPY ./appenv.js ./appenv.js
@@ -25,5 +25,5 @@ ENV AUTHFLOW=code
 ENV CLIENTID=viyaapp
 ENV CLIENTSECRET=secret
 # ENV SAMESITE=None,secure
-CMD ["npx", "@sassoftware/restaf-server"]
+CMD ["npx", "@sassoftware/viya-appserverjs"]
 

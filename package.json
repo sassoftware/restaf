@@ -1,6 +1,6 @@
 {
   "name": "restaf",
-  "version": "3.0.7",
+  "version": "3.0.8",
   "description": "Library for writing SAS Viya application using REST APIs",
   "author": "Deva Kumaraswamy <deva.kumar@sas.com>",
   "license": "Apache-2.0",
@@ -103,7 +103,7 @@
     "**/node-notifier": "^8.0.1"
   },
   "dependencies": {
-    "@sassoftware/restaf-server": "^8.2.12",
+    "@sassoftware/viya-appserverjs": "next",
     "aws-sdk": "^2.832.0",
     "axios": "^0.21.1",
     "cross-env": "^7.0.3",

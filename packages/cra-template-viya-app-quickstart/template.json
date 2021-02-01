@@ -5,7 +5,7 @@
             "@material-ui/icons": "^4.9.1",
             "@material-ui/lab": "^4.0.0-alpha.56",
             "@sassoftware/restaf": "^3.0.8",
-            "@sassoftware/viya-appserverjs": "^8.2.13",
+            "@sassoftware/viya-appserverjs": "1.2.6",
             "@sassoftware/restaflib": "^3.0.8",
             "ace-builds": "^1.4.12",
             "cross-env": "^7.0.2",

@@ -71,7 +71,6 @@ const prepareAction = function (store, iroute, actionType, payload, delay,
         link
     } ;
 
-    
     if (link.href.indexOf('casProxy') >= 0) {
         serviceName = 'casProxy';
     }
@@ -92,7 +91,6 @@ const prepareAction = function (store, iroute, actionType, payload, delay,
     }
     
     return action; 
-
 
 };
 export default prepareAction;

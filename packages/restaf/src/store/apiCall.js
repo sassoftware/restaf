@@ -21,9 +21,9 @@ import iapiCall from './iapiCall';
 
 import { API_CALL } from '../actionTypes';
 
-const  apiCall =  (store, iroute, payload, delay) => {
+const  apiCall =  (store, iroute, payload, ...rest) => {
     
-    return iapiCall(store, iroute, API_CALL, payload, delay , null);
+    return iapiCall(store, iroute, API_CALL, payload, ...rest);
 };
 
 export default apiCall;

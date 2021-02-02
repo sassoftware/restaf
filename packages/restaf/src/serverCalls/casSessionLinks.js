@@ -6,7 +6,7 @@
 module.exports = function casSessionLinks (uri, urihttp, casHttp, server, casProxyFlag){
  
 	let href = (casProxyFlag === true) ? `${uri}/actions` : `${urihttp}/actions`;
-	let isIdle = casProxyFlag === true ? `${uri}/isdle` : `${urihttp}/isIdle`;
+	let isIdle = casProxyFlag === true ? `${uri}/isIdle` : `${urihttp}/isidle`;
 	
     let r =  [
 		{

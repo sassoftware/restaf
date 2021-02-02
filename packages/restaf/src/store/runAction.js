@@ -19,22 +19,14 @@
   'use strict';
 import apiCall from './apiCall';
 
-async function runAction (store, session, payload, delay, context, progress, completed) {
+async function runAction (store, session, payload) {
     // let rel = (store.config.casProxy === true) ? 'casproxy' : 'execute'; /* fix for issues with casproxy */
 
-    if (delay != null) {
-        let rp = apiCall(store, session,links('execute'), payload,0);
-        do while(1){
-            let status = apiCall(store, session.links('state'));
-            console.log(status);
-            let ustate = progress()
-        }
-    } else {
-        let actionResult = await apiCall(store, session.links('execute'), payload,0);
-        if (casError(actionResult) === true) {
-            throw JSON.stringify(actionResult.items());
-        }
+    let actionResult = await apiCall(store, session.links('execute'), payload,0);
+    if (casError(actionResult) === true) {
+        throw JSON.stringify(actionResult.items());
     }
+    
     return actionResult;
 }
 function casError (actionResult) {

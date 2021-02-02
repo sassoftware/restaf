@@ -18,9 +18,17 @@
 
 'use strict';
 let testFunctions = require('./testFunctions');
+let setupAll = require('./lib/setupAll');
 let testInfo;
 beforeAll(async () => {
-	testInfo = await require('./lib/setupAll')();
+	try {
+		
+		console.log('calling setup');
+		testInfo = await setupAll();
+	} catch (err) {
+		console.log(err);
+		process.exit(1);
+	}
 });
 
 test('CAS Session', async () => {
@@ -32,6 +40,11 @@ test('CAS Session', async () => {
 test('CAS Echo', async () => {
 
 	let r = await testFunctions.casEcho(testInfo);
+	expect(r).toBe('done');
+});
+
+test.only('CAS Submit', async () => {
+	let r = await testFunctions.casSubmit(testInfo);
 	expect(r).toBe('done');
 });
 

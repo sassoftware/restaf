@@ -58,6 +58,8 @@ module.exports = function configtest () {
 			clientSecret: (process.env.CLIENTSECRET == null) ? '' : process.env.CLIENTSECRET
 		};
 	};
+	console.log(logonPayload);
+	console.log(process.env.NODE_TLS_REJECT_UNAUTHORIZED);
 	
 	return logonPayload;
 

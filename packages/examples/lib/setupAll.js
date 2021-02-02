@@ -10,7 +10,14 @@ module.exports = async function setupAll () {
 	let payload = configtest();
 	let logger = require('./testLogger')();
 	let store = restaf.initStore();
-	await store.logon(payload);
+	try {
+	 debugger;
+	 let msg = await store.logon(payload);
+	 console.log(msg);
+	 return { store: store, logger: logger }
+	} catch(err) {
+		console.log(err);
+		throw {error: "failed to logon"};
+	}
 	
-	return { store: store, logger: logger }
 }

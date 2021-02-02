@@ -31,6 +31,7 @@ let identities = require('./identities');
 let mlPipeline = require('./mlPipeline');
 let mlPipelinePublish = require('./mlPipelinePublish');
 let masList =require('./masList');
+let casSubmit = require('./casSubmit');
 
 module.exports = {
 	addServices,
@@ -62,5 +63,6 @@ module.exports = {
 	mlPipeline,
 	mlPipelinePublish,
 
-	masList
+	masList,
+	casSubmit
 };

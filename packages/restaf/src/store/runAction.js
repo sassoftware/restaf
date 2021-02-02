@@ -18,21 +18,36 @@
 
   'use strict';
 import apiCall from './apiCall';
+import jobState from './jobState';
 
-async function runAction (store, session, payload) {
+async function runAction (store, session, payload,context, onCompletion, maxTries,delay, progress) {
     // let rel = (store.config.casProxy === true) ? 'casproxy' : 'execute'; /* fix for issues with casproxy */
-
-    let actionResult = await apiCall(store, session.links('execute'), payload,0);
-    if (casError(actionResult) === true) {
-        throw JSON.stringify(actionResult.items());
+    let actionResult = null;
+    if (maxTries != null) {
+        actionresult = await submitAction(store, session, payload,context, maxTries, delay, progress)
+    } else {
+        actionResult = await apiCall(store, session.links('execute'), payload,0);
+        if (casError(actionResult) === true) {
+            throw JSON.stringify(actionResult.items());
+        }
     }
-    
+    if (onCompletion != null) {
+        onCompletion(context,actionResult);
+    }
     return actionResult;
 }
 function casError (actionResult) {
     let statusCode =  actionResult.items('disposition', 'statusCode');
     let severity   = actionResult.items ('disposition', 'severity');
     return (statusCode !== 0 || severity === 'Error') ? true : false;
+ }
+
+ async function submitAction (store, session, payload,context, maxTries, delay, progress){
+     debugger;
+     let actionPromise = apiCall(store, session.links('execute'), payload,0);
+     let r = await jobState(store, session, null, maxTries, delay, progress, context);
+     debugger;
+     return actionPromise.then(r => r);
  }
 
 export default runAction;

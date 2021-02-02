@@ -1,6 +1,6 @@
 {
   "name": "examples",
-  "version": "3.0.8",
+  "version": "3.0.9",
   "description": "Examples",
   "author": "Deva Kumaraswamy <deva.kumar@sas.com>",
   "license": "Apache-2.0",
@@ -26,7 +26,7 @@
   "scripts": {
     "start": "node",
     "test": "cross-env RESTAFENV=.env npx jest",
-    "debug": "cross-env RESTAFENV=.env node --inspect-brk ./node_modules/jest/bin/jest.js --runInBand",
+    "debug": "cross-env RESTAFENV=.env node --inspect-brk ../../node_modules/jest/bin/jest.js --runInBand",
     "lint": "eslint . --fix",
     "dkrbuild": "docker build -f Dockerfile -t ruthere .",
     "dkrrun": "docker run --env-file ./override.env  -t ruthere"
@@ -36,8 +36,8 @@
     "verbose": false
   },
   "dependencies": {
-    "@sassoftware/restaf": "3.0.8",
-    "@sassoftware/restaflib": "3.0.8",
+    "@sassoftware/restaf": "3.0.9",
+    "@sassoftware/restaflib": "3.0.9",
     "jest": "^25.1.0",
     "winston": "^3.2.1",
     "yargs": "^16.2.0"

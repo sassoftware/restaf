@@ -44,7 +44,7 @@ module.exports = function configtest () {
 	if (token !== null) {
 		logonPayload = {
 			authType : 'server',
-			host     : viyaServer,
+			host     : process.env.VIYA_SERVER,
 			token    : token,
 			tokenType: 'bearer',
 		};
@@ -60,7 +60,7 @@ module.exports = function configtest () {
 	};
 	console.log(logonPayload);
 	console.log(process.env.NODE_TLS_REJECT_UNAUTHORIZED);
-	
+
 	return logonPayload;
 
 	function iconfig(appEnv) {

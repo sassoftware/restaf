@@ -21,18 +21,17 @@ import apiCall from './apiCall';
 import jobState from './jobState';
 
 async function runAction (store, session, payload,context, onCompletion, maxTries,delay, progress) {
-    // let rel = (store.config.casProxy === true) ? 'casproxy' : 'execute'; /* fix for issues with casproxy */
     let actionResult = null;
     if (maxTries != null) {
-        actionresult = await submitAction(store, session, payload,context, maxTries, delay, progress)
+        actionResult = await submitAction(store, session, payload,context, maxTries, delay, progress);
     } else {
         actionResult = await apiCall(store, session.links('execute'), payload,0);
-        if (casError(actionResult) === true) {
-            throw JSON.stringify(actionResult.items());
-        }
+    }
+    if (casError(actionResult) === true) {
+        throw JSON.stringify(actionResult.items());
     }
     if (onCompletion != null) {
-        onCompletion(context,actionResult);
+        onCompletion(context, actionResult);
     }
     return actionResult;
 }
@@ -45,9 +44,11 @@ function casError (actionResult) {
  async function submitAction (store, session, payload,context, maxTries, delay, progress){
      debugger;
      let actionPromise = apiCall(store, session.links('execute'), payload,0);
+     // store.jobState(session, null, 'wait', 5, progress, 'aaa')
+     debugger;
      let r = await jobState(store, session, null, maxTries, delay, progress, context);
      debugger;
-     return actionPromise.then(r => r);
+     return actionPromise.then(result => result);
  }
 
 export default runAction;

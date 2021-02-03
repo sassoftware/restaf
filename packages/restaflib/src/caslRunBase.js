@@ -26,12 +26,11 @@ import jsonToDict from './jsonToDict';
 // Notes: Function to call cas 
 // See README file for notes on REUSECASSESSION
 //
-async function caslRunBase (store, session, src, args) {
+async function caslRunBase (store, session, src, args, ...rest) {
     //
     // create casl statements for arguments and appenv
     //
     
-   
     let _args_ = jsonToDict((args  !== null) ? args  : {}, '_args_');
 
     let code =  _args_ + ' ' + src;
@@ -45,8 +44,7 @@ async function caslRunBase (store, session, src, args) {
         data  : {code: code}
     };
 
-    
-    let result  = await store.runAction(session, payload);
+    let result  = await store.runAction(session, payload, ...rest);
     
     return result;
 }

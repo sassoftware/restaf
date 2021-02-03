@@ -30,14 +30,13 @@ import programs from './programs';
 // Notes: Function to call cas 
 // See README file for notes on REUSECASSESSION
 //
-async function caslRun (store, session, src, args, useCommons) {
+async function caslRun (store, session, src, args, useCommons, ...rest) {
     let tsrc = src;
 
     if (useCommons === true) {
         tsrc = src + ' ' + programs[ 'commonCasl' ]();
     }
-        
-    let result  = await caslRunBase(store,session, tsrc, args, useCommons);
+    let result  = await caslRunBase(store,session, tsrc, args, ...rest);
     
     return result.items().toJS();
 }

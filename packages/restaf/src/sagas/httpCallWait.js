@@ -23,6 +23,10 @@ function httpCallWait (config) {
     return (request(config)
         .then(response => {
             let r = response.data.results;
+            if (typeof r === 'object') {
+                r = response.data.results.items.isIdle === true ? 'completed' : 'running';
+                response.data.results.items = r;
+            }
             if (config.eventHandler) {
                 flag = config.eventHandler(r, config.jobContext);
             }

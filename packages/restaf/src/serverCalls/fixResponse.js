@@ -108,7 +108,7 @@
          
          response.data.results = reduceCasResults(response.data.results);
          response.data.results = { items: Object.assign({}, response.data.results) };
-         response.data.results.castomHandling = iLink.customHandling;
+         response.data.results.customHandling = iLink.customHandling;
      }
  
      if ((iLink.href === '/casManagement/' || iLink.href === '/casManagement')

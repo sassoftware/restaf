@@ -38,7 +38,7 @@ async function runAction (store, session, payload,context, onCompletion, maxTrie
 function casError (actionResult) {
     let statusCode =  actionResult.items('disposition', 'statusCode');
     let severity   = actionResult.items ('disposition', 'severity');
-    return (statusCode !== 0 || severity === 'Error') ? true : false;
+    return (statusCode !== 0 || (severity === 'Error'||severity === 'Warning') ) ? true : false;
  }
 
  async function submitAction (store, session, payload,context, maxTries, delay, progress){
@@ -48,7 +48,12 @@ function casError (actionResult) {
      debugger;
      let r = await jobState(store, session, null, maxTries, delay, progress, context, true);
      debugger;
-     return actionPromise.then(result => result);
+
+     let result = actionPromise
+     .then(result => 
+        {debugger;console.log('then....', JSON.stringify(result.items(), null,4)); return result;}, 
+        err => {debugger;console.log('thenerr....' ,JSON.stringify(result.items(), null,4)); return err});
+     return result;
  }
 
 export default runAction;

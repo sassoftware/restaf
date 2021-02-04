@@ -46,7 +46,7 @@ function casError (actionResult) {
      let actionPromise = apiCall(store, session.links('execute'), payload,0);
      // store.jobState(session, null, 'wait', 5, progress, 'aaa')
      debugger;
-     let r = await jobState(store, session, null, maxTries, delay, progress, context);
+     let r = await jobState(store, session, null, maxTries, delay, progress, context, true);
      debugger;
      return actionPromise.then(result => result);
  }

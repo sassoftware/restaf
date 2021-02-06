@@ -35,7 +35,6 @@ async function jobState (store, job, payload, maxTries, delay, progressHandler, 
     do {
 
         status = await ijobState(store, job, payload, delay, waitFlag, progressHandler, jobContext);
-        console.log('cas flag ', cas);
         let failed = status.detail.hasOwnProperty('failed');
         if (status.running === 0) {
             tries = 0;

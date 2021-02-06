@@ -42,17 +42,13 @@ function casError (actionResult) {
  }
 
  async function submitAction (store, session, payload,context, maxTries, delay, progress){
-     debugger;
-     let actionPromise = apiCall(store, session.links('execute'), payload,0);
-     // store.jobState(session, null, 'wait', 5, progress, 'aaa')
-     debugger;
+     
+     let actionPromise = apiCall(store, session.links('execute'), payload,0);     
      let r = await jobState(store, session, null, maxTries, delay, progress, context, true);
-     debugger;
-
+     
      let result = actionPromise
-     .then(result => 
-        {debugger;console.log('then....', JSON.stringify(result.items(), null,4)); return result;}, 
-        err => {debugger;console.log('thenerr....' ,JSON.stringify(result.items(), null,4)); return err});
+     .then(result => {return result;}, 
+        err => {return err;});
      return result;
  }
 

@@ -11,7 +11,7 @@ module.exports = async function setupAll () {
 	let logger = require('./testLogger')();
 	let store = restaf.initStore();
 	try {
-	 debugger;
+	 
 	 let msg = await store.logon(payload);
 	 console.log(msg);
 	 return { store: store, logger: logger }

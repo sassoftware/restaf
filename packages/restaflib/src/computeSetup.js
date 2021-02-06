@@ -21,8 +21,15 @@ async function computeSetup (store, contextName, payload){
     }
     let { compute} = await store.addServices('compute');
     let contexts = await store.apiCall(compute.links('contexts'));
-    let name = (contextName == null) ? contexts.itemsList(0) : contextName;
-    let createSession = contexts.itemsCmd(name, 'createSession');
+    if (contextName == null){
+        contextName = 'Job Execution compute';
+    };
+    contextName = contextName.toLowerCase();
+    let index = contexts.itemsList().findIndex(c => c.toLowerCase().indexOf(contextName) >= 0 );
+    if (index === -1){
+        throw {Error: "Compute Context not found: " + contextName};
+    }
+    let createSession = contexts.itemsCmd(contexts.itemsList(index), 'createSession');
     let session       = await store.apiCall (createSession);
     return session;
 }

@@ -1,6 +1,6 @@
 {
   "name": "restaf",
-  "version": "3.1.3",
+  "version": "3.1.4",
   "description": "Library for writing SAS Viya application using REST APIs",
   "author": "Deva Kumaraswamy <deva.kumar@sas.com>",
   "license": "Apache-2.0",
@@ -45,7 +45,8 @@
     "viyacaddy": "cd ./packages/viyacaddy && npm start",
     "viyacaddy:pub": "cd ./packages/viyacaddy && npm run pub",
     "buildall": "npm run restaf:build && npm run restaflib:build && npm run restafuilib:build",
-    "puball": "yarn restaf:pub && yarn restaflib:pub && yarn viyacaddy:pub && yarn registerclient:pub",
+    "tmplate:pub": "cd ./packages/cra-template-viya-app-quickstart && npm run pub",
+    "puball": "yarn tmplate:pub && yarn restaf:pub && yarn restaflib:pub && yarn viyacaddy:pub && yarn registerclient:pub",
     "token": "node token.js",
     "format": "prettier-eslint --eslint-config-path ./.eslintrc.json --write '**/*.js'",
     "lint": "eslint . --ext .js --fix"

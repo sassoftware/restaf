@@ -23,7 +23,7 @@
   "bugs": {
     "url": "https://github.com/sassoftware/restaf/issues"
   },
-  "script": {
+  "scripts": {
     "pub": "npm publish --tag next --access public"
   },
   "files": [

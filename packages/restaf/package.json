@@ -32,6 +32,7 @@
   ],
   "scripts": {
     "test": "node",
+    "compile": "babel "
     "build": "webpack --env.node --config webpack.config.js && webpack --config webpack.config.js && webpack -p  -m --config webpack.config.js",
     "babel": "babel src --out-dir jslib",
     "pub": "npm publish --tag next --access public",

@@ -37,8 +37,8 @@ async function runAction (store, session, payload,context, onCompletion, maxTrie
 }
 function casError (actionResult) {
     let statusCode =  actionResult.items('disposition', 'statusCode');
-    let severity   = actionResult.items ('disposition', 'severity');
-    return (statusCode !== 0 || (severity === 'Error'||severity === 'Warning') ) ? true : false;
+    let severity   = actionResult.items ('disposition', 'severity').toLowerCase();
+    return ((statusCode !== 0) || (severity === 'error')) ? true : false;
  }
 
  async function submitAction (store, session, payload,context, maxTries, delay, progress){

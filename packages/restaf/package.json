@@ -18,6 +18,7 @@
   "bugs": {
     "url": "https://github.com/sassoftware/restaf/issues"
   },
+  
   "unpkg": "/dist/restaf.min.js",
   "main": "./lib/restaf.js",
   "engines": {

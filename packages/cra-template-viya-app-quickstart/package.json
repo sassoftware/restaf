@@ -1,6 +1,6 @@
 {
   "name": "@sassoftware/cra-template-viya-app-quickstart",
-  "version": "3.1.5",
+  "version": "3.2.1",
   "keywords": [
     "react",
     "create-react-app",
@@ -9,7 +9,7 @@
   ],
   "main": "template.json",
   "description": "Template for typical SAS Viya Applications",
-  "homepage": "https://github.com/sassoftcd ware/restaf/tree/main/packages/cra-template-viya-app-quickstart#README.md",
+  "homepage": "https://github.com/sassoftware/restaf/tree/main/packages/cra-template-viya-app-quickstart#README.md",
   "repository": {
     "type": "git",
     "url": "https://github.com/sassoftware/restaf/tree/main/packages/cra-template-viya-app-quickstart"
@@ -24,7 +24,7 @@
     "url": "https://github.com/sassoftware/restaf/issues"
   },
   "scripts": {
-    "pub": "npm publish --tag next --access public"
+    "pub": "npm publish --tag wp1 --access public"
   },
   "files": [
     "template",

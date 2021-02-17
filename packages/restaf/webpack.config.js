@@ -3,7 +3,7 @@
 let nodeExternals  = require('webpack-node-externals');
 let webpack = require('webpack');
 let  path    = require('path');
-let library = 'restaflib';
+let library = 'restaf';
 
 module.exports = (env) => {
     let APP_PATH = path.resolve(__dirname, 'src');

@@ -20,7 +20,7 @@
   },
   "scripts": {
     "start": "node cli",
-    "pub": "npm publish --tag next --access public",
+    "pub": "npm publish --tag wp1 --access public",
     "buildapp": "docker build -f Dockerfile -t registerclient .",
     "runapp": "docker run -p 8080:8080  --env-file overrides.env  -t registerclient",
     "indocker": "node --no-warnings cli"

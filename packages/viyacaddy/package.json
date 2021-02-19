@@ -1,10 +1,10 @@
 {
   "name": "@sassoftware/viyacaddy",
-  "version": "3.1.5",
+  "version": "3.2.1",
   "description": "collection of clis using rest apis",
   "scripts": {
     "start": "node --no-warnings cli",
-    "pub": "npm publish --tag next --access public",
+    "pub": "npm publish --tag wp1 --access public",
     "dkrbuild": "docker build"
   },
   "repository": "https://github.com/sassoftware/restaf/tree/main/packages/viyacaddy",
@@ -21,8 +21,8 @@
     "@sassoftware/viyacaddy": "./cli.js"
   },
   "dependencies": {
-    "@sassoftware/restaf": "3.1.5",
-    "@sassoftware/restaflib": "3.1.5",
+    "@sassoftware/restaf": "3.2.1",
+    "@sassoftware/restaflib": "3.2.1",
     "qs": "^6.9.1",
     "vorpal": "^1.12.0",
     "yargs": "^16.2.0"

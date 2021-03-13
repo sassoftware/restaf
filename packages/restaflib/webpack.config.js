@@ -62,7 +62,7 @@ module.exports = (env) => {
             }
         };
 
-        if (env.target  === true) {
+        if (env.target  === 'node') {
             config.externals = [nodeExternals()];
             config.target    =  'node';
         }

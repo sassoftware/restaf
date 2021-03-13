@@ -26,6 +26,7 @@ function logoff (store) {
     return new Promise((resolve, reject) => {
         let action = {
             type   : VIYA_LOGOFF,
+            storeConfig: store.config,
             payload: {}   
         };
         let logoffExit = () => {

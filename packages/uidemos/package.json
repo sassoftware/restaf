@@ -1,6 +1,6 @@
 {
   "name": "restaf-uidemos",
-  "version": "3.2.1",
+  "version": "3.2.4",
   "description": "UI demos for Viya using restaf, restaflib and uilibrary",
   "main": "index.js",
   "scripts": {
@@ -12,9 +12,6 @@
     "runapp": "docker run -p 8080:8080  --env-file overrides.env  -t viyaapp"
   },
   "repository": "https://github.com/sassoftware/restaf/tree/main/packages/uidemos",
-  "dependecies": {
-    "@sassoftware/viya-appserverjs": "next"
-  },
   "keywords": [],
   "author": "Deva Kumar <deva.kumar@sas.com>",
   "license": "Apache-2.0"

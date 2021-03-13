@@ -1,6 +1,6 @@
 {
   "name": "restaf",
-  "version": "3.2.1",
+  "version": "3.2.5",
   "description": "Library for writing SAS Viya application using REST APIs",
   "author": "Deva Kumaraswamy <deva.kumar@sas.com>",
   "license": "Apache-2.0",
@@ -32,11 +32,11 @@
     "examples:dkrbuild": "cd ./packages/examples && npm run dkrbuild",
     "examples:dkrrun": "cd ./packages/examples && npm run dkrrun",
     "examples:dkrup": "cd ./packages/examples && docker-compose up",
-    "restaf:build": "cd ./packages/restaf && yarn run build && npx cp -r ./dist/restaf.js ../uidemos/public/shared/dist/restaf.js",
+    "restaf:build": "cd ./packages/restaf && yarn run build",
     "restaf:pub": "cd ./packages/restaf && npm run pub",
-    "restaflib:build": "cd ./packages/restaflib && yarn run build  && npx cp -r ./dist/restaflib.js ../uidemos/public/shared/dist/restaflib.js",
+    "restaflib:build": "cd ./packages/restaflib && yarn run build",
     "restaflib:pub": "cd ./packages/restaflib && npm run pub",
-    "restafuilib:build": "cd ./packages/restafuilib && yarn run build  && npx cp -r ./dist/restafuilib.js ../uidemos/public/shared/dist/restafuilib.js",
+    "restafuilib:build": "cd ./packages/restafuilib && yarn run build",
     "uidemos:implicit": "cd ./packages/uidemos && npm run implicit",
     "uidemos:code": "cd ./packages/uidemos && npm run code",
     "uidemos:rproxy": "cd ./packages/uidemos && npm run rproxy",
@@ -104,7 +104,6 @@
     "**/node-notifier": "^8.0.1"
   },
   "dependencies": {
-    "@sassoftware/viya-appserverjs": "next",
     "aws-sdk": "^2.832.0",
     "axios": "^0.21.1",
     "cross-env": "^7.0.3",

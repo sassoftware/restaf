@@ -34,16 +34,16 @@ axios.interceptors.response.use(
 
 /* X-Uaa-Csrf */
 function trustedGrant (iconfig) {
-      'use strict';
-    
-    let link   = iconfig.link ;
-    
+
+    let link  = iconfig.link ;
     let auth1 = Buffer.from(iconfig.clientID + ':' + iconfig.clientSecret).toString('base64');
     
     auth1 = 'Basic ' + auth1;
+    let l = patchURL4ns(iconfig, link.href);
+    let url = `${l}${link.href}`;
     let config = {
         method: link.method,
-        url   : iconfig.host + link.href,
+        url   : url , /*iconfig.host + link.href,*/
 
         headers: {
              Accept: link.responseType,
@@ -76,7 +76,7 @@ function trustedGrant (iconfig) {
         }
     };
     
-    return (makeCall(config, iconfig, iconfig.sslOptions));
+    return (makeCall(config, iconfig, iconfig));
 }
 
 
@@ -99,7 +99,9 @@ function request (iconfig) {
         iheaders      = hasItem(payload, 'headers');
         ixsrf         = hasItem(payload, 'xsrf');
     }
-    let url = `${logonInfo.host}${iLink.href}`;
+    debugger;
+    let l = patchURL4ns(logonInfo, iLink.href);
+    let url = `${l}${iLink.href}`;
 
     // handle casaction upload
     casAction  = (casAction != null) ? casAction.toLowerCase() : null;
@@ -187,35 +189,31 @@ function request (iconfig) {
             config[k] = httpOptions[k];
         }
     }
-    return makeCall(config, iconfig, iconfig.storeConfig.sslOptions);
+    return makeCall(config, iconfig, logonInfo);
+}
+function patchURL4ns(logInfo, link) {
+    if(logInfo.ns == null) {
+        return logInfo.host;
+    }
+    let service = link.split('/')[1];
+    let h = `${logInfo.protocol}${service}.storeConfig.ns.svc.cluster.local`;
+    return h;
 }
 
-function makeCall (config, iconfig, sslOptions) {
+function makeCall (config, iconfig, storeConfig) {
     
     // for nodejs apps use the nodejs env variables instead of restaf config.
     // NODE_TLS_REJECT_UNAUTHORIZED
     // SSL_CERT_FILE
     // let { sslOptions } = iconfig;
-    
-    if (config.url.indexOf('https') !== -1) {
-        let opt = {};
-        if (sslOptions != null) {
-            opt = sslOptions;
-        }
-        /*
-        if (pem != null) {
-            opt.ca = pem; 
-        }
-        
-        if (rejectUnauthorized != null) {
-            opt.rejectUnauthorized = rejectUnauthorized;
-        }
-        */
-
+ 
+    if (storeConfig.protocol === 'https://') {
+        let opt = (storeConfig.sslOptions != null) ? storeConfig.sslOptions : {};
         let agent = new Https.Agent(opt);
         config.httpsAgent = agent;
     }
     
+
     return new  Promise ((resolve, reject)  => {
         axios(config)
             .then(response => {

@@ -20,8 +20,12 @@
 import computeSummary from  './computeSummary';
 async function computeRunBase (store, session, code, maxTime, delay){
 
-    let realDelay = (delay == null) ? 2 : delay;
-    let maxTries = (maxTime == null) ? 5 : Math.max(Math.floor(maxTime / realDelay), 1);
+    let maxTries = 'wait';
+    let realDelay = (delay != null) ? delay : 5;
+   
+    if (maxTime !== 'wait' && maxTime  !== null ) {
+      maxTries = Math.max(Math.floor(maxTime / realDelay), 1);
+    }
    
     let payload  = {
         data: {code: code}

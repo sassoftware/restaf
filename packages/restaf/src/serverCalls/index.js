@@ -39,7 +39,8 @@ function trustedGrant (iconfig) {
     let auth1 = Buffer.from(iconfig.clientID + ':' + iconfig.clientSecret).toString('base64');
     
     auth1 = 'Basic ' + auth1;
-    let url = patchURL4ns(iconfig, iLink.href);
+    let l = patchURL4ns(iconfig, link.href);
+    let url = `${l}${link.href}`;
     let config = {
         method: link.method,
         url   : url , /*iconfig.host + link.href,*/
@@ -205,7 +206,7 @@ function makeCall (config, iconfig, storeConfig) {
     // NODE_TLS_REJECT_UNAUTHORIZED
     // SSL_CERT_FILE
     // let { sslOptions } = iconfig;
-    console.log(storeConfig);
+ 
     if (storeConfig.protocol === 'https://') {
         let opt = (storeConfig.sslOptions != null) ? storeConfig.sslOptions : {};
         let agent = new Https.Agent(opt);

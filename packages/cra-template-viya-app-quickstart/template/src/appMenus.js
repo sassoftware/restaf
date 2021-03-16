@@ -11,9 +11,10 @@ let appMenus =  [
 		hide     : true,
 		props    : {
 			text : 'Introduction',
-			title: 'Covid 19 Modeling',
+			title: 'Default Applications',
 		},
 	},
+	/*
 	{
 		component: 'MasModel',
 		props    : {
@@ -36,6 +37,7 @@ let appMenus =  [
 		  ]
 		}
 	},
+	*/
 	{
 		component: 'CommonViewer',
 		props    : {
@@ -46,7 +48,7 @@ let appMenus =  [
 	},
 	{
 		component: 'Casl',
-		hide: true,
+		// hide: true,
 		props    : {
 			text      : 'Import and Run Casl Code',
 			initialTab: 0,
@@ -55,7 +57,7 @@ let appMenus =  [
 	},
 	{
 		component: 'ComputeService',
-		hide: true,
+		//hide: true,
 		props    : {
 			text      : 'Import and Run SAS Program',
 			initialTab: 0,
@@ -67,7 +69,7 @@ let appMenus =  [
 	},
 	{
 		component: 'PlaceHolder',
-		hide: true,
+		// hide: true,
 		props    : {
 			text : 'Describe Viewer Props',
 			three: 3,

@@ -24,6 +24,6 @@ ENV APPNAME=viyaapp
 ENV AUTHFLOW=code
 ENV CLIENTID=viyaapp
 ENV CLIENTSECRET=secret
-# ENV SAMESITE=None,secure
+ENV SAMESITE=None,secure
 CMD ["npx", "@sassoftware/viya-appserverjs"]
 

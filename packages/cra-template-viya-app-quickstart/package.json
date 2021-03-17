@@ -24,7 +24,7 @@
     "url": "https://github.com/sassoftware/restaf/issues"
   },
   "scripts": {
-    "pub": "npm publish --tag wp1 --access public"
+    "pub": "npm publish --tag next --access public"
   },
   "files": [
     "template",

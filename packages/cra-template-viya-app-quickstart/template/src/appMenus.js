@@ -62,8 +62,8 @@ let appMenus =  [
 			text      : 'Import and Run SAS Program',
 			initialTab: 0,
 			tabs      : [
-				{ label: 'ODS', component: 'ODS' },
-				{ label: 'Log', component: 'LogList' },
+				{ label: 'ODS', type: 'ods', component: 'ODS' },
+				{ label: 'Log', type: 'log', component: 'LogList' },
 			],
 		},
 	},

@@ -7,7 +7,7 @@ import {useAppContext} from '../../providers';
  * @param {} props 
  */
 function LogList (props) {
-	let { computeInfo, type} = props;
+	let { computeInfo, type, classes} = props;
 	let {store, restaflib} = useAppContext();
 	let {computeResults} = restaflib;
     let [ log, setLog ] = useState('');

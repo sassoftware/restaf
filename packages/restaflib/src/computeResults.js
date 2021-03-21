@@ -28,12 +28,12 @@ async function computeResults (store, computeSummary, type) {
 		}
 		return log;
 	} else if (type === 'ods') {
-		let result = '<h2> No ODS output </h2>';
 		if (computeSummary.ods !== null) {
-
-			result = await store.apiCall(computeSummary.ods);
+			let result = await store.apiCall(computeSummary.ods);
+			return result.items();
+		} else {
+			return '<h2> No ODS output </h2>';
 		}
-		return result.items();
 	} else if (type === 'tables') {
 		return Object.keys(computeSummary.tables);
 	} else if (type === 'files') {

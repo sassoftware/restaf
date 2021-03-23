@@ -1,0 +1,31 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+- deployment.yaml
+- service.yaml
+- ingress.yaml
+# Secret generator
+# Maps to TLS_KEY and TLS_CERT in docker-compose|(.env + Dockerfile in bareos)
+secretGenerator:
+  - name: viyaapp-tls
+    type: kubernetes.io/tls
+    files:
+    - ./secrets/tls.crt
+    - ./secrets/tls.key
+  - name: viyaapp-secret
+    type: Opaque
+    files:
+    - ./secrets/CLIENTSECRET
+# env variables
+# maps to env of docker-compose/(.env + Dockefile in bareos)
+configMapGenerator:
+  - name: viyaapp-configmap
+    literals:
+    - APPNAME=viyaapp
+    - APPPORT=8080
+    - CLIENTID=k8sapp
+    - VIYA_SERVER=https://your-viya-server
+#  - HAPIDEBUG=YES
+#  - LOGLEVEL=info
+
+

@@ -1,6 +1,6 @@
 {
   "name": "@sassoftware/cra-template-viya-app-quickstart",
-  "version": "3.2.7",
+  "version": "3.2.61",
   "keywords": [
     "react",
     "create-react-app",
@@ -24,7 +24,7 @@
     "url": "https://github.com/sassoftware/restaf/issues"
   },
   "scripts": {
-    "pub": "npm publish --tag next --access public"
+    "pub": "npm publish --tag test --access public"
   },
   "files": [
     "template",

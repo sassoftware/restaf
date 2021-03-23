@@ -14,16 +14,28 @@ COPY ./appenv.js ./appenv.js
 EXPOSE 8080
 EXPOSE 443
 
-#
-# You can override these(but in container leave APPHOST as shown below)
-# Comment out APPPORT before running in docker container and use port redirection of docker
+#######################################################################
+# You can override these in .env file| docker--co,mpose fle| k8s config files
+########################################################################
 
-ENV APPHOST=0.0.0.0
-ENV APPPORT=8080
 ENV APPNAME=viyaapp
 ENV AUTHFLOW=code
-ENV CLIENTID=viyaapp
+ENV CLIENTID=appcom
 ENV CLIENTSECRET=secret
-ENV SAMESITE=None,secure
-CMD ["npx", "@sassoftware/viya-appserverjs"]
 
+# The following are defaults 
+ENV APPLOC=./public
+ENV APPENTRY=index.html
+# if your app takes advantage of appenv.js to pass configuration to the web application 
+# ENV APPENV=appenv.js 
+# Better to use the customize function in app.js
+
+
+ENV SAMESITE=None,secure
+ENV NODE_TLS_REJECT_UNAUTHORIZED=0
+
+# This is the default if other ssl information is not provided.
+ENV TLS_CREATE="C:US,ST:NC,L:Cary,O:Myco,OU:STO,CN:localhost"
+
+#####################################################################
+CMD ["node", "server"]

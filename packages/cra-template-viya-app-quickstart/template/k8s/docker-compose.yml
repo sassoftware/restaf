@@ -1,7 +1,7 @@
 version: "3.3"
 services:
   viyaapp:
-      image: <your image location>
+      build: .
       restart: always
       ports:
         - 8080:8080

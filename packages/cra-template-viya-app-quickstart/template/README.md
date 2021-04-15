@@ -22,6 +22,12 @@ The following key libraries are installed by default:
 
 You can replace and/or add other react component libraries.
 
+## Docker and K8s
+
+The project includes the necessary Dockerfile and docker-compose to create docker images and run.
+
+Please see this link for a set of kustomize yaml files to deploy to Kubernetes.<https://github.com/sassoftware/restaf-uidemos/tree/k8s>
+
 ---
 
 ## Getting started
@@ -38,10 +44,10 @@ Setup the development environment as follows:
 
 ```sh
 
-npx @sassoftware/create-react-restaf-viya-app [directoryName] --webapp <you application name>  quickstart
+npx create-react-app somename --template viya-app-quickstart
 
 Ex:
-npx @sassoftware/create-react-resaf-viya-app myapp quickstart --webapp viyademo
+npx create-react-app reactapp --template viya-app-quickstart
 
 ```
 
@@ -56,7 +62,8 @@ The default clientId information are:
 - Oauth flow: authorization_code
 - clientid: same as the webapp option to the cli
 - secret: secret
-- redirect_uri: <http://localhost:5000/your-webapp-name>
+- redirect_uri: <http://your-app-server:8080/your-webapp-name>.
+
 
 Once the server setup is completed, complete the setup of your development environment:
 
@@ -86,10 +93,10 @@ Enter the following commands
 yarn app
 ```
 
-At this point you should visit <http://localhost:5000/your-webapp>. If webapp value is viyademo then visit
+At this point you should visit <http://localhost:8080/your-webapp>. If webapp value is viyademo then visit
 
 ```text
-http://localhost:5000/viyademo
+http://localhost:8080/viyademo
 
 ```
 

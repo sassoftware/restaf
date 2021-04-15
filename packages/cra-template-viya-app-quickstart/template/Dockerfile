@@ -20,7 +20,7 @@ EXPOSE 8080
 
 ENV APPNAME=reactapp
 ENV AUTHFLOW=code
-# The following are defaults 
+# The following are buitin defaults
 # ENV APPLOC=./public
 # ENV APPENTRY=index.html -- since we are overriding this thru cross-env
 # if your app takes advantage of appenv.js to pass configuration to the web application 
@@ -31,7 +31,10 @@ ENV AUTHFLOW=code
 ENV SAMESITE=None,secure
 ENV NODE_TLS_REJECT_UNAUTHORIZED=0
 
-# This is the default if other ssl information is not provided.
+#
+# This is the default if no other ssl information is provided.
+# Better to provide your own.
+#
 ENV TLS_CREATE="C:US,ST:NC,L:Cary,O:Myco,OU:STO,CN:localhost"
 
 

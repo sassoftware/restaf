@@ -8,12 +8,21 @@ import { lib } from '@sassoftware/restaflib/dist/restaflib.js';
 async function setupViya() {
 	let store = initStore();
 	await store.logon(window.appOptions.logonPayload);
-	/* Commonly used services - can remove it and do it on demand as many times as needed*/
-	await store.addServices('casManagement', 'compute');
-	let r = await fetch('./README.md');
-	let text = await r.text();
+
+	let text = '<h1> Hello </h1>';
+	if (window.appOptions.appEnv.homeNotes != null) {
+		let p = {
+			url: window.appOptions.appEnv.homeNotes,
+			withCredentials: true
+		};
+
+		let r = await store.request(p);
+		text = r.data;
+	};
+
 	let appOptions = { ...window.appOptions };
 	appOptions.README = text;
+	
 	let progressb = progress.bind(null, store);
 	let onCompletionb = onCompletion.bind(null, store);
 	appOptions.jobStatus = { progress: progressb, onCompletion: onCompletionb };
@@ -40,4 +49,5 @@ function onCompletion(store, err, status, JobId) {
 	store.setAppData('_jobStatus', jobStatus);
 	return false;
 }
+
 export default setupViya;

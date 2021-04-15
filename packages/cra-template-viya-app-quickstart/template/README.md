@@ -64,7 +64,6 @@ The default clientId information are:
 - secret: secret
 - redirect_uri: <http://your-app-server:8080/your-webapp-name>.
 
-
 Once the server setup is completed, complete the setup of your development environment:
 
 1. Set an environment variable as follows

@@ -21,12 +21,18 @@ const fs = require('fs');
 
 let argv = require('yargs').argv;
 let cmdFile = argv.file == null ? null : argv.file;
+let host = argv.host == null ? null : argv.host;
 let envFile = argv.env == null ? null : argv.env;
+
+if (host !== null) {
+    process.env.VIYA_SERVER = host;
+    console.log(`VIYA_SERVER set to: ${process.env.VIYA_SERVER}`);
+}
 
 let payload = config(envFile);
 
 
-let store = restaf.initStore({ sslOptions: payload.sslOptions });
+let store = restaf.initStore();
 
 // let store = restaf.initStore();
 

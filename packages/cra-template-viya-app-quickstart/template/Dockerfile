@@ -1,4 +1,4 @@
-FROM node:12.4.0-alpine
+FROM node:lts-alpine
 LABEL maintainer="deva.kumar@sas.com"
 RUN apk add --no-cache --upgrade bash
 RUN apk add --no-cache --upgrade curl

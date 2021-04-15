@@ -18,10 +18,11 @@ restafServer.icli(null/*customRoutes */, true, customize);
 // SWAGGEROPTION is for viya-apiserverjs - to allow you to set to override swagger options
 
 
-function customize(options, key) {
+function customize (key) {
 	let info = {
-		APPENV: {},
-		SWAGGEROPTIONS: {}
+		APPENV: {
+			homeNotes: process.env.HOMENOTES
+		}
 	};
 	return info[key];
 }

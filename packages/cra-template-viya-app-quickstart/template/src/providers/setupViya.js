@@ -9,7 +9,7 @@ async function setupViya() {
 	let store = initStore();
 	await store.logon(window.appOptions.logonPayload);
 
-	let text = '<h1> Hello </h1>';
+	let text = '<h1> Hello: Replace with your own landing page notes </h1><p> Use the HOMENOTES env variable';
 	if (window.appOptions.appEnv.homeNotes != null) {
 		let p = {
 			url: window.appOptions.appEnv.homeNotes,

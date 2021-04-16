@@ -1,6 +1,6 @@
 {
   "name": "@sassoftware/viyacaddy",
-  "version": "3.2.61",
+  "version": "3.2.62",
   "description": "collection of clis using rest apis",
   "scripts": {
     "start": "node --no-warnings cli",

@@ -1,6 +1,6 @@
 {
   "name": "@sassoftware/registerclient",
-  "version": "3.2.61",
+  "version": "3.2.62",
   "description": "collection of clis using rest apis",
   "author": "Deva Kumar <deva.kumar@sas.com>",
   "license": "Apache-2.0",
@@ -10,6 +10,11 @@
     "casl",
     "REST API"
   ],
+  "engines": {
+    "node": ">=12.14.0",
+    "npm": ">=6.13.4",
+    "yarn": ">=1.22.0"
+  },
   "homepage": "https://github.com/sassoftware/restaf#readme",
   "repository": {
     "type": "git",

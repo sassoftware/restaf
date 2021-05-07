@@ -2,6 +2,11 @@
   "name": "@sassoftware/viyacaddy",
   "version": "3.2.62",
   "description": "collection of clis using rest apis",
+  "engines": {
+    "node": ">=12.14.0",
+    "npm": ">=6.13.4",
+    "yarn": ">=1.22.0"
+  },
   "scripts": {
     "start": "node --no-warnings cli",
     "pub": "npm publish --tag test --access public",

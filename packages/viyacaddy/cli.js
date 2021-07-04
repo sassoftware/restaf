@@ -74,8 +74,39 @@ function runCli (store, cmdFile) {
 				}
 			);
 		});
+	
+	vorpal
+		.command(
+			'domain'
+		)
+		.description("Create a a new domain")
+        .validate(args => {
+            if (args.options.id == null || args.options.desc == null) {
+                return "Both id and desc must be specified";
+            };
+            return true;
+        })
+        .option(
+			'--id <id>',
+			'ID of domain'
+		)
+		.option(
+			'--desc <desc>',
+			'Description'
+        )
+        .action((args, callback) => {
+        createDomain(store, args, vorpal)
+            .then(r => {
+                vorpal.log(r);
+            })
+       .catch(err => {
+					vorpal.log(err);
+					callback();
+				});
+        })
 
 	vorpal
+
 		.command(
 			'upload',
 			'Upload resources (data, code and astore)to cas tables')

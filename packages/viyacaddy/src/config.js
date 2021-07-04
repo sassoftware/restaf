@@ -23,6 +23,8 @@ let fs = require('fs');
 module.exports = function config (envFile) {
 	let appEnv = envFile === null ? process.env.RESTAFENV : envFile;
 	
+	process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0;
+	
 	if (appEnv != null) {
 		iconfig(appEnv);
 	} else {

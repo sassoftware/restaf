@@ -2,16 +2,16 @@
 	"viya": {
 		"domain": "scrDomain",
 		"desc": "Domain for scr demos",
-		"admin": "sastest1",
+		"admin": "test1",
 		"destination": "scrdemos"
 	},
 	"cr": {
 		"url": "scrdemosrgcr.azurecr.io",
 		"user": "scrdemosrgcr",
-		"password": "V8I0k4M+MiG2Gt92/a6zBAgsFiWSvNPm"
+		"password": "Vxxxx"
 		
 	},
     "cluster": {
-		"url": "http://viya.kdkariya1-azure-nginx-71aa5e18.unx.sas.com"
+		"url": "http://xxx.azure.com"
     }
 }

@@ -17,6 +17,7 @@ const reportExport = require('./src/reportExport');
 const caslibList = require('./src/caslibList');
 const reportList = require('./src/reportList');
 const tablesList = require('./src/tablesList');
+const privateCR  = require('./src/privateCR');
 const fs = require('fs');
 
 let argv = require('yargs').argv;
@@ -76,34 +77,27 @@ function runCli (store, cmdFile) {
 		});
 	
 	vorpal
-		.command(
-			'domain'
-		)
-		.description("Create a a new domain")
-        .validate(args => {
-            if (args.options.id == null || args.options.desc == null) {
-                return "Both id and desc must be specified";
-            };
-            return true;
-        })
-        .option(
-			'--id <id>',
-			'ID of domain'
-		)
-		.option(
-			'--desc <desc>',
-			'Description'
-        )
-        .action((args, callback) => {
-        createDomain(store, args, vorpal)
-            .then(r => {
-                vorpal.log(r);
-            })
-       .catch(err => {
+		.command('privatecr')
+		.alias('cr')
+		.description('Create a domain, create credentials and register cr')
+		.validate((args) => {
+			if (args.options.file == null ) {
+				return 'Specify config file';
+			}
+			return true;
+		})
+		.option('-f --file <file>', 'JSON configuration file')
+		.action((args, callback) => {
+			privateCR(store, args, vorpal)
+				.then((r) => {
+					vorpal.log(r);
+					callback();
+				})
+				.catch((err) => {
 					vorpal.log(err);
 					callback();
 				});
-        })
+		});
 
 	vorpal
 

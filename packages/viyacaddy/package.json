@@ -26,8 +26,8 @@
     "@sassoftware/viyacaddy": "./cli.js"
   },
   "dependencies": {
-    "@sassoftware/restaf": "3.2.61",
-    "@sassoftware/restaflib": "3.2.61",
+    "@sassoftware/restaf": "3.2.62",
+    "@sassoftware/restaflib": "3.2.62",
     "qs": "^6.9.1",
     "vorpal": "^1.12.0",
     "yargs": "^16.2.0"

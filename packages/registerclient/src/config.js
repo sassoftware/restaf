@@ -22,6 +22,8 @@ let fs = require('fs');
 
 module.exports = function config (envFile) {
 	
+	process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0;
+	
 	let appEnv = envFile == null ? process.env.RESTAFENV : envFile;
 	let logonPayload;
 

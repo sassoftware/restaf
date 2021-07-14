@@ -1,6 +1,6 @@
 {
   "name": "@sassoftware/viyacaddy",
-  "version": "3.2.62",
+  "version": "3.2.63",
   "description": "collection of clis using rest apis",
   "engines": {
     "node": ">=12.14.0",

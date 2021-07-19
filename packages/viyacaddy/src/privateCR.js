@@ -57,9 +57,9 @@ async function createCredentials (store, viya, cr) {
 			identityType: 'user',
 			identityId: viya.admin,
 			domainType: 'base64',
-			properties: { dockerRegistryUserId: cr.user },
-			secrets: { dockerRegistryPasswd: Buffer.from(cr.password).toString('base64') }
-		}
+			properties: { dockerRegistryUserId: Buffer.from(cr.user).toString('base64') },
+			secrets: { dockerRegistryPasswd: Buffer.from(cr.password).toString('base64') },
+		},
 	};
 
 	let cred = await store.request(config);

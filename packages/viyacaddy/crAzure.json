@@ -6,7 +6,7 @@
 		"destination": "scrdemos"
 	},
 	"cr": {
-		"url": "scrdemosrgcr.azurecr.io",
+		"url": "scrdemosrgcr",
 		"user": "scrdemosrgcr",
 		"password": "Vxxxx"
 		

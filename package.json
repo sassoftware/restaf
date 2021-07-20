@@ -93,9 +93,6 @@
     "set-versions": "^1.0.3",
     "showdown": "^1.9.1",
     "shx": "^0.3.3",
-    "webpack": "^5.45.1",
-    "webpack-cli": "^4.7.2",
-    "webpack-node-externals": "^3.0.0",
     "win-ca": "^3.4.5",
     "yargs": "^17.0.1"
   },
@@ -104,7 +101,8 @@
     "**/yargs-parser": ">=13.1.2",
     "**/node-notifier": "^8.0.1",
     "**/trim-newlines": ">=4.0.1",
-    "**/mem": "^5.1.1"
+    "**/mem": "^5.1.1",
+    "**/glob-parent": "5.1.2"
   },
   "dependencies": {
     "aws-sdk": "^2.948.0",
@@ -112,6 +110,9 @@
     "cross-env": "^7.0.3",
     "jwt-decode": "^3.1.2",
     "lodash": ">=4.17.21",
-    "react-json-pretty": "^2.2.0"
+    "react-json-pretty": "^2.2.0",
+    "webpack": "4.46.0",
+    "webpack-cli": "4.5.0",
+    "webpack-node-externals": "2.5.2"
   }
 }

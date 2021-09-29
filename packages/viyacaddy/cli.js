@@ -25,6 +25,10 @@ let cmdFile = argv.file == null ? null : argv.file;
 let host = argv.host == null ? null : argv.host;
 let envFile = argv.env == null ? null : argv.env;
 
+console.log('cmdFile:', cmdFile);
+console.log('host ', host);
+console.log('env ', envFile);
+
 if (host !== null) {
     process.env.VIYA_SERVER = host;
     console.log(`VIYA_SERVER set to: ${process.env.VIYA_SERVER}`);
@@ -32,7 +36,7 @@ if (host !== null) {
 
 let payload = config(envFile);
 
-
+console.log(payload);
 let store = restaf.initStore();
 
 // let store = restaf.initStore();

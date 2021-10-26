@@ -19,7 +19,7 @@ module.exports = async function addClient (store, clientid, args, defaultConfigF
 	let data = {
 		client_id   : clientid,
 		scope       : ['openid', '*'],
-		resource_ids: 'none',
+		resource_ids: ['none'],
 		autoapprove : true,
 
 		authorized_grant_types: flowA,

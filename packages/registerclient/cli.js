@@ -7,7 +7,8 @@
 
 const restaf     = require('@sassoftware/restaf');
 const vorpal     = require('vorpal')();
-const fs         = require('fs').promises;
+const fss        = require('fs');
+const fs         = fss.promises;
 const config     = require('./src/config');
 const logon      = require('./src/logon');
 const addClient  = require('./src/addClient');
@@ -22,6 +23,8 @@ let cmdFile = argv.file == null ? null : argv.file;
 let envFile = argv.env == null ? null : argv.env;
 let host = argv.host == null ? null : argv.host;
 let ttl = argv.ttl == null ? null : argv.ttl;
+let clientConfigFile = argv.cfile == null ? null : argv.cfile; 
+let clientConfig = null;
 
 if (host !== null) {
     process.env.VIYA_SERVER = host;
@@ -30,7 +33,14 @@ if (host !== null) {
 let payload = config(envFile);
 
 let store  = restaf.initStore({sslOptions: payload.sslOptions});
-let clientConfig = (process.env.CLIENTIDCONFIG != null) ? process.env.CLIENTIDCONFIG : null;
+if (clientConfigFile !== null ) {
+    let draw = fss.readFileSync(clientConfigFile, 'utf8');
+    clientConfig = JSON.parse(draw);
+    console.log(clientConfig);
+
+}
+
+// let clientConfig = (process.env.CLIENTIDCONFIG != null) ? process.env.CLIENTIDCONFIG : null;
 
 
 runCli(store, cmdFile);

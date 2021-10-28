@@ -22,8 +22,8 @@ function masDescribe (masControl, modelName, step) {
 	let currentStep = null;
 	debugger;
 	if (step == null) {
-		let stepIndex = stepControl.stepIds.findIndex(x => (x === 'score' || x === 'execute'));
-		if ( stepIndex === -1) {
+		let stepIndex = stepControl.stepIds.findIndex(x => (x === 'execute') ||( x === 'score'));
+		if (stepIndex === -1 ) {
 			return [];
 		} else {
 			currentStep = stepControl.stepIds[stepIndex];

@@ -1,6 +1,6 @@
 {
   "name": "@sassoftware/registerclient",
-  "version": "3.3.0",
+  "version": "3.4.0",
   "description": "collection of clis using rest apis",
   "author": "Deva Kumar <deva.kumar@sas.com>",
   "license": "Apache-2.0",
@@ -32,7 +32,7 @@
   },
   "main": "./cli.js",
   "bin": {
-    "@sassoftware/registerclient": "./cli.js"
+    "registerclient": "cli.js"
   },
   "dependencies": {
     "@sassoftware/restaf": "3.3.0",

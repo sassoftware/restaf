@@ -59,6 +59,8 @@ async function masRun (store, masControl, modelName, scenario, step, cmd) {
 		}
 	};
 	debugger;
+	let currentStep = null;
+	//TBD: Need to convert stepId from array to object for cleaner coding
 	if (step == null) {
 		let stepIndex = stepControl.stepIds.findIndex(x => (x === 'execute') ||( x === 'score'));
 		if (stepIndex === -1 ) {
@@ -76,7 +78,7 @@ async function masRun (store, masControl, modelName, scenario, step, cmd) {
 	}
 	
 	let rafLink = stepControl.stepsRafLink.itemsCmd(currentStep,cmd);
-	
+
 	if (rafLink === null) {
 		let t= [
 			{

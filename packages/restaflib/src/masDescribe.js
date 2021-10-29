@@ -20,7 +20,6 @@ function masDescribe (masControl, modelName, step) {
 		return [];
 	}
 	let currentStep = null;
-	debugger;
 	if (step == null) {
 		let stepIndex = stepControl.stepIds.findIndex(x => (x === 'execute') ||( x === 'score'));
 		if (stepIndex === -1 ) {

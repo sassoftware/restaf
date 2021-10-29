@@ -99,7 +99,7 @@ function request (iconfig) {
         iheaders      = hasItem(payload, 'headers');
         ixsrf         = hasItem(payload, 'xsrf');
     }
-    debugger;
+   
     let l = patchURL4ns(logonInfo, iLink.href);
     let url = `${l}${iLink.href}`;
 

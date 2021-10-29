@@ -58,7 +58,6 @@ async function masRun (store, masControl, modelName, scenario, step, cmd) {
 			inputs: (inputIsArray === true) ? scenario : inputs
 		}
 	};
-	debugger;
 	let currentStep = null;
 	//TBD: Need to convert stepId from array to object for cleaner coding
 	if (step == null) {

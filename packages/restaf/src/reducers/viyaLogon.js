@@ -48,7 +48,6 @@ function viyaLogon (state = initialState, action) {
 
         case VIYA_LOGON_SERVER: {
             let config    = action.payload.iconfig;
-            debugger;
             let newOne = {
 				type     : 'server',
 				id       : 1,
@@ -123,7 +122,7 @@ function viyaLogon (state = initialState, action) {
                 statusInfo       : setGoodStatus(action.payload),
                 user             : action.payload.data.iconfig.user
             };
-            debugger;
+            
             return state.withMutations (s => {
                 //noinspection JSUnresolvedFunction
                 s.set('connections', s.get('connections').push(Map(newConnection(action.payload))))
@@ -139,7 +138,6 @@ function viyaLogon (state = initialState, action) {
             return  state.set('runStatus', 'busy');
         }
         case VIYA_LOGOFF_COMPLETE: {
-            debugger;
             if (action.error === true) {
                 return state.withMutations(s => {
                     s.set('runStatus', 'error').set('statusInfo', fromJS(setBadStatus(action.payload)));

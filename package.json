@@ -105,11 +105,11 @@
   },
   "dependencies": {
     "aws-sdk": "^2.948.0",
-    "axios": "^0.24.0",
     "cross-env": "^7.0.3",
     "jwt-decode": "^3.1.2",
     "lodash": ">=4.17.21",
     "react-json-pretty": "^2.2.0",
+    "set-value": ">=4.0.1",
     "webpack": "4.46.0",
     "webpack-cli": "4.5.0",
     "webpack-node-externals": "2.5.2"

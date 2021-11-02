@@ -8,7 +8,31 @@ module.exports = async function privateCR(store, args, vorpal) {
 	let file = args.options.file;
 	let infoj = await fs.readFile(file, 'utf8');
 	let info = JSON.parse(infoj);
+	/*
+	{
+		viya: {
+			domain: "scrdemosrgcr",
+			desc: "Domain to save azure cr credentials",
+			admin: "sastest1",
+			destination: "scrdemosrgcr"
 
+
+		},
+		cr: {
+			user: "cr user",
+			password: "cr password",
+			use: "clientId",
+			clientId: "xxx",
+			clientSecret: "secret",
+			properties: {
+				prop1:"prop"
+			}
+		},
+		cluster: {
+
+		}
+	}
+	*/
 	let { viya, cr, cluster } = info;
 	vorpal.log('--------- creating domain');
 	let r = await createDomain(store, viya);

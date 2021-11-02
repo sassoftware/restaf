@@ -47,7 +47,6 @@
     "build": "npm run restaf:build && npm run restaflib:build && npm run restafuilib:build",
     "tmplate:pub": "cd ./packages/cra-template-viya-app-quickstart && npm run pub",
     "puball": "npm run tmplate:pub && npm run restaf:pub && npm run restaflib:pub && npm run viyacaddy:pub && npm run registerclient:pub",
-    "token": "node token.js",
     "format": "prettier-eslint --eslint-config-path ./.eslintrc.json --write '**/*.js'",
     "lint": "eslint . --ext .js --fix"
   },

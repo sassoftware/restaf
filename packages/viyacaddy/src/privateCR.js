@@ -8,7 +8,31 @@ module.exports = async function privateCR(store, args, vorpal) {
 	let file = args.options.file;
 	let infoj = await fs.readFile(file, 'utf8');
 	let info = JSON.parse(infoj);
+	/*
+	{
+		viya: {
+			domain: "scrdemosrgcr",
+			desc: "Domain to save azure cr credentials",
+			admin: "sastest1",
+			destination: "scrdemosrgcr"
 
+
+		},
+		cr: {
+			user: "cr user",
+			password: "cr password",
+			use: "clientId",
+			clientId: "xxx",
+			clientSecret: "secret",
+			properties: {
+				prop1:"prop"
+			}
+		},
+		cluster: {
+
+		}
+	}
+	*/
 	let { viya, cr, cluster } = info;
 	vorpal.log('--------- creating domain');
 	let r = await createDomain(store, viya);
@@ -45,6 +69,8 @@ async function createDomain (store, viya) {
 }
 async function createCredentials (store, viya, cr) {
 	let { host, token } = store.connection();
+
+
 	config = {
 		url: host + '/credentials/domains/' + viya.domain + '/users/' + viya.admin,
 		method: 'PUT',
@@ -62,8 +88,14 @@ async function createCredentials (store, viya, cr) {
 		},
 	};
 
+	if (cr.use === 'clientId') {
+		config.data.properties = { clientId: Buffer.from(cr.clientId).toString('base64') };
+		config.data.secrets = { clientSecret: Buffer.from(cr.clientSecret).toString('base64') };
+	}
 	let cred = await store.request(config);
+	return cred.data;
 
+	/*
 	config = {
 		url: host + '/credentials/domains/' + viya.domain + '/secrets',
 		method: 'GET',
@@ -76,12 +108,13 @@ async function createCredentials (store, viya, cr) {
 	console.log(' Secret returned from the GET secrets ' , secrets.data.secrets);
 	let s = Buffer.from(secrets.data.secrets.dockerRegistryPasswd, 'base64').toString('utf-8');
 	console.log('secret converted back to utf-8 ', s);
-	return cred.data;
+	*/
+	
 }
 
 
 
-async function createPublishDestination (store, viya, cr, cluster) {
+async function createPublishDestination (store, viya, cr) {
 	let delConfig = {
 		url: store.connection().host + '/modelPublish/destinations/' + viya.destination,
 		method: 'DELETE',
@@ -90,24 +123,28 @@ async function createPublishDestination (store, viya, cr, cluster) {
 		}
 	};
 	await store.request(delConfig);
-
+	let properties = [
+		{ name: 'credDomainId', value: viya.domain }
+		//{ name: 'baseRepoUrl', value: cr.url }
+	];
+	for (key in cr.properties) {
+		properties.push({name: key, value: cr.properties[key]})
+	};
+		
 	let config = {
 		url   : store.connection().host + '/modelPublish/destinations',
 		method: 'POST',
 		data: {
 			name: viya.destination,
-			destinationType: 'privateDocker',
-			properties: [
-				{ name: 'credDomainId', value: viya.domain },
-				{ name: 'baseRepoUrl', value: cr.url}
-			],
+			destinationType: cr.destinationType,
+			properties: properties
 		},
 		headers: {
 			'content-type': 'application/json',
 			'authorization': 'bearer ' + store.connection().token,
 		},
 	};
-
+	console.log(config.data);
 	let r = await store.request(config);
 	return r.data;
 }

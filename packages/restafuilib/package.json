@@ -1,6 +1,6 @@
 {
   "name": "@sassoftware/restafuilib",
-  "version": "3.2.63",
+  "version": "3.3.0",
   "description": "react components using material-ui for Viya apps",
   "main": "./src/index.js ",
   "repository": "https://github.com/sassoftware/restaf/tree/main/packages/restafuilib",
@@ -29,7 +29,7 @@
   "dependencies": {
     "@material-ui/core": "^4.9.7",
     "@material-ui/icons": "^4.9.1",
-    "axios": "^0.21.1",
+    "axios": "0.24.0",
     "css-loader": "^3.4.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",

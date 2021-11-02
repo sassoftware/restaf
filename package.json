@@ -1,6 +1,6 @@
 {
   "name": "restaf",
-  "version": "3.2.63",
+  "version": "3.3.0",
   "description": "Library for writing SAS Viya application using REST APIs",
   "author": "Deva Kumaraswamy <deva.kumar@sas.com>",
   "license": "Apache-2.0",
@@ -47,7 +47,6 @@
     "build": "npm run restaf:build && npm run restaflib:build && npm run restafuilib:build",
     "tmplate:pub": "cd ./packages/cra-template-viya-app-quickstart && npm run pub",
     "puball": "npm run tmplate:pub && npm run restaf:pub && npm run restaflib:pub && npm run viyacaddy:pub && npm run registerclient:pub",
-    "token": "node token.js",
     "format": "prettier-eslint --eslint-config-path ./.eslintrc.json --write '**/*.js'",
     "lint": "eslint . --ext .js --fix"
   },
@@ -90,7 +89,6 @@
     "prettier-eslint": "^12.0.0",
     "prettyjson": "^1.2.1",
     "rimraf": "^3.0.2",
-    "set-versions": "^1.0.3",
     "showdown": "^1.9.1",
     "shx": "^0.3.3",
     "win-ca": "^3.4.5",
@@ -102,15 +100,15 @@
     "**/node-notifier": "^8.0.1",
     "**/trim-newlines": ">=4.0.1",
     "**/mem": "^5.1.1",
-    "**/glob-parent": "5.1.2"
+    "**/glob-parent": ">=5.1.2"
   },
   "dependencies": {
     "aws-sdk": "^2.948.0",
-    "axios": "^0.21.1",
     "cross-env": "^7.0.3",
     "jwt-decode": "^3.1.2",
     "lodash": ">=4.17.21",
     "react-json-pretty": "^2.2.0",
+    "set-value": ">=4.0.1",
     "webpack": "4.46.0",
     "webpack-cli": "4.5.0",
     "webpack-node-externals": "2.5.2"

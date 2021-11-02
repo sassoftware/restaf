@@ -20,14 +20,15 @@
 
 let fs = require('fs');
 
-module.exports = function config (envFile) {
-	let appEnv = envFile === null ? process.env.RESTAFENV : envFile;
-	
+module.exports = function config (appEnv) {
+	// let appEnv = envFile === null ? process.env.RESTAFENV : envFile;
+
 	process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0;
 	
 	if (appEnv != null) {
 		iconfig(appEnv);
-	} else {
+	}
+	if (process.env.CLIENTID == null) {
 		process.env.CLIENTID = 'sas.ec';
 		process.env.CLIENTSECRET='';
 		console.log(`clientID set to default`);
@@ -58,7 +59,8 @@ module.exports = function config (envFile) {
 		logonPayload = {
 			authType: 'password',
 			host    : viyaServer,
-			user    : process.env['USER'],
+	
+			user: process.env[ 'USER' ],
 			password: process.env['PASSWORD'],
 			clientID: process.env['CLIENTID'],
 

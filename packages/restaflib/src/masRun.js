@@ -9,7 +9,7 @@
  * @param {object} masControl - object from masSetup
  * @param {string} modelName - name of model to be executed
  * @param {object} scenario - can be [{name: var1, value: value1},{...} ] or {varname: value,...}
- * @param {string} stepName  - if not specified it will default to the first step
+ * @param {string} stepName  - if not specified it will default to score or execute
  * 
  * @returns {promise} - returns scoring results
  * @alias module: masrun
@@ -58,10 +58,26 @@ async function masRun (store, masControl, modelName, scenario, step, cmd) {
 			inputs: (inputIsArray === true) ? scenario : inputs
 		}
 	};
-
-	let currentStep = (step === null) ? stepControl.stepIds[0]:step;
+	let currentStep = null;
+	//TBD: Need to convert stepId from array to object for cleaner coding
+	if (step == null) {
+		let stepIndex = stepControl.stepIds.findIndex(x => (x === 'execute') ||( x === 'score'));
+		if (stepIndex === -1 ) {
+			return [];
+		} else {
+			currentStep = stepControl.stepIds[stepIndex];
+		}
+	} else {
+		let stepIndex = stepControl.stepIds.findIndex(x => (x === step));
+		if ( stepIndex === -1) {
+			return [];
+		} else {
+			currentStep = step;
+		}
+	}
 	
-	let rafLink = stepControl.stepsRafLink.itemsCmd(currentStep,cmd)
+	let rafLink = stepControl.stepsRafLink.itemsCmd(currentStep,cmd);
+
 	if (rafLink === null) {
 		let t= [
 			{

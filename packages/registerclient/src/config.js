@@ -26,15 +26,16 @@ module.exports = function config (envFile) {
 	
 	let appEnv = envFile == null ? process.env.RESTAFENV : envFile;
 	let logonPayload;
-
+    
 	if (appEnv != null) {
 		iconfig(appEnv);
-	} else {
-		process.env.CLIENTID = 'sas.ec';
-		process.env.CLIENTSECRET='';
-		console.log(`clientID set to default`);
 	}
 	
+	if (process.env.CLIENTID == null) {
+		process.env.CLIENTID = 'sas.ec';
+		process.env.CLIENTSECRET = '';
+		console.log(`clientID set to default`);
+	}
 	if (process.env.VIYA_SERVER == null) {
 		console.log('Error: Please set VIYA_SERVER');
 		process.exit(0);

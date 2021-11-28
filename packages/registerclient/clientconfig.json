@@ -1,7 +1,0 @@
-{
-    "scope": ["openid", "*"],
-    "resource_ids": "none",
-    "autoapprove": true,
-    "access_token_validity": 2592000,
-    "use-session": true
-}

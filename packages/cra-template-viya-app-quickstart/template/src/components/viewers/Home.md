@@ -1,3 +1,0 @@
-```atom
-See PlaceHolder documentation
-```

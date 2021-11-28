@@ -1,6 +1,6 @@
 {
   "name": "restaf",
-  "version": "3.4.0",
+  "version": "4.0.1",
   "description": "Library for writing SAS Viya application using REST APIs",
   "author": "Deva Kumaraswamy <deva.kumar@sas.com>",
   "license": "Apache-2.0",
@@ -35,18 +35,8 @@
     "restaf:build": "cd ./packages/restaf && yarn build",
     "restaf:pub": "cd ./packages/restaf && npm run pub",
     "restaflib:build": "cd ./packages/restaflib && yarn build",
-    "restaflib:pub": "cd ./packages/restaflib && npm run pub",
-    "restafuilib:build": "cd ./packages/restafuilib && yarn build",
-    "uidemos:implicit": "cd ./packages/uidemos && npm run implicit",
-    "uidemos:code": "cd ./packages/uidemos && npm run code",
-    "uidemos:rproxy": "cd ./packages/uidemos && npm run rproxy",
-    "registerclient": "cd ./packages/registerclient && npm start",
-    "registerclient:pub": "cd ./packages/registerclient && npm run pub",
-    "viyacaddy": "cd ./packages/viyacaddy && npm start",
-    "viyacaddy:pub": "cd ./packages/viyacaddy && npm run pub",
-    "build": "npm run restaf:build && npm run restaflib:build && npm run restafuilib:build",
-    "tmplate:pub": "cd ./packages/cra-template-viya-app-quickstart && npm run pub",
-    "puball": "npm run tmplate:pub && npm run restaf:pub && npm run restaflib:pub && npm run viyacaddy:pub && npm run registerclient:pub",
+    "build": "npm run restaf:build && npm run restaflib:build",
+    "puball": "npm run restaf:pub && npm run restaflib:pub",
     "format": "prettier-eslint --eslint-config-path ./.eslintrc.json --write '**/*.js'",
     "lint": "eslint . --ext .js --fix"
   },
@@ -100,7 +90,9 @@
     "**/node-notifier": "^8.0.1",
     "**/trim-newlines": ">=4.0.1",
     "**/mem": "^5.1.1",
-    "**/glob-parent": ">=5.1.2"
+    "**/glob-parent": ">=5.1.2",
+    "**/json-schema": ">=0.4.0",
+    "**/ansi-regex": ">=5.0.1"
   },
   "dependencies": {
     "aws-sdk": "^2.948.0",

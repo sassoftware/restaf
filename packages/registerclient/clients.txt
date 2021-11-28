@@ -1,8 +1,0 @@
-list 
-add raft -t password -s raf
-add applit -t implicit -r http://localhost:8080/callback
-add applct -t authorization_code -s secret -r http://localhost:8080/callback
-list
-del raft
-del applit
-del applct

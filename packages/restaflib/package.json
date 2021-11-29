@@ -28,15 +28,6 @@
   },
   "scripts": {
     "build": "rimraf dist && rimraf lib && webpack --env target=node p=n --config webpack.config.js && webpack --env target=web p=n --config webpack.config.js && webpack --env target=web p=y --config webpack.config.js",
-    "pub": "npm publish --tag test --access public"
-  },
-  "dependencies": {
-    "colors": "^1.4.0",
-    "jsdoc": "^3.6.3"
-  },
-  "resolutions": {
-    "**/core-js": "3.19.1",
-    "**/lodash": ">=4.17.15",
-    "**/mem": "^5.1.1"
+    "pub": "npm publish --tag test4 --access public"
   }
 }

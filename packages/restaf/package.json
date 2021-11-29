@@ -38,22 +38,7 @@
     "test": "node",
     "build": "rimraf dist && rimraf lib && webpack --env target=node p=n --config webpack.config.js && webpack --env target=web p=n --config webpack.config.js && webpack --env target=web p=y --config webpack.config.js",
     "babel": "babel src --out-dir jslib",
-    "pub": "npm publish --tag test --access public",
+    "pub": "npm publish --tag test4 --access public",
     "lint": "eslint . --fix"
-  },
-  "dependencies": {
-    "@babel/runtime": "^7.7.7",
-    "axios": "0.24.0",
-    "immutable": "^4.0.0-rc.12",
-    "qs": "^6.9.1",
-    "redux": "^4.0.5",
-    "redux-saga": "^1.1.3",
-    "url-parse": "^1.4.7",
-    "uuid": "8.3.2"
-  },
-  "resolutions": {
-    "**/core-js": "3.19.1",
-    "**/lodash": ">=4.17.15",
-    "**/mem": "^5.1.1"
   }
 }

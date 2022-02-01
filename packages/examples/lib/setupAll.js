@@ -9,6 +9,7 @@ module.exports = async function setupAll () {
 	
 	let payload = configtest();
 	let logger = require('./testLogger')();
+	debugger;
 	let store = restaf.initStore();
 	try {
 	 

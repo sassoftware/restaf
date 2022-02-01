@@ -40,8 +40,6 @@ import masDescribe     from './masDescribe';
 import masRun          from './masRun';
 import masAddModel     from './masAddModel';
 
-import decodeJwt       from './decodeJwt';
-
 import casUpload       from './casUpload';
 import uploadData      from './uploadData';
 
@@ -83,8 +81,6 @@ function lib () {
         masAddModel: masAddModel,
         masDescribe: masDescribe,
         masRun     : masRun,
-
-        decodeJwt: decodeJwt,
         
         casUpload : casUpload,
         uploadData: uploadData

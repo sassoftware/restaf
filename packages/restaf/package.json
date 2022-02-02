@@ -38,7 +38,7 @@
     "test": "node",
     "build": "rimraf dist && rimraf lib && webpack --env target=node p=n --config webpack.config.js && webpack --env target=web p=n --config webpack.config.js && webpack --env target=web p=y --config webpack.config.js",
     "babel": "babel src --out-dir jslib",
-    "pub": "npm publish --tag test4 --access public",
+    "pub": "npm publish --tag test --access public",
     "lint": "eslint . --fix"
   }
 }

@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`files - paginate thru files 1`] = `"done"`;
+
+exports[`files: create and retrieve content 1`] = `
+Object {
+  "me": "hi there",
+}
+`;

@@ -1,0 +1,48 @@
+{
+  "name": "examples",
+  "version": "4.0.1",
+  "description": "Examples",
+  "author": "Deva Kumaraswamy <deva.kumar@sas.com>",
+  "license": "Apache-2.0",
+  "keywords": [
+    "restaf",
+    "SAS",
+    "Viya",
+    "REST API"
+  ],
+  "main": "index.js",
+  "engines": {
+    "node": ">=10.16.0",
+    "npm": ">=6.10.0",
+    "yarn": ">=1.17.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sassoftware/restaf/tree/master/packages/examples"
+  },
+  "bugs": {
+    "url": "https://github.com/sassoftware/restaf/issues"
+  },
+  "scripts": {
+    "start": "node",
+    "test": "cross-env RESTAFENV=.env NODE_TLS_REJECT_UNAUTHORIZED=0  npx jest",
+    "debug": "cross-env RESTAFENV=.env NODE_TLS_REJECT_UNAUTHORIZED=0 node --inspect-brk ./node_modules/jest/bin/jest.js --runInBand",
+    "lint": "eslint . --fix",
+    "dkrbuild": "docker build -f Dockerfile -t ruthere .",
+    "dkrrun": "docker run --env-file ./override.env  -t ruthere"
+  },
+  "jest": {
+    "testTimeout": 10000000,
+    "verbose": false
+  },
+  "dependencies": {
+    "@sassoftware/restaf": "4.0.2",
+    "@sassoftware/restaflib": "4.0.2",
+    "cross-env": "^7.0.3",
+    "jest": "^27.5.0",
+    "winston": "^3.2.1"
+  },
+  "devDependencies": {
+    "eslint": "^8.8.0"
+  }
+}

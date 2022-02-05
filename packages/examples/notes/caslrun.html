@@ -1,0 +1,128 @@
+<h2> Introduction </h2> 
+
+In the blog titled <a href="https://blogs.sas.com/content/sgf/2019/06/25/cas-stored-process-runcasl/" target="_blank">
+    "CAS Stored Process" with my Favorite Action Hero runCas</a> I discussed how to script the Cas server using casl.
+
+In this blog I show how to use the restaflib library to simplify that code  
+
+<h2>Main tools used in this blog</h2>
+
+<a href="https://github.com/sassoftware/restaf/tree/gen2/packages/restaflib" target="_blank" rel="noopener noreferrer">restaflib</a> is a Javascript library build on top of SAS REST APIs and restaf library to address several common use cases.
+
+<h2> Setup </h2>
+
+<h3> Web application</h3>
+
+Include the following two script tags.
+<pre>
+    &ltscript src="https://unpkg.com/restaf@dev/dist/restaf.min.js"&gt&lt/script&gt
+    &ltscript src="https://unpkg.com/restaflib@dev/dist/restaflib.min.js"&gt&lt/script&gt
+</pre>
+
+Two globals restaf and restaflib will be available for use in your script tags.
+
+<h3>Nodejs application</h3>
+Install restaf and restaflib using the following command
+
+<pre>
+    npm install restaf@dev restaflib@dev
+</pre>
+
+
+Import these into your nodejs application.
+
+<pre>
+    let restaf = require('restaf');
+    let restaflib = require('restaflib');
+
+</pre>
+
+<h2> Flow </h2>
+The flow for scoring is shown in the diagram below. Notice this is similar to the flow discussed in the blog on scoring(link).
+
+IMG here
+
+<h2> Sample Code</h2>
+<h3> Sidebar </h3>
+The payload to store.logon depends on your authentication flow. Please see this link for details on the payload.
+
+A typical code is  shown below. 
+
+<pre>
+
+    let store = restaf.initStore();                                                            /* (1)   */
+    store.logon(payload)
+      .then ( () => example())
+      .catch(err) => console.log(e)
+
+    async function example() {                                          
+       
+        let {session} = await restaflib.casSetup (store);                                       /* (2) */
+      
+        let casl = `                                                                            /* (3) */
+                print 'input values';
+                print _args_;
+                 action datastep.runcode/ single='YES' code = 'data casuser.a; x=1; run;';
+                 action table.fetch r=r1/
+                    table= { caslib= 'casuser', name= 'a' } ;
+                    run;
+                    action datastep.runcode/ single='YES' code = 'data casuser.b; y=1; run;';
+                  action table.fetch r=r2/
+                    table= { caslib= 'casuser', name= 'b' } ;
+                    run;
+                 c = {a=10, b=20};
+                 send_response({a=r1, b=r2, c=c});
+              `;
+        let args   = {a: "this is arguments", b: "more data"};
+      
+        let result = await restaflib.caslRun (store, session, casl, args);
+        print.object(result.c, 'Selected Cas Results');
+        await store.apiCall(session.links('delete'));
+        `;
+
+        let r = await caslRun(store, session, src, args);                                          /* (4) */
+
+        console.log(JSON.stringify(r, null,4));
+
+    }
+    
+</pre>
+
+<blockquote>
+    The 4th argument to caslRun is passed to the casl program as a dictionary named _args_. 
+</blockquote>
+The result is a Javascript object with the standard output from a cas action call. The  
+
+<pre>
+    {
+        "days_out_of_service": 5,
+        "sensor_ratio": 4.3,
+        "_Index_": 1,
+        "EM_EVENTPROBABILITY": 0.10521221221641,
+        "I_FAILURE": "           0",
+        "P_FAILURE0": 0.89478778778358,
+        "P_FAILURE1": 0.10521221221641,
+        "_WARN_": "",
+        "EM_CLASSIFICATION": "           0",
+        "EM_PROBABILITY": 0.89478778778358
+    }
+
+</pre>
+
+<h2> Other scoring use cases</h2>
+The code is identical to the one show above. The modelName is ignored in these cases. The model refers to the sashdat where the datastep
+code or the astore is saved. See this <a href="https://github.com/sassoftware/restaf/blob/gen2/packages/examples/caslScore.js" rel="noopener noreferrer" target="_blank">link</a> for examples of all 3 use cases.
+
+<h2> Notes </h2>
+<ol>
+    <li> caslScore method will load the model if it is not in memory</li>
+    <li> If there are multiple models whose name only vary in case, the first one found will be used</li>
+</ol>
+
+<h2> Finally </h2>
+The next blog will discuss executing any casl program on the cas server using a flow similar to the one
+discussed here.
+
+All comments are welcomed.
+
+Cheers...  

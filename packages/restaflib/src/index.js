@@ -42,8 +42,6 @@ import masScore        from './masScore';
 import masAddModel     from './masAddModel';
 import print           from './print';
 
-import decodeJwt       from './decodeJwt';
-
 import casUpload       from './casUpload';
 import uploadData      from './uploadData';
 import libx            from './lib';
@@ -80,7 +78,6 @@ export {
     masDescribe,
     masRun,
     masScore,
-    decodeJwt,
     casUpload,
     uploadData,
     lib

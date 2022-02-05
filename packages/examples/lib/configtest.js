@@ -19,11 +19,9 @@
 'use strict';
 
 let fs = require('fs');
-let yargs = require('yargs');
-
+debugger;
 module.exports = function configtest () {
-	let argv = yargs.argv;
-	let appEnv = argv.env == null ? process.env.RESTAFENV : argv.env;
+	let appEnv = process.env.RESTAFENV;
 	if (appEnv != null) {
 		iconfig(appEnv);
 	} 
@@ -58,6 +56,7 @@ module.exports = function configtest () {
 			clientSecret: (process.env.CLIENTSECRET == null) ? '' : process.env.CLIENTSECRET
 		};
 	};
+	debugger;
 	console.log(logonPayload);
 	console.log(process.env.NODE_TLS_REJECT_UNAUTHORIZED);
 

@@ -9,9 +9,18 @@ module.exports = async function setupAll () {
 	
 	let payload = configtest();
 	let logger = require('./testLogger')();
-	let store = restaf.initStore();
+
+	/*
+	
+	if (process.env.CASPROXY != null) {
+		casopt = (casProxy === 'NO') ? false : true;
+	}
+	*/
+	debugger;
+	let store = restaf.initStore( );
+
 	try {
-	 
+	 debugger;
 	 let msg = await store.logon(payload);
 	 console.log(msg);
 	 return { store: store, logger: logger }

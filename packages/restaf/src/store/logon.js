@@ -34,7 +34,7 @@ const logon = (store, ipayload) => {
         let action;
         let implicitLogon = false;
         let urlInfo = null;
-
+        debugger;
         let payload = (ipayload == null) ? null : { ...ipayload };
 
         if (store.getState().connections.get('currentConnection') >= 0) {
@@ -125,19 +125,23 @@ const logon = (store, ipayload) => {
                     type   : (payload.authType === 'LOGOFF') ? VIYA_LOGOFF : VIYA_LOGON,
                     payload: { ...payload }
                 };
+                debugger;
                 action.payload.sslOptions = store.config.hasOwnProperty('sslOptions') ? store.config.sslOptions : null;
-                /*
-                action.payload.pem = (store.config.hasOwnProperty('pem')) ? store.config.pem : null;
-                action.payload.rejectUnauthorized = (store.config.hasOwnProperty('rejectUnauthorized')) ? store.config.rejectUnauthorized : null;
-                */
+                
                 unSubscribe = store.subscribe(logonExit);
-                // store.config.casProxy = false; preset to this value in initStore.
+                
                 action.storeConfig = store.config;
                 if (payload.authType === VIYA_LOGON_SERVER) {
+                    store.config.casProxy = false; /* preset to this value in initStore */
                     if (payload.hasOwnProperty('token') !== true) {
-                        store.config.casProxy = true;
+                        store.config.casProxy = true;   
                     } 
                 }
+                action.storeConfig = store.config;
+                console.log(action);
+                console.log(store.config);
+               // action.type = VIYA_LOGON;
+                debugger;
                 store.dispatch(action);
             }
         }

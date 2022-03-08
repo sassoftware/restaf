@@ -41,6 +41,7 @@ function trustedGrant (iconfig) {
     auth1 = 'Basic ' + auth1;
     let l = patchURL4ns(iconfig, link.href);
     let url = `${l}${link.href}`;
+    debugger;
     let config = {
         method: link.method,
         url   : url , /*iconfig.host + link.href,*/
@@ -75,7 +76,7 @@ function trustedGrant (iconfig) {
             return (qs.stringify(data));
         }
     };
-    
+    debugger;
     return (makeCall(config, iconfig, iconfig));
 }
 
@@ -201,7 +202,7 @@ function patchURL4ns(logInfo, link) {
 }
 
 function makeCall (config, iconfig, storeConfig) {
-    
+    debugger;
     // for nodejs apps use the nodejs env variables instead of restaf config.
     // NODE_TLS_REJECT_UNAUTHORIZED
     // SSL_CERT_FILE

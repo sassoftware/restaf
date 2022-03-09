@@ -133,7 +133,7 @@ const logon = (store, ipayload) => {
                 action.storeConfig = store.config;
                 if (payload.authType === VIYA_LOGON_SERVER) {
                     store.config.casProxy = false; /* preset to this value in initStore */
-                    if (payload.hasOwnProperty('token') !== true) {
+                    if (payload.hasOwnProperty('token') === true && payload.token != null) {
                         store.config.casProxy = true;   
                     } 
                 }

@@ -132,10 +132,14 @@ const logon = (store, ipayload) => {
                 
                 action.storeConfig = store.config;
                 if (payload.authType === VIYA_LOGON_SERVER) {
-                    store.config.casProxy = false; /* preset to this value in initStore */
+                    /*store.config.casProxy = false; preset to this value in initStore */
+                    /*
+                    for testing casproxy vs http - looks like cas-shared-default-http now works for all scenarios 
                     if (payload.hasOwnProperty('token') === true && payload.token != null) {
-                        store.config.casProxy = true;   
+                        store.config.casProxy = (store.config.forcehttp == true) ? false : true;   
                     } 
+                    */
+    
                 }
                 action.storeConfig = store.config;
                 console.log(action);

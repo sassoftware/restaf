@@ -36,6 +36,8 @@ module.exports = async function casEcho (testInfo) {
   };
   logger.info(p);
   let r = await store.runAction(session, p);
+  console.log(JSON.stringify(session.links("execute"), null, 4));
+  console.log(r.items().toJS());
   logger.info(r);
   await store.apiCall(session.links('delete'));
   return 'done';

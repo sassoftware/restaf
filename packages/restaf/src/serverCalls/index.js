@@ -41,6 +41,7 @@ function trustedGrant (iconfig) {
     auth1 = 'Basic ' + auth1;
     let l = patchURL4ns(iconfig, link.href);
     let url = `${l}${link.href}`;
+    
     let config = {
         method: link.method,
         url   : url , /*iconfig.host + link.href,*/

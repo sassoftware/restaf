@@ -37,13 +37,13 @@ test('CAS Session', async () => {
 	expect(r).toBe('done');
 });
 
-test('CAS Echo', async () => {
+test.only('CAS Echo', async () => {
 
 	let r = await testFunctions.casEcho(testInfo);
 	expect(r).toBe('done');
 });
 
-test.only('CAS Submit', async () => {
+test('CAS Submit', async () => {
 	let r = await testFunctions.casSubmit(testInfo);
 	expect(r).toBe('done');
 });

@@ -10,14 +10,11 @@ module.exports = async function setupAll () {
 	let payload = configtest();
 	let logger = require('./testLogger')();
 
-	/*
 	
-	if (process.env.CASPROXY != null) {
-		casopt = (casProxy === 'NO') ? false : true;
-	}
-	*/
+	let casopt = (process.env.CASPROXY === 'NO') ? false : true;
+
 	debugger;
-	let store = restaf.initStore( );
+	let store = restaf.initStore( {casProxy: casopt});
 
 	try {
 	 debugger;

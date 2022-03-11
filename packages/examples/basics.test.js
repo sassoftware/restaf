@@ -1,7 +1,7 @@
 let testFunctions = require('./testFunctions');
 let testInfo;
 let setupAll = require('./lib/setupAll');
-debugger;
+
 beforeAll(async () => {
 	try {
 		

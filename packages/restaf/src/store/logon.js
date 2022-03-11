@@ -34,7 +34,7 @@ const logon = (store, ipayload) => {
         let action;
         let implicitLogon = false;
         let urlInfo = null;
-        debugger;
+        
         let payload = (ipayload == null) ? null : { ...ipayload };
 
         if (store.getState().connections.get('currentConnection') >= 0) {
@@ -125,7 +125,7 @@ const logon = (store, ipayload) => {
                     type   : (payload.authType === 'LOGOFF') ? VIYA_LOGOFF : VIYA_LOGON,
                     payload: { ...payload }
                 };
-                debugger;
+                
                 action.payload.sslOptions = store.config.hasOwnProperty('sslOptions') ? store.config.sslOptions : null;
                 
                 unSubscribe = store.subscribe(logonExit);
@@ -133,19 +133,19 @@ const logon = (store, ipayload) => {
                 action.storeConfig = store.config;
                 if (payload.authType === VIYA_LOGON_SERVER) {
                     /*store.config.casProxy = false; preset to this value in initStore */
-                    /*
-                    for testing casproxy vs http - looks like cas-shared-default-http now works for all scenarios 
-                    if (payload.hasOwnProperty('token') === true && payload.token != null) {
+                    
+                    /* for testing casproxy vs http - looks like cas-shared-default-http now works for all scenarios */
+
+                   /*  if (payload.hasOwnProperty('token') === true && payload.token != null) {
                         store.config.casProxy = (store.config.forcehttp == true) ? false : true;   
                     } 
                     */
     
                 }
                 action.storeConfig = store.config;
-                console.log(action);
-                console.log(store.config);
+  ;
                // action.type = VIYA_LOGON;
-                debugger;
+                
                 store.dispatch(action);
             }
         }

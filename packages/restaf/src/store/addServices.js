@@ -24,7 +24,7 @@ import appData from './appData';
 import getServiceRoot from './getServiceRoot';
 
 async function addServices (store, ...services) {
-    debugger;
+    
     if (services.includes('casManagement')) {
         services.push('casProxy');
     }

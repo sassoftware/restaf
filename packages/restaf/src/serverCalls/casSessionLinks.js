@@ -7,7 +7,7 @@ module.exports = function casSessionLinks (uri, urihttp, casHttp, server, casPro
  
 	let href = (casProxyFlag === true) ? `${uri}/actions` : `${urihttp}/actions`;
 	let isIdle = casProxyFlag === true ? `${uri}/isIdle` : `${urihttp}/isIdle`;
-	console.log(href);
+
     let r =  [
 		{
 			method        : 'POST',

@@ -1648,16 +1648,6 @@
   resolved "https://registry.yarnpkg.com/@redux-saga/types/-/types-1.1.0.tgz#0e81ce56b4883b4b2a3001ebe1ab298b84237204"
   integrity sha512-afmTuJrylUU/0OtqzaRkbyYFFNgCF73Bvel/sw90pvGrWIZ+vyoIJqA6eMSoA6+nb443kTmulmBtC9NerXboNg==
 
-"@sassoftware/restaf@4.0.2":
-  version "4.0.2"
-  resolved "https://registry.yarnpkg.com/@sassoftware/restaf/-/restaf-4.0.2.tgz#d880925c9555ff9874bf8a3800862e19f833e392"
-  integrity sha512-rVZUk1KF7PpJQA4QlmjuoXa3sEaF4quf6o25fcHUMocXfsFhwPbvkdPtYQGUAIIUjhe9ZTvRMcDKbJVHl20wtg==
-
-"@sassoftware/restaflib@4.0.2":
-  version "4.0.2"
-  resolved "https://registry.yarnpkg.com/@sassoftware/restaflib/-/restaflib-4.0.2.tgz#3c0847237d1c18d65925c755322327c94cf1fde2"
-  integrity sha512-sSXtlmsy2gBy5ti1CXdghcdBbZ7gUhpVPYhC/K/fQqDTe8nijUyt+WWy9OX6tFENEBQPKY0o0zyYLU0tFB6TxA==
-
 "@sinonjs/commons@^1.7.0":
   version "1.8.3"
   resolved "https://registry.yarnpkg.com/@sinonjs/commons/-/commons-1.8.3.tgz#3802ddd21a50a949b6721ddd72da36e67e7f1b2d"
@@ -5722,9 +5712,9 @@ minimatch@^3.0.4:
     brace-expansion "^1.1.7"
 
 minimist@^1.2.0, minimist@^1.2.5:
-  version "1.2.5"
-  resolved "https://registry.yarnpkg.com/minimist/-/minimist-1.2.5.tgz#67d66014b66a6a8aaa0c083c5fd58df4e4e97602"
-  integrity sha512-FM9nNUYrRBAELZQT3xeZQ7fmMOBg6nWNmJKTcgsJeaLstP/UODVpGsr5OhXhhXg6f+qtJ8uiZ+PUxkDWcgIXLw==
+  version "1.2.6"
+  resolved "https://registry.yarnpkg.com/minimist/-/minimist-1.2.6.tgz#8637a5b759ea0d6e98702cfb3a9283323c93af44"
+  integrity sha512-Jsjnk4bw3YJqYzbdyBiNsPWHPfO++UGG749Cxs6peCu5Xg4nrena6OVxOYxrQTqww0Jmwt+Ref8rggumkTLz9Q==
 
 mississippi@^3.0.0:
   version "3.0.0"

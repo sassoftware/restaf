@@ -16,15 +16,17 @@
  * @returns {promise} - {columns: <columnames>, rows: <data for rows> , scrollOptions: <available scroll directions>}
  * @alias module: computeFetchData
  */
-async function computeFetchData (store, computeSummary, table, direction) {
+async function computeFetchData (store, computeSummary, table, direction, qs) {
 	let data = null;
 	let tableInfo;
+	let payload =(qs != null) ? {qs: qs} : null;
 	// eslint-disable-next-line no-prototype-builtins
+	debugger;
 	if (computeSummary.tables.hasOwnProperty(table) === true) {
 		tableInfo = computeSummary.tables[table];
 		if (tableInfo.current === null || direction == null) {
 			let t1 = await store.apiCall(tableInfo.self);
-			let result = await store.apiCall(t1.links('rowSet'));
+			let result = await store.apiCall(t1.links('rowSet'), payload);
 			tableInfo.current = result;
 			let datax = result.items().toJS();
 			data = {
@@ -37,6 +39,7 @@ async function computeFetchData (store, computeSummary, table, direction) {
 					.toJS()
 			};
 		} else {
+			debugger;
 			let current = tableInfo.current;
 			let dir = direction;
 			if (direction === 'next' && current.scrollCmds('next') === null) {
@@ -46,7 +49,7 @@ async function computeFetchData (store, computeSummary, table, direction) {
 				dir = current.links('first') !== null ? 'first' : null;
 			}
 			if (dir !== null && current.scrollCmds(dir) !== null) {
-				let result = await store.apiCall(current.scrollCmds(dir));
+				let result = await store.apiCall(current.scrollCmds(dir), payload);
 				tableInfo.current = result;
 				let datax = result.items().toJS();
 				data = {

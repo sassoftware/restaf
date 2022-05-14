@@ -34,7 +34,7 @@ module.exports = async function computeDS (testInfo) {
             array x{10};  
             do j = 1 to &maxRows;  
                 do i = 1 to 10;  
-				x{i} = i * 10;  
+				x{i} = j * 10;  
                 end;  
             output;  
 			put _ALL_;  
@@ -57,10 +57,10 @@ module.exports = async function computeDS (testInfo) {
 		15,2
     );
 	
-	let log = await restaflib.computeResults(store, computeSummary, 'log');
-	logger.info(log);
-	let ods = await restaflib.computeResults(store, computeSummary, 'ods');
-	logger.info(ods);
+	// let log = await restaflib.computeResults(store, computeSummary, 'log');
+	// logger.info(log);
+	// let ods = await restaflib.computeResults(store, computeSummary, 'ods');
+	// logger.info(ods);
 
 	let tables = await restaflib.computeResults(
 		store,
@@ -68,15 +68,26 @@ module.exports = async function computeDS (testInfo) {
 		'tables'
 	);
 	logger.info(tables);
-
-	let data = await restaflib.computeFetchData(
+    let data;
+	for (let i=0; i <= 10; i++) {
+		data = await restaflib.computeFetchData(
+			store,
+			computeSummary,
+			'DTEMP1',
+			'next',
+			{offset: i, limit:1}
+		);
+		console.log(data);
+		// logger.info(data.columns);
+		logger.info(`Row ${i+1}  ${data.rows[0]}`);
+	}
+	data = await restaflib.computeFetchData(
 		store,
 		computeSummary,
-		'DTEMP1'
+		'DTEMP1',
+		'next',
+		{offset: 0, limit:10}
 	);
-	logger.info(data.columns);
-	logger.info(`First row in set: ${data.rows[0]}`);
-
 	await store.apiCall(computeSession.links('delete'));
     return data.rows;
 };

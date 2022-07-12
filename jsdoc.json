@@ -11,9 +11,9 @@
       "monospaceLinks": true
     },
     "opts": {
-      "destination": "./jsdoc",
+      "destination": "../../docs/restaflib",
       "recurse": true,
-      "readme": "./src/lib/README.md"
+      "readme": "./README.md"
     }
 }
     

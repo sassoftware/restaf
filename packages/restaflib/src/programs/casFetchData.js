@@ -5,10 +5,10 @@
 
 function casFetchData () {
     let code =`
-    results = casFetchData(_args_.table.caslib, _args_.table.name , _args_.from, _args_.count,  _args_.format);   
+    results = casFetchData(_args_.table.caslib, _args_.table.name , _args_.from, _args_.count,  _args_.format, _args_.filter);   
     send_response({casResults = results});  
         
-    function casFetchData(caslib, name, from, count, format) ;    
+    function casFetchData(caslib, name, from, count, format, _args_.filter) ;    
      
        rc = checkAndLoadTable(caslib, name);
     
@@ -69,9 +69,15 @@ function casFetchData () {
         end;
 
         pagePrev = max(from - count, -1);
-        if (from ne 1) then do;
-           pagePrev = max(pagePrev,1);
+        /*
+        if ( to eq rowCount ) then do;    
+            pageNext = -1;    
+        end; 
+        else do;
+           pagePrev = max(to + ,rowCount);
         end;   
+        */
+       
         if ( to eq rowCount ) then do;    
             pageNext = -1;    
         end;    
@@ -87,6 +93,7 @@ function casFetchData () {
          {pagination = pagination, data = {schema=columns, rows=rows }}
          );
     end;    
+    
     
     /*
      * For non-primary column types set new content

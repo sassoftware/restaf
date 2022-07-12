@@ -213,7 +213,6 @@ function makeCall (config, iconfig, storeConfig) {
         let agent = new Https.Agent(opt);
         config.httpsAgent = agent;
     }
-    
 
     return new  Promise ((resolve, reject)  => {
         axios(config)

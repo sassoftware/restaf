@@ -18,6 +18,7 @@
     "sourceType": "module",
     "ecmaFeatures": {
       "jsx": true
-    }
+    },
+    "no-undef": "error"
   }
 }

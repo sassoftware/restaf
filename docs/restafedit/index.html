@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Home</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Home</h1>
+
+    
+
+
+
+    
+
+
+    <h3> </h3>
+
+
+
+
+
+
+
+
+
+
+    
+
+
+
+
+    <section>
+        <article><p><a href="#_Toc583745382">FSP on Viya	1</a></p>
+<p><a href="#_Toc805632312">Introduction	1</a></p>
+<p><a href="#_Toc731399551">A note on multi-user environments	1</a></p>
+<p><a href="#_Toc562931818">Desired features in the work product	2</a></p>
+<p><a href="#_Toc413439152">Demo Application	2</a></p>
+<p><a href="#_Toc1664768901">Currently Supported Features of the library	2</a></p>
+<p><a href="#_Toc1528817640">Basic Flow	4</a></p>
+<p><a href="#_Toc538713069">Future	5</a></p>
+<h1></h1>
+<h1>FSP on Viya</h1>
+<h2>Introduction</h2>
+<p>Going back in history, SAS had products like SAS/FSP and SAS/AF that allowed users to create simple or complex interactive applications. As SAS moved to the Viya platform these products were dropped. SAS provided REST API (application programming interfaces) as an industry standard way for creating applications.</p>
+<p>The key component of these applications is entering data. Common destinations of the modified data ARE:</p>
+<ul>
+<li>The client application</li>
+<li>Custom code on a Viya
+<ul>
+<li>Compute server</li>
+<li>CAS (Cloud Analytic Server) server</li>
+<li>MAS (Micro Analytic Score)</li>
+<li>Other SAS services that can be accessed via REST API</li>
+</ul>
+</li>
+<li>Some external servers
+<ul>
+<li>Azure App running a SAS Decision using SAS Container Runtime (SCR)</li>
+<li>Others...</li>
+</ul>
+</li>
+</ul>
+<h2>Desired features in the work product</h2>
+<p>The goal of this project is to create a small reusable library and components for data entry in SAS Viya.</p>
+<p>This collection should have the following characteristics:</p>
+<ol>
+<li>
+<p>Must be useable out of the box by users (internal and external)</p>
+</li>
+<li>
+<p>Must address the basic capabilities of SAS/FSP and SAS/AF since these represent the requirements of SAS users over an extended period.</p>
+</li>
+<li>
+<p>The core functionality must be unaware of the UI (User Interface) environment it is running in. The assumption is that the UI capability will be supplied by SAS and/or users.</p>
+</li>
+<li>
+<p>React components (must be limited and serve as examples) must be agnostic of specific React Component libraries (ex: Nova, material-ui and others).</p>
+</li>
+<li>
+<p>Must be extendible to address the considerable number of requirements gathered by Product Management.</p>
+</li>
+</ol>
+<h2>Table versus Form for data entry</h2>
+<p>There are significant differences in how the user interacts with an application which uses a Table versus a custom form.</p>
+<p>However, at the lowest level both require the same functionality - Accessing data, verifying the entered data, saving the modified records, executing additional processing on the server.</p>
+<p>One of the key goals of this project is to create a single code base to handle both scenarios.
+[TBD: Detailed document on the library functions and usage notes].</p>
+<h2>Demo Application</h2>
+<p>The data-editor demo application will be available soon.</p>
+<h2>Currently Supported Features of the library</h2>
+<ul>
+<li>
+<p>Creation and management of CAS session</p>
+</li>
+<li>
+<p>Reading one or more records from a cas table</p>
+</li>
+<li>
+<p>Update the records based on a key</p>
+</li>
+<li>
+<p>Scrolling through the table</p>
+</li>
+<li>
+<p>Allow users to specify calculations on modifying a value. The current options are:</p>
+<ul>
+<li>On the client using JavaScript</li>
+<li>On the cas server using casl or any cas action</li>
+<li>On an external server via http</li>
+<li>An Azure App for a SAS Decisioning Flow</li>
+</ul>
+</li>
+</ul>
+<h2>Basic Flow</h2>
+<p>The Table Editor in the picture below is supplied by the user.
+<img src="DataEditorFlow.png" alt="viyaedit"></p>
+<h2>Future</h2>
+<ul>
+<li>
+<p>Support where clause for reading records</p>
+</li>
+<li>
+<p>Editing with standard SAS tables</p>
+</li>
+<li>
+<p>Examples of using non-SAS databases like SingleStore(?)</p>
+</li>
+</ul></article>
+    </section>
+
+
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#cellEdit">cellEdit</a></li><li><a href="global.html#commonHandler">commonHandler</a></li><li><a href="global.html#fetchTableRows">fetchTableRows</a></li><li><a href="global.html#scrollTable">scrollTable</a></li><li><a href="global.html#setup">setup</a></li><li><a href="global.html#updateTableRows">updateTableRows</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.10</a> on Tue Jul 12 2022 11:04:45 GMT-0400 (Eastern Daylight Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

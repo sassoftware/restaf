@@ -23,22 +23,6 @@ module.exports = function casSessionLinks (uri, urihttp, casHttp, server, casPro
 			server        : server,
 			extended      : true
 		},
-		/*
-		{
-			method        : 'POST',
-			href          : `${urihttp}/actions`,
-			rel           : (casProxyFlag === false) ? 'execute' : 'cashttp',
-			uri           : `${urihttp}/actions`,
-			responseType  : 'application/json',
-			type          : 'application/json',
-			itemType      : 'application/json',
-			title         : 'Run CAS Action',
-			customHandling: 'casExecute',
-			casHttp       : casHttp,
-			server        : server,
-			extended      : true
-		},
-		*/
 
 		{
 			method        : 'GET',
@@ -55,5 +39,6 @@ module.exports = function casSessionLinks (uri, urihttp, casHttp, server, casPro
 			extended      : true
 		}
 	];
+	
 	return r;
 };

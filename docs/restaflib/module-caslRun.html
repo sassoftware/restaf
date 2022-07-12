@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Module: findReport</title>
+    <title>JSDoc: Module: caslRun</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Module: findReport</h1>
+    <h1 class="page-title">Module: caslRun</h1>
 
     
 
@@ -38,7 +38,7 @@
     <div class="container-overview">
     
         
-            <div class="description"><p>Search for a named report(async)</p></div>
+            <div class="description"><p>Calls cas server and returns the results(async)</p></div>
         
 
         
@@ -102,13 +102,13 @@
 
         <tr>
             
-                <td class="name"><code>name</code></td>
+                <td class="name"><code>session</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">string</span>
+<span class="param-type">object</span>
 
 
             
@@ -118,7 +118,53 @@
 
             
 
-            <td class="description last"><p>name of the VA report (null to get a list of all reports)</p></td>
+            <td class="description last"><p>cas session</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>src</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>casl src statements</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>args</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>user input args (reference this as <em>args</em> in casl program)</p></td>
         </tr>
 
     
@@ -159,7 +205,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="findReport.js.html">findReport.js</a>, <a href="findReport.js.html#line7">line 7</a>
+        <a href="caslRun.js.html">caslRun.js</a>, <a href="caslRun.js.html#line8">line 8</a>
     </li></ul></dd>
     
 
@@ -188,9 +234,7 @@
 
         
 <div class="param-desc">
-    <ul>
-<li>either null or rafObject for the report</li>
-</ul>
+    <p>returns results from cas</p>
 </div>
 
 
@@ -201,7 +245,7 @@
     </dt>
     <dd>
         
-<span class="param-type">object</span>
+<span class="param-type">promise</span>
 
 
     </dd>

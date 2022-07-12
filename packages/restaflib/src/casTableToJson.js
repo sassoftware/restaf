@@ -4,7 +4,7 @@
 */
 'use strict';
 /**
- * Converts a cas table to JSON(utility)
+ * @description Converts a cas table to JSON(utility)
  * @module casTableToJson
  * @param {object} result - the raf object returned from a call to cas
  * @param {string} table - the name of the table

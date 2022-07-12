@@ -3,9 +3,10 @@
  * SPDX-License-Identifier: Apache-2.0
 */
 'use strict';
-
-/*
- * Prepare data for runCompute(@async)
+import jesRunBase from './jesRunBase';
+/**
+ * @description Prepare data for runCompute(@async)
+ * @private
  * @module spBase
  * 
  * @param {object} store - restaf store
@@ -15,8 +16,6 @@
  * @returns {object} computeSummary object
  * 
  */
-
-import jesRunBase from './jesRunBase';
 
 async function jesRun (store,jes, src, jobDefinitionName, args){
  

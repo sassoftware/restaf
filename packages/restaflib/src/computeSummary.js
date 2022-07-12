@@ -4,7 +4,7 @@
 */ 
  
  /**
-  *  Reduce the job information into consummable form(async)
+  *  @description Reduce the job information into consummable form(async)
   * 
   * @async
   * @module computeSummary
@@ -13,7 +13,6 @@
   * @param {object} job - rafObject representing the compute service job
   * 
   * @returns {promise} - the computeSummary object for easy handling of logs,listing,ods, tables
-  * @alias module: computeSummary
   */
 async function computeSummary (store, session, job){
     let cResult = {

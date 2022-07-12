@@ -10,7 +10,7 @@
 
 'use strict';
 /**
- * Convert table to object of the form [{var1: value, var2: value,...},....](async)
+ * @description Convert table to object of the form [{var1: value, var2: value,...},....](async)
  * @async
  * @module computeFileContent
  *
@@ -20,7 +20,6 @@
  * @param {string} url - set to true if you want the url -
  *
  * @returns {promise} - get uri for content]
- * @alias module: getSASTableRows
  */
 async function computeFileContent (store, computeSummary, fileref, url) {
 	

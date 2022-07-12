@@ -3,14 +3,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 /**
- * Return Log|listing|ODS|list of tables in the compute service job
+ * @description Return Log|listing|ODS|list of tables in the compute service job
  * @async
  * @module computeResults
  * @param {object} store - restaf store
  * @param {object} computeSummary - computeSummary object
  * @param {string} type - type of result( log|listing|ods|table)
  * @returns {object|string} - string for all except table(array of names)
- * @alias module: computeResults
  */
 async function computeResults (store, computeSummary, type) {
 	if (type === 'log' || type === 'listing') {

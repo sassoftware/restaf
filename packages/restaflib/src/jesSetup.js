@@ -3,8 +3,8 @@
 * SPDX-License-Identifier: Apache-2.0
 */
 'use strict';
-/*
- *  Setup access to compute service
+/**
+ * @description Setup access to compute service
  * @async
  * @module jesSetup
  * 

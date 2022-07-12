@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: getSasTableRows.js</title>
+    <title>JSDoc: Module: jesSetup</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,65 +17,228 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: getSasTableRows.js</h1>
+    <h1 class="page-title">Module: jesSetup</h1>
 
     
 
 
 
+
+<section>
+
+<header>
     
-    <section>
-        <article>
-            <pre class="prettyprint source linenums"><code>/*
- * Copyright © 2019, SAS Institute Inc., Cary, NC, USA.  All Rights Reserved.
- * SPDX-License-Identifier: Apache-2.0
-*/
+        
+            
+        
+    
+</header>
 
-//
-// Notes: Retrieve a SAS table and convert to a json
-// convert table to object of the form [{var1: value, var2: value,...},....]
-// ex: [{merlot:10, twobit:20}, {merlot: 20, twobit:30}]
+<article>
+    <div class="container-overview">
+    
+        
+            <div class="description"><p>Setup access to compute service</p></div>
+        
 
-'use strict';
-/**
- * @description Convert table to object of the form [{var1: value, var2: value,...},....](async)
- * @async
- * @module getSASTableRows
- *                  
- * @param {object} store - restaf store
- * @param {object} computeSummary - computeSummary
- * @param {string} tableName - name of the table
- * 
- * @returns {promise} - get retrieved rows [{var1:value, var2:...}]
- */
-async function getSasTableRows (store, computeSummary, tableName){
+        
+            
 
-    let tableSelf = computeSummary.tables[tableName];
-    let t1        = await store.apiCall(tableSelf);
-    let table     = await store.apiCall(t1.links('rowSet'));
 
-    let columns   = table.items('columns');
-    let rows = table.items('rows');
-    let result = [];
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
     
 
-    let count = rows.size;
-    for (let i=0; i &lt; count; i++) {
-        let row = rows.get(i);
-        let r = {};
-        columns.map((c,i) => {
-           let varx = c.toLowerCase();
-           r[varx] = row.get(i);
-        });
-        result.push(r);
-    }
-    return result;
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
 
-}
-export default getSasTableRows;
-</code></pre>
-        </article>
-    </section>
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>store</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>restaf store</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>payload</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>logon payload - If null assumes that logon was done earlier.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="jesSetup.js.html">jesSetup.js</a>, <a href="jesSetup.js.html#line6">line 6</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <ul>
+<li>returns a jobExecution raf object</li>
+</ul>
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">object</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+    
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</article>
+
+</section>
 
 
 

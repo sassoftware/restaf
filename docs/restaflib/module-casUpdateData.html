@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Module: findReport</title>
+    <title>JSDoc: Module: casUpdateData</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Module: findReport</h1>
+    <h1 class="page-title">Module: casUpdateData</h1>
 
     
 
@@ -38,7 +38,7 @@
     <div class="container-overview">
     
         
-            <div class="description"><p>Search for a named report(async)</p></div>
+            <div class="description"><p>Update a record in a cas table</p></div>
         
 
         
@@ -85,7 +85,7 @@
             <td class="type">
             
                 
-<span class="param-type">object</span>
+<span class="param-type">*</span>
 
 
             
@@ -95,20 +95,20 @@
 
             
 
-            <td class="description last"><p>restaf store</p></td>
+            <td class="description last"><p>store</p></td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>name</code></td>
+                <td class="name"><code>session</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">string</span>
+<span class="param-type">*</span>
 
 
             
@@ -118,7 +118,30 @@
 
             
 
-            <td class="description last"><p>name of the VA report (null to get a list of all reports)</p></td>
+            <td class="description last"><p>cas session</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>payload</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">*</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>{data,where,table}</p></td>
         </tr>
 
     
@@ -159,7 +182,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="findReport.js.html">findReport.js</a>, <a href="findReport.js.html#line7">line 7</a>
+        <a href="casUpdateData.js.html">casUpdateData.js</a>, <a href="casUpdateData.js.html#line5">line 5</a>
     </li></ul></dd>
     
 
@@ -189,7 +212,7 @@
         
 <div class="param-desc">
     <ul>
-<li>either null or rafObject for the report</li>
+<li>return</li>
 </ul>
 </div>
 
@@ -201,7 +224,7 @@
     </dt>
     <dd>
         
-<span class="param-type">object</span>
+<span class="param-type">promise</span>
 
 
     </dd>
@@ -210,6 +233,11 @@
     
 
 
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>let inputs = restaflib.casUpdateData(store, session, payload);   payload = { where: {key1: vale1, key2: value2,...},               data: {var1:value1, var2:value2,....}},               table: {caslib: caslib, name: name}    Expects a single row</code></pre>
 
 
 

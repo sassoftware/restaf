@@ -3,11 +3,13 @@
  * SPDX-License-Identifier: Apache-2.0
 */
 'use strict';
+import jesSummary from  './jesSummary';
 //
 // Notes: Run compute service 
 //
-/*
- * Reduce compute service to an consummable form(async)
+/** 
+ * @description Reduce compute service to an consummable form(async)
+ * @private
  * @module jesRunBase
  * 
  * @param {object} sore - restaf store
@@ -16,7 +18,7 @@
  * @returns {object} rafobject of the results from a sas compute job
  * 
  */
-import jesSummary from  './jesSummary';
+
 async function jesRunBase (store, jes, payload){
     let job    = await store.apiCall(jes.links('create'), payload);
     let status = await store.jobState(job, null, 5, 2);

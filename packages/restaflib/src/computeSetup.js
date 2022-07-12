@@ -4,7 +4,7 @@
 */
 'use strict';
 /**
- *  Setup access to compute service
+ * @description Setup access to compute service
  * @async
  * @module computeSetup
  * 
@@ -13,7 +13,6 @@
  * @param {object} payload     - logon payload - If null assumes that logon was done earlier.
  * 
  * @returns {promise} - returns a compute session
- * @alias compute: computeSetup
  */
 async function computeSetup (store, contextName, payload){
     if (payload != null) {

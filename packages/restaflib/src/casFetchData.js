@@ -6,8 +6,10 @@
 /** 
  * lib
  */
+ import caslRunBase from './caslRunBase';
+ import programs from './programs';
 /**
- *
+ * @private
  * @description Fetch rows from cas Tables
  * 
  * @async
@@ -18,7 +20,6 @@
  * @param {object}    payload  - info to read data
  * @returns {promise} returns data and data for scrolling.
  * 
- * @alias module: casFetchData
  * @example
  *  async function test_casFetchData () {
  *    let {session} = await casSetup(store);
@@ -52,8 +53,7 @@
  *   await store.apiCall(session.links('delete'));
  * }
  */
-import caslRunBase from './caslRunBase';
-import programs from './programs';
+
 
 async function casFetchData (store, session, payload){
     let src    = programs['commonCasl']() + ' ' +  programs['casFetchData']();

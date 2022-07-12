@@ -17,7 +17,7 @@
  */
 /**
  *
- * Calls cas server and returns the results(async)
+ * @description Calls cas server and returns the results(async)
  * 
  * @async
  * @module casSetup
@@ -27,7 +27,6 @@
 
  * 
  * @returns {promise}  returns an object {session: xxx, servers: yyy}
- * @alias module: casSetup
  */
 'use strict';
 async function casSetup (store, logonPayload) {

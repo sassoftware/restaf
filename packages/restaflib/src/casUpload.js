@@ -8,7 +8,19 @@ let fs = require('fs').promises;
 
 import  uploadSetup from './uploadSetup';
 import { saveTable } from './uploadHandlers';
-
+/**
+ * @description upload different artifacts
+ * @private
+ * @async
+ * @module casUpload
+ * @param {*} store 
+ * @param {*} session 
+ * @param {*} source 
+ * @param {*} output 
+ * @param {*} save 
+ * @param {*} altSrc 
+ * @returns {promise}
+ */
 async function casUpload (store, session, source, output,save, altSrc){
     // parse source file to fgure out what we are uploading
     

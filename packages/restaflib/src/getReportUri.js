@@ -4,14 +4,13 @@
 */
 'use strict';
 /**
- * Generate url for report(async)
+ * @description Generate url for report(async)
  * @module getReportUri
  * 
  * @param {object} store  - restaf store
  * @param {string} name - name of report
  * 
  * @returns {promise} array of report's of the form {name: name, uri: uri} for the report(s)
- * @alias module: getReportUri
  */
 import findReport from './findReport';
 async function getReportUri (store, name) {

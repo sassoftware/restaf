@@ -5,7 +5,7 @@
 'use strict';
 
 /**
- * Prepare data for runCompute(@async)
+ * @description Prepare data for runCompute(@async)
  * @async
  * @module computeRun
  * 
@@ -15,7 +15,6 @@
  * @param {object} args - args to be passed on as macros
  * 
  * @returns {promise} computeSummary object
- * @alias module: computeRun
  * 
  */
 import computeRunBase from './computeRunBase';

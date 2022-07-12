@@ -5,7 +5,7 @@
  'use strict';
 
 /**
- * Produce a string with casl dictionary suitable for inclusion in casl code
+ * @description Produce a string with casl dictionary suitable for inclusion in casl code
  * 
  * @module jsonToDict
  * @param {object} obj - the JS object of interest

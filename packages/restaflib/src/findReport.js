@@ -5,7 +5,7 @@
 
 'use strict';
 /**
- *  Search for a named report(async)
+ * @description Search for a named report(async)
  * @async
  * @module findReport
  * 
@@ -13,7 +13,6 @@
  * @param {string} name - name of the VA report (null to get a list of all reports)
  * 
  * @returns {object} - either null or rafObject for the report
- * @alias module: findReport
  */
 
 async function findReport (store, name) {

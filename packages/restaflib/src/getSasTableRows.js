@@ -10,7 +10,7 @@
 
 'use strict';
 /**
- * Convert table to object of the form [{var1: value, var2: value,...},....](async)
+ * @description Convert table to object of the form [{var1: value, var2: value,...},....](async)
  * @async
  * @module getSASTableRows
  *                  
@@ -19,7 +19,6 @@
  * @param {string} tableName - name of the table
  * 
  * @returns {promise} - get retrieved rows [{var1:value, var2:...}]
- * @alias module: getSASTableRows
  */
 async function getSasTableRows (store, computeSummary, tableName){
 

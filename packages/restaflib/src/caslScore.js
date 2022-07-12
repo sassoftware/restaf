@@ -7,7 +7,7 @@
  */
 /**
  *
- * Score data in casl
+ * @description Score data in casl
  * 
  * @async
  * @module caslScore
@@ -17,7 +17,6 @@
  * @param {object} scenario   - scenario values
  * 
  * @returns {promise}  returns the scores as an object
- * @alias module: caslScore
  */
 'use strict';
 

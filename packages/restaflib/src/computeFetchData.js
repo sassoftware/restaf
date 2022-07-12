@@ -5,7 +5,7 @@
 
  /**
  * 
- * Fetch data from a SAS Table
+ * @decription Fetch data from a SAS Table
  * @async
  * @module computeFetchData
  * @param {object} store - restaf store
@@ -14,7 +14,6 @@
  * @param {string} scroll direction - null(to get first set)|next|prev|first|last
  * 
  * @returns {promise} - {columns: <columnames>, rows: <data for rows> , scrollOptions: <available scroll directions>}
- * @alias module: computeFetchData
  */
 async function computeFetchData (store, computeSummary, table, direction, qs) {
 	let data = null;

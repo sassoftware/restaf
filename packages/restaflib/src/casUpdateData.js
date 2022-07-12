@@ -3,13 +3,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 /**
+ * @description Update a record in a cas table
  * @async
+ * @module casUpdateData
  * @param {*} store   - store
  * @param {*} session - cas session
  * @param {*} payload - {data,where,table}
  * @returns {promise} - return 
- * @alias module casUpdateData
- * * @example
+ * @example
  *    let inputs = restaflib.casUpdateData(store, session, payload);
  *    payload = { where: {key1: vale1, key2: value2,...},
  *                data: {var1:value1, var2:value2,....}},

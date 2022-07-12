@@ -7,18 +7,15 @@
  */
 /**
  *
- * Calls cas server and returns the results(async)
+ * @description Calls cas server and returns the results(async)
  * 
  * @async
- * @function caslRun
+ * @module caslRun
  * 
  * @param {object} store    - restaf store
  * @param {object} session  - cas session
  * @param {object} src      - casl src statements
  * @param {object} args     - user input args (reference this as _args_ in casl program)
- * @param (binary) useCommons - set to try if you want to use the common casl library
-
- * 
  * @returns {promise}  returns results from cas
  */
 'use strict';

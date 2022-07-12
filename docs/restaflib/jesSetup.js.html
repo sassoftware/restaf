@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: getSasTableRows.js</title>
+    <title>JSDoc: Source: jesSetup.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: getSasTableRows.js</h1>
+    <h1 class="page-title">Source: jesSetup.js</h1>
 
     
 
@@ -27,52 +27,29 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>/*
- * Copyright © 2019, SAS Institute Inc., Cary, NC, USA.  All Rights Reserved.
- * SPDX-License-Identifier: Apache-2.0
+* Copyright © 2019, SAS Institute Inc., Cary, NC, USA.  All Rights Reserved.
+* SPDX-License-Identifier: Apache-2.0
 */
-
-//
-// Notes: Retrieve a SAS table and convert to a json
-// convert table to object of the form [{var1: value, var2: value,...},....]
-// ex: [{merlot:10, twobit:20}, {merlot: 20, twobit:30}]
-
 'use strict';
 /**
- * @description Convert table to object of the form [{var1: value, var2: value,...},....](async)
+ * @description Setup access to compute service
  * @async
- * @module getSASTableRows
- *                  
- * @param {object} store - restaf store
- * @param {object} computeSummary - computeSummary
- * @param {string} tableName - name of the table
+ * @module jesSetup
  * 
- * @returns {promise} - get retrieved rows [{var1:value, var2:...}]
+ * @param {object} store       - restaf store
+ * @param {object} payload     - logon payload - If null assumes that logon was done earlier.
+ * 
+ * @returns {object} - returns a jobExecution raf object
  */
-async function getSasTableRows (store, computeSummary, tableName){
-
-    let tableSelf = computeSummary.tables[tableName];
-    let t1        = await store.apiCall(tableSelf);
-    let table     = await store.apiCall(t1.links('rowSet'));
-
-    let columns   = table.items('columns');
-    let rows = table.items('rows');
-    let result = [];
-    
-
-    let count = rows.size;
-    for (let i=0; i &lt; count; i++) {
-        let row = rows.get(i);
-        let r = {};
-        columns.map((c,i) => {
-           let varx = c.toLowerCase();
-           r[varx] = row.get(i);
-        });
-        result.push(r);
+async function jesSetup (store, payload){
+    if (payload != null) {
+        await store.logon(payload);
     }
-    return result;
-
+    let services = await store.addServices('jobExecution', 'compute', 'jobDefinitions');
+    return services.jobExecution;
 }
-export default getSasTableRows;
+export default jesSetup;
+
 </code></pre>
         </article>
     </section>

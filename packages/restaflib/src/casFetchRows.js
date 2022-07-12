@@ -3,6 +3,8 @@
 * SPDX-License-Identifier: Apache-2.0
 */
 'use strict';
+import caslRunBase from './caslRunBase';
+import programs from './programs';
 /** 
  * lib
  */
@@ -18,7 +20,6 @@
  * @param {object}    payload  - info to read data
  * @returns {promise} returns data and data for scrolling.
  * 
- * @alias module: casFetchRows
  * @example
  *  async function test_casFetchRows () {
  *    let {session} = await casSetup(store);
@@ -52,8 +53,7 @@
  *   await store.apiCall(session.links('delete'));
  * }
  */
-import caslRunBase from './caslRunBase';
-import programs from './programs';
+
 
 async function casFetchRows (store, session, payload){
     let src    = programs['commonCasl']() + ' ' +  programs['casFetchRows']();

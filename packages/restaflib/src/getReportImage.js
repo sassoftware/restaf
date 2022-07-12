@@ -4,14 +4,13 @@
 */
 'use strict';
 /**
- *  Return the svg of the specified report(async)
+ * @description Return the svg of the specified report(async)
  * 
  * @module getReportImage
  * @param {object} store - restaf store
  * @param {string} name  - name of the report
  * 
  * @returns {string} - the svg of the report
- * @alias module: getReportImage
  * 
  */
 import findReport from './findReport';

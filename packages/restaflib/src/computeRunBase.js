@@ -3,11 +3,12 @@
  * SPDX-License-Identifier: Apache-2.0
 */
 'use strict';
-//
-// Notes: Run compute service 
-//
-/*
- * Reduce compute service to an consummable form(async)
+
+import computeSummary from  './computeSummary';
+/**
+ * @description Reduce compute service to an consummable form(async)
+ * @private
+ * @async
  * @module computeRunBase
  * 
  * @param {object} store - restaf store
@@ -17,7 +18,7 @@
  * @returns {object} computeSummary Object
  * 
  */
-import computeSummary from  './computeSummary';
+
 async function computeRunBase (store, session, code, maxTime, delay){
 
     let maxTries = 'wait';

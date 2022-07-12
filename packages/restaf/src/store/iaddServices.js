@@ -115,7 +115,8 @@ const iaddServices = (store, services)  => {
                     }
                 }
             }
-
+            
+            
             if (count === actionArray.length) {
                 unSubscribe();
                 resolve({ folders: folders, xsrfTokens: xsrfTokens});

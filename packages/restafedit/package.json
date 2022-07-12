@@ -1,0 +1,41 @@
+{
+  "name": "@sassoftware/restafedit",
+  "version": "0.5.0",
+  "description": "collection of useful functions for common data editing scenarios",
+  "main": "./lib/restafedit.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sassoftware/restaf/tree/master/packages/restafedit"
+  },
+  "author": "Deva Kumar <deva.kumar@sas.com>",
+  "license": "Apache-2.0",
+  "engines": {
+    "node": ">=10.16.0",
+    "npm": ">=6.10.0"
+  },
+  "dependency": {
+    "@sassoftware/restaf": "4.2.11",
+    "@sassoftware/restaflib": "4.2.11"
+  },
+  "browserslist": [
+    "last 2 versions",
+    "ie >= 11",
+    "maintained node versions"
+  ],
+  "unpkg": "dist/restafedit.min.js",
+  "files": [
+    "lib",
+    "dist"
+  ],
+  "bugs": {
+    "url": "https://github.com/sassoftware/restaf/issues"
+  },
+  "scripts": {
+    "test": "node",
+    "build": "rimraf dist && rimraf lib && webpack --env target=node p=n --config webpack.config.js && webpack --env target=web p=n --config webpack.config.js && webpack --env target=web p=y --config webpack.config.js",
+    "babel": "babel src --out-dir jslib",
+    "pub": "npm publish --tag test --access public",
+    "jsdoc": "jsdoc -c jsdoc.json",
+    "lint": "eslint . --fix"
+  }
+}

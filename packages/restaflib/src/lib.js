@@ -12,6 +12,7 @@ import casSetup        from './casSetup';
 import casActionRun    from './casActionRun';
 
 import casFetchData    from './casFetchData';
+import casUpdateData   from './casUpdateData';
 import casTableToJson  from './casTableToJson';
 
 import computeRun       from './computeRun';
@@ -52,6 +53,7 @@ function lib () {
         casActionRun: casActionRun,
         // casTableToJson,
         casFetchData: casFetchData,
+        casUpdateData: casUpdateData,
 
         computeRun        : computeRun,
         computeSetup      : computeSetup,

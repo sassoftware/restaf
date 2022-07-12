@@ -21,7 +21,7 @@ async function computeFetchData (store, computeSummary, table, direction, qs) {
 	let tableInfo;
 	let payload =(qs != null) ? {qs: qs} : null;
 	// eslint-disable-next-line no-prototype-builtins
-	debugger;
+	
 	if (computeSummary.tables.hasOwnProperty(table) === true) {
 		tableInfo = computeSummary.tables[table];
 		if (tableInfo.current === null || direction == null) {
@@ -39,7 +39,7 @@ async function computeFetchData (store, computeSummary, table, direction, qs) {
 					.toJS()
 			};
 		} else {
-			debugger;
+			
 			let current = tableInfo.current;
 			let dir = direction;
 			if (direction === 'next' && current.scrollCmds('next') === null) {

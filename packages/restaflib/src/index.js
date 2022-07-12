@@ -12,6 +12,7 @@ import casSetup        from './casSetup';
 import casActionRun    from './casActionRun';
 
 import casFetchData    from './casFetchData';
+import casUpdateData   from './casUpdateData';
 import casTableToJson  from './casTableToJson';
 
 import computeRun       from './computeRun';
@@ -44,7 +45,9 @@ import print           from './print';
 
 import casUpload       from './casUpload';
 import uploadData      from './uploadData';
+import casFetchRows    from './casFetchRows';
 import libx            from './lib';
+
 
 let lib = libx();
 export {
@@ -54,6 +57,8 @@ export {
     casActionRun,
     casTableToJson,
     casFetchData,
+    casFetchRows,
+    casUpdateData,
     computeRun,
     computeSetup,
     computeSummary,
@@ -70,7 +75,7 @@ export {
     
     jsonToDict,
     computeResults,
-    print,
+    // print,
     caslScore,
     caslDescribe,
     masSetup,

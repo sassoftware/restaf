@@ -52,7 +52,7 @@ module.exports = function configtest () {
 			host    : process.env.VIYA_SERVER,
 			user    : process.env['USER'],
 			password: process.env['PASSWORD'],
-			clientID: process.env.CLIENTID,
+			clientID: (process.env.CLIENTID == null) ? 'sas.ec' : process.env.CLIENTID,
 			clientSecret: (process.env.CLIENTSECRET == null) ? '' : process.env.CLIENTSECRET
 		};
 	};

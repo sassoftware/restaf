@@ -7,8 +7,8 @@ import fetchTableRows from './fetchTableRows';
 /**
  * @description Simplify scrolling using next|prev|top
  * @async
- * @function scrollTable
- * @param {string} direction direction(next|prev|top)
+ * @module scrollTable
+ * @param {string} direction direction(next|prev|first)
  * @param {appEnv} appEnv 
  * @returns {promise}  result ready for display or null if it did not scroll
  * @example
@@ -26,7 +26,7 @@ async function scrollTable (direction,appEnv) {
     const {initialFetch, table} = appEnv.appControl.dataControl;
 
     let control;
-    if (direction === 'top') {
+    if (direction === 'first') {
         control = {...initialFetch};
         control.table = table;
     } else {

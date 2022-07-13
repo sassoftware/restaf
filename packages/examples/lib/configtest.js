@@ -21,7 +21,12 @@
 let fs = require('fs');
 debugger;
 module.exports = function configtest () {
+	
+
 	let appEnv = process.env.RESTAFENV;
+	if (appEnv == null && process.env.DEFAULTENV != null) {
+		appEnv = process.env.DEFAULTENV;
+	}
 	if (appEnv != null) {
 		iconfig(appEnv);
 	} 

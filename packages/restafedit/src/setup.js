@@ -5,7 +5,7 @@ import { casSetup, lib }   from '@sassoftware/restaflib';
 /**
  * @description Setup an Edit session
  * @async
- * @function setup
+ * @module setup
  * @param {logonPayload} logonPayload  - information for connecting to Viya
  * @param {appControl} appControl      - control information 
  * 

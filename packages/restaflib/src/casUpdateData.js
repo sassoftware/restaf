@@ -6,8 +6,8 @@
  * @description Update a record in a cas table
  * @async
  * @module casUpdateData
- * @param {*} store   - store
- * @param {*} session - cas session
+ * @param {store} store   - store
+ * @param {rafObject} session - cas session
  * @param {*} payload - {data,where,table}
  * @returns {promise} - return 
  * @example

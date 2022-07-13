@@ -11,8 +11,8 @@ async function runit () {
     authType: 'password',
     clientID: 'sas.ec',
     clientSecret: '',
-    user: process.env.USER,
-    password: process.env.PASSWORD
+    user: 'sastest1',
+    password: 'Go4thsas'
   };
   
   
@@ -26,7 +26,7 @@ async function runit () {
   let appEnv = await setup(payload, appControl);
   console.log(appEnv.appControl.dataControl);
 
-  let result = await scrollTable('top', appEnv);
+  let result = await scrollTable('first', appEnv);
   console.log('result of first fetch -------------------------------');
   console.log(Object.keys(result));
   console.log(result);

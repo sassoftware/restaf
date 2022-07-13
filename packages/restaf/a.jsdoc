@@ -1,0 +1,53 @@
+/**
+ * restaf store.
+ * @typedef {object} restafStore
+ */
+
+/**
+ * Logon payload
+ * @typedef {object} logonPayload
+ */
+
+ /**
+ * Links reduced by restaf
+ * @typedef {object} restafLink
+ */
+
+ /**
+ * @description initialize a new store
+ * @module initStore 
+ * @returns {store} store - an instance of restaf store
+ * @example
+ *   const store = restaf.initStore();
+ *   The store manages all access to Viya and reduces the results into
+ *   restaf object.
+ */
+
+/**
+ * @description Logon or connect to a Viya server
+ * @async
+ * @module logon
+ * @param {logonPayload} logonPayload - see explantion of logonPayload
+ * @returns {promise} - returns a msg string
+ * @example
+ *  let msg = await store.logon(logonPayload);
+ *  This method handles all the various forms of logging on to Viya.
+ *  See {@link https://github.com/sassoftware/restaf/wiki/authentication} 
+ *  
+ * 
+ */
+ /**
+ * @description Add(initialize) services to the store
+ * @async
+ * @module addServices
+ * @param {restafStore} store 
+ * @param  {...any} serviceNames - list of services
+ * @returns {promise} - returns an object of rafObjects
+ * @example
+ *  const {compute, casManagement} = await store.addServices('compute', 'casManagewment);
+ *  Usually this is called immediately after a call to store.logon. However you can postpone calling it 
+ *  until your code needs it. A second call to addServices for the same Viya service will reuse 
+ *  the previous addStore for that service. So no need to track if you had called it before for a service.
+ *  
+ * 
+ */

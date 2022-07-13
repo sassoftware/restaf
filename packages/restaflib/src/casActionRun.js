@@ -10,8 +10,8 @@
  * @async
  * @module casActionRun
  * 
- * @param {object} store       - restaf store
- * @param {object} session     - cas session
+ * @param {store} store       - restaf store
+ * @param {rafObject} session     - cas session
  * @param {object} parameters  - parameters for the action
  * 
  * @returns {promise}  returns results from cas 

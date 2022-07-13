@@ -13,7 +13,7 @@ import commonHandler from './commonHandler';
  * @description reduce fetch results
  * @private
  * @async
- * @function prepFormData
+ * @module prepFormData
  * @param {object} result - result from casFetchRow(rows and schema)
  * @param {object} appEnv - app Environment from setup
  * @returns {promise}     - {columns: eColumns, rowsObject: newRows}

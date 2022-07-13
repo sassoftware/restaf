@@ -10,7 +10,7 @@ import updateTableRows from './updateTableRows';
 /**
  * @description Process edit of a cell and optionally save the data
  * @async
- * @function cellEdit
+ * @module cellEdit
  * @param {string} name     - name of the field (lower case)
  * @param {*} value         - the new value for name field
  * @param {number} rowIndex - row Index ( index in the data array on client)

@@ -15,8 +15,8 @@
  * @async
  * @module casFetchData
  * 
- * @param {object}    store    - restaf store
- * @param {object}    session  - cas session
+ * @param {store}    store    - restaf store
+ * @param {rafObject}  session  - cas session
  * @param {object}    payload  - info to read data
  * @returns {promise} returns data and data for scrolling.
  * 

@@ -8,7 +8,7 @@ import prepFormData from "./prepFormData";
 /**
  * @description Fetch new records based on control argument
  * @async
- * @function fetchTableRows
+ * @module fetchTableRows
  * @param {fetchControl} control - info for records to retrieve
  * @param {appEnv} appEnv - appEnv
  * @returns {promise}  - { data:data, columns:ecolumns, pagination: pagination} 

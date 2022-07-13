@@ -22,7 +22,17 @@ import iaddServices from './iaddServices';
 import { API_XSRF } from '../actionTypes';
 import appData from './appData';
 import getServiceRoot from './getServiceRoot';
-
+/**
+ * @description Add(initialize) services to the store
+ * @async
+ * @module addServices
+ * @param {restafStore} store 
+ * @param  {...any} serviceNames - list of services
+ * @returns {promise}
+ * @examples
+ *  const {compute, casManagement} = await store.addServices('compute', 'casManagewment);
+ * 
+ */
 async function addServices (store, ...services) {
    
     if (services.includes('casManagement')) {

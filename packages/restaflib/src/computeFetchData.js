@@ -9,7 +9,7 @@
  * @async
  * @module computeFetchData
  * @param {object} store - restaf store
- * @param {object} computeSummary - Summary object created by computeSummary method
+ * @param {computeSummary} computeSummary - Summary object created by computeSummary method
  * @param {string} table - name of the table
  * @param {string} scroll direction - null(to get first set)|next|prev|first|last
  * 

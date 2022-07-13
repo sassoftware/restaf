@@ -20,7 +20,14 @@
 import iapiCall from './iapiCall';
 
 import { API_CALL } from '../actionTypes';
-
+/**
+ * 
+ * @param {restafStore} store 
+ * @param {*} iroute 
+ * @param {*} payload 
+ * @param  {...any} rest 
+ * @returns 
+ */
 const  apiCall =  (store, iroute, payload, ...rest) => {
     
     return iapiCall(store, iroute, API_CALL, payload, ...rest);

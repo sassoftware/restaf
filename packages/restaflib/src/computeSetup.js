@@ -21,7 +21,7 @@ async function computeSetup (store, contextName, payload){
     let { compute} = await store.addServices('compute');
     let contexts = await store.apiCall(compute.links('contexts'));
     if (contextName == null){
-        contextName = 'Job Execution compute';
+        contextName = 'Job Execution';
     };
     contextName = contextName.toLowerCase();
     let index = contexts.itemsList().findIndex(c => c.toLowerCase().indexOf(contextName) >= 0 );

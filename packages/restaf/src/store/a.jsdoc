@@ -1,0 +1,18 @@
+/**
+ * restaf store.
+ * @typedef {object} restafStore
+ */
+
+/**
+ * Logon payload
+ * @typedef {object} logonPayload
+ */
+
+ /**
+ * Links reduced by restaf
+ * @typedef {object} restafLink
+ */
+ /**
+ * restaf object
+ * @typedef {object} rafObject
+ */

@@ -3,7 +3,7 @@
     "recurseDepth": 10,
     "source": {
       "include": ["src"],
-      "includePattern": ".js$",
+      "includePattern": ".js$|doc",
       "excludePattern": "(node_modules/|docs)"
     },
     "templates": {

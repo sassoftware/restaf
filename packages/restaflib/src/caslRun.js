@@ -12,10 +12,11 @@
  * @async
  * @module caslRun
  * 
- * @param {object} store    - restaf store
- * @param {object} session  - cas session
- * @param {object} src      - casl src statements
+ * @param {store} store    - restaf store
+ * @param {rafObject} session  - cas session
+ * @param {string} src      - casl src statements
  * @param {object} args     - user input args (reference this as _args_ in casl program)
+ * @param {boolean} useCommons - include the common casl programs
  * @returns {promise}  returns results from cas
  */
 'use strict';

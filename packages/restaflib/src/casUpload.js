@@ -13,7 +13,7 @@ import { saveTable } from './uploadHandlers';
  * @private
  * @async
  * @module casUpload
- * @param {*} store 
+ * @param {store} store 
  * @param {*} session 
  * @param {*} source 
  * @param {*} output 

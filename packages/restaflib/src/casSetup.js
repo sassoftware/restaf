@@ -22,9 +22,8 @@
  * @async
  * @module casSetup
  * 
- * @param {object} store         - restaf store
- * @param {object} logonPayload  - if not null, then use this logon to Viya
-
+ * @param {store} store         - restaf store
+ * @param {logonPayload} logonPayload  - if not null, then use this to logon to Viya
  * 
  * @returns {promise}  returns an object {session: xxx, servers: yyy}
  */

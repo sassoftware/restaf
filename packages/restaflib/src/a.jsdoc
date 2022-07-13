@@ -1,0 +1,20 @@
+/**
+ * restaf store.
+ * @typedef {object} store
+*/
+
+/**
+ * Logon payload
+ * @typedef {object} logonPayload
+ */
+
+ /**
+ * restaf object
+ * @typedef {object} rafObject
+ */
+
+ /**
+ * computeSummary from computeSummary
+ * @typedef {object} computeSummary
+ */
+

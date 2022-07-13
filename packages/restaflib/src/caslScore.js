@@ -12,8 +12,8 @@
  * @async
  * @module caslScore
  * 
- * @param {object} store    - restaf store
- * @param {object} session  - cas session
+ * @param {store} store    - restaf store
+ * @param {rafObject} session  - cas session
  * @param {object} scenario   - scenario values
  * 
  * @returns {promise}  returns the scores as an object

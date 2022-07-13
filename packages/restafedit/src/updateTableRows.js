@@ -3,7 +3,7 @@ import { casUpdateData } from '@sassoftware/restaflib';
 /**
  * @description Update the row on the server
  * @async
- * @function updateTableRows
+ * @module updateTableRows
  * @param {rowObject} data  - data as a rowObject
  * @param {appEnv} appEnv   - app Environment object from setup   
  * @returns {promise}       - key is completion code

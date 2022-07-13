@@ -5,7 +5,7 @@
 /**
  * @description Run init, main or term handlers
  * @async
- * @function commonHandler
+ * @module commonHandler
  * @param {string} type   - type of exit (init|main|term)
  * @param {rowObject} data        - rowObject
  * @param {number} rowIndex    - client-side Row Index

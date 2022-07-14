@@ -11,16 +11,16 @@ module.exports = async function setupAll () {
 	let logger = require('./testLogger')();
 
 	
-	let casopt = (process.env.CASPROXY === 'NO') ? false : true;
+	// let casopt = (process.env.CASPROXY === 'NO') ? false : true;
 
 	debugger;
-	let store = restaf.initStore( {casProxy: casopt});
+	let store = restaf.initStore();
 
 	try {
 	 debugger;
 	 let msg = await store.logon(payload);
 	 console.log(msg);
-	 return { store: store, logger: logger }
+	 return { store: store, logonPayload: payload, logger: logger }
 	} catch(err) {
 		console.log(err);
 		throw {error: "failed to logon"};

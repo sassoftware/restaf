@@ -34,6 +34,9 @@ async function runit () {
   
   let x3New  = result.data[0].x3 + 100;
   let r = await cellEdit('x3',x3New,0,result.data[0], appEnv);
+  console.log('state values after edit--------------------------------');
+  console.log(appEnv.state.data);
+  console.log('-------------------------------------------------------');
 
   result = await scrollTable('next',appEnv);
   console.log('result of scroll next----------------------------------');

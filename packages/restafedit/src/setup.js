@@ -30,10 +30,11 @@ async function setup (logonPayload, appControl) {
         restaflib   : lib,
         logonPayload: logonPayload,
         state       : {
-            modified  : [],
-            pagination: {},
-            data      : {},
-            columns   : {}
+            modified   : [],
+            pagination : {},
+            currentPage: {},
+            data       : {},
+            columns    : {}
         }
     };
     appEnv.appControl = appControl;

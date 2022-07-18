@@ -1,6 +1,6 @@
 {
   "name": "@sassoftware/restafedit",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "description": "collection of useful functions for common data editing scenarios",
   "main": "./lib/restafedit.js",
   "repository": {

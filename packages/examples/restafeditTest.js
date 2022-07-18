@@ -61,6 +61,7 @@ async function runit () {
   console.log(result.pagination);
   console.log('-------------------------------------------------------');
 
+  console.log(appEnv.state.currentPage);
   return 'done';
 
 };

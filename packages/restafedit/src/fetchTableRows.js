@@ -36,6 +36,7 @@ async function fetchTableRows (control, appEnv) {
     appEnv.state = {
         modified  : [],
         pagination: {...r.pagination},
+        currentPage: c,
         data      : [],
         columns   : []
     };

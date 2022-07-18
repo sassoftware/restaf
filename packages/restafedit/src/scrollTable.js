@@ -31,7 +31,7 @@ async function scrollTable (direction,appEnv) {
         control.table = table;
     } else {
         control = appEnv.state.pagination[direction];
-        if (control.next === -1) {
+        if (control.from === -1) {
            return null;
         }
     }

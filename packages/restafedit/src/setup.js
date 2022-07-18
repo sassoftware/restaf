@@ -33,7 +33,8 @@ async function setup (logonPayload, appControl) {
             modified  : [],
             pagination: {},
             data      : {},
-            columns   : {}
+            columns   : {},
+            recordKey : '',
         }
     };
     appEnv.appControl = appControl;

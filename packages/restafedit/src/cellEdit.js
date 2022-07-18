@@ -14,7 +14,7 @@ import updateTableRows from './updateTableRows';
  * @param {string} name     - name of the field (lower case)
  * @param {*} value         - the new value for name field
  * @param {number} rowIndex - row Index ( index in the data array on client)
- * @param {rowObject} data  - RowObject for the entire row prior to change
+ * @param {rowObject} data  - RowObject for the entire row prior to change.null if data cached
  * @param {appEnv} appEnv   - app Environment from setup
  * @returns {promise}       - {data: updated data, status: status }
  * @examples

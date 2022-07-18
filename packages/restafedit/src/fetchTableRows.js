@@ -27,17 +27,16 @@ async function fetchTableRows (control, appEnv) {
     if (c.where == null) {
         c.where = {};
     }
-    if (c.from <= 0 || c.next === -1) {
-        return null;
-    }
+    
     let r = await casFetchRows(store, session, c);
     let t = await prepFormData(r.data, appEnv);
     
     appEnv.state = {
-        modified  : [],
-        pagination: {...r.pagination},
-        data      : [],
-        columns   : []
+        modified   : [],
+        pagination : {...r.pagination},
+        currentPage: c,
+        data       : [],
+        columns    : []
     };
 
     if (appEnv.appControl.dataControl.cachePolicy === true) {

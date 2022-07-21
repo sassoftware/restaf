@@ -1,6 +1,6 @@
 {
   "name": "restaf",
-  "version": "4.2.11",
+  "version": "4.3.0",
   "description": "Library for writing SAS Viya application using REST APIs",
   "author": "Deva Kumaraswamy <deva.kumar@sas.com>",
   "license": "Apache-2.0",
@@ -33,17 +33,14 @@
     "restaf:build": "cd ./packages/restaf && yarn build",
     "restaf:pub": "cd ./packages/restaf && npm run pub",
     "restaflib:pub": "cd ./packages/restaflib && npm run pub",
-    "restafedit:pub": "cd ./packages/restafedit && npm run pub",
     "restaflib:build": "cd ./packages/restaflib && yarn build",
-    "restafedit:build": "cd ./packages/restafedit && yarn build",
-    "build": "npm run restaf:build && npm run restaflib:build && npm run restafedit:build",
-    "puball": "npm run restaf:pub && npm run restaflib:pub && npm run restafedit:pub",
+    "build": "npm run restaf:build && npm run restaflib:build",
+    "puball": "npm run restaf:pub && npm run restaflib:pub",
     "format": "prettier-eslint --eslint-config-path ./.eslintrc.json --write '**/*.js'",
     "lint": "eslint . --ext .js --fix",
-    "restafedit:jsdoc": "cd packages/restafedit && npm run jsdoc",
     "restaf:jsdoc": "cd packages/restaf && npm run jsdoc",
     "restaflib:jsdoc": "cd packages/restaflib && npm run jsdoc",
-    "jsdoc": "npm run restaf:jsdoc && npm run restaflib:jsdoc && npm run restafedit:jsdoc",
+    "jsdoc": "npm run restaf:jsdoc && npm run restaflib:jsdoc",
     "main:jsdoc": "npx jsdoc -c jsdoc.json"
   },
   "devDependencies": {

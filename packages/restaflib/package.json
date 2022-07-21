@@ -1,8 +1,7 @@
 {
   "name": "@sassoftware/restaflib",
-  "version": "4.2.11",
+  "version": "4.3.0",
   "description": "collection of useful functions for common scenarios",
-  "main": "./lib/restaflib.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/sassoftware/restaf/tree/master/packages/restaflib"
@@ -18,7 +17,10 @@
     "ie >= 11",
     "maintained node versions"
   ],
-  "unpkg": "dist/restaflib.min.js",
+  "unpkg": "/dist/restaflib.min.js",
+  "main": "./lib/restaflib.js",
+  "modules": "/dist/restaflib.min.js",
+  "browser": "/dist/restaflib.min.js",
   "files": [
     "lib",
     "dist"

@@ -1,9 +1,10 @@
 {
   "name": "@sassoftware/restafedit",
   "version": "0.8.0",
-  "description": "Made with create-react-library",
+  "description": "Library for data editing in SAS Viya",
   "author": "devaKumaraswamy",
   "license": "Apache-2.0",
+  "keywords": ["SAS", "Viya", "Editing", "restaf", "restafedit"],
   "repository": "https://github.com/sassoftware/restaf/tree/restafedit",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",

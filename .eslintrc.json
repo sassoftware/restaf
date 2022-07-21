@@ -1,24 +1,44 @@
 {
-  "root": true,
-  "plugins": [
-      "react-hooks"
-    ],
+  "parser": "@babel/eslint-parser",
+	"extends": ["eslint:recommended", "prettier", "react-app"],
+
   "env": {
-    "browser": true,
-    "node": true,
-    "es6": true
+    "node": true
   },
-  "parser": "babel-eslint",
-  "extends": [
-    "prettier",
-    "prettier/react"
-  ],
   "parserOptions": {
-    "ecmaVersion": 6,
-    "sourceType": "module",
+    "ecmaVersion": 2020,
     "ecmaFeatures": {
+      "legacyDecorators": true,
       "jsx": true
-    },
-    "no-undef": "error"
+    }
+  },
+  "settings": {
+    "react": {
+      "version": "16"
+    }
+  },
+  "rules": {
+    "key-spacing": [
+			2,
+			{
+				"align": "colon"
+			}
+		],
+		"jsx-quotes": [2, "prefer-double"],
+		"no-console": 0,
+		"no-unused-vars": [
+			1,
+			{
+				"args": "none"
+			}
+		],
+		"no-debugger": 0,
+		"react/prop-types": 0,
+		"array-bracket-spacing": [2, "never"],
+		"space-in-parens": [2, "never"],
+		"space-before-function-paren": [2, "always"],
+		"semi": [2, "always"],
+		"no-prototype-builtins": 0
+
   }
 }

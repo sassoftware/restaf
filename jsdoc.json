@@ -2,8 +2,8 @@
     "plugins": ["plugins/markdown"],
     "recurseDepth": 10,
     "source": {
-      "include": ["./a.jsdoc"],
-      "includePattern": ".jsdoc$",
+      "include": ["src"],
+      "includePattern": ".js$",
       "excludePattern": "(node_modules/|docs)"
     },
     "templates": {
@@ -12,8 +12,8 @@
     },
     "opts": {
       "destination": "./docs",
-      "recurse": false,
-      "readme": "./README.md"
+      "recurse": true,
+      "readme": "README.md"
     }
-}
+    }
     

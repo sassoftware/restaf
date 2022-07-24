@@ -28,7 +28,7 @@
   },
   "scripts": {
     "test": "cd ./packages/examples && npm test",
-    "restafedit:test" : "cd ./packages/examples && cross-env NODE_TLS_REJECT_UNAUTHORIZED=0 node restafeditTest.js",
+    "restafedit:test": "cd ./packages/examples && cross-env NODE_TLS_REJECT_UNAUTHORIZED=0 node restafeditTest.js",
     "examples:debug": "cd ./packages/examples && npm run debug",
     "restaf:build": "cd ./packages/restaf && yarn build",
     "restaf:pub": "cd ./packages/restaf && npm run pub",
@@ -68,6 +68,7 @@
     "@babel/plugin-transform-spread": "^7.14.6",
     "@babel/plugin-transform-strict-mode": "^7.14.5",
     "@babel/preset-env": "^7.14.7",
+    "@types/node": "^18.6.0",
     "babel-eslint": "^10.1.0",
     "babel-loader": "^8.2.2",
     "core-js": "^3.15.2",

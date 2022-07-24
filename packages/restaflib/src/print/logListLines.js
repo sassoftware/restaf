@@ -6,16 +6,18 @@
 //
 // Notes: Convert Loglines to html
 //
+import colors from 'colors/safe';
 
 /**
- * Return log lines as html(async)
+ * @description Return log lines as html(async)
  * @module logLines
+ * @private
  * @param {object} folder - raf Object for log lines
  * 
  * @returns {string} log lines as HTML
  * 
  */
-import colors from 'colors/safe';
+
 
 async function logListLines (dataL) {
     

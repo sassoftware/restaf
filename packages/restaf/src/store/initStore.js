@@ -42,6 +42,12 @@ import getXsrfData     from './getXsrfData';
 import deleteRafObject from './deleteRafObject';
 import keepViyaAlive   from './keepViyaAlive';
 
+/**
+ * @Description Initialize store
+ * @module initStore
+ * @params {object} iconfig
+ * @returns {store} returns store object
+ */
 function initStore (iconfig) {
     let config = { casProxy: false };
     if (iconfig != null) {

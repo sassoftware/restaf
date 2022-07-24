@@ -1,3 +1,4 @@
+// @ts-nocheck
 /*
  * ------------------------------------------------------------------------------------
  *   Copyright (c) SAS Institute Inc.
@@ -17,7 +18,12 @@
  */
 
 'use strict';
-
+/**
+ * @Description Get current list of registered services
+ * @module getServices
+ * @params {store} store
+ * @returns {Array} - array of service names
+ */
 function getServices (store) {
     let list = store.getState();
     let services = [];

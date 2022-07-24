@@ -29,12 +29,7 @@
  *  await store.apiCall(session.links('delete'));
  *  }
  */
-'use strict';
 
-
-// Notes: Function to call cas 
-// See README file for notes on REUSECASSESSION
-//
 async function casActionRun (store,...rest) {
     let result  = await store.runAction(...rest);
     return result.items().toJS();

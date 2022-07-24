@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Home</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Home</h1>
+
+    
+
+
+
+    
+
+
+    <h3> </h3>
+
+
+
+
+
+
+
+
+
+
+    
+
+
+
+
+    <section>
+        <article><p><a name="module_casActionRun"></a></p>
+<h2>casActionRun ⇒ <code>object</code></h2>
+<p>Calls cas server and returns the results(async)</p>
+<p><strong>Returns</strong>: <code>object</code> - returns results from cas</p>
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>store</td>
+<td><code>object</code></td>
+<td>restaf store</td>
+</tr>
+<tr>
+<td>session</td>
+<td><code>object</code></td>
+<td>cas session</td>
+</tr>
+<tr>
+<td>parameters</td>
+<td><code>object</code></td>
+<td>parameters for the action</td>
+</tr>
+</tbody>
+</table>
+<p><a name="module_casFetchData"></a></p>
+<h2>casFetchData ⇒ <code>object</code></h2>
+<p>Fetch rows from cas Tables</p>
+<p><strong>Returns</strong>: <code>object</code> - see doc. {pagination: {prev: pagePrev, next: pageNext, count: count},  data:  {schema: co The prev and next are as follows:  Either it is -1 to indicate EOF or a number to start the next obs no to start the fetc from</p>
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>store</td>
+<td><code>object</code></td>
+<td>restaf store</td>
+</tr>
+<tr>
+<td>session</td>
+<td><code>object</code></td>
+<td>cas session</td>
+</tr>
+<tr>
+<td>table</td>
+<td><code>object</code></td>
+<td>table {caslib: x, name: y} to read from</td>
+</tr>
+<tr>
+<td>control</td>
+<td><code>object</code></td>
+<td>what to read {from: n, count:n , format: true</td>
+</tr>
+</tbody>
+</table>
+<p><a name="module_caslRunBase"></a></p>
+<h2>caslRunBase ⇒ <code>object</code></h2>
+<p>Calls cas server and returns the results(async)</p>
+<p><strong>Returns</strong>: <code>object</code> - returns results from cas</p>
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>store</td>
+<td><code>object</code></td>
+<td>restaf store</td>
+</tr>
+<tr>
+<td>session</td>
+<td><code>object</code></td>
+<td>cas session</td>
+</tr>
+<tr>
+<td>src</td>
+<td><code>object</code></td>
+<td>casl src statements</td>
+</tr>
+<tr>
+<td>args</td>
+<td><code>object</code></td>
+<td>user input args</td>
+</tr>
+</tbody>
+</table>
+<p><a name="module_caslRunBase"></a></p>
+<h2>caslRunBase ⇒ <code>object</code></h2>
+<p>Calls cas server and returns the results(async)</p>
+<p><strong>Returns</strong>: <code>object</code> - standard return value from apiCall</p>
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>store</td>
+<td><code>object</code></td>
+<td>restaf store</td>
+</tr>
+<tr>
+<td>session</td>
+<td><code>object</code></td>
+<td>cas session</td>
+</tr>
+<tr>
+<td>src</td>
+<td><code>object</code></td>
+<td>casl src statements</td>
+</tr>
+<tr>
+<td>args</td>
+<td><code>object</code></td>
+<td>arguments to pass to on to CAS as <em>args</em></td>
+</tr>
+</tbody>
+</table>
+<p><a name="module_caslScore"></a></p>
+<h2>caslScore ⇒ <code>object</code></h2>
+<p>Score data in casl</p>
+<p><strong>Returns</strong>: <code>object</code> - returns the scores as an object</p>
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>store</td>
+<td><code>object</code></td>
+<td>restaf store</td>
+</tr>
+<tr>
+<td>session</td>
+<td><code>object</code></td>
+<td>cas session</td>
+</tr>
+<tr>
+<td>scenario</td>
+<td><code>object</code></td>
+<td>scenario values</td>
+</tr>
+</tbody>
+</table>
+<p><a name="module_casSetup"></a></p>
+<h2>casSetup ⇒ <code>object</code></h2>
+<p>Calls cas server and returns the results(async)</p>
+<p><strong>Returns</strong>: <code>object</code> - returns an object {session: xxx, servers: yyy}</p>
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>store</td>
+<td><code>object</code></td>
+<td>restaf store</td>
+</tr>
+<tr>
+<td>logonPayload</td>
+<td><code>object</code></td>
+<td>if not null, then use this logon to Viya</td>
+</tr>
+</tbody>
+</table>
+<p><a name="module_casTableToJson"></a></p>
+<h2>casTableToJson ⇒ <code>object</code></h2>
+<p>Converts a cas table to JSON</p>
+<p><strong>Returns</strong>: <code>object</code> - - the new json version</p>
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>result</td>
+<td><code>object</code></td>
+<td>the raf object retrned from a call to cas</td>
+</tr>
+<tr>
+<td>table</td>
+<td><code>string</code></td>
+<td>the name of the table</td>
+</tr>
+</tbody>
+</table>
+<p><a name="module_computeFetchData"></a></p>
+<h2>computeFetchData ⇒ <code>object</code></h2>
+<p>Fetch data from a SAS Table</p>
+<p><strong>Returns</strong>: <code>object</code> - - {columns: <columnames>, rows: <data for rows> , scrollOptions: <available scroll directions>}</p>
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>store</td>
+<td><code>object</code></td>
+<td>restaf store</td>
+</tr>
+<tr>
+<td>computeSummary</td>
+<td><code>object</code></td>
+<td>Summary object created by computeSummary method</td>
+</tr>
+<tr>
+<td>table</td>
+<td><code>string</code></td>
+<td>name of the table</td>
+</tr>
+<tr>
+<td>direction</td>
+<td><code>string</code></td>
+<td>null</td>
+</tr>
+</tbody>
+</table>
+<p><a name="module_computeResults"></a></p>
+<h2>computeResults ⇒ <code>object</code> | <code>string</code></h2>
+<p>Return Log|listing|ODS|list of tables in the compute service job</p>
+<p><strong>Returns</strong>: <code>object</code> | <code>string</code> - - string for all except tables(array)</p>
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>store</td>
+<td><code>object</code></td>
+<td>restaf store</td>
+</tr>
+<tr>
+<td>computeSummary</td>
+<td><code>object</code></td>
+<td>computeSummary object</td>
+</tr>
+<tr>
+<td>type</td>
+<td><code>string</code></td>
+<td>type of result( log</td>
+</tr>
+</tbody>
+</table>
+<p><a name="module_computeRun"></a></p>
+<h2>computeRun ⇒ <code>object</code></h2>
+<p>Prepare data for runCompute(@async)</p>
+<p><strong>Returns</strong>: <code>object</code> - computeSummary object</p>
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>store</td>
+<td><code>object</code></td>
+<td>restaf store</td>
+</tr>
+<tr>
+<td>session</td>
+<td><code>object</code></td>
+<td>current compute service session</td>
+</tr>
+<tr>
+<td>src</td>
+<td><code>string</code></td>
+<td>code to execute</td>
+</tr>
+<tr>
+<td>args</td>
+<td><code>object</code></td>
+<td>args to be passed on as macros</td>
+</tr>
+</tbody>
+</table>
+<p><a name="module_computeRunBase"></a></p>
+<h2>computeRunBase ⇒ <code>object</code></h2>
+<p>Reduce compute service to an consummable form(async)</p>
+<p><strong>Returns</strong>: <code>object</code> - computeSummary Object</p>
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>store</td>
+<td><code>object</code></td>
+<td>restaf store</td>
+</tr>
+<tr>
+<td>session</td>
+<td><code>object</code></td>
+<td>compute service session</td>
+</tr>
+<tr>
+<td>code</td>
+<td><code>code</code></td>
+<td>SAS code to be executed</td>
+</tr>
+</tbody>
+</table>
+<p><a name="module_computeSetup"></a></p>
+<h2>computeSetup ⇒ <code>object</code></h2>
+<p>Setup access to compute service</p>
+<p><strong>Returns</strong>: <code>object</code> - - returns a compute session</p>
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>store</td>
+<td><code>object</code></td>
+<td>restaf store</td>
+</tr>
+<tr>
+<td>contextName</td>
+<td><code>string</code></td>
+<td>name of the context( if null the first context in the list is used)</td>
+</tr>
+<tr>
+<td>payload</td>
+<td><code>object</code></td>
+<td>logon payload - If null assumes that logon was done earlier.</td>
+</tr>
+</tbody>
+</table>
+<p><a name="module_computeSummary"></a></p>
+<h2>computeSummary ⇒ <code>object</code></h2>
+<p>Reduce the job information into consummable form(async)</p>
+<p><strong>Returns</strong>: <code>object</code> - - the computeSummary object for easy handling of logs,listing,ods, tables</p>
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>store</td>
+<td><code>object</code></td>
+<td>restaf store</td>
+</tr>
+<tr>
+<td>job</td>
+<td><code>object</code></td>
+<td>rafObject representing the compute service job</td>
+</tr>
+</tbody>
+</table>
+<p><a name="module_findReport"></a></p>
+<h2>findReport ⇒ <code>object</code></h2>
+<p>Search for a named report(async)</p>
+<p><strong>Returns</strong>: <code>object</code> - - either null or rafObject for the report</p>
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>store</td>
+<td><code>object</code></td>
+<td>restaf store</td>
+</tr>
+<tr>
+<td>name</td>
+<td><code>string</code></td>
+<td>name of the VA report</td>
+</tr>
+</tbody>
+</table>
+<p><a name="module_getReportImage"></a></p>
+<h2>getReportImage ⇒ <code>string</code></h2>
+<p>Return the svg of the specified report(async)</p>
+<p><strong>Returns</strong>: <code>string</code> - - the svg of the report</p>
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>store</td>
+<td><code>object</code></td>
+<td>restaf store</td>
+</tr>
+<tr>
+<td>name</td>
+<td><code>string</code></td>
+<td>name of the report</td>
+</tr>
+</tbody>
+</table>
+<p><a name="module_getReportUrl"></a></p>
+<h2>getReportUrl ⇒ <code>string</code></h2>
+<p>Generate url for report(async)</p>
+<p><strong>Returns</strong>: <code>string</code> - url for the report</p>
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>store</td>
+<td><code>object</code></td>
+<td>restaf store</td>
+</tr>
+<tr>
+<td>name</td>
+<td><code>string</code></td>
+<td>name of report</td>
+</tr>
+</tbody>
+</table>
+<p><a name="module_getSASTableRows"></a></p>
+<h2>getSASTableRows ⇒ <code>object</code></h2>
+<p>Convert table to object of the form <a href="async">{var1: value, var2: value,...},....</a></p>
+<p><strong>Returns</strong>: <code>object</code> - - resulting json</p>
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>store</td>
+<td><code>object</code></td>
+<td>restaf store</td>
+</tr>
+<tr>
+<td>computeSummary</td>
+<td><code>object</code></td>
+<td>computeSummary</td>
+</tr>
+<tr>
+<td>tableName</td>
+<td><code>string</code></td>
+<td>name of the table</td>
+</tr>
+</tbody>
+</table>
+<p><a name="module_jsonToDict"></a></p>
+<h2>jsonToDict ⇒ <code>string</code></h2>
+<p>Produce a string with casl dictionary suitable for inclusion in casl code</p>
+<p><strong>Returns</strong>: <code>string</code> - returns the string containing the casl dictionary</p>
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>obj</td>
+<td><code>object</code></td>
+<td>the JS object of interest</td>
+</tr>
+<tr>
+<td>name</td>
+<td><code>string</code></td>
+<td>the name to assign to the dictionary</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Example</strong></p>
+<pre class="prettyprint source lang-js"><code>obj = {x: 1, b:2, c: ['a','b']};
+ name ='_appEnv_';
+ result is a string _appEnv_ = {x=2, b=3, c={&quot;a', &quot;b&quot;}}
+</code></pre>
+<p><a name="module_masRun"></a></p>
+<h2>masRun ⇒ <code>object</code></h2>
+<p>Score using MAS</p>
+<p><strong>Returns</strong>: <code>object</code> - - return results {name: value, name: value}</p>
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>restaf</td>
+<td><code>store</code></td>
+<td>store</td>
+</tr>
+<tr>
+<td>masControl</td>
+<td><code>object</code></td>
+<td>object from masSetup</td>
+</tr>
+<tr>
+<td>modelName</td>
+<td><code>string</code></td>
+<td>name of model to be executed</td>
+</tr>
+<tr>
+<td>stepName</td>
+<td><code>string</code></td>
+<td>if not specified it will default to the first step</td>
+</tr>
+</tbody>
+</table>
+<p><a name="module_masSetup"></a></p>
+<h2>masSetup ⇒ <code>object</code></h2>
+<p>setup access to MAS</p>
+<p><strong>Returns</strong>: <code>object</code> - - masControl used in masRun</p>
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>store</td>
+<td><code>object</code></td>
+<td>restaf store</td>
+</tr>
+<tr>
+<td>models</td>
+<td><code>object</code></td>
+<td>an array of model names</td>
+</tr>
+<tr>
+<td>logonPayload</td>
+<td><code>object</code></td>
+<td>null</td>
+</tr>
+</tbody>
+</table></article>
+    </section>
+
+
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-casActionRun.html">casActionRun</a></li><li><a href="module-casFetchRows.html">casFetchRows</a></li><li><a href="module-caslRun.html">caslRun</a></li><li><a href="module-caslScore.html">caslScore</a></li><li><a href="module-casSetup.html">casSetup</a></li><li><a href="module-casTable.html">casTable</a></li><li><a href="module-casTableToJson.html">casTableToJson</a></li><li><a href="module-casUpdateData.html">casUpdateData</a></li><li><a href="module-computeFetchData.html">computeFetchData</a></li><li><a href="module-computeFileContent.html">computeFileContent</a></li><li><a href="module-computeResults.html">computeResults</a></li><li><a href="module-computeRun.html">computeRun</a></li><li><a href="module-computeSetup.html">computeSetup</a></li><li><a href="module-computeSummary.html">computeSummary</a></li><li><a href="module-findReport.html">findReport</a></li><li><a href="module-getReportImage.html">getReportImage</a></li><li><a href="module-getReportUri.html">getReportUri</a></li><li><a href="module-getSASTableRows.html">getSASTableRows</a></li><li><a href="module-jesSetup.html">jesSetup</a></li><li><a href="module-jsonToDict.html">jsonToDict</a></li><li><a href="module-logLines.html">logLines</a></li><li><a href="module-masDescribe.html">masDescribe</a></li><li><a href="module-masRun.html">masRun</a></li><li><a href="module-masScore.html">masScore</a></li><li><a href="module-masSetup.html">masSetup</a></li><li><a href="module-uploadSetup.html">uploadSetup</a></li></ul><h3><a href="global.html">Global</a></h3>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.10</a> on Sun Jul 24 2022 15:59:48 GMT-0400 (Eastern Daylight Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

@@ -20,7 +20,17 @@
 
 
 // import {APP_DATA} from '../actionTypes';
-
+/**
+ * @description Manage data for user
+ * @module appData
+ * @private
+ * @param {store} store
+ * @param {string} type
+ * @param {route} route -- path to data
+ * @param {object} payload -- data to store
+ * 
+ */
+// @ts-ignore
 function appData  (store, type, route, payload) {
     let action = {
         type : type,

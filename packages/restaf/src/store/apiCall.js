@@ -21,12 +21,13 @@ import iapiCall from './iapiCall';
 
 import { API_CALL } from '../actionTypes';
 /**
- * 
+ * @description Make a call to an api based on rel
+ * @module apiCall
  * @param {restafStore} store 
- * @param {*} iroute 
- * @param {*} payload 
- * @param  {...any} rest 
- * @returns 
+ * @param {rafLinkRel} iroute
+ * @param {object} payload 
+ * 
+ * @returns {rafObject} raf reduced result
  */
 const  apiCall =  (store, iroute, payload, ...rest) => {
     

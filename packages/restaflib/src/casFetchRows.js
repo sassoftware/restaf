@@ -5,9 +5,7 @@
 'use strict';
 import caslRunBase from './caslRunBase';
 import programs from './programs';
-/** 
- * lib
- */
+
 /**
  *
  * @description Fetch rows from cas Tables

@@ -2,8 +2,8 @@
     "plugins": ["plugins/markdown"],
     "recurseDepth": 10,
     "source": {
-      "include": ["src"],
-      "includePattern": ".js$|doc",
+      "include": ["src"],      
+      "includePattern": ".js$",
       "excludePattern": "(node_modules/|docs)"
     },
     "templates": {
@@ -11,9 +11,9 @@
       "monospaceLinks": true
     },
     "opts": {
-      "destination": "../../docs/restaflib",
+      "destination": "../../jsdocs/restaflib",
       "recurse": true,
-      "readme": "./README.md"
+      "readme": "README.md"
     }
     }
     

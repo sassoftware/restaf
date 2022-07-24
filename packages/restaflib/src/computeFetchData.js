@@ -8,7 +8,7 @@
  * @decription Fetch data from a SAS Table
  * @async
  * @module computeFetchData
- * @param {object} store - restaf store
+ * @param {store} store - restaf store
  * @param {computeSummary} computeSummary - Summary object created by computeSummary method
  * @param {string} table - name of the table
  * @param {string} scroll direction - null(to get first set)|next|prev|first|last

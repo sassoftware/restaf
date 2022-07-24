@@ -3,9 +3,7 @@
 * SPDX-License-Identifier: Apache-2.0
 */
 'use strict';
-/** 
- * lib
- */
+
  import caslRunBase from './caslRunBase';
  import programs from './programs';
 /**

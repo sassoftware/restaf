@@ -1,4 +1,6 @@
 const {setup, fetchTableRows, scrollTable, cellEdit} = require('./dist/index.js');
+const restafedit = require('./dist/index.js');
+console.log(restafedit);
 
 runit() 
     .then (r => console.log(r))

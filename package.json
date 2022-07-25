@@ -20,7 +20,7 @@
     "node": ">=10"
   },
   "scripts": {
-    "build": "microbundle",
+    "build": "microbundle  --name restafedit",
     "test": "cross-env NODE_TLS_REJECT_UNAUTHORIZED=0 node test.js",
     "test:build": "run-s build",
     "test:lint": "eslint .",

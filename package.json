@@ -67,5 +67,8 @@
   },
   "files": [
     "dist"
-  ]
+  ],
+  "dependencies": {
+    "@sassoftware/restafedit": "^0.8.0"
+  }
 }

@@ -28,8 +28,8 @@
     "jsdoc": "jsdoc -c jsdoc.json"
   },
   "peerDependencies": {
-    "@sassoftware/restaf": ">4.2.0",
-    "@sassoftware/restaflib": ">4.2.0"
+    "@sassoftware/restaf": ">=4.3.0",
+    "@sassoftware/restaflib": ">=4.3.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.14.5",

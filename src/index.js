@@ -11,7 +11,7 @@ import updateTableRows  from './updateTableRows';
 import scrollTable      from './scrollTable';
 import setup            from './setup';
 
-export default { 
+export { 
          cellEdit,
          commonHandler,
          fetchTableRows,

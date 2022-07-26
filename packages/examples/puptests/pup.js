@@ -1,6 +1,6 @@
 let restaf = require('@sassoftware/restaf');
 
-let store = restaf.initStore({computeDirect: '0001'});
+let store = restaf.initStore();
 console.log(store.config);
 let payload = {
     host: process.env.VIYA_PUP,
@@ -8,7 +8,7 @@ let payload = {
     tokenType: 'bearer',
     authType: 'server',
     options: {
-      computeDirect: '0001'
+      computeServerId: '0001'
     }
 
 }

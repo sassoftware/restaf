@@ -56,11 +56,11 @@ test('CAS fetchrows', async () => {
 	let r = await testFunctions.casDSandFetch2(testInfo);
 	expect(r).toMatchSnapshot();
 });
-test.only('CAS DataStep and Fetch2', async () => {
+test('CAS DataStep and Fetch2', async () => {
 	let r = await testFunctions.casFetchData3(testInfo);
 	expect(r).toMatchSnapshot();
 });
-test('CAS Tables', async () => {
+test.only('CAS Tables', async () => {
 	let r = await testFunctions.casTables(testInfo);
 	expect(r).toBe('done');
 });

@@ -24,7 +24,7 @@ async function computeRunBase (store, session, code, maxTime, delay){
     let maxTries = 'wait';
     let realDelay = (delay != null) ? delay : 5;
    
-    if (maxTime !== 'wait' && maxTime  !== null ) {
+    if (maxTime !== 'wait' && maxTime  != null ) {
       maxTries = Math.max(Math.floor(maxTime / realDelay), 1);
     }
    

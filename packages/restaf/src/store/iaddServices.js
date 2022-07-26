@@ -39,7 +39,7 @@ const iaddServices = (store, services)  => {
         // Create actionArray for the services
         //
         let actionArray = services.map(service => {
-            return {
+            let s = {
                 type: ADD_SERVICE,
                 link: {
                     method      : 'GET',
@@ -56,8 +56,15 @@ const iaddServices = (store, services)  => {
                 
                 storeConfig: store.config
             };
+            //to support PuP compute server
+            if (service == 'compute' && store.config.options.computeDirect != null) {
+                s.link.href = '/compute/servers/' + store.config.options.computeDirect + '/';
+                s.link.url  = s.link.href;
+            };
+      
+            return s;
         });
-
+        
         //
         // The first callback needs to be ignored
         //

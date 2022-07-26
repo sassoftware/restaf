@@ -92,9 +92,15 @@ const logon = (store, ipayload) => {
                 }
             } 
         
+            // persist options in payload - currently used for pup support
             
+            store.config.options = {};
+            if (payload.options != null) {
+                store.config.options= {...payload.options};
+            }
+
             // now make the final decision
-       
+
             switch (payload.authType) {
                 case 'code'          :
                 case VIYA_LOGON_TOKEN:

@@ -8,7 +8,7 @@ let payload = {
     tokenType: 'bearer',
     authType: 'server',
     options: {
-      computeDirect: '0001'
+      computeServerId: '0001'
     }
 
 }

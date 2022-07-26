@@ -21,7 +21,7 @@ async function computeSetup (store, contextName, payload){
     }
 
     let {compute} = await store.addServices('compute');
-    if (store.store.config.options.computeDirect == null) {
+    if (store.store.config.options.computeServerId == null) {
         //TBD: Switch to using filter for contexts -issue is matching long strings
         // or get all the contexts
         let contexts = await store.apiCall(compute.links('contexts'));

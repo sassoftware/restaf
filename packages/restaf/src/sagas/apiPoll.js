@@ -27,10 +27,11 @@ function *apiPoll (action) {
     yield put({type: config.serviceName + '_' + action.type + '_BEGIN', config: config});
 
     do {
+        payload = yield call(httpCallWait, config);
+        /* move delay after the first call */
         if (config.delay) {
             yield delay(config.delay * 1000);
         }
-        payload = yield call(httpCallWait, config);
     } while (payload === null);
 
     yield put(payload);

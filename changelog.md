@@ -14,3 +14,9 @@ Date: 07/26/2022
 Date: 7/26/2022
 
 - Change all references to computeDirect to computeServerId
+
+## 4.4.2
+
+Date: 7/27/2022
+
+- Change the default delay 0.25 in apiCall

@@ -48,14 +48,15 @@ module.exports = async function computeDS (testInfo) {
             `;
 
 	logger.info('Compute Service');
-
+	console.log(Date());
 	let computeSummary = await restaflib.computeRun(
 		store,
 		computeSession,
 		src,
 		macros,
-		15,2
+		'wait',0.5
     );
+	console.log(Date());
 	
 	// let log = await restaflib.computeResults(store, computeSummary, 'log');
 	// logger.info(log);

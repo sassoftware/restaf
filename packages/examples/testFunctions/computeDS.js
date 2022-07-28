@@ -54,7 +54,7 @@ module.exports = async function computeDS (testInfo) {
 		computeSession,
 		src,
 		macros,
-		'wait',0.5
+        5
     );
 	console.log(Date());
 	

@@ -21,12 +21,7 @@ import computeSummary from  './computeSummary';
 
 async function computeRunBase (store, session, code, maxTime, delay){
 
-    let maxTries = 'wait';
-    let realDelay = (delay != null) ? delay : 0.25;
    
-    if (maxTime !== 'wait' && maxTime  != null ) {
-      maxTries = Math.max(Math.floor(maxTime / realDelay), 1);
-    }
    
     let payload  = {
         data: {code: code}
@@ -35,8 +30,26 @@ async function computeRunBase (store, session, code, maxTime, delay){
 
     let job = await store.apiCall(session.links('execute'), payload);
 
-    let status = await store.jobState(job, null, maxTries, realDelay);
-   
+    /*
+    let maxTries = 'wait';
+    let realDelay = (delay != null) ? delay : 0.25;
+
+    if (maxTime !== 'wait' && maxTime  != null ) {
+    maxTries = Math.max(Math.floor(maxTime / realDelay), 1);
+    }
+    */
+ 
+    let p = {
+        qs: {
+          newState: 'Completed',
+        }
+    }
+
+    if (maxTime != null){
+        p.qs.timeout = maxTime*60;
+    };
+
+    let status = await store.jobState(job, p);
     if (status.data === 'running') {
         throw `ERROR: Job did not complete in allotted time`;
     } else {

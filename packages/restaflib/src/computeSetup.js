@@ -16,25 +16,25 @@
  */
 async function computeSetup (store, contextName, payload){
     if (payload != null) {
-        debugger;
         let msg = await store.logon(payload);
     }
 
     let {compute} = await store.addServices('compute');
     if (store.store.config.options.computeServerId == null) {
-        //TBD: Switch to using filter for contexts -issue is matching long strings
-        // or get all the contexts
-        let contexts = await store.apiCall(compute.links('contexts'));
-        if (contextName == null){
-            contextName = 'Job Execution';
-        };
         
-        contextName = contextName.toLowerCase();
-        let index = contexts.itemsList().findIndex(c => c.toLowerCase().indexOf(contextName) >= 0 );
-        if (index === -1){
-            throw {Error: "Compute Context not found: " + contextName};
+        if (contextName == null){
+            contextName = 'SAS Job Execution';
+        };
+        let p = {
+            qs: { filter: `contains(name,'${contextName}')`}
+          };
+
+        let contexts = await store.apiCall(compute.links("contexts"), p);
+        if (contexts.itemsList().size === 0) {
+            throw `Context ${contextName} not found`;
         }
-        let createSession = contexts.itemsCmd(contexts.itemsList(index), 'createSession');
+       
+        let createSession = contexts.itemsCmd(contexts.itemsList(0), 'createSession');
         let session       = await store.apiCall (createSession);
         return session;
     } else {

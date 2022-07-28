@@ -20,3 +20,10 @@ Date: 7/26/2022
 Date: 7/27/2022
 
 - Change the default delay 0.25 in apiCall
+
+## 4.4.5
+
+Date: 7/28/2022
+
+- Changed the jobState call in computeRun to use the query (newState: 'Complete'). More efficient.
+- Noticed that computeSetup was not using filter to find the context to be more efficient - changed it.

@@ -9,11 +9,11 @@
  * @async
  * @module computeRun
  * 
- * @param {object} store - restaf store
+ * @param {store} store - restaf store
  * @param {object} session - current compute service session
  * @param {string} src  - code to execute
- * @param {object} args - args to be passed on as macros
- * 
+ * @param {object} args optional - args to be passed on as macros
+ * @param {number} maxTime optional  - Time out after this many minutes
  * @returns {promise} computeSummary object
  * 
  */

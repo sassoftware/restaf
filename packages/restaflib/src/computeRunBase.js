@@ -41,15 +41,14 @@ async function computeRunBase (store, session, code, maxTime, delay){
  
     let p = {
         qs: {
-          newState: 'Completed',
+          newState: 'Completed'
         }
     }
 
     if (maxTime != null){
         p.qs.timeout = maxTime*60;
     };
-
-    let status = await store.jobState(job, p);
+    let status = await store.jobState(job, p, 'wait');
     if (status.data === 'running') {
         throw `ERROR: Job did not complete in allotted time`;
     } else {

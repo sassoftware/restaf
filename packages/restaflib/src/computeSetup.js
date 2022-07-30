@@ -8,9 +8,9 @@
  * @async
  * @module computeSetup
  * 
- * @param {object} store       - restaf store
- * @param {string} contextName - name of the context( if null the first context in the list is used)
- * @param {object} payload     - logon payload - If null assumes that logon was done earlier.
+ * @param {store} store - restaf store
+ * @param {string=} contextName - name of the context. If not specified|null, defaults to Job Execution context
+ * @param {logonPayload=} payload - logon payload.If null assumes that logon was done earlier.
  * 
  * @returns {promise} - returns a compute session
  */

@@ -132,7 +132,7 @@ function request (iconfig) {
         },
         validateStatus: function (status) {
           
-            return (status >= 200 && status < 300) || status === 302;
+            return (status === 302 || status === 304 ||status >= 200 && status < 300);
         },
     };
 

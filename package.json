@@ -28,7 +28,7 @@
   },
   "scripts": {
     "test": "cd ./packages/examples && npm test",
-    "restafedit:test" : "cd ./packages/examples && cross-env NODE_TLS_REJECT_UNAUTHORIZED=0 node restafeditTest.js",
+    "restafedit:test": "cd ./packages/examples && cross-env NODE_TLS_REJECT_UNAUTHORIZED=0 node restafeditTest.js",
     "pup:test": "cd ./packages/examples/puptests && node",
     "pup:debug": "cd ./packages/examples/puptests && node --inspect-brk",
     "examples:debug": "cd ./packages/examples && npm run debug",

@@ -26,7 +26,7 @@ async function jobState (store, job, payload, maxTries, delay, progressHandler, 
     let waitFlag = false;
     let tries    = 1;
     let status;
-    if (maxTries === 'wait') {
+    if (maxTries === 'wait'|| maxTries === 'longpoll') {
         tries    = 1;
         waitFlag = true;
     } else {

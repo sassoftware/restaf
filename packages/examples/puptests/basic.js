@@ -35,8 +35,13 @@ async function runtest(store, payload) {
       console.log('executing sas code');
       let job = await store.apiCall(session.links("execute"), sascode);
       console.log('calling job status');
-  
-      let status = await store.jobState(job, null, 5, 2);
+      let p = {
+        qs: {
+          newState: 'Completed',
+          timeout : 5
+        }
+      }
+      let status = await store.jobState(job, p);
   
       if (status.data === "running") {
         throw `ERROR: Job did not complete in allotted time`;

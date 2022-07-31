@@ -24,15 +24,12 @@
          .then(response => {
              debugger;
              let r = response.data.results;
-             console.log(response.status);
-             debugger;
              if (typeof r === 'object') {
-                 debugger;
                  r = response.data.results.items.isIdle === true ? 'completed' : 'running';
                  response.data.results.items = r;
              } else {
                  if ( response.status === 304) {
-                     r = 'running';
+                     r = 'running';/* since the api returns a blank results */
                  }
              }
              if (config.eventHandler) {

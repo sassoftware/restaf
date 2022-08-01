@@ -7,8 +7,9 @@
   * @description Reduce the job information into consummable form(async)
   * 
   * @async
-  * @module computeSummary
-  * 
+  * @module jesSummary
+  * @category restaflib/jes
+  * @private
   * @param {object} store - restaf store
   * @param {object} job - rafObject representing the compute service job
   * 

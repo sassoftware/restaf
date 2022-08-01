@@ -6,6 +6,7 @@
 /**
  * setup access to MAS
  * @module masSetup
+ * @category restaflib/mas
  * @param {object} store - restaf store
  * @param {object} masControl - control  object from masSetup
  * @param {object} models - array of models to add

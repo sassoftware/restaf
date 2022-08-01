@@ -8,6 +8,7 @@
  * @description Search for a named report(async)
  * @async
  * @module findReport
+ * @category restaflib/report
  * 
  * @param {object} store - restaf store
  * @param {string} name - name of the VA report (null to get a list of all reports)

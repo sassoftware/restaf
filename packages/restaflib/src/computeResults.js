@@ -6,6 +6,7 @@
  * @description Return Log|listing|ODS|list of tables in the compute service job
  * @async
  * @module computeResults
+ * @category restaflib/compute
  * @param {object} store - restaf store
  * @param {object} computeSummary - computeSummary object
  * @param {string} type - type of result( log|listing|ods|table)

@@ -21,7 +21,7 @@
  * 
  * @async
  * @module casSetup
- * 
+ * @category restaflib/cas
  * @param {store} store         - restaf store
  * @param {logonPayload} logonPayload  - if not null, then use this to logon to Viya
  * 

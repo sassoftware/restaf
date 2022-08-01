@@ -26,10 +26,10 @@ import getServiceRoot from './getServiceRoot';
  * @description Add(initialize) services to the store
  * @async
  * @module addServices
- * @param {restafStore} store 
+ * @category restaf/core
  * @param  {...any} serviceNames - list of services
  * @returns {promise}
- * @examples
+ * @example
  *  const {compute, casManagement} = await store.addServices('compute', 'casManagewment);
  * 
  */

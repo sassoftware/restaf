@@ -26,7 +26,31 @@ import { VIYA_LOGON, VIYA_LOGOFF, VIYA_LOGON_SERVER, VIYA_LOGON_IMPLICIT, VIYA_L
 import qs from 'qs';
 import parse from 'url-parse';
 import keepViyaAlive from './keepViyaAlive';
+/**
+ * @description logon or connect to Viya
+ * @module logon
+ * @category restaf/core
+ * @param {rafLogonPayload} See type definition for details
+ * @returns {promise}  returns a text 'done' if successful
+ * @example
+let restaf    = require("@sassoftware/restaf");
 
+let logonPayload = {
+    authType: 'password',
+    host: process.env.VIYA_SERVER,
+    clientID: 'sas.ec',
+    clientSecret: '',
+    user: 'sastest1',
+    password: 'Go4thsas'
+};
+
+let store = restaf.initStore();
+
+store.logon(logonPayload)
+ .then ( r => console.log(r))
+ .catch( err => console.log(err));
+
+ */
 const logon = (store, ipayload) => {
     return new Promise((resolve, reject) => {
 

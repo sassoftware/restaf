@@ -21,12 +21,13 @@ import iapiCall from './iapiCall';
 
 import { API_CALL } from '../actionTypes';
 /**
- * 
- * @param {restafStore} store 
- * @param {*} iroute 
+ * @description make an api call to viya
+ * @module apiCall
+ * @category restaf/core
+ * @param {rafLinkeRel} iroute 
  * @param {*} payload 
  * @param  {...any} rest 
- * @returns 
+ * @returns {promise} returns a rafObject
  */
 const  apiCall =  (store, iroute, payload, ...rest) => {
     

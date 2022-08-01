@@ -6,6 +6,7 @@
  * Score using MAS
  * @module masRun
  * @param {store} restaf store
+ * @category restaflib/mas
  * @param {object} masControl - object from masSetup
  * @param {string} modelName - name of model to be executed
  * @param {object} scenario - can be [{name: var1, value: value1},{...} ] or {varname: value,...}

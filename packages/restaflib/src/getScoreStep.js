@@ -7,6 +7,7 @@ import masAddModel from "@sassoftware/restaflib/src/masAddModel";
 /**
  * @private
  * @module getScoreStep
+ * @category restaflib/mas
  * @param {*} store 
  * @param {*} microanalyticScore 
  * @param {*} name 

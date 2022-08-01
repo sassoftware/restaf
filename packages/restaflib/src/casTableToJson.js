@@ -6,6 +6,7 @@
 /**
  * @description Converts a cas table to JSON(utility)
  * @module casTableToJson
+ * @category restaflib/util
  * @param {object} result - the raf object returned from a call to cas
  * @param {string} table - the name of the table
  * 

@@ -5,6 +5,7 @@
 /**
  * Score using MAS
  * @module masDescribe
+ * @category restaflib/mas
  * @param {object} masControl - object from masSetup
  * @param {string} modelName - name of model to be executed
  * @param {string} step      - if not specified it will try to find score or execute

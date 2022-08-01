@@ -6,6 +6,7 @@
 /**
  * setup access to MAS
  * @module masSetup
+ * @category restaflib/mas
  * @param {object} store - restaf store
  * @param {object} models - an array of model names
  * @param {object} logonPayload - null|restaf logon payload

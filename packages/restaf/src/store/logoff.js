@@ -20,7 +20,14 @@
 
 let unSubscribe;
 import { VIYA_LOGOFF } from '../actionTypes';
-
+/** 
+ * @description Logoff from Viya
+ * @module logoff
+ * @category restaf/core
+ * @returns {promise} - result of logoff
+ * @example
+ *  let r = await store.logoff();
+ */
 function logoff (store) {
     //noinspection JSUnusedLocalSymbols
     return new Promise((resolve, reject) => {

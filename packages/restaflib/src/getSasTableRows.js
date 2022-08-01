@@ -13,6 +13,7 @@
  * @description Convert table to object of the form [{var1: value, var2: value,...},....](async)
  * @async
  * @module getSASTableRows
+ * @category restaflib/compute
  *                  
  * @param {object} store - restaf store
  * @param {object} computeSummary - computeSummary

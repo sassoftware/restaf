@@ -7,6 +7,7 @@
  * @description Return the svg of the specified report(async)
  * 
  * @module getReportImage
+ * @category restaflib/report
  * @param {object} store - restaf store
  * @param {string} name  - name of the report
  * 

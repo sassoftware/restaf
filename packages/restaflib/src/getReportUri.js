@@ -6,6 +6,7 @@
 /**
  * @description Generate url for report(async)
  * @module getReportUri
+ * @category restaflib/report
  * 
  * @param {object} store  - restaf store
  * @param {string} name - name of report

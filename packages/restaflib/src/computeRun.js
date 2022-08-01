@@ -5,20 +5,22 @@
 'use strict';
 
 /**
+ * @member compute
  * @description Prepare data for runCompute(@async)
  * @async
  * @module computeRun
+ * @category restaflib/compute
  * 
  * @param {store} store - restaf store
- * @param {object} session - current compute service session
+ * @param {rafObject} session - current compute service session
  * @param {string} src  - code to execute
- * @param {object} args optional - args to be passed on as macros
- * @param {number} maxTime optional  - Time out after this many minutes
+ * @param {object} [args] optional - args to be passed on as macros
+ * @param {number} [timeout] optional  - long polling timeout in seconds
  * @returns {promise} computeSummary object
  * 
  */
 import computeRunBase from './computeRunBase';
-async function computeRun (store,session, src, args, maxTime, delay){
+async function computeRun (store,session, src, args, timeout){
  
     // generate macro variables
 
@@ -37,7 +39,7 @@ async function computeRun (store,session, src, args, maxTime, delay){
 
     // run code and get results
     
-    let resultSummary = await computeRunBase(store, session, code, maxTime, delay);
+    let resultSummary = await computeRunBase(store, session, code, timeout);
     return resultSummary;
 }
 export default computeRun;

@@ -6,6 +6,7 @@
  * @description Update a record in a cas table
  * @async
  * @module casUpdateData
+ * @category restaflib/cas
  * @param {store} store   - store
  * @param {rafObject} session - cas session
  * @param {*} payload - {data,where,table}

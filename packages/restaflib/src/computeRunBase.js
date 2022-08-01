@@ -6,7 +6,7 @@
 
 import computeSummary from  './computeSummary';
 /**
- * @description Reduce compute service to an consummable form(async)
+ * @description Reduce compute service execution results
  * @private
  * @async
  * @module computeRunBase
@@ -14,14 +14,14 @@ import computeSummary from  './computeSummary';
  * @param {object} store - restaf store
  * @param {object} session - compute service session
  * @param {code} code - SAS code to be executed
+ * @param {int} timeout optional - timeout for long poll in seconds(default= 5)
+
  * 
  * @returns {object} computeSummary Object
  * 
  */
 
-async function computeRunBase (store, session, code, maxTime, delay){
-
-   
+async function computeRunBase (store, session, code, timeout){
    
     let payload  = {
         data: {code: code}
@@ -30,25 +30,14 @@ async function computeRunBase (store, session, code, maxTime, delay){
 
     let job = await store.apiCall(session.links('execute'), payload);
 
-    /*
-    let maxTries = 'wait';
-    let realDelay = (delay != null) ? delay : 0.25;
-
-    if (maxTime !== 'wait' && maxTime  != null ) {
-    maxTries = Math.max(Math.floor(maxTime / realDelay), 1);
-    }
-    */
- 
     let p = {
         qs: {
-          newState: 'Completed'
+          newState: 'Completed',
+          timeout : (timeout != null) ? timeout : 5
         }
     }
-
-    if (maxTime != null){
-        p.qs.timeout = maxTime*60;
-    };
-    let status = await store.jobState(job, p, 'wait');
+   
+    let status = await store.jobState(job, p, 'longpoll');
     if (status.data === 'running') {
         throw `ERROR: Job did not complete in allotted time`;
     } else {

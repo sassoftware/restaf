@@ -23,7 +23,13 @@ Date: 7/27/2022
 
 ## 4.4.5
 
-Date: 7/28/2022
+Date: 7/31/2022
 
-- Changed the jobState call in computeRun to use the query (newState: 'Complete'). More efficient.
-- Noticed that computeSetup was not using filter to find the context to be more efficient - changed it.
+- Since compute service implements long polling, change the jobState call in computeRun to use the query {newState: 'Complete', timeout:5). More efficient.
+
+  - Changed timeout argument to accept seconds to override default.
+  - Added support for 304 in sagas/httpCallWait and serverCalls/request to handle long polling
+
+- Updated computeSetup to use filter(contains) to find context. This handles the case where there are a large number of contexts. Previously the code only searched the first 10.
+
+- Added an optional argument to computeSetup to be used as payload to createSession.

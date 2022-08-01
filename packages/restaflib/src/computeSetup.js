@@ -7,14 +7,15 @@
  * @description Setup access to compute service
  * @async
  * @module computeSetup
+ * @category restaflib/compute
  * 
- * @param {object} store       - restaf store
- * @param {string} contextName - name of the context( if null the first context in the list is used)
- * @param {object} payload     - logon payload - If null assumes that logon was done earlier.
- * 
+ * @param {store} store - restaf store
+ * @param {string=} contextName name of the context. If not specified|null, defaults to Job Execution context
+ * @param {logonPayload=} payload logon payload.If null assumes that logon was done earlier.
+ * @param {sessionPayload=} sessionPayload for createSession call
  * @returns {promise} - returns a compute session
  */
-async function computeSetup (store, contextName, payload){
+async function computeSetup (store, contextName, payload,sessionPayload){
     if (payload != null) {
         let msg = await store.logon(payload);
     }
@@ -33,9 +34,9 @@ async function computeSetup (store, contextName, payload){
         if (contexts.itemsList().size === 0) {
             throw `Context ${contextName} not found`;
         }
-       
+        p = (sessionPayload == null ) ? null : sessionPayload;
         let createSession = contexts.itemsCmd(contexts.itemsList(0), 'createSession');
-        let session       = await store.apiCall (createSession);
+        let session       = await store.apiCall (createSession, sessionPayload);
         return session;
     } else {
         let session = await store.apiCall(compute.links('createSession'));

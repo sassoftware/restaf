@@ -131,8 +131,8 @@ function request (iconfig) {
             return data ;
         },
         validateStatus: function (status) {
-          
-            return (status >= 200 && status < 300) || status === 302;
+            /* 304 for state calls */
+            return (status === 302 || status === 304 ||status >= 200 && status < 300);
         },
     };
 

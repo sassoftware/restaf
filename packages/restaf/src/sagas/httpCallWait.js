@@ -13,42 +13,49 @@
  limitations under the License.
  ---------------------------------------------------------------------------------------*/
 
-  'use strict';
+ 'use strict';
 
-import { request } from  '../serverCalls' ;
-
-function httpCallWait (config) {
-    let states = ['running', 'pending'];
-    let flag;
-    return (request(config)
-        .then(response => {
-            let r = response.data.results;
-            if (typeof r === 'object') {
-                r = response.data.results.items.isIdle === true ? 'completed' : 'running';
-                response.data.results.items = r;
-            }
-            if (config.eventHandler) {
-                flag = config.eventHandler(r, config.jobContext);
-            }
-            return (((states.indexOf(r) === -1) || flag === true)
-                      ? httpDone(response, config, false) : null);
-        })
-        .catch(error => {
-            if (config.eventHandler) {
-                flag = config.eventHandler('*SystemError', config.jobContext);
-            }
-            return httpDone(error, config, true);
-        })
-    );
-}
-
-function httpDone (payload, config, error) {
-    return {
-        error : error,
-        type  : config.serviceName + '_' + config.type + '_COMPLETE',
-        config: config,
-        payload
-    };
-}
-
-export default httpCallWait;
+ import { request } from  '../serverCalls' ;
+ 
+ function httpCallWait (config) {
+     let states = ['running', 'pending'];
+     let flag;
+     return (request(config)
+         .then(response => {
+             debugger;
+             let r = response.data.results;
+             if (typeof r === 'object') {
+                 r = response.data.results.items.isIdle === true ? 'completed' : 'running';
+                 response.data.results.items = r;
+             } else {
+                 if ( response.status === 304) {
+                     r = 'running';/* since the api returns a blank results */
+                 }
+             }
+             if (config.eventHandler) {
+                 flag = config.eventHandler(r, config.jobContext);
+             }
+ 
+             return ( ((response.status !== 304) ||(states.indexOf(r) === -1) || flag === true)
+                       ? httpDone(response, config, false) : null);
+         })
+         .catch(error => {
+             if (config.eventHandler) {
+                 flag = config.eventHandler('*SystemError', config.jobContext);
+             }
+             return httpDone(error, config, true);
+         })
+     );
+ }
+ 
+ function httpDone (payload, config, error) {
+     debugger;
+     return {
+         error : error,
+         type  : config.serviceName + '_' + config.type + '_COMPLETE',
+         config: config,
+         payload
+     };
+ }
+ 
+ export default httpCallWait;

@@ -14,7 +14,7 @@ import programs from './programs';
  * 
  * @async
  * @module casFetchRows
- * 
+ * @category restaflib/cas
  * @param {store}    store    - restaf store
  * @param {rafObject}    session  - cas session
  * @param {object}    payload  - info to read data

@@ -5,7 +5,7 @@
   
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title> Home</title>
+  <title> commonHandler</title>
 
   <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -109,100 +109,288 @@
         <div class="core" id="main-content-wrapper">
             <div class="content">
                 <header class="page-title">
-                    <p></p>
-                    <h1>Home</h1>
+                    <p>Module</p>
+                    <h1>commonHandler</h1>
                 </header>
                 
 
 
 
+
+<section>
+
+<header>
+    
+        
+            
+        
+    
+</header>
+
+<article>
+    <div class="container-overview">
+    
+        
+            <div class="description"><p>Run init, main or term handlers</p></div>
+        
+
+        
+            
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+<div class="table-container">
+    <table class="params table">
+        <thead>
+        <tr>
+            
+            <th>Name</th>
+            
+
+            <th>Type</th>
+
+            
+
+            
+
+            <th class="last">Description</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        
+
+            
+<tr class="deep-level-0">
+  
+      <td class="name"><code>type</code></td>
+  
+
+  <td class="type">
+  
+      
+<code class="param-type">string</code>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last"><p>type of exit (init|main|term)</p></td>
+</tr>
+
+
+        
+
+            
+<tr class="deep-level-0">
+  
+      <td class="name"><code>data</code></td>
+  
+
+  <td class="type">
+  
+      
+<code class="param-type"><a href="global.html#rowObject">rowObject</a></code>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last"><p>rowObject</p></td>
+</tr>
+
+
+        
+
+            
+<tr class="deep-level-0">
+  
+      <td class="name"><code>rowIndex</code></td>
+  
+
+  <td class="type">
+  
+      
+<code class="param-type">number</code>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last"><p>client-side Row Index</p></td>
+</tr>
+
+
+        
+
+            
+<tr class="deep-level-0">
+  
+      <td class="name"><code>appEnv</code></td>
+  
+
+  <td class="type">
+  
+      
+<code class="param-type"><a href="global.html#appEnv">appEnv</a></code>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last"><p>app Environment from setup</p></td>
+</tr>
+
+
+        
+        </tbody>
+    </table>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Returns:</label></div>
+        <div class="column is-10">
+            
+                    
+
+<div class="columns">
+    
+    <div class='param-desc column is-7'><ul>
+<li>[data, status]</li>
+</ul></div>
+    
+    
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+        
+<code class="param-type">promise</code>
+
+
+    </div>
+    
+</div>
+
+                
+        </div>
+    </div>
+
+
+
+
+    <h5>Example</h5>
+    
+    
+        <pre class="prettyprint"><code>Please see the restafeditExample in the Tutorial pulldown</code></pre>
     
 
 
-    <h3> </h3>
 
-
-
-
-
-
-
-
-
+        
+    
+    </div>
+    
+    
 
     
 
+    
 
+    
 
+    
 
-    <section>
-        <article><h1>Documentation for @sassoftware/restaf, @sassoftware/restaflib and @sassoftware/restafedit</h1>
-<hr>
-<h2>Current version</h2>
-<p>The current version is tagged as next. Do not use latest.</p>
-<h2>Installation</h2>
-<p>To install in a nodejs application use npm  or yarn as shown below</p>
-<pre class="prettyprint source lang-sh"><code>npm install @sassoftware/restaf@next
-</code></pre>
-<p>In html you use script tag as shown below. The global variables are restaf,restflib and restafedit</p>
-<pre class="prettyprint source lang-html"><code>&lt;script src=&quot;https://unpkg.com/@sassoftware/restaf@next&quot;>&lt;/script>
+    
 
-</code></pre>
-</blockquote>
-<h2>restaf- Building Applications with SAS REST API made simple<a name="restaf"></a></h2>
-<hr>
-<p>SAS® Viya® is like a Swiss Army knife when it comes to allowing all types of
-clients to talk to it—Java, Python, Lua, R, and, of course, SAS®.
-In addition to using these language-based APIs, SAS also publishes APIs that
-conform to REST best practices. The well-designed APIs in SAS Viya make it relatively
-easy to build complex web and non-web applications with SAS Viya as the engine of your application.
-The applications can be solely based on SAS Viya capabilities or users can do a
-mashup of the advanced SAS Viya analytics with their other products and capabilities.
-restaf is a light-weight, UI-framework agnostic, JavaScript library designed to be
-easy-to-use for app developers. restaf takes advantage of the consistency of the REST APIs
-to reduce the responses from the server into a standard form, and it also manages the data on
-the client side. This reduction enables developers to interact with the server in a repeating pattern
-regardless of which service the application is using.</p>
-<p>Use restaf to exploit SAS® Cloud Analytic Services (CAS), compute server, SAS® Visual Analytics,
-and other key capabilities of SAS Viya in a very consistent manner with minimal coding.</p>
-<p>Please visit <a href="https://github.com/sassoftware/restaf/wiki">this</a> links for more details.</p>
-<hr>
-<h2>restaflib - Making application development even easier</h2>
-<hr>
-<p>restafedit is a companion library to restaf. It purpose is to further simplify the development of applications for SAS Viya by providing higher level api for SAS Viya. restaflib is basically a wrapper around restaf.</p>
-<p>Please visit <a href="https://github.com/sassoftware/restaf/wiki">this</a> links for more details.</p>
-<hr>
-<h2>restafedit - Library to simplify editing data in Viya</h2>
-<hr>
-<p>Going back in history, SAS had products like SAS/FSP and SAS/AF that allowed users to create simple or complex interactive applications. As SAS moved to the Viya platform these products were dropped. SAS provided REST API (application programming interfaces) as an industry standard way for creating applications.</p>
-<p>The key component of these applications is entering data. Common destinations of the modified data ARE:</p>
-<ul>
-<li>
-<p>The client application</p>
-</li>
-<li>
-<p>Custom code on a Viya</p>
-<ul>
-<li>Compute server</li>
-<li>CAS (Cloud Analytic Server) server</li>
-<li>MAS (Micro Analytic Score)</li>
-<li>Other SAS services that can be accessed via REST API</li>
-</ul>
-</li>
-<li>
-<p>Some external servers</p>
-<ul>
-<li>Azure App running a SAS Decision using SAS Container Runtime (SCR)</li>
-<li>Others...</li>
-</ul>
-<p>Please visit <a href="https://github.com/sassoftware/restaf/tree/restafedit">this</a> links for more details.</p>
-<p>A sample application is <a href="https://github.com/sassoftware/restaf-uidemos/tree/editorapp">here</a>.</p>
-<p>A react library that simplifies developing data entry with react is <a href="https://github.com/sassoftware/restaf-uidemos/tree/viyaedit">here</a></p>
-</li>
-</ul></article>
-    </section>
+    
 
+    
 
+    
+
+    
+</article>
+
+</section>
 
 
 

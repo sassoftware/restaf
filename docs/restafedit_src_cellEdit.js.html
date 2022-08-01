@@ -1,0 +1,209 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title> restafedit/src/cellEdit.js</title>
+
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="./build/entry.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700|Inconsolata,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+  <link type="text/css" rel="stylesheet" href="">
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  
+</head>
+
+
+
+<body class="layout small-header">
+    <div id="stickyNavbarOverlay"></div>
+    
+
+<div class="top-nav">
+    <div class="inner">
+        <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+        <div class="logo">
+            
+            
+        </div>
+        <div class="menu">
+            
+            <div class="navigation">
+                <a
+                    href="index.html"
+                    class="link"
+                >
+                    Documentation
+                </a>
+                
+                <div class="dropdown is-hoverable is-right">
+                    <a class="dropdown-trigger link">
+                        Tutorials
+                        <i class="fas fa-chevron-down fa-xs"></i>
+                    </a>
+                    <div class="dropdown-menu">
+                        <div class="dropdown-content">
+                        
+                            <a class="dropdown-item" href="tutorial-casActionRunExample.html">
+                                casActionRunExample
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-computeRunExample.html">
+                                computeRunExample
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-restaf.html">
+                                restaf
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-restafedit.html">
+                                restafedit
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-restafeditExample.html">
+                                restafeditExample
+                            </a>
+                        
+                        </div>
+                    </div>
+                </div>
+                
+                
+                
+            </div>
+        </div>
+    </div>
+</div>
+    <div id="main">
+        <div
+            class="sidebar "
+            id="sidebarNav"
+        >
+            
+                <div class="search-wrapper">
+                    <input id="search" type="text" placeholder="Search docs..." class="input">
+                </div>
+            
+            <nav>
+                
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Modules</h3><ul><li><a href="module-jesSummary.html">jesSummary</a></li></ul><h3><a href="global.html">Global</a></h3></div><div class="category"><h2>restaf/core</h2><h3>Modules</h3><ul><li><a href="module-addServices.html">addServices</a></li><li><a href="module-apiCall.html">apiCall</a></li><li><a href="module-initStore.html">initStore</a></li><li><a href="module-jobState.html">jobState</a></li><li><a href="module-logoff.html">logoff</a></li><li><a href="module-logon.html">logon</a></li><li><a href="module-runAction.html">runAction</a></li></ul></div><div class="category"><h2>restafedit/core</h2><h3>Modules</h3><ul><li><a href="module-cellEdit.html">cellEdit</a></li><li><a href="module-commonHandler.html">commonHandler</a></li><li><a href="module-fetchTableRows.html">fetchTableRows</a></li><li><a href="module-scrollTable.html">scrollTable</a></li><li><a href="module-setup.html">setup</a></li><li><a href="module-updateTableRows.html">updateTableRows</a></li></ul></div><div class="category"><h2>restaflib/cas</h2><h3>Modules</h3><ul><li><a href="module-casActionRun.html">casActionRun</a></li><li><a href="module-casFetchRows.html">casFetchRows</a></li><li><a href="module-caslDescribe.html">caslDescribe</a></li><li><a href="module-caslRun.html">caslRun</a></li><li><a href="module-caslScore.html">caslScore</a></li><li><a href="module-casSetup.html">casSetup</a></li><li><a href="module-casUpdateData.html">casUpdateData</a></li></ul></div><div class="category"><h2>restaflib/compute</h2><h3>Modules</h3><ul><li><a href="module-computeFetchData.html">computeFetchData</a></li><li><a href="module-computeFileContent.html">computeFileContent</a></li><li><a href="module-computeResults.html">computeResults</a></li><li><a href="module-computeRun.html">computeRun</a></li><li><a href="module-computeSetup.html">computeSetup</a></li><li><a href="module-computeSummary.html">computeSummary</a></li><li><a href="module-getSASTableRows.html">getSASTableRows</a></li></ul></div><div class="category"><h2>restaflib/mas</h2><h3>Modules</h3><ul><li><a href="module-masDescribe.html">masDescribe</a></li><li><a href="module-masRun.html">masRun</a></li><li><a href="module-masScore.html">masScore</a></li><li><a href="module-masSetup.html">masSetup</a></li></ul></div><div class="category"><h2>restaflib/report</h2><h3>Modules</h3><ul><li><a href="module-findReport.html">findReport</a></li><li><a href="module-getReportImage.html">getReportImage</a></li><li><a href="module-getReportUri.html">getReportUri</a></li></ul></div><div class="category"><h2>restaflib/util</h2><h3>Modules</h3><ul><li><a href="module-casTableToJson.html">casTableToJson</a></li><li><a href="module-jsonToDict.html">jsonToDict</a></li></ul></div>
+                
+            </nav>
+        </div>
+        <div class="core" id="main-content-wrapper">
+            <div class="content">
+                <header class="page-title">
+                    <p>Source</p>
+                    <h1>restafedit/src/cellEdit.js</h1>
+                </header>
+                
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/*
+ * Copyright © 2021, SAS Institute Inc., Cary, NC, USA.  All Rights Reserved.
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import text2Float from "./text2Float";
+import commonHandler from './commonHandler';
+import updateTableRows from './updateTableRows';
+
+/**
+ * @description Process edit of a cell and optionally save the data
+ * @async
+ * @module cellEdit
+ * @category restafedit/core
+ * @param {string} name     - name of the field (lower case)
+ * @param {*} value         - the new value for name field
+ * @param {number} rowIndex - row Index ( index in the data array on client)
+ * @param {rowObject} data  - RowObject for the entire row prior to change
+ * @param {appEnv} appEnv   - app Environment from setup
+ * @returns {promise}       - {data: updated data, status: status }
+ * @example
+ * data schema {column1: value, column2, value,...}
+ * status schema {status: 0|1|2, msg: some string}
+ */
+async function cellEdit (name, value, rowIndex, data, appEnv) {
+   /* do not modify the data directly. caller will probably do a setState */
+    let newDataRow = (data !== null) ? {...data} : {...appEnv.state.data[rowIndex]}
+    let columns = appEnv.state.columns;
+    const {handlers,autoSave} = appEnv.appControl.editControl;
+
+    newDataRow[name] = text2Float(value, columns[name]);
+    let status = {status: 0, msg: ''};
+  
+    if (handlers[name] != null) {
+        let r = await handlers[name](newDataRow, name, rowIndex, appEnv);
+        newDataRow = r[0];
+        status = r[1];
+    } 
+    let r = await commonHandler("main", newDataRow, rowIndex, appEnv);
+    newDataRow = r[0];
+    status.msg = status.msg + ' / ' + r[1];
+
+    if (appEnv.appControl.dataControl.cachePolicy === true) {
+        appEnv.state.data[rowIndex] = newDataRow;
+    }
+
+    if (autoSave === true) {    
+        await updateTableRows(newDataRow, appEnv);
+    }
+
+    return ({data: newDataRow, status: status});
+    
+}
+export default cellEdit;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+            </div>
+            
+            <footer class="footer">
+                <div class="content has-text-centered">
+                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.11</a></p>
+                    <p class="sidebar-created-by">
+                        <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by
+                        <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
+                    </p>
+                </div>
+            </footer>
+            
+        </div>
+        <div id="side-nav" class="side-nav">
+        </div>
+    </div>
+<script src="scripts/app.min.js"></script>
+<script>PR.prettyPrint();</script>
+<script src="scripts/linenumber.js"> </script>
+
+<script src="scripts/search.js"> </script>
+
+
+</body>
+</html>

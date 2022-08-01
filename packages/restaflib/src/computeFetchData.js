@@ -5,7 +5,7 @@
 
  /**
  * 
- * @decription Fetch data from a SAS Table
+ * @description Fetch data from a SAS Table
  * @async
  * @module computeFetchData
  * @param {object} store - restaf store

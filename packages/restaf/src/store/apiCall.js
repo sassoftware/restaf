@@ -22,11 +22,11 @@ import iapiCall from './iapiCall';
 import { API_CALL } from '../actionTypes';
 /**
  * 
- * @param {restafStore} store 
- * @param {*} iroute 
+ * @param {store} store 
+ * @param {rafLinkRel} iroute 
  * @param {*} payload 
  * @param  {...any} rest 
- * @returns 
+ * @returns {promise}
  */
 const  apiCall =  (store, iroute, payload, ...rest) => {
     

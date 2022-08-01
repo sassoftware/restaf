@@ -8,6 +8,7 @@
  * @description Fetch data from a SAS Table
  * @async
  * @module computeFetchData
+ * @category restaflib/compute
  * @param {object} store - restaf store
  * @param {computeSummary} computeSummary - Summary object created by computeSummary method
  * @param {string} table - name of the table

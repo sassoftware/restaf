@@ -7,6 +7,7 @@
  * @description Setup access to compute service
  * @async
  * @module jesSetup
+ * @private
  * 
  * @param {object} store       - restaf store
  * @param {object} payload     - logon payload - If null assumes that logon was done earlier.

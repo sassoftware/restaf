@@ -2,18 +2,17 @@
  * Copyright © 2019, SAS Institute Inc., Cary, NC, USA.  All Rights Reserved.
  * SPDX-License-Identifier: Apache-2.0
  */
-
+import { uploadSrc, uploadAstore } from './uploadHandlers';
 /**
  * parse a source file name
  * @module uploadSetup
+ * @private
  * @param {string} source - the source file( absolute or relative path can be used)
  * @returns {object} - returns {ext: file-extension, fileOptions: <option for fread>, transform: transform for content-type, contentType: content-type}
  * @alias module: uploadSetup
  * @example
  *    let t = uploadSetup('./cars.sashdat');
  */
-
-import { uploadSrc, uploadAstore } from './uploadHandlers';
 
 function uploadSetup (source, output) {
 	let fileOptions = null; /* option for file reader */

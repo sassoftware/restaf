@@ -9,6 +9,7 @@
  * @description Prepare data for runCompute(@async)
  * @async
  * @module computeRun
+ * @category restaflib/compute
  * 
  * @param {store} store - restaf store
  * @param {rafObject} session - current compute service session

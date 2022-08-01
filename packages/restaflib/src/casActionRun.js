@@ -9,7 +9,7 @@
  * 
  * @async
  * @module casActionRun
- * 
+ * @category restaflib/cas
  * @param {store} store       - restaf store
  * @param {rafObject} session     - cas session
  * @param {object} parameters  - parameters for the action

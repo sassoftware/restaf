@@ -13,7 +13,7 @@ import jsonToDict from './jsonToDict';
  * @private
  * @async
  * @function caslRunBase(async)
- * 
+ * @category restaflib/cas
  * @param {object} store    - restaf store
  * @param {object} session  - cas session
  * @param {object} src      - casl src statements

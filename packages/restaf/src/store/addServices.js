@@ -26,7 +26,7 @@ import getServiceRoot from './getServiceRoot';
  * @description Add(initialize) services to the store
  * @async
  * @module addServices
- * @param {store} store 
+ * @category restaf/core
  * @param  {...any} serviceNames - list of services
  * @returns {promise}
  * @example

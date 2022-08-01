@@ -7,6 +7,7 @@
  * @description Setup access to compute service
  * @async
  * @module computeSetup
+ * @category restaflib/compute
  * 
  * @param {store} store - restaf store
  * @param {string=} contextName name of the context. If not specified|null, defaults to Job Execution context

@@ -41,7 +41,17 @@ import appData         from './appData';
 import getXsrfData     from './getXsrfData';
 import deleteRafObject from './deleteRafObject';
 import keepViyaAlive   from './keepViyaAlive';
-
+/**
+ * @description Initialize a restaf store
+ * @category restaf/core
+ * @module initStore
+ * @param {object=} config configuration object(future)
+ * @returns {store} restaf store object(rafObject)
+ * @example
+ *    let store = restaf.initStore();
+ *    The store object manages all the data and access
+ *    to Viya using the REST API. 
+ */
 function initStore (iconfig) {
     let config = { casProxy: false };
     if (iconfig != null) {

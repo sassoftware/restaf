@@ -14,7 +14,7 @@
  * 
  * @async
  * @module casFetchData
- * 
+ * @category restaflib/cas
  * @param {store}    store    - restaf store
  * @param {rafObject}  session  - cas session
  * @param {object}    payload  - info to read data

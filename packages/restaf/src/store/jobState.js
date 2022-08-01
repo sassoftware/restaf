@@ -20,17 +20,34 @@
 
 import ijobState from './ijobState';
 import apiCall from './apiCall';
-
-async function jobState (store, job, payload, maxTries, delay, progressHandler, jobContext, cas) {
+/**
+ * @category restaf/core
+ * @description Check status of jobs
+ * @module jobState
+ * @async
+ * 
+ * @param {rafObject} job  rafObject of job
+ * @param {object=} payload  usually query to state api
+ * @param {timeout=} timeout  multiple uses to control timeout
+ * @param {number=} delay delay in seconds.See notes below
+ * @returns {promise} - object with the status information
+ * @example
+ *   Notes
+ *   If the service supports long polling, pass the timeout in the payload.qs
+ *   If the service does not support long polling, set timeout to 'wait' and set delay to some time in seconds.
+ *   The library will check for completion every delay seconds. A more advanced way using progressHandler exit is described
+ *   in the tutorial sections.
+ */
+async function jobState (store, job, payload, timeout, delay, progressHandler, jobContext, cas) {
     
     let waitFlag = false;
     let tries    = 1;
     let status;
-    if (maxTries === 'wait'|| maxTries === 'longpoll') {
+    if (timeout === 'wait'|| timeout === 'longpoll') {
         tries    = 1;
         waitFlag = true;
     } else {
-        tries = (!maxTries) ? 1 : maxTries;
+        tries = (!timeout) ? 1 : timeout;
     }
     do {
 

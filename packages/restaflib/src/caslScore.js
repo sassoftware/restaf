@@ -11,7 +11,7 @@
  * 
  * @async
  * @module caslScore
- * 
+ * @category restaflib/cas
  * @param {store} store    - restaf store
  * @param {rafObject} session  - cas session
  * @param {object} scenario   - scenario values

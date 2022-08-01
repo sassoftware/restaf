@@ -1,6 +1,6 @@
 {
   "name": "restaf",
-  "version": "4.4.6",
+  "version": "4.4.8",
   "description": "Library for writing SAS Viya application using REST APIs",
   "author": "Deva Kumaraswamy <deva.kumar@sas.com>",
   "license": "Apache-2.0",
@@ -39,11 +39,7 @@
     "build": "npm run restaf:build && npm run restaflib:build",
     "puball": "npm run restaf:pub && npm run restaflib:pub",
     "format": "prettier-eslint --eslint-config-path ./.eslintrc.json --write '**/*.js'",
-    "lint": "eslint . --ext .js --fix",
-    "restaf:jsdoc": "cd packages/restaf && npm run jsdoc",
-    "restaflib:jsdoc": "cd packages/restaflib && npm run jsdoc",
-    "jsdoc": "npm run restaf:jsdoc && npm run restaflib:jsdoc",
-    "main:jsdoc": "npx jsdoc -c jsdoc.json"
+    "lint": "eslint . --ext .js --fix"
   },
   "devDependencies": {
     "@babel/cli": "^7.14.5",

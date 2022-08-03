@@ -57,6 +57,7 @@ const iaddServices = (store, services)  => {
                 storeConfig: store.config
             };
             //to support PuP compute server
+            console.log(store.config.options);
             if (service == 'compute' && store.config.options.computeServerId != null) {
                 s.link.href = '/compute/servers/' + store.config.options.computeServerId + '/';
                 s.link.url  = s.link.href;

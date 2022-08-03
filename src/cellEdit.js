@@ -43,7 +43,7 @@ async function cellEdit (name, value, rowIndex, data, appEnv) {
         r = await commonHandler("term",r[0], rowIndex, appEnv);
         await updateTableRows(newDataRow, appEnv);
     }
-    newDataRow = r[0]; {}
+    newDataRow = r[0]; 
     status.msg = status.msg + ' / ' + r[1];
 
     if (appEnv.appControl.dataControl.cachePolicy === true) {

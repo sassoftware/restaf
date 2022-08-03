@@ -6,6 +6,7 @@ import { casSetup }   from '@sassoftware/restaflib';
  * @description Setup an Edit session
  * @async
  * @module setup
+ * @category restafedit/core
  * @param {logonPayload} logonPayload  - information for connecting to Viya
  * @param {appControl} appControl      - control information 
  * 
@@ -13,6 +14,8 @@ import { casSetup }   from '@sassoftware/restaflib';
  * @alias module: setup
  * @example
  *  const appEnv = await setup(logonPayload, appControl);
+ * 
+ * Please see the restafeditExample in the Tutorial pulldown
  *  
  */
 

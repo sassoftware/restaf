@@ -9,13 +9,16 @@ import prepFormData from "./prepFormData";
  * @description Fetch new records based on control argument
  * @async
  * @module fetchTableRows
+ * @category restafedit/core
  * @param {fetchControl} control - info for records to retrieve
  * @param {appEnv} appEnv - appEnv
  * @returns {promise}  - { data:data, columns:ecolumns, pagination: pagination} 
- * @examples
+ * @example
  *   let control = {from: 10, count:50, format: false};
  *   let r = await fetchTableRows(control, appEnv);
  *   r is a fetchResult object
+ * 
+ * Please see the restafeditExample in the Tutorial pulldown
  */
 async function fetchTableRows (control, appEnv) {
     let {store, session} = appEnv;

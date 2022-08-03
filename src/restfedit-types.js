@@ -1,4 +1,8 @@
 /**
+ * restafedit apis
+ * @category restafedit/core
+ */
+/**
  * Application Environment.
  * @typedef {object} appEnv
  */

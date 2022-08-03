@@ -6,11 +6,14 @@
  * @description Run init, main or term handlers
  * @async
  * @module commonHandler
+ * @category restafedit/core
  * @param {string} type   - type of exit (init|main|term)
  * @param {rowObject} data        - rowObject
  * @param {number} rowIndex    - client-side Row Index
  * @param {appEnv} appEnv      - app Environment from setup
  * @returns {promise}     - [data, status]
+ * @example
+ * Please see the restafeditExample in the Tutorial pulldown
  */
 async function commonHandler (type, data, rowIndex, appEnv){
    const {handlers} = appEnv.appControl.editControl;

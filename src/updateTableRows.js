@@ -4,9 +4,13 @@ import { casUpdateData } from '@sassoftware/restaflib';
  * @description Update the row on the server
  * @async
  * @module updateTableRows
+ * @category restafedit/core
  * @param {rowObject} data  - data as a rowObject
  * @param {appEnv} appEnv   - app Environment object from setup   
  * @returns {promise}       - key is completion code
+ * @example
+ * 
+ * Please see the restafeditExample in the Tutorial pulldown
  */
 async function updateTableRows (data, appEnv) {
     const { store, session } = appEnv;

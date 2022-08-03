@@ -8,6 +8,7 @@ import fetchTableRows from './fetchTableRows';
  * @description Simplify scrolling using next|prev|top
  * @async
  * @module scrollTable
+ * @category restafedit/core
  * @param {string} direction direction(next|prev|first)
  * @param {appEnv} appEnv 
  * @returns {promise}  result ready for display or null if it did not scroll
@@ -20,7 +21,9 @@ import fetchTableRows from './fetchTableRows';
  *     handle new data
  * }
  * 
- * Make sure you handle exceptions that are thrown. 
+ * Make sure you handle exceptions that are thrown.
+ * 
+ * Please see the restafeditExample in the Tutorial pulldown 
  */
 async function scrollTable (direction,appEnv) {
     const {initialFetch, table} = appEnv.appControl.dataControl;

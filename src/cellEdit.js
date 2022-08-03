@@ -11,15 +11,18 @@ import updateTableRows from './updateTableRows';
  * @description Process edit of a cell and optionally save the data
  * @async
  * @module cellEdit
+ * @category restafedit/core
  * @param {string} name     - name of the field (lower case)
  * @param {*} value         - the new value for name field
  * @param {number} rowIndex - row Index ( index in the data array on client)
  * @param {rowObject} data  - RowObject for the entire row prior to change
  * @param {appEnv} appEnv   - app Environment from setup
  * @returns {promise}       - {data: updated data, status: status }
- * @examples
+ * @example
  * data schema {column1: value, column2, value,...}
  * status schema {status: 0|1|2, msg: some string}
+ * 
+ * Please see the restafeditExample in the Tutorial pulldown
  */
 async function cellEdit (name, value, rowIndex, data, appEnv) {
    /* do not modify the data directly. caller will probably do a setState */
@@ -36,15 +39,15 @@ async function cellEdit (name, value, rowIndex, data, appEnv) {
         status = r[1];
     } 
     let r = await commonHandler("main", newDataRow, rowIndex, appEnv);
-    newDataRow = r[0];
+    if (autoSave === true) {
+        r = await commonHandler("term",r[0], rowIndex, appEnv);
+        await updateTableRows(newDataRow, appEnv);
+    }
+    newDataRow = r[0]; {}
     status.msg = status.msg + ' / ' + r[1];
 
     if (appEnv.appControl.dataControl.cachePolicy === true) {
         appEnv.state.data[rowIndex] = newDataRow;
-    }
-
-    if (autoSave === true) {    
-        await updateTableRows(newDataRow, appEnv);
     }
 
     return ({data: newDataRow, status: status});

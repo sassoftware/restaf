@@ -138,7 +138,7 @@ async function init (data,row,appEnv,type) {
     return [newData, status];
 };
 
-async function term (data, type) {
+async function term (data, row, appEnv,type) {
     let status = {code: 0, msg: `${type} processing completed`};
     console.log('In term');
     return [data, status];

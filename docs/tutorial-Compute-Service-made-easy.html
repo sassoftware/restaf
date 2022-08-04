@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Library Overviews Compute-Service-made-easy</title>
+
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="./build/entry.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700|Inconsolata,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+  <link type="text/css" rel="stylesheet" href="style.css">
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  
+</head>
+
+
+
+<body class="layout small-header">
+    <div id="stickyNavbarOverlay"></div>
+    
+
+<div class="top-nav">
+    <div class="inner">
+        <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+        <div class="logo">
+            
+             
+                <a href="index.html">
+                    <h1 class="navbar-item">Overviews</h1>
+                </a>
+            
+        </div>
+        <div class="menu">
+            
+            <div class="navigation">
+                <a
+                    href="index.html"
+                    class="link"
+                >
+                    Documentation
+                </a>
+                
+                <div class="dropdown is-hoverable is-right">
+                    <a class="dropdown-trigger link">
+                        Tutorials
+                        <i class="fas fa-chevron-down fa-xs"></i>
+                    </a>
+                    <div class="dropdown-menu">
+                        <div class="dropdown-content">
+                        
+                            <a class="dropdown-item" href="tutorial-authentication.html">
+                                authentication
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-Browsing-a-Cas-Table.html">
+                                Browsing-a-Cas-Table
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-casActionRun.html">
+                                casActionRun
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-casActionRunExample.html">
+                                casActionRunExample
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-casFetchData.html">
+                                casFetchData
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-Compute-Service-made-easy.html">
+                                Compute-Service-made-easy
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-computeRunExample.html">
+                                computeRunExample
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-Executing-a-cas-action.html">
+                                Executing-a-cas-action
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-findReport.html">
+                                findReport
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-getReportImage.html">
+                                getReportImage
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-Managing-clientids.html">
+                                Managing-clientids
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-masDescribe.html">
+                                masDescribe
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-restafeditExample.html">
+                                restafeditExample
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-Scoring-in-the-Cas-Server.html">
+                                Scoring-in-the-Cas-Server
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-Scoring-with-MAS.html">
+                                Scoring-with-MAS
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-Scripting-on-the-Cas-Server.html">
+                                Scripting-on-the-Cas-Server
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-usefulTips.html">
+                                usefulTips
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-vaddc.html">
+                                vaddc
+                            </a>
+                        
+                        </div>
+                    </div>
+                </div>
+                
+                 
+                    
+                        <a
+                            class="link user-link "
+                            href="https://github.com/sassoftware/restaf/blob/main/README.md"
+                        >
+                            restaf
+                        </a>
+                    
+                        <a
+                            class="link user-link "
+                            href="https://github.com/sassoftware/restaf/blob/main/packages/restaflib/README.md"
+                        >
+                            restaflib
+                        </a>
+                    
+                        <a
+                            class="link user-link "
+                            href="https://github.com/sassoftware/restaf/blob/restafedit/README.md"
+                        >
+                            restafedit
+                        </a>
+                    
+                
+                
+            </div>
+        </div>
+    </div>
+</div>
+    <div id="main">
+        <div
+            class="sidebar tutorials"
+            id="sidebarNav"
+        >
+            
+                <div class="search-wrapper">
+                    <input id="search" type="text" placeholder="Search docs..." class="input">
+                </div>
+            
+            <nav>
+                
+                    <div class="category"><h3>Tutorials</h3><ul><li><a href="tutorial-authentication.html">authentication</a></li><li><a href="tutorial-Browsing-a-Cas-Table.html">Browsing-a-Cas-Table</a></li><li><a href="tutorial-casActionRun.html">casActionRun</a></li><li><a href="tutorial-casActionRunExample.html">casActionRunExample</a></li><li><a href="tutorial-casFetchData.html">casFetchData</a></li><li><a href="tutorial-Compute-Service-made-easy.html">Compute-Service-made-easy</a></li><li><a href="tutorial-computeRunExample.html">computeRunExample</a></li><li><a href="tutorial-Executing-a-cas-action.html">Executing-a-cas-action</a></li><li><a href="tutorial-findReport.html">findReport</a></li><li><a href="tutorial-getReportImage.html">getReportImage</a></li><li><a href="tutorial-Managing-clientids.html">Managing-clientids</a></li><li><a href="tutorial-masDescribe.html">masDescribe</a></li><li><a href="tutorial-restafeditExample.html">restafeditExample</a></li><li><a href="tutorial-Scoring-in-the-Cas-Server.html">Scoring-in-the-Cas-Server</a></li><li><a href="tutorial-Scoring-with-MAS.html">Scoring-with-MAS</a></li><li><a href="tutorial-Scripting-on-the-Cas-Server.html">Scripting-on-the-Cas-Server</a></li><li><a href="tutorial-usefulTips.html">usefulTips</a></li><li><a href="tutorial-vaddc.html">vaddc</a></li></ul></div>
+                
+            </nav>
+        </div>
+        <div class="core" id="main-content-wrapper">
+            <div class="content">
+                <header class="page-title">
+                    <p>Tutorial</p>
+                    <h1>Compute-Service-made-easy</h1>
+                </header>
+                <section>
+
+<article>
+    <h2>Introduction</h2>
+<p>The  SAS Viya compute service API covers many different use cases. The simplest and most common use case is to run a SAS job and view the ODS output, log, listing and browse the generated tables.</p>
+<p>@sassoftware/restaflib library has a set of methods specifically designed to address this very common usage pattern.</p>
+<h3>Summary of methods</h3>
+<ul>
+<li>
+<p>computeSetup - this creates a compute session</p>
+</li>
+<li>
+<p>computeRun - this executes the specified sas code. Setup macros are passed in as standard javascript object.</p>
+</li>
+<li>
+<p>computeResults - retrieve output - logs, ods, listing and list of tables created in that run</p>
+</li>
+<li>
+<p>computeFetchData - scroll thru and fetch data form one of the tables.</p>
+</li>
+</ul>
+<h3>Usage</h3>
+<h3> computeSetup </h3>
+This method creates a compute service session. 
+<h4> Syntax </h4>
+<pre>
+let session = await restaflib.computeSetup(store, contextName,logonPayload,sessionPayload);
+</pre>
+<p>The parameters are:</p>
+<ul>
+<li>store       - restaf store object </li></li>
+<li>contextName - (optional) If not specified it will default to SAS Job Execution context </li></li>
+<li>logonPayload - specify this if you want computeSetup to logon to the server. <a href="https://sassoftware.github.io/restaf/tutorial-authentication">See this</a> for details.</li>
+<li>sessionPayload - specify this if you want to pass a payload to the create session (ex: { headers: {...}})</li>
+</ul>
+<h3> computeRun </h3>
+This method executes the specified code on the server
+<pre>
+let computeSummary = await restaflib.computeRun(store, session, src, macros)
+</pre>
+<p>The parameters are:</p>
+<ul>
+<li> store   - restaf store object </li>
+<li> session - The session object obtained thru the computeSetup method </li>
+<li> src     - A string containing the source code to be executed. </li>
+<li> macros  - (optional) A javascript object that is sent to the server as macros. For example if this object is {lib: 'sasuser', data: 'mydata'} the following macros are prepended to the source code
+<pre>
+  %let lib=sasuser; 
+  %let data=mydata;
+</pre>
+</ul>
+<p>This method uses the long polling in compute server to wait on completion. The result from the computeRun method are used to retrieve specific results using the following methods.</p>
+<h3> computeResults </h3>
+This method is used to get the ods output, log, listing and the list of tables.
+<h4> Syntax </h4>
+<pre>
+ let result = await restaflib.computeResults(store, computeSummary, type)
+</pre>
+<p>The parameters are:</p>
+<ul>
+<li> store - The restaf store </li>
+<li> computeSummary - The output from restaflib.computeRun </li>
+<li> type - A string with one of the following values ods|log|listing. Based on this option different results are returned </li>
+</ul>
+<p>The results based on the value of type are:</p>
+<ul>
+<li> ods - This will return a string that has the ODS output. This html can be passed to some component for display </li>
+<li> log - This will return all the log for this particular job. The content is an array of objects that follows the media type for [loglines]<https://developer.sas.com/apis/rest/Compute/#tocSlogline>
+<a href="https://developer.sas.com/apis/rest/Compute/#tocSlogline" rel="noopener noreferrer" target="_blank"> log lines </a>
+<li> listing - This will return all the listings for this particular job. This has the same format as the log </li>
+<li> tables - This returns an array with the names of the tables returned by the job. Use this name to retrieve the actual records using the restaflib.computeFetchData method described below </li>
+</ul>
+<h3> computeFetchData </h3>
+<p>Use this method to page thru the records of the tables returned by the computeRun method. This method takes advantage of the standard scrolling rels and links.</p>
+<h4>Syntax </h4>
+<pre>
+let result = await restaflib.computeFetchData(store, computeSummary, tablename, direction);
+</pre>
+<p>The parameters are:</p>
+<ul> 
+<li> store - restaf store </li>
+<li> computeSummary - the output from restaflib.computeRun </li>
+<li> tablename - the name of the table returned (see computeResults method above). </li>
+<li> direction - a string to indicate which direction to scroll and get records. If not specified the first set of records are returned. The valid values of this parameter depend on what was returned in the scrollOptions field of the result see below</li>
+</ul>
+<p>The result from the computeFetchData has the following schema</p>
+<pre class="prettyprint source lang-js"><code>{
+  rows: An array of data rows - and each data row is an array of values for that row,
+  columns: The [standard schema](https://developer.sas.com/apis/rest/Compute/#tocScolumn&quot;) for the columns&lt;/
+  scrollOptions: An array of strings with possible values for the next scroll. These usually are one or more of the following values: first, next, prev, last. Use this to move through the data set.
+} 
+</code></pre>
+<h2>Example</h2>
+<p>Also see this simple <a href="https://github.com/sassoftware/restaf-uidemos/blob/viyaapp/public/compute.html">web application</a> with user input for macros.</p>
+<pre class="prettyprint source lang-js"><code>async function test_computeRun () {
+  
+  let computeSession = await computeSetup(store);
+
+  /* prep input */
+  let macros = {maxRows: 500};
+  let src =  `ods html style=barrettsblue;
+  data work.dtemp1;
+      array x{10};  
+      do j = 1 to &maxRows;  
+        do i = 1 to 10;  
+          x{i} = i * 10;  
+          end;  
+       output;  
+       put _ALL_;  
+      end;  
+      run;  
+      proc print;run;  
+      ods html close;`;
+  
+
+  // Run the SAS job
+  let computeSummary = await restaflib.computeRun(store, computeSession, src,  macros);
+
+  // Get log, listing, ods and list of tables
+  let log = await restaflib.computeResults(store, computeSummary, 'log');
+  let list = await restaflib.computeResults(store, computeSummary, 'listing');
+  let ods = await restaflib.computeResults(store, computeSummary, 'ods');
+  let tables = await restaflib.computeResults(store, computeSummary, 'tables');
+
+  // Scroll thru one of the tables
+  let data = await restaflib.computeFetchData(store,computeSummary, 'DTEMP1');
+  console.log(data.columns);
+  console.log(`First row in set: ${data.rows[0]}`);
+  console.log(`Last row in set: ${data.rows[data.rows.length-1]}`);
+  console.log(`Pagination links: ${data.scrollOptions}`);
+  console.log('\n');
+  
+  do {
+    data = await restaflib.computeFetchData(store,computeSummary, 'DTEMP1', 'next');
+    if (data !== null) {
+     // print.object(computeSummary.tables['DTEMP1'].current.raw('data', 'results','links'), 'pagination links');
+      console.log(`First row in set: ${data.rows[0]}`);
+      console.log(`Last row in set: ${data.rows[data.rows.length-1]}`);
+      console.log(`Pagination links: ${data.scrollOptions}`);
+      console.log('\n');
+    }
+  } while (data != null);
+
+  // Now scroll backwards to the top
+
+  do {
+    data = await restaflib.computeFetchData(store,computeSummary, 'DTEMP1', 'prev');
+    if (data !== null) {
+      console.log(data.rows[0]);
+      console.log(JSON.stringify(data.scrollOptions, null,4));
+    }
+  } while (data != null);
+
+// Delete session
+  await store.apiCall(computeSession.links('delete'));
+}
+</code></pre>
+<h2>Notes</h2>
+<p>restaflib relies on <a href="https://sassoftware.github.io/restaf">restaf</a></p>
+<h2>Setup</h2>
+<h3>Web Applications</h3>
+<p>Include the following two script tags.</p>
+<pre class="prettyprint source lang-sh"><code>    &lt;script src=&quot;https://unpkg.com/@sassoftware/restaf@next&quot;>&lt;/script>
+
+    &lt;script src=&quot;https://unpkg.com/@sassoftware/restaflib@next&quot;>&lt;/script>
+</code></pre>
+<p>Two globals restaf and restaflib will be available for use in your script tags.</p>
+<h3>Nodejs application</h3>
+<p>Install restaf and restaflib using the following command</p>
+<pre class="prettyprint source lang-sh"><code>    npm install @sassoftware/restaf@next @sassoftware/restaflib@next
+</code></pre>
+</article>
+
+</section>
+
+            </div>
+            
+            <footer class="footer">
+                <div class="content has-text-centered">
+                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.11</a></p>
+                    <p class="sidebar-created-by">
+                        <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by
+                        <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
+                    </p>
+                </div>
+            </footer>
+            
+        </div>
+        <div id="side-nav" class="side-nav">
+        </div>
+    </div>
+<script src="scripts/app.min.js"></script>
+<script>PR.prettyPrint();</script>
+<script src="scripts/linenumber.js"> </script>
+
+<script src="scripts/search.js"> </script>
+
+
+</body>
+</html>

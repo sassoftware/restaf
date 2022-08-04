@@ -5,7 +5,7 @@
   
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title> restafedit</title>
+  <title>Library Overviews restafedit</title>
 
   <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -19,7 +19,7 @@
   <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
   <link type="text/css" rel="stylesheet" href="styles/app.min.css">
   <link type="text/css" rel="stylesheet" href="styles/iframe.css">
-  <link type="text/css" rel="stylesheet" href="">
+  <link type="text/css" rel="stylesheet" href="style.css">
   <script async defer src="https://buttons.github.io/buttons.js"></script>
 
   
@@ -40,6 +40,10 @@
         </a>
         <div class="logo">
             
+             
+                <a href="index.html">
+                    <h1 class="navbar-item">Overviews</h1>
+                </a>
             
         </div>
         <div class="menu">
@@ -80,10 +84,37 @@
                                 restafeditExample
                             </a>
                         
+                            <a class="dropdown-item" href="tutorial-viyedit.html">
+                                viyedit
+                            </a>
+                        
                         </div>
                     </div>
                 </div>
                 
+                 
+                    
+                        <a
+                            class="link user-link "
+                            href="https://github.com/sassoftware/restaf/blob/main/README.md"
+                        >
+                            restaf
+                        </a>
+                    
+                        <a
+                            class="link user-link "
+                            href="https://github.com/sassoftware/restaf/blob/main/packages/restaflib/README.md"
+                        >
+                            restaflib
+                        </a>
+                    
+                        <a
+                            class="link user-link "
+                            href="https://github.com/sassoftware/restaf/blob/restafedit/README.md"
+                        >
+                            restafedit
+                        </a>
+                    
                 
                 
             </div>
@@ -102,7 +133,7 @@
             
             <nav>
                 
-                    <div class="category"><h3>Tutorials</h3><ul><li><a href="tutorial-casActionRunExample.html">casActionRunExample</a></li><li><a href="tutorial-computeRunExample.html">computeRunExample</a></li><li><a href="tutorial-restaf.html">restaf</a></li><li><a href="tutorial-restafedit.html">restafedit</a></li><li><a href="tutorial-restafeditExample.html">restafeditExample</a></li></ul></div>
+                    <div class="category"><h3>Tutorials</h3><ul><li><a href="tutorial-casActionRunExample.html">casActionRunExample</a></li><li><a href="tutorial-computeRunExample.html">computeRunExample</a></li><li><a href="tutorial-restaf.html">restaf</a></li><li><a href="tutorial-restafedit.html">restafedit</a></li><li><a href="tutorial-restafeditExample.html">restafeditExample</a></li><li><a href="tutorial-viyedit.html">viyedit</a></li></ul></div>
                 
             </nav>
         </div>
@@ -116,24 +147,8 @@
 
 <article>
     <h1>restafedit - library for browsing and editing data tables</h1>
-<ul>
-<li><a href="#overview">Overview</a></li>
-<li><a href="#usage">Usage Notes</a></li>
-<li><a href="https://github.com/sassoftware/restaf-uidemos/blob/editorapp/public/index.html">Sample Application with HTML and JavaScript</a></li>
-<li><a href="https://github.com/sassoftware/restaf-uidemos/tree/viyaedit">Sample React library for editing</a></li>
-</ul>
-<hr>
-<h2>Overview<a name="overview"></a></h2>
-<hr>
-<p><a href="#t1">Background</a></p>
-<p><a href="#t2">Desired features in the work product 2</a></p>
-<p><a href="#t3">Table versus Form for data entry</a></p>
-<p><a href="#t4">Currently Supported Features of the library 2</a></p>
-<p><a href="#t5">Basic Flow 4</a></p>
-<p><a href="#t6">Future 5</a></p>
-<h2>Background<a name="t1"></a></h2>
 <p>Going back in history, SAS had products like SAS/FSP and SAS/AF that allowed users to create simple or complex interactive applications. As SAS moved to the Viya platform these products were dropped. SAS provided REST API (application programming interfaces) as an industry standard way for creating applications.</p>
-<p>The key component of these applications is entering data. Common destinations of the modified data ARE:</p>
+<p>The key component of these applications is entering data. Common destinations of the modified data are:</p>
 <ul>
 <li>The client application</li>
 <li>Custom code on a Viya
@@ -151,25 +166,35 @@
 </ul>
 </li>
 </ul>
-<h2>Desired features in the work product<a name="t2"></a></h2>
-<p>The goal of this project is to create a small reusable library and components for data entry in SAS Viya.</p>
-<p>This collection should have the following characteristics:</p>
-<ol>
+<p>The goal of this project is to create a small reusable library to simplify the  data entry in SAS Viya.</p>
+<hr>
+<h2>Methods</h2>
+<p>Please see the links for information and examples of the api.</p>
+<hr>
+<ul>
 <li>
-<p>Must be useable out of the box by users (internal and external)</p>
+<p><a href="https://sassoftware.github.io/restaf/module-setup.html">setup</a>  To initialize the edit session.</p>
 </li>
 <li>
-<p>Must address the basic capabilities of SAS/FSP and SAS/AF since these represent the requirements of SAS users over an extended period.</p>
+<p><a href="https://sassoftware.github.io/restaf/module-cellEdit.html">cellEdit</a> To do calculations when a field is edited.</p>
 </li>
 <li>
-<p>The core functionality must be unaware of the UI (User Interface) environment it is running in. The assumption is that the UI capability will be supplied by SAS and/or users.</p>
+<p><a href="https://sassoftware.github.io/restaf/module-commonHandler.html">commonHandler</a> To run handlers init, main and term(if specified)</p>
 </li>
-</ol>
+<li>
+<p><a href="https://sassoftware.github.io/restaf/module-fetchTableRows.html">fetchTableRows</a> Read data from cas and run initialize calculations</p>
+</li>
+<li>
+<p><a href="https://sassoftware.github.io/restaf/module-scrollTable.html">scrollTable</a> Scroll and fetch data</p>
+</li>
+<li>
+<p><a href="https://sassoftware.github.io/restaf/module-updateTableRows.html">updateTableRows</a> Update data on the server</p>
+</li>
+</ul>
 <h2>Table versus Form for data entry<a name="t3"></a></h2>
 <p>There are significant differences in how the user interacts with an application which uses a Table versus a custom form.</p>
 <p>However, at the lowest level both require the same functionality - Accessing data, verifying the entered data, saving the modified records, executing additional processing on the server.</p>
-<p>One of the key goals of this project is to create a single code base to handle both scenarios.
-[TBD: Detailed document on the library functions and usage notes].</p>
+<p>One of the key goals of this project is to create a single code base to handle both scenarios.</p>
 <h2>Currently Supported Features of the library<a name="t4"></a></h2>
 <ul>
 <li>
@@ -189,8 +214,7 @@
 <ul>
 <li>On the client using JavaScript</li>
 <li>On the cas server using casl or any cas action</li>
-<li>On an external server via http</li>
-<li>An Azure App for a SAS Decisioning Flow</li>
+<li>On an external destination(ex: An Azure App for a SAS Decisioning Flow)</li>
 </ul>
 </li>
 </ul>
@@ -204,9 +228,6 @@
 </li>
 <li>
 <p>Editing with standard SAS tables</p>
-</li>
-<li>
-<p>Examples of using non-SAS databases like SingleStore(?)</p>
 </li>
 </ul>
 <hr>
@@ -223,12 +244,73 @@ It also has a place for application writers to save application specific informa
     session     : &lt;cas session object>,
     restaflib   : &lt;object to access functions in restaflib>,
     logonPayload: &lt;information to connect to Viya -see below>,
-    appControl  : appControl /* see below */
-    id          : &lt;A unique id for this invocation>
+    appControl  : appControl /* passed in by user to setup -see below */
+    state       : {
+       modified   : [], /* future - keep track of modified rows */
+       pagination : {}, /* internal use to help with pagination */
+       currentPage: {}, /* information on last retrieved set */
+       data       : {}, /* array of currrent rowObjects(see below) */
+       columns    : {}  /* columns in eschema form (see below) */
+    }
 }
     
 </code></pre>
-<h2>logonPayload</h2>
+<h3>Notes on appEnv</h3>
+<p>This is designed to make it convenient to track all relevant information by the library and the user of the library.</p>
+<ul>
+<li>
+<p><strong>store</strong> This is created by <a href="https://sassoftware.github.io/restaf/module-runAction.html">restaf</a> library that makes the final calls to Viya REST APIs. The methods in restafedit makes use of restaf.</p>
+</li>
+<li>
+<p><strong>session</strong> This is the current cas session. It is stored here to allow users to run additional actions in the same session.</p>
+</li>
+<li>
+<p><strong>restaflib</strong> Use this to make calls to <a href="https://sassoftware.github.io/restaf/module-runAction.html">restaflib</a> methods.</p>
+</li>
+<li>
+<p><strong>logonPayload</strong>  This is used connect to Viya. Passed in by user to setup. See below for more information</p>
+</li>
+</ul>
+<p><strong>appControl</strong> This is the information passed in by the user to setup. See below</p>
+<ul>
+<li><strong>state</strong> This holds the data retrieved from the server. You can override this behaviour with the cachePolicy(see below). Feel free to cache the data in other ways, especially if you want this source of truth to be available in other parts of your application. See below for details on state.</li>
+</ul>
+<h2>Details on state</h2>
+<h3>data</h3>
+<p>state.data is an array of rowObjects. A rowObject has the form</p>
+<pre class="prettyprint source lang-js"><code>
+{x1: 20, x2: 'abc',....}
+
+
+</code></pre>
+<p>The keys are lower-cased column names.</p>
+<p>If you added computed columns they will also be in this object. This allows the custom handlers like init, main and term to access these.</p>
+<p>When updating the data on the server, the custom columns are dropped.</p>
+<h3>Columns</h3>
+<p>The schema returned from the server is reduced to this form(eschema) and enhanced with information on custom columns.</p>
+<pre class="prettyprint source lang-js"><code>{x1: {schema for x1}, x2: {schema for x2},...}
+</code></pre>
+<p>An extra key 'custom&quot; is added to each of the details. This is set to &quot;true&quot; if the column is a custom column.</p>
+<p>This additional key is useful</p>
+<ul>
+<li>Save operations can drop these columns</li>
+<li>Can be used by UI to apply a different style to custom columns</li>
+</ul>
+<h3>byVars</h3>
+<p>At the current time, we have to use key columns to identify the row to be updated. So byVars is an array of the key fields.</p>
+<p>ex: ['X1', 'X2']</p>
+<h2>rowIndex</h2>
+<p>When editing in a table form, it might be useful to know which row the current data array is being processed in the handlers. So this is purely informational</p>
+<h2>fetch Results</h2>
+<p>The results from the fetch of records has the following schema</p>
+<pre class="prettyprint source lang-js"><code>{
+  columns: &lt;this is the ecolumns>
+  data   : &lt;this is an array of rowObjects>
+  pagination: &lt; obhect with information for scrolling to prev or next>
+}
+</code></pre>
+<hr>
+<h2>More on logonPayload</h2>
 <p>The logonPayload is designed to handle many situations. See this link for all the options <a href="https:%5C/%5C/github.com/sassoftware/restaf/wiki/authentication">https://github.com/sassoftware/restaf/wiki/authentication</a></p>
 <p>However for the use cases this library is designed for the following two are probably sufficient</p>
 <h3>Authenticated browser</h3>
@@ -246,36 +328,35 @@ It also has a place for application writers to save application specific informa
 <p>The schema is below with sample values. While the library only supports cas server at this point, the plan is to add support for compute service.</p>
 <pre class="prettyprint source lang-js"><code> {
    dataControl: {
-   source: 'cas',
-   table : {caslib: 'casuser', name: 'testdata'},
-   access: {},
-   byvars: ['id'],
-   where : {},
+      source: 'cas', /* 'compute&quot; support planned */
+      table : {caslib: 'casuser', name: 'testdata'},
+      byvars: ['id'], 
+      access: {},/* future */
+      where : {}, /* future */
 
-   cachePolicy: true,
+      cachePolicy: true, 
 
-   initialFetch: {
-    count : 1,
-    from  : 1,
-    format: false
+      initialFetch: {
+        count : 1,
+        from  : 1,
+        format: false
    },
 
    customColumns: {
-   total: {
-    Column         : &quot;Total&quot;,
-    Label          : &quot;Grand Total&quot;,
-    FormattedLength: 12,
-    Type           : &quot;double&quot;
+      total: {
+        Column         : &quot;Total&quot;,
+        Label          : &quot;Grand Total&quot;,
+        FormattedLength: 12,
+        Type           : &quot;double&quot;
     }
    },
-   customRows: []
+   customRows: [] /*future */
    },
    editControl: {
-    handlers  : {}, 
-    save      : true,  
-    autoSave  : true
+     handlers  : {}, /* handlers for init, main, term and columns */
+     autoSave  : true /* celledit will save to server on each edit*/
    },
-   appData: {}
+   appData: {} /* place for user specified information
 }
    
 </code></pre>
@@ -283,18 +364,23 @@ It also has a place for application writers to save application specific informa
 <p>Only the not-so obvious keys are explained below.</p>
 <ul>
 <li>
-<p>initialFetch:  the first set of records to read
-from: The record number where the read starts(table.fetch action)
-count: Number of records to read</p>
+<p>initialFetch:  the first set of records to read</p>
+<ul>
+<li>from: The record number where the read starts(table.fetch action)</li>
+<li>count: Number of records to read. On every fetch this many records will be read.</li>
+</ul>
 </li>
 <li>
 <p>cachePolicy: If true the data is stored in appEnv.state. You should set this to false if you want to manage the data. The pagination information will always be saved in appEnv to enable easy scrolling.</p>
 </li>
 <li>
-<p>handlers:  This is an object with functions for init, main, term and indiviual columns. Set to {} if you do not plan to make use of this feature.</p>
+<p>handlers:  This is an object with functions for init, main, term and indiviual columns. Set to {} if you do not plan to make use of this feature. Use the handlers that make sense to you.</p>
 </li>
 <li>
-<p>byvars: An array of by variables. At this time, one has to use key fields to update a record in CAS. ex: ['firstname', 'lastname']</p>
+<p>byvars: An array of by variables. At this time, one has to use this as key to update a record in CAS. ex: ['firstname', 'lastname']</p>
+</li>
+<li>
+<p>customColumns: You can add additional columns(temporary) to be used during the session. These columns are not persisted to the server. These variables are available to the handlers. A typical example might be to display some row totals.</p>
 </li>
 <li>
 <p>appData - this is where the  app writer can save information and retrieve it from appEnv. appEnv is passed to all handlers. So it is available in functions like init, main etc. The example above shows what I use in my generic DataEditor component.</p>

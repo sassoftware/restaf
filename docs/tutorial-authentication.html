@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Library Overviews authentication</title>
+
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="./build/entry.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700|Inconsolata,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+  <link type="text/css" rel="stylesheet" href="style.css">
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  
+</head>
+
+
+
+<body class="layout small-header">
+    <div id="stickyNavbarOverlay"></div>
+    
+
+<div class="top-nav">
+    <div class="inner">
+        <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+        <div class="logo">
+            
+             
+                <a href="index.html">
+                    <h1 class="navbar-item">Overviews</h1>
+                </a>
+            
+        </div>
+        <div class="menu">
+            
+            <div class="navigation">
+                <a
+                    href="index.html"
+                    class="link"
+                >
+                    Documentation
+                </a>
+                
+                <div class="dropdown is-hoverable is-right">
+                    <a class="dropdown-trigger link">
+                        Tutorials
+                        <i class="fas fa-chevron-down fa-xs"></i>
+                    </a>
+                    <div class="dropdown-menu">
+                        <div class="dropdown-content">
+                        
+                            <a class="dropdown-item" href="tutorial-authentication.html">
+                                authentication
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-Browsing-a-Cas-Table.html">
+                                Browsing-a-Cas-Table
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-casActionRun.html">
+                                casActionRun
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-casActionRunExample.html">
+                                casActionRunExample
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-casFetchData.html">
+                                casFetchData
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-Compute-Service-made-easy.html">
+                                Compute-Service-made-easy
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-computeRunExample.html">
+                                computeRunExample
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-Executing-a-cas-action.html">
+                                Executing-a-cas-action
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-findReport.html">
+                                findReport
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-getReportImage.html">
+                                getReportImage
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-Managing-clientids.html">
+                                Managing-clientids
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-masDescribe.html">
+                                masDescribe
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-restafeditExample.html">
+                                restafeditExample
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-Scoring-in-the-Cas-Server.html">
+                                Scoring-in-the-Cas-Server
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-Scoring-with-MAS.html">
+                                Scoring-with-MAS
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-Scripting-on-the-Cas-Server.html">
+                                Scripting-on-the-Cas-Server
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-usefulTips.html">
+                                usefulTips
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-vaddc.html">
+                                vaddc
+                            </a>
+                        
+                        </div>
+                    </div>
+                </div>
+                
+                 
+                    
+                        <a
+                            class="link user-link "
+                            href="https://github.com/sassoftware/restaf/blob/main/README.md"
+                        >
+                            restaf
+                        </a>
+                    
+                        <a
+                            class="link user-link "
+                            href="https://github.com/sassoftware/restaf/blob/main/packages/restaflib/README.md"
+                        >
+                            restaflib
+                        </a>
+                    
+                        <a
+                            class="link user-link "
+                            href="https://github.com/sassoftware/restaf/blob/restafedit/README.md"
+                        >
+                            restafedit
+                        </a>
+                    
+                
+                
+            </div>
+        </div>
+    </div>
+</div>
+    <div id="main">
+        <div
+            class="sidebar tutorials"
+            id="sidebarNav"
+        >
+            
+                <div class="search-wrapper">
+                    <input id="search" type="text" placeholder="Search docs..." class="input">
+                </div>
+            
+            <nav>
+                
+                    <div class="category"><h3>Tutorials</h3><ul><li><a href="tutorial-authentication.html">authentication</a></li><li><a href="tutorial-Browsing-a-Cas-Table.html">Browsing-a-Cas-Table</a></li><li><a href="tutorial-casActionRun.html">casActionRun</a></li><li><a href="tutorial-casActionRunExample.html">casActionRunExample</a></li><li><a href="tutorial-casFetchData.html">casFetchData</a></li><li><a href="tutorial-Compute-Service-made-easy.html">Compute-Service-made-easy</a></li><li><a href="tutorial-computeRunExample.html">computeRunExample</a></li><li><a href="tutorial-Executing-a-cas-action.html">Executing-a-cas-action</a></li><li><a href="tutorial-findReport.html">findReport</a></li><li><a href="tutorial-getReportImage.html">getReportImage</a></li><li><a href="tutorial-Managing-clientids.html">Managing-clientids</a></li><li><a href="tutorial-masDescribe.html">masDescribe</a></li><li><a href="tutorial-restafeditExample.html">restafeditExample</a></li><li><a href="tutorial-Scoring-in-the-Cas-Server.html">Scoring-in-the-Cas-Server</a></li><li><a href="tutorial-Scoring-with-MAS.html">Scoring-with-MAS</a></li><li><a href="tutorial-Scripting-on-the-Cas-Server.html">Scripting-on-the-Cas-Server</a></li><li><a href="tutorial-usefulTips.html">usefulTips</a></li><li><a href="tutorial-vaddc.html">vaddc</a></li></ul></div>
+                
+            </nav>
+        </div>
+        <div class="core" id="main-content-wrapper">
+            <div class="content">
+                <header class="page-title">
+                    <p>Tutorial</p>
+                    <h1>authentication</h1>
+                </header>
+                <section>
+
+<article>
+    <h1>Authentication</h1>
+<p>restaf supports sessions authenticated in one of these OAUTH2 flows</p>
+<ol>
+<li>PASSWORD flow</li>
+<li>AUTHORIZATION_CODE flow</li>
+<li>IMPLICIT flow</li>
+</ol>
+<p>There are scenarios where the token might already exist. restaf will accept this token also.</p>
+<h2>logon method</h2>
+<p>The store.logon method establishes connection with SAS Viya.</p>
+<pre class="prettyprint source lang-js"><code>  await store.logon(payload);
+</code></pre>
+<p>The rest of this page discusses the form of payload for the various authentication flows</p>
+<h3>PASSWORD flow</h3>
+<p>Password flow is typically used in cli's and nodejs applications.</p>
+<pre class="prettyprint source lang-javascript"><code>       let  payload = {
+            authType    : 'password',
+            host        : 'http://your-viya-server',
+            user        : username,
+            password    : user password,
+            clientID    : clientid,  /* get this from your admin */
+            clientSecret: clientsecret /* get this from your admin */
+            } );
+        store.logon  ( payload )
+            .then ( () => ...do whatever your app does ...)
+            .catch( err => ...do recovery ... )
+</code></pre>
+<h2>Authorization_code flow</h2>
+<p>In a browser session authenticated with authorization flow use the following payload</p>
+<pre class="prettyprint source lang-js"><code>    let payload = {
+        authType: 'server',
+        host    : 'http://your-viya-server'
+    };
+    store.logon  ( payload )
+            .then ( () => ...do whatever your app does ...)
+            .catch( err => ...do recovery ... )
+</code></pre>
+<h3>A note on using restaf in VA's Data Driven Component(DDC) or web content</h3>
+<p>When your app is running in a DDC the payload should be as follows:</p>
+<pre class="prettyprint source lang-js"><code>    let payload = {
+        authType: 'server',
+        host    : window.location.origin
+    };
+    store.logon  (payload)
+            .then ( () => ...do whatever your app does ...)
+            .catch( err => ...do recovery ... )
+</code></pre>
+<h2>Implicit flow</h2>
+<p>In your logon.html make this call.</p>
+<pre class="prettyprint source lang-javascript"><code>        let payload = {
+            host        : &lt;Viya server host (ex: http://my.example.com)
+            clientID    : &lt;clientid>
+            redirect    : &lt;your redirect uri>,
+            authType    : 'implicit',
+        };
+
+        store.logon  (payload)
+          .catch(err => ...do recovery ... )
+
+</code></pre>
+<p>This will result in the user being prompted for username and password.If successful the user will be redirected the redirect uri - which is the main entry of the application.</p>
+<p>In the main entry of your application you will make the following call:</p>
+<pre class="prettyprint source lang-javascript"><code>
+store.logon(null)
+.then(...)
+
+</code></pre>
+<p>restaf will parse the url for the token and save it in the store.</p>
+<h3>Using an existing token</h3>
+<p>There are situations where a valid token might exist(ex: you have created a long-lived token for running jobs as part of your CI/CD process) In that case use the following payload to store.logon</p>
+<pre class="prettyprint source lang-javascript"><code>        store.logon( {
+            authType: 'token',
+            host: &quot;&lt;your viya server>',
+            token: &quot;&lt;your token>&quot;
+        });
+</code></pre>
+<h2>Accessing authentication information</h2>
+<p>If for some reason you need information on the authenticatiin for the session make the following call:</p>
+<pre class="prettyprint source lang-js"><code>    let c = store.connection();
+</code></pre>
+<p>The connection method returns information on the current connection.</p>
+<p>Sample output:</p>
+<pre class="prettyprint source lang-json"><code>{
+    &quot;type&quot;: &quot;trusted&quot;,
+    &quot;host&quot;: &quot;http://your-viya-host&quot;,
+    &quot;tokenType&quot;: &quot;bearer&quot;,
+    &quot;token&quot;: &quot;... your Oauth token ...&quot;
+}
+</code></pre>
+</article>
+
+</section>
+
+            </div>
+            
+            <footer class="footer">
+                <div class="content has-text-centered">
+                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.11</a></p>
+                    <p class="sidebar-created-by">
+                        <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by
+                        <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
+                    </p>
+                </div>
+            </footer>
+            
+        </div>
+        <div id="side-nav" class="side-nav">
+        </div>
+    </div>
+<script src="scripts/app.min.js"></script>
+<script>PR.prettyPrint();</script>
+<script src="scripts/linenumber.js"> </script>
+
+<script src="scripts/search.js"> </script>
+
+
+</body>
+</html>

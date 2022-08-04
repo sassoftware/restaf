@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Library Overviews Scoring-in-the-Cas-Server</title>
+
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="./build/entry.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700|Inconsolata,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+  <link type="text/css" rel="stylesheet" href="style.css">
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  
+</head>
+
+
+
+<body class="layout small-header">
+    <div id="stickyNavbarOverlay"></div>
+    
+
+<div class="top-nav">
+    <div class="inner">
+        <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+        <div class="logo">
+            
+             
+                <a href="index.html">
+                    <h1 class="navbar-item">Overviews</h1>
+                </a>
+            
+        </div>
+        <div class="menu">
+            
+            <div class="navigation">
+                <a
+                    href="index.html"
+                    class="link"
+                >
+                    Documentation
+                </a>
+                
+                <div class="dropdown is-hoverable is-right">
+                    <a class="dropdown-trigger link">
+                        Tutorials
+                        <i class="fas fa-chevron-down fa-xs"></i>
+                    </a>
+                    <div class="dropdown-menu">
+                        <div class="dropdown-content">
+                        
+                            <a class="dropdown-item" href="tutorial-authentication.html">
+                                authentication
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-Browsing-a-Cas-Table.html">
+                                Browsing-a-Cas-Table
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-casActionRun.html">
+                                casActionRun
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-casActionRunExample.html">
+                                casActionRunExample
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-casFetchData.html">
+                                casFetchData
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-Compute-Service-made-easy.html">
+                                Compute-Service-made-easy
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-computeRunExample.html">
+                                computeRunExample
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-Executing-a-cas-action.html">
+                                Executing-a-cas-action
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-findReport.html">
+                                findReport
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-getReportImage.html">
+                                getReportImage
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-Managing-clientids.html">
+                                Managing-clientids
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-masDescribe.html">
+                                masDescribe
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-restafeditExample.html">
+                                restafeditExample
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-Scoring-in-the-Cas-Server.html">
+                                Scoring-in-the-Cas-Server
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-Scoring-with-MAS.html">
+                                Scoring-with-MAS
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-Scripting-on-the-Cas-Server.html">
+                                Scripting-on-the-Cas-Server
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-usefulTips.html">
+                                usefulTips
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-vaddc.html">
+                                vaddc
+                            </a>
+                        
+                        </div>
+                    </div>
+                </div>
+                
+                 
+                    
+                        <a
+                            class="link user-link "
+                            href="https://github.com/sassoftware/restaf/blob/main/README.md"
+                        >
+                            restaf
+                        </a>
+                    
+                        <a
+                            class="link user-link "
+                            href="https://github.com/sassoftware/restaf/blob/main/packages/restaflib/README.md"
+                        >
+                            restaflib
+                        </a>
+                    
+                        <a
+                            class="link user-link "
+                            href="https://github.com/sassoftware/restaf/blob/restafedit/README.md"
+                        >
+                            restafedit
+                        </a>
+                    
+                
+                
+            </div>
+        </div>
+    </div>
+</div>
+    <div id="main">
+        <div
+            class="sidebar tutorials"
+            id="sidebarNav"
+        >
+            
+                <div class="search-wrapper">
+                    <input id="search" type="text" placeholder="Search docs..." class="input">
+                </div>
+            
+            <nav>
+                
+                    <div class="category"><h3>Tutorials</h3><ul><li><a href="tutorial-authentication.html">authentication</a></li><li><a href="tutorial-Browsing-a-Cas-Table.html">Browsing-a-Cas-Table</a></li><li><a href="tutorial-casActionRun.html">casActionRun</a></li><li><a href="tutorial-casActionRunExample.html">casActionRunExample</a></li><li><a href="tutorial-casFetchData.html">casFetchData</a></li><li><a href="tutorial-Compute-Service-made-easy.html">Compute-Service-made-easy</a></li><li><a href="tutorial-computeRunExample.html">computeRunExample</a></li><li><a href="tutorial-Executing-a-cas-action.html">Executing-a-cas-action</a></li><li><a href="tutorial-findReport.html">findReport</a></li><li><a href="tutorial-getReportImage.html">getReportImage</a></li><li><a href="tutorial-Managing-clientids.html">Managing-clientids</a></li><li><a href="tutorial-masDescribe.html">masDescribe</a></li><li><a href="tutorial-restafeditExample.html">restafeditExample</a></li><li><a href="tutorial-Scoring-in-the-Cas-Server.html">Scoring-in-the-Cas-Server</a></li><li><a href="tutorial-Scoring-with-MAS.html">Scoring-with-MAS</a></li><li><a href="tutorial-Scripting-on-the-Cas-Server.html">Scripting-on-the-Cas-Server</a></li><li><a href="tutorial-usefulTips.html">usefulTips</a></li><li><a href="tutorial-vaddc.html">vaddc</a></li></ul></div>
+                
+            </nav>
+        </div>
+        <div class="core" id="main-content-wrapper">
+            <div class="content">
+                <header class="page-title">
+                    <p>Tutorial</p>
+                    <h1>Scoring-in-the-Cas-Server</h1>
+                </header>
+                <section>
+
+<article>
+    <h2>Introduction</h2>
+<p>One of the repeating pattern I see in many of the POCs is embedding scoring in user's web application. This blog shows how you can develop such applications with minimal code. The four use cases are:</p>
+<ol>
+<li>Model is published to MAS</li>
+<li>Model is published to a CAS destination</li>
+<li>Model code is datastep code stored in a modelTable(sashdat)</li>
+<li>Model code is in an astore stored in a sashdat.</li>
+</ol>
+<blockquote>
+<p>_The MAS use case is discussed in another section.</p>
+</blockquote>
+<h2>Flow</h2>
+<p>The flow for scoring is shown in the diagram below. This flow applies for the use cases 2 thru 4.
+<img src="https://github.com/sassoftware/restaf/blob/gen2/images/caslScore.png" alt="casl scoring flow"></p>
+<h4>Sample Code for scoring with model published to a Cas destination</h4>
+<blockquote>
+<p>Please see the section on Setup later in this document on how to import restaf and restaflib into your application</p>
+</blockquote>
+<p>A typical code for scoring using models published to cas destination is shown below. Besides the usual restaf calls to logon to the server, the two key methods are:</p>
+<ul>
+<li>casSetup - This is used to obtain a cas session. The only parameter is the store</li>
+<li>caslScore - This method executes the scoring on cas and returns the score information. The three arguments to this method are:
+<ul>
+<li>store - the restaf store object</li>
+<li>session - the cas session object obtained via casSetup</li>
+<li>payload - Information to be used for scoring. See the description below</li>
+</ul>
+</li>
+</ul>
+<p>The payload(see example below) has the following data:</p>
+<ul>
+<li>
+<p>The name of the model - this is used only in the case of model published to a cas destination</p>
+</li>
+<li>
+<p>The caslib and name of where the model is stored(a sashdat)</p>
+</li>
+<li>
+<p>The scenario to be scored</p>
+<p>let store = restaf.initStore();                                                        /* (1)   */
+store.logon(payload)
+.then ( () =&gt; example())
+.catch(err) =&gt; console.log(e)</p>
+<p>async function example() {</p>
+<pre><code>let {session} = await restaflib.casSetup(store);                                    /* (2) */
+
+let scenario = {                                                                    /* (3) */
+    modelName: 'Gradient\_Boosting\_7adb0404\_85e3\_474d\_9d03\_1059ef7ae008',
+    model    : { caslib: 'public', name: 'testpublish' },
+    scenario : {
+        sensor\_ratio       : 4.3,
+        days\_out\_of\_service: 5
+    }
+};
+let r = await restaflib.caslScore(store, session, scenario);                        /* (4) */
+
+console.log(JSON.stringify(r, null,4));
+</code></pre>
+<p>}</p>
+</li>
+</ul>
+<p>The result is a Javascript object with the data returned from scoring. In the example above the result is:</p>
+<pre><code>{
+    &quot;days_out_of_service&quot;: 5,
+    &quot;sensor_ratio&quot;: 4.3,
+    &quot;_Index_&quot;: 1,
+    &quot;EM_EVENTPROBABILITY&quot;: 0.10521221221641,
+    &quot;I_FAILURE&quot;: &quot;           0&quot;,
+    &quot;P_FAILURE0&quot;: 0.89478778778358,
+    &quot;P_FAILURE1&quot;: 0.10521221221641,
+    &quot;_WARN_&quot;: &quot;&quot;,
+    &quot;EM_CLASSIFICATION&quot;: &quot;           0&quot;,
+    &quot;EM_PROBABILITY&quot;: 0.89478778778358
+}
+</code></pre>
+<h3>Other scoring use cases</h3>
+<p>The code is identical to the one show above. The modelName is ignored in these cases. The model refers to the sashdat where the datastep code or the astore is saved. See this <a href="https://github.com/sassoftware/restaf/blob/gen2/packages/examples/caslScore.js">link</a> for examples of all 3 use cases.</p>
+<h3>Notes</h3>
+<ol>
+<li>caslScore method will load the model if it is not in memory</li>
+<li>If there are multiple models whose name only vary in case, the first one found will be used</li>
+<li>The casl code used for scoring can be found <a href="https://github.com/sassoftware/restaf/blob/gen2/packages/restaflib/src/programs/scoreCasl.js">here</a></li>
+</ol>
+<h2>Setup</h2>
+<h3>Web Applications</h3>
+<p>Include the following two script tags.</p>
+<pre class="prettyprint source"><code>    &lt;script src=&quot;https://unpkg.com/@sassoftware/restaf@next&quot;>&lt;/script>
+
+    &lt;script src=&quot;https://unpkg.com/@sassoftware/restaflib@next&quot;>&lt;/script>
+</code></pre>
+<p>Two globals restaf and restaflib will be available for use in your script tags.</p>
+<h3>Nodejs application</h3>
+<p>Install restaf and restaflib using the following command</p>
+<pre class="prettyprint source"><code>    npm install @sassoftware/restaf@next @sassoftware/restaflib@next
+</code></pre>
+</article>
+
+</section>
+
+            </div>
+            
+            <footer class="footer">
+                <div class="content has-text-centered">
+                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.11</a></p>
+                    <p class="sidebar-created-by">
+                        <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by
+                        <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
+                    </p>
+                </div>
+            </footer>
+            
+        </div>
+        <div id="side-nav" class="side-nav">
+        </div>
+    </div>
+<script src="scripts/app.min.js"></script>
+<script>PR.prettyPrint();</script>
+<script src="scripts/linenumber.js"> </script>
+
+<script src="scripts/search.js"> </script>
+
+
+</body>
+</html>

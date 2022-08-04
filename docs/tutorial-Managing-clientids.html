@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Library Overviews Managing-clientids</title>
+
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="./build/entry.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700|Inconsolata,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+  <link type="text/css" rel="stylesheet" href="style.css">
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  
+</head>
+
+
+
+<body class="layout small-header">
+    <div id="stickyNavbarOverlay"></div>
+    
+
+<div class="top-nav">
+    <div class="inner">
+        <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+        <div class="logo">
+            
+             
+                <a href="index.html">
+                    <h1 class="navbar-item">Overviews</h1>
+                </a>
+            
+        </div>
+        <div class="menu">
+            
+            <div class="navigation">
+                <a
+                    href="index.html"
+                    class="link"
+                >
+                    Documentation
+                </a>
+                
+                <div class="dropdown is-hoverable is-right">
+                    <a class="dropdown-trigger link">
+                        Tutorials
+                        <i class="fas fa-chevron-down fa-xs"></i>
+                    </a>
+                    <div class="dropdown-menu">
+                        <div class="dropdown-content">
+                        
+                            <a class="dropdown-item" href="tutorial-authentication.html">
+                                authentication
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-Browsing-a-Cas-Table.html">
+                                Browsing-a-Cas-Table
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-casActionRun.html">
+                                casActionRun
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-casActionRunExample.html">
+                                casActionRunExample
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-casFetchData.html">
+                                casFetchData
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-Compute-Service-made-easy.html">
+                                Compute-Service-made-easy
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-computeRunExample.html">
+                                computeRunExample
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-Executing-a-cas-action.html">
+                                Executing-a-cas-action
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-findReport.html">
+                                findReport
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-getReportImage.html">
+                                getReportImage
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-Managing-clientids.html">
+                                Managing-clientids
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-masDescribe.html">
+                                masDescribe
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-restafeditExample.html">
+                                restafeditExample
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-Scoring-in-the-Cas-Server.html">
+                                Scoring-in-the-Cas-Server
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-Scoring-with-MAS.html">
+                                Scoring-with-MAS
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-Scripting-on-the-Cas-Server.html">
+                                Scripting-on-the-Cas-Server
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-usefulTips.html">
+                                usefulTips
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-vaddc.html">
+                                vaddc
+                            </a>
+                        
+                        </div>
+                    </div>
+                </div>
+                
+                 
+                    
+                        <a
+                            class="link user-link "
+                            href="https://github.com/sassoftware/restaf/blob/main/README.md"
+                        >
+                            restaf
+                        </a>
+                    
+                        <a
+                            class="link user-link "
+                            href="https://github.com/sassoftware/restaf/blob/main/packages/restaflib/README.md"
+                        >
+                            restaflib
+                        </a>
+                    
+                        <a
+                            class="link user-link "
+                            href="https://github.com/sassoftware/restaf/blob/restafedit/README.md"
+                        >
+                            restafedit
+                        </a>
+                    
+                
+                
+            </div>
+        </div>
+    </div>
+</div>
+    <div id="main">
+        <div
+            class="sidebar tutorials"
+            id="sidebarNav"
+        >
+            
+                <div class="search-wrapper">
+                    <input id="search" type="text" placeholder="Search docs..." class="input">
+                </div>
+            
+            <nav>
+                
+                    <div class="category"><h3>Tutorials</h3><ul><li><a href="tutorial-authentication.html">authentication</a></li><li><a href="tutorial-Browsing-a-Cas-Table.html">Browsing-a-Cas-Table</a></li><li><a href="tutorial-casActionRun.html">casActionRun</a></li><li><a href="tutorial-casActionRunExample.html">casActionRunExample</a></li><li><a href="tutorial-casFetchData.html">casFetchData</a></li><li><a href="tutorial-Compute-Service-made-easy.html">Compute-Service-made-easy</a></li><li><a href="tutorial-computeRunExample.html">computeRunExample</a></li><li><a href="tutorial-Executing-a-cas-action.html">Executing-a-cas-action</a></li><li><a href="tutorial-findReport.html">findReport</a></li><li><a href="tutorial-getReportImage.html">getReportImage</a></li><li><a href="tutorial-Managing-clientids.html">Managing-clientids</a></li><li><a href="tutorial-masDescribe.html">masDescribe</a></li><li><a href="tutorial-restafeditExample.html">restafeditExample</a></li><li><a href="tutorial-Scoring-in-the-Cas-Server.html">Scoring-in-the-Cas-Server</a></li><li><a href="tutorial-Scoring-with-MAS.html">Scoring-with-MAS</a></li><li><a href="tutorial-Scripting-on-the-Cas-Server.html">Scripting-on-the-Cas-Server</a></li><li><a href="tutorial-usefulTips.html">usefulTips</a></li><li><a href="tutorial-vaddc.html">vaddc</a></li></ul></div>
+                
+            </nav>
+        </div>
+        <div class="core" id="main-content-wrapper">
+            <div class="content">
+                <header class="page-title">
+                    <p>Tutorial</p>
+                    <h1>Managing-clientids</h1>
+                </header>
+                <section>
+
+<article>
+    <h1>registerclient</h1>
+<p>Application to manage clientids. The application runs as a cli.
+It can be run in interactive mode or non-interactive(batch) mode.
+The user of this app must have admin rights.</p>
+<hr>
+<h2><strong>Quick start</strong></h2>
+<hr>
+<p>Do the following in any shell:</p>
+<pre class="prettyprint source lang-sh"><code>
+npx @sassoftware/registerclient --host=Url-to-viya-server --ttl=ttl_in-days
+
+ex:
+npx @sassoftware/registerclient --host=http://viya.unx.brilliant.sas.com --ttl=1
+
+</code></pre>
+<p>On prompt (&gt;) enter</p>
+<pre class="prettyprint source lang-sh"><code>logon
+
+</code></pre>
+<p>Then respond to request for userid and password.</p>
+<p>Once you are logged on issue &quot;help&quot; command to see what is possible.</p>
+<h3><strong>Web Applications</strong></h3>
+<p>Recommend that you use authorization_code flow for web applications. This will allow your application to use VA-SDK.</p>
+<p>Here is an example;</p>
+<pre class="prettyprint source lang-cmd"><code>
+add viyademo -t authorization_code -s secret -r http://localhost:8080/viyademo,http://localhost:8080/viyaapp,https://localhost/viyademo,https://localhost/viyaapp
+
+</code></pre>
+<h3><strong>Non-web applications</strong></h3>
+<p>Create password flow clientids</p>
+<p>Here is an example:</p>
+<pre class="prettyprint source lang-cmd"><code>
+add mycli -t password -s myclisecret
+
+
+</code></pre>
+<h2><strong>Advanced Usage</strong></h2>
+<hr>
+<p>Create an env file ( call it register.env) with the following content</p>
+<pre class="prettyprint source lang-ini"><code>VIYA_SERVER=http://&lt;your viyaserver>
+AUTHTYPE=password
+CLIENTID=sas.ec or a valid clientid( appears that sas.ec is shipped as a default clientid)
+CLIENTSECRET=
+</code></pre>
+<hr>
+<h2><strong>Interactive mode</strong></h2>
+<hr>
+<p>Start the interactive session with this command:</p>
+<pre class="prettyprint source lang-sh"><code>npx @sassoftware/registerclient --env &lt;your-env-file>
+</code></pre>
+<p>This will start an interactive session where you can issue commands. Use the exit command to end the session.
+Enter the following command:</p>
+<pre class="prettyprint source lang-sh"><code>logon
+</code></pre>
+<p>You will be prompted for your userid and password.
+Once you are logged on you can issue the commands discussed below.</p>
+<h2>List of commands</h2>
+<ul>
+<li><strong>logon</strong> - logon on to Viya server. You will be prompted for userid and password</li>
+<li><strong>list &lt;all&gt;</strong> - list current user-defined clientids. Use all option to additionally list system clientids</li>
+<li><strong>del clientid</strong> - delete the specified clientid( always returns 404 but work - no idea why)</li>
+<li><strong>add clientid</strong> &lt; options &gt; - add a new clientid</li>
+</ul>
+<h3>Options for the add command</h3>
+<ul>
+<li><strong>-t</strong>  == grant type ==  typically one of these: password | implicit | authorization_code)</li>
+<li><strong>-s</strong>  == secret whatever you want(valid for password and authorization_code)</li>
+<li><strong>-r</strong>  == redirect_uri == valid for implicit and authorization_code(if multiple redirects separate them by comma(,))</li>
+</ul>
+<hr>
+<h3>Examples</h3>
+<ol>
+<li>
+<p>Create a password flow clientid</p>
+<ul>
+<li>add raf -t password -s raf</li>
+</ul>
+</li>
+<li>
+<p>Create an implicit flow clientid</p>
+<ul>
+<li>add appi -t implicit -r <a href="http:%5C/%5C/localhost:8080/callback">http://localhost:8080/callback</a></li>
+</ul>
+</li>
+<li>
+<p>Create a authorization_code flow clientid</p>
+<ul>
+<li>add appc -t authorization_code -s mysecret -r <a href="http:%5C/%5C/localhost:8080/yourappname">http://localhost:8080/yourappname</a>,<a href="https:%5C/%5C/localhost:443/yourappname">https://localhost:443/yourappname</a></li>
+</ul>
+</li>
+<li>
+<p>list clientids including all SAS microservices clientids</p>
+<ul>
+<li>list all</li>
+</ul>
+</li>
+<li>
+<p>list user clientids</p>
+<ul>
+<li>list</li>
+</ul>
+</li>
+<li>
+<p>delete a specific client</p>
+<ul>
+<li>del appc</li>
+</ul>
+</li>
+</ol>
+<h2><strong>Batch mode</strong></h2>
+<hr>
+<p>This mode is useful when you want to run these commands as part of some process. I use them to setup all my clientids when I am configuring a new server so that all my apps can run on it.</p>
+<p>Create a version of the register.env file with two additional keys - USER and PASSWORD</p>
+<pre class="prettyprint source lang-ini"><code>VIYA_SERVER=http://&lt;your viyaserver>
+AUTHTYPE=password
+CLIENTID=sas.ec or a valid clientid( appears that sas.ec is shipped as a default clientid)
+CLIENTSECRET=
+USER=&lt;username>
+PASSWORD=&lt;password>
+</code></pre>
+<p>Run the following command</p>
+<pre class="prettyprint source lang-sh"><code>npx @sassoftware/registerclient --file yourcmdfile --env &lt;your-env-file>
+</code></pre>
+<p>The cmd file contains a list of the commands(see below). They are executed in order.</p>
+<pre class="prettyprint source lang-text"><code>list
+add app1 -t implicit -r http://localhost:5000/app1
+add app2 -t authorization_code -s mysecret -r http://localhost:5000/viyaapp
+list
+</code></pre>
+<h2>Notes</h2>
+<p>The current configuration for all clientids is shown below:</p>
+<pre class="prettyprint source lang-json"><code>scope: ['openid', '*'],
+resource_ids: 'none',
+autoapprove: true,
+access_token_validity: 86400,
+'use-session': true
+
+</code></pre>
+<p>This can be changed with the config command</p>
+<pre class="prettyprint source lang-sh"><code>config &lt;path to your config file>
+
+</code></pre>
+<h2><strong>Install</strong></h2>
+<hr>
+<p>This is only required if you want the cli to be installed in your local machine. Under normal circumstances this might not be necessary.</p>
+<pre class="prettyprint source lang-sh"><code>npm install -g @sassoftware/registerclient
+</code></pre>
+<hr>
+<p>This installs the cli as a global command</p>
+</article>
+
+</section>
+
+            </div>
+            
+            <footer class="footer">
+                <div class="content has-text-centered">
+                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.11</a></p>
+                    <p class="sidebar-created-by">
+                        <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by
+                        <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
+                    </p>
+                </div>
+            </footer>
+            
+        </div>
+        <div id="side-nav" class="side-nav">
+        </div>
+    </div>
+<script src="scripts/app.min.js"></script>
+<script>PR.prettyPrint();</script>
+<script src="scripts/linenumber.js"> </script>
+
+<script src="scripts/search.js"> </script>
+
+
+</body>
+</html>

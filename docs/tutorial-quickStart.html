@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Library Overviews quickStart</title>
+
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="./build/entry.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700|Inconsolata,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+  <link type="text/css" rel="stylesheet" href="style.css">
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  
+</head>
+
+
+
+<body class="layout small-header">
+    <div id="stickyNavbarOverlay"></div>
+    
+
+<div class="top-nav">
+    <div class="inner">
+        <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+        <div class="logo">
+            
+             
+                <a href="index.html">
+                    <h1 class="navbar-item">Overviews</h1>
+                </a>
+            
+        </div>
+        <div class="menu">
+            
+            <div class="navigation">
+                <a
+                    href="index.html"
+                    class="link"
+                >
+                    Documentation
+                </a>
+                
+                <div class="dropdown is-hoverable is-right">
+                    <a class="dropdown-trigger link">
+                        Tutorials
+                        <i class="fas fa-chevron-down fa-xs"></i>
+                    </a>
+                    <div class="dropdown-menu">
+                        <div class="dropdown-content">
+                        
+                            <a class="dropdown-item" href="tutorial-authentication.html">
+                                authentication
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-Browsing-a-Cas-Table.html">
+                                Browsing-a-Cas-Table
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-casActionRun.html">
+                                casActionRun
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-casActionRunExample.html">
+                                casActionRunExample
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-casFetchData.html">
+                                casFetchData
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-caslRun.html">
+                                caslRun
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-caslScore.html">
+                                caslScore
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-casSetup.html">
+                                casSetup
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-Compute-Service-made-easy.html">
+                                Compute-Service-made-easy
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-computeFetchData.html">
+                                computeFetchData
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-computeResults.html">
+                                computeResults
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-computeRun.html">
+                                computeRun
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-computeRunExample.html">
+                                computeRunExample
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-computeSetup.html">
+                                computeSetup
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-computeSummary.html">
+                                computeSummary
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-Configuring-SAS-Viya-AWS-Quick-Start-for-serverless-functions.html">
+                                Configuring-SAS-Viya-AWS-Quick-Start-for-serverless-functions
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-Executing-a-cas-action.html">
+                                Executing-a-cas-action
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-findReport.html">
+                                findReport
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-getReportImage.html">
+                                getReportImage
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-getReportUri.html">
+                                getReportUri
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-Home.html">
+                                Home
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-import-export.html">
+                                import-export
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-lazyProgrammer.html">
+                                lazyProgrammer
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-Managing-clientids.html">
+                                Managing-clientids
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-masDescribe.html">
+                                masDescribe
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-masRun.html">
+                                masRun
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-masSetup.html">
+                                masSetup
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-quickStart.html">
+                                quickStart
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-reactTips.html">
+                                reactTips
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-restaf---Building-Applications-with-SAS-REST-API-made-simple.html">
+                                restaf---Building-Applications-with-SAS-REST-API-made-simple
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-restaf-Background.html">
+                                restaf-Background
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-restaf-Introduction.html">
+                                restaf-Introduction
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-restafeditExample.html">
+                                restafeditExample
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-restaflib-introduction.html">
+                                restaflib-introduction
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-Scoring-in-the-Cas-Server.html">
+                                Scoring-in-the-Cas-Server
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-Scoring-with-MAS.html">
+                                Scoring-with-MAS
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-Scripting-on-the-Cas-Server.html">
+                                Scripting-on-the-Cas-Server
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-usefulTips.html">
+                                usefulTips
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-vaddc.html">
+                                vaddc
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-viyedit.html">
+                                viyedit
+                            </a>
+                        
+                        </div>
+                    </div>
+                </div>
+                
+                 
+                    
+                        <a
+                            class="link user-link "
+                            href="https://github.com/sassoftware/restaf/blob/main/README.md"
+                        >
+                            restaf
+                        </a>
+                    
+                        <a
+                            class="link user-link "
+                            href="https://github.com/sassoftware/restaf/blob/main/packages/restaflib/README.md"
+                        >
+                            restaflib
+                        </a>
+                    
+                        <a
+                            class="link user-link "
+                            href="https://github.com/sassoftware/restaf/blob/restafedit/README.md"
+                        >
+                            restafedit
+                        </a>
+                    
+                
+                
+            </div>
+        </div>
+    </div>
+</div>
+    <div id="main">
+        <div
+            class="sidebar tutorials"
+            id="sidebarNav"
+        >
+            
+                <div class="search-wrapper">
+                    <input id="search" type="text" placeholder="Search docs..." class="input">
+                </div>
+            
+            <nav>
+                
+                    <div class="category"><h3>Tutorials</h3><ul><li><a href="tutorial-authentication.html">authentication</a></li><li><a href="tutorial-Browsing-a-Cas-Table.html">Browsing-a-Cas-Table</a></li><li><a href="tutorial-casActionRun.html">casActionRun</a></li><li><a href="tutorial-casActionRunExample.html">casActionRunExample</a></li><li><a href="tutorial-casFetchData.html">casFetchData</a></li><li><a href="tutorial-caslRun.html">caslRun</a></li><li><a href="tutorial-caslScore.html">caslScore</a></li><li><a href="tutorial-casSetup.html">casSetup</a></li><li><a href="tutorial-Compute-Service-made-easy.html">Compute-Service-made-easy</a></li><li><a href="tutorial-computeFetchData.html">computeFetchData</a></li><li><a href="tutorial-computeResults.html">computeResults</a></li><li><a href="tutorial-computeRun.html">computeRun</a></li><li><a href="tutorial-computeRunExample.html">computeRunExample</a></li><li><a href="tutorial-computeSetup.html">computeSetup</a></li><li><a href="tutorial-computeSummary.html">computeSummary</a></li><li><a href="tutorial-Configuring-SAS-Viya-AWS-Quick-Start-for-serverless-functions.html">Configuring-SAS-Viya-AWS-Quick-Start-for-serverless-functions</a></li><li><a href="tutorial-Executing-a-cas-action.html">Executing-a-cas-action</a></li><li><a href="tutorial-findReport.html">findReport</a></li><li><a href="tutorial-getReportImage.html">getReportImage</a></li><li><a href="tutorial-getReportUri.html">getReportUri</a></li><li><a href="tutorial-Home.html">Home</a></li><li><a href="tutorial-import-export.html">import-export</a></li><li><a href="tutorial-lazyProgrammer.html">lazyProgrammer</a></li><li><a href="tutorial-Managing-clientids.html">Managing-clientids</a></li><li><a href="tutorial-masDescribe.html">masDescribe</a></li><li><a href="tutorial-masRun.html">masRun</a></li><li><a href="tutorial-masSetup.html">masSetup</a></li><li><a href="tutorial-quickStart.html">quickStart</a></li><li><a href="tutorial-reactTips.html">reactTips</a></li><li><a href="tutorial-restaf---Building-Applications-with-SAS-REST-API-made-simple.html">restaf---Building-Applications-with-SAS-REST-API-made-simple</a></li><li><a href="tutorial-restaf-Background.html">restaf-Background</a></li><li><a href="tutorial-restaf-Introduction.html">restaf-Introduction</a></li><li><a href="tutorial-restafeditExample.html">restafeditExample</a></li><li><a href="tutorial-restaflib-introduction.html">restaflib-introduction</a></li><li><a href="tutorial-Scoring-in-the-Cas-Server.html">Scoring-in-the-Cas-Server</a></li><li><a href="tutorial-Scoring-with-MAS.html">Scoring-with-MAS</a></li><li><a href="tutorial-Scripting-on-the-Cas-Server.html">Scripting-on-the-Cas-Server</a></li><li><a href="tutorial-usefulTips.html">usefulTips</a></li><li><a href="tutorial-vaddc.html">vaddc</a></li><li><a href="tutorial-viyedit.html">viyedit</a></li></ul></div>
+                
+            </nav>
+        </div>
+        <div class="core" id="main-content-wrapper">
+            <div class="content">
+                <header class="page-title">
+                    <p>Tutorial</p>
+                    <h1>quickStart</h1>
+                </header>
+                <section>
+
+<article>
+    <h1>QuickStart template for Building SAS Viya Applications</h1>
+<p>One of the common patterns in SAS Viya Web Applications is shown in the 3 images below.</p>
+<ol>
+<li>After authentication the application starts with a landing page and a banner</li>
+<li>The user selects an application from the menu in the banner.</li>
+<li>The user is routed to the selected menu</li>
+</ol>
+<p><img src="orslides.png" alt="Common Application Pattern"></p>
+<hr>
+<p>The viya-app-quickstart template for <a href="https://create-react-app.dev/">create-react-app</a> is designed to simplify the development of such applications. Once the local development environment has been setup, you can add new applications as shown in the diagram below:</p>
+<p><img src="quickstart.png" alt="Quick start"></p>
+<hr>
+<h2><strong>Key features of  viya-app-quickstart template</strong></h2>
+<hr>
+<ol>
+<li>Sets up an appserver using restaf-server
+<ul>
+<li>Supports TLS</li>
+</ul>
+</li>
+<li>Manages the authentication with SAS Viya</li>
+<li>Configured to run in docker</li>
+<li>Simplifies making REST API calls to SAS Viya using restaf</li>
+<li>Wired for routing using react-router</li>
+<li>Supports keeping sessions alive for longer periods</li>
+<li>Allows developers to use any react component library</li>
+<li><strong>Developer can add new applications in 4 steps.</strong></li>
+</ol>
+<hr>
+<h2>Creating the application using create-react-app</h2>
+<hr>
+<p>Issue these command</p>
+<pre class="prettyprint source lang-sh"><code>npx create-react-app &lt;projectName>  --template @sassoftware/viya-app-quickstart
+
+
+ex:
+npx create-react-app myapp  --template @sassoftware/viya-app-quickstart
+
+</code></pre>
+<hr>
+<h2><strong>Configuration</strong></h2>
+<hr>
+<h3><code>Configure Viya</code></h3>
+<p>The required configurations are explained at this <a href="https://github.com/sassoftware/restaf/wiki/usefulTips">link</a>.</p>
+<p>The default clientId information is:</p>
+<ul>
+<li>Oauth flow: authorization_code</li>
+<li>clientid: viyaapp</li>
+<li>secret: secret</li>
+<li>redirect_uri: <a href="http:%5C/%5C/localhost:5000/viyaapp">http://localhost:5000/viyaapp</a></li>
+</ul>
+<h3><code>Configure Application</code></h3>
+<p>Edit the .env file and set the following values:</p>
+<p>VIYA_SERVER=your viya server url: ex: <a href="http:%5C/%5C/acme.viya.com">http://acme.viya.com</a></p>
+<hr>
+<h2><strong>Build and Run the application</strong></h2>
+<hr>
+<h3><code>Build Application</code></h3>
+<p>Issue this command.</p>
+<pre class="prettyprint source lang-sh"><code>yarn buildapp
+</code></pre>
+<blockquote>
+<p>The buildapp script does essential housekeeping before running the standard start script of create-react-app. So use buildapp to build the application</p>
+</blockquote>
+<h3><code>Run the application</code></h3>
+<p>Issue this command</p>
+<pre class="prettyprint source lang-sh"><code>yarn app
+</code></pre>
+<p>At this point you should visit <a href="http:%5C/%5C/localhost:5000/viyaapp">http://localhost:5000/viyaapp</a>.</p>
+<h3><code>Default Applications</code></h3>
+<p>These are the default applications that you can access from the hamburger menu in the banner.</p>
+<ol>
+<li>
+<p>Run a casl program in Cas</p>
+</li>
+<li>
+<p>Run a SAS program in spre</p>
+</li>
+<li>
+<p>View the props these applications (and the new ones you will write) will have access to.</p>
+</li>
+</ol>
+<p>These are good examples for learning how to use restaf to make REST API calls to SAS Viya. Feel free to remove or update all the default components.</p>
+<h3><code>Running in development mode</code></h3>
+<p>To run the application in development mode with HMR enabled enter the following command:</p>
+<pre class="prettyprint source lang-sh"><code>yarn dev
+</code></pre>
+<h3><code>Running in docker</code></h3>
+<p>To run the application in docker do the following:</p>
+<ol>
+<li>
+<p>Run this command to build the app: yarn buildapp</p>
+</li>
+<li>
+<p>Edit docker-compose.yml file and set the VIYA_SERVER env variable.</p>
+</li>
+<li>
+<p>Run this command : yarn compose</p>
+</li>
+</ol>
+<hr>
+<h2><strong>Adding and debugging your own applications</strong></h2>
+<hr>
+<p>It is a simple process to get your application appearing in the application menu. This menu is acccessed via the hamburger menu in the application's banner. The default app takes care of all the routing and passing the correct props to your application's main component.</p>
+<p><img src="https://github.com/sassoftware/restaf/blob/2.0.0/images/viya-app.png" alt="Quick start"></p>
+<h3><code>Step 1</code></h3>
+<p>Edit appMenus.js and add your application as a menu item. Your application will be displayed in the order it appears in the menu. The format of a menu item is:</p>
+<p>Let us assume that your new component is called Mydemo.js</p>
+<pre class="prettyprint source lang-atom"><code>{
+    component: 'MyDemo',
+    hide: false,  /* if not specified it defaults to false */
+    props    : {
+        text: 'Total of two numbers',/* text used in the application menu */
+        n1: 10,
+        b2: 20
+    },
+}
+</code></pre>
+<p>The component name must match the name of the component you will create in Step 2.
+The props are specific to your component. Typically these are configuration information to make your application work correctly.</p>
+<p>The text will appear as the selection in the menu displayed by Home.js</p>
+<p>At times you want to hide an application from users while you are working on it. Set hide to true in the menu. It defaults to false if not specified.</p>
+<p>There are two sets of props your application will receive when selected from the menu.</p>
+<p><code>Group 1 Props</code></p>
+<ol>
+<li>
+<p>All the prop that were passed to App.js in your index.js</p>
+</li>
+<li>
+<p>This list is enhanced with the following:</p>
+<ul>
+<li>store -- restaf store object</li>
+<li>host  -- your current SAS Viya url -- useful if you are using Viya VA SDK</li>
+<li>appName -- the name of your application</li>
+<li>appOptions -- this information is set in appenv.js in your root directory and the logonpayload. {appEnv: &lt;info from appenv,.js&gt;, logonPayload: &lt; viya-server related information&gt;} More on this later in this document</li>
+</ul>
+</li>
+</ol>
+<p>The content of appOptions is:</p>
+<pre class="prettyprint source lang-atom"><code>{
+    appEnv     :  &lt;the object returned from appenv.js in the root directory. Used for passing application configuration information>
+    logonPayoad: &lt; This has information related to logging on to Viya - used for implicit flow authentication >
+}
+
+These are accessed as usual:
+
+ let {store, host, appName,appOptions} = props;
+</code></pre>
+<p><code>Group 2 props</code></p>
+<p>The props provided in the menu defintion are available thru history as follows:</p>
+<pre class="prettyprint source lang-atom"><code>import { useLocation } from 'react-router-dom';
+    &lt;snip>
+let location = useLocation();
+let appProps = location.state;
+
+</code></pre>
+<p>appProps now has the props specified in the appMenu.js for this component</p>
+<p>As an example the props for the &quot;ComputeService&quot; application item is defined in appMenu.js as shown below</p>
+<pre class="prettyprint source lang-js"><code>{
+    component: 'ComputeService',
+    props: {
+        text: 'Import and Run SAS Program',
+        initialTab: 0,
+        tabs: [
+                { label: 'ODS', component: 'ODS' },
+                { label: 'Log', component: 'LogList' },
+            ],
+    },
+},
+</code></pre>
+<p>The value of appProps for this example is:</p>
+<pre class="prettyprint source lang-js"><code>let appProps = {
+        text: 'Import and Run SAS Program',
+        initialTab: 0,
+        tabs: [
+                { label: 'ODS', component: 'ODS' },
+                { label: 'Log', component: 'LogList' },
+            ],
+};
+</code></pre>
+<h3><code>Step 2</code></h3>
+<p>Develop your main app component in the viewers directory. You can use any react library. By default this project installs @material-ui.</p>
+<pre class="prettyprint source lang-js"><code>import React from 'react';
+import { useLocation } from 'react-router-dom';
+
+function MyDemo(props) {
+    let {n1,n2,label} = useLocation().state;  
+
+    let total = n1 + n2;
+    return &lt;div>
+     &lt;h1> {label} &lt;h1>
+     &lt;p> {total} &lt;/p>
+     &lt;/div>;
+}
+default export MyApp;
+</code></pre>
+<h3><code>Notes</code></h3>
+<ol>
+<li>
+<p>Everytime you change appMenus.js or add a new viewer you must restart the app with the commands below. But normal editing of existing application will do a hot replacement of the app.</p>
+</li>
+<li>
+<p>Recommendation: Clone one of the default examples and modify the code to suit your needs.</p>
+</li>
+<li>
+<p>Default styles for material-ui are specified in defaultStyles.json</p>
+</li>
+</ol>
+<h3><code>Further Customization</code></h3>
+<p>You are also free to replace the Header.js and Home.js to suit your needs. Both of these components receive the appMenu as a prop - this allows you to display the menu as you see fit.</p>
+<h3><code>Project Organization</code></h3>
+<p>The src directory has 3 key sub-directories</p>
+<ol>
+<li>
+<p>viewers -- this directory has the main entry of the applications selectable in the menu</p>
+</li>
+<li>
+<p>helpers  -- this directory is designed to hold react components used by the viewers</p>
+</li>
+<li>
+<p>lib      -- this directory is for code that is not UI related: Example: code to access Viya, data manipulations etc...</p>
+</li>
+</ol>
+<blockquote>
+<p>yarn dev and yarn buildapp will scan the viewers and helpers directory and create the index.js in each of these directories. For every entry in viewers directory the application will create a route that can be referenced in the appMenu.js</p>
+</blockquote>
+<h3><code>TLS</code></h3>
+<p>You can enable TLS using one of the methods describe below. All these configurations are done in .env file (or docker-compose.yml file for docker)</p>
+<pre class="prettyprint source lang-env"><code>###################################################
+# tls support
+##################################################
+
+## If Viya has unsigned certificates
+# NODE_TLS_REJECT_UNAUTHORIZED=0
+
+# Option 1: Generate a self-signed certificate for the session
+# TLS_CREATE=C:mcountry,ST:mystate,L:Cary,O:Myorg,OU:Mydept,CN:localhost
+
+
+# Option 2: signed key and certificates
+# TLS_KEY=../certs/self/key.pem
+# TLS_CERT=../certs/self/certificate.pem
+
+# Option 3: If you pfx form of certificate use this
+# TLS_PFX=../certs/sascert/sascert2.pfx
+# TLS_PW=rafdemo
+
+# Optional ( can also be set in env)
+# TLS_BUNDLE=../certs/self/ca-bundle.pem
+
+</code></pre>
+<hr>
+<h2><strong>Key libraries</strong></h2>
+<hr>
+<p>The following key libraries are installed by default:</p>
+<ol>
+<li>
+<p><a href="https://github.com/sassoftware/restaf">restaf and restaflib to make REST API calls to Viya</a></p>
+</li>
+<li>
+<p><a href="https://github.com/sassoftware/restaf-server">restaf-server for the application server</a></p>
+</li>
+<li>
+<p><a href="https://material-ui.com">Material-ui for react components</a></p>
+</li>
+</ol>
+<h2><strong>Confessions and Conclusion</strong></h2>
+<p>A previous article titled <a href="https://communities.sas.com/t5/SAS-Communities-Library/Lazy-Programmer-s-Guide-to-SAS-Viya-Application-Development-Part/ta-p/671943">Lazy-Programmer-s-Guide-to-SAS-Viya-Application-Development-Part II: create-react-restaf-viya-app</a>. discussed developing web applications for SAS Viya using the <a href="https://github.com/sassoftware/restaf/tree/2.0.0/packages/createApp">create-react-restaf-viya-app</a>.</p>
+<p>In retropect that cli was not the best way to solve the problem of jump starting SAS Viya Applications. create-react-app supports an elegant solution using templates.</p>
+<p>The viya-app-quickstart template is a  standard use of the template capabilities of create-react-app making it easier to adopt and use.</p>
+<p>Please feel free to clone the repository <a href="https:%5C/%5C/github.com/sassoftware/restaf/tree/2.0.0/packages/cra-template-viya-app-quickstart">https://github.com/sassoftware/restaf/tree/2.0.0/packages/cra-template-viya-app-quickstart</a> and modify it to suit your own needs.</p>
+</article>
+
+</section>
+
+            </div>
+            
+            <footer class="footer">
+                <div class="content has-text-centered">
+                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.11</a></p>
+                    <p class="sidebar-created-by">
+                        <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by
+                        <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
+                    </p>
+                </div>
+            </footer>
+            
+        </div>
+        <div id="side-nav" class="side-nav">
+        </div>
+    </div>
+<script src="scripts/app.min.js"></script>
+<script>PR.prettyPrint();</script>
+<script src="scripts/linenumber.js"> </script>
+
+<script src="scripts/search.js"> </script>
+
+
+</body>
+</html>

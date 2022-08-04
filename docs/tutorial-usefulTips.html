@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Library Overviews usefulTips</title>
+
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="./build/entry.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700|Inconsolata,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+  <link type="text/css" rel="stylesheet" href="style.css">
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  
+</head>
+
+
+
+<body class="layout small-header">
+    <div id="stickyNavbarOverlay"></div>
+    
+
+<div class="top-nav">
+    <div class="inner">
+        <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+        <div class="logo">
+            
+             
+                <a href="index.html">
+                    <h1 class="navbar-item">Overviews</h1>
+                </a>
+            
+        </div>
+        <div class="menu">
+            
+            <div class="navigation">
+                <a
+                    href="index.html"
+                    class="link"
+                >
+                    Documentation
+                </a>
+                
+                <div class="dropdown is-hoverable is-right">
+                    <a class="dropdown-trigger link">
+                        Tutorials
+                        <i class="fas fa-chevron-down fa-xs"></i>
+                    </a>
+                    <div class="dropdown-menu">
+                        <div class="dropdown-content">
+                        
+                            <a class="dropdown-item" href="tutorial-authentication.html">
+                                authentication
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-Browsing-a-Cas-Table.html">
+                                Browsing-a-Cas-Table
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-casActionRun.html">
+                                casActionRun
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-casActionRunExample.html">
+                                casActionRunExample
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-casFetchData.html">
+                                casFetchData
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-Compute-Service-made-easy.html">
+                                Compute-Service-made-easy
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-computeRunExample.html">
+                                computeRunExample
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-Executing-a-cas-action.html">
+                                Executing-a-cas-action
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-findReport.html">
+                                findReport
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-getReportImage.html">
+                                getReportImage
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-Managing-clientids.html">
+                                Managing-clientids
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-masDescribe.html">
+                                masDescribe
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-restafeditExample.html">
+                                restafeditExample
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-Scoring-in-the-Cas-Server.html">
+                                Scoring-in-the-Cas-Server
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-Scoring-with-MAS.html">
+                                Scoring-with-MAS
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-Scripting-on-the-Cas-Server.html">
+                                Scripting-on-the-Cas-Server
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-usefulTips.html">
+                                usefulTips
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-vaddc.html">
+                                vaddc
+                            </a>
+                        
+                        </div>
+                    </div>
+                </div>
+                
+                 
+                    
+                        <a
+                            class="link user-link "
+                            href="https://github.com/sassoftware/restaf/blob/main/README.md"
+                        >
+                            restaf
+                        </a>
+                    
+                        <a
+                            class="link user-link "
+                            href="https://github.com/sassoftware/restaf/blob/main/packages/restaflib/README.md"
+                        >
+                            restaflib
+                        </a>
+                    
+                        <a
+                            class="link user-link "
+                            href="https://github.com/sassoftware/restaf/blob/restafedit/README.md"
+                        >
+                            restafedit
+                        </a>
+                    
+                
+                
+            </div>
+        </div>
+    </div>
+</div>
+    <div id="main">
+        <div
+            class="sidebar tutorials"
+            id="sidebarNav"
+        >
+            
+                <div class="search-wrapper">
+                    <input id="search" type="text" placeholder="Search docs..." class="input">
+                </div>
+            
+            <nav>
+                
+                    <div class="category"><h3>Tutorials</h3><ul><li><a href="tutorial-authentication.html">authentication</a></li><li><a href="tutorial-Browsing-a-Cas-Table.html">Browsing-a-Cas-Table</a></li><li><a href="tutorial-casActionRun.html">casActionRun</a></li><li><a href="tutorial-casActionRunExample.html">casActionRunExample</a></li><li><a href="tutorial-casFetchData.html">casFetchData</a></li><li><a href="tutorial-Compute-Service-made-easy.html">Compute-Service-made-easy</a></li><li><a href="tutorial-computeRunExample.html">computeRunExample</a></li><li><a href="tutorial-Executing-a-cas-action.html">Executing-a-cas-action</a></li><li><a href="tutorial-findReport.html">findReport</a></li><li><a href="tutorial-getReportImage.html">getReportImage</a></li><li><a href="tutorial-Managing-clientids.html">Managing-clientids</a></li><li><a href="tutorial-masDescribe.html">masDescribe</a></li><li><a href="tutorial-restafeditExample.html">restafeditExample</a></li><li><a href="tutorial-Scoring-in-the-Cas-Server.html">Scoring-in-the-Cas-Server</a></li><li><a href="tutorial-Scoring-with-MAS.html">Scoring-with-MAS</a></li><li><a href="tutorial-Scripting-on-the-Cas-Server.html">Scripting-on-the-Cas-Server</a></li><li><a href="tutorial-usefulTips.html">usefulTips</a></li><li><a href="tutorial-vaddc.html">vaddc</a></li></ul></div>
+                
+            </nav>
+        </div>
+        <div class="core" id="main-content-wrapper">
+            <div class="content">
+                <header class="page-title">
+                    <p>Tutorial</p>
+                    <h1>usefulTips</h1>
+                </header>
+                <section>
+
+<article>
+    <h1>Useful configuration tips</h1>
+<blockquote>
+<p>You have to be an administrator to accomplish these steps</p>
+</blockquote>
+<h2><strong>sas.commons.web.security</strong></h2>
+<blockquote>
+<p>Setting these might require a restart of the servers. The SASEnviromentManager UI gives you hints on this.</p>
+</blockquote>
+<p>You can set these thru SASEnvironment Manager. All of these can be found together by going to SASEnvironmentManager-&gt;Configuration-&gt;Definitions and filtering on security.</p>
+<ol>
+<li>
+<p><strong>CORS</strong></p>
+<ul>
+<li><strong>allowCredentials</strong> Set this to true</li>
+<li><strong>Allowed Origins</strong> - set this to meet your needs.A * will leave this wide open to all clients and will not work when using withCredentials(common case in Viya applications).  In development servers setting this to https://localhost:some-port-no will work. Talk to your site administrator.</li>
+</ul>
+</li>
+<li>
+<p><strong>cookies</strong></p>
+<ul>
+<li><strong>sameSite</strong> Critical for browsers like Chrome. For VA-SDK you need to set this to <strong>None</strong></li>
+<li>To set this use the SASEnvironmentManager-&gt;Configurations-&gt;Definitons-&gt;sas.commons.web.security.cookies</li>
+</ul>
+</li>
+<li>
+<p><strong>CSRF</strong></p>
+<ul>
+<li><strong>allowed URI</strong> A sample is shown below. Use your expertise in regex to specify the allowed uris.</li>
+</ul>
+</li>
+</ol>
+<pre class="prettyprint source lang-script"><code>        http(s?)[:]\/\/([^\.]+\.)*acme\.com,http(s)*[:]\/\/localhost([:])*\d*
+
+        During testing you can set this to .*
+
+</code></pre>
+<hr>
+<h2><strong>Managing SAS Viya Session Timeouts</strong></h2>
+<hr>
+<p>SAS Viya sessions will timeout after a set period of inactivity. In some situations one might want to set this timeout to specific values.</p>
+<ol>
+<li>
+<p>Follow the instructions at this <a href="https://go.documentation.sas.com/?cdcId=calcdc&amp;cdcVersion=3.5&amp;docsetId=calconfig&amp;docsetTarget=n03000sasconfiguration0admin.htm&amp;locale=en">link</a></p>
+</li>
+<li>
+<p>Create a config for saslogon with a timeout much larger than what you set in Step 1.</p>
+</li>
+</ol>
+<blockquote>
+<p>Timeout is set in seconds. Set individual services and not the global - not really sure why.</p>
+</blockquote>
+<p>Note that for Viya 3.4 the property to set is session.timeout but for 3.5 it is servlet.session.timeout</p>
+<h3>Cas Session timeouts</h3>
+<p>If you use a single CAS session for long periods(as in a web application) you should increase the timeout for cas sessions also.
+To do this use setsesopts casl statement or the action to set the timeout value. The default value is 60 mins(the doc does not specify units but I am guessing it is in minutes)</p>
+<h3>The app server timeout</h3>
+<p>This section only applies when using authorization_code flow for authentication</p>
+<p>There are two parts to keeping the session active for long periods.</p>
+<ol>
+<li>Keep your session active</li>
+</ol>
+<p>You need to refresh the token used for the session. restaf-server.</p>
+<ol>
+<li>
+<p>Keep your app server session alive by acquiring tokens at some regular interval</p>
+</li>
+<li>
+<p>Keep the services added thru store,.addServices active.</p>
+</li>
+</ol>
+<p>Extend the object passed to store.logon with these:</p>
+<pre class="prettyprint source lang-code"><code>{
+     timers   : [n,m].
+     keepAlive: &lt;your appserver keepalive route - if you do not have one set this to null>
+}
+
+n = every n seconds restaf will make a call to the services added to the session via addServices. This keeps that service alive and alos keeps the csrf tokens current.
+m = the session will timoeout after m secods
+
+</code></pre>
+<h3>Note to restaf-server users:</h3>
+<p>Set the following in the env file</p>
+<p>KEEPALIVE=YES
+TIMERS=n,m</p>
+<p>n and m are described above:</p>
+<p>Here is an example (check every 5 mins and timeout in 4 hours and 1 minute)</p>
+<p>TIMERS=300,14460</p>
+<h2>Increasing the TTL for authentication tokens</h2>
+<p>See the section below on clientid</p>
+<h3>Notes</h3>
+<ol>
+<li>Users of restaf-server see the KEEPALIVE setting to keep the application authentication alive.</li>
+<li>It might also be useful to create authentication tokens with longer TTL. To do this increase the TTL setting when creating the clientid used to get the authentication token. See <a href="https:%5C/%5C/github.com/sassoftware/restaf/wiki/Managing-clientids">https://github.com/sassoftware/restaf/wiki/Managing-clientids</a> for details.</li>
+</ol>
+<h2>Application specific configurations</h2>
+<hr>
+<h2><strong>Logon callback uris</strong></h2>
+<p>This is useful if you want your custom apps to behave like our standard VA applications on timeout.</p>
+<p>The comma-delimited list of URIs that users can be redirected to after signing in following a time-out or logoff. SAS application URIs and registered client redirect URIs are automatically included in the list.</p>
+<p>Use SAS Environment Manager to set this in SAS Logon Manager configuration. An example is</p>
+<p><a href="http:%5C/%5C/localhost:8080/viyaapp,https:%5C/%5C/localhost/viyaapp">http://localhost:8080/viyaapp,https://localhost/viyaapp</a></p>
+<h2><strong>Setting up clientid for your custom applications</strong></h2>
+<blockquote>
+<p>You can run this as part of your setup scripts. See <a href="https:%5C/%5C/github.com/sassoftware/restaf/wiki/Managing-clientids">https://github.com/sassoftware/restaf/wiki/Managing-clientids</a></p>
+</blockquote>
+<p>Do the following in any shell:</p>
+<pre class="prettyprint source lang-sh"><code>
+npx @sassoftware/registerclient --host=Url-to-viya-server --ttl=&lt;ttl in days>
+
+</code></pre>
+<p>The ttl option is only required if you want your tokens to have very long ttl. For more control see <a href="https:%5C/%5C/github.com/sassoftware/restaf/wiki/Managing-clientids">https://github.com/sassoftware/restaf/wiki/Managing-clientids</a> for details. Tokens inherit their TTL from the associated clientid.</p>
+<p>On prompt (&gt;) enter</p>
+<pre class="prettyprint source lang-sh"><code>logon
+
+</code></pre>
+<p>Then respond to request for userid and password.</p>
+<p>Once you are logged on issue &quot;help&quot; command to see what is possible.</p>
+<h3>Web Applications</h3>
+<p>Recommend that you use authorization_code flow for web applications. This will allow your application to use VA-SDK.</p>
+<p>Here is an example;</p>
+<pre class="prettyprint source lang-cmd"><code>
+add viyademo -t authorization_code -s secret -r http://localhost:8080/viyademo,http://localhost:8080/viyaapp,https://localhost/viyademo,https://localhost/viyaapp
+
+</code></pre>
+<h3>Non-web applications</h3>
+<p>Create password flow clientids</p>
+<p>Here is an example:</p>
+<pre class="prettyprint source lang-cmd"><code>
+add mycli -t password -s myclisecret
+
+
+</code></pre>
+</article>
+
+</section>
+
+            </div>
+            
+            <footer class="footer">
+                <div class="content has-text-centered">
+                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.11</a></p>
+                    <p class="sidebar-created-by">
+                        <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by
+                        <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
+                    </p>
+                </div>
+            </footer>
+            
+        </div>
+        <div id="side-nav" class="side-nav">
+        </div>
+    </div>
+<script src="scripts/app.min.js"></script>
+<script>PR.prettyPrint();</script>
+<script src="scripts/linenumber.js"> </script>
+
+<script src="scripts/search.js"> </script>
+
+
+</body>
+</html>

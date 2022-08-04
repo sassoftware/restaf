@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Library Overviews Browsing-a-Cas-Table</title>
+
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="./build/entry.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700|Inconsolata,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+  <link type="text/css" rel="stylesheet" href="style.css">
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  
+</head>
+
+
+
+<body class="layout small-header">
+    <div id="stickyNavbarOverlay"></div>
+    
+
+<div class="top-nav">
+    <div class="inner">
+        <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+        <div class="logo">
+            
+             
+                <a href="index.html">
+                    <h1 class="navbar-item">Overviews</h1>
+                </a>
+            
+        </div>
+        <div class="menu">
+            
+            <div class="navigation">
+                <a
+                    href="index.html"
+                    class="link"
+                >
+                    Documentation
+                </a>
+                
+                <div class="dropdown is-hoverable is-right">
+                    <a class="dropdown-trigger link">
+                        Tutorials
+                        <i class="fas fa-chevron-down fa-xs"></i>
+                    </a>
+                    <div class="dropdown-menu">
+                        <div class="dropdown-content">
+                        
+                            <a class="dropdown-item" href="tutorial-authentication.html">
+                                authentication
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-Browsing-a-Cas-Table.html">
+                                Browsing-a-Cas-Table
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-casActionRun.html">
+                                casActionRun
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-casActionRunExample.html">
+                                casActionRunExample
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-casFetchData.html">
+                                casFetchData
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-Compute-Service-made-easy.html">
+                                Compute-Service-made-easy
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-computeRunExample.html">
+                                computeRunExample
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-Executing-a-cas-action.html">
+                                Executing-a-cas-action
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-findReport.html">
+                                findReport
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-getReportImage.html">
+                                getReportImage
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-Managing-clientids.html">
+                                Managing-clientids
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-masDescribe.html">
+                                masDescribe
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-restafeditExample.html">
+                                restafeditExample
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-Scoring-in-the-Cas-Server.html">
+                                Scoring-in-the-Cas-Server
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-Scoring-with-MAS.html">
+                                Scoring-with-MAS
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-Scripting-on-the-Cas-Server.html">
+                                Scripting-on-the-Cas-Server
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-usefulTips.html">
+                                usefulTips
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-vaddc.html">
+                                vaddc
+                            </a>
+                        
+                        </div>
+                    </div>
+                </div>
+                
+                 
+                    
+                        <a
+                            class="link user-link "
+                            href="https://github.com/sassoftware/restaf/blob/main/README.md"
+                        >
+                            restaf
+                        </a>
+                    
+                        <a
+                            class="link user-link "
+                            href="https://github.com/sassoftware/restaf/blob/main/packages/restaflib/README.md"
+                        >
+                            restaflib
+                        </a>
+                    
+                        <a
+                            class="link user-link "
+                            href="https://github.com/sassoftware/restaf/blob/restafedit/README.md"
+                        >
+                            restafedit
+                        </a>
+                    
+                
+                
+            </div>
+        </div>
+    </div>
+</div>
+    <div id="main">
+        <div
+            class="sidebar tutorials"
+            id="sidebarNav"
+        >
+            
+                <div class="search-wrapper">
+                    <input id="search" type="text" placeholder="Search docs..." class="input">
+                </div>
+            
+            <nav>
+                
+                    <div class="category"><h3>Tutorials</h3><ul><li><a href="tutorial-authentication.html">authentication</a></li><li><a href="tutorial-Browsing-a-Cas-Table.html">Browsing-a-Cas-Table</a></li><li><a href="tutorial-casActionRun.html">casActionRun</a></li><li><a href="tutorial-casActionRunExample.html">casActionRunExample</a></li><li><a href="tutorial-casFetchData.html">casFetchData</a></li><li><a href="tutorial-Compute-Service-made-easy.html">Compute-Service-made-easy</a></li><li><a href="tutorial-computeRunExample.html">computeRunExample</a></li><li><a href="tutorial-Executing-a-cas-action.html">Executing-a-cas-action</a></li><li><a href="tutorial-findReport.html">findReport</a></li><li><a href="tutorial-getReportImage.html">getReportImage</a></li><li><a href="tutorial-Managing-clientids.html">Managing-clientids</a></li><li><a href="tutorial-masDescribe.html">masDescribe</a></li><li><a href="tutorial-restafeditExample.html">restafeditExample</a></li><li><a href="tutorial-Scoring-in-the-Cas-Server.html">Scoring-in-the-Cas-Server</a></li><li><a href="tutorial-Scoring-with-MAS.html">Scoring-with-MAS</a></li><li><a href="tutorial-Scripting-on-the-Cas-Server.html">Scripting-on-the-Cas-Server</a></li><li><a href="tutorial-usefulTips.html">usefulTips</a></li><li><a href="tutorial-vaddc.html">vaddc</a></li></ul></div>
+                
+            </nav>
+        </div>
+        <div class="core" id="main-content-wrapper">
+            <div class="content">
+                <header class="page-title">
+                    <p>Tutorial</p>
+                    <h1>Browsing-a-Cas-Table</h1>
+                </header>
+                <section>
+
+<article>
+    <h2>Introduction</h2>
+<p>This section discusse how to paginate through a cas table with a single restaflib method called <strong>casFetchData</strong></p>
+<h3>casFetchData method</h3>
+<p><strong>casFetchData</strong> is a method in restaflib for paginating through a CAS table. The arguments to this method are:</p>
+<ul>
+<li>store - the restaf store object</li>
+<li>session - the cas session object obtained via casSetup</li>
+<li>payload - the payload to be processed on the cas server. The schema of the payload is
+<ul>
+<li>table - table of interest ex: {caslib: 'public', name: 'cars'}</li>
+<li>from - the starting record no.</li>
+<li>count - no of rows to be returned</li>
+<li>format - if true the results are formatted</li>
+</ul>
+</li>
+</ul>
+<p>The response has the following schema:</p>
+<pre class="prettyprint source"><code>{
+  pagination: {
+     prev: {
+           table: { caslib: caslib, name: name},
+           from: first record,( -1 if currently at top)
+           count: no of records,
+           format: If true data is formatted
+     },
+     next: {
+           table: { caslib: caslib, name: name},
+           from: first record,(-1 if currently at the bottom)
+           count: no of records,
+           format: If true data is formatted
+     }
+  },
+  data: {
+     schema: [Array of schema conforming to CAS standards],
+     rows: [ Array of rows of data]
+  }
+</code></pre>
+<h3>Example</h3>
+<p>As in the previous two blogs casSetup is used to obtain the cas session. This example shows how to paginate thru the table either forward or backward.</p>
+<pre class="prettyprint source"><code>async function example () {
+  let {session} = await restaflib.casSetup(store);
+  let payload = {
+    from  : 1,
+    count : 20,
+    format: true,
+    table : {caslib: 'Public', name: 'cars'}
+  }
+
+  // Get the first 20 records
+  let result = await restaflib.casFetchData(store, session, payload);
+  .. process the data ...
+
+  // Scroll forward to the end 
+  while (result.pagination.next.from !== -1) {
+     result = await restaflib.casFetchData(store, session, result.pagination.next);
+     ... process the data ...
+  }
+  
+  console.log('--------------------------------------- scroll backwards');
+  // use the last prev to start scrolling backwards to the top
+  
+  while (result.pagination.prev.from !== -1) {
+ 
+    result = await restaflib.casFetchData(store, session, result.pagination.prev);
+    ... process the data...
+ }
+
+  await store.apiCall(session.links('delete'));
+}
+</code></pre>
+<p>Please see <a href="https://github.com/sassoftware/restaf/blob/gen2/packages/examples/restaflib.js">here</a> for a working example Below is a sample output for the our favorite cars table.</p>
+<pre class="prettyprint source"><code>{
+     &quot;pagination&quot;: {
+        &quot;next&quot;: {
+            &quot;count&quot;: 20,
+            &quot;format&quot;: true,
+            &quot;from&quot;: 41,
+            &quot;table&quot;: {
+                &quot;caslib&quot;: &quot;Public&quot;,
+                &quot;name&quot;: &quot;cars&quot;
+            }
+        },
+        &quot;prev&quot;: {
+            &quot;count&quot;: 20,
+            &quot;format&quot;: true,
+            &quot;from&quot;: 21,
+            &quot;table&quot;: {
+                &quot;caslib&quot;: &quot;Public&quot;,
+                &quot;name&quot;: &quot;cars&quot;
+            }
+        }
+    },
+    &quot;data&quot;: {
+        &quot;rows&quot;: [
+            [
+                1,
+                &quot;Acura&quot;,
+                &quot;MDX                           &quot;,
+                &quot;SUV   &quot;,
+                &quot;Asia  &quot;,
+                &quot;All  &quot;,
+                &quot;       36945&quot;,
+                &quot;       33337&quot;,
+                &quot;         3.5&quot;,
+                &quot;           6&quot;,
+                &quot;         265&quot;,
+                &quot;          17&quot;,
+                &quot;          23&quot;,
+                &quot;        4451&quot;,
+                &quot;         106&quot;,
+                &quot;         189&quot;
+            ],
+            [...], [...], ...
+          ],
+ &quot;schema&quot;: [
+            {
+                &quot;Column&quot;: &quot;_Index_&quot;,
+                &quot;FormattedLength&quot;: 5,
+                &quot;ID&quot;: 0,
+                &quot;NFD&quot;: 0,
+                &quot;NFL&quot;: 0,
+                &quot;RawLength&quot;: 5,
+                &quot;Type&quot;: &quot;double&quot;
+            },
+            {...}, {..}, ...
+        ]
+    }
+    
+  }
+}
+</code></pre>
+<h3>Notes</h3>
+<p>The casFetchData method uses the caslRun method and casl statements. The casl statements for this method are <a href="https://github.com/sassoftware/restaf/blob/gen2/packages/restaflib/src/programs/casFetchData.js">here</a></p>
+<h2>Setup</h2>
+<h3>Web Applications</h3>
+<p>Include the following two script tags.</p>
+<pre class="prettyprint source"><code>    &lt;script src=&quot;https://unpkg.com/@sassoftware/restaf/dist/restaf.min.js&quot;>&lt;/script>
+
+    &lt;script src=&quot;https://unpkg.com/@sassoftware/restaflib/dist/restaflib.min.js&quot;>&lt;/script>
+</code></pre>
+<p>Two globals restaf and restaflib will be available for use in your script tags.</p>
+<h3>Nodejs application</h3>
+<p>Install restaf and restaflib using the following command</p>
+<pre class="prettyprint source"><code>    npm install @sassoftware/restaf @sassoftware/restaflib
+</code></pre>
+</article>
+
+</section>
+
+            </div>
+            
+            <footer class="footer">
+                <div class="content has-text-centered">
+                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.11</a></p>
+                    <p class="sidebar-created-by">
+                        <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by
+                        <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
+                    </p>
+                </div>
+            </footer>
+            
+        </div>
+        <div id="side-nav" class="side-nav">
+        </div>
+    </div>
+<script src="scripts/app.min.js"></script>
+<script>PR.prettyPrint();</script>
+<script src="scripts/linenumber.js"> </script>
+
+<script src="scripts/search.js"> </script>
+
+
+</body>
+</html>

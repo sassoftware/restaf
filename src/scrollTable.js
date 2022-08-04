@@ -38,7 +38,6 @@ async function scrollTable (direction,appEnv) {
            return null;
         }
     }
-    console.log(control);
     let t = await fetchTableRows(control, appEnv);
     return  t;
         

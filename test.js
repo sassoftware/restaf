@@ -39,6 +39,12 @@ async function runit () {
   console.log('state values after edit--------------------------------');
   console.log(appEnv.state.data);
   console.log('-------------------------------------------------------');
+  let x1New  = 16;
+  r = await cellEdit('x1',x1New,0,result.data[0], appEnv);
+  console.log('state values after edit--------------------------------');
+  console.log(appEnv.state.data);
+  console.log('-------------------------------------------------------');
+
 
   result = await scrollTable('next',appEnv);
   console.log('result of scroll next----------------------------------');
@@ -132,23 +138,23 @@ function getAppControl() {
      }
     }
 async function init (data,row,appEnv,type) {
-    let status = {code: 0, msg: `${type} processing completed`};
+    let status = {statusCode: 0, msg: `${type} processing completed`};
     data.total = data.x1 + data.x2 + data.x3 ;
     let newData = data; /* you can modify the incoming data and return it */
     return [newData, status];
 };
 
 async function term (data, row, appEnv,type) {
-    let status = {code: 0, msg: `${type} processing completed`};
+    let status = {statusCode: 0, msg: `${type} processing completed`};
     console.log('In term');
     return [data, status];
 };
 
 async function x1 (data, value, name) {
-  let msg = {code: 1, msg: `${name} handler executed.`};
+  let msg = {statusCode: 1, msg: `${name} handler executed.`};
   if (data.x1 > 10) {
       data.x1 = 10;
-      msg = {code: 2, msg: "Exceeded Max. Value reset to max"};
+      msg = {statusCode: 2, msg: "Exceeded Max. Value reset to max"};
   }
 
   return [data, msg];

@@ -20,7 +20,7 @@ import updateTableRows from './updateTableRows';
  * @returns {promise}       - {data: updated data, status: status }
  * @example
  * data schema {column1: value, column2, value,...}
- * status schema {status: 0|1|2, msg: some string}
+ * status schema {statusCode: 0|1|2, msg: some string}
  * 
  * Please see the restafeditExample in the Tutorial pulldown
  */
@@ -31,16 +31,24 @@ async function cellEdit (name, value, rowIndex, data, appEnv) {
     const {handlers,autoSave} = appEnv.appControl.editControl;
 
     newDataRow[name] = text2Float(value, columns[name]);
-    let status = {status: 0, msg: ''};
+    let status = {statusCode: 0, msg: ''};
   
     if (handlers[name] != null) {
         let r = await handlers[name](newDataRow, name, rowIndex, appEnv);
         newDataRow = r[0];
         status = r[1];
+        if (status.statusCode === 2) {
+            return {data: r[0], status: status}
+        }
     } 
     let r = await commonHandler("main", newDataRow, rowIndex, appEnv);
     if (autoSave === true) {
         r = await commonHandler("term",r[0], rowIndex, appEnv);
+        status = r[1];
+        if (status.statusCode === 2) {
+            return {data: r[0], status: status}
+        }
+        
         await updateTableRows(newDataRow, appEnv);
     }
     newDataRow = r[0]; 

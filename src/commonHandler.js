@@ -19,7 +19,7 @@ async function commonHandler (type, data, rowIndex, appEnv){
    const {handlers} = appEnv.appControl.editControl;
     if (handlers[type] == null) {
       
-       return [data, { status: 0, msg: null}];
+       return [data, { statusCode: 0, msg: null}];
     }
     else {
       

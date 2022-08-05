@@ -267,7 +267,8 @@ The function returns the following:
 ```js
 
 { data: <the updated data>,
-  status: {status: 0|1|2, msg: <some string>
+  status: {statusCode: 0|1|2, msg: <some string>
+
 }
 ```
 
@@ -289,7 +290,7 @@ The result has the following schema
 
 If the cachePolicy is set to true, appEnv.state has this information also and you do not have to persist the results.
 
-### **fetchTableRows  - fetch rows** 
+### **fetchTableRows  - fetch rows**
 
 If for some reason you want to fetch data without using scrollTable, you can use fetchTableRows.
 
@@ -305,6 +306,7 @@ The schema for control is:
 }
 
 ```
+
 The result is the same as scrollTable. If cachePolicy is true, then the results will be persisted in appEnv.state
 
 ## Sample handlers
@@ -322,7 +324,7 @@ The handlers for columns has an additional argument - the name of the column.
 ```js
 
 async function init (data,row,appEnv,type) {
-    let status = {code: 0, msg: `${type} processing completed`};
+    let status = {statusCode: 0, msg: `${type} processing completed`};
     data.total = data.x1 + data.x2 + data.x3 ;
     return [data, status];
 };
@@ -332,7 +334,7 @@ async function x1 (data, name, row, appEnv) {
   let msg = {code: 0, msg: `${name} handler executed.`};
   if (data.x1 > 10) {
       data.x1 = 10;
-      msg = {code: 1, msg: "Exceeded Max. Value reset to max"};
+      msg = {statusCode: 1, msg: "Exceeded Max. Value reset to max"};
   }
 
   return [data, msg];

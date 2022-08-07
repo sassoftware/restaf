@@ -46,7 +46,7 @@ module.exports = async function computeDS (testInfo) {
 			run;
 			
             `;
-
+	src = `proc foo;run`;
 	logger.info('Compute Service');
 	console.log(Date());
 	let computeSummary = await restaflib.computeRun(
@@ -56,6 +56,10 @@ module.exports = async function computeDS (testInfo) {
 		macros,
         5
     );
+	console.log(computeSummary.SASJobStatus)
+	if (computeSummary.SASJobStatus !== 'completed') {
+		process.exit(5);
+	}
 	console.log(Date());
 	
 	// let log = await restaflib.computeResults(store, computeSummary, 'log');

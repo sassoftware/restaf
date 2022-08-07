@@ -1,6 +1,6 @@
 {
   "name": "@sassoftware/restaflib",
-  "version": "4.4.8",
+  "version": "4.4.10",
   "description": "collection of useful functions for common scenarios",
   "repository": {
     "type": "git",
@@ -30,7 +30,7 @@
   },
   "scripts": {
     "build": "rimraf dist && rimraf lib && webpack --env target=node p=n --config webpack.config.js && webpack --env target=web p=n --config webpack.config.js && webpack --env target=web p=y --config webpack.config.js",
-    "pub": "npm publish --tag pup --access public",
+    "pub": "npm publish --tag dev --access public",
     "jsdoc": "jsdoc -c jsdoc.json"
   }
 }

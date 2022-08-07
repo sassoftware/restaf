@@ -22,34 +22,41 @@
      let flag;
      return (request(config)
          .then(response => {
-             debugger;
-             let r = response.data.results;
-             if (typeof r === 'object') {
-                 r = response.data.results.items.isIdle === true ? 'completed' : 'running';
-                 response.data.results.items = r;
+            let r = response.data.results;
+        
+            if ( response.status === 304) {
+                return null; 
+            }
+
+            if (typeof r === 'object') {
+                r = response.data.results.items.isIdle === true ? 'completed' : 'running';
+                response.data.results.items = r;
+            } 
+          
+            if (config.eventHandler) {
+                flag = config.eventHandler(r, config.jobContext);
+            }
+
+            if (((states.indexOf(r) === -1)  || flag === true)) {
+                return httpDone(response, config, false);
              } else {
-                 if ( response.status === 304) {
-                     r = 'running';/* since the api returns a blank results */
-                 }
+               if (config.payload.headers != null && config.payload.headers.etag != null){
+                  config.payload.headers['If-None-Match'] = response.headers.etag;
+               }
+               return null;
              }
-             if (config.eventHandler) {
-                 flag = config.eventHandler(r, config.jobContext);
-             }
- 
-             return ( ((response.status !== 304) ||(states.indexOf(r) === -1) || flag === true)
-                       ? httpDone(response, config, false) : null);
          })
          .catch(error => {
              if (config.eventHandler) {
                  flag = config.eventHandler('*SystemError', config.jobContext);
-             }
-             return httpDone(error, config, true);
+            }
+            return httpDone(error, config, true);
          })
      );
  }
  
  function httpDone (payload, config, error) {
-     debugger;
+     
      return {
          error : error,
          type  : config.serviceName + '_' + config.type + '_COMPLETE',

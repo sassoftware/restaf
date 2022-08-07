@@ -14,13 +14,58 @@
  * @param {store} store - restaf store
  * @param {rafObject} session - current compute service session
  * @param {string} src  - code to execute
- * @param {object} [args] optional - args to be passed on as macros
- * @param {number} [timeout] optional  - long polling timeout in seconds
- * @returns {promise} computeSummary object
+ * @param {object=} args  - macros as a json
+ * @param {number=} timeout  - long polling timeout in seconds
+ * @param {function=} statusHandler - callback to check on status
+ * @param {object=} userContext - this is passed to the statusHandler 
+ * @returns {promise} computeSummary object. Job Status is computeSummary.SASJobStatus
+ * @example
+ *   The job status will be one of these  completed|warning|error|failed
+ *   Typical call:
+ *      let computeSummary = await computeRun(store,computeSession, src, args);
  * 
+ *   Advanced call: If you want to track the job pass a statusHandler function with some context
+ 
+     const checkStatus = (currentStatus, userContext) => {
+         console.log('currentStatus', currentStatus);
+         console.log('userContext ', userContext);
+        // do something useful - like in an UI display status for user 
+        return false;
+     } // return true if you want to stop waiting on the job. Does not cancel the job 
+ 
+===============================================
+
+* A simple example
+
+    async function runtest(store, logonPayload) {
+        let computeSession = await restaflib.computeSetup(store, null, logonPayload);
+        let macros = {
+            data: 'sashelp.cars'
+        };
+        let src = `
+                ods html style=barrettsblue;  
+                proc print data=&data;run;
+                ods html close; 
+                run;
+                `;
+ 
+        let computeSummary = await restaflib.computeRun(
+            store,
+            computeSession,
+            src,
+            macros
+        );
+ 
+         let log = await restaflib.computeResults(store, computeSummary, "log");
+        let ods = await restaflib.computeResults(store, computeSummary, "ods");
+        return 'done';
+
+    }
+
  */
+
 import computeRunBase from './computeRunBase';
-async function computeRun (store,session, src, args, timeout){
+async function computeRun (store,session, src, args, timeout,statusHandler, userContext){
  
     // generate macro variables
 
@@ -39,7 +84,7 @@ async function computeRun (store,session, src, args, timeout){
 
     // run code and get results
     
-    let resultSummary = await computeRunBase(store, session, code, timeout);
+    let resultSummary = await computeRunBase(store, session, code, timeout, statusHandler, userContext);
     return resultSummary;
 }
 export default computeRun;

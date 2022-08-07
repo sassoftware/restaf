@@ -53,9 +53,10 @@ async function jobState (store, job, payload, timeout, delay, progressHandler, j
 
         status = await ijobState(store, job, payload, delay, waitFlag, progressHandler, jobContext);
         let failed = status.detail.hasOwnProperty('failed');
+        
         if (status.running === 0) {
             tries = 0;
-
+            
             if (failed === false && cas != true ) {
                 status.jobState.job = await apiCall(store, job.links('self'));
             } else {

@@ -52,7 +52,6 @@ function ijobState (store, job, payload, delay, waitFlag, eventHandler, jobConte
 
                 })
                 .catch(err => {
-                    
                     reject(err);
                 });
         }

@@ -33,3 +33,14 @@ Date: 7/31/2022
 - Updated computeSetup to use filter(contains) to find context. This handles the case where there are a large number of contexts. Previously the code only searched the first 10.
 
 - Added an optional argument to computeSetup to be used as payload to createSession.
+
+## 4.4.11
+
+Date: 8/7/2022
+
+- Issue85
+  - For long polling in computeRun, remove newState and set ['If-None-Match'] to etag of job.
+  - make corrresponding changes in httpwCallWait to update etag on each call to state.
+
+- Others
+  - Documented checkStatus param to computeRun.

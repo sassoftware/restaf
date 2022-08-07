@@ -21,7 +21,7 @@ import computeSummary from  './computeSummary';
  * 
  */
 
-async function computeRunBase (store, session, code, timeout){
+async function computeRunBase (store, session, code, timeout,eventHandler,userContext){
    
     let payload  = {
         data: {code: code}
@@ -32,17 +32,19 @@ async function computeRunBase (store, session, code, timeout){
 
     let p = {
         qs: {
-          newState: 'Completed',
-          timeout : (timeout != null) ? timeout : 5
+          wait : (timeout != null) ? timeout : 5
+        },
+        headers: {
+            "If-None-Match": job.headers('etag')
         }
     }
-   
-    let status = await store.jobState(job, p, 'longpoll');
+    let status = await store.jobState(job, p, 'longpoll', 0, eventHandler,userContext);
     if (status.data === 'running') {
         throw `ERROR: Job did not complete in allotted time`;
     } else {
         let results = await computeSummary(store, session, status.job);
-        results.SASJobStatus = status.data;
+        results.SASJobStatus   = status.data;
+        results.jobStateStatus = status;
      
         return results;
         }

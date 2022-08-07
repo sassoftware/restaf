@@ -238,9 +238,17 @@ let computeSummary = await restaflib.computeRun(store, session, src, macros)
 <li> src     - A string containing the source code to be executed. </li>
 <li> macros  - (optional) A javascript object that is sent to the server as macros. For example if this object is {lib: 'sasuser', data: 'mydata'} the following macros are prepended to the source code
 <pre>
-  %let lib=sasuser; 
+  %let lib=sasuser;
   %let data=mydata;
 </pre>
+<h3>Checking completion status</h3>
+<p>Check computeSummary.SASJobStatus for completion status. The value will be one of the following:</p>
+<ul>
+<li>completed - job ran with no warnings or errors</li>
+<li>warning - job ran to completion but check for warning in the log</li>
+<li>error - job had errors</li>
+<li>failed - the job failed for other reasons.</li>
+</ul>
 </ul>
 <p>This method uses the long polling in compute server to wait on completion. The result from the computeRun method are used to retrieve specific results using the following methods.</p>
 <h3> computeResults </h3>
@@ -309,6 +317,11 @@ let result = await restaflib.computeFetchData(store, computeSummary, tablename, 
   // Run the SAS job
   let computeSummary = await restaflib.computeRun(store, computeSession, src,  macros);
 
+  // Check status of job
+  let status = computeSummary.SASJobStatus;
+  if ( status === 'failed' || status ==='running) {
+     console.log('Job  ended with status of ', status);
+  }
   // Get log, listing, ods and list of tables
   let log = await restaflib.computeResults(store, computeSummary, 'log');
   let list = await restaflib.computeResults(store, computeSummary, 'listing');
@@ -348,6 +361,61 @@ let result = await restaflib.computeFetchData(store, computeSummary, tablename, 
   await store.apiCall(computeSession.links('delete'));
 }
 </code></pre>
+<h2>Monitoring Progress of the job</h2>
+<p>The progress of the job can be monitored by specifying the checkStatus parameter and a context object. This function will be called everytime the compute. The context object will be passed to it.</p>
+<p>The parameters to the checkStatus function are:</p>
+<ul>
+<li>
+<p>status - a string that has the current status returned from a state api end point. Usually these are 'completed', 'running', 'error'.</p>
+</li>
+<li>
+<p>context - the context object passed to computeRun.</p>
+</li>
+</ul>
+<h3>Sample checkStatus</h3>
+<pre class="prettyprint source lang-js"><code>
+function checkStatus(status, context) {
+   context.tries = context.tries + 1;
+   if (context.tries >= context.maxTries) {
+    context.code = 'stop';
+    return true;
+   } else {
+      // do something else
+      return false;
+   }
+}
+let context = {
+  tries: 0,
+  maxTries: 200,
+  code: null
+}
+
+let computeSummary = await restaflib.computeRun(store, computeSession, src,  macros, checkStatus, context);
+
+if (context.code === 'stop') {
+  // process the results as you see fit 
+} else {
+  let status = computeSummary.SASjobStatus;
+  switch (status) {
+        case &quot;warning&quot;:
+          console.log(`Warning: check your log for warnings`);
+          break;
+        case &quot;error&quot;:
+        case &quot;failed&quot;:
+          throw `Please correct errors and rerun program`;
+          break;
+        case 'completed':
+          console.log('Job completed successfully');
+          // do something
+          break;
+        case 'default': {
+          console.log('Why default? ' + status);
+        }
+      }
+    }
+</code></pre>
+<p>The function returns either true or false. Return true to stop further calls to state api.</p>
+<p>On true, the results will be returned wit the current state of the job. Use the context object to set flags that you can post process.</p>
 <h2>Notes</h2>
 <p>restaflib relies on <a href="https://sassoftware.github.io/restaf">restaf</a></p>
 <h2>Setup</h2>

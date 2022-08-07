@@ -202,9 +202,9 @@
 <li>casSetup - creates a cas session.The only argument to this method is restaf store</li>
 <li>casActionRun - execute a specified cas action</li>
 </ul>
-<h3>casActionRun Method</h3>
+<h2>casActionRun Method</h2>
 <p>This method runs a specified action.</p>
-<h4>Syntax</h4>
+<h3>Syntax</h3>
 <p>let actionResult = await restaflib.casActionRun(store, session, payload);</p>
 <p>The arguments to this method are:</p>
 <ul>
@@ -213,7 +213,7 @@
 <li>payload - An object with the schema describe below</li>
 </ul>
 <p>The payload is:</p>
-<pre class="prettyprint source"><code>{
+<pre class="prettyprint source lang-js"><code>{
   action :  name of the action - actionset.actionname,
   data   :  The parameters(if any) for this action,
   headers: Any special http headers for this action - 
@@ -239,7 +239,7 @@ let result = await restaflib.casActionRun(store, session, p);
 <p>The result from the action is the json returned by the Cas for any action. The content of the output will vary based on the action. See the documentation for the specific action for the details.</p>
 <h2>Note on table.upload action</h2>
 <p>This action is one of actions that requires information to be passed in the header. Below is an example for uploading a cars.csv file to casuser.cars:</p>
-<pre class="prettyprint source"><code>let JSON\_Parameters = {
+<pre class="prettyprint source lang-js"><code>let JSON\_Parameters = {
     casout: {
       caslib: 'casuser' /\* a valid caslib \*/,
       name  : 'cars' /\* name of output file on cas server \*/
@@ -260,7 +260,7 @@ let result = await restaflib.casActionRun(store, session, p);
   
   ... process results ...
 </code></pre>
-<h2>Uploading other content</h2>
+<h2>Upload content</h2>
 <p>See <a href="https:%5C/%5C/github.com/sassoftware/restaf/tree/gen2/packages/viyacaddy/src">https://github.com/sassoftware/restaf/tree/gen2/packages/viyacaddy/src</a> for information on how to upload</p>
 <ul>
 <li>sas7bdat</li>
@@ -270,18 +270,6 @@ let result = await restaflib.casActionRun(store, session, p);
 <li>ds2 scoring code to a model table</li>
 <li>datastep scoring  to a model table</li>
 </ul>
-<h2>Setup</h2>
-<h3>Web Applications</h3>
-<p>Include the following two script tags.</p>
-<pre class="prettyprint source"><code>    &lt;script src=&quot;https://unpkg.com/@sassoftware/restaf@next&quot;>&lt;/script>
-
-    &lt;script src=&quot;https://unpkg.com/@sassoftware/restaflib@next&quot;>&lt;/script>
-</code></pre>
-<p>Two globals restaf and restaflib will be available for use in your script tags.</p>
-<h3>Nodejs application</h3>
-<p>Install restaf and restaflib using the following command</p>
-<pre class="prettyprint source"><code>    npm install @sassoftware/restaf @sassoftware/restaflib
-</code></pre>
 </article>
 
 </section>

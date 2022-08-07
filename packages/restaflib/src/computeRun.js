@@ -14,9 +14,9 @@
  * @param {store} store - restaf store
  * @param {rafObject} session - current compute service session
  * @param {string} src  - code to execute
- * @param {object=} args  - macros as a json
+ * @param {object=} macros  - macros as a json
  * @param {number=} timeout  - long polling timeout in seconds
- * @param {function=} statusHandler - callback to check on status
+ * @param {function=} checkStatus - callback to check on status
  * @param {object=} userContext - this is passed to the statusHandler 
  * @returns {promise} computeSummary object. Job Status is computeSummary.SASJobStatus
  * @example
@@ -24,14 +24,14 @@
  *   Typical call:
  *      let computeSummary = await computeRun(store,computeSession, src, args);
  * 
- *   Advanced call: If you want to track the job pass a statusHandler function with some context
+ *   Advanced call: If you want to track the job pass a checkStatus function with some context
  
      const checkStatus = (currentStatus, userContext) => {
          console.log('currentStatus', currentStatus);
          console.log('userContext ', userContext);
         // do something useful - like in an UI display status for user 
         return false;
-     } // return true if you want to stop waiting on the job. Does not cancel the job 
+     } // return true if you want to stop waiting on the job. Does not cancel the job
  
 ===============================================
 
@@ -55,7 +55,8 @@
             src,
             macros
         );
- 
+        console.log('Job Status: ', computeSummary.SASJobStatus);
+
          let log = await restaflib.computeResults(store, computeSummary, "log");
         let ods = await restaflib.computeResults(store, computeSummary, "ods");
         return 'done';
@@ -65,15 +66,13 @@
  */
 
 import computeRunBase from './computeRunBase';
-async function computeRun (store,session, src, args, timeout,statusHandler, userContext){
+async function computeRun (store,session, src, macros, timeout,checkStatus, userContext){
  
     // generate macro variables
-
-    
     let code =[];
-    if (args != null) {
-        for (let arg in args) {
-            let c = `%let ${arg} = ${args[arg]};`;
+    if (macros != null) {
+        for (let arg in macros) {
+            let c = `%let ${arg} = ${macros[arg]};`;
             code.push(c);
         }
     }
@@ -83,8 +82,7 @@ async function computeRun (store,session, src, args, timeout,statusHandler, user
     code = code.concat(asrc);
 
     // run code and get results
-    
-    let resultSummary = await computeRunBase(store, session, code, timeout, statusHandler, userContext);
+    let resultSummary = await computeRunBase(store, session, code, timeout, checkStatus, userContext);
     return resultSummary;
 }
 export default computeRun;

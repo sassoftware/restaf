@@ -38,7 +38,6 @@ async function computeRunBase (store, session, code, timeout,eventHandler,userCo
             "If-None-Match": job.headers('etag')
         }
     }
-    debugger;
     let status = await store.jobState(job, p, 'longpoll', 0, eventHandler,userContext);
     if (status.data === 'running') {
         throw `ERROR: Job did not complete in allotted time`;

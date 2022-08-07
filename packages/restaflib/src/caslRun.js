@@ -50,7 +50,6 @@ async function example () {
   };
 
   let r = await store.runAction(session, p);
-  debugger;
 
   console.log(r.items().toJS());
   let a = r.items().toJS();

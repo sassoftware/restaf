@@ -40,8 +40,7 @@ Date: 8/7/2022
 
 - Issue85
   - For long polling in computeRun, remove newState and set ['If-None-Match'] to etag of job.
-  - make corrresponding changes in httpwCallWait
+  - make corrresponding changes in httpwCallWait to update etag on each call to state.
 
 - Others
   - Documented checkStatus param to computeRun.
-  

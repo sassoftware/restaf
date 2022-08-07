@@ -21,12 +21,12 @@ and other key capabilities of SAS Viya in a very consistent manner with minimal 
 
 ## Introduction
 
-The concepts and usage of restAF are explained through examples. Addtional examples can be found in these repositories.
+The concepts and usage of restAF are explained through examples. Additional examples can be found in these repositories.
 
 * [A collection of nodejs based examples](https://github.com/sassoftware/restaf-demos)
 * [A collection of web apps using restAF](https://github.com/sassoftware/restaf-uidemos)
-*   [a SAS API explorer built with restAF](https://github.com/sassoftware/restaf-apiexplorer)
-*   [react components using restAF](https://github.com/sassoftware/restaf-uicomponents)
+* [a SAS API explorer built with restAF](https://github.com/sassoftware/restaf-apiexplorer)
+* [react components using restAF](https://github.com/sassoftware/restaf-uicomponents)
 
 restAF makes writing applications with SAS REST API simple
 * A small set of methods to make API calls
@@ -38,19 +38,19 @@ restAF makes writing applications with SAS REST API simple
 With restAF, you focus on your application and not on the nitty-gritty details of setting up HTTP calls, processing the
 returned results and HTTP codes, parsing the returned payload, managing the data, and so on.
 
+
 ## Key technologies
 restAF uses three key libraries(among others) that you are probably familiar with.
 
-1.	[redux-saga](https://redux-saga.js.org/)
-2.	[immutable-js](https://facebook.github.io/immutable-js/docs/#/)
-3.	[axios](https://github.com/axios/axios)
-
-I am extremely grateful to the developers of these packages for their wonderful contributions.
+1. [redux-saga](https://redux-saga.js.org/)
+2. [immutable-js](https://facebook.github.io/immutable-js/docs/#/)
+3. [axios](https://github.com/axios/axios)
 
 
 ## Accessing restAF
 
-###  web Application
+### web Application
+
 In your web application you can access restaf with the following script tag.
 
 ```

@@ -7,6 +7,7 @@
  * 
  * @description Fetch data from a SAS Table
  * @async
+ * @private
  * @module computeFetchData
  * @category restaflib/compute
  * @param {object} store - restaf store

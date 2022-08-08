@@ -34,7 +34,14 @@
             } 
           
             if (config.eventHandler) {
-                flag = config.eventHandler(r, config.jobContext);
+                let r1 = config.eventHandler(r, config.jobContext);
+                /* this code to maintain backward compatability */
+                if (typeof r1 === 'boolean') {
+                    flag = r1;
+                } else {
+                    response.data.results = r1;
+                    flag = true;
+                }
             }
 
             if (((states.indexOf(r) === -1)  || flag === true)) {

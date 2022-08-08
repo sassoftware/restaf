@@ -38,7 +38,7 @@
                 /* this code to maintain backward compatability */
                 if (typeof r1 === 'boolean') {
                     flag = r1;
-                } else {
+                } else if (r1 !== r) {
                     response.data.results = r1;
                     flag = true;
                 }

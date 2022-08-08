@@ -50,14 +50,17 @@ module.exports = async function computeDS (testInfo) {
 	console.log(Date());
 	const checkStatus = (state, context) => {
 		console.log(state);
-		if (state !== 'completed') {
+		context.counter = context.counter + 1;
+		/*
+		if (state !== 'completed' && context.counter > 5) {
 			context.state = state;
 			state = 'exit';
-		}
+		*/
 		return state;
 	}
 	let context = {
-		state: ''
+		state: '',
+		counter: 1
 	};
 	let computeSummary = await restaflib.computeRun(
 		store,

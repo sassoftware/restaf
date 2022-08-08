@@ -48,8 +48,10 @@
             if (((states.indexOf(r) === -1)  || flag === true)) {
                 return httpDone(response, config, false);
              } else {
+                console.log(config.payload.headers['If-None-Match'],' ', 'config');
                if (config.payload.headers != null && config.payload.headers['If-None-Match'] != null){
                   config.payload.headers['If-None-Match'] = response.headers.etag;
+                  console.log(config.payload.headers['If-None-Match'],' ', 'newconfig');
                }
                return null;
              }

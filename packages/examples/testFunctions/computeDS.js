@@ -51,11 +51,11 @@ module.exports = async function computeDS (testInfo) {
 	const checkStatus = (state, context) => {
 		console.log(state);
 		context.counter = context.counter + 1;
-		/*
+		
 		if (state !== 'completed' && context.counter > 5) {
 			context.state = state;
 			state = 'exit';
-		*/
+		}
 		return state;
 	}
 	let context = {

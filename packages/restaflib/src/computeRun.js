@@ -24,13 +24,24 @@
  *   Typical call:
  *      let computeSummary = await computeRun(store,computeSession, src, args);
  * 
- *   Advanced call: If you want to track the job pass a checkStatus function with some context
+ *   Advanced call: If you want to track the job status pass a checkStatus function with some context
  
-     const checkStatus = (currentStatus, userContext) => {
-         console.log('currentStatus', currentStatus);
-         console.log('userContext ', userContext);
-        // do something useful - like in an UI display status for user 
-        return false;
+     const checkStatus = (state, context) => {
+         console.log('state', state);
+         console.log('context ', context);
+        // do something useful - like in an UI display status for user
+        
+        // To stop waiting on job completion return a state value like 'exit' or any string
+        // the value has to be something other than the state passed in.
+        // this will force the code to stop waiting on the server and return to the app.
+        // It is upto your app to take appropriate actions(like cancelling the job)
+        // Below is a trivial example
+        context.counter = context.counter + 1;
+		if (state === 'running' && context.counter > 5) {
+			context.realState = state;
+			state = 'exit';
+        }
+        return state;
      } // return true if you want to stop waiting on the job. Does not cancel the job
  
 ===============================================

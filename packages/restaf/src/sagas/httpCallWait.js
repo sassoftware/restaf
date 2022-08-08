@@ -25,6 +25,7 @@
             let r = response.data.results;
         
             if ( response.status === 304) {
+                console.log('304');
                 return null; 
             }
 
@@ -47,7 +48,7 @@
             if (((states.indexOf(r) === -1)  || flag === true)) {
                 return httpDone(response, config, false);
              } else {
-               if (config.payload.headers != null && config.payload.headers.etag != null){
+               if (config.payload.headers != null && config.payload.headers['If-None-Match'] != null){
                   config.payload.headers['If-None-Match'] = response.headers.etag;
                }
                return null;

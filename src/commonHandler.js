@@ -15,16 +15,13 @@
  * @example
  * Please see the restafeditExample in the Tutorial pulldown
  */
-async function commonHandler (type, data, rowIndex, appEnv){
-   const {handlers} = appEnv.appControl.editControl;
-    if (handlers[type] == null) {
-      
-       return [data, { statusCode: 0, msg: null}];
-    }
-    else {
-      
-      let [newDataRow, status] = await handlers[type](data, rowIndex, appEnv, type);
-      return [newDataRow, status];
-    }
-  };
-  export default commonHandler;
+async function commonHandler (type, data, rowIndex, appEnv) {
+  const { handlers } = appEnv.appControl.editControl;
+  if (handlers[type] == null) {
+    return [data, { statusCode: 0, msg: null }];
+  } else {
+    const [newDataRow, status] = await handlers[type](data, rowIndex, appEnv, type);
+    return [newDataRow, status];
+  }
+};
+export default commonHandler;

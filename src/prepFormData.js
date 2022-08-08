@@ -3,8 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-
-/* 
+/*
 * output
 * extended columns and data ready for use in dataform and table
 */
@@ -19,14 +18,14 @@ import commonHandler from './commonHandler';
  * @returns {promise}     - {columns: eColumns, rowsObject: newRows}
  */
 async function prepFormData (result, appEnv) {
-  const {schema, rows} =  result;
+  const { schema, rows } = result;
   const customColumns = appEnv.appControl.dataControl.customColumns;
-  
+
   const makeRowObject = (columns, row) => {
-    let rowObj = {};
+    const rowObj = {};
     row.forEach((r, i) => {
-      let s = columns[i];
-      let name = s.Column.toLowerCase();
+      const s = columns[i];
+      const name = s.Column.toLowerCase();
       if (s.Label == null) {
         s.Label = s.Column;
       }
@@ -34,53 +33,50 @@ async function prepFormData (result, appEnv) {
     });
 
     if (customColumns != null) {
-      for (let k in customColumns) {
-        let c = customColumns[k];
-        let name = c.Column.toLowerCase();
+      for (const k in customColumns) {
+        const c = customColumns[k];
+        const name = c.Column.toLowerCase();
         rowObj[name] = c.value;
       }
     }
     return rowObj;
   };
 
+  const newRows = [];
+  for (let i = 0; i < rows.length; i++) {
+    const t = makeRowObject(schema, rows[i]);
 
-  let newRows = [];
-  for (let i=0; i < rows.length; i++) {
-     let t = makeRowObject(schema, rows[i]);
-     
-     let [t1,status] = await commonHandler('init', t, i, appEnv);
-     
-     if (status.code !== 0) {
-       console.log(JSON.stringify(status, null,4));
-     }
-     newRows.push(t1);
-    };
-  
-  //extend column and make it an object
-  let eColumns = {};
-  schema.forEach((s,i) => {
-      let name = s.Column.toLowerCase();
-      s.name    = name;
-      s.Label   = (s.Label == null || s.Label.length === 0) ? s.Column : s.Label;
-      s.custom  = false;
-      eColumns[name] = s;
-    });
+    const [t1, status] = await commonHandler('init', t, i, appEnv);
+
+    if (status.code !== 0) {
+      console.log(JSON.stringify(status, null, 4));
+    }
+    newRows.push(t1);
+  };
+
+  // extend column and make it an object
+  const eColumns = {};
+  schema.forEach((s, i) => {
+    const name = s.Column.toLowerCase();
+    s.name = name;
+    s.Label = (s.Label == null || s.Label.length === 0) ? s.Column : s.Label;
+    s.custom = false;
+    eColumns[name] = s;
+  });
 
   // add computed columns to the array.
   if (customColumns != null) {
-    for (let k in customColumns) {
-      let c = { ...customColumns[k] };
+    for (const k in customColumns) {
+      const c = { ...customColumns[k] };
       c.name = k;
       c.custom = true;
       eColumns[k] = c;
     }
   }
 
-  
   return {
     columns: eColumns,
     data   : newRows
   };
-
 }
 export default prepFormData;

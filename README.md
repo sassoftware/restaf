@@ -16,6 +16,13 @@ The key component of these applications is entering data. Common destinations of
 
 The goal of this project is to create a small reusable library to simplify the  data entry in SAS Viya.
 
+## Sample Applications
+
+- [Simple Editor Application](https://github.com/sassoftware/restaf-uidemos/tree/editorapp) - Demonstrates the use of this library using basic javascript and html to edit a cas table.
+
+- [React Component for Editing-@sassoftware/viyaedit](https://github.com/sassoftware/restaf-uidemos/tree/viyaedit) - Demonstrates the use of this library with React. @sassoftware/viyaedit is a resuable component. 
+  - See [this application](https://github.com/sassoftware/restaf-uidemos/tree/editorappreact) on how to use this component library in a react application.
+
 ## Table versus Form for data entry<a name="t3"></a>
 
 There are significant differences in how the user interacts with an application which uses a Table versus a custom form.
@@ -86,6 +93,58 @@ let appEnv = await setup(logonPayload, appControl)
 - appControl - Information needed to control the session.
 
 - appEnv - this is the control object for the edit session
+
+
+### Notes on AppControl
+
+Use this argument to setup the edit session. AppControl has the following schema with some sample values.
+
+```js
+ {
+   dataControl: {
+      source: 'cas', /* 'compute" support planned */
+      table : {caslib: 'casuser', name: 'testdata'},
+      byvars: ['id'], /* used a key when updating records. */
+      cachePolicy: true, /* data will be managed for you. */
+
+      initialFetch: { /* what to read on initialization */
+        count : 1, /* number of records read on each fetch */
+        from  : 1, /* record to start the read from */
+        format: false  /* return formatted or unformatted results */
+   },
+
+   customColumns: {  /* custom columns for use during the session */
+      total: { /* sample */
+        Column         : "Total",
+        Label          : "Grand Total",
+        FormattedLength: 12,
+        Type           : "double"
+    }
+   },
+   customRows: [] /*future */
+   },
+   editControl: {
+     handlers  : {}, /* handlers for init, main, term and columns. See below */
+     autoSave  : true /* celledit will save to server on each edit*/
+   },
+   appData: {} /* place for user specified information
+}
+   
+```
+
+Only the not-so obvious keys are explained below.
+
+- initialFetch:  the first set of records to read
+  - from: The record number where the read starts(table.fetch action)
+  - count: Number of records to read. On every fetch this many records will be read.
+
+- cachePolicy: If true the data is stored in appEnv.state. You should set this to false if you want to manage the data. The pagination information will always be saved in appEnv to enable easy scrolling. The initial set of records wille be persisted in appEnv(see below).
+- handlers:  This is an object with functions for init, main, term and indiviual columns. Set to {} if you do not plan to make use of this feature. Use the handlers that make sense to you. See below for the samples
+- byvars: An array of by variables. At this time, one has to use this as key to update a record in CAS. ex: ['firstname', 'lastname']
+
+- customColumns: You can add additional columns(temporary) to be used during the session. These columns are not persisted to the server. These variables are available to the handlers. A typical example might be to display some row totals. If none, set this value to {}
+
+- appData - this is where the  app writer can save information and retrieve it from appEnv. appEnv is passed to all handlers. So it is available in functions like init, main etc. The example above shows what I use in my generic DataEditor component
 
 ### appEnv
 
@@ -197,57 +256,6 @@ If you use the authentication token, then use the following:
 }
 ```
 
-#### Notes on AppControl
-
-Use this argument to setup the edit session. AppControl has the following schema with some sample values.
-
-```js
- {
-   dataControl: {
-      source: 'cas', /* 'compute" support planned */
-      table : {caslib: 'casuser', name: 'testdata'},
-      byvars: ['id'], /* used a key when updating records */
-      cachePolicy: true, /* data will be managed for you */
-
-      initialFetch: { /* what to read on initialization */
-        count : 1, /* number of records read on each fetch */
-        from  : 1, /* record to start the read from */
-        format: false  /* return formatted or unformatted results */
-   },
-
-   customColumns: {  /* custom columns for use during the session  */
-      total: { /* sample */
-        Column         : "Total",
-        Label          : "Grand Total",
-        FormattedLength: 12,
-        Type           : "double"
-    }
-   },
-   customRows: [] /*future */
-   },
-   editControl: {
-     handlers  : {}, /* handlers for init, main, term and columns. See below */
-     autoSave  : true /* celledit will save to server on each edit*/
-   },
-   appData: {} /* place for user specified information
-}
-   
-```
-
-Only the not-so obvious keys are explained below.
-
-- initialFetch:  the first set of records to read
-  - from: The record number where the read starts(table.fetch action)
-  - count: Number of records to read. On every fetch this many records will be read.
-
-- cachePolicy: If true the data is stored in appEnv.state. You should set this to false if you want to manage the data. The pagination information will always be saved in appEnv to enable easy scrolling.
-- handlers:  This is an object with functions for init, main, term and indiviual columns. Set to {} if you do not plan to make use of this feature. Use the handlers that make sense to you. See below for the samples
-- byvars: An array of by variables. At this time, one has to use this as key to update a record in CAS. ex: ['firstname', 'lastname']
-
-- customColumns: You can add additional columns(temporary) to be used during the session. These columns are not persisted to the server. These variables are available to the handlers. A typical example might be to display some row totals.
-
-- appData - this is where the  app writer can save information and retrieve it from appEnv. appEnv is passed to all handlers. So it is available in functions like init, main etc. The example above shows what I use in my generic DataEditor component
-
 ### **cellEdit - Handles changes to a specific cell**
 
 A cell is defined a the intersection of a column and a data row. The cellEdit does the following:
@@ -341,6 +349,37 @@ async function x1 (data, name, row, appEnv) {
 };
 
 ```
+
+### Accessing Viya from the handlers
+
+The appEnv has the necessary information to access SAS Viya and in particular the cas session used by the edit session.
+
+Note that you can use restaf and restaflib in the handlers(with store) to access any Viya REST API. You are not restricted to the current cas session.
+
+
+The example below doing some calculations on the cas server
+
+```js
+
+import calculate from './calculate.js';
+async function main (data, _rowIndex, appEnv,_type) {
+    let {store, restaflib, session} = appEnv;
+    let status = {code: 0 , msg: "Main processing completed"};
+
+    // create casl statements
+    let code = `
+        send_response({total= _args_.x1 + _args_.x2 + _args_.x3});
+    `;
+
+    // run the code and return results - data is tranformed to _args_ by caslRun
+
+    let r = await restaflib.caslRun(store, session, code, data);
+    data.total = r.results.total;
+
+    return [data, status];
+};
+export default main;
+
 
 ## Future
 

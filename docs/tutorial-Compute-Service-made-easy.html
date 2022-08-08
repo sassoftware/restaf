@@ -237,10 +237,7 @@ let computeSummary = await restaflib.computeRun(store, session, src, macros)
 <li> session - The session object obtained thru the computeSetup method </li>
 <li> src     - A string containing the source code to be executed. </li>
 <li> macros  - (optional) A javascript object that is sent to the server as macros. For example if this object is {lib: 'sasuser', data: 'mydata'} the following macros are prepended to the source code
-<pre>
-  %let lib=sasuser;
-  %let data=mydata;
-</pre>
+<li> timeout - (optional) This is timeout(secs) used by the state end point for long polling(default is 5secs)
 <h3>Checking completion status</h3>
 <p>Check computeSummary.SASJobStatus for completion status. The value will be one of the following:</p>
 <ul>
@@ -278,7 +275,7 @@ This method is used to get the ods output, log, listing and the list of tables.
 let result = await restaflib.computeFetchData(store, computeSummary, tablename, direction);
 </pre>
 <p>The parameters are:</p>
-<ul> 
+<ul>
 <li> store - restaf store </li>
 <li> computeSummary - the output from restaflib.computeRun </li>
 <li> tablename - the name of the table returned (see computeResults method above). </li>
@@ -362,27 +359,27 @@ let result = await restaflib.computeFetchData(store, computeSummary, tablename, 
 }
 </code></pre>
 <h2>Monitoring Progress of the job</h2>
-<p>The progress of the job can be monitored by specifying the checkStatus parameter and a context object. This function will be called everytime the compute. The context object will be passed to it.</p>
+<p>The progress of the job can be monitored by specifying the checkStatus parameter and a context object. This function will be called everytime the state end point sends a response.The time interval is controlled by the timeout parameter. The context object will be passed to it.</p>
 <p>The parameters to the checkStatus function are:</p>
 <ul>
 <li>
-<p>status - a string that has the current status returned from a state api end point. Usually these are 'completed', 'running', 'error'.</p>
+<p>state - a string that has the current status returned from a state api end point. Usually these are 'completed', 'running', 'error'.</p>
 </li>
 <li>
 <p>context - the context object passed to computeRun.</p>
 </li>
+<li>
+<p>returns - for normal processing return the incoming state. If you want to stop waiting on the server to complete, return some other string(ex: 'exit').</p>
+</li>
 </ul>
 <h3>Sample checkStatus</h3>
 <pre class="prettyprint source lang-js"><code>
-function checkStatus(status, context) {
+function checkStatus(state, context) {
    context.tries = context.tries + 1;
    if (context.tries >= context.maxTries) {
-    context.code = 'stop';
-    return true;
-   } else {
-      // do something else
-      return false;
-   }
+    state= 'exit';
+   } 
+   return state;
 }
 let context = {
   tries: 0,
@@ -390,32 +387,16 @@ let context = {
   code: null
 }
 
-let computeSummary = await restaflib.computeRun(store, computeSession, src,  macros, checkStatus, context);
+let computeSummary = await restaflib.computeRun(store, computeSession, src,  macros,5, checkStatus, context);
 
-if (context.code === 'stop') {
-  // process the results as you see fit 
+if (computeSummary.SASJobStatus === 'exit') {
+  // processing stopped due to checkStatus
+  // do something here
 } else {
-  let status = computeSummary.SASjobStatus;
-  switch (status) {
-        case &quot;warning&quot;:
-          console.log(`Warning: check your log for warnings`);
-          break;
-        case &quot;error&quot;:
-        case &quot;failed&quot;:
-          throw `Please correct errors and rerun program`;
-          break;
-        case 'completed':
-          console.log('Job completed successfully');
-          // do something
-          break;
-        case 'default': {
-          console.log('Why default? ' + status);
-        }
-      }
-    }
+  // do normal processing
+}
+
 </code></pre>
-<p>The function returns either true or false. Return true to stop further calls to state api.</p>
-<p>On true, the results will be returned wit the current state of the job. Use the context object to set flags that you can post process.</p>
 <h2>Notes</h2>
 <p>restaflib relies on <a href="https://sassoftware.github.io/restaf">restaf</a></p>
 <h2>Setup</h2>

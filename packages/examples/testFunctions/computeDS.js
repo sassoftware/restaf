@@ -52,7 +52,7 @@ module.exports = async function computeDS (testInfo) {
 		console.log(state);
 		context.counter = context.counter + 1;
 		
-		if (state !== 'completed' && context.counter > 5) {
+		if (state !== 'completed' && context.counter > 100) {
 			context.state = state;
 			state = 'exit';
 		}
@@ -67,8 +67,8 @@ module.exports = async function computeDS (testInfo) {
 		computeSession,
 		src,
 		macros,
-        2,
-		checkStatus,
+        1,
+		null,
 		context
 
     );

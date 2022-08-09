@@ -20,10 +20,26 @@
  function httpCallWait (config) {
      let states = ['running', 'pending'];
      let flag;
+    
      return (request(config)
          .then(response => {
+            const eventHandler = () => {
+                let cstate = (r === '' ) ? 'running' : r;
+                if (config.eventHandler) {
+                    let r1 = config.eventHandler(cstate, config.jobContext);
+                    /* this code to maintain backward compatability */
+                    if (typeof r1 === 'boolean') {
+                        flag = r1;
+                    } else if (r1 !== cstate) {
+                        response.data.results = r1;
+                        flag = true;
+                    }
+                }
+            }
             let r = response.data.results;
-        
+            console.log('status: ', r);
+
+            
             if ( response.status === 304) {
                 console.log('304');
                 return null; 
@@ -48,6 +64,7 @@
             if (((states.indexOf(r) === -1)  || flag === true)) {
                 return httpDone(response, config, false);
              } else {
+
                 console.log(config.payload.headers['If-None-Match'],' ', 'config');
                if (config.payload.headers != null && config.payload.headers['If-None-Match'] != null){
                   config.payload.headers['If-None-Match'] = response.headers.etag;

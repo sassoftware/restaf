@@ -24,8 +24,9 @@
      return (request(config)
          .then(response => {
             const eventHandler = () => {
-                let cstate = (r === '' ) ? 'running' : r;
+                flag = false;
                 if (config.eventHandler) {
+                    let cstate = (response.status === 304) ? 'running' : r;
                     let r1 = config.eventHandler(cstate, config.jobContext);
                     /* this code to maintain backward compatability */
                     if (typeof r1 === 'boolean') {
@@ -36,39 +37,28 @@
                     }
                 }
             }
+            console.log( '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> response.status ', response.status);
             let r = response.data.results;
-            console.log('status: ', r);
-
+            console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>status: ', r);
             
-            if ( response.status === 304) {
-                console.log('304');
-                return null; 
-            }
 
             if (typeof r === 'object') {
                 r = response.data.results.items.isIdle === true ? 'completed' : 'running';
                 response.data.results.items = r;
             } 
           
-            if (config.eventHandler) {
-                let r1 = config.eventHandler(r, config.jobContext);
-                /* this code to maintain backward compatability */
-                if (typeof r1 === 'boolean') {
-                    flag = r1;
-                } else if (r1 !== r) {
-                    response.data.results = r1;
-                    flag = true;
-                }
+            eventHandler();
+            if (response.status === 304 && flag === false) {
+                return null;
             }
 
-            if (((states.indexOf(r) === -1)  || flag === true)) {
+            if ((states.indexOf(r) === -1)  || flag === true) {
                 return httpDone(response, config, false);
              } else {
-
-                console.log(config.payload.headers['If-None-Match'],' ', 'config');
-               if (config.payload.headers != null && config.payload.headers['If-None-Match'] != null){
+               console.log(config.payload.headers['If-None-Match'],' ', 'current etag');
+               if (config.payload.headers != null && config.payload.headers['If-None-Match'] != null && response.headers.etag != null){
                   config.payload.headers['If-None-Match'] = response.headers.etag;
-                  console.log(config.payload.headers['If-None-Match'],' ', 'newconfig');
+                  console.log(config.payload.headers['If-None-Match'],' ', 'nnew etag');
                }
                return null;
              }

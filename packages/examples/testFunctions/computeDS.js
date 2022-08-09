@@ -42,6 +42,7 @@ module.exports = async function computeDS (testInfo) {
 			run;  
 		
 			proc print;run;  
+			proc print data=sashelp.cars; run;
             ods html close;
 			run;
 			
@@ -68,7 +69,7 @@ module.exports = async function computeDS (testInfo) {
 		src,
 		macros,
         1,
-		null,
+		checkStatus,
 		context
 
     );

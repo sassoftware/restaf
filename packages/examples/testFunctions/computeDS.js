@@ -69,8 +69,10 @@ module.exports = async function computeDS (testInfo) {
 		src,
 		macros,
         1,
+		/*
 		checkStatus,
 		context
+		*/
 
     );
 	console.log(computeSummary.SASJobStatus);

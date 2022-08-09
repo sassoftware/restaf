@@ -37,11 +37,9 @@
                     }
                 }
             }
-            console.log( '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> response.status ', response.status);
+    
             let r = response.data.results;
-            console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>status: ', r);
-            
-
+    
             if (typeof r === 'object') {
                 r = response.data.results.items.isIdle === true ? 'completed' : 'running';
                 response.data.results.items = r;
@@ -55,10 +53,8 @@
             if ((states.indexOf(r) === -1)  || flag === true) {
                 return httpDone(response, config, false);
              } else {
-               console.log(config.payload.headers['If-None-Match'],' ', 'current etag');
                if (config.payload.headers != null && config.payload.headers['If-None-Match'] != null && response.headers.etag != null){
                   config.payload.headers['If-None-Match'] = response.headers.etag;
-                  console.log(config.payload.headers['If-None-Match'],' ', 'nnew etag');
                }
                return null;
              }

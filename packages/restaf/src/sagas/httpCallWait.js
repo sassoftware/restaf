@@ -20,27 +20,40 @@
  function httpCallWait (config) {
      let states = ['running', 'pending'];
      let flag;
+    
      return (request(config)
          .then(response => {
-            let r = response.data.results;
-        
-            if ( response.status === 304) {
-                return null; 
+            const eventHandler = () => {
+                flag = false;
+                if (config.eventHandler) {
+                    let cstate = (response.status === 304) ? 'running' : r;
+                    let r1 = config.eventHandler(cstate, config.jobContext);
+                    /* this code to maintain backward compatability */
+                    if (typeof r1 === 'boolean') {
+                        flag = r1;
+                    } else if (r1 !== cstate) {
+                        response.data.results = r1;
+                        flag = true;
+                    }
+                }
             }
-
+    
+            let r = response.data.results;
+    
             if (typeof r === 'object') {
                 r = response.data.results.items.isIdle === true ? 'completed' : 'running';
                 response.data.results.items = r;
             } 
           
-            if (config.eventHandler) {
-                flag = config.eventHandler(r, config.jobContext);
+            eventHandler();
+            if (response.status === 304 && flag === false) {
+                return null;
             }
 
-            if (((states.indexOf(r) === -1)  || flag === true)) {
+            if ((states.indexOf(r) === -1)  || flag === true) {
                 return httpDone(response, config, false);
              } else {
-               if (config.payload.headers != null && config.payload.headers.etag != null){
+               if (config.payload.headers != null && config.payload.headers['If-None-Match'] != null && response.headers.etag != null){
                   config.payload.headers['If-None-Match'] = response.headers.etag;
                }
                return null;

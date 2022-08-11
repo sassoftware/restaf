@@ -102,8 +102,8 @@ Use this argument to setup the edit session. AppControl has the following schema
 ```js
  {
    dataControl: {
-      source: 'cas', /* 'compute" support planned */
-      table : {caslib: 'casuser', name: 'testdata'},
+      source: 'cas', /* cas | compute */
+      table : {caslib: 'casuser', name: 'testdata'},/* for compute: {libref: xxx , name: yyy}
       byvars: ['id'], /* used a key when updating records. */
       cachePolicy: true, /* data will be managed for you. */
 

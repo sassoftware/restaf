@@ -65,7 +65,7 @@ function getAppControl () {
       cachePolicy: true,
 
       initialFetch: {
-        count : 1,
+        count : 5,
         from  : 1,
         format: false
       },

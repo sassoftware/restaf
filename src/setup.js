@@ -46,11 +46,11 @@ async function setup (logonPayload, appControl) {
       }
     };
   } else {
-    debugger;
+    
     const session = await computeSetup(store, null, logonPayload);
-    debugger;
+    
     const tableSummary = await computeSetupTables(store, session, dataControl.table);
-    debugger;
+    
     appEnv = {
       store,
       session,

@@ -54,7 +54,7 @@ async function iupdateCasTable (data, appEnv) {
 async function iupdateComputeTable (data, appEnv) {
   const { store, session } = appEnv;
   const { table, byvars } = appEnv.appControl.dataControl;
-  debugger;
+  
   if (byvars === null || byvars.length === 0) {
     return null;
   }

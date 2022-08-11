@@ -56,16 +56,14 @@ async function icasScroll (direction, appEnv) {
 async function icomputeScroll (direction, appEnv) {
   const { store, tableSummary } = appEnv;
   const { table } = appEnv.appControl.dataControl;
-  debugger;
+  
   const tname = `${table.libref}.${table.name}`.toLowerCase();
-  debugger;
+  
   // eslint-disable-next-line prefer-const
 
   const qs = { limit: appEnv.appControl.dataControl.initialFetch.count };
   const data = await computeFetchData(store, tableSummary, tname, direction, qs);
-  debugger;
-  console.log(data);
-  debugger;
+
   let result = null;
   if (data !== null) {
     result = await prepFormData(data, appEnv);

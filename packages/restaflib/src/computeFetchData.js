@@ -23,15 +23,34 @@ async function computeFetchData (store, computeSummary, table, direction, qs) {
 	let payload =(qs != null) ? {qs: qs} : null;
 	// eslint-disable-next-line no-prototype-builtins
 	
+	
 	if (computeSummary.tables.hasOwnProperty(table) === true) {
 		tableInfo = computeSummary.tables[table];
 		if (tableInfo.current === null || direction == null) {
 			let t1 = await store.apiCall(tableInfo.self);
 			let result = await store.apiCall(t1.links('rowSet'), payload);
+			let columns = await store.apiCall(t1.links('columns'));
+			let schema = [];
+			let items = columns.items().toJS();
+			for(let cx in items) {
+				let c = items[cx];
+				let newcol = {
+					name: c.name.toLowerCase(),
+					Column: c.name.toLowerCase(),
+					Label: c.data.label,
+					length: c.data.length,
+					type  : c.data.type,
+					custom: false
+				}
+			schema.push(newcol);
+   		    }
 			tableInfo.current = result;
+			tableInfo.schema = schema;
 			let datax = result.items().toJS();
+			debugger;
 			data = {
 				columns: datax.columns,
+				schema: schema,
                 rows   : datax.rows,
                 
 				scrollOptions: result
@@ -54,15 +73,18 @@ async function computeFetchData (store, computeSummary, table, direction, qs) {
 				tableInfo.current = result;
 				let datax = result.items().toJS();
 				data = {
+					schema: tableInfo.schema,
 					columns: datax.columns,
                     rows   : datax.rows,
                     
 					scrollOptions: result.scrollCmds().keySeq().toJS()
 				};
+				debugger;
 			}
 		}
 	}
-
+	debugger;
+	console.log(data);
 	return data;
 }
 

@@ -8,3 +8,8 @@ test("computeService: basic", async () => {
   let l = await testFunctions.computeDS(testInfo);
   expect(l).toMatchSnapshot();
 });
+test.only("computeTables: tables", async () => {
+  expect.assertions();
+  let l = await testFunctions.computeTables(testInfo);
+  expect(l).toMatchSnapshot();
+});

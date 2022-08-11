@@ -34,6 +34,7 @@ let mlPipeline = require('./mlPipeline');
 let mlPipelinePublish = require('./mlPipelinePublish');
 let masList =require('./masList');
 let casSubmit = require('./casSubmit');
+let computeTables = require('./computeTables');
 
 module.exports = {
 	addServices,
@@ -52,6 +53,7 @@ module.exports = {
 	casUploadAst,
 
 	computeDS,
+	computeTables,
 	filesCreate,
 	filesPaginate,
 	foldersPaginate,

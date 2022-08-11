@@ -1,7 +1,10 @@
 /*
  * Copyright © 2019, SAS Institute Inc., Cary, NC, USA.  All Rights Reserved.
  * SPDX-License-Identifier: Apache-2.0
-*/ 
+*/
+import { isArray } from "lodash";
+
+ 
  
  /**
   * @description Reduce the job information into consummable form(async)
@@ -64,7 +67,7 @@ function viewer (dataL) {
   });
 }
   */
-async function computeSummary (store, session, job){
+async function computeSummary (store, session, job, tables){
     let cResult = {
         session: session,
         log    : null,
@@ -74,6 +77,9 @@ async function computeSummary (store, session, job){
         tables : {},
         files  : {}
     };
+    
+
+const jobResults = async  () => {
     cResult.log     = job.links('log');
     cResult.listing = job.links('listing');
     let reportLink  = job.links('results');
@@ -110,8 +116,50 @@ async function computeSummary (store, session, job){
             }
         }
     }
+
+return true;
+}
+const addTable = async (itable) => {
+    let {libref, name} = itable;
+    let p = {
+        qs: { filter: `eq(name,'${libref}')`}
+    };
+    let currentLibrefs = await store.apiCall(session.links('librefs'), p);
+    if (currentLibrefs.itemsList().size === 0) {
+        throw `Libref ${libref} not found`;
+    }
+    // get the links for this libref
+    let rlink = currentLibrefs.itemsCmd(libref, 'self');
+    let currentLibrefSelf = await store.apiCall(rlink);
     
-    return cResult;
+    // get the table
+    p = {
+    qs: { filter: `eq(name,'${name}')`}
+    };
+    let tables = await store.apiCall(currentLibrefSelf.links('tables'));
+
+    if (tables.itemsList().size === 0) {
+        throw `Table ${name} not found`;
+    }
+    let tname = `${libref}.${name}`.toLowerCase();
+    let r= {
+        self   : tables.itemsCmd(name, 'self'),
+        current: null
+    };
+    cResult.tables[tname] = r;
+
+}
+
+if (job !== null) {
+    await jobResults();
+} 
+if (tables != null) {
+    let t = (Array.isArray(tables) === true) ? tables : [tables];
+    for (let i = 0; i <t.length; i++ ) {
+        await addTable(t[i]);
+    }
+}
+return cResult;
 
 }
 export default computeSummary;

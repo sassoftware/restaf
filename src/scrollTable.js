@@ -60,7 +60,9 @@ async function icomputeScroll (direction, appEnv) {
   const tname = `${table.libref}.${table.name}`.toLowerCase();
   debugger;
   // eslint-disable-next-line prefer-const
-  let data = await computeFetchData(store, tableSummary, tname, direction);
+
+  const qs = { limit: appEnv.appControl.dataControl.initialFetch.count };
+  const data = await computeFetchData(store, tableSummary, tname, direction, qs);
   debugger;
   console.log(data);
   debugger;

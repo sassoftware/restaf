@@ -1,10 +1,13 @@
-const { setup, fetchTableRows, scrollTable, cellEdit } = require('./dist/index.js');
-const restafedit = require('./dist/index.js');
+const { setup, scrollTable } = require('../dist/index.js');
+const restafedit = require('../dist/index.js');
 console.log(restafedit);
 
 runit()
   .then(r => console.log(r))
-  .catch(err => console.log(err));
+  .catch(err => {
+    debugger;
+    console.log('error', err);
+  });
 
 async function runit () {
   const payload = {
@@ -21,27 +24,19 @@ async function runit () {
   console.log('appControl -------------------------------');
   console.log(appControl);
   console.log('------------------------------------------');
-
+  debugger;
   const appEnv = await setup(payload, appControl);
   console.log(appEnv.appControl.dataControl);
 
+  debugger;
+  // eslint-disable-next-line prefer-const
   let result = await scrollTable('first', appEnv);
+  debugger;
   console.log('result of first fetch -------------------------------');
   console.log(Object.keys(result));
   console.log(result);
   console.log('------------------------------------------');
-
-  const x3New = result.data[0].x3 + 100;
-  let r = await cellEdit('x3', x3New, 0, result.data[0], appEnv);
-  console.log('state values after edit--------------------------------');
-  console.log(appEnv.state.data);
-  console.log('-------------------------------------------------------');
-  const x1New = 16;
-  r = await cellEdit('x1', x1New, 0, result.data[0], appEnv);
-  console.log('state values after edit--------------------------------');
-  console.log(appEnv.state.data);
-  console.log('-------------------------------------------------------');
-
+  /*
   result = await scrollTable('next', appEnv);
   console.log('result of scroll next----------------------------------');
   console.log(result.data);
@@ -53,19 +48,7 @@ async function runit () {
   console.log(result.data);
   console.log(result.pagination);
   console.log('-------------------------------------------------------');
-
-  const control = {
-    from  : 10,
-    count : 5,
-    format: false
-  };
-  result = await fetchTableRows(control, appEnv);
-  console.log('result of a fetchTableRows-----------------------------');
-  console.log(result.data);
-  console.log(result.pagination);
-  console.log('-------------------------------------------------------');
-
-  console.log(appEnv.state.currentPage);
+  */
   return 'done';
 };
 
@@ -73,10 +56,10 @@ function getAppControl () {
   return {
     description: 'Simple Example',
     dataControl: {
-      source: 'cas',
-      table : { caslib: 'casuser', name: 'testdata' },
+      source: 'compute',
+      table : { libref: 'SASHELP', name: 'AIR' },
       access: {},
-      byvars: ['id'],
+      byvars: ['date'],
       where : {},
 
       cachePolicy: true,
@@ -98,9 +81,9 @@ function getAppControl () {
       customRows: []
     },
     editControl: {
-      handlers: { init, main: init, term, x1 }, /* note reuse of init */
+      handlers: { init, main: init, term }, /* note reuse of init */
       save    : true,
-      autoSave: true
+      autoSave: false
 
     },
     appData: {
@@ -109,47 +92,21 @@ function getAppControl () {
 
       uiControl: {
         defaultComponent: 'InputEntry',
-        show            : ['id', 'total', 'x2', 'x1', 'x3'],
-        visuals         : {
-          x2: {
-            component: 'Slider',
-            props    : {
-              min  : 0,
-              max  : 50,
-              steps: 1
-            }
-          },
-          total: {
-            props: {
-              disabled: true
-            }
-          }
-        }
+        show            : []
       }
-
     }
 
   };
 }
 async function init (data, rowIndex, appEnv, type) {
   const status = { statusCode: 0, msg: `${type} processing completed` };
-  data.total = data.x1 + data.x2 + data.x3;
-  const newData = data; /* you can modify the incoming data and return it */
-  return [newData, status];
+  console.log(type);
+  data.total = data.air * 10;
+  return [data, status];
 };
 
 async function term (data, rowIndex, appEnv, type) {
   const status = { statusCode: 0, msg: `${type} processing completed` };
   console.log('In term');
   return [data, status];
-};
-
-async function x1 (data, name, rowIndex, appEnv) {
-  let msg = { statusCode: 1, msg: `${name} handler executed.` };
-  if (data.x1 > 10) {
-    data.x1 = 10;
-    msg = { statusCode: 2, msg: 'Exceeded Max. Value reset to max' };
-  }
-
-  return [data, msg];
 };

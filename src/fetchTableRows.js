@@ -22,6 +22,7 @@ import prepFormData from './prepFormData';
  */
 async function fetchTableRows (control, appEnv) {
   const { store, session } = appEnv;
+
   // eslint-disable-next-line no-useless-catch
   const c = { ...control };
   if (c.table == null) {

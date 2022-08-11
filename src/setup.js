@@ -1,6 +1,6 @@
 
 import { initStore } from '@sassoftware/restaf';
-import { casSetup } from '@sassoftware/restaflib';
+import { casSetup, computeSetup, computeSetupTables } from '@sassoftware/restaflib';
 
 /**
  * @description Setup an Edit session
@@ -21,26 +21,56 @@ import { casSetup } from '@sassoftware/restaflib';
 
 async function setup (logonPayload, appControl) {
   const store = initStore();
+  let appEnv;
   if (logonPayload.authType == null) {
     logonPayload.authType = 'code';
   }
+  const dataControl = appControl.dataControl;
+  if (dataControl.source === 'cas') {
+    const r = await casSetup(store, logonPayload);
+    appEnv = {
+      source: dataControl.source,
 
-  const r = await casSetup(store, logonPayload);
+      store,
+      session  : r.session,
+      servers  : r.servers,
+      restaflib: null,
+      logonPayload,
 
-  const appEnv = {
-    store,
-    session  : r.session,
-    servers  : r.servers,
-    restaflib: null,
-    logonPayload,
-    state    : {
-      modified   : [],
-      pagination : {},
-      currentPage: {},
-      data       : {},
-      columns    : {}
-    }
+      state: {
+        modified   : [],
+        pagination : {},
+        currentPage: {},
+        data       : {},
+        columns    : {}
+      }
+    };
+  } else {
+    debugger;
+    const session = await computeSetup(store, null, logonPayload);
+    debugger;
+    const tableSummary = await computeSetupTables(store, session, dataControl.table);
+    debugger;
+    appEnv = {
+      store,
+      session,
+      tableSummary,
+
+      servers  : null,
+      restaflib: null,
+      logonPayload,
+
+      state: {
+        modified   : [],
+        pagination : {},
+        currentPage: {},
+
+        data   : {},
+        columns: {}
+      }
+    };
   };
+
   appEnv.appControl = appControl;
   appEnv.id = Date(); /* just assign a new id - placeholder */
   return appEnv;

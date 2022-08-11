@@ -20,7 +20,7 @@ The goal of this project is to create a small reusable library to simplify the  
 
 - [Simple Editor Application](https://github.com/sassoftware/restaf-uidemos/tree/editorapp) - Demonstrates the use of this library using basic javascript and html to edit a cas table.
 
-- [React Component for Editing-@sassoftware/viyaedit](https://github.com/sassoftware/restaf-uidemos/tree/viyaedit) - Demonstrates the use of this library with React. @sassoftware/viyaedit is a resuable component. 
+- [React Component for Editing-@sassoftware/viyaedit](https://github.com/sassoftware/restaf-uidemos/tree/viyaedit) - Demonstrates the use of this library with React. @sassoftware/viyaedit is a resuable component.
   - See [this application](https://github.com/sassoftware/restaf-uidemos/tree/editorappreact) on how to use this component library in a react application.
 
 ## Table versus Form for data entry<a name="t3"></a>
@@ -93,7 +93,6 @@ let appEnv = await setup(logonPayload, appControl)
 - appControl - Information needed to control the session.
 
 - appEnv - this is the control object for the edit session
-
 
 ### Notes on AppControl
 
@@ -355,7 +354,6 @@ async function x1 (data, name, row, appEnv) {
 The appEnv has the necessary information to access SAS Viya and in particular the cas session used by the edit session.
 
 Note that you can use restaf and restaflib in the handlers(with store) to access any Viya REST API. You are not restricted to the current cas session.
-
 
 The example below doing some calculations on the cas server
 

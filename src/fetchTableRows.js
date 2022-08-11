@@ -3,7 +3,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { casFetchRows } from '@sassoftware/restaflib';
+import { casFetchRows, computeFetchData } from '@sassoftware/restaflib';
+
 import prepFormData from './prepFormData';
 /**
  * @description Fetch new records based on control argument
@@ -21,9 +22,17 @@ import prepFormData from './prepFormData';
  * Please see the restafeditExample in the Tutorial pulldown
  */
 async function fetchTableRows (control, appEnv) {
-  const { store, session } = appEnv;
+  let result = null;
+  if (appEnv.source === 'cas') {
+    result = await icasRows(control, appEnv);
+  } else {
+    result = await icomputeRows(control, appEnv);
+  }
+  return result;
+}
 
-  // eslint-disable-next-line no-useless-catch
+async function icasRows (control, appEnv) {
+  const { store, session } = appEnv;
   const c = { ...control };
   if (c.table == null) {
     c.table = appEnv.appControl.dataControl.table;
@@ -35,22 +44,47 @@ async function fetchTableRows (control, appEnv) {
     return null;
   }
   const r = await casFetchRows(store, session, c);
-  const t = await prepFormData(r.data, appEnv);
+  let t = null;
+  if (r !== null) {
+    t = await prepFormData(r.data, appEnv);
 
-  appEnv.state = {
-    modified   : [],
-    pagination : { ...r.pagination },
-    currentPage: c,
-    data       : [],
-    columns    : []
-  };
-
-  if (appEnv.appControl.dataControl.cachePolicy === true) {
-    appEnv.state.data = t.data;
-    appEnv.state.columns = t.columns;
+    appEnv.state = {
+      modified   : [],
+      pagination : { ...r.pagination },
+      currentPage: c,
+      data       : [],
+      columns    : []
+    };
+    if (appEnv.appControl.dataControl.cachePolicy === true) {
+      appEnv.state.data = t.data;
+      appEnv.state.columns = t.columns;
+    }
+    t.pagination = { ...r.pagination };
   }
-
-  t.pagination = { ...r.pagination };
   return t;
+}
+
+async function icomputeRows (control, appEnv) {
+  const { store, tableSummary } = appEnv;
+  const { table } = appEnv.appControl.dataControl;
+  const tname = `${table.libref}.${table.name}`.toLowerCase();
+  const qs = {
+    offset: control.from - 1,
+    limit : control.count
+  };
+  const data = await computeFetchData(store, tableSummary, tname, null, qs);
+
+  let result = null;
+  if (data !== null) {
+    result = await prepFormData(data, appEnv);
+    appEnv.state = {
+      modified   : [],
+      pagination : {},
+      currentPage: {},
+      data       : result.data,
+      columns    : result.columns
+    };
+  }
+  return result;
 }
 export default fetchTableRows;

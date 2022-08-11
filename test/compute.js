@@ -1,4 +1,4 @@
-const { setup, scrollTable } = require('../dist/index.js');
+const { setup, scrollTable, fetchTableRows } = require('../dist/index.js');
 const restafedit = require('../dist/index.js');
 console.log(restafedit);
 
@@ -41,8 +41,19 @@ async function runit () {
   console.log(result);
   console.log('result of scroll prev from top ----------------');
   console.log(appEnv.state.data);
-  console.log(appEnv.state.pagination);
   console.log('-------------------------------------------------------');
+
+  const control = {
+    from  : 10,
+    count : 10,
+    format: false
+  };
+  result = await fetchTableRows(control, appEnv);
+  console.log('result of a fetchTableRows-----------------------------');
+  console.log(appEnv.state.data);
+
+  console.log('-------------------------------------------------------');
+
   /*
   result = await scrollTable('next', appEnv);
   console.log('result of scroll next----------------------------------');

@@ -56,9 +56,9 @@ async function icasScroll (direction, appEnv) {
 async function icomputeScroll (direction, appEnv) {
   const { store, tableSummary } = appEnv;
   const { table } = appEnv.appControl.dataControl;
-  
+
   const tname = `${table.libref}.${table.name}`.toLowerCase();
-  
+
   // eslint-disable-next-line prefer-const
 
   const qs = { limit: appEnv.appControl.dataControl.initialFetch.count };

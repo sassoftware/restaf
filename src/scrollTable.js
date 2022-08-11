@@ -51,7 +51,7 @@ async function icasScroll (direction, appEnv) {
   }
   const t = await fetchTableRows(control, appEnv);
   return t;
-};
+}
 
 async function icomputeScroll (direction, appEnv) {
   const { store, tableSummary } = appEnv;
@@ -66,9 +66,9 @@ async function icomputeScroll (direction, appEnv) {
   debugger;
   console.log(data);
   debugger;
-  const result = await prepFormData(data, appEnv);
-  debugger;
-  if (result !== null) {
+  let result = null;
+  if (data !== null) {
+    result = await prepFormData(data, appEnv);
     appEnv.state = {
       modified   : [],
       pagination : {},
@@ -77,6 +77,7 @@ async function icomputeScroll (direction, appEnv) {
       columns    : result.columns
     };
   }
+
   return result;
 }
 

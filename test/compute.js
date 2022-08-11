@@ -33,9 +33,16 @@ async function runit () {
   let result = await scrollTable('first', appEnv);
   debugger;
   console.log('result of first fetch -------------------------------');
-  console.log(Object.keys(result));
-  console.log(result);
+  console.log(appEnv.state.data);
+  console.log(appEnv.state.pagination);
+
   console.log('------------------------------------------');
+  result = await scrollTable('prev', appEnv);
+  console.log(result);
+  console.log('result of scroll prev from top ----------------');
+  console.log(appEnv.state.data);
+  console.log(appEnv.state.pagination);
+  console.log('-------------------------------------------------------');
   /*
   result = await scrollTable('next', appEnv);
   console.log('result of scroll next----------------------------------');

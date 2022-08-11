@@ -47,7 +47,7 @@ async function computeFetchData (store, computeSummary, table, direction, qs) {
 			tableInfo.current = result;
 			tableInfo.schema = schema;
 			let datax = result.items().toJS();
-			debugger;
+			
 			data = {
 				columns: datax.columns,
 				schema: schema,
@@ -62,6 +62,7 @@ async function computeFetchData (store, computeSummary, table, direction, qs) {
 			
 			let current = tableInfo.current;
 			let dir = direction;
+			
 			if (direction === 'next' && current.scrollCmds('next') === null) {
 				dir = current.links('last') !== null ? 'last' : null;
 			}
@@ -79,12 +80,11 @@ async function computeFetchData (store, computeSummary, table, direction, qs) {
                     
 					scrollOptions: result.scrollCmds().keySeq().toJS()
 				};
-				debugger;
+				
 			}
 		}
 	}
-	debugger;
-	console.log(data);
+	
 	return data;
 }
 

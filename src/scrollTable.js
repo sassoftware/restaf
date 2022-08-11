@@ -68,13 +68,15 @@ async function icomputeScroll (direction, appEnv) {
   debugger;
   const result = await prepFormData(data, appEnv);
   debugger;
-  appEnv.state = {
-    modified   : [],
-    pagination : {},
-    currentPage: {},
-    data       : result.data,
-    columns    : result.columns
-  };
+  if (result !== null) {
+    appEnv.state = {
+      modified   : [],
+      pagination : {},
+      currentPage: {},
+      data       : result.data,
+      columns    : result.columns
+    };
+  }
   return result;
 }
 

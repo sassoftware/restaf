@@ -144,3 +144,48 @@ Array [
   ],
 ]
 `;
+
+exports[`computeTables: tables 1`] = `
+Array [
+  Array [
+    "JAN49",
+    112,
+  ],
+  Array [
+    "FEB49",
+    118,
+  ],
+  Array [
+    "MAR49",
+    132,
+  ],
+  Array [
+    "APR49",
+    129,
+  ],
+  Array [
+    "MAY49",
+    121,
+  ],
+  Array [
+    "JUN49",
+    135,
+  ],
+  Array [
+    "JUL49",
+    148,
+  ],
+  Array [
+    "AUG49",
+    148,
+  ],
+  Array [
+    "SEP49",
+    136,
+  ],
+  Array [
+    "OCT49",
+    119,
+  ],
+]
+`;

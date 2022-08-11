@@ -18,6 +18,9 @@ import casTableToJson  from './casTableToJson';
 import computeRun       from './computeRun';
 import computeSetup     from './computeSetup';
 import computeSummary   from './computeSummary';
+
+import computeSetupTables from './computeSetupTables';
+
 import computeResults   from './computeResults';
 import computeFetchData from './computeFetchData';
 import computeFileContent from './computeFileContent';
@@ -62,6 +65,7 @@ export {
     computeRun,
     computeSetup,
     computeSummary,
+    computeSetupTables,
     computeFetchData,
     computeFileContent,
     findReport,

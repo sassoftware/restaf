@@ -120,6 +120,7 @@ const jobResults = async  () => {
 return true;
 }
 const addTable = async (itable) => {
+    debugger;
     let {libref, name} = itable;
     let p = {
         qs: { filter: `eq(name,'${libref}')`}

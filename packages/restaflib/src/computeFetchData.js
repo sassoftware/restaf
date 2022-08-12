@@ -20,7 +20,7 @@ async function computeFetchData (store, computeSummary, table, direction, payloa
 	let data = null;
 	let tableInfo;
 	// eslint-disable-next-line no-prototype-builtins
-	
+	debugger;
 	let adhoc = (payload !== null && direction == null) ? true: false;
 	console.log('-----------------------------------------------------' + payload);
 	if (computeSummary.tables.hasOwnProperty(table) === true) {

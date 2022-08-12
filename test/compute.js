@@ -9,6 +9,35 @@ runit()
     console.log('error', err);
   });
 
+async function makeData (store, session, table) {
+  const src = `
+  data SASWORK.testdata;
+  do i = 1 to 20;
+    x1=i;x2=5; x3=i*10; 
+    key=compress('k'||i);
+    output;
+    end;
+  run;
+  `;
+  const sascode = {
+    data: {
+      code: [src]
+    }
+  };
+  const job = await store.apiCall(session.links('execute'), sascode);
+  const p = {
+    qs: {
+      timeout: 2
+    },
+    headers: {
+      'If-None-Match': job.headers('etag')
+    }
+  };
+  // p = null;
+  debugger;
+  const status = await store.jobState(job, p, 'wait');
+  console.log(status.data);
+}
 async function runit () {
   const payload = {
     host        : process.env.VIYA_SERVER,
@@ -27,7 +56,7 @@ async function runit () {
   debugger;
   const appEnv = await setup(payload, appControl);
   console.log(appEnv.appControl.dataControl);
-
+  await makeData(appEnv.session, appControl.dataControl.table);
   debugger;
   // eslint-disable-next-line prefer-const
   let result = await scrollTable('first', appEnv);
@@ -36,7 +65,19 @@ async function runit () {
   console.log(appEnv.state.data);
   console.log(appEnv.state.pagination);
 
+  const air = result.data[0].air + 1000;
+  await cellEdit('air', air, 0, result.data[0], appEnv);
+  console.log('state values after edit--------------------------------');
+  console.log(appEnv.state.data);
+  console.log('-------------------------------------------------------');
   console.log('------------------------------------------');
+
+  result = await scrollTable('first', appEnv);
+  debugger;
+  console.log('result of first fetch -------------------------------');
+  console.log(appEnv.state.data);
+  console.log(appEnv.state.pagination);
+
   result = await scrollTable('prev', appEnv);
   console.log(result);
   console.log('result of scroll prev from top ----------------');
@@ -58,7 +99,7 @@ async function runit () {
   console.log('state values after edit--------------------------------');
   console.log(appEnv.state.data);
   console.log('-------------------------------------------------------');
-  /*
+
   result = await scrollTable('next', appEnv);
   console.log('result of scroll next----------------------------------');
   console.log(result.data);
@@ -70,7 +111,7 @@ async function runit () {
   console.log(result.data);
   console.log(result.pagination);
   console.log('-------------------------------------------------------');
-  */
+
   return 'done';
 };
 
@@ -79,15 +120,15 @@ function getAppControl () {
     description: 'Simple Example',
     dataControl: {
       source: 'compute',
-      table : { libref: 'SASHELP', name: 'AIR' },
+      table : { libref: 'saswork', name: 'testdata' },
       access: {},
-      byvars: ['date'],
+      byvars: ['key'],
       where : {},
 
       cachePolicy: true,
 
       initialFetch: {
-        count : 5,
+        count : 1,
         from  : 1,
         format: false
       },

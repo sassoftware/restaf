@@ -94,6 +94,7 @@ async function iupdateComputeTable (data, appEnv) {
   // eslint-disable-next-line no-unused-vars
   const status = await store.jobState(job, qs);
   const c = (status.data === 'completed' ? 0 : 1);
+  console.log(status);
   return { statusCode: c, msg: status.data };
 }
 

@@ -9,43 +9,14 @@ runit()
     console.log('error', err);
   });
 
-async function makeData (store, session, table) {
-  const src = `
-  data SASWORK.testdata;
-  do i = 1 to 20;
-    x1=i;x2=5; x3=i*10; 
-    key=compress('k'||i);
-    output;
-    end;
-  run;
-  `;
-  const sascode = {
-    data: {
-      code: [src]
-    }
-  };
-  const job = await store.apiCall(session.links('execute'), sascode);
-  const p = {
-    qs: {
-      timeout: 2
-    },
-    headers: {
-      'If-None-Match': job.headers('etag')
-    }
-  };
-  // p = null;
-  debugger;
-  const status = await store.jobState(job, p, 'wait');
-  console.log(status.data);
-}
 async function runit () {
   const payload = {
-    host        : process.env.VIYA_SERVER,
+    host        : process.env.SSAWS,
     authType    : 'password',
     clientID    : 'sas.ec',
     clientSecret: '',
-    user        : 'sastest1',
-    password    : 'Go4thsas'
+    user        : 'user04',
+    password    : 'user04123'
   };
 
   const appControl = getAppControl();
@@ -56,7 +27,7 @@ async function runit () {
   debugger;
   const appEnv = await setup(payload, appControl);
   console.log(appEnv.appControl.dataControl);
-  await makeData(appEnv.session, appControl.dataControl.table);
+ 
   debugger;
   // eslint-disable-next-line prefer-const
   let result = await scrollTable('first', appEnv);
@@ -85,8 +56,8 @@ async function runit () {
   console.log('-------------------------------------------------------');
 
   const control = {
-    from  : 10,
-    count : 10,
+    from  : 1,
+    count : 5,
     format: false
   };
   result = await fetchTableRows(control, appEnv);
@@ -94,8 +65,8 @@ async function runit () {
   console.log(appEnv.state.data);
 
   console.log('-------------------------------------------------------');
-  const t = result.data[0].air + 100;
-  await cellEdit('total', t, 0, result.data[0], appEnv);
+  const t = result.data[0].x1 + 100;
+  await cellEdit('x1', t, 0, result.data[0], appEnv);
   console.log('state values after edit--------------------------------');
   console.log(appEnv.state.data);
   console.log('-------------------------------------------------------');
@@ -120,7 +91,7 @@ function getAppControl () {
     description: 'Simple Example',
     dataControl: {
       source: 'compute',
-      table : { libref: 'saswork', name: 'testdata' },
+      table : { libref: 'deva', name: 'TESTDATA' },
       access: {},
       byvars: ['key'],
       where : {},
@@ -163,7 +134,7 @@ function getAppControl () {
 }
 async function init (data, rowIndex, appEnv, type) {
   const status = { statusCode: 0, msg: `${type} processing completed` };
-  data.total = data.air * 10;
+  data.total = data.x1 + data.x2 + data.x3;
   return [data, status];
 };
 

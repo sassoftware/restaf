@@ -61,8 +61,8 @@ async function icomputeScroll (direction, appEnv) {
 
   // eslint-disable-next-line prefer-const
 
-  const qs = { limit: appEnv.appControl.dataControl.initialFetch.count };
-  const data = await computeFetchData(store, tableSummary, tname, direction, qs);
+  const payload = { qs: { limit: appEnv.appControl.dataControl.initialFetch.count } };
+  const data = await computeFetchData(store, tableSummary, tname, direction, payload);
 
   let result = null;
   if (data !== null) {

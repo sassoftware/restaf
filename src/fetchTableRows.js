@@ -68,11 +68,16 @@ async function icomputeRows (control, appEnv) {
   const { store, tableSummary } = appEnv;
   const { table } = appEnv.appControl.dataControl;
   const tname = `${table.libref}.${table.name}`.toLowerCase();
-  const qs = {
-    offset: control.from - 1,
-    limit : control.count
+  // eslint-disable-next-line prefer-const
+  let payload = {
+    qs: {
+      start : control.from - 1,
+      limit : control.count,
+      format: (control.format != null) ? false : control.format
+    }
   };
-  const data = await computeFetchData(store, tableSummary, tname, null, qs);
+  const data = await computeFetchData(store, tableSummary, tname, null, payload);
+  debugger;
 
   let result = null;
   if (data !== null) {

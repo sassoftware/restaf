@@ -1,4 +1,3 @@
-
 import { casUpdateData } from '@sassoftware/restaflib';
 /**
  * @description Update the row on the server
@@ -48,27 +47,28 @@ async function iupdateCasTable (data, appEnv) {
     where: w
   };
 
-  return await casUpdateData(store, session, payload);
+  await casUpdateData(store, session, payload);
+  return { statusCode: 0, msg: 'Save successful' };
 }
 
 async function iupdateComputeTable (data, appEnv) {
   const { store, session } = appEnv;
   const { table, byvars } = appEnv.appControl.dataControl;
-  
+
   if (byvars === null || byvars.length === 0) {
     return null;
   }
 
   let src =
-    `proc sql; update ${table.libref}.${table.name};`;
-  let set = 'set ';
+    `proc sql; update ${table.libref}.${table.name}`;
+  let set = 'SET ';
   let comma = ' ';
   for (const k in data) {
     set = set + comma + k + '=' + value2String(data[k]);
     comma = ', ';
   };
-
-  let w = 'where  ';
+  src = src + ' ' + set;
+  let w = ' WHERE ';
   let andBit = ' ';
 
   byvars.forEach((k) => {
@@ -91,9 +91,10 @@ async function iupdateComputeTable (data, appEnv) {
     }
   };
 
+  // eslint-disable-next-line no-unused-vars
   const status = await store.jobState(job, qs);
-  console.log(status.data);
-  return true;
+  const c = (status.data === 'completed' ? 0 : 1);
+  return { statusCode: c, msg: status.data };
 }
 
 function value2String (value) {

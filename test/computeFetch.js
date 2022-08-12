@@ -1,6 +1,4 @@
-const { setup, scrollTable, cellEdit, fetchTableRows } = require('../dist/index.js');
-const restafedit = require('../dist/index.js');
-console.log(restafedit);
+const { setup, fetchTableRows } = require('../dist/index.js');
 
 runit()
   .then(r => console.log(r))
@@ -29,35 +27,19 @@ async function runit () {
   console.log(appEnv.appControl.dataControl);
 
   debugger;
-  // eslint-disable-next-line prefer-const
-  let result = await scrollTable('first', appEnv);
-  debugger;
-  console.log('result of first fetch -------------------------------');
-  console.log(appEnv.state.data);
-  console.log(appEnv.state.pagination);
-
-  console.log('------------------------------------------');
-  result = await scrollTable('prev', appEnv);
-  console.log(result);
-  console.log('result of scroll prev from top ----------------');
-  console.log(appEnv.state.data);
-  console.log('-------------------------------------------------------');
 
   const control = {
     from  : 10,
     count : 10,
     format: false
   };
-  result = await fetchTableRows(control, appEnv);
+  debugger;
+  await fetchTableRows(control, appEnv);
   console.log('result of a fetchTableRows-----------------------------');
   console.log(appEnv.state.data);
 
   console.log('-------------------------------------------------------');
-  const t = result.data[0].air + 100;
-  await cellEdit('total', t, 0, result.data[0], appEnv);
-  console.log('state values after edit--------------------------------');
-  console.log(appEnv.state.data);
-  console.log('-------------------------------------------------------');
+
   /*
   result = await scrollTable('next', appEnv);
   console.log('result of scroll next----------------------------------');
@@ -105,7 +87,7 @@ function getAppControl () {
     editControl: {
       handlers: { init, main: init, term }, /* note reuse of init */
       save    : true,
-      autoSave: true
+      autoSave: false
 
     },
     appData: {

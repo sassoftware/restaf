@@ -97,7 +97,7 @@ module.exports = async function computeDS (testInfo) {
 			computeSummary,
 			'DTEMP1',
 			'next',
-			{offset: i, limit:1}
+			{qs:{limit: 1}}
 		);
 		console.log(data);
 		// logger.info(data.columns);
@@ -107,8 +107,8 @@ module.exports = async function computeDS (testInfo) {
 		store,
 		computeSummary,
 		'DTEMP1',
-		'next',
-		{offset: 0, limit:10}
+		null,
+		{qs:{start: 10, limit:10}}
 	);
 	await store.apiCall(computeSession.links('delete'));
     return data.rows;

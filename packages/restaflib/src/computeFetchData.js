@@ -7,7 +7,6 @@
  * 
  * @description Fetch data from a SAS Table
  * @async
- * @private
  * @module computeFetchData
  * @category restaflib/compute
  * @param {object} store - restaf store
@@ -17,15 +16,20 @@
  * 
  * @returns {promise} - {columns: <columnames>, rows: <data for rows> , scrollOptions: <available scroll directions>}
  */
-async function computeFetchData (store, computeSummary, table, direction, qs) {
+async function computeFetchData (store, computeSummary, table, direction, payload) {
 	let data = null;
 	let tableInfo;
-	let payload =(qs != null) ? {qs: qs} : null;
 	// eslint-disable-next-line no-prototype-builtins
 	
-	
+	let adhoc = (payload !== null && direction == null) ? true: false;
+	console.log('-----------------------------------------------------' + payload);
 	if (computeSummary.tables.hasOwnProperty(table) === true) {
 		tableInfo = computeSummary.tables[table];
+		// reset info on this table if user does adhoc retrieval
+		// trying to keep track of multiple states for same table is a nightmare
+		if (adhoc === true) {
+			tableInfo.current = null;
+		}
 		if (tableInfo.current === null || direction == null) {
 			let t1 = await store.apiCall(tableInfo.self);
 			let result = await store.apiCall(t1.links('rowSet'), payload);

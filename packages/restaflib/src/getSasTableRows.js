@@ -12,6 +12,7 @@
 /**
  * @description Convert table to object of the form [{var1: value, var2: value,...},....](async)
  * @async
+ * @private
  * @module getSASTableRows
  * @category restaflib/compute
  *                  

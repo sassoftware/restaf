@@ -44,26 +44,29 @@ module.exports = async function computeTables (testInfo) {
 	logger.info(tables);
     let data;
 	let tname = `${t.libref}.${t.name}`.toLowerCase();
-	for (let i=0; i <= 10; i++) {
+	/*
+	for (let i=0; i <= 2; i++) {
 		data = await restaflib.computeFetchData(
 			store,
 			tableSummary,
 			tname,
 			'next',
-			{offset: i, limit:1}
+			{limit:5}
 		);
-		console.log(data);
+		console.log(data.rows);
 		// logger.info(data.columns);
-		logger.info(`Row ${i+1}  ${data.rows[0]}`);
+		// logger.info(`Row ${i+1}  ${data.rows[0]}`);
 	}
+	*/
+	
 	data = await restaflib.computeFetchData(
 		store,
 		tableSummary,
 		tname,
-		'first',
-		{offset: 0, limit:10}
+		null,
+		{qs:{start: 10, limit:3}}
 	);
-	console.log(data);
+	console.log(data.rows);
 	await store.apiCall(computeSession.links('delete'));
     return data.rows;
 };

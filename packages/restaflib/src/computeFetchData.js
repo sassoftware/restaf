@@ -22,7 +22,6 @@ async function computeFetchData (store, computeSummary, table, direction, payloa
 	// eslint-disable-next-line no-prototype-builtins
 	debugger;
 	let adhoc = (payload !== null && direction == null) ? true: false;
-	console.log('-----------------------------------------------------' + payload);
 	if (computeSummary.tables.hasOwnProperty(table) === true) {
 		tableInfo = computeSummary.tables[table];
 		// reset info on this table if user does adhoc retrieval

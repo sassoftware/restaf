@@ -91,7 +91,7 @@ module.exports = async function computeDS (testInfo) {
 	);
 	logger.info(tables);
     let data;
-	for (let i=0; i <= 10; i++) {
+	for (let i=0; i <= 1; i++) {
 		data = await restaflib.computeFetchData(
 			store,
 			computeSummary,
@@ -99,10 +99,11 @@ module.exports = async function computeDS (testInfo) {
 			'next',
 			{qs:{limit: 1}}
 		);
-		console.log(data);
+		console.log(Object.keys(data));
 		// logger.info(data.columns);
 		logger.info(`Row ${i+1}  ${data.rows[0]}`);
 	}
+	/*
 	data = await restaflib.computeFetchData(
 		store,
 		computeSummary,
@@ -110,6 +111,7 @@ module.exports = async function computeDS (testInfo) {
 		null,
 		{qs:{start: 10, limit:10}}
 	);
+	*/
 	await store.apiCall(computeSession.links('delete'));
     return data.rows;
 };

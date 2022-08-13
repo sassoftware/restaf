@@ -2,7 +2,7 @@
  * Copyright © 2019, SAS Institute Inc., Cary, NC, USA.  All Rights Reserved.
  * SPDX-License-Identifier: Apache-2.0
 */
-import { isArray } from "lodash";
+import { isArray, result } from "lodash";
 
  
  
@@ -18,56 +18,20 @@ import { isArray } from "lodash";
   * 
   * @returns {promise} - the computeSummary object for easy handling of logs,listing,ods, tables
   * @example
-  * let restaf    = require("@sassoftware/restaf");
-let restaflib = require("@sassoftware/restaflib");
-let payload = require('./config')();
-
-let store = restaf.initStore();
-
-async function example (store, logonPayload) {
-  let { computeSetup, computeRun } = restaflib;
-  let msg = await store.logon(logonPayload);
-  let computeContext = null; 
-
-  let computeSession = await computeSetup(store, computeContext);
-  
-  let macros = {data: 'sashelp.cars'};
-  let code = `ods html style=barrettsblue;  
-    data dtemp1;
-    set sashelp.cars;
-    run;
-    data dtemp2;
-    do i = 1 to 1000000;
-        output;
-    end;
-    run;
-    proc print data=&data;run;
-    ods html close;`
-  ;
-  let computeSummary = await computeRun(
-      store,
-      computeSession,
-      code,
-      macros
-  );
-  let log = await restaflib.computeResults(store, computeSummary, 'log');
-  let ods = await restaflib.computeResults(store, computeSummary, 'ods');
-  viewer(log);
-  console.log(ods);
-  await store.apiCall(computeSession.links('delete'));
-  return "All Done";
-  }
-function viewer (dataL) {
-  dataL.map(data => {
-    let line = data["line"].replace(/(\r\n|\n|\r)/gm, "");
-    if (line.length === 0) {
-      line = "  ";
-    }
-    console.log(line);
-  });
-}
+  * 
   */
 async function computeSummary (store, session, job, tables){
+    
+    let result;
+    if (job !== null) {
+        result = await jobResults(store, session, job );
+    }  else {
+        result = await isetupTable(store, session, tables)
+    }
+    return result;''
+}
+
+async function jobResults (store, session, job) {
     let cResult = {
         session: session,
         log    : null,
@@ -77,9 +41,6 @@ async function computeSummary (store, session, job, tables){
         tables : {},
         files  : {}
     };
-    
-
-const jobResults = async  () => {
     cResult.log     = job.links('log');
     cResult.listing = job.links('listing');
     let reportLink  = job.links('results');
@@ -117,15 +78,27 @@ const jobResults = async  () => {
         }
     }
 
-return true;
+return cResult;
 }
-const addTable = async (itable) => {
+
+async function isetupTable(store, session, itable) {
+    let cResult = {
+        session: session,
+        log    : null,
+        listing: null,
+        ods    : null,
+        job    : job,
+        tables : {},
+        files  : {}
+    };
     debugger;
     let {libref, name} = itable;
     let p = {
         qs: { filter: `eq(name,'${libref}')`}
     };
+    debugger;
     let currentLibrefs = await store.apiCall(session.links('librefs'), p);
+    debugger;
     if (currentLibrefs.itemsList().size === 0) {
         throw `Libref ${libref} not found`;
     }
@@ -148,20 +121,8 @@ const addTable = async (itable) => {
         current: null
     };
     cResult.tables[tname] = r;
-
+    return cResult;
 }
 
-if (job !== null) {
-    await jobResults();
-} 
-if (tables != null) {
-    let t = (Array.isArray(tables) === true) ? tables : [tables];
-    for (let i = 0; i <t.length; i++ ) {
-        await addTable(t[i]);
-    }
-}
-return cResult;
-
-}
 export default computeSummary;
 

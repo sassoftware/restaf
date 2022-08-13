@@ -19,7 +19,7 @@
 'use strict';
 
 let restaflib = require('@sassoftware/restaflib');
-let { computeSetup, computeSetupTables } = restaflib;
+let { computeSetup, computeSetupTables,computeRun } = restaflib;
 
 module.exports = async function computeTables (testInfo) {
 	let { store, logger } = testInfo;
@@ -27,7 +27,10 @@ module.exports = async function computeTables (testInfo) {
 	let computeSession = await computeSetup(store, null, null);
  
 	logger.info('Compute Service Tables');
-	let t = {libref: 'SASHELP', name: 'AIR'};
+	let t = {libref: 'TEST', name: 'TESTDATA'};
+	let preamble = `libname TEST '/mnt/viya-share/data/deva';run;`;
+	let csummary = await computeRun(store,computeSession, preamble);
+	console.log(csummary.SASJobStatus);
 
 	let tableSummary = await computeSetupTables(store, computeSession, t)
 	
@@ -35,6 +38,8 @@ module.exports = async function computeTables (testInfo) {
 	// logger.info(log);
 	// let ods = await restaflib.computeResults(store, tableSummary, 'ods');
 	// logger.info(ods);
+
+	
 
 	let tables = await restaflib.computeResults(
 		store,

@@ -54,7 +54,7 @@ async function cellEdit (name, value, rowIndex, data, appEnv) {
   newDataRow = r[0];
   status.msg = status.msg + ' / ' + r[1];
 
-  if (appEnv.appControl.dataControl.cachePolicy === true) {
+  if (appEnv.appControl.cachePolicy === true) {
     appEnv.state.data[rowIndex] = newDataRow;
   }
 

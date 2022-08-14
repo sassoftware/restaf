@@ -53,6 +53,105 @@ The Table Editor in the picture below is supplied by the user.
 
 ---
 
+## Quick Start
+
+Below is a typical edit session
+
+<blockquote>
+Step 0: This example assumes you are running in an authenticated browser.
+
+```js       
+    const payload = {
+      host        : 'Your viya server'
+    };
+
+    // If you want to experiment using password flow use this
+
+  const payload = {
+      host        : 'Your viya server',
+      authType    : 'password',
+      clientID    : 'sas.ec',
+      clientSecret: '',
+      user        : 'your id',
+      password    : 'your password'
+    };
+```
+
+</blockquote>
+
+<blockquote>
+Step 1: Read control information(see below)
+
+```js
+  const appControl = getAppControl();
+```
+
+</blockquote>
+
+<blockquote>
+// Step 2: Initialize and edit session
+
+```js
+const appEnv = await setup(payload, appControl);
+```
+
+</blockquote>
+
+<blockquote>
+// Step 3: Read in rocords
+
+```js
+let result = await scrollTable('first', appEnv);
+```
+
+</blockquote>
+
+<blockquote>
+// Step 4: Edit data(one more columns) and save on server
+
+```js
+const x1 = result.data[0].x1 + 1000;
+await cellEdit('x1', x1, 0, result.data[0], appEnv);
+```
+
+</blockquote>
+  
+<blockquote>
+  // Step 5: Repeat step 3 and 4 as often as you want
+</blockquote>
+
+### getAppControl
+
+// AppControl with sample data
+
+```js
+function getAppControl () {
+  return {
+    description: 'Simple Example',
+    source: 'compute', /* set to cas if data is in cas */
+    table : { libref: 'TEST', name: 'TESTDATA' },  /* change libref to caslib if using cas */
+    byvars: ['key'],
+    cachePolicy: true,
+    initialFetch: {
+      count : 1,
+      from  : 1,
+      format: false
+    },
+    customColumns: {},
+    editControl: {
+      handlers: {}
+      autoSave: true
+    },
+    computeContext: null, /* optional - defaults to Job Execution Service */
+    appData: {}
+
+  };
+}
+```
+
+</blockquote>
+
+
 ## Installation
 
 ---
@@ -120,7 +219,7 @@ Use this argument to setup the edit session. AppControl has the following schema
         Type           : "double"
     }
    },
-   customRows: [] /*future */
+
    },
    editControl: {
      handlers  : {}, /* handlers for init, main, term and columns. See below */
@@ -131,17 +230,18 @@ Use this argument to setup the edit session. AppControl has the following schema
    
 ```
 
-Only the not-so obvious keys are explained below.
+#### Notes
 
+- source:  (cas|compute) - The data is a cas table or SAS V9 table.
 - initialFetch:  the first set of records to read
-  - from: The record number where the read starts(table.fetch action)
+  - from: The record number where the read starts(table.fetch action(not an offset)
   - count: Number of records to read. On every fetch this many records will be read.
 
 - cachePolicy: If true the data is stored in appEnv.state. You should set this to false if you want to manage the data. The pagination information will always be saved in appEnv to enable easy scrolling. The initial set of records wille be persisted in appEnv(see below).
 - handlers:  This is an object with functions for init, main, term and indiviual columns. Set to {} if you do not plan to make use of this feature. Use the handlers that make sense to you. See below for the samples
 - byvars: An array of by variables. At this time, one has to use this as key to update a record in CAS. ex: ['firstname', 'lastname']
-
 - customColumns: You can add additional columns(temporary) to be used during the session. These columns are not persisted to the server. These variables are available to the handlers. A typical example might be to display some row totals. If none, set this value to {}
+- editControl: This object specifies the handlers for INIT, MAIN and TERM. Also specify the handlers for individual columns. All of these are optiona. See example below.
 
 - appData - this is where the  app writer can save information and retrieve it from appEnv. appEnv is passed to all handlers. So it is available in functions like init, main etc. The example above shows what I use in my generic DataEditor component
 
@@ -159,14 +259,13 @@ Do not change any of the values in this object. Use appControl object to store/r
 ```js
 {
     store       : <this is the control object for restaf library>,
-    session     : <cas session object>,
+    session     : <cas session object or compute session>
     restaflib   : <object to access functions in restaflib>,
     logonPayload: <information to connect to Viya -see below>,
     appControl  : appControl /* passed in by user to setup -see below */
     state       : {
        modified   : [], /* future - keep track of modified rows */
        pagination : {}, /* internal use to help with pagination */
-       currentPage: {}, /* information on last retrieved set */
        data       : {}, /* array of currrent rowObjects(see below) */
        columns    : {}  /* columns in eschema form (see below) */
     }
@@ -180,7 +279,7 @@ This is designed to make it convenient to track all relevant information by the 
 
 - **store** This is created by [restaf](https://sassoftware.github.io/restaf/module-runAction.html) library that makes the final calls to Viya REST APIs. The methods in restafedit makes use of restaf.
 
-- **session** This is the current cas session. It is stored here to allow users to run additional actions in the same session.
+- **session** This is the current cas session or compute session. It is stored here to allow users to run additional actions in the same session.
 
 - **restaflib** Use this to make calls to [restaflib](https://sassoftware.github.io/restaf/module-runAction.html) methods.
 
@@ -224,7 +323,7 @@ This additional key is useful
 - Save operations can drop these columns
 - Can be used by UI to apply a different style to custom columns
 
-### byVars
+### byvars
 
 At the current time, we have to use key columns to identify the row to be updated. So byVars is an array of the key fields.
 
@@ -307,14 +406,16 @@ let r = await fetchTableRows(control, appEnv);
 The schema for control is:
 
 {
-  start: <record to start the read from>,
+  from: <record to start the read from>,
   count: <how many records to read>
   format: <true if you want formatted data>
 }
 
 ```
 
-The result is the same as scrollTable. If cachePolicy is true, then the results will be persisted in appEnv.state
+The result is the same as scrollTable. If cachePolicy is true, then the results will be persisted in appEnv.state.
+
+> For SAS tables (from - 1) is used as the offset. See compute service document for notes on this.
 
 ## Sample handlers
 
@@ -382,5 +483,3 @@ export default main;
 ## Future
 
 - Support where clause for reading records
-
-- Editing with standard SAS tables

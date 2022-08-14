@@ -38,7 +38,7 @@ async function scrollTable (direction, appEnv) {
 }
 
 async function icasScroll (direction, appEnv) {
-  const { initialFetch, table } = appEnv.appControl.dataControl;
+  const { initialFetch, table } = appEnv.appControl;
   let control;
   if (direction === 'first') {
     control = { ...initialFetch };
@@ -55,13 +55,13 @@ async function icasScroll (direction, appEnv) {
 
 async function icomputeScroll (direction, appEnv) {
   const { store, tableSummary } = appEnv;
-  const { table } = appEnv.appControl.dataControl;
+  const { table } = appEnv.appControl;
 
   const tname = `${table.libref}.${table.name}`.toLowerCase();
 
   // eslint-disable-next-line prefer-const
 
-  const payload = { qs: { limit: appEnv.appControl.dataControl.initialFetch.count } };
+  const payload = { qs: { limit: appEnv.appControl.initialFetch.count } };
   const data = await computeFetchData(store, tableSummary, tname, direction, payload);
 
   let result = null;

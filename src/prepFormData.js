@@ -19,7 +19,7 @@ import commonHandler from './commonHandler';
  */
 async function prepFormData (result, appEnv) {
   const { schema, rows } = result;
-  const customColumns = appEnv.appControl.dataControl.customColumns;
+  const customColumns = appEnv.appControl.customColumns;
 
   const makeRowObject = (columns, row) => {
     const rowObj = {};

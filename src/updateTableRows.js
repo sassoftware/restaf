@@ -23,14 +23,14 @@ async function updateTableRows (data, appEnv) {
 
 async function iupdateCasTable (data, appEnv) {
   const { store, session } = appEnv;
-  const { table, byvars } = appEnv.appControl.dataControl;
+  const { table, byvars } = appEnv.appControl;
   const columns = appEnv.state.columns;
-  const t = {};
 
   if (byvars === null || byvars.length === 0) {
     return null;
   }
 
+  const t = {};
   for (const k in data) {
     if (k !== '_index_' && columns[k].custom === false) {
       t[k] = data[k];
@@ -53,7 +53,9 @@ async function iupdateCasTable (data, appEnv) {
 
 async function iupdateComputeTable (data, appEnv) {
   const { store, session } = appEnv;
-  const { table, byvars } = appEnv.appControl.dataControl;
+  const { table, byvars } = appEnv.appControl;
+  const columns = appEnv.state.columns;
+  debugger;
 
   if (byvars === null || byvars.length === 0) {
     return null;
@@ -64,7 +66,9 @@ async function iupdateComputeTable (data, appEnv) {
   let set = 'SET ';
   let comma = ' ';
   for (const k in data) {
-    set = set + comma + k + '=' + value2String(data[k]);
+    if (columns[k].custom === false) {
+      set = set + comma + k + '=' + value2String(data[k]);
+    }
     comma = ', ';
   };
   src = src + ' ' + set;
@@ -94,7 +98,7 @@ async function iupdateComputeTable (data, appEnv) {
   // eslint-disable-next-line no-unused-vars
   const status = await store.jobState(job, qs);
   const c = (status.data === 'completed' ? 0 : 1);
-  console.log(status);
+  debugger;
   return { statusCode: c, msg: status.data };
 }
 

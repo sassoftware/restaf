@@ -72,36 +72,33 @@ async function runit () {
 function getAppControl () {
   return {
     description: 'Simple Example',
-    dataControl: {
-      source: 'cas',
-      table : { caslib: 'casuser', name: 'testdata' },
-      access: {},
-      byvars: ['id'],
-      where : {},
 
-      cachePolicy: true,
+    source: 'cas',
+    table : { caslib: 'casuser', name: 'testdata' },
+    access: {},
+    byvars: ['id'],
+    where : {},
 
-      initialFetch: {
-        count : 1,
-        from  : 1,
-        format: false
-      },
+    cachePolicy: true,
 
-      customColumns: {
-        total: {
-          Column         : 'Total',
-          Label          : 'Grand Total',
-          FormattedLength: 12,
-          Type           : 'double'
-        }
-      },
-      customRows: []
+    initialFetch: {
+      count : 1,
+      from  : 1,
+      format: false
+    },
+
+    customColumns: {
+      total: {
+        Column         : 'Total',
+        Label          : 'Grand Total',
+        FormattedLength: 12,
+        Type           : 'double'
+      }
     },
     editControl: {
       handlers: { init, main: init, term, x1 }, /* note reuse of init */
       save    : true,
       autoSave: true
-
     },
     appData: {
       layout  : {},

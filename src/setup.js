@@ -1,3 +1,4 @@
+/* eslint-disable prefer-const */
 
 import { initStore } from '@sassoftware/restaf';
 import { casSetup, computeSetup, computeSetupTables } from '@sassoftware/restaflib';
@@ -19,60 +20,74 @@ import { casSetup, computeSetup, computeSetupTables } from '@sassoftware/restafl
  *
  */
 
-async function setup (logonPayload, appControl) {
+async function setup (logonPayload, appControl, preamble) {
   const store = initStore();
   let appEnv;
   if (logonPayload.authType == null) {
     logonPayload.authType = 'code';
   }
-  const dataControl = appControl.dataControl;
-  if (dataControl.source === 'cas') {
-    const r = await casSetup(store, logonPayload);
-    appEnv = {
-      source: dataControl.source,
-
-      store,
-      session  : r.session,
-      servers  : r.servers,
-      restaflib: null,
-      logonPayload,
-
-      state: {
-        modified   : [],
-        pagination : {},
-        currentPage: {},
-        data       : {},
-        columns    : {}
-      }
-    };
+  if (appControl.source === 'cas') {
+    appEnv = await icasSetup(store, logonPayload, appControl);
   } else {
-    
-    const session = await computeSetup(store, null, logonPayload);
-    
-    const tableSummary = await computeSetupTables(store, session, dataControl.table);
-    
-    appEnv = {
-      store,
-      session,
-      tableSummary,
-
-      servers  : null,
-      restaflib: null,
-      logonPayload,
-
-      state: {
-        modified   : [],
-        pagination : {},
-        currentPage: {},
-
-        data   : {},
-        columns: {}
-      }
-    };
-  };
-
-  appEnv.appControl = appControl;
-  appEnv.id = Date(); /* just assign a new id - placeholder */
+    appEnv = await icomputeSetup(store, logonPayload, appControl, preamble);
+  }
   return appEnv;
 }
+
+async function icasSetup (store, logonPayload, appControl) {
+  const r = await casSetup(store, logonPayload);
+  let appEnv = {
+    source: appControl.source,
+
+    store,
+    session  : r.session,
+    servers  : r.servers,
+    restaflib: null,
+    logonPayload,
+    appControl,
+
+    state: {
+      modified   : [],
+      pagination : {},
+      currentPage: {},
+
+      data   : {},
+      columns: {}
+    },
+
+    id: Date()
+  };
+  return appEnv;
+};
+
+async function icomputeSetup (store, logonPayload, appControl, preamble) {
+  // eslint-disable-next-line prefer-const
+  debugger;
+  let session = await computeSetup(store, appControl.computeContext, logonPayload);
+  let tableSummary = await computeSetupTables(store, session, appControl.table, preamble);
+  let appEnv = {
+    source: appControl.source,
+
+    store,
+    session,
+    tableSummary,
+    servers  : null,
+    restaflib: null,
+    logonPayload,
+    appControl,
+
+    state: {
+      modified   : [],
+      pagination : {},
+      currentPage: {},
+
+      data   : {},
+      columns: {}
+    },
+
+    id: Date()
+  };
+  return appEnv;
+}
+
 export default setup;

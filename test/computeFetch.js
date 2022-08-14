@@ -1,4 +1,4 @@
-const { setup, fetchTableRows } = require('../dist/index.js');
+const { setup, fetchTableRows, scrollTable } = require('../dist/index.js');
 
 runit()
   .then(r => console.log(r))
@@ -9,24 +9,19 @@ runit()
 
 async function runit () {
   const payload = {
-    host        : process.env.VIYA_SERVER,
+    host        : process.env.SSAWS,
     authType    : 'password',
     clientID    : 'sas.ec',
     clientSecret: '',
-    user        : 'sastest1',
-    password    : 'Go4thsas'
+    user        : 'user04',
+    password    : 'user04123'
   };
 
   const appControl = getAppControl();
-  ;
-  console.log('appControl -------------------------------');
-  console.log(appControl);
-  console.log('------------------------------------------');
   debugger;
-  const appEnv = await setup(payload, appControl);
-  console.log(appEnv.appControl.dataControl);
-
-  debugger;
+  // eslint-disable-next-line quotes
+  const preamble = `libname test '/mnt/viya-share/data/deva';run;proc print data=test.testdata;run;`;
+  const appEnv = await setup(payload, appControl, preamble);
 
   const control = {
     from  : 10,
@@ -40,8 +35,7 @@ async function runit () {
 
   console.log('-------------------------------------------------------');
 
-  /*
-  result = await scrollTable('next', appEnv);
+  let result = await scrollTable('next', appEnv);
   console.log('result of scroll next----------------------------------');
   console.log(result.data);
   console.log(result.pagination);
@@ -52,7 +46,7 @@ async function runit () {
   console.log(result.data);
   console.log(result.pagination);
   console.log('-------------------------------------------------------');
-  */
+
   return 'done';
 };
 
@@ -61,7 +55,7 @@ function getAppControl () {
     description: 'Simple Example',
     dataControl: {
       source: 'compute',
-      table : { libref: 'SASHELP', name: 'AIR' },
+      table : { libref: 'TEST', name: 'testdata' },
       access: {},
       byvars: ['date'],
       where : {},

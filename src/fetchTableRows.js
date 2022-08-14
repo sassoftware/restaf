@@ -35,7 +35,7 @@ async function icasRows (control, appEnv) {
   const { store, session } = appEnv;
   const c = { ...control };
   if (c.table == null) {
-    c.table = appEnv.appControl.dataControl.table;
+    c.table = appEnv.appControl.table;
   }
   if (c.where == null) {
     c.where = {};
@@ -55,7 +55,7 @@ async function icasRows (control, appEnv) {
       data       : [],
       columns    : []
     };
-    if (appEnv.appControl.dataControl.cachePolicy === true) {
+    if (appEnv.appControl.cachePolicy === true) {
       appEnv.state.data = t.data;
       appEnv.state.columns = t.columns;
     }
@@ -66,7 +66,7 @@ async function icasRows (control, appEnv) {
 
 async function icomputeRows (control, appEnv) {
   const { store, tableSummary } = appEnv;
-  const { table } = appEnv.appControl.dataControl;
+  const { table } = appEnv.appControl;
   const tname = `${table.libref}.${table.name}`.toLowerCase();
   // eslint-disable-next-line prefer-const
   let payload = {

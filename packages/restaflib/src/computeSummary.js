@@ -20,7 +20,7 @@
 async function computeSummary (store, session, job, tables){
     
     let result;
-    debugger;
+    
     if (job != null && tables == null) {
         result = await jobResults(store, session, job );
     }  else {
@@ -56,7 +56,7 @@ async function jobResults (store, session, job) {
                         self   : results.itemsCmd(resultItem, 'self'),
                         current: null
                     };
-                    cResult.tables[resultItem.toLowerCase()] = r;
+                    cResult.tables[resultItem.toUpperCase()] = r;
                 } else if(type === 'file'){
                     let r= {
                         self   : resultItem,
@@ -89,15 +89,15 @@ async function isetupTable(store, session, itable) {
         tables : {},
         files  : {}
     };
-    debugger;
+    
     let libref = itable.libref.toUpperCase();
     let name   = itable.name.toUpperCase();
     let p = {
         qs: { filter: `eq(name,'${libref}')`}
     };
-    debugger;
+    
     let currentLibrefs = await store.apiCall(session.links('librefs'), p);
-    debugger;
+    
     if (currentLibrefs.itemsList().size === 0) {
         throw `Libref ${libref} not found`;
     }

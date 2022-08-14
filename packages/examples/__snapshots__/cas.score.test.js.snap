@@ -1,0 +1,84 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Upload hdat and score 1`] = `
+Object {
+  "P_BAD": 0.30567335603563,
+  "_Index_": 1,
+  "_WARN_": "",
+}
+`;
+
+exports[`Upload sasast and score 1`] = `
+Object {
+  "describe": Array [
+    Object {
+      "FormatName": "         ",
+      "Length": 8,
+      "Name": "type_n        ",
+      "RawType": "Num",
+      "Role": "Input",
+      "Type": "Interval      ",
+    },
+    Object {
+      "FormatName": "         ",
+      "Length": 8,
+      "Name": "amount        ",
+      "RawType": "Num",
+      "Role": "Input",
+      "Type": "Interval      ",
+    },
+    Object {
+      "FormatName": "         ",
+      "Length": 8,
+      "Name": "newbalanceDest",
+      "RawType": "Num",
+      "Role": "Input",
+      "Type": "Interval      ",
+    },
+    Object {
+      "FormatName": "         ",
+      "Length": 8,
+      "Name": "newbalanceOrig",
+      "RawType": "Num",
+      "Role": "Input",
+      "Type": "Interval      ",
+    },
+    Object {
+      "FormatName": "         ",
+      "Length": 8,
+      "Name": "oldbalanceDest",
+      "RawType": "Num",
+      "Role": "Input",
+      "Type": "Interval      ",
+    },
+    Object {
+      "FormatName": "         ",
+      "Length": 8,
+      "Name": "oldbalanceOrg ",
+      "RawType": "Num",
+      "Role": "Input",
+      "Type": "Interval      ",
+    },
+    Object {
+      "FormatName": "         ",
+      "Length": 8,
+      "Name": "isFraud       ",
+      "RawType": "Num",
+      "Role": "Id   ",
+      "Type": "              ",
+    },
+  ],
+  "score": Object {
+    "_Index_": 1,
+    "_SVDDDISTANCE_": 0.97031525978426,
+    "_SVDDSCORE_": -1,
+    "amount": 10000,
+    "isFraud": 0,
+    "newbalanceDest": 1000,
+    "newbalanceOrig": 1000,
+    "oldbalanceDest": 1000,
+    "oldbalanceOrg": 1000,
+    "type_n": 1,
+  },
+}
+`;

@@ -19,7 +19,7 @@
 async function computeFetchData (store, computeSummary, table, direction, payload) {
 	let data = null;
 	// eslint-disable-next-line no-prototype-builtins
-	debugger;
+	
 	
 	let tname;
 	if (typeof table === 'string') {
@@ -30,10 +30,10 @@ async function computeFetchData (store, computeSummary, table, direction, payloa
 	tname = tname.toUpperCase();
 
 	let adhoc = (payload !== null && direction == null) ? true: false;
-
-	debugger;
+	
+	
 	let tableInfo = computeSummary.tables[tname];
-	debugger;
+	
 	if ( tableInfo != null) {
 		// reset info on this table if user does adhoc retrieval
 		// trying to keep track of multiple streams for same table is a nightmare

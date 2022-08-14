@@ -23,7 +23,8 @@ import { isArray, result } from "lodash";
 async function computeSummary (store, session, job, tables){
     
     let result;
-    if (job !== null) {
+    debugger;
+    if (job != null && tables == null) {
         result = await jobResults(store, session, job );
     }  else {
         result = await isetupTable(store, session, tables)
@@ -58,7 +59,7 @@ async function jobResults (store, session, job) {
                         self   : results.itemsCmd(resultItem, 'self'),
                         current: null
                     };
-                    cResult.tables[resultItem] = r;
+                    cResult.tables[resultItem.toLowerCase()] = r;
                 } else if(type === 'file'){
                     let r= {
                         self   : resultItem,
@@ -87,7 +88,7 @@ async function isetupTable(store, session, itable) {
         log    : null,
         listing: null,
         ods    : null,
-        job    : job,
+        job    : null,
         tables : {},
         files  : {}
     };
@@ -120,7 +121,7 @@ async function isetupTable(store, session, itable) {
         self   : tables.itemsCmd(name, 'self'),
         current: null
     };
-    cResult.tables[tname] = r;
+    cResult.tables[tname.toLowerCase()] = r;
     return cResult;
 }
 

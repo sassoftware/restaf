@@ -1404,3 +1404,20 @@ Array [
   ],
 ]
 `;
+
+exports[`computeTables: tables 1`] = `
+Array [
+  Array [
+    "FEB49",
+    118,
+  ],
+  Array [
+    "MAR49",
+    132,
+  ],
+  Array [
+    "APR49",
+    129,
+  ],
+]
+`;

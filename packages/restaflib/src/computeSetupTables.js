@@ -18,6 +18,7 @@ import computeSummary from "./computeSummary";
  * @returns {promise} - returns a compute summary 
  */
 async function computeSetupTables(store, session, tables){
+    debugger;
     let r = await computeSummary(store, session, null, tables);
     return r;
 }

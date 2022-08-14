@@ -27,49 +27,19 @@ module.exports = async function computeTables (testInfo) {
 	let computeSession = await computeSetup(store, null, null);
  
 	logger.info('Compute Service Tables');
-	let t = {libref: 'TEST', name: 'TESTDATA'};
-	let preamble = `libname TEST '/mnt/viya-share/data/deva';run;`;
-	let csummary = await computeRun(store,computeSession, preamble);
-	console.log(csummary.SASJobStatus);
-
-	let tableSummary = await computeSetupTables(store, computeSession, t)
+	let t = {libref: 'SASHELP', name: 'AIR'};
+	debugger;
 	
-	// let log = await restaflib.computeResults(store, tableSummary, 'log');
-	// logger.info(log);
-	// let ods = await restaflib.computeResults(store, tableSummary, 'ods');
-	// logger.info(ods);
-
-	
-
-	let tables = await restaflib.computeResults(
-		store,
-		tableSummary,
-		'tables'
-	);
-	logger.info(tables);
-    let data;
-	let tname = `${t.libref}.${t.name}`.toLowerCase();
-	/*
-	for (let i=0; i <= 2; i++) {
-		data = await restaflib.computeFetchData(
-			store,
-			tableSummary,
-			tname,
-			'next',
-			{limit:5}
-		);
-		console.log(data.rows);
-		// logger.info(data.columns);
-		// logger.info(`Row ${i+1}  ${data.rows[0]}`);
-	}
-	*/
-	
-	data = await restaflib.computeFetchData(
+	let tableSummary = await computeSetupTables(store, computeSession, t);
+	debugger;
+	let tname = `${t.libref}.${t.name}`;
+	debugger;
+	let data = await restaflib.computeFetchData(
 		store,
 		tableSummary,
 		tname,
-		null,
-		{qs:{start: 10, limit:3}}
+		'first',
+		{qs:{start: 1, limit:3}}
 	);
 	console.log(data.rows);
 	await store.apiCall(computeSession.links('delete'));

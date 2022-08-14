@@ -18,14 +18,17 @@
  */
 async function computeFetchData (store, computeSummary, table, direction, payload) {
 	let data = null;
-	let tableInfo;
 	// eslint-disable-next-line no-prototype-builtins
 	debugger;
+	table = table.toLowerCase();
+	console.log(table);
 	let adhoc = (payload !== null && direction == null) ? true: false;
-	if (computeSummary.tables.hasOwnProperty(table) === true) {
-		tableInfo = computeSummary.tables[table];
+	debugger;
+	let tableInfo = computeSummary.tables[table];
+	debugger;
+	if ( tableInfo != null) {
 		// reset info on this table if user does adhoc retrieval
-		// trying to keep track of multiple states for same table is a nightmare
+		// trying to keep track of multiple streams for same table is a nightmare
 		if (adhoc === true) {
 			tableInfo.current = null;
 		}
@@ -87,7 +90,7 @@ async function computeFetchData (store, computeSummary, table, direction, payloa
 			}
 		}
 	}
-	
+	console.log(data);
 	return data;
 }
 

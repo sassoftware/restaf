@@ -27,7 +27,7 @@ async function computeFetchData (store, computeSummary, table, direction, payloa
 	} else {
 		tname = `${table.libref}.${table.name}`;
 	}
-	tname = tname.toLowerCase();
+	tname = tname.toUpperCase();
 
 	let adhoc = (payload !== null && direction == null) ? true: false;
 

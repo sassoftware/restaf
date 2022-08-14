@@ -2,10 +2,7 @@
  * Copyright © 2019, SAS Institute Inc., Cary, NC, USA.  All Rights Reserved.
  * SPDX-License-Identifier: Apache-2.0
 */
-import { isArray, result } from "lodash";
 
- 
- 
  /**
   * @description Reduce the job information into consummable form(async)
   * 
@@ -93,7 +90,8 @@ async function isetupTable(store, session, itable) {
         files  : {}
     };
     debugger;
-    let {libref, name} = itable;
+    let libref = itable.libref.toUpperCase();
+    let name   = itable.name.toUpperCase();
     let p = {
         qs: { filter: `eq(name,'${libref}')`}
     };
@@ -121,7 +119,7 @@ async function isetupTable(store, session, itable) {
         self   : tables.itemsCmd(name, 'self'),
         current: null
     };
-    cResult.tables[tname.toLowerCase()] = r;
+    cResult.tables[tname.toUpperCase()] = r;
     return cResult;
 }
 

@@ -28,7 +28,7 @@ module.exports = async function computeWithPreamble (testInfo) {
 	const preamble = `libname test '/mnt/viya-share/data/deva';run;`;
 
 	logger.info('Compute Service Tables');
-	let t = {libref: 'TEST', name: 'TESTDATA'};
+	let t = {libref: 'TesT', name: 'TesTDATA'};
 	debugger;
 	
 	let tableSummary = await computeSetupTables(store, computeSession, t, preamble);

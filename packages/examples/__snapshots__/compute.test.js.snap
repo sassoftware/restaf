@@ -1,0 +1,24 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`computeTables: withcontext 1`] = `
+Array [
+  Array [
+    1,
+    5,
+    20,
+    "k1",
+  ],
+  Array [
+    2,
+    5,
+    40,
+    "k2",
+  ],
+  Array [
+    3,
+    5,
+    60,
+    "k3",
+  ],
+]
+`;

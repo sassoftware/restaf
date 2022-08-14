@@ -77,7 +77,7 @@ async function icomputeRows (control, appEnv) {
     }
   };
   const data = await computeFetchData(store, tableSummary, tname, null, payload);
-  debugger;
+  ;
 
   let result = null;
   if (data !== null) {

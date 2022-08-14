@@ -55,7 +55,7 @@ async function iupdateComputeTable (data, appEnv) {
   const { store, session } = appEnv;
   const { table, byvars } = appEnv.appControl;
   const columns = appEnv.state.columns;
-  debugger;
+  ;
 
   if (byvars === null || byvars.length === 0) {
     return null;
@@ -81,7 +81,6 @@ async function iupdateComputeTable (data, appEnv) {
   });
   src = src + ' ' + w + ';run;';
   const asrc = src.split(/\r?\n/);
-  console.log(asrc);
 
   const payload = {
     data: { code: asrc }
@@ -98,7 +97,7 @@ async function iupdateComputeTable (data, appEnv) {
   // eslint-disable-next-line no-unused-vars
   const status = await store.jobState(job, qs);
   const c = (status.data === 'completed' ? 0 : 1);
-  debugger;
+  ;
   return { statusCode: c, msg: status.data };
 }
 

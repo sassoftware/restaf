@@ -62,7 +62,7 @@ async function icasSetup (store, logonPayload, appControl) {
 
 async function icomputeSetup (store, logonPayload, appControl, preamble) {
   // eslint-disable-next-line prefer-const
-  debugger;
+  ;
   let session = await computeSetup(store, appControl.computeContext, logonPayload);
   let tableSummary = await computeSetupTables(store, session, appControl.table, preamble);
   let appEnv = {

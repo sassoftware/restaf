@@ -19,18 +19,19 @@
 'use strict';
 
 let restaflib = require('@sassoftware/restaflib');
-let { computeSetup, computeSetupTables,computeRun } = restaflib;
+let { computeSetup, computeSetupTables} = restaflib;
 
-module.exports = async function computeTables (testInfo) {
+module.exports = async function computeWithPreamble (testInfo) {
 	let { store, logger } = testInfo;
 
-	let computeSession = await computeSetup(store, null, null);
- 
+	let computeSession = await computeSetup(store, "SAS Studio compute context", null);
+	const preamble = `libname test '/mnt/viya-share/data/deva';run;`;
+
 	logger.info('Compute Service Tables');
-	let t = {libref: 'SASHELP', name: 'AIR'};
+	let t = {libref: 'TEST', name: 'TESTDATA'};
 	debugger;
 	
-	let tableSummary = await computeSetupTables(store, computeSession, t);
+	let tableSummary = await computeSetupTables(store, computeSession, t, preamble);
 	debugger;
 	let tname = `${t.libref}.${t.name}`;
 	debugger;
@@ -39,7 +40,7 @@ module.exports = async function computeTables (testInfo) {
 		tableSummary,
 		tname,
 		'first',
-		{qs:{limit:3}}
+		{qs:{start: 0, limit:3}}
 	);
 	console.log(data.rows);
 	await store.apiCall(computeSession.links('delete'));

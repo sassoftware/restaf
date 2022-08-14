@@ -20,11 +20,19 @@ async function computeFetchData (store, computeSummary, table, direction, payloa
 	let data = null;
 	// eslint-disable-next-line no-prototype-builtins
 	debugger;
-	table = table.toLowerCase();
-	console.log(table);
+	
+	let tname;
+	if (typeof table === 'string') {
+		tname = table;
+	} else {
+		tname = `${table.libref}.${table.name}`;
+	}
+	tname = tname.toLowerCase();
+
 	let adhoc = (payload !== null && direction == null) ? true: false;
+
 	debugger;
-	let tableInfo = computeSummary.tables[table];
+	let tableInfo = computeSummary.tables[tname];
 	debugger;
 	if ( tableInfo != null) {
 		// reset info on this table if user does adhoc retrieval

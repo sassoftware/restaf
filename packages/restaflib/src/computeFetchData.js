@@ -98,7 +98,6 @@ async function computeFetchData (store, computeSummary, table, direction, payloa
 			}
 		}
 	}
-	console.log(data);
 	return data;
 }
 

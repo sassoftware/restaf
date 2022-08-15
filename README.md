@@ -1,4 +1,4 @@
-# restafedit - library for browsing and editing data tables
+# restafedit - library for browsing and editing CAS tables and SAS Tables
 
 Going back in history, SAS had products like SAS/FSP and SAS/AF that allowed users to create simple or complex interactive applications. As SAS moved to the Viya platform these products were dropped. SAS provided REST API (application programming interfaces) as an industry standard way for creating applications.
 
@@ -23,49 +23,58 @@ The goal of this project is to create a small reusable library to simplify the  
 - [React Component for Editing-@sassoftware/viyaedit](https://github.com/sassoftware/restaf-uidemos/tree/viyaedit) - Demonstrates the use of this library with React. @sassoftware/viyaedit is a resuable component.
   - See [this application](https://github.com/sassoftware/restaf-uidemos/tree/editorappreact) on how to use this component library in a react application.
 
-## Table versus Form for data entry<a name="t3"></a>
-
-There are significant differences in how the user interacts with an application which uses a Table versus a custom form.
-
-However, at the lowest level both require the same functionality - Accessing data, verifying the entered data, saving the modified records, executing additional processing on the server.
-
-One of the key goals of this project is to create a single code base to handle both scenarios.
-
-## Currently Supported Features of the library<a name="t4"></a>
-
-- Creation and management of CAS session
-
-- Reading one or more records from a cas table
-
-- Update the records based on a key
-
-- Scrolling through the table
-
-- Allow users to specify calculations on modifying a value. The current options are:
-  - On the client using JavaScript
-  - On the cas server using casl or any cas action
-  - On an external destination(ex: An Azure App for a SAS Decisioning Flow)
-
-## Basic Flow<a name="t5"></a>
-
-The Table Editor in the picture below is supplied by the user.
-![viyaedit](DataEditorFlow.png)
-
 ---
 
 ## Quick Start
 
-Below is a typical edit session
+---
+
+## Installation
+
+The library can be installed using npm, yarn.
+It can also be accessed via script tags in your browser.
+
+### Script Tags
+
+restafedit depends on restaf and restaflib
+
+```html
+ <script src="https://unpkg.com/@sassoftware/restaf@next"></script>
+ <script src="https://unpkg.com/@sassoftware/restaflib@next"></script>
+ <script src="https://unpkg.com/@sassoftware/restafedit@next"></script>
+
+ ```
+
+### nodejs
+
+```sh
+npm install @sassoftware/restaf@next @sassoftware/restaflib@next @sassoftware/restafedit@next
+```
+
+### Writing your first editor
+
+Below is a typical edit session. You can try this in a simple nodejs application or a web application.
+
+#### Import the library
+
+Use the syntax appropriate to your setup
+
+```js
+const { setup, scrollTable, cellEdit } = require('@sassoftware/restafedit');
+or
+import { setup, scrollTable, cellEdit } from '@sassoftware/restafedit';
+
+```
 
 <blockquote>
 Step 0: This example assumes you are running in an authenticated browser.
 
-```js       
+```js
     const payload = {
       host        : 'Your viya server'
     };
 
-    // If you want to experiment using password flow use this
+    // If you want to experiment using password flow  use this.
 
   const payload = {
       host        : 'Your viya server',
@@ -80,16 +89,16 @@ Step 0: This example assumes you are running in an authenticated browser.
 </blockquote>
 
 <blockquote>
-Step 1: Read control information(see below)
+Step 1: Read/set control information to be passed to setup.
 
 ```js
-  const appControl = getAppControl();
+  const appControl = getAppControl();/*see this function below */
 ```
 
 </blockquote>
 
 <blockquote>
-// Step 2: Initialize and edit session
+// Step 2: Initialize the edit session.
 
 ```js
 const appEnv = await setup(payload, appControl);
@@ -98,7 +107,7 @@ const appEnv = await setup(payload, appControl);
 </blockquote>
 
 <blockquote>
-// Step 3: Read in rocords
+// Step 3: Read in first set of records,
 
 ```js
 let result = await scrollTable('first', appEnv);
@@ -107,10 +116,10 @@ let result = await scrollTable('first', appEnv);
 </blockquote>
 
 <blockquote>
-// Step 4: Edit data(one more columns) and save on server
+// Step 4: Edit data in the first row and save on server
 
 ```js
-const x1 = result.data[0].x1 + 1000;
+const x1 = result.data[0].x1 + 1000;/* modify a column value*/
 await cellEdit('x1', x1, 0, result.data[0], appEnv);
 ```
 
@@ -119,6 +128,38 @@ await cellEdit('x1', x1, 0, result.data[0], appEnv);
 <blockquote>
   // Step 5: Repeat step 3 and 4 as often as you want
 </blockquote>
+
+## Table versus Form for data entry<a name="t3"></a>
+
+There are significant differences in how the user interacts with an application which uses a Table versus a custom form.
+
+However, at the lowest level both require the same functionality - Accessing data, verifying the entered data, saving the modified records, executing additional processing on the server.
+
+One of the key goals of this project is to create a single code base to handle both scenarios.
+
+## Currently Supported Features of the library<a name="t4"></a>
+
+- Creation and management of CAS session or Compute Session
+
+- Reading one or more records from a cas table or SAS table
+
+- Update the records based on a key
+
+- Scrolling through the table
+
+- Allow users to specify calculations on modifying a value. The current options are:
+  - On the client using JavaScript
+  - On the server
+    - On the cas server using casl  or any cas action
+    - Using procs and datasteps
+  - On an external destination(ex: An Azure App for a SAS Decisioning Flow)
+
+## Basic Flow<a name="t5"></a>
+
+The Table Editor in the picture below is supplied by the user.
+![viyaedit](DataEditorFlow.png)
+
+---
 
 ### getAppControl
 
@@ -150,30 +191,6 @@ function getAppControl () {
 ```
 
 </blockquote>
-
-
-## Installation
-
----
-
-The library can be installed thru npm or used thru script tags.
-
-### Script Tags
-
-restafedit depends on restaf and restaflib
-
-```html
- <script src="https://unpkg.com/@sassoftware/restaf@next"></script>
- <script src="https://unpkg.com/@sassoftware/restaflib@next"></script>
- <script src="https://unpkg.com/@sassoftware/restafedit@next"></script>
-
- ```
-
-### nodejs
-
-```sh
-npm install @sassoftware/restaf@next @sassoftware/restaflib@next @sassoftware/restafedit@next
-```
 
 ## Usage
 

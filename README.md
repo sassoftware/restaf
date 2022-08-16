@@ -67,7 +67,7 @@ import { setup, scrollTable, cellEdit } from '@sassoftware/restafedit';
 ```
 
 <blockquote>
-Step 0: This example assumes you are running in an authenticated browser.
+Step 0: password flow and authorization_code flow are supported.
 
 ```js
     const payload = {
@@ -84,6 +84,8 @@ Step 0: This example assumes you are running in an authenticated browser.
       user        : 'your id',
       password    : 'your password'
     };
+
+    Tip: If you are running in the SAS VA DDC, you can set the host to window.location.origin
 ```
 
 </blockquote>
@@ -107,10 +109,11 @@ const appEnv = await setup(payload, appControl);
 </blockquote>
 
 <blockquote>
-// Step 3: Read in first set of records,
+// Step 3: Read in first set of records
 
 ```js
 let result = await scrollTable('first', appEnv);
+/* result.data= [{column1: value, column2: value}]}*/
 ```
 
 </blockquote>
@@ -126,7 +129,16 @@ await cellEdit('x1', x1, 0, result.data[0], appEnv);
 </blockquote>
   
 <blockquote>
-  // Step 5: Repeat step 3 and 4 as often as you want
+//Step 5: Scroll to next or previous set of records
+
+```js
+let dir = 'first'|next'|'prev'
+result = await scrollTable(dir, appEnv);
+```
+
+<blockquote>
+  // Step 6: Repeat step 3 and 5 as often as you want.
+
 </blockquote>
 
 ## Table versus Form for data entry<a name="t3"></a>
@@ -215,8 +227,8 @@ let appEnv = await setup(logonPayload, appControl)
 Use this argument to setup the edit session. AppControl has the following schema with some sample values.
 
 ```js
- {
-   dataControl: {
+  {
+
       source: 'cas', /* cas | compute */
       table : {caslib: 'casuser', name: 'testdata'},/* for compute: {libref: xxx , name: yyy}
       byvars: ['id'], /* used a key when updating records. */
@@ -226,24 +238,22 @@ Use this argument to setup the edit session. AppControl has the following schema
         count : 1, /* number of records read on each fetch */
         from  : 1, /* record to start the read from */
         format: false  /* return formatted or unformatted results */
-   },
+      },
 
-   customColumns: {  /* custom columns for use during the session */
-      total: { /* sample */
-        Column         : "Total",
-        Label          : "Grand Total",
-        FormattedLength: 12,
-        Type           : "double"
-    }
-   },
-
-   },
+      customColumns: {  /* custom columns for use during the session */
+         total: { /* sample */
+         Column         : "Total",
+         Label          : "Grand Total",
+         FormattedLength: 12,
+         Type           : "double"
+      }
+    },
    editControl: {
      handlers  : {}, /* handlers for init, main, term and columns. See below */
      autoSave  : true /* celledit will save to server on each edit*/
    },
    appData: {} /* place for user specified information
-}
+ }
    
 ```
 
@@ -495,6 +505,9 @@ async function main (data, _rowIndex, appEnv,_type) {
     return [data, status];
 };
 export default main;
+
+
+## Using DDC in SAS VA
 
 
 ## Future

@@ -5,7 +5,7 @@
   
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Library Overviews masRun</title>
+  <title>Library Overviews computeSetupTable</title>
 
   <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -189,7 +189,7 @@
             <div class="content">
                 <header class="page-title">
                     <p>Module</p>
-                    <h1>masRun</h1>
+                    <h1>computeSetupTable</h1>
                 </header>
                 
 
@@ -210,7 +210,7 @@
     <div class="container-overview">
     
         
-            <div class="description"><p>Score using MAS</p></div>
+            <div class="description"><p>Setup access to SAS V9 tables</p></div>
         
 
         
@@ -251,7 +251,7 @@
             
 <tr class="deep-level-0">
   
-      <td class="name"><code>restaf</code></td>
+      <td class="name"><code>store</code></td>
   
 
   <td class="type">
@@ -267,7 +267,7 @@
 
   
 
-  <td class="description last"><p>store</p></td>
+  <td class="description last"><p>restaf store</p></td>
 </tr>
 
 
@@ -276,7 +276,32 @@
             
 <tr class="deep-level-0">
   
-      <td class="name"><code>masControl</code></td>
+      <td class="name"><code>SAS</code></td>
+  
+
+  <td class="type">
+  
+      
+<code class="param-type">session</code>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last"><p>compute Session from computeSetup</p></td>
+</tr>
+
+
+        
+
+            
+<tr class="deep-level-0">
+  
+      <td class="name"><code>table</code></td>
   
 
   <td class="type">
@@ -292,82 +317,7 @@
 
   
 
-  <td class="description last"><p>object from masSetup</p></td>
-</tr>
-
-
-        
-
-            
-<tr class="deep-level-0">
-  
-      <td class="name"><code>modelName</code></td>
-  
-
-  <td class="type">
-  
-      
-<code class="param-type">string</code>
-
-
-  
-  </td>
-
-  
-
-  
-
-  <td class="description last"><p>name of model to be executed</p></td>
-</tr>
-
-
-        
-
-            
-<tr class="deep-level-0">
-  
-      <td class="name"><code>scenario</code></td>
-  
-
-  <td class="type">
-  
-      
-<code class="param-type">object</code>
-
-
-  
-  </td>
-
-  
-
-  
-
-  <td class="description last"><p>can be [{name: var1, value: value1},{...} ] or {varname: value,...}</p></td>
-</tr>
-
-
-        
-
-            
-<tr class="deep-level-0">
-  
-      <td class="name"><code>stepName</code></td>
-  
-
-  <td class="type">
-  
-      
-<code class="param-type">string</code>
-
-
-  
-  </td>
-
-  
-
-  
-
-  <td class="description last"><p>if not specified it will default to score or execute</p></td>
+  <td class="description last"><p>Table to be setup{libref:xx,name:xxx}</p></td>
 </tr>
 
 
@@ -440,7 +390,7 @@
 <div class="columns">
     
     <div class='param-desc column is-7'><ul>
-<li>returns scoring results</li>
+<li>returns a compute summary</li>
 </ul></div>
     
     
@@ -459,13 +409,6 @@
     </div>
 
 
-
-
-    <h5>Example</h5>
-    
-    
-        <pre class="prettyprint"><code>async function example (models, payload) {  await store.logon(payload);let masControl = await restaflib.masSetup(store, models);let defaults = {   prescriber_count : 1,   strength_per_unit: 15,   age              : 74,   avg_opioid_prescriber_rate: 10.4,   doctorshop_med : 1,   max_avg_med_90 : 10,   max_mme_per_day: 40,   max_opioid_prescriber_rate: 13.21,   opioid_days: 3};let inp = restaflib.masDescribe(masControl, models[0], 'score');print.object(inp, 'describe for score model');inp = inp.map((n) => {  n.value = defaults[n.name];  return n;});print.object(inp, 'updated input for score model');let result = await restaflib.masRun (store, masControl, models[0], inp, 'score');print.object(result, 'scoring result');}</code></pre>
-    
 
 
 

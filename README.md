@@ -507,9 +507,6 @@ async function main (data, _rowIndex, appEnv,_type) {
 export default main;
 
 
-## Using DDC in SAS VA
-
-
 ## Future
 
 - Support where clause for reading records

@@ -1,5 +1,41 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`computeService: basic 1`] = `
+Array [
+  Array [
+    20,
+    20,
+    20,
+    20,
+    20,
+    20,
+    20,
+    20,
+    20,
+    20,
+    2,
+    11,
+  ],
+]
+`;
+
+exports[`computeTables: tables 1`] = `
+Array [
+  Array [
+    "JAN49",
+    112,
+  ],
+  Array [
+    "FEB49",
+    118,
+  ],
+  Array [
+    "MAR49",
+    132,
+  ],
+]
+`;
+
 exports[`computeTables: withcontext 1`] = `
 Array [
   Array [

@@ -43,12 +43,12 @@ async function icasRows (control, appEnv) {
   if (c.from <= 0 || c.next === -1) {
     return null;
   }
-  debugger;
+  
   const r = await casFetchRows(store, session, c);
-  debugger;
+  
   let t = null;
   if (r !== null) {
-    debugger;
+    
     t = await prepFormData(r.data, appEnv);
 
     appEnv.state = {

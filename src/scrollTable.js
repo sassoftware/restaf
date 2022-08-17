@@ -30,9 +30,7 @@ import prepFormData from './prepFormData';
 async function scrollTable (direction, appEnv) {
   let fetchResults;
   if (appEnv.source === 'cas') {
-    debugger;
     fetchResults = await icasScroll(direction, appEnv);
-    debugger;
   } else {
     fetchResults = await icomputeScroll(direction, appEnv);
   }
@@ -51,10 +49,7 @@ async function icasScroll (direction, appEnv) {
       return null;
     }
   }
-  debugger;
-  console.log(control);
   const t = await fetchTableRows(control, appEnv);
-  debugger;
   return t;
 }
 

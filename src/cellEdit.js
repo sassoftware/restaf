@@ -48,8 +48,7 @@ async function cellEdit (name, value, rowIndex, data, appEnv) {
     if (status.statusCode === 2) {
       return { data: r[0], status };
     }
-
-    await updateTableRows(r[0], appEnv);
+    status = await updateTableRows(r[0], appEnv);
   }
   newDataRow = r[0];
   status.msg = status.msg + ' / ' + r[1];

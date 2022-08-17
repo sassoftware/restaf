@@ -47,14 +47,15 @@ async function iupdateCasTable (data, appEnv) {
     where: w
   };
 
-  debugger;
-  console.log('updating record');
   const result = await casUpdateData(store, session, payload);
-  console.log(result);
-  console.log(result.items().toJS());
-  debugger;
+  const r = result.items().toJS();
+  const status = { statusCode: 0, msg: 'Save successful' };
 
-  return { statusCode: 0, msg: 'Save successful' };
+  if (r.disposition.severity !== 'Normal') {
+    status.statusCode = 2;
+    status.msg = t.disposition.severity.reason;
+  };
+  return status;
 }
 
 async function iupdateComputeTable (data, appEnv) {
@@ -103,7 +104,7 @@ async function iupdateComputeTable (data, appEnv) {
   // eslint-disable-next-line no-unused-vars
   const status = await store.jobState(job, qs);
   const c = (status.data === 'completed' ? 0 : 1);
-  ;
+
   return { statusCode: c, msg: status.data };
 }
 

@@ -20,6 +20,7 @@ import commonHandler from './commonHandler';
 async function prepFormData (result, appEnv) {
   const { schema, rows } = result;
   const customColumns = appEnv.appControl.customColumns;
+  let status = { statusCode: 0, msg: 'Initialization was successful' };
 
   const makeRowObject = (columns, row) => {
     const rowObj = {};
@@ -46,11 +47,8 @@ async function prepFormData (result, appEnv) {
   for (let i = 0; i < rows.length; i++) {
     const t = makeRowObject(schema, rows[i]);
 
-    const [t1, status] = await commonHandler('init', t, i, appEnv);
-
-    if (status.code !== 0) {
-      console.log(JSON.stringify(status, null, 4));
-    }
+    const [t1, statusi] = await commonHandler('init', t, i, appEnv);
+    status = statusi;
     newRows.push(t1);
   };
 
@@ -76,7 +74,8 @@ async function prepFormData (result, appEnv) {
 
   return {
     columns: eColumns,
-    data   : newRows
+    data   : newRows,
+    status
   };
 }
 export default prepFormData;

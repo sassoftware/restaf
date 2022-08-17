@@ -1,6 +1,4 @@
 const { setup, scrollTable, cellEdit } = require('../dist/index.js');
-const restafedit = require('../dist/index.js');
-console.log(restafedit);
 
 runit()
   .then(r => console.log(r))
@@ -120,7 +118,7 @@ async function term (data, rowIndex, appEnv, type) {
 };
 
 async function x1 (data, name, rowIndex, appEnv) {
-  let msg = { statusCode: 0, msg: `${name} handler executed.` };
+  const status = { statusCode: 0, msg: `${name} handler executed.` };
   console.log('in x1');
-  return [data, msg];
+  return [data, status];
 };

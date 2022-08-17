@@ -47,7 +47,13 @@ async function iupdateCasTable (data, appEnv) {
     where: w
   };
 
-  await casUpdateData(store, session, payload);
+  debugger;
+  console.log('updating record');
+  const result = await casUpdateData(store, session, payload);
+  console.log(result);
+  console.log(result.items().toJS());
+  debugger;
+
   return { statusCode: 0, msg: 'Save successful' };
 }
 

@@ -1,4 +1,4 @@
-const { setup, fetchTableRows, scrollTable } = require('../dist/index.js');
+const { setup, fetchTableRows, cellEdit, scrollTable } = require('../dist/index.js');
 
 runit()
   .then(r => console.log(r))
@@ -22,36 +22,45 @@ async function runit () {
   // eslint-disable-next-line quotes
   const preamble = `libname tempdata '/tmp';run; 
   data tempdata.testdata;
-  keep x1 x2 x3 key;
-  do i = 1 to 100; x1=i; x2=3; x3=i*10; key=compress('key'||i);
+  keep x1 x2 x3 id;
+  do i = 1 to 100;
+  x1=i; x2=3; x3=i*10; id=TRIMN('key'||i);
+  
   output;
   end;
   run;`;
-
+  debugger;
   const appEnv = await setup(payload, appControl, preamble);
-
+  debugger;
   const control = {
     from  : 1,
     count : 1,
     format: false
   };
   debugger;
-  await fetchTableRows(control, appEnv);
+  let result = await fetchTableRows(control, appEnv);
   console.log('result of a fetchTableRows-----------------------------');
-  console.log(appEnv.state.data);
+  debugger;
+  console.log(appEnv.state.data[0]);
 
   console.log('-------------------------------------------------------');
-
-  let result = await scrollTable('next', appEnv);
+  const x3New = result.data[0].x3 + 100;
+  await cellEdit('x3', x3New, 0, result.data[0], appEnv);
+  debugger;
+  console.log(appEnv.state.data[0]);
+  console.log('-------------------------------------------------------');
+  debugger;
+  result = await scrollTable('next', appEnv);
+  debugger;
   console.log('result of scroll next----------------------------------');
-  console.log(result.data);
-  console.log(result.pagination);
+  console.log(result.data[0]);
+  console.log(appEnv.state.data[0]);
   console.log('-------------------------------------------------------');
 
   result = await scrollTable('prev', appEnv);
   console.log('result of scroll prev wit modified data----------------');
-  console.log(result.data);
-  console.log(result.pagination);
+  console.log(result.data[0]);
+  console.log(appEnv.state.data[0]);
   console.log('-------------------------------------------------------');
 
   return 'done';
@@ -63,7 +72,7 @@ function getAppControl () {
 
     source: 'compute',
     table : { libref: 'tempdata', name: 'testdata' },
-    byvars: ['key'],
+    byvars: ['id'],
 
     cachePolicy: true,
 

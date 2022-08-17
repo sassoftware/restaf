@@ -1,4 +1,4 @@
-const { setup, fetchTableRows, scrollTable, cellEdit } = require('../dist/index.js');
+const { setup, scrollTable, cellEdit } = require('../dist/index.js');
 const restafedit = require('../dist/index.js');
 console.log(restafedit);
 
@@ -15,57 +15,27 @@ async function runit () {
     user        : 'sastest1',
     password    : 'Go4thsas'
   };
-
+  const cache = [];
   const appControl = getAppControl();
-  ;
-  console.log('appControl -------------------------------');
-  console.log(appControl);
-  console.log('------------------------------------------');
 
   const appEnv = await setup(payload, appControl);
-  console.log(appEnv.appControl.dataControl);
-
+  debugger;
   let result = await scrollTable('first', appEnv);
-  console.log('result of first fetch -------------------------------');
-  console.log(Object.keys(result));
-  console.log(result);
-  console.log('------------------------------------------');
+  cache.push(result.data[0]);
 
   const x3New = result.data[0].x3 + 100;
   await cellEdit('x3', x3New, 0, result.data[0], appEnv);
-  console.log('state values after edit--------------------------------');
-  console.log(appEnv.state.data);
-  console.log('-------------------------------------------------------');
-  const x1New = 16;
-  await cellEdit('x1', x1New, 0, result.data[0], appEnv);
-  console.log('state values after edit--------------------------------');
-  console.log(appEnv.state.data);
-  console.log('-------------------------------------------------------');
+  result = await scrollTable('first', appEnv);
+  cache.push(result.data[0]);
 
+  debugger;
   result = await scrollTable('next', appEnv);
-  console.log('result of scroll next----------------------------------');
-  console.log(result.data);
-  console.log(result.pagination);
-  console.log('-------------------------------------------------------');
+  cache.push(result.data[0]);
 
   result = await scrollTable('prev', appEnv);
-  console.log('result of scroll prev wit modified data----------------');
-  console.log(result.data);
-  console.log(result.pagination);
-  console.log('-------------------------------------------------------');
+  cache.push(result.data[0]);
 
-  const control = {
-    from  : 10,
-    count : 5,
-    format: false
-  };
-  result = await fetchTableRows(control, appEnv);
-  console.log('result of a fetchTableRows-----------------------------');
-  console.log(result.data);
-  console.log(result.pagination);
-  console.log('-------------------------------------------------------');
-
-  console.log(appEnv.state.currentPage);
+  console.log(cache);
   return 'done';
 };
 
@@ -74,7 +44,7 @@ function getAppControl () {
     description: 'Simple Example',
 
     source: 'cas',
-    table : { caslib: 'casuser', name: 'testdata' },
+    table : { caslib: 'public', name: 'testdata' },
     access: {},
     byvars: ['id'],
     where : {},
@@ -96,7 +66,7 @@ function getAppControl () {
       }
     },
     editControl: {
-      handlers: { init, main: init, term, x1 }, /* note reuse of init */
+      handlers: { init, main, term, x1 }, /* note reuse of init */
       save    : true,
       autoSave: true
     },
@@ -128,25 +98,29 @@ function getAppControl () {
 
   };
 }
+
 async function init (data, rowIndex, appEnv, type) {
   const status = { statusCode: 0, msg: `${type} processing completed` };
   data.total = data.x1 + data.x2 + data.x3;
-  const newData = data; /* you can modify the incoming data and return it */
-  return [newData, status];
+  debugger;
+  return [data, status];
+};
+async function main (data, rowIndex, appEnv, type) {
+  const status = { statusCode: 0, msg: `${type} processing completed` };
+  data.total = data.x1 + data.x2 + data.x3;
+  debugger;
+  return [data, status];
 };
 
 async function term (data, rowIndex, appEnv, type) {
   const status = { statusCode: 0, msg: `${type} processing completed` };
   console.log('In term');
+  debugger;
   return [data, status];
 };
 
 async function x1 (data, name, rowIndex, appEnv) {
-  let msg = { statusCode: 1, msg: `${name} handler executed.` };
-  if (data.x1 > 10) {
-    data.x1 = 10;
-    msg = { statusCode: 2, msg: 'Exceeded Max. Value reset to max' };
-  }
-
+  let msg = { statusCode: 0, msg: `${name} handler executed.` };
+  console.log('in x1');
   return [data, msg];
 };

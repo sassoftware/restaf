@@ -40,7 +40,7 @@ async function computeFetchData (store, computeSummary, table, direction, payloa
 		if (adhoc === true) {
 			tableInfo.current = null;
 		}
-		if (tableInfo.current === null || direction == null) {
+		if (tableInfo.current === null || direction == null || direction === 'first') {
 			let t1 = await store.apiCall(tableInfo.self);
 			let result = await store.apiCall(t1.links('rowSet'), payload);
 			let columns = await store.apiCall(t1.links('columns'));

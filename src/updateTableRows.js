@@ -93,6 +93,8 @@ async function iupdateComputeTable (data, appEnv) {
     data: { code: asrc }
   };
 
+  console.log(asrc);
+
   const job = await store.apiCall(session.links('execute'), payload);
   const qs = {
     qs: {

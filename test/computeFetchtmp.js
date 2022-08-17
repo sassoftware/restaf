@@ -23,8 +23,9 @@ async function runit () {
   const preamble = `libname tempdata '/tmp';run; 
   data tempdata.testdata;
   keep x1 x2 x3 id;
-  do i = 1 to 100;
-  x1=i; x2=3; x3=i*10; id=TRIMN('key'||i);
+  length id $ 5;
+  do i = 1 to 20;
+  x1=i; x2=3; x3=i*10; id=compress(TRIMN('key'||i));
   
   output;
   end;
@@ -87,13 +88,13 @@ function getAppControl () {
         Column         : 'Total',
         Label          : 'Grand Total',
         FormattedLength: 12,
-        Type           : 'double'
+        Type           : 'FLOAT'
       }
     },
     editControl: {
       handlers: { init, main: init, term }, /* note reuse of init */
       save    : true,
-      autoSave: false
+      autoSave: true
 
     },
     appData: {

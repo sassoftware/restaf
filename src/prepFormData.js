@@ -58,7 +58,7 @@ async function prepFormData (result, appEnv) {
     const name = s.Column.toLowerCase();
     s.name = name;
     s.Label = (s.Label == null || s.Label.length === 0) ? s.Column : s.Label;
-    if (s.Type != null) {
+    if (s.type == null) {
       s.type = s.Type;
     }
     s.custom = false;

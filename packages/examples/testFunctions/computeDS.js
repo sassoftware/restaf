@@ -30,6 +30,15 @@ module.exports = async function computeDS (testInfo) {
 	let src = `
 
         ods html style=barrettsblue; 
+		libname tempdata '/tmp';run; 
+		data tempdata.testdata;
+		keep x1 x2 x3 key;
+		do i = 1 to 10; 
+		   x1=i; 
+		   x2=3; x3=i*10; key=compress('key'||i);
+		output;
+		end;
+		run;
         data work.dtemp1;
             array x{10};  
             do j = 1 to &maxRows;  
@@ -91,25 +100,27 @@ module.exports = async function computeDS (testInfo) {
 	);
 	logger.info(tables);
     let data;
-	for (let i=0; i <= 10; i++) {
+	for (let i=0; i <= 1; i++) {
 		data = await restaflib.computeFetchData(
 			store,
 			computeSummary,
 			'DTEMP1',
 			'next',
-			{offset: i, limit:1}
+			{qs:{limit: 1}}
 		);
-		console.log(data);
+		console.log(Object.keys(data));
 		// logger.info(data.columns);
 		logger.info(`Row ${i+1}  ${data.rows[0]}`);
 	}
+	/*
 	data = await restaflib.computeFetchData(
 		store,
 		computeSummary,
 		'DTEMP1',
-		'next',
-		{offset: 0, limit:10}
+		null,
+		{qs:{start: 10, limit:10}}
 	);
+	*/
 	await store.apiCall(computeSession.links('delete'));
     return data.rows;
 };

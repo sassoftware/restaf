@@ -1,6 +1,6 @@
 {
   "name": "restaf",
-  "version": "4.4.19",
+  "version": "4.4.27",
   "description": "Library for writing SAS Viya application using REST APIs",
   "author": "Deva Kumaraswamy <deva.kumar@sas.com>",
   "license": "Apache-2.0",
@@ -89,8 +89,6 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.7.7",
-    "@sassoftware/restaf": "file:packages/restaf",
-    "@sassoftware/restaflib": "file:packages/restaflib",
     "axios": "0.24.0",
     "colors": "^1.4.0",
     "cross-env": "^7.0.3",

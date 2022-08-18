@@ -29,18 +29,6 @@ async function computeSummary (store, session, job, tables){
     return result;''
 }
 
-async function jobResults (store, session, job) {
-    let cResult = {
-        session: session,
-        log    : null,
-        listing: null,
-        ods    : null,
-        job    : job,
-        tables : {},
-        files  : {}
-    };
-    
-
 const jobResults = async  () => {
     cResult.log     = job.links('log');
     cResult.listing = job.links('listing');
@@ -127,4 +115,3 @@ async function isetupTable(store, session, itable) {
 }
 
 export default computeSummary;
-

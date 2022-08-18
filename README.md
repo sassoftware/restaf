@@ -53,93 +53,192 @@ npm install @sassoftware/restaf@next @sassoftware/restaflib@next @sassoftware/re
 
 ### Writing your first editor
 
-Below is a typical edit session. You can try this in a simple nodejs application or a web application.
-
-#### Import the library
-
-Use the syntax appropriate to your setup
-
 ```js
 const { setup, scrollTable, cellEdit } = require('@sassoftware/restafedit');
-or
-import { setup, scrollTable, cellEdit } from '@sassoftware/restafedit';
 
-```
+runit()
+  .then(r => console.log(r))
+  .catch(err => console.log(err));
 
-<blockquote>
-Step 0: password flow and authorization_code flow are supported.
+async function runit () {
 
-```js
-    const payload = {
-      host        : 'Your viya server'
-    };
-
-    // If you want to experiment using password flow  use this.
-
+  // step 0: information to logon to Viya. See documentation for more options
   const payload = {
-      host        : 'Your viya server',
-      authType    : 'password',
-      clientID    : 'sas.ec',
-      clientSecret: '',
-      user        : 'your id',
-      password    : 'your password'
-    };
+    host        : process.env.VIYA_SERVER,/* ex: https://viyaserver.sas.com */
+    authType    : 'password',
+    clientID    : 'sas.ec',
+    clientSecret: '',
+    user        : 'sastest1',
+    password    : 'Go4thsas'
+  };
+ 
+  // Setup information for the edit session
+  const appControl =  {
+    description: 'Simple Example',
 
-    Tip: If you are running in the SAS VA DDC, you can set the host to window.location.origin
-```
+    source: 'cas', 
+    table : { caslib: 'public', name: 'testdata' },
+    byvars: ['id'], /* used for updating the specific record */
+    cachePolicy: true, /* use default caching of data */
 
-</blockquote>
+    initialFetch: {  /* Where the first read starts */
+      count : 1, /* no of records on each fetch */
+      from  : 1, /* first record to start at */
+      format: false /* ask for formatted or unformatted data */
+    },
+    
+    editControl: {
+      handlers: {}, /* note reuse of init */
+      autoSave: true /* if true, a save is done on each edit */
+    },
+    appData: {} /* for user data */
+  };
 
-<blockquote>
-Step 1: Read/set control information to be passed to setup.
-
-```js
-  const appControl = getAppControl();/*see this function below */
-```
-
-</blockquote>
-
-<blockquote>
-// Step 2: Initialize the edit session.
-
-```js
-const appEnv = await setup(payload, appControl);
-```
-
-</blockquote>
-
-<blockquote>
-// Step 3: Read in first set of records
-
-```js
-let result = await scrollTable('first', appEnv);
-/* result.data= [{column1: value, column2: value}]}*/
-```
-
-</blockquote>
-
-<blockquote>
-// Step 4: Edit data in the first row and save on server
-
-```js
-const x1 = result.data[0].x1 + 1000;/* modify a column value*/
-await cellEdit('x1', x1, 0, result.data[0], appEnv);
-```
-
-</blockquote>
   
-<blockquote>
-//Step 5: Scroll to next or previous set of records
+  // Step 1: Setup the edit session
+  const appEnv = await setup(payload, appControl);
+  
+  // Step 2: Read the first set of records
+  let result = await scrollTable('first', appEnv);
+  console.log(result.data[0]);
 
-```js
-let dir = 'first'|next'|'prev'
-result = await scrollTable(dir, appEnv);
+  // Simulate a user editing the value of a column
+  const x3New = result.data[0].x3 + 100;
+
+  // Step 3: Update the data and save to server
+  await cellEdit('x3', x3New, 0, result.data[0], appEnv);
+
+  // Step 4: Scroll to the next set of records (or 'prev', 'first' )
+  result = await scrollTable('next', appEnv);
+  console.log(result.data[0]);
+
+  // Step 4a: Make sure the data was persisted in Step 3
+  result = await scrollTable('prev', appEnv);
+  console.log(result.data[0]);
+
+  // Repeat Step 3 and Step 4 as often as necessary
+
+  return 'done';
+};
+
 ```
 
-<blockquote>
-  // Step 6: Repeat step 3 and 5 as often as you want.
+---
 
-</blockquote>
+## Editing with calculations
+
+---
+
+In a typical edit session user input is checked and some temporary(computed/calcuated) columns are updated.
+
+restafedit allows the developer to do all these by specifying the information in the appControl.
+
+- Custom Columns -- Specify your additional columns in the CustomColumns field in appControl.
+
+- Calculations -- Specify functions in the editControl.handlers object.
+
+Below is the updated example. The custom column is calculated when a record is read and when a cell is modified in the *init* and *main* handlers(functions).
+
+When the column x3 is modified the handler *x3* followed by *main* are executed.
+
+Before the record is saved the *term* handler is executed.
+
+```js
+
+const { setup, scrollTable, cellEdit } = require('@sassoftware/restafedit');
+
+runit()
+  .then(r => console.log(r))
+  .catch(err => console.log(err));
+
+async function runit () {
+
+  // step 0: information to logon to Viya. See documentation for more options
+  const payload = {
+    host        : process.env.VIYA_SERVER,/* ex: https://viyaserver.sas.com */
+    authType    : 'password',
+    clientID    : 'sas.ec',
+    clientSecret: '',
+    user        : 'sastest1',
+    password    : 'Go4thsas'
+  };
+ 
+  // Setup information for the edit session
+  const appControl =  {
+    description: 'Simple Example',
+
+    source: 'cas', 
+    table : { caslib: 'public', name: 'testdata' },
+    byvars: ['id'], /* used for updating the specific record */
+    cachePolicy: true, /* use default caching of data */
+
+    customColumns: {
+      total: {
+        Column         : 'Total',
+        Label          : 'Grand Total',
+        FormattedLength: 12,
+        Type           : 'double'
+      }
+    },
+
+    initialFetch: {  /* Where the first read starts */
+      count : 1, /* no of records on each fetch */
+      from  : 1, /* first record to start at */
+      format: false /* ask for formatted or unformatted data */
+    },
+    
+    editControl: {
+      handlers: {init, main, x3}, /* run calculations on reading and data change*/
+      autoSave: true /* if true, a save is done on each edit */
+    },
+    appData: {} /* for user data */
+  };
+
+  
+  // Step 1: Setup the edit session
+  const appEnv = await setup(payload, appControl);
+  
+  // Step 2: Read the first set of records
+  let result = await scrollTable('first', appEnv);
+  console.log(result.data[0]);
+
+  // Simulate a user editing the value of a column
+  const x3New = result.data[0].x3 + 100;
+
+  // Step 3: Update the data and save to server
+  let editedData = await cellEdit('x3', x3New, 0, result.data[0], appEnv);
+  console.log(`Calculated value: ${editedData.data.total}`);
+
+  // Step 4: Scroll to the next set of records (or 'prev', 'first' )
+  result = await scrollTable('next', appEnv);
+  console.log(result.data[0]);
+
+  // Step 4a: Make sure the data was persisted in Step 3
+  result = await scrollTable('prev', appEnv);
+  console.log(result.data[0]);
+
+  // Repeat Step 3 and Step 4 as often as necessary
+
+  return 'done';
+};
+async function init (data, rowIndex, appEnv, type) {
+  const status = { statusCode: 0, msg: `${type} processing completed` };
+  data.total = data.x1 + data.x2 + data.x3;
+  return [data, status];
+};
+async function main (data, rowIndex, appEnv, type) {
+  const status = { statusCode: 0, msg: `${type} processing completed` };
+  data.total = data.x1 + data.x2 + data.x3;
+  return [data, status];
+};
+async function x3 (data, name, rowIndex, appEnv) {
+  let status = { statusCode: 0, msg: `${name} handler executed.` };
+  if (data.x3 >1000){
+    status  = {statusCode: 1, msg: `Value exceeded 1000. Please review`};
+  }
+  return [data, status];
+};
+```
 
 ## Table versus Form for data entry<a name="t3"></a>
 

@@ -35,6 +35,7 @@ let mlPipelinePublish = require('./mlPipelinePublish');
 let masList =require('./masList');
 let casSubmit = require('./casSubmit');
 let computeTables = require('./computeTables');
+let computeWithPreamble = require('./computeWithPreamble');
 
 module.exports = {
 	addServices,
@@ -54,6 +55,7 @@ module.exports = {
 
 	computeDS,
 	computeTables,
+	computeWithPreamble,
 	filesCreate,
 	filesPaginate,
 	foldersPaginate,

@@ -62,7 +62,6 @@ module.exports = function configtest () {
 		};
 	};
 	debugger;
-	console.log(logonPayload);
 	console.log(process.env.NODE_TLS_REJECT_UNAUTHORIZED);
 
 	return logonPayload;

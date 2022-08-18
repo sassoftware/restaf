@@ -7,7 +7,6 @@
  * 
  * @description Fetch data from a SAS Table
  * @async
- * @private
  * @module computeFetchData
  * @category restaflib/compute
  * @param {object} store - restaf store
@@ -17,16 +16,31 @@
  * 
  * @returns {promise} - {columns: <columnames>, rows: <data for rows> , scrollOptions: <available scroll directions>}
  */
-async function computeFetchData (store, computeSummary, table, direction, qs) {
+async function computeFetchData (store, computeSummary, table, direction, payload) {
 	let data = null;
-	let tableInfo;
-	let payload =(qs != null) ? {qs: qs} : null;
 	// eslint-disable-next-line no-prototype-builtins
 	
 	
-	if (computeSummary.tables.hasOwnProperty(table) === true) {
-		tableInfo = computeSummary.tables[table];
-		if (tableInfo.current === null || direction == null) {
+	let tname;
+	if (typeof table === 'string') {
+		tname = table;
+	} else {
+		tname = `${table.libref}.${table.name}`;
+	}
+	tname = tname.toUpperCase();
+
+	let adhoc = (payload !== null && direction == null) ? true: false;
+	
+	
+	let tableInfo = computeSummary.tables[tname];
+	
+	if ( tableInfo != null) {
+		// reset info on this table if user does adhoc retrieval
+		// trying to keep track of multiple streams for same table is a nightmare
+		if (adhoc === true) {
+			tableInfo.current = null;
+		}
+		if (tableInfo.current === null || direction == null || direction === 'first') {
 			let t1 = await store.apiCall(tableInfo.self);
 			let result = await store.apiCall(t1.links('rowSet'), payload);
 			let columns = await store.apiCall(t1.links('columns'));
@@ -84,7 +98,6 @@ async function computeFetchData (store, computeSummary, table, direction, qs) {
 			}
 		}
 	}
-	
 	return data;
 }
 

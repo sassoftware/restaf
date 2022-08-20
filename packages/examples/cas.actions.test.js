@@ -32,13 +32,11 @@ beforeAll(async () => {
 });
 
 test('CAS Session', async () => {
-
 	let r = await testFunctions.casSession(testInfo);
 	expect(r).toBe('done');
 });
 
 test('CAS Echo', async () => {
-
 	let r = await testFunctions.casEcho(testInfo);
 	expect(r).toBe('done');
 });
@@ -52,15 +50,15 @@ test('CAS DataStep and Fetch', async () => {
 	let r = await testFunctions.casDSandFetch(testInfo);
 	expect(r).toMatchSnapshot();
 });
-test('CAS fetchrows', async () => {
+test.only('CAS fetchrows with where', async () => {
 	let r = await testFunctions.casDSandFetch2(testInfo);
 	expect(r).toMatchSnapshot();
 });
 test('CAS DataStep and Fetch2', async () => {
 	let r = await testFunctions.casFetchData3(testInfo);
-	expect(r).toMatchSnapshot();
+	expect(r).toBe('done');
 });
-test.only('CAS Tables', async () => {
+test('CAS Tables', async () => {
 	let r = await testFunctions.casTables(testInfo);
 	expect(r).toBe('done');
 });

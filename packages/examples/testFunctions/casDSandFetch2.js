@@ -21,46 +21,60 @@
  */
 'use strict';
 
-let { casSetup, casFetchData, casUpdateData } = require('@sassoftware/restaflib');
+let { casSetup, casFetchRows } = require('@sassoftware/restaflib');
 
 module.exports = async function casDSandFetch2(testInfo) {
-	async function test_casFetchData() {
+	    let { store, logger } = testInfo;
 		let { session } = await casSetup(store);
-
+	    debugger;
 		let actionPayload = {
 			action: 'datastep.runCode',
 			data: {
 				single: 'YES',
 				code:
-					'data casuser.score; do key = 1 to 10; x1=10*key;x2=20*key;x3=30*key; score1 = x1+x2+x3;output;end;run; '
+					'data casuser.score; keep key x1 x2 x3; do key = 1 to 2; x1=10*key;x2=20*key;x3=30*key;output;end;run; '
 			}
 		};
 
 		await store.runAction(session, actionPayload);
-
+		debugger;
+		let where = `x1 > 10`;
 		let payload = {
 			from: 1,
 			count: 1,
 			format: true,
-			table: { caslib: 'casuser', name: 'score' }
+			table: { caslib: 'casuser', name: 'score'},
+			where: where
 		};
-
-		let result = await casFetchData(store, session, payload);
+		console.log(payload);
+		debugger;
+		let result = await casFetchRows(store, session, payload);
+		debugger;
 		 console.log('The next start is at:' + result.pagination.toString());
-		//  console.log(result.data.rows[0].toString());
+		 console.log(result.data.rows[0].toString());
+		 console.log(JSON.stringify(result.pagination, null,4));
 
+		 result = await casFetchRows(store, session, result.pagination.next);
+		 console.log(result.data);
+		 console.log(JSON.stringify(result.pagination, null,4));
+
+		 /*
+		debugger;
 		while (result.pagination.next.from !== -1) {
 			 console.log('The start is at: ' + result.pagination.next.from);
-			 result = await casFetchData(store, session, result.pagination.next);
+			 result = await casFetchRows(store, session, result.pagination.next);
 			 console.log('The next start is at:' + result.pagination);
 		};
 		 console.log('--------------------------------------- scroll backwards');
 
 		while (result.pagination.prev.from !== -1) {
 			 console.log('The start is at: ' + result.pagination.prev.from);
-			 result = await casFetchData(store, session, result.pagination.prev);
+			 result = await casFetchRows(store, session, result.pagination.prev);
 			 console.log('The next start is at:' + result.pagination);
 		};
+		*/
+
 		await store.apiCall(session.links('delete'));
-	};
-}
+		return 'done';
+};
+

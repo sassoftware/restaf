@@ -58,6 +58,10 @@ import programs from './programs';
 async function casFetchRows (store, session, payload){
     let src    = programs['commonCasl']() + ' ' +  programs['casFetchRows']();
     let result = await caslRunBase(store, session, src, payload);
-    return result.items('results', 'casResults').toJS();    
+    let r = result.items('results', 'casResults').toJS();
+    if ( r.data == null) {
+        r.data = {rows: []};
+    }
+    return r;    
 }
 export default casFetchRows;

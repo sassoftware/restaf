@@ -1,3 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`CAS fetchrows with where 1`] = `"done"`;
+
+exports[`CAS fetchrows with where v2 1`] = `"done"`;

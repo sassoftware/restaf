@@ -23,7 +23,7 @@
 
 let { casSetup, casFetchRows } = require('@sassoftware/restaflib');
 
-module.exports = async function casDSandFetch2(testInfo) {
+module.exports = async function casDSandFetch2v2(testInfo) {
 	    let { store, logger } = testInfo;
 		let { session } = await casSetup(store);
 	    debugger;
@@ -32,7 +32,7 @@ module.exports = async function casDSandFetch2(testInfo) {
 			data: {
 				single: 'YES',
 				code:
-					'data casuser.score; keep key x1 x2 x3; do key = 1 to 20; x1=10*key;x2=20*key;x3=30*key;output;end;run; '
+					'data casuser.score; keep key x1 x2 x3; do key = 1 to 200; x1=key;x2=20*key;x3=30*key;output;end;run; '
 			}
 		};
 
@@ -40,18 +40,23 @@ module.exports = async function casDSandFetch2(testInfo) {
 		debugger;
 		let where = `x1 > 10`;
 		let payload = {
-			from: 1,
-			count: 5,
-			format: true,
-			table: { caslib: 'casuser', name: 'score'},
-			where: where
+			version: 2,
+			qs: {
+			  from: 1,
+			  count: 10,
+			  format: true,
+			},
+			data: {
+				where: where
+			},
+			table: { caslib: 'casuser', name: 'score'}
 		};
 		console.log(payload);
 		debugger;
 		let result = await casFetchRows(store, session, payload);
 		debugger;
 		 console.log('The next start is at:' + result.pagination.toString());
-		 console.log(result.data.rows[0].toString());
+		 console.log(JSON.stringify(result.data.rows, null,4));
 		 console.log(JSON.stringify(result.pagination, null,4));
 
 		 result = await casFetchRows(store, session, result.pagination.next);

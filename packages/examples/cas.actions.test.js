@@ -50,8 +50,12 @@ test('CAS DataStep and Fetch', async () => {
 	let r = await testFunctions.casDSandFetch(testInfo);
 	expect(r).toMatchSnapshot();
 });
-test.only('CAS fetchrows with where', async () => {
+test('CAS fetchrows with where', async () => {
 	let r = await testFunctions.casDSandFetch2(testInfo);
+	expect(r).toMatchSnapshot();
+});
+test.only('CAS fetchrows with where v2', async () => {
+	let r = await testFunctions.casDSandFetch2v2(testInfo);
 	expect(r).toMatchSnapshot();
 });
 test('CAS DataStep and Fetch2', async () => {

@@ -9,6 +9,7 @@ let casSession    = require('./casSession');
 let casEcho       = require('./casEcho');
 let casDSandFetch = require('./casDSandFetch');
 let casDSandFetch2 = require('./casDSandFetch2');
+let casDSandFetch2v2 = require('./casDSandFetch2v2');
 let casTables     = require('./casTables');
 let casUploadCsv = require('./casUploadCsv');
 let casUploadProgram = require('./casUploadProgram');
@@ -43,6 +44,7 @@ module.exports = {
 	casEcho,
 	casDSandFetch,
 	casDSandFetch2,
+	casDSandFetch2v2,
 	casFetchData3,
 	casTables,
 	casUploadCsv,

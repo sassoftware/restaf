@@ -11,6 +11,7 @@ import computeResults from './computeResults';
 /**
  * @description Setup access to compute service
  * @async
+ * @private
  * @module computeSetup
  * @category restaflib/compute
  * 

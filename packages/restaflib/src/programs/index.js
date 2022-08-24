@@ -7,5 +7,4 @@ import scoreCasl from './scoreCasl';
 import casFetchData from './casFetchData';
 import commonCasl from './commonCasl';
 import casFetchRows from './casFetchRows';
-import casFetchRowsv2 from './casFetchRowsv2';
-export default {commonCasl, casFetchData, casFetchRows, scoreCasl,casFetchRowsv2};
+export default {commonCasl, casFetchData, casFetchRows, scoreCasl};

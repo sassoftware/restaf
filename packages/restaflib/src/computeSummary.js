@@ -11,10 +11,10 @@
   * @category restaflib/compute
   * 
   * @param {store} store - restaf store
+  * @param {rafObject} session - compute Session
   * @param {rafObject} job - rafObject representing the compute service job after job completion
-  * 
+  * @param {object|Array=} tables (see computeSetupTables)
   * @returns {promise} - the computeSummary object for easy handling of logs,listing,ods, tables
-  * @example
   * 
   */
 async function computeSummary (store, session, job, tables){

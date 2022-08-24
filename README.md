@@ -510,6 +510,21 @@ The function returns the following:
  let r = await scrollTable(direction, appEnv, payload);
 ```
 
+- direction  A string with the value of 'first', 'next', 'prev'
+
+To do custom scrolling, use the optional payload argument.
+For example to apply a where clause, you can use the following:
+
+```js
+let payload = {
+  from: 1,
+  count:20,
+  format: false,
+  where: 'x1 GT 10'
+}
+```
+
+For SAS tables the payload can include any of the values as described [here](https://developer.sas.com/apis/rest/Compute/#get-a-row-set-from-a-data-set)
 The result has the following schema
 
 ```js
@@ -587,6 +602,7 @@ async function main (data, _rowIndex, appEnv,_type) {
 export default main;
 
 
-## Future
+## Pending documentation
 
-- Support where clause for reading records
+  - Sort - sort by a single columns(ascending or descending)
+  - distinctValues - obtain an array of distinct values for a column

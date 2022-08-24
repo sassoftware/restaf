@@ -7,16 +7,16 @@ import { caslRun } from '@sassoftware/restaflib';
 /**
  * @description Get unique values for a specific column
  * @async
+ * @private
  * @module casTableUnique
  * @category restafedit/core
  * @param {string} columnName    column name
- * @param {*} value         - the new value for name field
- * @param {appEnv} appEnv   - app Environment from setup
- * @returns {promise}       - {an array of unique values }
+ * @param {appEnv} appEnv   app Environment from setup
+ * @returns {promise}       {an array of unique values }
  * @example
  *  let selectList = await casTableUnique('company, appEnv))
  *  This is useful to get a list of unique values for selected columns.
- *
+ *  {columnName:[ array of unquew values] }
  */
 
 async function casTableUnique (columnName, appEnv, payload) {

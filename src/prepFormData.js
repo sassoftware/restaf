@@ -27,9 +27,14 @@ async function prepFormData (result, appEnv) {
     row.forEach((r, i) => {
       const s = columns[i];
       const name = s.Column.toLowerCase();
+      /*
+      if (s.Label == null) {
+        s.Label = (s.label == null) ? s.Column : s.label;
+      }
       if (s.Label == null) {
         s.Label = s.Column;
       }
+      */
       rowObj[name] = r;
     });
 
@@ -58,8 +63,8 @@ async function prepFormData (result, appEnv) {
     const name = s.Column.toLowerCase();
     s.name = name;
     s.Label = (s.Label == null || s.Label.length === 0) ? s.Column : s.Label;
-    if (s.type == null) {
-      s.type = s.Type;
+    if (s.Type == null) {
+      s.Type = (s.type == null) ? 'double' : s.type;
     }
     s.custom = false;
     eColumns[name] = s;

@@ -9,7 +9,8 @@ import fetchTableRows from './fetchTableRows';
 import updateTableRows from './updateTableRows';
 import scrollTable from './scrollTable';
 import setup from './setup';
-import casTableUnique from './casTableUnique';
+import distinctValues from './distinctValues';
+import sort from './sort';
 
 export {
   cellEdit,
@@ -18,5 +19,6 @@ export {
   scrollTable,
   updateTableRows,
   setup,
-  casTableUnique
+  distinctValues,
+  sort
 };

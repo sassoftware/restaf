@@ -52,8 +52,7 @@ function getAppControl () {
     initialFetch: {
       count : 1,
       from  : 1,
-      format: false,
-      where : 'x1 > 6'
+      format: false
     },
 
     customColumns: {

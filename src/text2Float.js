@@ -4,7 +4,7 @@
  */
 function text2Float (value, f) {
   let svalue = value;
-  const t = f.type.toLowerCase();
+  const t = f.Type.toLowerCase();
   if (typeof svalue === 'string' && (t === 'decimal' || t === 'number' || t === 'double' || t === 'float')) {
     svalue = parseFloat(value * 1.0);
     if (isNaN(value) === true) {

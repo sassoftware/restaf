@@ -69,6 +69,7 @@ async function icasScroll (direction, appEnv, payload) {
   }
 
   control.table = table;
+  debugger;
   const r = await casFetchRows(store, session, control);
 
   let t = null;

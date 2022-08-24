@@ -491,7 +491,7 @@ A cell is defined a the intersection of a column and a data row. The cellEdit do
   - The data for that row will be persisted to the server
 
 ```js
-  let r = await cellEdit(columnName, newvalue, rowIndex, currentRow, appEnv);
+  let r = await cellEdit(columnName,value, rowIndex, currentRow, appEnv);
 ```
 
 The function returns the following:
@@ -507,7 +507,7 @@ The function returns the following:
 ### **scrollTable - scroll either to prev or next set of records**
 
 ```js
- let r = await scrollTable(direction, appEnv);
+ let r = await scrollTable(direction, appEnv, payload);
 ```
 
 The result has the following schema
@@ -521,25 +521,6 @@ The result has the following schema
 ```
 
 If the cachePolicy is set to true, appEnv.state has this information also and you do not have to persist the results.
-
-### **fetchTableRows  - fetch rows**
-
-If for some reason you want to fetch data without using scrollTable, you can use fetchTableRows.
-
-```js
-let r = await fetchTableRows(control, appEnv);
-
-The schema for control is:
-
-{
-  from: <record to start the read from>,
-  count: <how many records to read>
-  format: <true if you want formatted data>
-}
-
-```
-
-The result is the same as scrollTable. If cachePolicy is true, then the results will be persisted in appEnv.state.
 
 > For SAS tables (from - 1) is used as the offset. See compute service document for notes on this.
 

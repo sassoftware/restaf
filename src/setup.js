@@ -2,6 +2,7 @@
 
 import { initStore } from '@sassoftware/restaf';
 import { casSetup, computeSetup, computeSetupTables } from '@sassoftware/restaflib';
+import deepmerge from 'deepmerge';
 
 /**
  * @description Setup an Edit session
@@ -71,10 +72,12 @@ async function icomputeSetup (store, logonPayload, appControl, preamble) {
     store,
     session,
     tableSummary,
+
     servers  : null,
     restaflib: null,
+
     logonPayload,
-    appControl,
+    appControl: deepmerge(appControl),
 
     state: {
       modified   : [],

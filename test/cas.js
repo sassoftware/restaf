@@ -1,3 +1,4 @@
+/* eslint-disable quotes */
 const { setup, scrollTable, cellEdit } = require('../dist/index.js');
 
 runit()
@@ -45,14 +46,14 @@ function getAppControl () {
     table : { caslib: 'public', name: 'testdata' },
     access: {},
     byvars: ['id'],
-    where : {},
 
     cachePolicy: true,
 
     initialFetch: {
       count : 1,
       from  : 1,
-      format: false
+      format: false,
+      where : 'x1 > 6'
     },
 
     customColumns: {

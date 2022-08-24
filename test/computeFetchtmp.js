@@ -1,4 +1,4 @@
-const { setup, fetchTableRows, cellEdit, scrollTable } = require('../dist/index.js');
+const { setup, cellEdit, scrollTable } = require('../dist/index.js');
 
 runit()
   .then(r => console.log(r))
@@ -32,14 +32,9 @@ async function runit () {
   run;`;
   debugger;
   const appEnv = await setup(payload, appControl, preamble);
+
   debugger;
-  const control = {
-    from  : 1,
-    count : 1,
-    format: false
-  };
-  debugger;
-  let result = await fetchTableRows(control, appEnv);
+  let result = await scrollTable('first', appEnv);
   console.log('result of a fetchTableRows-----------------------------');
   debugger;
   console.log(appEnv.state.data[0]);

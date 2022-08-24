@@ -9,6 +9,7 @@ import prepFormData from './prepFormData';
 /**
  * @description Fetch new records based on control argument
  * @async
+ * @private
  * @module fetchTableRows
  * @category restafedit/core
  * @param {fetchControl} control - info for records to retrieve
@@ -34,21 +35,14 @@ async function fetchTableRows (control, appEnv) {
 async function icasRows (control, appEnv) {
   const { store, session } = appEnv;
   const c = { ...control };
-  if (c.table == null) {
-    c.table = appEnv.appControl.table;
-  }
-  if (c.where == null) {
-    c.where = {};
-  }
   if (c.from <= 0 || c.next === -1) {
     return null;
   }
-  
+
   const r = await casFetchRows(store, session, c);
-  
+
   let t = null;
   if (r !== null) {
-    
     t = await prepFormData(r.data, appEnv);
 
     appEnv.state = {

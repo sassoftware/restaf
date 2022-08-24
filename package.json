@@ -67,7 +67,11 @@
     "dist"
   ],
   "peerDependencies": {
-    "@sassoftware/restaf": "^4.4.25",
-    "@sassoftware/restaflib": "^4.4.25"
+    "@sassoftware/restaf": "^4.4.28",
+    "@sassoftware/restaflib": "^4.4.28"
+  },
+  "dependencies": {
+    "deepcopy": "^2.1.0",
+    "deepmerge": "^4.2.2"
   }
 }

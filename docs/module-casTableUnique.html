@@ -5,7 +5,7 @@
   
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Library Overviews casUpload</title>
+  <title>Library Overviews casTableUnique</title>
 
   <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -189,7 +189,7 @@
             <div class="content">
                 <header class="page-title">
                     <p>Module</p>
-                    <h1>casUpload</h1>
+                    <h1>casTableUnique</h1>
                 </header>
                 
 
@@ -210,7 +210,7 @@
     <div class="container-overview">
     
         
-            <div class="description"><p>upload different artifacts</p></div>
+            <div class="description"><p>Get unique values for a specific column</p></div>
         
 
         
@@ -251,13 +251,13 @@
             
 <tr class="deep-level-0">
   
-      <td class="name"><code>store</code></td>
+      <td class="name"><code>columnName</code></td>
   
 
   <td class="type">
   
       
-<code class="param-type"><a href="global.html#store">store</a></code>
+<code class="param-type">string</code>
 
 
   
@@ -267,7 +267,7 @@
 
   
 
-  <td class="description last"></td>
+  <td class="description last"><p>column name</p></td>
 </tr>
 
 
@@ -276,7 +276,7 @@
             
 <tr class="deep-level-0">
   
-      <td class="name"><code>session</code></td>
+      <td class="name"><code>value</code></td>
   
 
   <td class="type">
@@ -292,7 +292,7 @@
 
   
 
-  <td class="description last"></td>
+  <td class="description last"><p>the new value for name field</p></td>
 </tr>
 
 
@@ -301,13 +301,13 @@
             
 <tr class="deep-level-0">
   
-      <td class="name"><code>source</code></td>
+      <td class="name"><code>appEnv</code></td>
   
 
   <td class="type">
   
       
-<code class="param-type">*</code>
+<code class="param-type"><a href="global.html#appEnv">appEnv</a></code>
 
 
   
@@ -317,82 +317,7 @@
 
   
 
-  <td class="description last"></td>
-</tr>
-
-
-        
-
-            
-<tr class="deep-level-0">
-  
-      <td class="name"><code>output</code></td>
-  
-
-  <td class="type">
-  
-      
-<code class="param-type">*</code>
-
-
-  
-  </td>
-
-  
-
-  
-
-  <td class="description last"></td>
-</tr>
-
-
-        
-
-            
-<tr class="deep-level-0">
-  
-      <td class="name"><code>save</code></td>
-  
-
-  <td class="type">
-  
-      
-<code class="param-type">*</code>
-
-
-  
-  </td>
-
-  
-
-  
-
-  <td class="description last"></td>
-</tr>
-
-
-        
-
-            
-<tr class="deep-level-0">
-  
-      <td class="name"><code>altSrc</code></td>
-  
-
-  <td class="type">
-  
-      
-<code class="param-type">*</code>
-
-
-  
-  </td>
-
-  
-
-  
-
-  <td class="description last"></td>
+  <td class="description last"><p>app Environment from setup</p></td>
 </tr>
 
 
@@ -464,6 +389,10 @@
 
 <div class="columns">
     
+    <div class='param-desc column is-7'><ul>
+<li>{an array of unique values }</li>
+</ul></div>
+    
     
     <div class='column is-5 has-text-left'>
         <label>Type: </label>
@@ -480,6 +409,13 @@
     </div>
 
 
+
+
+    <h5>Example</h5>
+    
+    
+        <pre class="prettyprint"><code>let selectList = await casTableUnique('company, appEnv)) This is useful to get a list of unique values for selected columns. {columnName:[ array of unquew values] }</code></pre>
+    
 
 
 

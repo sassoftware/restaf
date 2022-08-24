@@ -38,20 +38,21 @@ module.exports = async function computeWithPreamble (testInfo) {
 
 	logger.info('Compute Service Tables');
 	let t = {libref: 'tempdata', name: 'testdata'};
-	debugger;
+	
 	
 	let tableSummary = await computeSetupTables(store, computeSession, t, preamble);
-	debugger;
+	
+
 	let tname = `${t.libref}.${t.name}`;
-	debugger;
+	
 	let data = await restaflib.computeFetchData(
 		store,
 		tableSummary,
 		tname,
 		'first',
-		{qs:{start: 0, limit:3}}
+		{qs:{start: 0, limit:10,  where: 'X1 GT 5', "columnDetail": "detail"}}
 	);
-	console.log(data.rows);
+	console.log(data);
 	await store.apiCall(computeSession.links('delete'));
     return data.rows;
 };

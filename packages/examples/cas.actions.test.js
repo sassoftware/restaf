@@ -36,7 +36,7 @@ test('CAS Session', async () => {
 	expect(r).toBe('done');
 });
 
-test('CAS Echo', async () => {
+test.only('CAS Echo', async () => {
 	let r = await testFunctions.casEcho(testInfo);
 	expect(r).toBe('done');
 });
@@ -54,7 +54,8 @@ test('CAS fetchrows with where', async () => {
 	let r = await testFunctions.casDSandFetch2(testInfo);
 	expect(r).toMatchSnapshot();
 });
-test.only('CAS fetchrows with where v2', async () => {
+
+test('CAS fetchrows with where v2', async () => {
 	let r = await testFunctions.casDSandFetch2v2(testInfo);
 	expect(r).toMatchSnapshot();
 });

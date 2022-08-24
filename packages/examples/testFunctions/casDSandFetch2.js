@@ -26,7 +26,7 @@ let { casSetup, casFetchRows } = require('@sassoftware/restaflib');
 module.exports = async function casDSandFetch2(testInfo) {
 	    let { store, logger } = testInfo;
 		let { session } = await casSetup(store);
-	    debugger;
+	    
 		let actionPayload = {
 			action: 'datastep.runCode',
 			data: {
@@ -37,7 +37,7 @@ module.exports = async function casDSandFetch2(testInfo) {
 		};
 
 		await store.runAction(session, actionPayload);
-		debugger;
+		
 		let where = `x1 > 10`;
 		let payload = {
 			from: 1,
@@ -47,9 +47,9 @@ module.exports = async function casDSandFetch2(testInfo) {
 			where: where
 		};
 		console.log(payload);
-		debugger;
+		
 		let result = await casFetchRows(store, session, payload);
-		debugger;
+		
 		 console.log('The next start is at:' + result.pagination.toString());
 		 console.log(result.data.rows[0].toString());
 		 console.log(JSON.stringify(result.pagination, null,4));
@@ -59,7 +59,7 @@ module.exports = async function casDSandFetch2(testInfo) {
 		 console.log(JSON.stringify(result.pagination, null,4));
 
 		 /*
-		debugger;
+		
 		while (result.pagination.next.from !== -1) {
 			 console.log('The start is at: ' + result.pagination.next.from);
 			 result = await casFetchRows(store, session, result.pagination.next);

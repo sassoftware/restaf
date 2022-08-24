@@ -15,7 +15,7 @@ let payload = {
 runtest (store, payload)
 .then (r => console.log(r))
 .catch(err => {
-    debugger;
+    
     console.log(JSON.stringify(err, null,4));
 });
 

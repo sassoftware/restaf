@@ -13,7 +13,7 @@ test("computeTables: tables", async () => {
   let l = await testFunctions.computeTables(testInfo);
   expect(l).toMatchSnapshot();
 });
-test("computeTables: withcontext", async () => {
+test.only("computeTables: withpreamble", async () => {
   expect.assertions();
   let l = await testFunctions.computeWithPreamble(testInfo);
   expect(l).toMatchSnapshot();

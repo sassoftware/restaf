@@ -15,16 +15,16 @@ let payload = {
 runtest (store, payload)
 .then (r => console.log(r))
 .catch(err => {
-    debugger;
+    
     console.log(JSON.stringify(err, null,4));
 });
 
 async function runtest(store, payload) {
-  debugger;
+  
   console.log(store.config);
   let computeSession = await restaflib.computeSetup(store, null, payload);
   console.log(store.store.config);
-  debugger;
+  
   let macros = {
     x1: 10,
     x2: 20

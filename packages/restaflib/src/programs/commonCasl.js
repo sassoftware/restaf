@@ -139,17 +139,16 @@ end;
     function selectionLists(idvars,caslib, name);   
          
         s = checkAndLoadTable(caslib, name);   
-        if ( s ne 0 ) then do;   
-        results = {Errors= 'Unable to access ' ||caslib||'.'||name};   
-        return results;   
+        if ( s ne true) then do;   
+        results = {Errors= 'Unable to access ' ||caslib||'.'||name, statusCode = s};   
+      
         end;   
          
         do k over idvars;   
         r  = _getValues(k, caslib, name);   
         results[k] = r;   
         end;   
-             
-        return results;       
+        return { data=results, statusCode=0};      
     end;   
          
     function _getValues(id, caslib, name) ;   

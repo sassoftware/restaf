@@ -13,11 +13,11 @@ module.exports = async function setupAll () {
 	
 	// let casopt = (process.env.CASPROXY === 'NO') ? false : true;
 
-	debugger;
+	
 	let store = restaf.initStore();
 
 	try {
-	 debugger;
+	 
 	 let msg = await store.logon(payload);
 	 console.log(msg);
 	 return { store: store, logonPayload: payload, logger: logger }

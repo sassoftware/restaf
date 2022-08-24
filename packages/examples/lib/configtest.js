@@ -19,7 +19,7 @@
 'use strict';
 
 let fs = require('fs');
-debugger;
+
 module.exports = function configtest () {
 	
 
@@ -61,7 +61,7 @@ module.exports = function configtest () {
 			clientSecret: (process.env.CLIENTSECRET == null) ? '' : process.env.CLIENTSECRET
 		};
 	};
-	debugger;
+	
 	console.log(process.env.NODE_TLS_REJECT_UNAUTHORIZED);
 
 	return logonPayload;

@@ -19,8 +19,6 @@
 async function computeFetchData (store, computeSummary, table, direction, payload) {
 	let data = null;
 	// eslint-disable-next-line no-prototype-builtins
-	
-	
 	let tname;
 	if (typeof table === 'string') {
 		tname = table;
@@ -30,10 +28,7 @@ async function computeFetchData (store, computeSummary, table, direction, payloa
 	tname = tname.toUpperCase();
 
 	let adhoc = (payload !== null && direction == null) ? true: false;
-	
-	
 	let tableInfo = computeSummary.tables[tname];
-	
 	if ( tableInfo != null) {
 		// reset info on this table if user does adhoc retrieval
 		// trying to keep track of multiple streams for same table is a nightmare
@@ -43,6 +38,7 @@ async function computeFetchData (store, computeSummary, table, direction, payloa
 		if (tableInfo.current === null || direction == null || direction === 'first') {
 			let t1 = await store.apiCall(tableInfo.self);
 			let result = await store.apiCall(t1.links('rowSet'), payload);
+			
 			let columns = await store.apiCall(t1.links('columns'));
 			let schema = [];
 			let items = columns.items().toJS();

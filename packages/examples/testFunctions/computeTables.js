@@ -28,12 +28,12 @@ module.exports = async function computeTables (testInfo) {
  
 	logger.info('Compute Service Tables');
 	let t = {libref: 'SASHELP', name: 'AIR'};
-	debugger;
+	
 	
 	let tableSummary = await computeSetupTables(store, computeSession, t);
-	debugger;
+	
 	let tname = `${t.libref}.${t.name}`;
-	debugger;
+	
 	let data = await restaflib.computeFetchData(
 		store,
 		tableSummary,

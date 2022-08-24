@@ -58,14 +58,13 @@ async function icasScroll (direction, appEnv, payload) {
     control = { ...initialFetch };
   } else if (direction !== null) {
     control = { ...appEnv.state.pagination[direction] };
+    if (control.next === -1 || control.from <= 0) {
+      return null;
+    }
   }
 
   if (payload != null) {
     control = { ...payload };
-  }
-
-  if (control.next === -1 || control.from <= 0) {
-    return null;
   }
 
   control.table = table;

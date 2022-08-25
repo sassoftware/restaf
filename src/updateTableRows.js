@@ -32,7 +32,7 @@ async function iupdateCasTable (data, appEnv) {
 
   const t = {};
   for (const k in data) {
-    if (k !== '_index_' && columns[k].custom === false) {
+    if (!(k === '_index_' || k === '_rowIndex') && columns[k].custom === false) {
       t[k] = data[k];
     };
   };

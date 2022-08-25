@@ -22,19 +22,11 @@ async function prepFormData (result, appEnv) {
   const customColumns = appEnv.appControl.customColumns;
   let status = { statusCode: 0, msg: 'Initialization was successful' };
 
-  const makeRowObject = (columns, row) => {
-    const rowObj = {};
+  const makeRowObject = (columns, row, rown) => {
+    const rowObj = { _rowIndex: rown };
     row.forEach((r, i) => {
       const s = columns[i];
       const name = s.Column.toLowerCase();
-      /*
-      if (s.Label == null) {
-        s.Label = (s.label == null) ? s.Column : s.label;
-      }
-      if (s.Label == null) {
-        s.Label = s.Column;
-      }
-      */
       rowObj[name] = r;
     });
 
@@ -50,7 +42,7 @@ async function prepFormData (result, appEnv) {
 
   const newRows = [];
   for (let i = 0; i < rows.length; i++) {
-    const t = makeRowObject(schema, rows[i]);
+    const t = makeRowObject(schema, rows[i], i);
 
     const [t1, statusi] = await commonHandler('init', t, i, appEnv);
     status = statusi;

@@ -26,7 +26,8 @@ import updateTableRows from './updateTableRows';
  */
 async function cellEdit (name, value, rowIndex, data, appEnv) {
   /* do not modify the data directly. caller will probably do a setState */
-  let newDataRow = (data !== null) ? { ...data } : { ...appEnv.state.data[rowIndex] };
+
+  let newDataRow = { ...data };
   const columns = appEnv.state.columns;
   const { handlers, autoSave } = appEnv.appControl.editControl;
 
@@ -53,7 +54,7 @@ async function cellEdit (name, value, rowIndex, data, appEnv) {
   newDataRow = r[0];
 
   if (appEnv.appControl.cachePolicy === true) {
-    appEnv.state.data[rowIndex] = newDataRow;
+    appEnv.state.data[data._rowIndex] = newDataRow;
   }
 
   return ({ data: newDataRow, status });

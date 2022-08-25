@@ -19,7 +19,7 @@ async function runit () {
   debugger;
   let values = await distinctValues(appEnv.appControl.table, 'version', appEnv);
   console.log(values);
-  values = await distinctValues({caslib: 'public', name: 'customer_master'}, 'company', appEnv);
+  values = await distinctValues({ caslib: 'public', name: 'customer_master' }, 'company', appEnv);
   console.log(values);
   debugger;
   return 'done';

@@ -10,6 +10,7 @@ import { caslRun } from '@sassoftware/restaflib';
  * @private
  * @module casTableUnique
  * @category restafedit/core
+ * @param {object} table object
  * @param {string} columnName    column name
  * @param {appEnv} appEnv   app Environment from setup
  * @returns {promise}       {an array of unique values }
@@ -19,7 +20,7 @@ import { caslRun } from '@sassoftware/restaflib';
  *  {columnName:[ array of unquew values] }
  */
 
-async function casTableUnique (columnName, appEnv, payload) {
+async function casTableUnique (table, columnName, appEnv, payload) {
   const { store, session } = appEnv;
 
   const src = `
@@ -28,7 +29,7 @@ async function casTableUnique (columnName, appEnv, payload) {
   `
   ;
   const args = {
-    table : appEnv.appControl.table,
+    table,
     column: columnName
   };
 

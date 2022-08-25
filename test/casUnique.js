@@ -1,5 +1,5 @@
 /* eslint-disable quotes */
-const { setup, casTableUnique } = require('../dist/index.js');
+const { setup, distinctValues } = require('../dist/index.js');
 
 runit()
   .then(r => console.log(r))
@@ -17,7 +17,9 @@ async function runit () {
   debugger;
   const appEnv = await setup(payload, getAppControl());
   debugger;
-  const values = await casTableUnique('version', appEnv);
+  let values = await distinctValues(appEnv.appControl.table, 'version', appEnv);
+  console.log(values);
+  values = await distinctValues({caslib: 'public', name: 'customer_master'}, 'company', appEnv);
   console.log(values);
   debugger;
   return 'done';

@@ -11,6 +11,7 @@ import sasTableUnique from './sasTableUnique';
  * @async
  * @module distinctValues
  * @category restafedit/core
+ * @param {object} table {caslib: xxx, name: yyy}
  * @param {string} columnName    column name
  * @param {appEnv} appEnv   - app Environment from setup
  * @returns {promise}       - {an array of unique values }
@@ -20,12 +21,12 @@ import sasTableUnique from './sasTableUnique';
  *  {company:['IBM', 'Microsoft', 'SAS'] }
  */
 
-async function distinctValues (columnName, appEnv, payload) {
+async function distinctValues (table, columnName, appEnv, payload) {
   let data;
   if (appEnv.source === 'cas') {
-    data = await casTableUnique(columnName, appEnv, payload);
+    data = await casTableUnique(table, columnName, appEnv, payload);
   } else {
-    data = await sasTableUnique(columnName, appEnv, payload);
+    data = await sasTableUnique(table, columnName, appEnv, payload);
   }
   return data;
 };

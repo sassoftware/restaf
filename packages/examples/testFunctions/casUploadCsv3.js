@@ -38,8 +38,7 @@ module.exports = async function casUploadCsv3 (save, testInfo) {
 	);
 	// run fetch action
 	debugger;
-	console.log('return from casUpload---------------------------------');
-	console.log(r.items().toJS())
+	
 	let actionPayload = {
 		action: 'table.fetch',
 		data  : {
@@ -58,6 +57,7 @@ module.exports = async function casUploadCsv3 (save, testInfo) {
 	await store.apiCall(session.links('delete'));
 	return t;
 };
+
 function readFile (filename, fileType) {
 	let data = fs.readFileSync(`./data/${filename}.${fileType}`, 'utf-8');
 	console.log(data);

@@ -44,6 +44,7 @@ async function uploadSrc (store, session, modelBuf, fileInfo, save){
 	console.log(r.items().toJS());
 	debugger;
 	if (save === true) {
+		debugger;
 		let casl = `
 			action table.save r = result / 
 			table = {caslib='${caslib}' name='${name}'} replace=true
@@ -51,6 +52,9 @@ async function uploadSrc (store, session, modelBuf, fileInfo, save){
 
 			send_response(result);
 			`;
+			debugger;
+		console.log(casl);
+		debugger;
 		let r = await caslRun(store, session, casl, null);
 	}
 

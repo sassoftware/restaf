@@ -1,6 +1,6 @@
 {
   "name": "restaf",
-  "version": "4.4.31",
+  "version": "4.4.32",
   "description": "Library for writing SAS Viya application using REST APIs",
   "author": "Deva Kumaraswamy <deva.kumar@sas.com>",
   "license": "Apache-2.0",
@@ -31,7 +31,7 @@
     "restafedit:test": "cd ./packages/examples && cross-env NODE_TLS_REJECT_UNAUTHORIZED=0 node restafeditTest.js",
     "pup:test": "cd ./packages/examples/puptests && node",
     "pup:debug": "cd ./packages/examples/puptests && node --inspect-brk",
-    "examples:debug": "cd ./packages/examples && npm run debug",
+    "debug": "cd ./packages/examples && npm run debug",
     "restaf:build": "cd ./packages/restaf && yarn build",
     "restaf:pub": "cd ./packages/restaf && npm run pub",
     "restaflib:pub": "cd ./packages/restaflib && npm run pub",

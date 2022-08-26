@@ -35,7 +35,9 @@ async function casUpload (store, session, source, output,save, altSrc){
     }
 
     // upload using specific upload handlers
+    debugger;
     let r = await fileInfo.handler(store, session, buf, fileInfo, save);
+    console.log(r.items().toJS());
     if (save === true) {
         let [caslib, name] = output.split('.');
         await saveTable(store, session, caslib, name);

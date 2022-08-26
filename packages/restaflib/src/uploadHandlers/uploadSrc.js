@@ -38,9 +38,11 @@ async function uploadSrc (store, session, modelBuf, fileInfo, save){
 		data  : modelBuf,
 		action: 'table.upload'
 	};
-	
-	await store.runAction(session, p);
-	
+	console.log(p.data);
+	debugger;
+	let r = await store.runAction(session, p);
+	console.log(r.items().toJS());
+	debugger;
 	if (save === true) {
 		let casl = `
 			action table.save r = result / 

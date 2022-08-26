@@ -21,28 +21,35 @@
 
 let restaflib = require('@sassoftware/restaflib');
 let { casSetup, casUpload} = restaflib;
+let fs = require('fs');
 
-module.exports = async function casUploadCsv2 (save, testInfo) {
+module.exports = async function casUploadCsv3 (save, testInfo) {
 	let { store, logger } = testInfo;
 	let { session } = await casSetup(store, null);
-	
+	let altsrc = readFile('cars', 'csv');
+	debugger;
 	let r = await casUpload(
 		store,
 		session,
-		'./data/cars.csv',
-		'casuser.carsnew',
-		save
+		null,
+		'casuser.carsnew1',
+		save,
+		altsrc
 	);
 	// run fetch action
+	debugger;
+	console.log('return from casUpload---------------------------------');
+	console.log(r.items().toJS())
 	let actionPayload = {
 		action: 'table.fetch',
 		data  : {
 			table: {
 				caslib: 'casuser',
-				name  : 'carsnew'
+				name  : 'carsnew1'
 			}
 		}
 	};
+	debugger;
 	let actionResult = await store.runAction(session, actionPayload);
 
 	logger.info(actionResult.items('tables'));
@@ -51,3 +58,8 @@ module.exports = async function casUploadCsv2 (save, testInfo) {
 	await store.apiCall(session.links('delete'));
 	return t;
 };
+function readFile (filename, fileType) {
+	let data = fs.readFileSync(`./data/${filename}.${fileType}`, 'utf-8');
+	console.log(data);
+	return data;
+  }

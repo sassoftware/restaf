@@ -10,6 +10,7 @@ import updateTableRows from './updateTableRows';
 import scrollTable from './scrollTable';
 import setup from './setup';
 import distinctValues from './distinctValues';
+import uploadData from './uploadData';
 import sort from './sort';
 
 export {
@@ -20,5 +21,6 @@ export {
   updateTableRows,
   setup,
   distinctValues,
-  sort
+  sort,
+  uploadData
 };

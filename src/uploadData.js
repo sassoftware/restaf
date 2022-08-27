@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { casUpload } from '@sassoftware/restaflib';
+import { casUpload, caslRun } from '@sassoftware/restaflib';
 
 /**
  * @description Get unique values for a specific column
@@ -22,7 +22,7 @@ import { casUpload } from '@sassoftware/restaflib';
  *  {company:['IBM', 'Microsoft', 'SAS'] }
  */
 
-async function uploadData (table, data, drop, addon, appEnv) {
+async function uploadData (table, data, drop, addon, appEnv, append2Table) {
   const { store, session } = appEnv;
   debugger;
   let t = data[0];
@@ -53,7 +53,7 @@ async function uploadData (table, data, drop, addon, appEnv) {
   console.log(_casTableUpload);
   let result;
   if (appEnv.source === 'cas') {
-    result = await _casTableUpload(store, session, table, csvArray);
+    result = await _casTableUpload(store, session, table, csvArray, append2Table);
   } else {
     result = {};
   }
@@ -62,12 +62,22 @@ async function uploadData (table, data, drop, addon, appEnv) {
   return result;
 }
 
-async function _casTableUpload (store, session, table, csvArray) {
+async function _casTableUpload (store, session, table, csvArray, append2Table) {
   debugger;
   console.log('calling casUpload');
-  const r = await casUpload(store, session, null, 'casuser.temp', true, csvArray);
+  const t = `${table.caslib}.${table.name}`;
+  let r = await casUpload(store, session, null, t, true, csvArray);
   console.log('end of casUpload');
   debugger;
   console.log(r.items().toJS());
+  debugger;
+	console.log(append2Table);
+  if (append2Table != null) {
+		debugger;
+    const src = `action datastep.runCode/ code='data ${append2Table.caslib}.${append2Table.name} (append=YES);set ${t};run;'`;
+    console.log(src);
+    r = await caslRun(store, session, src);
+    console.log(r.items().toJS());
+  }
 }
 export default uploadData;

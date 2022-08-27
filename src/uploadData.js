@@ -69,15 +69,12 @@ async function _casTableUpload (store, session, table, csvArray, append2Table) {
   let r = await casUpload(store, session, null, t, true, csvArray);
   console.log('end of casUpload');
   debugger;
-  console.log(r.items().toJS());
-  debugger;
-	console.log(append2Table);
   if (append2Table != null) {
-		debugger;
+    debugger;
     const src = `action datastep.runCode/ code='data ${append2Table.caslib}.${append2Table.name} (append=YES);set ${t};run;'`;
     console.log(src);
     r = await caslRun(store, session, src);
-    console.log(r.items().toJS());
+    console.log(r);
   }
 }
 export default uploadData;

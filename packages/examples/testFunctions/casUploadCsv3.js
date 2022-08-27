@@ -26,7 +26,7 @@ let fs = require('fs');
 module.exports = async function casUploadCsv3 (save, testInfo) {
 	let { store, logger } = testInfo;
 	let { session } = await casSetup(store, null);
-	let altsrc = readFile('cars', 'csv');
+	let altsrc = readFile('testdata', 'csv');
 	debugger;
 	let r = await casUpload(
 		store,
@@ -38,7 +38,7 @@ module.exports = async function casUploadCsv3 (save, testInfo) {
 	);
 	// run fetch action
 	debugger;
-	
+	console.log(r);
 	let actionPayload = {
 		action: 'table.fetch',
 		data  : {

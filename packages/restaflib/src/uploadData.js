@@ -45,7 +45,7 @@ async function uploadData (caslib, fileName, file, type, store,scope) {
     formData.append('tableName', fileName);
     formData.append('format', type);
     formData.append('scope', (scope == null) ? 'global' : scope);
-   // formData.append('replace', true);
+    formData.append('replace', true);
     formData.append('containsHeaderRow', true);
     formData.append('file', file);  // note that we are passing the File object
     

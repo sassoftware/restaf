@@ -26,13 +26,13 @@ let fs = require('fs');
 module.exports = async function casUploadCsv3 (save, testInfo) {
 	let { store, logger } = testInfo;
 	let { session } = await casSetup(store, null);
-	let altsrc = readFile('testdata', 'csv');
+	let altsrc = readFile('cars', 'csv');
 	debugger;
 	let r = await casUpload(
 		store,
 		session,
 		null,
-		'casuser.carsnew1',
+		'casuser.product_offers_temp',
 		save,
 		altsrc
 	);

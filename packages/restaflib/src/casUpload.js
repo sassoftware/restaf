@@ -41,6 +41,7 @@ async function casUpload (store, session, source, output,save, altSrc){
         let [caslib, name] = output.split('.');
         await saveTable(store, session, caslib, name);
         r = r + '\n' + `   ${output} was saved`;
+        console.log(r);
     }
     return r;
 }

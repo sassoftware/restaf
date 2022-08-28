@@ -20,88 +20,56 @@
 
 let restaflib = require('@sassoftware/restaflib');
 
-let { casSetup, casUpload, caslRun} = restaflib;
+let { casSetup, casUpload, casFetchRows,casAppendTable} = restaflib;
 
 let fs = require('fs');
 
-module.exports = async function casUploadCsv3 (save, testInfo) {
+module.exports = async function casUploadnew (save, testInfo) {
 	let { store, logger } = testInfo;
 	let { session } = await casSetup(store, null);
+
 	let altsrc = readFile('cars', 'csv');
 	let output = 'casuser.dtemp1';
+
 	debugger;
-	let dr = await cleanup(store, session, output);
-	let r = await upload(
-		store,
-		session,
-		null,
-		output,
-		save,
-		altsrc
-	);
-	console.log('drop table');
-	
-	dr = await cleanup(store, session, output);
-	console.log(dr);
 
-    console.log('----------------- repeat');
-   
-	r = await upload(
-		store,
-		session,
-		null,
-		output,
-		save,
-		altsrc
-	);
-
-	// run fetch action
-	debugger;
-	let actionPayload = {
-		action: 'table.fetch',
-		data  : {
-			table: {
-				caslib: 'casuser',
-				name  : 'dtemp1'
-			}
-		}
-	};
-	debugger;
-	let actionResult = await store.runAction(session, actionPayload);
-
-	logger.info(actionResult.items('tables'));
-	let t = actionResult.items('tables', 'Fetch').toJS();
-	t.attributes.CreateTime.value = 0.0;
-	await store.apiCall(session.links('delete'));
-	return t;
-};
-
-async function cleanup(store, session, table) {
-	let [caslib, name] = table.split('.');
-	let deleteSrc = `
-		action table.dropTable/   
-        caslib='${caslib}' name='${name}' quiet=TRUE;   
-             
-        action table.deleteSource status=src /   
-        caslib='casuser' source= '${table}' quiet=TRUE;  
-		send_response({csResults = {results= 'data deleted'}})
-		`;
-	let r = await caslRun(store,session, deleteSrc);
-	console.log(r);
-
-}
-async function upload (store,	session,file, table,save,altsrc) {
 	let r = await casUpload(
 		store,
 		session,
-		file,
-		table,
+		null,
+		output,
 		save,
 		altsrc
 	);
-	console.log('from casupload ' , r);
-	return r;
-}
+	console.log(r);
+    console.log('----------------- repeat');
+   
+	r = await casUpload(
+		store,
+		session,
+		null,
+		output,
+		save,
+		altsrc
+	);
+	console.log(r);
+
+	console.log('fetch the first few rows');
+	let [caslib,name] = output.split('.');
+	let table = {caslib: caslib, name: name};
+	let payload = {
+		from: 1,
+		count: 10,
+		format: false,
+		table: table
+	}
+	let data = await casFetchRows(store, session, payload);
+	console.log(JSON.stringify(data.data.rows, null,4));
+
+	await store.apiCall(session.links('delete'));
+	return data.data.rows;
+};
+
 function readFile (filename, fileType) {
 	let data = fs.readFileSync(`./data/${filename}.${fileType}`, 'utf-8');
 	console.log(data);

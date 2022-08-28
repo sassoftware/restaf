@@ -17,6 +17,8 @@ let casUploadProgram2 = require('./casUploadProgram2');
 let casFetchData3 = require('./casFetchData3');
 let casUploadCsv2 = require('./casUploadCsv2');
 let casUploadCsv3 = require('./casUploadCsv3');
+let casAppendTable1 = require('./casAppendTable1');
+let casUploadnew  = require('./casUploadnew')
 let casUploadbdat = require('./casUploadbdat');
 let casUploadhdat = require('./casUploadhdat');
 let casUploadAst = require('./casUploadAst');
@@ -53,6 +55,8 @@ module.exports = {
 	casUploadProgram2,
 	casUploadCsv2,
 	casUploadCsv3,
+	casUploadnew,
+	casAppendTable1,
 	casUploadbdat,
 	casUploadhdat,
 	casUploadAst,

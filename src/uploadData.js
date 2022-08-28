@@ -1,3 +1,4 @@
+/* eslint-disable no-tabs */
 /*
  * Copyright © 2021, SAS Institute Inc., Cary, NC, USA.  All Rights Reserved.
  * SPDX-License-Identifier: Apache-2.0
@@ -53,7 +54,13 @@ async function uploadData (table, data, drop, addon, appEnv, append2Table) {
   console.log(_casTableUpload);
   let result;
   if (appEnv.source === 'cas') {
-    result = await _casTableUpload(store, session, table, csvArray, append2Table);
+    result = await _casTableUpload(
+      store,
+      session,
+      table,
+      csvArray,
+      append2Table
+    );
   } else {
     result = {};
   }
@@ -71,10 +78,28 @@ async function _casTableUpload (store, session, table, csvArray, append2Table) {
   debugger;
   if (append2Table != null) {
     debugger;
-    const src = `action datastep.runCode/ code='data ${append2Table.caslib}.${append2Table.name} (append=YES);set ${t};run;'`;
+    const args = {
+      masterTable: append2Table,
+      setTable   : table
+    };
+    const src = `
+			rc = checkAndLoadTable(_args_.masterTable.caslib, _args_.masterTable.name);
+			if (rc ne true) then do;
+				results = {Errors= 'Unable to access ' ||_args_.masterTable.caslib||'.'||_args_.masterTable.name};   
+				send_response(casResults=results);
+				end; 
+			rc = checkAndLoadTable(_args_.setTable.caslib, _args_.setTable.name);
+			if (rc ne true) then do;
+				results = {Errors= 'Unable to access ' ||_args_.setTable.caslib||'.'||_args_.setTable.name};   
+				send_response(casResults=results);
+				end;
+			action datastep.runCode r=result rc=rc/ code='data ${append2Table.caslib}.${append2Table.name} (append=YES);set ${t};run;'
+			send_response({casResults = {code = rc}});
+			`;
     console.log(src);
-    r = await caslRun(store, session, src);
+    r = await caslRun(store, session, src, args, true);
     console.log(r);
+    return r;
   }
 }
 export default uploadData;

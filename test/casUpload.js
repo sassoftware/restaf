@@ -29,7 +29,8 @@ async function runit () {
 
   const drop = ['drop1'];
   debugger;
-  const aftersave = await uploadData({}, data, drop, addon, appEnv);
+  // table, data, drop, addon, appEnv, masterTable, saveFlag
+  const aftersave = await uploadData({caslib: 'casuser', name: 'testedit'}, data, drop, addon, appEnv);
 
   console.log(aftersave.items().toJS());
 

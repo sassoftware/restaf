@@ -6,6 +6,22 @@
 import caslRunBase from './caslRunBase';
 import casSaveTable from './casSaveTable';
 import programs from './programs';
+/** 
+* @description Append a cas table to a master cas table 
+* @async
+* @module casAppendTable
+* @category restaflib/cas
+* @param {store} store   - store
+* @param {rafObject} session - cas session
+* @param {casTable} input Input table with new rows {caslib: xxx, name: nnn}
+* @param {casTable} output  Master table {caslib: xxx, name: nnn}
+* @param {boolean}  saveflag If true the master table will be saved to disk
+* @param {*} payload -
+* @returns {promise} - return 
+* @example
+*    let status = restaflib.casAppendTable(store, session, 'casuser.temp', 'public.master', true));
+*   
+*/
 async function casAppendTable (store, session, input, output, save){
     debugger;
     let src    = programs['commonCasl']() + ' ' +  programs['casAppendTable']();
@@ -14,12 +30,14 @@ async function casAppendTable (store, session, input, output, save){
         setTable   : input,
         save       : (save != null) ? save : false
     };
-
+    console.log(args);
     let result = await caslRunBase(store, session, src, args);
     let r = result.items('results', 'casResults').toJS();
-
+    console.log(r);
     if (save === true) {
-        await casSaveTable(store, session, output.caslib, output.name );
+        console.log('saving');
+        console.log(output);
+        await casSaveTable(store, session, output );
     }
     return r;    
 }

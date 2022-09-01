@@ -19,12 +19,13 @@ import casTableToJson  from './casTableToJson';
 import computeRun       from './computeRun';
 import computeSetup     from './computeSetup';
 import computeSummary   from './computeSummary';
-
 import computeSetupTables from './computeSetupTables';
-
 import computeResults   from './computeResults';
 import computeFetchData from './computeFetchData';
 import computeFileContent from './computeFileContent';
+import computeAppendTable from './computeAppendTable';
+import computeUpdateData from './computeUpdateData';
+
 
 import findReport      from './findReport';
 import getReportImage  from './getReportImage';
@@ -65,12 +66,20 @@ export {
     casFetchRows,
     casAppendTable,
     casUpdateData,
+    casUpload,
+    casSaveTable,
+
     computeRun,
     computeSetup,
     computeSummary,
     computeSetupTables,
     computeFetchData,
     computeFileContent,
+    computeResults,
+    computeAppendTable,
+    computeUpdateData,
+
+
     findReport,
     getReportImage,
     getReportUri,
@@ -81,7 +90,7 @@ export {
     jesSummary,
     
     jsonToDict,
-    computeResults,
+   
     // print,
     caslScore,
     caslDescribe,
@@ -90,8 +99,7 @@ export {
     masDescribe,
     masRun,
     masScore,
-    casUpload,
     uploadData,
-    casSaveTable,
+
     lib
 };

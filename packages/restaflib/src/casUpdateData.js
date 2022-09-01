@@ -57,8 +57,13 @@ async function casUpdateData(store, session, payload) {
     }
 
     let r = await store.runAction(session, pl);
-    
-    return r;
+    const status = {msg: 'Update completed', statusCode: 0};
+    if (r.disposition.severity !== 'Normal') {
+        status.statusCode = 2;
+        status.msg = r.disposition.severity.reason;
+      };
+
+    return status;
 }
 
 export default casUpdateData;

@@ -47,8 +47,9 @@ module.exports = async function casAppendTable1 (save, testInfo) {
 	let [caslib,name] = output.split('.');
 	let inputTable = {caslib: caslib, name: name};
 	let outputTable = {caslib: 'casuser', name: 'testdata'};
-
-	r = await casAppendTable(store, session, inputTable, outputTable,true)
+	console.log(inputTable, '    ', outputTable);
+	
+	r = await casAppendTable(store, session, inputTable, outputTable, true)
 	console.log(r);
 	await store.apiCall(session.links('delete'));
 	return 'done';

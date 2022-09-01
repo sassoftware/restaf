@@ -4,17 +4,17 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { casUpload, casAppendTable } from '@sassoftware/restaflib';
+import { casUpload, casAppendTable, computeRun } from '@sassoftware/restaflib';
 
 /**
- * @description Get unique values for a specific column
+ * @description Upload data (peding: upload to sas table)
  * @async
  * @module uploadData
  * @category restafedit/core
  * @param {object} output table
  * @param {array}  data
- * @param {array}  drop fields to delete
- * @param {object} addon columns
+ * @param {array}  drop fields to drop from the output
+ * @param {object} addon columns additional columns
  * @param {appEnv} appEnv   - app Environment from setup
  * @param {object=} masterTable if specified the data will be appended to this table
  * @param {boolean} saveFlag if true, the masterTable will be saved
@@ -27,16 +27,25 @@ import { casUpload, casAppendTable } from '@sassoftware/restaflib';
 
 async function uploadData (table, data, drop, addon, appEnv, masterTable, saveFlag) {
   const { store, session } = appEnv;
-  debugger;
-  let t = data[0];
-  for (let j = 0; j < drop.length; j++) {
-    delete t[drop[j]];
+  // eslint-disable-next-line prefer-const
+  let t = Object.keys(data[0]);
+  let dropArray = ['_index_', '_rowIndex'];
+  if (drop !== null) {
+    dropArray = dropArray.concat(drop);
   }
-  t = { ...addon, ...t };
-  const columns = Object.keys(t);
+  const columns = t.filter(c => {
+    return !(dropArray.indexOf(c) >= 0);
+  });
+  const tempCols = {};
+  columns.forEach(k => {
+    tempCols[k] = appEnv.state.columns[k];
+  });
 
-  let csvArray = columns.join(',') + '\n';
-  debugger;
+  let csvArray = null;
+  if (appEnv.source === 'cas') {
+    csvArray = columns.join(',') + '\n';
+  };
+
   for (let i = 0; i < data.length; i++) {
     let temp = data[i];
     temp = { ...temp, ...addon };
@@ -48,15 +57,14 @@ async function uploadData (table, data, drop, addon, appEnv, masterTable, saveFl
       }
       valArray[l] = v;
     });
-    csvArray = csvArray + valArray.join(',') + '\n';
+    if (csvArray === null) {
+      csvArray = valArray.join(',') + '\n';
+    } else {
+      csvArray = csvArray + valArray.join(',') + '\n';
+    }
   }
-  debugger;
-  console.log(csvArray);
-  console.log(casUpload);
-  console.log(_casTableUpload);
   let result;
   if (appEnv.source === 'cas') {
-    debugger;
     result = await _casTableUpload(
       store,
       session,
@@ -66,24 +74,45 @@ async function uploadData (table, data, drop, addon, appEnv, masterTable, saveFl
       saveFlag
     );
   } else {
-    result = {};
+    result = await _computeUpload(
+      store,
+      session,
+      tempCols,
+      table,
+      csvArray
+    );
   }
-  debugger;
-  // console.log(result.items().toJS());
   return result;
 }
 
+async function _computeUpload (store, session, columns, table, csvArray) {
+  let src = `data ${table.libref}.${table.name}; INFILE datalines delimiter=',' ;\n`;
+  let l = '';
+  let inx = 'INPUT ';
+  for (const k in columns) {
+    const c = columns[k];
+    inx = inx + c.Column + ' ';
+    if (c.Type === 'CHAR') {
+      const x = ` ${c.Column} $ ${c.length} \n`;
+      l = l + ' ' + x;
+    }
+  }
+  if (l.length > 0) {
+    l = 'LENGTH ' + l + ';\n';
+  };
+  inx = inx + ';\n';
+
+  src = src + ';\n' + l + inx + 'datalines;\n' + csvArray + '\n; run; proc print;run;\n';
+  await computeRun(store, session, src);
+  return { msg: 'done', statusCode: 0 };
+}
 async function _casTableUpload (store, session, table, csvArray, masterTable, saveFlag) {
-  debugger;
-  console.log('calling casUpload');
   const t = `${table.caslib}.${table.name}`;
-  // upload the table (with replace option)
   let r = await casUpload(store, session, null, t, true, csvArray);
-  console.log('end of casUpload');
-  debugger;
   if (masterTable != null) {
-    debugger;
     r = await casAppendTable(store, session, table, masterTable, saveFlag);
+    return r;
+  } else {
     return r;
   }
 }

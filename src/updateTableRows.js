@@ -1,34 +1,36 @@
-import { casUpdateData } from '@sassoftware/restaflib';
+import { casUpdateData, computeUpdateData } from '@sassoftware/restaflib';
 /**
  * @description Update the row on the server
  * @async
  * @module updateTableRows
  * @category restafedit/core
- * @param {rowObject} data  - data as a rowObject
+ * @param {rowObject} data  - data as a rowObject or Array of rowObjects
  * @param {appEnv} appEnv   - app Environment object from setup
- * @returns {promise}       - key is completion code
+ * @returns {promise}       - {msg: string, statusCode: 0|1|2}
  * @example
  *
  * Please see the restafeditExample in the Tutorial pulldown
  */
 async function updateTableRows (data, appEnv) {
   let result;
-  if (appEnv.source === 'cas') {
-    result = await iupdateCasTable(data, appEnv);
+  const byvars = appEnv.appControl.byvars;
+  if (byvars === null || byvars.length === 0) {
+    return [null, { msg: 'Error: Please specify a by variable', statusCode: 1 }];
+  }
+
+  if (Array.isArray(data) === true) {
+    for (let i = 0; i < data.length; i++) {
+      result = await _updateData(data[i], appEnv);
+    }
   } else {
-    result = await iupdateComputeTable(data, appEnv);
+    result = await _updateData(data, appEnv);
   }
   return result;
 }
 
-async function iupdateCasTable (data, appEnv) {
-  const { store, session } = appEnv;
+function makePayload (data, appEnv) {
   const { table, byvars } = appEnv.appControl;
   const columns = appEnv.state.columns;
-
-  if (byvars === null || byvars.length === 0) {
-    return null;
-  }
 
   const t = {};
   for (const k in data) {
@@ -46,80 +48,15 @@ async function iupdateCasTable (data, appEnv) {
     data : t,
     where: w
   };
-
-  const result = await casUpdateData(store, session, payload);
-  const r = result.items().toJS();
-  const status = { statusCode: 0, msg: 'Save successful' };
-
-  if (r.disposition.severity !== 'Normal') {
-    status.statusCode = 2;
-    status.msg = t.disposition.severity.reason;
-  };
-  return status;
+  return payload;
 }
 
-async function iupdateComputeTable (data, appEnv) {
+async function _updateData (data, appEnv) {
   const { store, session } = appEnv;
-  const { table, byvars } = appEnv.appControl;
-  const columns = appEnv.state.columns;
-  ;
-
-  if (byvars === null || byvars.length === 0) {
-    return null;
-  }
-
-  let src =
-    `proc sql; update ${table.libref}.${table.name}`;
-  let set = 'SET ';
-  let comma = ' ';
-  for (const k in data) {
-    if (columns[k].custom === false) {
-      set = set + comma + k + '=' + value2String(data[k]);
-    }
-    comma = ', ';
-  };
-  src = src + ' ' + set;
-  let w = ' WHERE ';
-  let andBit = ' ';
-
-  byvars.forEach((k) => {
-    w = w + andBit + k + '=' + value2String(data[k]);
-    andBit = 'AND ';
-  });
-  src = src + ' ' + w + ';run;';
-  const asrc = src.split(/\r?\n/);
-
-  const payload = {
-    data: { code: asrc }
-  };
-
-  // console.log(asrc);
-
-  const job = await store.apiCall(session.links('execute'), payload);
-  const qs = {
-    qs: {
-      newState: 'Completed',
-      timeout : 1
-    }
-  };
-
-  // eslint-disable-next-line no-unused-vars
-  const status = await store.jobState(job, qs);
-  const c = (status.data === 'completed' ? 0 : 1);
-
-  return { statusCode: c, msg: status.data };
-}
-
-function value2String (value) {
-  let valueString;
-  if (value == null) {
-    valueString = '.';
-  } else if (typeof value === 'string') {
-    valueString = JSON.stringify(value);
-  } else {
-    valueString = value.toString();
-  }
-  return valueString;
+  const handler = (appEnv.source === 'cas') ? casUpdateData : computeUpdateData;
+  const payload = makePayload(data, appEnv);
+  const status = await handler(store, session, payload);
+  return status;
 }
 
 export default updateTableRows;

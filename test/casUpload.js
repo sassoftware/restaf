@@ -4,8 +4,7 @@ const { setup, uploadData } = require('../dist/index.js');
 runit()
   .then((r) => console.log(r))
   .catch((err) => {
-    console.log('error');
-    console.log(JSON.stringify(err, null, 4));
+    console.log(err);
   });
 
 async function runit () {
@@ -30,9 +29,9 @@ async function runit () {
   const drop = ['drop1'];
   debugger;
   // table, data, drop, addon, appEnv, masterTable, saveFlag
-  const aftersave = await uploadData({caslib: 'casuser', name: 'testedit'}, data, drop, addon, appEnv);
+  const aftersave = await uploadData({ caslib: 'casuser', name: 'testedit' }, data, drop, addon, appEnv);
 
-  console.log(aftersave.items().toJS());
+  console.log(aftersave);
 
   return 'done';
 }

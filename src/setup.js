@@ -1,8 +1,8 @@
 /* eslint-disable prefer-const */
 
 import { initStore } from '@sassoftware/restaf';
-import { casSetup, computeSetup, computeSetupTables } from '@sassoftware/restaflib';
-import deepmerge from 'deepmerge';
+import { casSetup, computeSetup, computeSetupTables, caslRun } from '@sassoftware/restaflib';
+import deepcopy from 'deepcopy';
 
 /**
  * @description Setup an Edit session
@@ -35,7 +35,7 @@ async function setup (logonPayload, appControl, preamble) {
   return appEnv;
 }
 
-async function icasSetup (store, logonPayload, appControl) {
+async function icasSetup (store, logonPayload, appControl, preamble) {
   const r = await casSetup(store, logonPayload);
   let appEnv = {
     source: appControl.source,
@@ -44,8 +44,9 @@ async function icasSetup (store, logonPayload, appControl) {
     session  : r.session,
     servers  : r.servers,
     restaflib: null,
+
     logonPayload,
-    appControl,
+    appControl: deepcopy(appControl),
 
     state: {
       modified   : [],
@@ -58,6 +59,14 @@ async function icasSetup (store, logonPayload, appControl) {
 
     id: Date()
   };
+  if (preamble != null) {
+    const rx = await caslRun(store, r.session, preamble);
+    if (rx.details.statusCode !== 0) {
+      console.log(rx);
+      // eslint-disable-next-line no-throw-literal
+      throw 'Preamble failed. Please see console';
+    };
+  }
   return appEnv;
 };
 
@@ -77,7 +86,7 @@ async function icomputeSetup (store, logonPayload, appControl, preamble) {
     restaflib: null,
 
     logonPayload,
-    appControl: deepmerge(appControl),
+    appControl: deepcopy(appControl),
 
     state: {
       modified   : [],

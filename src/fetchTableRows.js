@@ -38,7 +38,6 @@ async function icasRows (control, appEnv) {
   if (c.from <= 0 || c.next === -1) {
     return null;
   }
-  debugger;
   if (c.where == null) {
     c.where = ' ';
   }

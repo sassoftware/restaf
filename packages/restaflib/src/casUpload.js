@@ -22,9 +22,13 @@ import { saveTable } from './uploadHandlers';
  * @returns {promise}
  */
 async function casUpload (store, session, source, output,save, altSrc){
-    // parse source file to fgure out what we are uploading
-    
-    let fileInfo = uploadSetup(source, output);
+    // parse source file to figure out what we are uploading
+    let table = output;
+    if (typeof output === 'object'){
+       table = `${output.caslib}.${output.name}`;
+    };
+
+    let fileInfo = uploadSetup(source, table);
     // read the file
 
     let buf = (altSrc != null) ? altSrc : await fs.readFile(source, fileInfo.fileOptions);
@@ -38,7 +42,7 @@ async function casUpload (store, session, source, output,save, altSrc){
     debugger;
     let r = await fileInfo.handler(store, session, buf, fileInfo, save);
     if (save === true) {
-        let [caslib, name] = output.split('.');
+        let [caslib, name] = table.split('.');
         await saveTable(store, session, caslib, name);
         r = r + '\n' + `   ${output} was saved`;
         console.log(r);

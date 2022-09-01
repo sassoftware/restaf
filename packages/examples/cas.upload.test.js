@@ -44,13 +44,13 @@ test('upload a CSV using restaflib+altsrc', async () => {
 });
 
 
-test('upload a CSV using casUpload', async () => {
+test.only('upload a CSV using casUpload', async () => {
 	expect.assertions();
 	let l = await testFunctions.casUploadnew(true, testInfo);
 	expect(l).toMatchSnapshot();
 });
 
-test.only('append cas table', async () => {
+test('append cas table', async () => {
 	expect.assertions();
 	let l = await testFunctions.casAppendTable1(true, testInfo);
 	expect(l).toMatchSnapshot();

@@ -15,16 +15,19 @@ import casFetchData    from './casFetchData';
 import casUpdateData   from './casUpdateData';
 import casAppendTable  from './casAppendTable';
 import casTableToJson  from './casTableToJson';
+import casUpload       from './casUpload';
+import casSaveTable    from './casSaveTable';
 
-import computeRun       from './computeRun';
-import computeSetup     from './computeSetup';
-import computeSummary   from './computeSummary';
+import computeRun         from './computeRun';
+import computeSetup       from './computeSetup';
+import computeSummary     from './computeSummary';
 import computeSetupTables from './computeSetupTables';
-import computeResults   from './computeResults';
-import computeFetchData from './computeFetchData';
+import computeResults     from './computeResults';
+import computeFetchData   from './computeFetchData';
 import computeFileContent from './computeFileContent';
 import computeAppendTable from './computeAppendTable';
-import computeUpdateData from './computeUpdateData';
+import computeUpdateData  from './computeUpdateData';
+import computeUpload      from './computeUpload';
 
 
 import findReport      from './findReport';
@@ -48,10 +51,10 @@ import masScore        from './masScore';
 import masAddModel     from './masAddModel';
 import print           from './print';
 
-import casUpload       from './casUpload';
+
 import uploadData      from './uploadData';
 import casFetchRows    from './casFetchRows';
-import casSaveTable       from './casSaveTable';
+
 import libx            from './lib';
 
 
@@ -78,6 +81,7 @@ export {
     computeResults,
     computeAppendTable,
     computeUpdateData,
+    computeUpload,
 
 
     findReport,

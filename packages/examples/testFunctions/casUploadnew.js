@@ -30,6 +30,7 @@ module.exports = async function casUploadnew (save, testInfo) {
 
 	let altsrc = readFile('cars', 'csv');
 	let output = 'casuser.dtemp1';
+	let table = {caslib: 'casuser', name: 'dtemp1'};
 
 	debugger;
 
@@ -37,7 +38,7 @@ module.exports = async function casUploadnew (save, testInfo) {
 		store,
 		session,
 		null,
-		output,
+		table,
 		save,
 		altsrc
 	);
@@ -48,7 +49,7 @@ module.exports = async function casUploadnew (save, testInfo) {
 		store,
 		session,
 		null,
-		output,
+		table,
 		save,
 		altsrc
 	);
@@ -56,7 +57,7 @@ module.exports = async function casUploadnew (save, testInfo) {
 
 	console.log('fetch the first few rows');
 	let [caslib,name] = output.split('.');
-	let table = {caslib: caslib, name: name};
+	// let table = {caslib: caslib, name: name};
 	let payload = {
 		from: 1,
 		count: 10,

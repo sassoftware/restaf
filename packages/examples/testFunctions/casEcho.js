@@ -39,6 +39,7 @@ module.exports = async function casEcho (testInfo) {
   let r = await store.runAction(session, p);
   console.log(JSON.stringify(session.links("execute"), null, 4));
   console.log(r.items().toJS());
+  console.log(r.items().toJS().disposition.severity);
   logger.info(r);
 
   const src = `

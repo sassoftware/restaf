@@ -6,6 +6,7 @@
  /**
  * @description Update a record in a cas table
  * @async
+ * @private
  * @module computeUpdateData
  * @category restaflib/cas
  * @param {store} store   - store
@@ -20,33 +21,31 @@
  *     Expects a single row
  */
 async function computeUpdateData(store, session, payload) {
-    const { table, where } = payload;
-
+    const { data, table, where } = payload;
     let src =
       `proc sql; update ${table.libref}.${table.name}`;
     let set = 'SET ';
     let comma = ' ';
     for (const k in data) {
-      if (columns[k].custom === false) {
-        set = set + comma + k + '=' + value2String(data[k]);
-      }
+      set = set + comma + k + '=' + value2String(data[k]);
       comma = ', ';
     };
     src = src + ' ' + set;
-    let w = ' WHERE ';
-    let andBit = ' ';
-  
-    where.forEach((k) => {
-      w = w + andBit + k + '=' + value2String(data[k]);
-      andBit = 'AND ';
-    });
-    src = src + ' ' + w + ';run;';
+    let swhere = ' WHERE ';
+    let andbit = ' ';
+    for( let k in where) {
+        let v = where[k];
+        let valString = value2String(v);
+        swhere = swhere + andbit + k + `= ${valString} `;
+        andbit = ' AND '
+    }
+    src = src + ' ' + swhere + ';run;';
     const asrc = src.split(/\r?\n/);
   
     const p = {
       data: { code: asrc }
     };
-  
+
     const job = await store.apiCall(session.links('execute'), p);
     const qs = {
       qs: {
@@ -72,6 +71,7 @@ async function computeUpdateData(store, session, payload) {
       valueString = value.toString();
     }
     return valueString;
-}
+  }
+
 
 export default computeUpdateData;

@@ -44,7 +44,7 @@ async function uploadSrc (store, session, modelBuf, fileInfo, save){
 	};
 	let r = await store.runAction(session, p);
 	if (save === true) {
-		debugger;
+		
 		let casl = `
 			action table.save r = result / 
 			table = {caslib='${caslib}' name='${name}'} replace=true
@@ -52,9 +52,9 @@ async function uploadSrc (store, session, modelBuf, fileInfo, save){
 
 			send_response(result);
 			`;
-			debugger;
+			
 
-		debugger;
+		
 		let r = await caslRun(store, session, casl, null, true);
 	}
 	const text = (fileInfo.source == null) ? "inline source" : fileInfo.source;
@@ -72,7 +72,6 @@ async function cleanup(store, session, caslib, name) {
 		send_response({csResults = {results= 'data deleted'}})
 		`;
 	let r = await caslRun(store,session, deleteSrc);
-	console.log(r);
 
 }
 export default uploadSrc;

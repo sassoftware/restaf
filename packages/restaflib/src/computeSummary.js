@@ -91,7 +91,6 @@ async function isetupTable(store, session, tables) {
     };
     
     let tableList = (typeof tables === 'object' ? [tables] : tables );
-    console.log(tableList);
     
     for (let i=0; i < tableList.length ; i++) {
         let itable = tableList[i];

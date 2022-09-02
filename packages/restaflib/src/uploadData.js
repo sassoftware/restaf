@@ -55,9 +55,9 @@ async function uploadData (caslib, fileName, file, type, store,scope) {
             'content-type': `multipart/form-data; boundary="----------12345678901234567"`
         }
     }
-    debugger;
+    
     let upload = await store.apiCall(tables.links('upload'), p3);
-    debugger;
+    
     // get the table uri for use with other apis
     // let uri = upload.items('tableReference', 'tableUri');
 

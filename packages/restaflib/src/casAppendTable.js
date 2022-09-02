@@ -23,20 +23,16 @@ import programs from './programs';
 *   
 */
 async function casAppendTable (store, session, input, output, save){
-    debugger;
     let src    = programs['commonCasl']() + ' ' +  programs['casAppendTable']();
     let args = {
         masterTable: output,
         setTable   : input,
         save       : (save != null) ? save : false
     };
-    console.log(args);
     let result = await caslRunBase(store, session, src, args);
     let r = result.items('results', 'casResults').toJS();
-    console.log(r);
+
     if (save === true) {
-        console.log('saving');
-        console.log(output);
         await casSaveTable(store, session, output );
     }
     return r;    

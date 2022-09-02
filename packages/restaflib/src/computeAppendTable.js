@@ -21,14 +21,13 @@ import computeRun from './computeRun';
 *   
 */
 async function computeAppendTable (store, session, input, output){
-    debugger;
+    
     const src = `
      proc append base=${output.libref}.{output.name}  
      data= ${input.libref}.${input.name}; run;
      `;
     
      let computeSummary = await computeRun(store, session, src);
-	console.log(computeSummary.SASJobStatus);
     const statusCode = (computeSummary.SASJobStatus === 'completed') ? 0 : 1;
     return {msg: `Append Completed. Status is: ${computeSummary.SASJobStatus}`, statusCode: statusCode };
 }

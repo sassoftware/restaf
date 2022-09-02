@@ -29,7 +29,7 @@ module.exports = async function computeWithPreamble (testInfo) {
 	const preamble = `libname tempdata '/tmp';run; 
 	data tempdata.testdata;
 	keep x1 x2 x3 key;
-	do i = 1 to 10; x1=i; x2=3; x3=i*10; key=compress('key'||i);
+	do i = 1 to 20; x1=i; x2=3; x3=i*10; key=compress('key'||i);
 	output;
 	end;
 	run;
@@ -50,7 +50,22 @@ module.exports = async function computeWithPreamble (testInfo) {
 		tableSummary,
 		tname,
 		'first',
-		{qs:{start: 0, limit:10,  where: 'X1 GT 5', "columnDetail": "detail"}}
+		{qs:{start: 0, limit:1,  where: 'X1 GT 5', "columnDetail": "detail"}}
+	);
+	console.log(data);
+	data = await restaflib.computeFetchData(
+		store,
+		tableSummary,
+		tname,
+		'first',
+		{qs:{start: 0, limit:1}}
+	);
+	console.log(data);
+	data = await restaflib.computeFetchData(
+		store,
+		tableSummary,
+		tname,
+		'first'
 	);
 	console.log(data);
 	await store.apiCall(computeSession.links('delete'));

@@ -48,6 +48,7 @@ function makePayload (data, appEnv) {
     data : t,
     where: w
   };
+  console.log(JSON.stringify(payload, null, 4));
   return payload;
 }
 
@@ -55,7 +56,11 @@ async function _updateData (data, appEnv) {
   const { store, session } = appEnv;
   const handler = (appEnv.source === 'cas') ? casUpdateData : computeUpdateData;
   const payload = makePayload(data, appEnv);
+  console.log(JSON.stringify(payload, null, 4));
+  console.log(payload);
+  console.log(handler);
   const status = await handler(store, session, payload);
+  console.log(status);
   return status;
 }
 

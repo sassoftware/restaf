@@ -85,6 +85,7 @@ async function uploadData (table, data, drop, addon, appEnv, masterTable, saveFl
   return result;
 }
 
+// TBD: switch to a datastep with arrays for each column. More reliable
 async function _computeUpload (store, session, columns, table, csvArray) {
   let src = `data ${table.libref}.${table.name}; INFILE datalines delimiter=',' ;\n`;
   let l = '';

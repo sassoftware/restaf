@@ -2,16 +2,16 @@
 
 import { initStore } from '@sassoftware/restaf';
 import { casSetup, computeSetup, computeSetupTables, caslRun } from '@sassoftware/restaflib';
-import deepcopy from 'deepcopy';
+// import deepcopy from 'deepcopy';
 
 /**
  * @description Setup an Edit session
  * @async
  * @module setup
  * @category restafedit/core
- * @param {logonPayload} logonPayload  - information for connecting to Viya
- * @param {appControl} appControl      - control information
- *
+ * @param {logonPayload} logonPayload  -information for connecting to Viya
+ * @param {appControl} appControl       control information
+ * @param {string=} preamble  casl or datastep code to execute
  * @returns {promise}  returns appEnv to control the flow
  * @alias module: setup
  * @example
@@ -28,7 +28,7 @@ async function setup (logonPayload, appControl, preamble) {
     logonPayload.authType = 'code';
   }
   if (appControl.source === 'cas') {
-    appEnv = await icasSetup(store, logonPayload, appControl);
+    appEnv = await icasSetup(store, logonPayload, appControl, preamble);
   } else {
     appEnv = await icomputeSetup(store, logonPayload, appControl, preamble);
   }
@@ -46,7 +46,7 @@ async function icasSetup (store, logonPayload, appControl, preamble) {
     restaflib: null,
 
     logonPayload,
-    appControl: deepcopy(appControl),
+    appControl,
 
     state: {
       modified   : [],
@@ -86,7 +86,7 @@ async function icomputeSetup (store, logonPayload, appControl, preamble) {
     restaflib: null,
 
     logonPayload,
-    appControl: deepcopy(appControl),
+    appControl,
 
     state: {
       modified   : [],

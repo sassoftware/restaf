@@ -9,12 +9,12 @@ runit()
 
 async function runit () {
   const payload = {
-    host        : process.env.SSAWS,
+    host        : process.env.VIYA_SERVER,
     authType    : 'password',
     clientID    : 'sas.ec',
     clientSecret: '',
-    user        : 'user04',
-    password    : 'user04123'
+    user        : 'sastest1',
+    password    : 'Go4thsas'
   };
 
   const appControl = getAppControl();

@@ -72,10 +72,8 @@ function getAppControl () {
 
     cachePolicy: true,
 
-    initialFetch: {
-      count : 1,
-      from  : 1,
-      format: false
+    initialFetch: { /* use rowSets query pattern */
+      qs: { start: 0, limit: 1 }
     },
 
     customColumns: {

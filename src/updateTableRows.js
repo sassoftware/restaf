@@ -1,4 +1,4 @@
-import { casUpdateData, computeUpdateData } from '@sassoftware/restaflib';
+import { casUpdateData } from '@sassoftware/restaflib';
 /**
  * @description Update the row on the server
  * @async
@@ -48,20 +48,67 @@ function makePayload (data, appEnv) {
     data : t,
     where: w
   };
-  console.log(JSON.stringify(payload, null, 4));
   return payload;
 }
 
 async function _updateData (data, appEnv) {
   const { store, session } = appEnv;
-  const handler = (appEnv.source === 'cas') ? casUpdateData : computeUpdateData;
+  const handler = (appEnv.source === 'cas') ? casUpdateData : _computeUpdateData;
   const payload = makePayload(data, appEnv);
-  console.log(JSON.stringify(payload, null, 4));
-  console.log(payload);
-  console.log(handler);
   const status = await handler(store, session, payload);
-  console.log(status);
   return status;
 }
+// TBD: Move to restaflib
 
+async function _computeUpdateData (store, session, payload) {
+  debugger;
+  const { data, table, where } = payload;
+  let src =
+    `proc sql; update ${table.libref}.${table.name}`;
+  let set = 'SET ';
+  let comma = ' ';
+  for (const k in data) {
+    set = set + comma + k + '=' + value2String(data[k]);
+    comma = ', ';
+  };
+  src = src + ' ' + set;
+  let swhere = ' WHERE ';
+  let andbit = ' ';
+
+  for (const k in where) {
+    const v = where[k];
+    swhere = swhere + andbit + k + `= ${value2String(v)} `;
+    andbit = ' AND ';
+  }
+  src = src + ' ' + swhere + ';run;';
+  const asrc = src.split(/\r?\n/);
+
+  // TBD: switch to computeRun on next pass
+  const p = {
+    data: { code: asrc }
+  };
+  const job = await store.apiCall(session.links('execute'), p);
+  const qs = {
+    qs: {
+      newState: 'Completed',
+      timeout : 1
+    }
+  };
+  const status = await store.jobState(job, qs);
+  const c = (status.data === 'completed' ? 0 : 1);
+
+  return { statusCode: c, msg: status.data };
+}
+
+function value2String (value) {
+  let valueString;
+  if (value == null) {
+    valueString = '.';
+  } else if (typeof value === 'string') {
+    valueString = JSON.stringify(value);
+  } else {
+    valueString = value.toString();
+  }
+  return valueString;
+}
 export default updateTableRows;

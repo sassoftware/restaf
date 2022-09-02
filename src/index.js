@@ -11,16 +11,16 @@ import scrollTable from './scrollTable';
 import setup from './setup';
 import distinctValues from './distinctValues';
 import uploadData from './uploadData';
-import sort from './sort';
+import saveTable from './saveTable';
 
 export {
   cellEdit,
   commonHandler,
+  distinctValues,
   fetchTableRows,
   scrollTable,
   updateTableRows,
+  saveTable,
   setup,
-  distinctValues,
-  sort,
   uploadData
 };

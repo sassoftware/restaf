@@ -8,9 +8,11 @@
  * @module saveTable
  * @category restafedit/core
  * @param {appEnv} appEnv
- * @param {object=} table - save a table other than the default
+ * @param {object=} table - save the table to disk
  * @returns {promise}  Status object
  * @example
+ * Saves the current cas table and leaves the inmemory table intact.
+ * If you want to save some other inmemory table pass the optional second parameter
  * This is a noop for SAS Tables
  **/
 

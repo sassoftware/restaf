@@ -13,6 +13,9 @@
  * @param {appEnv} appEnv      - app Environment from setup
  * @returns {promise}     - [data, status]
  * @example
+ * The function returns the updated data and the status.
+ * This function is called by cellEdit, so there is probably little reason
+ * to call this directly
  * Please see the restafeditExample in the Tutorial pulldown
  */
 async function commonHandler (type, data, rowIndex, appEnv) {

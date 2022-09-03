@@ -1,4 +1,4 @@
-const { setup, scrollTable, fetchTableRows } = require('../dist/index.js');
+const { setup, scrollTable } = require('../dist/index.js');
 
 const restafedit = require('../dist/index.js');
 console.log(restafedit);
@@ -33,22 +33,19 @@ async function runit () {
   debugger;
   console.log('result of first fetch -------------------------------');
   console.log(appEnv.state.data);
-  console.log(appEnv.state.pagination);
 
-  result = await scrollTable('next', appEnv);
-  console.log(result);
+  await scrollTable('prev', appEnv);
+  debugger;
+  console.log('result of prev from  first fetch(should not change) -------------------------------');
+  console.log(appEnv.state.data);
+
+  console.log('next-----------------');
+  await scrollTable('next', appEnv);
+  console.log(appEnv.state.data);
+
   console.log('result of scroll prev from top ----------------');
   console.log(appEnv.state.data);
   console.log('-------------------------------------------------------');
-
-  const control = {
-    from  : 10,
-    count : 1,
-    format: false
-  };
-  result = await fetchTableRows(control, appEnv);
-  console.log('result of a fetchTableRows-----------------------------');
-  console.log(appEnv.state.data);
 
   return 'done';
 };
@@ -64,9 +61,11 @@ function getAppControl () {
     cachePolicy: true,
 
     initialFetch: {
-      count : 1,
-      from  : 1,
-      format: false
+      qs: {
+        start : 0,
+        limit : 5,
+        format: true
+      }
     },
 
     customColumns: {

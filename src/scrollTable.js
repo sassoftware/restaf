@@ -17,9 +17,10 @@ import prepFormData from './prepFormData';
  * @returns {promise}  result ready for display or null if it did not scroll
  * @example
  *  let r = await scrollTable('next', appEnv);
+ *    r=== { data:data, columns:ecolumns, pagination: pagination}
  *
  *  if ( r === null) {
- *     handle when no data was writtten
+ *     handle when no data was retrieved
  *  } else {
  *     handle new data
  * }
@@ -30,11 +31,14 @@ import prepFormData from './prepFormData';
  * The content of the payload depends on whether the source is cas or compute.
  * For compute see the documentation for rowset in compute service.<https://developer.sas.com/apis/rest/Compute/#get-a-row-set-from-a-data-set>
  * CAS payload is not as rich the rowset for compute service
+ * At this time the cas is handled thru custom casl code.
+ * Future: use rowset from data management API.
  * The payload for CAS is as follows
- *  { start: <number>
- *    count: <number>
- *    format: true|false,
- *    where: <where string>
+ *  { qs: {
+ *       start: <number>
+ *       limit: <number>
+ *       format: true|false,
+ *       where: <where string>
  * };
  *
  * Please see the restafeditExample in the Tutorial pulldown
@@ -54,21 +58,38 @@ async function icasScroll (direction, appEnv, payload) {
   const { initialFetch, table } = appEnv.appControl;
   let control;
 
-  if (direction === 'first') {
-    control = { ...initialFetch };
-  } else if (direction !== null) {
-    control = { ...appEnv.state.pagination[direction] };
-    if (control.next === -1 || control.from <= 0) {
-      return null;
+  if (payload != null) {
+    control = { ...payload };
+  } else {
+    if (direction === 'first') {
+      control = { ...initialFetch };
+    } else if (direction !== null) {
+      control = { ...appEnv.state.pagination[direction] };
+      if (control.next === -1 || control.from <= 0) {
+        return null;
+      }
     }
   }
 
-  if (payload != null) {
-    control = { ...payload };
+  // Need to do this until we change resaflib..
+
+  let c = {};
+  if (control.qs != null) {
+    c = { ...control.qs };
+    c.from = c.start + 1;
+    c.count = c.limit;
+  } else {
+    c = { ...control };
+  }
+  if (c.from <= 0 || c.next === -1) {
+    return null;
+  }
+  if (c.where == null) {
+    c.where = ' ';
   }
 
-  control.table = table;
-  const r = await casFetchRows(store, session, control);
+  c.table = table;
+  const r = await casFetchRows(store, session, c);
 
   let t = null;
   if (r !== null) {

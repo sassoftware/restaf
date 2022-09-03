@@ -15,19 +15,21 @@ import updateTableRows from './updateTableRows';
  * @param {string} name     - name of the field (lower case)
  * @param {*} value         - the new value for name field
  * @param {number} rowIndex - row Index ( index in the data array on client)
- * @param {rowObject} data  - RowObject for the entire row prior to change
+ * @param {rowObject} currentData  - RowObject for the entire row prior to change
  * @param {appEnv} appEnv   - app Environment from setup
  * @returns {promise}       - {data: updated data, status: status }
  * @example
  * data schema {column1: value, column2, value,...}
  * status schema {statusCode: 0|1|2, msg: some string}
+ * The currentData object is also updated with the latest values.
  *
+ * const r = await cellEdit'x1',100, 1, d)
  * Please see the restafeditExample in the Tutorial pulldown
  */
-async function cellEdit (name, value, rowIndex, data, appEnv) {
+async function cellEdit (name, value, rowIndex, currentData, appEnv) {
   /* do not modify the data directly. caller will probably do a setState */
 
-  let newDataRow = { ...data };
+  let newDataRow = { ...currentData };
   const columns = appEnv.state.columns;
   const { handlers, autoSave } = appEnv.appControl.editControl;
 
@@ -54,7 +56,7 @@ async function cellEdit (name, value, rowIndex, data, appEnv) {
   newDataRow = r[0];
 
   if (appEnv.appControl.cachePolicy === true) {
-    appEnv.state.data[data._rowIndex] = newDataRow;
+    appEnv.state.data[currentData._rowIndex] = newDataRow;
   }
 
   return ({ data: newDataRow, status });

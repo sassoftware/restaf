@@ -56,6 +56,7 @@ async function scrollTable (direction, appEnv, payload) {
 async function icasScroll (direction, appEnv, payload) {
   const { store, session } = appEnv;
   const { initialFetch, table } = appEnv.appControl;
+  const cachePolicy = (appEnv.appControl.cachePolicy == null) ? true : appEnv.appControl.cachePolicy;
   let control;
 
   if (payload != null) {
@@ -101,7 +102,7 @@ async function icasScroll (direction, appEnv, payload) {
       data       : [],
       columns    : []
     };
-    if (appEnv.appControl.cachePolicy === true) {
+    if (cachePolicy === true) {
       appEnv.state.data = t.data;
       appEnv.state.columns = t.columns;
     }
@@ -113,6 +114,7 @@ async function icasScroll (direction, appEnv, payload) {
 async function icomputeScroll (direction, appEnv, payload) {
   const { store, tableSummary } = appEnv;
   const { table, initialFetch } = appEnv.appControl;
+  const cachePolicy = (appEnv.appControl.cachePolicy == null) ? true : appEnv.appControl.cachePolicy;
   let control = null;
 
   const tname = `${table.libref}.${table.name}`.toLowerCase();
@@ -136,9 +138,13 @@ async function icomputeScroll (direction, appEnv, payload) {
       modified   : [],
       pagination : {},
       currentPage: {},
-      data       : result.data,
-      columns    : result.columns
+      data       : [],
+      columns    : []
     };
+    if (cachePolicy === true) {
+      appEnv.state.data = result.data;
+      appEnv.state.columns = result.columns;
+    }
   }
 
   return result;

@@ -61,8 +61,6 @@ function getAppControl () {
     table : { caslib: 'public', name: 'TESTDATA' },
     byvars: ['id'],
 
-    cachePolicy: true,
-
     initialFetch: {
       qs: {
         start : 0,

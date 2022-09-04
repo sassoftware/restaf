@@ -1,5 +1,20 @@
 # restafedit - library for browsing and editing CAS tables and SAS Tables
 
+1. [Introduction](#intro)
+2. [Installation](#install)
+3. [Basic Flow](#basicflow)
+4. [Getting Started Example](#example1)
+5. [Editing with calculations]
+6. [First Web Application](#webapp1)(#example2)
+7. [Table versus Form Editing](#tableform)
+
+
+---
+
+## Introduction<a name="intro"></a>
+
+---
+
 Going back in history, SAS had products like SAS/FSP and SAS/AF that allowed users to create simple or complex interactive applications. As SAS moved to the Viya platform these products were dropped. SAS provided REST API (application programming interfaces) as an industry standard way for creating applications.
 
 The key component of these applications is entering data. Common destinations of the modified data are:
@@ -16,7 +31,31 @@ The key component of these applications is entering data. Common destinations of
 
 The goal of this project is to create a small reusable library to simplify the  data entry in SAS Viya.
 
-## Sample Applications
+## Currently Supported Features<a name="t4"></a>
+
+- Creation and management of CAS session or Compute Session
+- Reading one or more records from a cas table or SAS table
+- Update the records based on a key
+- Scrolling through the table
+- Saving the inmemory cas Table
+- Allow users to specify calculations on modifying a value. The current options are:
+  - On the client using JavaScript
+  - On the server
+    - On the cas server using casl  or any cas action
+    - Using procs and datasteps
+- Allow access to all the SAS REST API end points from the handlers.
+    - Recommend using [restaf and restaflib](https://sassoftware.github.io/restaf) for rapid appplication development
+    - External destination using http (ex: An Azure App for a SAS Decisioning Flow)
+
+---
+## Basic Flow<a name="basicflow"></a>
+
+---
+
+The Table Editor in the picture below is supplied by the user.
+![viyaedit](DataEditorFlow.png)
+
+### Working Examples 
 
 - [Simple Editor Application](https://github.com/sassoftware/restaf-uidemos/tree/editorapp) - Demonstrates the use of this library using basic javascript and html to edit a cas table.
 
@@ -25,11 +64,9 @@ The goal of this project is to create a small reusable library to simplify the  
 
 ---
 
-## Quick Start
+## Installation<a name="install"></a>
 
 ---
-
-## Installation
 
 The library can be installed using npm, yarn.
 It can also be accessed via script tags in your browser.
@@ -51,127 +88,212 @@ restafedit depends on restaf and restaflib
 npm install @sassoftware/restaf@next @sassoftware/restaflib@next @sassoftware/restafedit@next
 ```
 
-### Writing your first editor
+---
+
+## Writing your first editor<a name="example1"></a>
+
+---
+
+### `Scenario 1`
+
+- read data from a cas table
+- modify a row and update the inmemory table
+- save the inmemory table
+- do more scrolling
+
+Link: <https://github.com/sassoftware/restaf/blob/restafedit/test/example1.js>
 
 ```js
-const { setup, scrollTable, cellEdit } = require('@sassoftware/restafedit');
+const { setup, scrollTable, cellEdit, saveTable } = require('../dist/index.js');
 
 runit()
   .then(r => console.log(r))
   .catch(err => console.log(err));
 
+
 async function runit () {
 
-  // step 0: information to logon to Viya. See documentation for more options
-  const payload = {
-    host        : process.env.VIYA_SERVER,/* ex: https://viyaserver.sas.com */
+  // See https://github.com/sassoftware/restaf/wiki/authentication for
+  // more details and other options
+  const viyaConnection = {
+    host        : process.env.VIYA_SERVER,
     authType    : 'password',
     clientID    : 'sas.ec',
     clientSecret: '',
     user        : 'sastest1',
     password    : 'Go4thsas'
   };
- 
-  // Setup information for the edit session
-  const appControl =  {
-    description: 'Simple Example',
 
-    source: 'cas', 
-    table : { caslib: 'public', name: 'testdata' },
-    byvars: ['id'], /* used for updating the specific record */
-    cachePolicy: true, /* use default caching of data */
+  // For readability moved the appControl definition
+  // to the end as a function
+  // Also a good practice since it allows runtime creation of appControl
+  const appControl = getAppControl();
 
-    initialFetch: {  /* Where the first read starts */
-      count : 1, /* no of records on each fetch */
-      from  : 1, /* first record to start at */
-      format: false /* ask for formatted or unformatted data */
-    },
-    
-    editControl: {
-      handlers: {}, /* note reuse of init */
-      autoSave: true /* if true, a save is done on each edit */
-    },
-    appData: {} /* for user data */
-  };
+  // setup edit session
+  const appEnv = await setup(viyaConnection, appControl);
 
-  
-  // Step 1: Setup the edit session
-  const appEnv = await setup(payload, appControl);
-  
-  // Step 2: Read the first set of records
+  // get the first set of records
+  // data is available as appEnv.state.data
+  // the column definitions are also available as appEnv.state.columns
+
   let result = await scrollTable('first', appEnv);
-  console.log(result.data[0]);
+  console.log(result.status);
+  console.log(appEnv.state.data);
 
-  // Simulate a user editing the value of a column
+  // Simulate an edit operation
+  // The updated record is also updated on the cas inmemory table
+  // Uses the byvars in the appControl as the key for merge
+
   const x3New = result.data[0].x3 + 100;
-
-  // Step 3: Update the data and save to server
   await cellEdit('x3', x3New, 0, result.data[0], appEnv);
 
-  // Step 4: Scroll to the next set of records (or 'prev', 'first' )
+  // Confirm it was written to the inmemory table
+  // by refetching it
+  result = await scrollTable('first', appEnv);
+  console.log(appEnv.state.data);
+
+  // Optionally persist the imemory table
+  const status = await saveTable(appEnv);
+  console.log(status);
+
+  // Continue to scroll (next|prev|first) and do more editing
   result = await scrollTable('next', appEnv);
-  console.log(result.data[0]);
-
-  // Step 4a: Make sure the data was persisted in Step 3
+  // Do some more editing
   result = await scrollTable('prev', appEnv);
-  console.log(result.data[0]);
-
-  // Repeat Step 3 and Step 4 as often as necessary
-
   return 'done';
 };
 
+function getAppControl () {
+  return {
+    description: 'Simple Example',
+
+    source: 'cas',
+    table : { caslib: 'public', name: 'TESTDATA' },
+    byvars: ['id'],
+
+    cachePolicy: true,
+
+    initialFetch: {
+      qs: {
+        start : 0,
+        limit : 1,
+        format: false,
+        where : 'x1 GT 5'
+      }
+    },
+
+    customColumns: {},
+
+    editControl: {
+      handlers: {}, /* place holder for calculations */
+      autoSave: true
+    },
+    appData: {} /* place holder for additional user data  */
+
+  };
+}
 ```
 
 ---
 
-## Editing with calculations
+## Editing with calculations<a name="example2"></a>
 
 ---
 
+### `Scenario 2`
+
 In a typical edit session user input is checked and some temporary(computed/calcuated) columns are updated.
 
-restafedit allows the developer to do all these by specifying the information in the appControl.
+restafedit allows the developer to do these by specifying the information in the appControl.
 
-- Custom Columns -- Specify your additional columns in the CustomColumns field in appControl.
+- Custom Columns -- Specify your additional columns in the CustomColumns field in appControl. There is no limit to the number of calculated columns
 
 - Calculations -- Specify functions in the editControl.handlers object.
 
 Below is the updated example. The custom column is calculated when a record is read and when a cell is modified in the *init* and *main* handlers(functions).
 
-When the column x3 is modified the handler *x3* followed by *main* are executed.
+When the column x1 is modified the handler *x1* followed by *main* are executed.
 
-Before the record is saved the *term* handler is executed.
+Before the record is written to the server, the *term* handler is executed.
+
+All of these handlers are optional. If you have computed columns then at a minimum you should specify the *init* and *main* handlers. In many cases you can use the same handler for *init* and *main*.
+
+Link: <https://github.com/sassoftware/restaf/blob/restafedit/test/example2.js>
 
 ```js
-
-const { setup, scrollTable, cellEdit } = require('@sassoftware/restafedit');
+/* eslint-disable quotes */
+const { setup, scrollTable, cellEdit, saveTable } = require('../dist/index.js');
 
 runit()
   .then(r => console.log(r))
   .catch(err => console.log(err));
 
 async function runit () {
-
-  // step 0: information to logon to Viya. See documentation for more options
-  const payload = {
-    host        : process.env.VIYA_SERVER,/* ex: https://viyaserver.sas.com */
+  const viyaConnection = {
+    host        : process.env.VIYA_SERVER,
     authType    : 'password',
     clientID    : 'sas.ec',
     clientSecret: '',
     user        : 'sastest1',
     password    : 'Go4thsas'
   };
- 
-  // Setup information for the edit session
-  const appControl =  {
+
+  // For readability moved the appControl definition
+  // to the end as a function
+  // Also a good practice since it allows runtime creation of appControl
+  const appControl = getAppControl();
+
+  // setup edit session
+  const appEnv = await setup(viyaConnection, appControl);
+
+  // get the first set of records
+  // data is available as appEnv.state.data
+  // the column definitions are also available as appEnv.state.columns
+
+  let result = await scrollTable('first', appEnv);
+  console.log(result.status);
+  console.log(appEnv.state.data);
+
+  // Simulate an edit operation
+  // The updated record is also updated on the cas inmemory table
+
+  const x3New = result.data[0].x3 + 100;
+  await cellEdit('x3', x3New, 0, result.data[0], appEnv);
+
+  // Confirm it was written to the inmemory table
+  // by refetching it
+  result = await scrollTable('first', appEnv);
+  console.log(appEnv.state.data);
+
+  // Optionally persist the imemory table
+  const status = await saveTable(appEnv);
+  console.log(status);
+
+  // Continue to scroll (next|prev|first) and do more editing
+  result = await scrollTable('next', appEnv);
+  // Do some more editing
+  result = await scrollTable('prev', appEnv);
+  return 'done';
+};
+
+function getAppControl () {
+  return {
     description: 'Simple Example',
 
-    source: 'cas', 
-    table : { caslib: 'public', name: 'testdata' },
-    byvars: ['id'], /* used for updating the specific record */
-    cachePolicy: true, /* use default caching of data */
+    source: 'cas',
+    table : { caslib: 'public', name: 'TESTDATA' },
+    byvars: ['id'],
 
+    cachePolicy: true,
+
+    initialFetch: {
+      qs: {
+        start : 0,
+        limit : 1,
+        format: false,
+        where : 'x1 GT 5'
+      }
+    },
     customColumns: {
       total: {
         Column         : 'Total',
@@ -181,97 +303,64 @@ async function runit () {
       }
     },
 
-    initialFetch: {  /* Where the first read starts */
-      count : 1, /* no of records on each fetch */
-      from  : 1, /* first record to start at */
-      format: false /* ask for formatted or unformatted data */
-    },
-    
     editControl: {
-      handlers: {init, main, x3}, /* run calculations on reading and data change*/
-      autoSave: true /* if true, a save is done on each edit */
+      handlers: { init, main, term, x1 },
+      autoSave: true
     },
-    appData: {} /* for user data */
+    appData: {} /* place holder for additional user data  */
+
   };
-
-  
-  // Step 1: Setup the edit session
-  const appEnv = await setup(payload, appControl);
-  
-  // Step 2: Read the first set of records
-  let result = await scrollTable('first', appEnv);
-  console.log(result.data[0]);
-
-  // Simulate a user editing the value of a column
-  const x3New = result.data[0].x3 + 100;
-
-  // Step 3: Update the data and save to server
-  let editedData = await cellEdit('x3', x3New, 0, result.data[0], appEnv);
-  console.log(`Calculated value: ${editedData.data.total}`);
-
-  // Step 4: Scroll to the next set of records (or 'prev', 'first' )
-  result = await scrollTable('next', appEnv);
-  console.log(result.data[0]);
-
-  // Step 4a: Make sure the data was persisted in Step 3
-  result = await scrollTable('prev', appEnv);
-  console.log(result.data[0]);
-
-  // Repeat Step 3 and Step 4 as often as necessary
-
-  return 'done';
-};
+}
 async function init (data, rowIndex, appEnv, type) {
-  const status = { statusCode: 0, msg: `${type} processing completed` };
+  let status = { statusCode: 0, msg: `${type} processing completed` };
   data.total = data.x1 + data.x2 + data.x3;
+  debugger;
   return [data, status];
 };
 async function main (data, rowIndex, appEnv, type) {
-  const status = { statusCode: 0, msg: `${type} processing completed` };
+  let status = { statusCode: 0, msg: `${type} processing completed` };
   data.total = data.x1 + data.x2 + data.x3;
+  debugger;
   return [data, status];
 };
-async function x3 (data, name, rowIndex, appEnv) {
+
+async function term (data, rowIndex, appEnv, type) {
+  let status = { statusCode: 0, msg: `${type} processing completed` };
+  console.log('In term');
+  debugger;
+  return [data, status];
+};
+
+async function x1 (data, name, rowIndex, appEnv) {
   let status = { statusCode: 0, msg: `${name} handler executed.` };
-  if (data.x3 >1000){
-    status  = {statusCode: 1, msg: `Value exceeded 1000. Please review`};
+  if (data.x1 > 10) {
+    status = { statusCode: 1, msg: `Value of X1 exceeded 10. Set to 10` };
   }
   return [data, status];
 };
+
 ```
+---
 
-## Table versus Form for data entry<a name="t3"></a>
-
-There are significant differences in how the user interacts with an application which uses a Table versus a custom form.
-
-However, at the lowest level both require the same functionality - Accessing data, verifying the entered data, saving the modified records, executing additional processing on the server.
-
-One of the key goals of this project is to create a single code base to handle both scenarios.
-
-## Currently Supported Features of the library<a name="t4"></a>
-
-- Creation and management of CAS session or Compute Session
-
-- Reading one or more records from a cas table or SAS table
-
-- Update the records based on a key
-
-- Scrolling through the table
-
-- Allow users to specify calculations on modifying a value. The current options are:
-  - On the client using JavaScript
-  - On the server
-    - On the cas server using casl  or any cas action
-    - Using procs and datasteps
-  - On an external destination(ex: An Azure App for a SAS Decisioning Flow)
-
-## Basic Flow<a name="t5"></a>
-
-The Table Editor in the picture below is supplied by the user.
-![viyaedit](DataEditorFlow.png)
+First Web Application
 
 ---
 
+
+## [Table versus Form Editing](#tableform)
+
+---
+
+
+There are significant differences in how the user interacts with an application which uses a Table versus a custom form in an UI.
+
+However, at the lowest level both require the same functionality - Accessing data, verifying the entered data, saving the modified records, executing additional processing on the server.
+
+One of the key goals of this project is to create a single code base to handle both scenarios. 
+
+---
+
+## []
 ### getAppControl
 
 // AppControl with sample data

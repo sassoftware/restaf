@@ -32,6 +32,7 @@ async function cellEdit (name, value, rowIndex, currentData, appEnv) {
   let newDataRow = { ...currentData };
   const columns = appEnv.state.columns;
   const { handlers, autoSave } = appEnv.appControl.editControl;
+  const iautoSave = (autoSave == null) ? true : autoSave;
 
   newDataRow[name] = text2Float(value, columns[name]);
   let status = { statusCode: 0, msg: '' };
@@ -45,7 +46,7 @@ async function cellEdit (name, value, rowIndex, currentData, appEnv) {
     }
   }
   let r = await commonHandler('main', newDataRow, rowIndex, appEnv);
-  if (autoSave === true) {
+  if (iautoSave === true) {
     r = await commonHandler('term', r[0], rowIndex, appEnv);
     status = r[1];
     if (status.statusCode === 2) {

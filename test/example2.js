@@ -1,12 +1,12 @@
 /* eslint-disable quotes */
-const { setup, scrollTable, cellEdit } = require('../dist/index.js');
+const { setup, scrollTable, cellEdit, saveTable } = require('../dist/index.js');
 
 runit()
   .then(r => console.log(r))
   .catch(err => console.log(err));
 
 async function runit () {
-  const payload = {
+  const viyaConnection = {
     host        : process.env.VIYA_SERVER,
     authType    : 'password',
     clientID    : 'sas.ec',
@@ -14,27 +14,42 @@ async function runit () {
     user        : 'sastest1',
     password    : 'Go4thsas'
   };
-  const cache = [];
+
+  // For readability moved the appControl definition
+  // to the end as a function
+  // Also a good practice since it allows runtime creation of appControl
   const appControl = getAppControl();
 
-  const appEnv = await setup(payload, appControl);
-  debugger;
+  // setup edit session
+  const appEnv = await setup(viyaConnection, appControl);
+
+  // get the first set of records
+  // data is available as appEnv.state.data
+  // the column definitions are also available as appEnv.state.columns
+
   let result = await scrollTable('first', appEnv);
-  cache.push(result.data[0]);
+  console.log(result.status);
+  console.log(appEnv.state.data);
+
+  // Simulate an edit operation
+  // The updated record is also updated on the cas inmemory table
 
   const x3New = result.data[0].x3 + 100;
   await cellEdit('x3', x3New, 0, result.data[0], appEnv);
+
+  // Confirm it was written to the inmemory table
+  // by refetching it
   result = await scrollTable('first', appEnv);
-  cache.push(result.data[0]);
+  console.log(appEnv.state.data);
 
-  debugger;
+  // Optionally persist the imemory table
+  const status = await saveTable(appEnv);
+  console.log(status);
+
+  // Continue to scroll (next|prev|first) and do more editing
   result = await scrollTable('next', appEnv);
-  cache.push(result.data[0]);
-
+  // Do some more editing
   result = await scrollTable('prev', appEnv);
-  cache.push(result.data[0]);
-
-  console.log(cache);
   return 'done';
 };
 
@@ -43,8 +58,7 @@ function getAppControl () {
     description: 'Simple Example',
 
     source: 'cas',
-    table : { caslib: 'public', name: 'testdata' },
-    access: {},
+    table : { caslib: 'public', name: 'TESTDATA' },
     byvars: ['id'],
 
     cachePolicy: true,
@@ -57,7 +71,6 @@ function getAppControl () {
         where : 'x1 GT 5'
       }
     },
-
     customColumns: {
       total: {
         Column         : 'Total',
@@ -66,62 +79,40 @@ function getAppControl () {
         Type           : 'double'
       }
     },
+
     editControl: {
-      handlers: { init, main, term, x1 }, /* note reuse of init */
-      save    : true,
+      handlers: { init, main, term, x1 },
       autoSave: true
     },
-    appData: {
-      layout  : {},
-      formName: 'testdata',
-
-      uiControl: {
-        defaultComponent: 'InputEntry',
-        show            : ['id', 'total', 'x2', 'x1', 'x3'],
-        visuals         : {
-          x2: {
-            component: 'Slider',
-            props    : {
-              min  : 0,
-              max  : 50,
-              steps: 1
-            }
-          },
-          total: {
-            props: {
-              disabled: true
-            }
-          }
-        }
-      }
-
-    }
+    appData: {} /* place holder for additional user data  */
 
   };
 }
-
 async function init (data, rowIndex, appEnv, type) {
-  const status = { statusCode: 0, msg: `${type} processing completed` };
+  let status = { statusCode: 0, msg: `${type} processing completed` };
   data.total = data.x1 + data.x2 + data.x3;
   debugger;
   return [data, status];
 };
 async function main (data, rowIndex, appEnv, type) {
-  const status = { statusCode: 0, msg: `${type} processing completed` };
+  let status = { statusCode: 0, msg: `${type} processing completed` };
   data.total = data.x1 + data.x2 + data.x3;
   debugger;
   return [data, status];
 };
 
 async function term (data, rowIndex, appEnv, type) {
-  const status = { statusCode: 0, msg: `${type} processing completed` };
+  let status = { statusCode: 0, msg: `${type} processing completed` };
   console.log('In term');
   debugger;
   return [data, status];
 };
 
 async function x1 (data, name, rowIndex, appEnv) {
-  const status = { statusCode: 0, msg: `${name} handler executed.` };
-  console.log('in x1');
+  let status = { statusCode: 0, msg: `${name} handler executed.` };
+  if (data.x1 > 10) {
+    status = { statusCode: 1, msg: `Value of X1 exceeded 10. Set to 10` };
+    data.x1 = 10;
+  }
   return [data, status];
 };

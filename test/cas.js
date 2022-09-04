@@ -20,19 +20,19 @@ async function runit () {
   const appEnv = await setup(payload, appControl);
   debugger;
   let result = await scrollTable('first', appEnv);
-  cache.push(result.data[0]);
+  cache.push(appEnv.state.data[0]);
 
-  const x3New = result.data[0].x3 + 100;
-  await cellEdit('x3', x3New, 0, result.data[0], appEnv);
+  const x3New = appEnv.state.data[0].x3 + 100;
+  await cellEdit('x3', x3New, 0, appEnv.state.data[0], appEnv);
   result = await scrollTable('first', appEnv);
-  cache.push(result.data[0]);
+  cache.push(appEnv.state.data[0]);
 
   debugger;
   result = await scrollTable('next', appEnv);
-  cache.push(result.data[0]);
+  cache.push(appEnv.state.data[0]);
 
   result = await scrollTable('prev', appEnv);
-  cache.push(result.data[0]);
+  cache.push(appEnv.state.data[0]);
 
   console.log(cache);
   return 'done';
@@ -44,10 +44,7 @@ function getAppControl () {
 
     source: 'cas',
     table : { caslib: 'public', name: 'testdata' },
-    access: {},
     byvars: ['id'],
-
-    cachePolicy: true,
 
     initialFetch: {
       count : 2,
@@ -66,7 +63,6 @@ function getAppControl () {
     },
     editControl: {
       handlers: { init, main, term, x1 }, /* note reuse of init */
-      save    : true,
       autoSave: true
     },
     appData: {

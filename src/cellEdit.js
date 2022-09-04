@@ -33,6 +33,7 @@ async function cellEdit (name, value, rowIndex, currentData, appEnv) {
   const columns = appEnv.state.columns;
   const { handlers, autoSave } = appEnv.appControl.editControl;
   const iautoSave = (autoSave == null) ? true : autoSave;
+  const cachePolicy = (appEnv.appControl.cachePolicy == null) ? true : appEnv.appControl.cachePolicy;
 
   newDataRow[name] = text2Float(value, columns[name]);
   let status = { statusCode: 0, msg: '' };
@@ -56,7 +57,7 @@ async function cellEdit (name, value, rowIndex, currentData, appEnv) {
   }
   newDataRow = r[0];
 
-  if (appEnv.appControl.cachePolicy === true) {
+  if (cachePolicy === true) {
     appEnv.state.data[currentData._rowIndex] = newDataRow;
   }
 

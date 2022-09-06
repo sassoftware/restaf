@@ -7,6 +7,7 @@
 5. [Editing with calculations]
 6. [First Web Application](#webapp1)(#example2)
 7. [Table versus Form Editing](#tableform)
+8. [React Example with Table Editing](#reactapp)
 
 
 ---
@@ -340,12 +341,102 @@ async function x1 (data, name, rowIndex, appEnv) {
 };
 
 ```
----
-
-First Web Application
 
 ---
 
+## First Web Application<a name="webapp1"></a>
+
+---
+
+### `Scenario 3`
+
+In this scenario, the goal is to create  very simple web application that mimics Scenario 2.
+Note that the application code is very similar to Example 2, with the obvious additional coding in the html file for display.
+The simple display is shown below. The html for this display is [here](https://github.com/sassoftware/restaf-uidemos/blob/editorapp/public/index.html)
+
+![webExample1](webExample1.png)
+
+The code to handle the initialization, cellediting and scrolling is the code below. Notice the similarity with the Example 2 Scenario aboe.
+The key differences are:
+
+- The authtentication(viyaConnection) uses authorization_code flow.
+- The initialize function is executed after DOM initialization.
+
+The html
+
+```js
+
+// web app version of Example 2
+// Main difference is the initialize function to do the initialization
+// when the body is initialized
+//
+function getAppControl() {
+  return {
+    description: 'Simple Example',
+    source: 'cas',
+    table : {caslib: 'public', name: 'TESTDATA'},
+    byvars: ['id'],
+    initialFetch: {
+      qs: {
+        start : 0,
+        limit : 1,
+        format: false,
+        where :  ''
+      }
+    },
+    customColumns: {
+      total: {
+        Column         : "Total",
+        Label          : "Grand Total",
+        FormattedLength: 12,
+        Type           : "double"
+        }
+    },
+    editControl: {
+      handlers: {init: init, main: main, term: term, x1: x1},
+      autoSave: true, 
+  
+    },
+    appData: {}
+
+  };
+};
+
+async function initialize(viyaConnection) {
+  // In this example the browser ia authenticated
+  // So the viyaConnection has the following schema
+  // { host: <viyahostURL, authType: 'code'}
+  debugger;
+  let appControl = getAppControl();
+  let r = await restafedit.setup(viyaConnection, appControl);
+  let r2 = await restafedit.scrollTable('first', r);
+  return r;
+  }
+async function init (data,rowIndex,appEnv,type) {
+  let status = {code: 0, msg: `${type} processing completed`};
+  data.total = data.x1 + data.x2 + data.x3 ;
+  return [data, status];
+};
+async function main (data, rowIndex,appEnv, type) {
+let status = {code: 0, msg: `${type} processing completed`};
+data.total = data.x1 + data.x2 + data.x3 ;
+return [data, status];
+};
+async function term (data, rowIndex,appEnv, type) {
+  let status = {code: 0, msg: `${type} processing completed`};
+  return [data, status];
+};
+
+async function x1 (data, name, rowIndex, appEnv) {
+  let status = {code: 1, msg: `${name} handler executed.`};
+  if (data.x1 > 10) {
+      data.x1 = 10;
+      msg = {code: 0, msg: "Exceeded Max. Value reset to max"};
+  }
+  return [data, status];
+}
+
+```
 
 ## [Table versus Form Editing](#tableform)
 
@@ -360,8 +451,22 @@ One of the key goals of this project is to create a single code base to handle b
 
 ---
 
-## []
-### getAppControl
+## React Example with Table Editing<a name="#reactapp"></a>
+
+---
+
+### `Scenario 4`
+
+The next logical example is to show how one can edit data in a table.
+
+The discussion here uses react components to display a table. This is mainly because I do not have
+a non-react table component that I could use in a simple html application.
+
+At the current time the examples are in this repository []
+## getAppControl
+
+
+---
 
 // AppControl with sample data
 

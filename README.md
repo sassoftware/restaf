@@ -6,9 +6,8 @@
 4. [Getting Started Example](#example1)
 5. [Editing with calculations]
 6. [First Web Application](#webapp1)(#example2)
-7. [Table versus Form Editing](#tableform)
-8. [React Example with Table Editing](#reactapp)
-
+7. [React Application](#reactapp1)
+8. [Note on appControl](#appcontrol)
 
 ---
 
@@ -305,8 +304,7 @@ function getAppControl () {
     },
 
     editControl: {
-      handlers: { init, main, term, x1 },
-      autoSave: true
+      handlers: { init, main, term, x1 }
     },
     appData: {} /* place holder for additional user data  */
 
@@ -352,7 +350,7 @@ async function x1 (data, name, rowIndex, appEnv) {
 
 In this scenario, the goal is to create  very simple web application that mimics Scenario 2.
 Note that the application code is very similar to Example 2, with the obvious additional coding in the html file for display.
-The simple display is shown below. The html for this display is [here](https://github.com/sassoftware/restaf-uidemos/blob/editorapp/public/index.html)
+The simple display is shown below. The html for this display is [here](https://github.com/sassoftware/restaf-uidemos/blob/editorapp/public/index.html).
 
 ![webExample1](webExample1.png)
 
@@ -438,33 +436,169 @@ async function x1 (data, name, rowIndex, appEnv) {
 
 ```
 
-## [Table versus Form Editing](#tableform)
+## [React Application]<a name="reactapp1"></a>
 
----
+### `Scenario 4`
 
+In this scenario the web application in scenario 3 is converted to a react application. 
+The working example is in this [repository](https://github.com/sassoftware/restaf-uidemos/tree/editorappreact)
+
+<blockquote>
+The example uses material-ui as the component library.
+The restafedit library is component library agnostic.
+</blockquote>
+
+Ignoring the react specific setups, the editing application setup is very similar to the previous scenarios. The appControl is extracted here for convenience. 
+
+#### A note on appData
+
+This is optional. It can be used by the application writer to setup additional configurations.
+In this example this is used to customize the UI. This can be safely ignored at this point since it is application specific.
+
+```js
+// web app version of Example 3
+// Main difference is the initialize function to do the initialization
+// when the body is initialized
+//
+
+async function init (data, rowIndex, appEnv, type) {
+  data.total = data.x1 + data.x2 + data.x3 ;
+  return [data, { code: 0, msg: `${type} processing completed` }];
+};
+async function main (data, rowIndex, appEnv, type) {
+  data.total = data.x1 + data.x2 + data.x3 ;
+  return [data, { code: 0, msg: `${type} processing completed` }];;
+};
+async function term (data, rowIndex, appEnv, type) {
+  return [data, { code: 0, msg: `${type} processing completed` }];
+};
+
+async function x1 (data, name, rowIndex, appEnv) {
+  let status = { code: 1, msg: `${name} handler executed.` };
+  if (data.x1 > 10) {
+    data.x1 = 10;
+    status = { code: 0, msg: 'Exceeded Max. Value reset to max' };
+  }
+  return [data, status];
+};
+
+// eslint-disable-next-line no-unused-vars
+function getAppControl () {
+  return {
+    description: 'Simple Example',
+
+    source: 'cas',
+    table : { caslib: 'public', name: 'TESTDATA' },
+    byvars: ['id'],
+
+    initialFetch: {
+      qs: {
+        start : 0,
+        limit : 10,
+        format: false,
+        where : ''
+      }
+    },
+    customColumns: {
+      total: {
+        Column         : 'Total',
+        Label          : 'Grand Total',
+        FormattedLength: 12,
+        Type           : 'double'
+      }
+    },
+    editControl: {
+      // eslint-disable-next-line object-shorthand
+      handlers: { init, main: main, term: term, x1: x1 },
+      autoSave: true
+    },
+    appData: {
+      viewType: 'table', /* table|form */
+      form: {
+        defaultComponent: 'InputEntry',
+        show            : ['id', 'x1', 'x2', 'x3', 'total'],
+        classes         : {},
+        title           : 'Editing Data with React Components',
+        visuals         : {
+          total: {
+            props: {
+              disabled: true
+            }
+          },
+          id: {
+            props: {
+              disabled: true,
+            }
+          }
+        }
+      }
+    }
+  };
+}
+
+```
+
+#### Table versus form editing
+
+This particular application is designed to either a table or a form for editing.
 
 There are significant differences in how the user interacts with an application which uses a Table versus a custom form in an UI.
 
 However, at the lowest level both require the same functionality - Accessing data, verifying the entered data, saving the modified records, executing additional processing on the server.
 
-One of the key goals of this project is to create a single code base to handle both scenarios. 
+One of the key goals of this project is to create a single code base to handle both scenarios.
 
+### Notes on the application
+
+The main entry into the application is shown below. If you are familiar with react programming please see the [repository](https://github.com/sassoftware/restaf-uidemos/tree/editorappreact) for details.
+
+The main thing to note here is that a DataEditor component is being called.
+The appControl and viyaConnection information is passed to it.
+This particular implementation allows the app to switch between table editing and form editing.
+
+```jsx
+
+import React, { Fragment } from 'react';
+import DataEditor from './DataEditor';
+import TableEditor from './TableEditor';
+import DataForm from './DataForm';
+import Grid from '@material-ui/core/Grid';
+
+function ViyaDataEditor (props) {
+  
+  const _selectViewer = () => {
+    return (props.appControl.appData.viewType === 'table') ? TableEditor : DataForm;
+  };
+  
+  const show = (
+    <Fragment>
+    <div key={Date()}>
+      <Grid container spacing={3} direction="row">
+          <Grid item>
+            <DataEditor key={Date()}
+                  appControl={props.appControl}
+                  viyaConnection={props.viyaConnection}
+                  editor={_selectViewer}
+                  />
+          </Grid>
+        </Grid>
+    </div>
+    </Fragment>
+  );
+  
+  return show;
+}
+export default ViyaDataEditor;
+```
+
+Below is image of the application for form editing and table editing.
+
+![Form Editing](reactform.png)
+
+![Table Editing](reacttable.png)
 ---
 
-## React Example with Table Editing<a name="#reactapp"></a>
-
----
-
-### `Scenario 4`
-
-The next logical example is to show how one can edit data in a table.
-
-The discussion here uses react components to display a table. This is mainly because I do not have
-a non-react table component that I could use in a simple html application.
-
-At the current time the examples are in this repository []
-## getAppControl
-
+## Notes on appControl<a name="appcontrol"></a>
 
 ---
 
@@ -477,16 +611,18 @@ function getAppControl () {
     source: 'compute', /* set to cas if data is in cas */
     table : { libref: 'TEST', name: 'TESTDATA' },  /* change libref to caslib if using cas */
     byvars: ['key'],
-    cachePolicy: true,
+    cachePolicy: true, /* default is true */
     initialFetch: {
-      count : 1,
-      from  : 1,
-      format: false
+      qs: {
+        start: 0,
+        limit: 1,
+        format: false,
+        where: '' 
     },
     customColumns: {},
     editControl: {
       handlers: {}
-      autoSave: true
+      autoSave: true  /* save to server after every edit. For cas, it updates inmemory table */
     },
     computeContext: null, /* optional - defaults to Job Execution Service */
     appData: {}
@@ -495,13 +631,10 @@ function getAppControl () {
 }
 ```
 
-</blockquote>
 
-## Usage
+### Usage
 
-### **setup - Initialize and setup and edit session**
-
-[setup](https://sassoftware.github.io/restaf/module-setup.html) will do an initial fetch and return it in the appEnv.state object.
+The appControl is an argument to the setup function..
 
 ```js
 
@@ -549,8 +682,6 @@ Use this argument to setup the edit session. AppControl has the following schema
  }
    
 ```
-
-#### Notes
 
 - source:  (cas|compute) - The data is a cas table or SAS V9 table.
 - initialFetch:  the first set of records to read
@@ -795,8 +926,3 @@ async function main (data, _rowIndex, appEnv,_type) {
 };
 export default main;
 
-
-## Pending documentation
-
-  - Sort - sort by a single columns(ascending or descending)
-  - distinctValues - obtain an array of distinct values for a column

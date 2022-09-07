@@ -18,6 +18,7 @@
 
 'use strict';
 let testFunctions = require('./testFunctions');
+let fs = require('fs');
 let testInfo;
 beforeAll(async () => {
 	testInfo = await require('./lib/setupAll')();
@@ -36,10 +37,22 @@ test('upload a CSV using restaflib', async () => {
 	expect(l).toMatchSnapshot();
 });
 
-
-test('upload a bdat using restaflib', async () => {
+test('upload a CSV using restaflib+altsrc', async () => {
 	expect.assertions();
-	let l = await testFunctions.casUploadbdat(true, testInfo);
+	let l = await testFunctions.casUploadCsv3(true, testInfo);
+	expect(l).toMatchSnapshot();
+});
+
+
+test.only('upload a CSV using casUpload', async () => {
+	expect.assertions();
+	let l = await testFunctions.casUploadnew(true, testInfo);
+	expect(l).toMatchSnapshot();
+});
+
+test('append cas table', async () => {
+	expect.assertions();
+	let l = await testFunctions.casAppendTable1(true, testInfo);
 	expect(l).toMatchSnapshot();
 });
 

@@ -21,7 +21,7 @@
  */
 "use strict";
 
-let { casSetup} = require('@sassoftware/restaflib');
+let { casSetup, caslRun} = require('@sassoftware/restaflib');
 
 module.exports = async function casEcho (testInfo) {
 	let { store, logger } = testInfo;
@@ -35,10 +35,33 @@ module.exports = async function casEcho (testInfo) {
     }
   };
   logger.info(p);
+
   let r = await store.runAction(session, p);
   console.log(JSON.stringify(session.links("execute"), null, 4));
   console.log(r.items().toJS());
+  console.log(r.items().toJS().disposition.severity);
   logger.info(r);
+
+  const src = `
+  results = selectionLists(_args_.column,_args_.table.caslib, _args_.table.name);
+  send_response({casResults = {data=results.data, statusCode=results.statusCode}});
+  `
+  ;
+  const args = {
+    table : {caslib: 'public', name: 'cars'},
+    column: 'make'
+  };
+  
+  console.log(args);
+  const result = await caslRun(store, session, src, args, true);
+  console.log(result.results.casResults.data); 
+  console.log(result.results.casResults.statusCode);
+  if (result.results.casResults.statusCode !== 0) {
+    // eslint-disable-next-line no-throw-literal
+    throw 'Failed to create unique values';
+  }
+  
+
   await store.apiCall(session.links('delete'));
   return 'done';
 };

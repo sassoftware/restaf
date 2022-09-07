@@ -27,6 +27,7 @@
  *     from  : 1,
  *     count : 20,
  *     format: true,
+ *     where :  <string>
  *     table : {caslib: 'Public', name: 'cars'}
  *    };
  * 

@@ -18,36 +18,61 @@
 
 'use strict';
 
-
 let restaflib = require('@sassoftware/restaflib');
-let { casSetup, casUpload} = restaflib;
 
-module.exports = async function casUploadCsv2 (save, testInfo) {
+let { casSetup, casUpload, casFetchRows,casAppendTable} = restaflib;
+
+let fs = require('fs');
+
+module.exports = async function casUploadnew (save, testInfo) {
 	let { store, logger } = testInfo;
 	let { session } = await casSetup(store, null);
-	
+
+	let altsrc = readFile('cars', 'csv');
+	let output = 'casuser.dtemp1';
+	let table = {caslib: 'casuser', name: 'dtemp1'};
+
+	debugger;
+
 	let r = await casUpload(
 		store,
 		session,
-		'./data/cars.csv',
-		'casuser.carsnew',
-		save
+		null,
+		table,
+		save,
+		altsrc
 	);
-	// run fetch action
-	let actionPayload = {
-		action: 'table.fetch',
-		data  : {
-			table: {
-				caslib: 'casuser',
-				name  : 'carsnew'
-			}
-		}
-	};
-	let actionResult = await store.runAction(session, actionPayload);
+	console.log(r);
+    console.log('----------------- repeat');
+   
+	r = await casUpload(
+		store,
+		session,
+		null,
+		table,
+		save,
+		altsrc
+	);
+	console.log(r);
 
-	logger.info(actionResult.items('tables'));
-	let t = actionResult.items('tables', 'Fetch').toJS();
-	t.attributes.CreateTime.value = 0.0;
+	console.log('fetch the first few rows');
+	let [caslib,name] = output.split('.');
+	// let table = {caslib: caslib, name: name};
+	let payload = {
+		from: 1,
+		count: 10,
+		format: false,
+		table: table
+	}
+	let data = await casFetchRows(store, session, payload);
+	console.log(JSON.stringify(data.data.rows, null,4));
+
 	await store.apiCall(session.links('delete'));
-	return t;
+	return data.data.rows;
 };
+
+function readFile (filename, fileType) {
+	let data = fs.readFileSync(`./data/${filename}.${fileType}`, 'utf-8');
+	console.log(data);
+	return data;
+  }

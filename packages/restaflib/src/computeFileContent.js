@@ -10,7 +10,7 @@
 
 'use strict';
 /**
- * @description Convert table to object of the form [{var1: value, var2: value,...},....](async)
+ * @description return content of a file output from a compute run
  * @async
  * @module computeFileContent
  * @category restaflib/compute
@@ -18,7 +18,7 @@
  * @param {object} store - restaf store
  * @param {object} computeSummary - computeSummary
  * @param {string} fileref - name of the fileref
- * @param {string} url - set to true if you want the url -
+ * @param {boolean} url - set to true if you want the url and not the content
  *
  * @returns {promise} - get uri for content]
  */

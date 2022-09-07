@@ -11,16 +11,15 @@
   * @category restaflib/compute
   * 
   * @param {store} store - restaf store
+  * @param {rafObject} session - compute Session
   * @param {rafObject} job - rafObject representing the compute service job after job completion
-  * 
+  * @param {object|Array=} tables (see computeSetupTables)
   * @returns {promise} - the computeSummary object for easy handling of logs,listing,ods, tables
-  * @example
   * 
   */
 async function computeSummary (store, session, job, tables){
     
     let result;
-    
     if (job != null && tables == null) {
         result = await jobResults(store, session, job );
     }  else {
@@ -29,7 +28,16 @@ async function computeSummary (store, session, job, tables){
     return result;''
 }
 
-const jobResults = async  () => {
+async function jobResults(store, session, job) {
+    let cResult = {
+        session: session,
+        log    : null,
+        listing: null,
+        ods    : null,
+        job    : null,
+        tables : {},
+        files  : {}
+    };
     cResult.log     = job.links('log');
     cResult.listing = job.links('listing');
     let reportLink  = job.links('results');
@@ -70,7 +78,8 @@ const jobResults = async  () => {
 return cResult;
 }
 
-async function isetupTable(store, session, itable) {
+async function isetupTable(store, session, tables) {
+    
     let cResult = {
         session: session,
         log    : null,
@@ -81,36 +90,42 @@ async function isetupTable(store, session, itable) {
         files  : {}
     };
     
-    let libref = itable.libref.toUpperCase();
-    let name   = itable.name.toUpperCase();
-    let p = {
-        qs: { filter: `eq(name,'${libref}')`}
-    };
+    let tableList = (typeof tables === 'object' ? [tables] : tables );
     
-    let currentLibrefs = await store.apiCall(session.links('librefs'), p);
-    
-    if (currentLibrefs.itemsList().size === 0) {
-        throw `Libref ${libref} not found`;
-    }
-    // get the links for this libref
-    let rlink = currentLibrefs.itemsCmd(libref, 'self');
-    let currentLibrefSelf = await store.apiCall(rlink);
-    
-    // get the table
-    p = {
-    qs: { filter: `eq(name,'${name}')`}
-    };
-    let tables = await store.apiCall(currentLibrefSelf.links('tables'));
+    for (let i=0; i < tableList.length ; i++) {
+        let itable = tableList[i];
+        let libref = itable.libref.toUpperCase();
+        let name   = itable.name.toUpperCase();
+        
+        let p = {
+            qs: { filter: `eq(name,'${libref}')`}
+        };
+        
+        let currentLibrefs = await store.apiCall(session.links('librefs'), p);
+        
+        if (currentLibrefs.itemsList().size === 0) {
+            throw `Libref ${libref} not found`;
+        }
+        // get the links for this libref
+        let rlink = currentLibrefs.itemsCmd(libref, 'self');
+        let currentLibrefSelf = await store.apiCall(rlink);
+        
+        // get the table
+        p = {
+        qs: { filter: `eq(name,'${name}')`}
+        };
+        let tables = await store.apiCall(currentLibrefSelf.links('tables'));
 
-    if (tables.itemsList().size === 0) {
-        throw `Table ${name} not found`;
+        if (tables.itemsList().size === 0) {
+            throw `Table ${name} not found`;
+        }
+        let tname = `${libref}.${name}`.toLowerCase();
+        let r= {
+            self   : tables.itemsCmd(name, 'self'),
+            current: null
+        };
+        cResult.tables[tname.toUpperCase()] = r;
     }
-    let tname = `${libref}.${name}`.toLowerCase();
-    let r= {
-        self   : tables.itemsCmd(name, 'self'),
-        current: null
-    };
-    cResult.tables[tname.toUpperCase()] = r;
     return cResult;
 }
 

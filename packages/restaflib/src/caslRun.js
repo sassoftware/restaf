@@ -18,7 +18,7 @@ import programs from './programs';
  * @param {rafObject} session  - cas session
  * @param {string} src      - casl src statements
  * @param {object=} args     - user input args (reference this as _args_ in casl program)
- * @param {boolean=} useCommons - include the common casl programs
+ * @param {boolean=} useCommons - include the common casl programs(checkAndLoad etc...)
  * @returns {promise}  returns results from cas
  * @example
  * let restaf = require("@sassoftware/restaf");

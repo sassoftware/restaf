@@ -23,10 +23,16 @@ function uploadSetup (source, output) {
 	let handler = uploadSrc;
 	let transform = noChange;
 
-	let fext = source
+	let fext;
+	if (source == null) {
+		fext = 'csv'
+	} else {
+	    fext = source
 		.split('.')
 		.pop()
 		.toLowerCase();
+	};
+	
 	switch (fext) {
 		case 'sas7bdat': {
 			fileType = 'basesas';

@@ -9,12 +9,16 @@ let casSession    = require('./casSession');
 let casEcho       = require('./casEcho');
 let casDSandFetch = require('./casDSandFetch');
 let casDSandFetch2 = require('./casDSandFetch2');
+let casDSandFetch2v2 = require('./casDSandFetch2v2');
 let casTables     = require('./casTables');
 let casUploadCsv = require('./casUploadCsv');
 let casUploadProgram = require('./casUploadProgram');
 let casUploadProgram2 = require('./casUploadProgram2');
 let casFetchData3 = require('./casFetchData3');
 let casUploadCsv2 = require('./casUploadCsv2');
+let casUploadCsv3 = require('./casUploadCsv3');
+let casAppendTable1 = require('./casAppendTable1');
+let casUploadnew  = require('./casUploadnew')
 let casUploadbdat = require('./casUploadbdat');
 let casUploadhdat = require('./casUploadhdat');
 let casUploadAst = require('./casUploadAst');
@@ -43,12 +47,16 @@ module.exports = {
 	casEcho,
 	casDSandFetch,
 	casDSandFetch2,
+	casDSandFetch2v2,
 	casFetchData3,
 	casTables,
 	casUploadCsv,
 	casUploadProgram,
 	casUploadProgram2,
 	casUploadCsv2,
+	casUploadCsv3,
+	casUploadnew,
+	casAppendTable1,
 	casUploadbdat,
 	casUploadhdat,
 	casUploadAst,
@@ -73,4 +81,5 @@ module.exports = {
 
 	masList,
 	casSubmit
+
 };

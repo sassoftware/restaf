@@ -12,8 +12,12 @@ async function uploadSrc (store, session, modelBuf, fileInfo, save){
       throw 'Please specify table as caslib.name';
     }
 	// name = name.toLowerCase(name);
-    
+
+  // unload and delete existing table
+
   // setup header for upload and the rest of the payload
+    await cleanup(store, session, caslib, name);
+
 	let JSON_Parameters = {
 		casout: {
 			caslib: caslib,/* a valid caslib */
@@ -38,10 +42,9 @@ async function uploadSrc (store, session, modelBuf, fileInfo, save){
 		data  : modelBuf,
 		action: 'table.upload'
 	};
-	
-	await store.runAction(session, p);
-	
+	let r = await store.runAction(session, p);
 	if (save === true) {
+		
 		let casl = `
 			action table.save r = result / 
 			table = {caslib='${caslib}' name='${name}'} replace=true
@@ -49,10 +52,26 @@ async function uploadSrc (store, session, modelBuf, fileInfo, save){
 
 			send_response(result);
 			`;
-		let r = await caslRun(store, session, casl, null);
-	}
+			
 
-    return `Upload of ${fileInfo.source} to ${fileInfo.output,caslib}.${fileInfo.output.name} completed`;
+		
+		let r = await caslRun(store, session, casl, null, true);
+	}
+	const text = (fileInfo.source == null) ? "inline source" : fileInfo.source;
+    return `Upload of ${text} to ${fileInfo.output,caslib}.${fileInfo.output.name} completed`;
 }
 
+async function cleanup(store, session, caslib, name) {
+	let table = `${caslib}.${name}`;
+	let deleteSrc = `
+		action table.dropTable/   
+        caslib='${caslib}' name='${name}' quiet=TRUE;   
+             
+        action table.deleteSource status=src /   
+        caslib='casuser' source= '${table}' quiet=TRUE;  
+		send_response({csResults = {results= 'data deleted'}})
+		`;
+	let r = await caslRun(store,session, deleteSrc);
+
+}
 export default uploadSrc;

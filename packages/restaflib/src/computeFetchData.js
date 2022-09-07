@@ -18,22 +18,12 @@
  */
 async function computeFetchData (store, computeSummary, table, direction, payload) {
 	let data = null;
-	// eslint-disable-next-line no-prototype-builtins
-	
-	
-	let tname;
-	if (typeof table === 'string') {
-		tname = table;
-	} else {
-		tname = `${table.libref}.${table.name}`;
-	}
-	tname = tname.toUpperCase();
+	let tname = (typeof table === 'string') ? table : `${table.libref}.${table.name}`;
+	tname = tname.toUpperCase(); /*to allow for compute service table info */
 
-	let adhoc = (payload !== null && direction == null) ? true: false;
-	
-	
+	// is payload an override or the real thing?
+	let adhoc = (payload != null && direction == null) ? true: false;
 	let tableInfo = computeSummary.tables[tname];
-	
 	if ( tableInfo != null) {
 		// reset info on this table if user does adhoc retrieval
 		// trying to keep track of multiple streams for same table is a nightmare
@@ -43,6 +33,7 @@ async function computeFetchData (store, computeSummary, table, direction, payloa
 		if (tableInfo.current === null || direction == null || direction === 'first') {
 			let t1 = await store.apiCall(tableInfo.self);
 			let result = await store.apiCall(t1.links('rowSet'), payload);
+			// get columns explicitly since user can control this thru payload
 			let columns = await store.apiCall(t1.links('columns'));
 			let schema = [];
 			let items = columns.items().toJS();
@@ -76,7 +67,7 @@ async function computeFetchData (store, computeSummary, table, direction, payloa
 			
 			let current = tableInfo.current;
 			let dir = direction;
-			
+			if (payload )
 			if (direction === 'next' && current.scrollCmds('next') === null) {
 				dir = current.links('last') !== null ? 'last' : null;
 			}

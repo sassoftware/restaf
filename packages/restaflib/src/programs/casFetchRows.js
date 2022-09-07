@@ -45,9 +45,11 @@ function casFetchRows () {
         /*
          * Fetch the current set of rows
          */
-       /* wherex = dictTowhere(where); */
+       /* wherex = dictTowhere(where); let user send in the where clause */
+        print where;
+
         action table.fetch r = result /    
-            table = {caslib=caslib, name=name}   
+            table = {caslib=caslib, name=name where=where}   
             from= from to=to format=format   
             ;
 

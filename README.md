@@ -59,11 +59,7 @@ The goal of this project is to create a small reusable library to simplify the  
 The Table Editor in the picture below is supplied by the user.
 ![viyaedit](DataEditorFlow.png)
 
-### Videos
-
-- ![Introduction](docvideo/doc.1.intro.mp4)
-
-### Working Examples 
+### Working Examples
 
 - [Simple Editor Application](https://github.com/sassoftware/restaf-uidemos/blob/editorapp/README.md) - Demonstrates the use of this library using basic javascript and html to edit a cas table.
 

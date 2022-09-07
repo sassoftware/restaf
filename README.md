@@ -4,8 +4,8 @@
 2. [Installation](#install)
 3. [Basic Flow](#basicflow)
 4. [Getting Started Example](#example1)
-5. [Editing with calculations]
-6. [First Web Application](#webapp1)(#example2)
+5. [Editing with calculations](#example2)
+6. [First Web Application](#webapp1)
 7. [React Application](#reactapp1)
 8. [Note on appControl](#appcontrol)
 
@@ -57,10 +57,9 @@ The Table Editor in the picture below is supplied by the user.
 
 ### Working Examples 
 
-- [Simple Editor Application](https://github.com/sassoftware/restaf-uidemos/tree/editorapp) - Demonstrates the use of this library using basic javascript and html to edit a cas table.
+- [Simple Editor Application](https://github.com/sassoftware/restaf-uidemos/blob/editorapp/README.md) - Demonstrates the use of this library using basic javascript and html to edit a cas table.
 
-- [React Component for Editing-@sassoftware/viyaedit](https://github.com/sassoftware/restaf-uidemos/tree/viyaedit) - Demonstrates the use of this library with React. @sassoftware/viyaedit is a resuable component.
-  - See [this application](https://github.com/sassoftware/restaf-uidemos/tree/editorappreact) on how to use this component library in a react application.
+- [React Application Editing](https://github.com/sassoftware/restaf/blob/restafedit/README.md) - Demonstrates a react application.
 
 ---
 

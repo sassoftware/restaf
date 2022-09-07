@@ -16,6 +16,9 @@
 
 ---
 
+**Latest Version** @sassoftware/restafedit@next
+
+
 Going back in history, SAS had products like SAS/FSP and SAS/AF that allowed users to create simple or complex interactive applications. As SAS moved to the Viya platform these products were dropped. SAS provided REST API (application programming interfaces) as an industry standard way for creating applications.
 
 The key component of these applications is entering data. Common destinations of the modified data are:

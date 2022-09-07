@@ -1,13 +1,14 @@
 # restafedit - library for browsing and editing CAS tables and SAS Tables
 
 1. [Introduction](#intro)
+   - [Link to API documentation](https://sassoftware.github.io/restaf)
 2. [Installation](#install)
 3. [Basic Flow](#basicflow)
 4. [Getting Started Example](#example1)
 5. [Editing with calculations](#example2)
 6. [First Web Application](#webapp1)
 7. [React Application](#reactapp1)
-8. [Note on appControl](#appcontrol)
+8. [Note on appControl and appEnv](#appcontrol)
 
 ---
 

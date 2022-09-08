@@ -5,6 +5,7 @@
 /**
  * @description Run init, main or term handlers
  * @async
+ * @private
  * @module commonHandler
  * @category restafedit/core
  * @param {string} type   - type of exit (init|main|term)

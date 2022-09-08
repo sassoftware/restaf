@@ -17,7 +17,7 @@ import prepFormData from './prepFormData';
  * @returns {promise}  result ready for display or null if it did not scroll
  * @example
  *  let r = await scrollTable('next', appEnv);
- *    r=== { data:data, columns:ecolumns, pagination: pagination}
+ *    r=== { data:data, columns: ecolumns}
  *
  *  if ( r === null) {
  *     handle when no data was retrieved
@@ -25,7 +25,10 @@ import prepFormData from './prepFormData';
  *     handle new data
  * }
  *
- * Make sure you handle exceptions that are thrown.
+ * init handler(if specified) will be executed for each row.
+ *
+ * Make sure you handle exceptions that are thrown.The library does not handle those and
+ * assumes some higher level code will have a catch
  *
  * For custom scrolling, pass the scrolling information in the optional third parameter.
  * The content of the payload depends on whether the source is cas or compute.

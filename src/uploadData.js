@@ -7,17 +7,15 @@
 import { casUpload, casAppendTable, computeRun } from '@sassoftware/restaflib';
 
 /**
- * @description Upload data (peding: upload to sas table)
+ * @description Upload client data to a table
  * @async
  * @module uploadData
  * @category restafedit/core
  * @param {object} output table
  * @param {array}  data
  * @param {array}  drop fields to drop from the output
- * @param {object} addon columns additional columns
+ * @param {object} addon columns additional columns(useful for adding key fields)
  * @param {appEnv} appEnv   - app Environment from setup
- * @param {object=} masterTable if specified the data will be appended to this table
- * @param {boolean} saveFlag if true, the masterTable will be saved
  * @returns {promise}       - {an array of unique values }
  * @example
  *  let selectList = await distinctValues('company', appEnv))

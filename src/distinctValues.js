@@ -9,6 +9,7 @@ import sasTableUnique from './sasTableUnique';
 /**
  * @description Get unique values for a specific column
  * @async
+ * @private
  * @module distinctValues
  * @category restafedit/core
  * @param {object} table {caslib: xxx, name: yyy}

@@ -2,6 +2,7 @@ import { casUpdateData } from '@sassoftware/restaflib';
 /**
  * @description Update the row on the server
  * @async
+ * @private
  * @module updateTableRows
  * @category restafedit/core
  * @param {rowObject} data  - data as a rowObject or Array of rowObjects

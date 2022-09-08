@@ -23,8 +23,12 @@ import updateTableRows from './updateTableRows';
  * status schema {statusCode: 0|1|2, msg: some string}
  * The currentData object is also updated with the latest values.
  *
- * const r = await cellEdit'x1',100, 1, d)
- * Please see the restafeditExample in the Tutorial pulldown
+ * const r = await cellEdit'x1',100, 1, d, appEnv)
+    - If the column has an handler it will be called.
+    - If 'main" handler is specified, it will be called.
+    - If autoSave is true
+      - The 'term' handler(if specified) will be called
+      - The data for that row will be persisted to the server
  */
 async function cellEdit (name, value, rowIndex, currentData, appEnv) {
   /* do not modify the data directly. caller will probably do a setState */

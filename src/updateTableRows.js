@@ -5,7 +5,7 @@ import { casUpdateData } from '@sassoftware/restaflib';
  * @private
  * @module updateTableRows
  * @category restafedit/core
- * @param {rowObject} data  - data as a rowObject or Array of rowObjects
+ * @param {rowObjectArray|rowObject} data  - data as a rowObject or Array of rowObjects
  * @param {appEnv} appEnv   - app Environment object from setup
  * @returns {promise}       - {msg: string, statusCode: 0|1|2}
  * @example

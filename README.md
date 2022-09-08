@@ -52,10 +52,10 @@ The goal of this project is to create a small reusable library to simplify the  
   - Calculations for each column on editing. *main* is run after this calculation
     - The name of the handler must match the lower-cased name of the column
   - Using this pattern developer can add more handlers
-  - On the client using JavaScript
+  - Run calculations on the client using JavaScript
   - Handlers can call the server for additional calculations.
-    - On the cas server using casl  or any cas action
-    - Using procs and datasteps
+    - On the cas server use casl
+    - On compute server use SAS programs
 - Access to other SAS REST API
   - Recommend using [restaf and restaflib](https://sassoftware.github.io/restaf) for rapid appplication development
   - External destination using http (ex: An Azure App for a SAS Decisioning Flow)
@@ -66,10 +66,8 @@ The goal of this project is to create a small reusable library to simplify the  
 
 ---
 
-*Introduction*
-![Introduction]
 The Table Editor in the picture below is supplied by the user.
-![viyaedit](DataEditorFlow.png)
+![viyaedit](editorapp.png)
 
 ### Working Examples
 
@@ -507,7 +505,7 @@ async function x1 (data, name, rowIndex, appEnv) {
 
 ---
 
-## [React Application]<a name="reactapp1"></a>
+## React Application<a name="reactapp1"></a>
 
 ---
 

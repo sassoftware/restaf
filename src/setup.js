@@ -11,7 +11,6 @@ import { casSetup, computeSetup, computeSetupTables, caslRun } from '@sassoftwar
  * @category restafedit/core
  * @param {logonPayload} logonPayload  -information for connecting to Viya
  * @param {appControl} appControl       control information
- * @param {string=} preamble  casl or datastep code to execute
  * @returns {promise}  returns appEnv to control the flow
  * @alias module: setup
  * @example
@@ -21,21 +20,21 @@ import { casSetup, computeSetup, computeSetupTables, caslRun } from '@sassoftwar
  *
  */
 
-async function setup (logonPayload, appControl, preamble) {
+async function setup (logonPayload, appControl) {
   const store = initStore();
   let appEnv;
   if (logonPayload.authType == null) {
     logonPayload.authType = 'code';
   }
   if (appControl.source === 'cas') {
-    appEnv = await icasSetup(store, logonPayload, appControl, preamble);
+    appEnv = await icasSetup(store, logonPayload, appControl);
   } else {
-    appEnv = await icomputeSetup(store, logonPayload, appControl, preamble);
+    appEnv = await icomputeSetup(store, logonPayload, appControl);
   }
   return appEnv;
 }
 
-async function icasSetup (store, logonPayload, appControl, preamble) {
+async function icasSetup (store, logonPayload, appControl) {
   console.log(store);
   console.log(logonPayload);
   const r = await casSetup(store, logonPayload);
@@ -61,10 +60,10 @@ async function icasSetup (store, logonPayload, appControl, preamble) {
 
     id: Date()
   };
-  if (preamble != null) {
-    const rx = await caslRun(store, r.session, preamble);
-    if (rx.details.statusCode !== 0) {
-      console.log(rx);
+  if (appControl.preamble != null) {
+    const rx = await caslRun(store, r.session, appControl.preamble);
+    if (rx.disposition.statusCode !== 0) {
+      console.log(JSON.stringify(rx, null, 4));
       // eslint-disable-next-line no-throw-literal
       throw 'Preamble failed. Please see console';
     };
@@ -72,11 +71,11 @@ async function icasSetup (store, logonPayload, appControl, preamble) {
   return appEnv;
 };
 
-async function icomputeSetup (store, logonPayload, appControl, preamble) {
+async function icomputeSetup (store, logonPayload, appControl) {
   // eslint-disable-next-line prefer-const
   ;
   let session = await computeSetup(store, appControl.computeContext, logonPayload);
-  let tableSummary = await computeSetupTables(store, session, appControl.table, preamble);
+  let tableSummary = await computeSetupTables(store, session, appControl.table, appControl.preamble);
   let appEnv = {
     source: appControl.source,
 

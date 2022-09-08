@@ -16,7 +16,12 @@ async function runit () {
   };
   const cache = [];
   const appControl = getAppControl();
-
+  const preamble = `   
+  action datastep.runcode /
+   code= 'data casuser.testdatatemp;set public.TESTDATA;run;';
+  send_response({result= "done"});
+  `;
+  appControl.preamble = preamble;
   const appEnv = await setup(payload, appControl);
   debugger;
   let result = await scrollTable('first', appEnv);
@@ -43,7 +48,7 @@ function getAppControl () {
     description: 'Simple Example',
 
     source: 'cas',
-    table : { caslib: 'public', name: 'testdata' },
+    table : { caslib: 'casuser', name: 'testdatatemp' },
     byvars: ['id'],
 
     initialFetch: {
@@ -52,7 +57,6 @@ function getAppControl () {
       format: false,
       where : 'x1 GT 5'
     },
-
     customColumns: {
       total: {
         Column         : 'Total',

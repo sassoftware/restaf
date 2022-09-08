@@ -31,7 +31,8 @@ async function runit () {
   end;
   run;`;
   debugger;
-  const appEnv = await setup(payload, appControl, preamble);
+  appControl.preamble = preamble;
+  const appEnv = await setup(payload, appControl);
 
   debugger;
   let result = await scrollTable('first', appEnv);

@@ -18,7 +18,6 @@
 
 **Latest Version** @sassoftware/restafedit@next
 
-
 Going back in history, SAS had products like SAS/FSP and SAS/AF that allowed users to create simple or complex interactive applications. As SAS moved to the Viya platform these products were dropped. SAS provided REST API (application programming interfaces) as an industry standard way for creating applications.
 
 The key component of these applications is entering data. Common destinations of the modified data are:
@@ -39,31 +38,41 @@ The goal of this project is to create a small reusable library to simplify the  
 
 - Creation and management of CAS session or Compute Session
 - Reading one or more records from a cas table or SAS table
+  - where clause supported
 - Update the records based on a key
 - Scrolling through the table
 - Saving the inmemory cas Table
-- Allow users to specify calculations on modifying a value. The current options are:
+- Allow users to specify calculations(called handlers in this document)
+  - *init* calculations on reading the record
+  - *main* calculations on editing a cell
+  - *term* calculations before saving the row to server
+  - Calculations for each column on editing. *main* is run after this calculation
+    - The name of the handler must match the lower-cased name of the column
+  - Using this pattern developer can add more handlers
   - On the client using JavaScript
-  - On the server
+  - Handlers can call the server for additional calculations.
     - On the cas server using casl  or any cas action
     - Using procs and datasteps
-- Allow access to all the SAS REST API end points from the handlers.
-    - Recommend using [restaf and restaflib](https://sassoftware.github.io/restaf) for rapid appplication development
-    - External destination using http (ex: An Azure App for a SAS Decisioning Flow)
+- Access to other SAS REST API
+  - Recommend using [restaf and restaflib](https://sassoftware.github.io/restaf) for rapid appplication development
+  - External destination using http (ex: An Azure App for a SAS Decisioning Flow)
 
 ---
+
 ## Basic Flow<a name="basicflow"></a>
 
 ---
 
+*Introduction*
+![Introduction]
 The Table Editor in the picture below is supplied by the user.
 ![viyaedit](DataEditorFlow.png)
 
 ### Working Examples
 
-- [Simple Editor Application](https://github.com/sassoftware/restaf-uidemos/blob/editorapp/README.md) - Demonstrates the use of this library using basic javascript and html to edit a cas table.
+- [Simple Editor Application](https://github.com/sassoftware/restaf-uidemos/tree/editorapp) - Demonstrates the use of this library using basic javascript and html to edit a cas table.
 
-- [React Application Editing](https://github.com/sassoftware/restaf/blob/restafedit/README.md) - Demonstrates a react application.
+- [React Application Editing](https://github.com/sassoftware/restaf-uidemos/tree/editorappreact) - Demonstrates a react application.
 
 ---
 
@@ -105,6 +114,61 @@ npm install @sassoftware/restaf@next @sassoftware/restaflib@next @sassoftware/re
 - do more scrolling
 
 Link: <https://github.com/sassoftware/restaf/blob/restafedit/test/example1.js>
+
+#### Review of appControl
+
+The appControl is used to setup and control the flow of the application from a data handling point of view.
+Other than the information for connecting to Viya there is no other configuration information needed.
+<blockquote>
+ Comments are inline
+ </blockquote>
+
+```js
+ description: 'Simple Example',
+    // the source is either 'cas' or 'compute'. This defines which server is being accessed in this session
+    source: 'cas', /
+    
+    // Specify the table to be edited. 
+    // If the source is cas, then caslib is specified
+    // If the source is compute, then change caslib to libref below
+
+    table : { caslib: 'public', name: 'TESTDATA' },
+    
+
+     
+    // To update a record, the key column must be specified.
+    // If this is not specified, autoSave will be turned off
+
+    byvars: ['id'],
+
+    // This is primarily used to do the initial read
+    // If using a table viewer, the limit should be set to some reasonable number
+    // A limit of 1 should be used when editing thru a form.
+    // If the source is compute then you can use all the options allowed for rowSets API
+    initialFetch: {
+      qs: {
+        start : 0,
+        limit : 1,
+        format: false,
+        where : 'x1 GT 5'
+      }
+    },
+
+    // Specify calculated/custom columns. 
+    // It is optional (as in the first example below)
+    customColumns: {},
+
+    // User adds their handlers for calculations.
+    // All of these are optional.
+    // This is discussed in Scenario 2
+    editControl: {
+      handlers: {}, /* place holder for calculations */
+      autoSave: true  /* this is default. On each edit the data on server is updated */
+    },
+    appData: {} /* place holder for additional user data. In later examples this is used to control the UI */
+
+  };
+  ```
 
 ```js
 const { setup, scrollTable, cellEdit, saveTable } = require('../dist/index.js');
@@ -196,7 +260,6 @@ function getAppControl () {
   };
 }
 ```
-
 ---
 
 ## Editing with calculations<a name="example2"></a>
@@ -360,7 +423,7 @@ The simple display is shown below. The html for this display is [here](https://g
 The code to handle the initialization, cellediting and scrolling is the code below. Notice the similarity with the Example 2 Scenario aboe.
 The key differences are:
 
-- The authtentication(viyaConnection) uses authorization_code flow.
+- The authentication(viyaConnection) uses authorization_code flow.
 - The initialize function is executed after DOM initialization.
 
 The html
@@ -443,7 +506,7 @@ async function x1 (data, name, rowIndex, appEnv) {
 
 ### `Scenario 4`
 
-In this scenario the web application in scenario 3 is converted to a react application. 
+In this scenario the web application in scenario 3 is converted to a react application.
 The working example is in this [repository](https://github.com/sassoftware/restaf-uidemos/tree/editorappreact)
 
 <blockquote>
@@ -601,38 +664,28 @@ Below is image of the application for form editing and table editing.
 ![Table Editing](reacttable.png)
 ---
 
-## Notes on appControl<a name="appcontrol"></a>
+## More Notes on appControl<a name="appcontrol"></a>
 
 ---
 
-// AppControl with sample data
+### compute context
 
-```js
-function getAppControl () {
-  return {
-    description: 'Simple Example',
-    source: 'compute', /* set to cas if data is in cas */
-    table : { libref: 'TEST', name: 'TESTDATA' },  /* change libref to caslib if using cas */
-    byvars: ['key'],
-    cachePolicy: true, /* default is true */
-    initialFetch: {
-      qs: {
-        start: 0,
-        limit: 1,
-        format: false,
-        where: '' 
-    },
-    customColumns: {},
-    editControl: {
-      handlers: {}
-      autoSave: true  /* save to server after every edit. For cas, it updates inmemory table */
-    },
-    computeContext: null, /* optional - defaults to Job Execution Service */
-    appData: {}
+For compute sessions, the default compute context is SAS Job Execution context. This can be overriden by passing in
+the name of a different compute context.
 
-  };
+{
+  ...
+  table: {libref: 'user', name: 'test'},
+  computeContext: 'mycontext'
+  ...
 }
-```
+
+### preamble
+
+In certain scenarios it might be necessary to run some code on the server prior to editing.
+For example one might want to create a local copy of the table for the user to edit. At the end of the session, this could post processed.
+
+If the *preamble* code is specified, setup will execute that code. For cas source, the code must be casl code. For compute it must be standard SAS code.
 
 
 ### Usage
@@ -651,7 +704,7 @@ let appEnv = await setup(logonPayload, appControl)
 
 - appEnv - this is the control object for the edit session
 
-### Notes on AppControl
+### Additional fields in AppControl
 
 Use this argument to setup the edit session. AppControl has the following schema with some sample values.
 
@@ -659,7 +712,7 @@ Use this argument to setup the edit session. AppControl has the following schema
   {
 
       source: 'cas', /* cas | compute */
-      table : {caslib: 'casuser', name: 'testdata'},/* for compute: {libref: xxx , name: yyy}
+      table : {caslib: 'casuser', name: 'testdata'},
       byvars: ['id'], /* used a key when updating records. */
       cachePolicy: true, /* data will be managed for you. */
 
@@ -691,7 +744,7 @@ Use this argument to setup the edit session. AppControl has the following schema
   - from: The record number where the read starts(table.fetch action(not an offset)
   - count: Number of records to read. On every fetch this many records will be read.
 
-- cachePolicy: If true the data is stored in appEnv.state. You should set this to false if you want to manage the data. The pagination information will always be saved in appEnv to enable easy scrolling. The initial set of records wille be persisted in appEnv(see below).
+- cachePolicy: If true the data is stored in appEnv.state. You should set this to false if you want to manage the data. The pagination information will always be saved in appEnv to enable easy scrolling. The initial set of records will be persisted in appEnv(see below).
 - handlers:  This is an object with functions for init, main, term and indiviual columns. Set to {} if you do not plan to make use of this feature. Use the handlers that make sense to you. See below for the samples
 - byvars: An array of by variables. At this time, one has to use this as key to update a record in CAS. ex: ['firstname', 'lastname']
 - customColumns: You can add additional columns(temporary) to be used during the session. These columns are not persisted to the server. These variables are available to the handlers. A typical example might be to display some row totals. If none, set this value to {}

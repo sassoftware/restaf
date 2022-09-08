@@ -5,7 +5,7 @@
   
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Library Overviews computeRun</title>
+  <title>Library Overviews distinctValues</title>
 
   <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -193,7 +193,7 @@
             <div class="content">
                 <header class="page-title">
                     <p>Module</p>
-                    <h1>computeRun</h1>
+                    <h1>distinctValues</h1>
                 </header>
                 
 
@@ -214,7 +214,7 @@
     <div class="container-overview">
     
         
-            <div class="description"><p>Prepare data for runCompute(@async)</p></div>
+            <div class="description"><p>Get unique values for a specific column</p></div>
         
 
         
@@ -242,8 +242,6 @@
             <th>Type</th>
 
             
-            <th>Attributes</th>
-            
 
             
 
@@ -257,31 +255,23 @@
             
 <tr class="deep-level-0">
   
-      <td class="name"><code>store</code></td>
+      <td class="name"><code>table</code></td>
   
 
   <td class="type">
   
       
-<code class="param-type"><a href="global.html#store">store</a></code>
+<code class="param-type">object</code>
 
 
   
   </td>
 
   
-      <td class="attributes">
-      
-
-      
-
-      
-      </td>
-  
 
   
 
-  <td class="description last"><p>restaf store</p></td>
+  <td class="description last"><p>{caslib: xxx, name: yyy}</p></td>
 </tr>
 
 
@@ -290,40 +280,7 @@
             
 <tr class="deep-level-0">
   
-      <td class="name"><code>session</code></td>
-  
-
-  <td class="type">
-  
-      
-<code class="param-type"><a href="global.html#rafObject">rafObject</a></code>
-
-
-  
-  </td>
-
-  
-      <td class="attributes">
-      
-
-      
-
-      
-      </td>
-  
-
-  
-
-  <td class="description last"><p>current compute service session</p></td>
-</tr>
-
-
-        
-
-            
-<tr class="deep-level-0">
-  
-      <td class="name"><code>src</code></td>
+      <td class="name"><code>columnName</code></td>
   
 
   <td class="type">
@@ -336,18 +293,10 @@
   </td>
 
   
-      <td class="attributes">
-      
-
-      
-
-      
-      </td>
-  
 
   
 
-  <td class="description last"><p>code to execute</p></td>
+  <td class="description last"><p>column name</p></td>
 </tr>
 
 
@@ -356,138 +305,23 @@
             
 <tr class="deep-level-0">
   
-      <td class="name"><code>macros</code></td>
+      <td class="name"><code>appEnv</code></td>
   
 
   <td class="type">
   
       
-<code class="param-type">object</code>
+<code class="param-type"><a href="global.html#appEnv">appEnv</a></code>
 
 
   
   </td>
 
   
-      <td class="attributes">
-      
-          &lt;optional><br>
-      
-
-      
-
-      
-      </td>
-  
 
   
 
-  <td class="description last"><p>macros as a json</p></td>
-</tr>
-
-
-        
-
-            
-<tr class="deep-level-0">
-  
-      <td class="name"><code>timeout</code></td>
-  
-
-  <td class="type">
-  
-      
-<code class="param-type">number</code>
-
-
-  
-  </td>
-
-  
-      <td class="attributes">
-      
-          &lt;optional><br>
-      
-
-      
-
-      
-      </td>
-  
-
-  
-
-  <td class="description last"><p>long polling timeout in seconds</p></td>
-</tr>
-
-
-        
-
-            
-<tr class="deep-level-0">
-  
-      <td class="name"><code>checkStatus</code></td>
-  
-
-  <td class="type">
-  
-      
-<code class="param-type">function</code>
-
-
-  
-  </td>
-
-  
-      <td class="attributes">
-      
-          &lt;optional><br>
-      
-
-      
-
-      
-      </td>
-  
-
-  
-
-  <td class="description last"><p>callback to check on status</p></td>
-</tr>
-
-
-        
-
-            
-<tr class="deep-level-0">
-  
-      <td class="name"><code>userContext</code></td>
-  
-
-  <td class="type">
-  
-      
-<code class="param-type">object</code>
-
-
-  
-  </td>
-
-  
-      <td class="attributes">
-      
-          &lt;optional><br>
-      
-
-      
-
-      
-      </td>
-  
-
-  
-
-  <td class="description last"><p>this is passed to the statusHandler</p></td>
+  <td class="description last"><p>app Environment from setup</p></td>
 </tr>
 
 
@@ -559,7 +393,9 @@
 
 <div class="columns">
     
-    <div class='param-desc column is-7'><p>computeSummary object. Job Status is computeSummary.SASJobStatus</p></div>
+    <div class='param-desc column is-7'><ul>
+<li>{an array of unique values }</li>
+</ul></div>
     
     
     <div class='column is-5 has-text-left'>
@@ -582,53 +418,7 @@
     <h5>Example</h5>
     
     
-        <pre class="prettyprint"><code>The job status will be one of these  completed|warning|error|failed  Typical call:     let computeSummary = await computeRun(store,computeSession, src, args);  Advanced call: If you want to track the job status pass a checkStatus function with some context
- 
-     const checkStatus = (state, context) => {
-         console.log('state', state);
-         console.log('context ', context);
-        // do something useful - like in an UI display status for user
-        
-        // To stop waiting on job completion return a state value like 'exit' or any string
-        // the value has to be something other than the state passed in.
-        // this will force the code to stop waiting on the server and return to the app.
-        // It is upto your app to take appropriate actions(like cancelling the job)
-        // Below is a trivial example
-        context.counter = context.counter + 1;
-		if (state === 'running' &amp;&amp; context.counter > 5) {
-			context.realState = state;
-			state = 'exit';
-        }
-        return state;
-     } // return true if you want to stop waiting on the job. Does not cancel the job
- 
-===============================================A simple example
-
-    async function runtest(store, logonPayload) {
-        let computeSession = await restaflib.computeSetup(store, null, logonPayload);
-        let macros = {
-            data: 'sashelp.cars'
-        };
-        let src = `
-                ods html style=barrettsblue;  
-                proc print data=&amp;data;run;
-                ods html close; 
-                run;
-                `;
- 
-        let computeSummary = await restaflib.computeRun(
-            store,
-            computeSession,
-            src,
-            macros
-        );
-        console.log('Job Status: ', computeSummary.SASJobStatus);
-
-         let log = await restaflib.computeResults(store, computeSummary, "log");
-        let ods = await restaflib.computeResults(store, computeSummary, "ods");
-        return 'done';
-
-    }</code></pre>
+        <pre class="prettyprint"><code>let selectList = await distinctValues('company', appEnv)) This is useful to get a list of unique values for selected columns. {company:['IBM', 'Microsoft', 'SAS'] }</code></pre>
     
 
 

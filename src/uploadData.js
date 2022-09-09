@@ -7,18 +7,18 @@
 import { casUpload, casAppendTable, computeRun } from '@sassoftware/restaflib';
 
 /**
- * @description Upload client data to a table
+ * @description Upload client data to a new table on client
  * @async
  * @module uploadData
  * @category restafedit/core
  * @param {object} output table
- * @param {array}  data
+ * @param {array}  data if null, data from appEnv.state will be uploded.
  * @param {array}  drop fields to drop from the output
  * @param {object} addon columns additional columns(useful for adding key fields)
  * @param {appEnv} appEnv   - app Environment from setup
  * @returns {promise}       - {an array of unique values }
  * @example
- *  let selectList = await distinctValues('company', appEnv))
+ *  await uploadData(outputTable, data, drop, {},appEnv)
  *  This is useful to get a list of unique values for selected columns.
  *  {company:['IBM', 'Microsoft', 'SAS'] }
  */
@@ -26,7 +26,10 @@ import { casUpload, casAppendTable, computeRun } from '@sassoftware/restaflib';
 async function uploadData (table, data, drop, addon, appEnv, masterTable, saveFlag) {
   const { store, session } = appEnv;
   // eslint-disable-next-line prefer-const
-  let t = Object.keys(data[0]);
+  if (data === null) {
+    data = appEnv.state.data;
+  };
+  const t = Object.keys(data[0]);
   let dropArray = ['_index_', '_rowIndex'];
   if (drop !== null) {
     dropArray = dropArray.concat(drop);

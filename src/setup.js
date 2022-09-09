@@ -35,8 +35,6 @@ async function setup (logonPayload, appControl) {
 }
 
 async function icasSetup (store, logonPayload, appControl) {
-  console.log(store);
-  console.log(logonPayload);
   const r = await casSetup(store, logonPayload);
   let appEnv = {
     source: appControl.source,

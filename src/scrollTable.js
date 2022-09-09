@@ -3,7 +3,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-// import fetchTableRows from './fetchTableRows';
 import { computeFetchData, casFetchRows } from '@sassoftware/restaflib';
 import prepFormData from './prepFormData';
 /**

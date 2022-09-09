@@ -17,10 +17,10 @@ import { caslRun } from '@sassoftware/restaflib';
  * @example
  *  let selectList = await casTableUnique('company, appEnv))
  *  This is useful to get a list of unique values for selected columns.
- *  {columnName:[ array of unquew values] }
+ *  {columnName:[ array of unque values] }
  */
 
-async function casTableUnique (table, columnName, appEnv, payload) {
+async function casTableUnique (table, columnName, appEnv) {
   const { store, session } = appEnv;
 
   const src = `

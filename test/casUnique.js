@@ -17,9 +17,9 @@ async function runit () {
   debugger;
   const appEnv = await setup(payload, getAppControl());
   debugger;
-  let values = await distinctValues(appEnv.appControl.table, 'version', appEnv);
+  let values = await distinctValues('version', appEnv);
   console.log(values);
-  values = await distinctValues({ caslib: 'public', name: 'customer_master' }, 'company', appEnv);
+  values = await distinctValues('company', appEnv, { caslib: 'public', name: 'customer_master' });
   console.log(values);
   debugger;
   return 'done';

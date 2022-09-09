@@ -62,7 +62,6 @@ async function _updateData (data, appEnv) {
 // TBD: Move to restaflib
 
 async function _computeUpdateData (store, session, payload) {
-  debugger;
   const { data, table, where } = payload;
   let src =
     `proc sql; update ${table.libref}.${table.name}`;

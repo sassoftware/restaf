@@ -4,17 +4,16 @@
  */
 
 import casTableUnique from './casTableUnique';
-import sasTableUnique from './sasTableUnique';
+import computeTableUnique from './computeTableUnique';
 
 /**
  * @description Get unique values for a specific column
  * @async
- * @private
  * @module distinctValues
  * @category restafedit/core
- * @param {object} table {caslib: xxx, name: yyy}
  * @param {string} columnName    column name
  * @param {appEnv} appEnv   - app Environment from setup
+ * @param {casTable|computeTable=} table Optionally point to a different table
  * @returns {promise}       - {an array of unique values }
  * @example
  *  let selectList = await distinctValues('company', appEnv))
@@ -22,12 +21,13 @@ import sasTableUnique from './sasTableUnique';
  *  {company:['IBM', 'Microsoft', 'SAS'] }
  */
 
-async function distinctValues (table, columnName, appEnv, payload) {
+async function distinctValues (columnName, appEnv, table) {
   let data;
+  const t = (table != null) ? table : appEnv.appControl.table;
   if (appEnv.source === 'cas') {
-    data = await casTableUnique(table, columnName, appEnv, payload);
+    data = await casTableUnique(t, columnName, appEnv);
   } else {
-    data = await sasTableUnique(table, columnName, appEnv, payload);
+    data = await computeTableUnique(t, columnName, appEnv);
   }
   return data;
 };

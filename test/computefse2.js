@@ -1,11 +1,11 @@
 const { setup, cellEdit, scrollTable } = require('../dist/index.js');
+const { computeRun } = require('@sassoftware/restaflib');
 
 runit()
   .then(r => console.log(r))
   .catch(err => {
     debugger;
     console.log('error', err);
-    console.log(JSON.stringify(err, null, 4));
   });
 
 async function runit () {
@@ -21,18 +21,8 @@ async function runit () {
   const appControl = getAppControl();
   debugger;
   // eslint-disable-next-line quotes
-  const preamble = `libname tempdata '/tmp';run; 
-  data tempdata.testdata;
-  keep x1 x2 x3 id;
-  length id $ 5;
-  do i = 1 to 20;
-  x1=i; x2=3; x3=i*10; id=compress(TRIMN('key'||i));
-  
-  output;
-  end;
-  run;`;
-  debugger;
-  appControl.preamble = preamble;
+  console.log(appControl);
+
   const appEnv = await setup(payload, appControl);
 
   debugger;
@@ -87,7 +77,7 @@ function getAppControl () {
       }
     },
     editControl: {
-      handlers: { init, main: init, term }, /* note reuse of init */
+      handlers: { fseinit, init, main: init, term }, /* note reuse of init */
       save    : true,
       autoSave: true
 
@@ -104,6 +94,29 @@ function getAppControl () {
 
   };
 }
+
+async function fseinit (appEnv) {
+  const { store, session } = appEnv;
+  debugger;
+  const src = `libname tempdata '/tmp';run; 
+    data tempdata.testdata;
+    keep x1 x2 x3 id;
+    length id $ 5;
+    do i = 1 to 20;
+    x1=i; x2=3; x3=i*10; id=compress(TRIMN('key'||i));
+    
+    output;
+    end;
+    run;`;
+  console.log(src);
+  const r = await computeRun(store, session, src);
+  if (r.SASJobStatus !== 'completed') {
+    // eslint-disable-next-line no-throw-literal
+    throw `fseinit failed. Completion Code: ${r.SASJobStatus}`;
+  }
+  return { msg: 'fsedinit completed', statusCode: 0 };
+}
+
 async function init (data, rowIndex, appEnv, type) {
   const status = { statusCode: 0, msg: `${type} processing completed` };
   data.total = data.x1 + data.x2 + data.x3;

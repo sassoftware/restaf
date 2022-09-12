@@ -670,7 +670,7 @@ Below is image of the application for form editing and table editing.
 
 ---
 
-## Additonal fields in appControl<a name="appcontrol"></a>
+## Additional fields in appControl<a name="appcontrol"></a>
 
 ---
 
@@ -702,6 +702,26 @@ For example one might want to create a local copy of the table for the user to e
   ...
 
 }
+
+### fseinit handler
+
+The preamble is designed for small snippets of code. For more complicated initialization code, specify the fseinit handler.
+If fseinit is specified, the preamble will be ignored.
+
+The syntax for the fseinit handler is as follows:
+
+```js
+
+const status = fseinit(appEnv);
+
+```
+
+If status.statusCode is 2, then setup will throw an exception.
+
+### fseterm handler
+
+This is called by restaflib when the termSession method is called.
+This handler is most useful for doing additional work on the server before terminating the edit session.
 
 ### Using appEnv<a name="appenv"></a>
 

@@ -31,11 +31,22 @@ async function setup (logonPayload, appControl) {
   } else {
     appEnv = await icomputeSetup(store, logonPayload, appControl);
   }
+  console.log(appControl.editControl.handlers.fseinit);
+  if (appControl.editControl.handlers.fseinit != null) {
+    const r = await appControl.editControl.handlers.fseinit(appEnv, 'fseinit');
+    if (r.statusCode === 2) {
+      console.log(JSON.stringify(r, null, 4));
+      // eslint-disable-next-line no-throw-literal
+      throw 'fseinit failed. Please see console';
+    }
+  }
   return appEnv;
 }
 
 async function icasSetup (store, logonPayload, appControl) {
   const r = await casSetup(store, logonPayload);
+  const preamble = (appControl.editControl.handlers.fseinit != null) ? null : appControl.preamble;
+
   let appEnv = {
     source: appControl.source,
 
@@ -58,29 +69,29 @@ async function icasSetup (store, logonPayload, appControl) {
 
     id: Date()
   };
-  if (appControl.preamble != null) {
-    const rx = await caslRun(store, r.session, appControl.preamble);
+
+  if (preamble !== null) {
+    const rx = await caslRun(store, r.session, preamble);
     if (rx.disposition.statusCode !== 0) {
       console.log(JSON.stringify(rx, null, 4));
       // eslint-disable-next-line no-throw-literal
       throw 'Preamble failed. Please see console';
     };
-  }
+  };
+
   return appEnv;
 };
 
 async function icomputeSetup (store, logonPayload, appControl) {
   // eslint-disable-next-line prefer-const
-  ;
+  const preamble = (appControl.editControl.handlers.fseinit != null) ? null : appControl.preamble;
   let session = await computeSetup(store, appControl.computeContext, logonPayload);
-  let tableSummary = await computeSetupTables(store, session, appControl.table, appControl.preamble);
+
   let appEnv = {
     source: appControl.source,
 
     store,
     session,
-    tableSummary,
-
     servers  : null,
     restaflib: null,
 
@@ -98,6 +109,19 @@ async function icomputeSetup (store, logonPayload, appControl) {
 
     id: Date()
   };
+
+  if (appControl.editControl.handlers.fseinit != null) {
+    const r = await appControl.editControl.handlers.fseinit(appEnv, 'fseinit');
+    if (r.statusCode === 2) {
+      console.log(JSON.stringify(r, null, 4));
+      // eslint-disable-next-line no-throw-literal
+      throw 'fseinit failed. Please see console';
+    }
+  }
+
+  const tableSummary = await computeSetupTables(store, session, appControl.table, preamble);
+  appEnv.tableSummary = tableSummary;
+
   return appEnv;
 }
 

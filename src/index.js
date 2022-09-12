@@ -11,6 +11,7 @@ import setup from './setup';
 import distinctValues from './distinctValues';
 import uploadData from './uploadData';
 import saveTable from './saveTable';
+import termSession from './termSession';
 
 export {
   cellEdit,
@@ -20,5 +21,6 @@ export {
   updateTableRows,
   saveTable,
   setup,
-  uploadData
+  uploadData,
+  termSession
 };

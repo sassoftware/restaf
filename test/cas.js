@@ -1,5 +1,5 @@
 /* eslint-disable quotes */
-const { setup, scrollTable, cellEdit } = require('../dist/index.js');
+const { setup, scrollTable, cellEdit, termSession } = require('../dist/index.js');
 
 runit()
   .then(r => console.log(r))
@@ -24,22 +24,23 @@ async function runit () {
   appControl.preamble = preamble;
   const appEnv = await setup(payload, appControl);
   debugger;
-  let result = await scrollTable('first', appEnv);
+  await scrollTable('first', appEnv);
   cache.push(appEnv.state.data[0]);
 
   const x3New = appEnv.state.data[0].x3 + 100;
   await cellEdit('x3', x3New, 0, appEnv.state.data[0], appEnv);
-  result = await scrollTable('first', appEnv);
+  await scrollTable('first', appEnv);
   cache.push(appEnv.state.data[0]);
 
   debugger;
-  result = await scrollTable('next', appEnv);
+  await scrollTable('next', appEnv);
   cache.push(appEnv.state.data[0]);
 
-  result = await scrollTable('prev', appEnv);
+  await scrollTable('prev', appEnv);
   cache.push(appEnv.state.data[0]);
 
   console.log(cache);
+  await termSession(appEnv);
   return 'done';
 };
 
@@ -66,7 +67,7 @@ function getAppControl () {
       }
     },
     editControl: {
-      handlers: { init, main, term, x1 }, /* note reuse of init */
+      handlers: { init, main, term, fseterm, x1 }, /* note reuse of init */
       autoSave: true
     },
     appData: {
@@ -98,6 +99,10 @@ function getAppControl () {
   };
 }
 
+async function fseterm (appEnv) {
+  console.log('in fseterm');
+  return { msg: 'done', satusCode: 0 };
+}
 async function init (data, rowIndex, appEnv, type) {
   const status = { statusCode: 0, msg: `${type} processing completed` };
   data.total = data.x1 + data.x2 + data.x3;

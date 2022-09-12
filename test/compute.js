@@ -1,4 +1,4 @@
-const { setup, scrollTable, cellEdit, fetchTableRows } = require('../dist/index.js');
+const { setup, scrollTable, cellEdit } = require('../dist/index.js');
 
 runit()
   .then(r => console.log(r))
@@ -23,8 +23,18 @@ async function runit () {
   // preamble - should be done in the context preamble
   // this arg is useful if you do not have a way to modify the context
   // eslint-disable-next-line quotes
-  const preamble = `libname test '/mnt/viya-share/data/deva';`;
-  const appEnv = await setup(payload, appControl, preamble);
+  appControl.preamble = `libname tempdata '/tmp';run; 
+  data tempdata.testdata;
+  keep x1 x2 x3 id;
+  length id $ 5;
+  do i = 1 to 20;
+  x1=i; x2=3; x3=i*10; id=compress(TRIMN('key'||i));
+  
+  output;
+  end;
+  run;`;
+
+  const appEnv = await setup(payload, appControl);
 
   debugger;
   // eslint-disable-next-line prefer-const
@@ -51,15 +61,6 @@ async function runit () {
   console.log(appEnv.state.data);
   console.log('-------------------------------------------------------');
 
-  const control = {
-    from  : 1,
-    count : 5,
-    format: false
-  };
-  result = await fetchTableRows(control, appEnv);
-  console.log('result of a fetchTableRows-----------------------------');
-  console.log(appEnv.state.data);
-
   return 'done';
 };
 
@@ -68,7 +69,7 @@ function getAppControl () {
     description: 'Simple Example',
 
     source: 'compute',
-    table : { libref: 'TEST', name: 'TESTDATA' },
+    table : { libref: 'tempData', name: 'TESTDATA' },
     byvars: ['key'],
 
     cachePolicy: true,

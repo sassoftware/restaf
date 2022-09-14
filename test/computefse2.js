@@ -77,7 +77,7 @@ function getAppControl () {
       }
     },
     editControl: {
-      handlers: { fseinit, init, main: init, term }, /* note reuse of init */
+      handlers: { initApp, init, main: init, term }, /* note reuse of init */
       save    : true,
       autoSave: true
 
@@ -95,7 +95,7 @@ function getAppControl () {
   };
 }
 
-async function fseinit (appEnv) {
+async function initApp (appEnv) {
   const { store, session } = appEnv;
   debugger;
   const src = `libname tempdata '/tmp';run; 
@@ -112,7 +112,7 @@ async function fseinit (appEnv) {
   const r = await computeRun(store, session, src);
   if (r.SASJobStatus !== 'completed') {
     // eslint-disable-next-line no-throw-literal
-    throw `fseinit failed. Completion Code: ${r.SASJobStatus}`;
+    throw `initApp failed. Completion Code: ${r.SASJobStatus}`;
   }
   return { msg: 'fsedinit completed', statusCode: 0 };
 }

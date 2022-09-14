@@ -1,5 +1,5 @@
 /* eslint-disable quotes */
-const { setup, scrollTable, cellEdit, termSession } = require('../dist/index.js');
+const { setup, scrollTable, cellEdit, termApp } = require('../dist/index.js');
 
 runit()
   .then(r => console.log(r))
@@ -12,15 +12,23 @@ async function runit () {
     clientID    : 'sas.ec',
     clientSecret: '',
     user        : 'sastest1',
-    password    : 'Go4thsas'
+    password    : 'Go4thsas',
+    storeOptions: { casProxy: false }
   };
   const cache = [];
   const appControl = getAppControl();
   const preamble = `   
   action datastep.runcode /
-   code= 'data casuser.testdatatemp;set public.TESTDATA;run;';
-  send_response({result= "done"});
-  `;
+  code= "
+     data casuser.testdatatemp;
+     keep x1 x2 x3 id;
+     length id $ 5;
+     do i = 1 to 1000;
+     x1=i; x2=3; x3=i*10; id=compress(TRIMN('key'||i));
+     output;
+     end;
+     ";
+ `;
   appControl.preamble = preamble;
   const appEnv = await setup(payload, appControl);
   debugger;
@@ -40,7 +48,7 @@ async function runit () {
   cache.push(appEnv.state.data[0]);
 
   console.log(cache);
-  await termSession(appEnv);
+  await termApp(appEnv);
   return 'done';
 };
 
@@ -67,7 +75,7 @@ function getAppControl () {
       }
     },
     editControl: {
-      handlers: { init, main, term, fseterm, x1 }, /* note reuse of init */
+      handlers: { init, main, term, termApp: termMyApp, x1 }, /* note reuse of init */
       autoSave: true
     },
     appData: {
@@ -99,8 +107,8 @@ function getAppControl () {
   };
 }
 
-async function fseterm (appEnv) {
-  console.log('in fseterm');
+async function termMyApp (appEnv) {
+  console.log('in termApp');
   return { msg: 'done', satusCode: 0 };
 }
 async function init (data, rowIndex, appEnv, type) {

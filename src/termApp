@@ -4,7 +4,7 @@
  */
 
 /**
- * @description Run fseterm handler(if specified) and delete the cas|compute session(optional)
+ * @description Run termapp handler(if specified) and delete the cas|compute session(optional)
  * @async
  * @module termSession
  * @category restafedit/core
@@ -18,11 +18,11 @@
  *  the REST calls.
  */
 
-async function termSession (appEnv, deleteSession) {
+async function termApp (appEnv, deleteSession) {
   const { store, session } = appEnv;
   const handlers = appEnv.appControl.editControl.handlers;
-  if (handlers.fseterm != null) {
-    await handlers.fseterm(appEnv);
+  if (handlers.termapp != null) {
+    await handlers.termapp(appEnv);
   }
 
   // Setup for user supplied session which we do not want to delete
@@ -32,4 +32,4 @@ async function termSession (appEnv, deleteSession) {
 
   return { msg: 'Session terminated', statusCode: 0 };
 };
-export default termSession;
+export default termApp;

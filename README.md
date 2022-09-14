@@ -703,25 +703,30 @@ For example one might want to create a local copy of the table for the user to e
 
 }
 
-### fseinit handler
+### initApp handler
 
-The preamble is designed for small snippets of code. For more complicated initialization code, specify the fseinit handler.
-If fseinit is specified, the preamble will be ignored.
+The preamble is designed for small snippets of code. For more complicated initialization code, specify the iniaApp handler.
+If termapp is specified, the preamble will be ignored.
 
-The syntax for the fseinit handler is as follows:
+The syntax for the termapp handler is as follows:
 
 ```js
 
-const status = fseinit(appEnv);
+const status = initApp(appEnv);
 
 ```
 
 If status.statusCode is 2, then setup will throw an exception.
 
-### fseterm handler
+### appTerm handler
 
-This is called by restaflib when the termSession method is called.
+If specified, the appTerm handler is  called.
 This handler is most useful for doing additional work on the server before terminating the edit session.
+Do not delete the server session in this handler. See appTerm method documentation.
+
+```js
+const rc = await appTerm(appEnv);
+```
 
 ### Using appEnv<a name="appenv"></a>
 

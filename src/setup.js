@@ -21,7 +21,8 @@ import { casSetup, computeSetup, computeSetupTables, caslRun } from '@sassoftwar
  */
 
 async function setup (logonPayload, appControl) {
-  const store = initStore();
+  let storeOptions = (logonPayload.storeOptions != null) ? logonPayload.storeOptions : { casProxy: true };
+  const store = initStore(storeOptions);
   let appEnv;
   if (logonPayload.authType == null) {
     logonPayload.authType = 'code';
@@ -31,13 +32,13 @@ async function setup (logonPayload, appControl) {
   } else {
     appEnv = await icomputeSetup(store, logonPayload, appControl);
   }
-  console.log(appControl.editControl.handlers.fseinit);
-  if (appControl.editControl.handlers.fseinit != null) {
-    const r = await appControl.editControl.handlers.fseinit(appEnv, 'fseinit');
+  console.log(appControl.editControl.handlers.initApp);
+  if (appControl.editControl.handlers.initApp != null) {
+    const r = await appControl.editControl.handlers.initApp(appEnv, 'initApp');
     if (r.statusCode === 2) {
       console.log(JSON.stringify(r, null, 4));
       // eslint-disable-next-line no-throw-literal
-      throw 'fseinit failed. Please see console';
+      throw 'initApp failed. Please see console';
     }
   }
   return appEnv;
@@ -45,7 +46,7 @@ async function setup (logonPayload, appControl) {
 
 async function icasSetup (store, logonPayload, appControl) {
   const r = await casSetup(store, logonPayload);
-  const preamble = (appControl.editControl.handlers.fseinit != null) ? null : appControl.preamble;
+  const preamble = (appControl.editControl.handlers.initApp != null) ? null : appControl.preamble;
 
   let appEnv = {
     source: appControl.source,
@@ -84,7 +85,7 @@ async function icasSetup (store, logonPayload, appControl) {
 
 async function icomputeSetup (store, logonPayload, appControl) {
   // eslint-disable-next-line prefer-const
-  const preamble = (appControl.editControl.handlers.fseinit != null) ? null : appControl.preamble;
+  const preamble = (appControl.editControl.handlers.initApp != null) ? null : appControl.preamble;
   let session = await computeSetup(store, appControl.computeContext, logonPayload);
 
   let appEnv = {
@@ -110,12 +111,12 @@ async function icomputeSetup (store, logonPayload, appControl) {
     id: Date()
   };
 
-  if (appControl.editControl.handlers.fseinit != null) {
-    const r = await appControl.editControl.handlers.fseinit(appEnv, 'fseinit');
+  if (appControl.editControl.handlers.initApp != null) {
+    const r = await appControl.editControl.handlers.initApp(appEnv, 'initApp');
     if (r.statusCode === 2) {
       console.log(JSON.stringify(r, null, 4));
       // eslint-disable-next-line no-throw-literal
-      throw 'fseinit failed. Please see console';
+      throw 'initApp failed. Please see console';
     }
   }
 

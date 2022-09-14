@@ -14,7 +14,6 @@ import computeRun from './computeRun';
 * @param {rafObject} session - compute session
 * @param {computeTable} input Input table with new rows {libref: xxx, name: nnn}
 * @param {computeTable} output  Master table {computelib: xxx, name: nnn}
-* @param {*} payload -
 * @returns {promise} - return 
 * @example
 *    let status = restaflib.computeAppendTable(store, session, 'computeuser.temp', 'public.master', true));

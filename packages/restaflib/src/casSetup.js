@@ -29,7 +29,8 @@
  */
 'use strict';
 async function casSetup (store, logonPayload) {
-
+	console.log(logonPayload);
+	debugger;
 	if (logonPayload != null) {
 			await store.logon(logonPayload);
 	}

@@ -22,6 +22,8 @@ import { casSetup, computeSetup, computeSetupTables, caslRun } from '@sassoftwar
 
 async function setup (logonPayload, appControl) {
   let storeOptions = (logonPayload.storeOptions != null) ? logonPayload.storeOptions : { casProxy: true };
+  console.log(storeOptions);
+  debugger;
   const store = initStore(storeOptions);
   let appEnv;
   if (logonPayload.authType == null) {
@@ -45,6 +47,7 @@ async function setup (logonPayload, appControl) {
 }
 
 async function icasSetup (store, logonPayload, appControl) {
+  debugger;
   const r = await casSetup(store, logonPayload);
   const preamble = (appControl.editControl.handlers.initApp != null) ? null : appControl.preamble;
 

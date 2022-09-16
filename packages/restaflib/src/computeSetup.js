@@ -17,7 +17,9 @@
  */
 async function computeSetup (store, contextName, payload,sessionPayload){
     if (payload != null) {
-        let msg = await store.logon(payload);
+        debugger;
+        let msg =  await store.logon(payload);
+        console.log("======================", msg);
     }
     
     let {compute} = await store.addServices('compute');
@@ -41,6 +43,7 @@ async function computeSetup (store, contextName, payload,sessionPayload){
         return session;
     } else {
         let session = await store.apiCall(compute.links('createSession'));
+        debugger;
         return session;
     }
 }

@@ -21,6 +21,8 @@ import { casSetup, computeSetup, computeSetupTables, caslRun } from '@sassoftwar
  */
 
 async function setup (logonPayload, appControl) {
+  console.log('setup: ', JSON.stringify(logonPayload.storeOptions));
+  debugger;
   let storeOptions = (logonPayload.storeOptions != null) ? logonPayload.storeOptions : { casProxy: true };
   const store = initStore(storeOptions);
   let appEnv;
@@ -32,7 +34,7 @@ async function setup (logonPayload, appControl) {
   } else {
     appEnv = await icomputeSetup(store, logonPayload, appControl);
   }
-  console.log(appControl.editControl.handlers.initApp);
+
   if (appControl.editControl.handlers.initApp != null) {
     const r = await appControl.editControl.handlers.initApp(appEnv, 'initApp');
     if (r.statusCode === 2) {
@@ -46,7 +48,9 @@ async function setup (logonPayload, appControl) {
 
 async function icasSetup (store, logonPayload, appControl) {
   debugger;
+
   const r = await casSetup(store, logonPayload);
+  debugger;
   const preamble = (appControl.editControl.handlers.initApp != null) ? null : appControl.preamble;
 
   let appEnv = {
@@ -72,7 +76,7 @@ async function icasSetup (store, logonPayload, appControl) {
     id: Date()
   };
 
-  if (preamble !== null) {
+  if (preamble != null) {
     const rx = await caslRun(store, r.session, preamble);
     if (rx.disposition.statusCode !== 0) {
       console.log(JSON.stringify(rx, null, 4));

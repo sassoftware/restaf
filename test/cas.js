@@ -13,7 +13,7 @@ async function runit () {
     clientSecret: '',
     user        : 'sastest1',
     password    : 'Go4thsas',
-    storeOptions: { casProxy: false }
+    storeOptions: { casProxy: true }
   };
   const cache = [];
   const appControl = getAppControl();
@@ -30,6 +30,9 @@ async function runit () {
      ";
  `;
   appControl.preamble = preamble;
+  payload.storeOptions = {
+    casProxy: false
+  };
   const appEnv = await setup(payload, appControl);
   debugger;
   await scrollTable('first', appEnv);

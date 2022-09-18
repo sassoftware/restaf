@@ -26,8 +26,12 @@
     "debug": "cd test && cross-env NODE_TLS_REJECT_UNAUTHORIZED=0 node --inspect-brk",
     "test:build": "run-s build",
     "test:lint": "eslint ./src",
-    "pub": "npm publish --tag test --access public",
+    "pub": "npm publish --tag dev --access public",
     "jsdoc": "jsdoc -c jsdoc.json"
+  },
+  "dependencies": {
+    "@sassoftware/restaf": "^4.5.0",
+    "@sassoftware/restaflib": "^4.5.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.14.5",

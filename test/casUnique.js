@@ -1,5 +1,5 @@
 /* eslint-disable quotes */
-const { setup, distinctValues } = require('../dist/index.js');
+const { setup, distinctValues } = require('../lib/index.js');
 
 runit()
   .then(r => console.log(r))

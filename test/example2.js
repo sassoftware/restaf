@@ -1,5 +1,5 @@
 /* eslint-disable quotes */
-const { setup, scrollTable, cellEdit, saveTable } = require('../dist/index.js');
+const { setup, scrollTable, cellEdit, saveTable } = require('../lib/index.js');
 
 runit()
   .then(r => console.log(r))

@@ -1,4 +1,4 @@
-const { setup, scrollTable, cellEdit } = require('../dist/index.js');
+const { setup, scrollTable, cellEdit } = require('../lib/index.js');
 
 runit()
   .then(r => console.log(r))

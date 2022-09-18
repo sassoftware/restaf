@@ -1,2 +1,2 @@
-const restafedit = require('../dist/index.js');
+const restafedit = require('../lib/index.js');
 console.log(restafedit);

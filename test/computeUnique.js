@@ -1,6 +1,6 @@
-const { setup, distinctValues } = require('../dist/index.js');
+const { setup, distinctValues } = require('../lib/index.js');
 
-const restafedit = require('../dist/index.js');
+const restafedit = require('../lib/index.js');
 console.log(restafedit);
 
 runit()

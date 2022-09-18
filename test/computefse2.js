@@ -1,4 +1,4 @@
-const { setup, cellEdit, scrollTable } = require('../dist/index.js');
+const { setup, cellEdit, scrollTable } = require('../lib/index.js');
 const { computeRun } = require('@sassoftware/restaflib');
 
 runit()

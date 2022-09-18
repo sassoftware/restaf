@@ -1,4 +1,4 @@
-const { setup, uploadData, scrollTable } = require('../dist/index.js');
+const { setup, uploadData, scrollTable } = require('../lib/index.js');
 
 runit()
   .then(r => console.log(r))

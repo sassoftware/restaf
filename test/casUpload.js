@@ -1,5 +1,5 @@
 /* eslint-disable quotes */
-const { setup, uploadData } = require('../dist/index.js');
+const { setup, uploadData } = require('../lib/index.js');
 
 runit()
   .then((r) => console.log(r))

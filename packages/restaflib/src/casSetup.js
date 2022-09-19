@@ -32,7 +32,9 @@ async function casSetup (store, logonPayload) {
 	console.log(logonPayload);
 	debugger;
 	if (logonPayload != null) {
-			await store.logon(logonPayload);
+		    debugger;
+			let msg = await store.logon(logonPayload);
+			console.log(msg);
 	}
 
 	let { casManagement } = await store.addServices('casManagement');
@@ -41,8 +43,13 @@ async function casSetup (store, logonPayload) {
 	if (servers.itemsList().size === 0) {
 		throw { Error: 'No cas servers were found' };
 	} 
+	debugger;
+	
 	let casserver = servers.itemsList(0);
+	debugger;
 	let session = await store.apiCall(servers.itemsCmd(casserver, 'createSession'));
+	debugger;
+	console.log('returning from casSetup')
 	return {servers, session};
 }
 export default casSetup;

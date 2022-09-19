@@ -50,7 +50,7 @@ function casFetchRows () {
 
         action table.fetch r = result /    
             table = {caslib=caslib, name=name where=where}   
-            from= from to=to format=format   
+            from= from to=to format=format  sastypes=true
             ;
 
         /* 

@@ -33,7 +33,7 @@ module.exports = async function casFetchData3(testInfo) {
 			data: {
 				single: 'YES',
 				code:
-					'data casuser.score; do key = 1 to 30; key=key; x1=10*key;x2=20*key;x3=30*key; score1 = x1+x2+x3;output;end;run; '
+					'data casuser.score; length longv varchar(20); do key = 1 to 30; longv="longvariable"||key; key=key; x1=10*key;x2=20*key;x3=30*key; score1 = x1+x2+x3;output;end;run; '
 			}
 		};
 
@@ -43,7 +43,7 @@ module.exports = async function casFetchData3(testInfo) {
 			from: 1,
 			count: 10,
 			format: true,
-			where: {},
+			where: ' ',
 			table: { caslib: 'casuser', name: 'score' },
 			
 		};

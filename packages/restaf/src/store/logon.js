@@ -60,7 +60,6 @@ const logon = (store, ipayload) => {
         let urlInfo = null;
         
         let payload = (ipayload == null) ? null : { ...ipayload };
-        debugger;
 
         if (store.getState().connections.get('currentConnection') >= 0) {
             resolve('ready');

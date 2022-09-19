@@ -50,3 +50,7 @@ Date: 8/7/2022
 - Issue89
   - The originalfix in 4.4.11 was not sufficient. The etag has to be updated after every state call.
     - all fixes restricted to httpCallWait
+
+## 4.5.5
+
+- Add support for sastypes when fetching from cas.

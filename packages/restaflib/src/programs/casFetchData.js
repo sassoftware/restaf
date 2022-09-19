@@ -48,7 +48,7 @@ function casFetchData () {
 
         action table.fetch r = result /    
             table = {caslib=caslib, name=name}   
-            from= from to=to format=format   
+            from= from to=to format=format  sasTypes=TRUE
             ;    
 
         /* 

@@ -30,8 +30,8 @@
     "jsdoc": "jsdoc -c jsdoc.json"
   },
   "dependencies": {
-    "@sassoftware/restaf": "^4.5.4",
-    "@sassoftware/restaflib": "^4.5.4"
+    "@sassoftware/restaf": "^4.5.5",
+    "@sassoftware/restaflib": "^4.5.5"
   },
   "devDependencies": {
     "@babel/cli": "^7.14.5",

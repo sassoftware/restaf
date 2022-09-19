@@ -1,7 +1,5 @@
 /* eslint-disable quotes */
 const { setup, scrollTable, cellEdit, termApp } = require('../lib/index.js');
-
-
 runit()
   .then(r => console.log(r))
   .catch(err => console.log(err));
@@ -23,7 +21,7 @@ async function runit () {
   code= "
      data casuser.testdatatemp;
      keep x1 x2 x3 id;
-     length id $ 5;
+     length id varchar(20);
      do i = 1 to 1000;
      x1=i; x2=3; x3=i*10; id=compress(TRIMN('key'||i));
      output;

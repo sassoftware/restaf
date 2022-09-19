@@ -36,6 +36,7 @@ async function setup (logonPayload, appControl) {
   }
 
   if (appControl.editControl.handlers.initApp != null) {
+    debugger;
     const r = await appControl.editControl.handlers.initApp(appEnv, 'initApp');
     if (r.statusCode === 2) {
       console.log(JSON.stringify(r, null, 4));
@@ -77,8 +78,11 @@ async function icasSetup (store, logonPayload, appControl) {
   };
 
   if (preamble != null) {
+    debugger;
     const rx = await caslRun(store, r.session, preamble);
+    debugger;
     if (rx.disposition.statusCode !== 0) {
+      debugger;
       console.log(JSON.stringify(rx, null, 4));
       // eslint-disable-next-line no-throw-literal
       throw 'Preamble failed. Please see console';

@@ -37,14 +37,6 @@ async function runit () {
   console.log(appEnv.state.data);
   cache.push(appEnv.state.data[0]);
 
-  debugger;
-  await scrollTable('next', appEnv);
-  cache.push(appEnv.state.data[0]);
-
-  await scrollTable('prev', appEnv);
-  cache.push(appEnv.state.data[0]);
-
-  console.log(cache);
   await termApp(appEnv);
   return 'done';
 };
@@ -58,10 +50,12 @@ function getAppControl () {
     byvars: ['pk'],
 
     initialFetch: {
-      count : 0,
-      from  : 50,
-      format: false,
-      where : ''
+      qs: {
+        start : 0,
+        limit : 50,
+        format: false,
+        where : ''
+      }
     },
     customColumns: {
       total: {

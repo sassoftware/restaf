@@ -58,6 +58,9 @@ async function prepFormData (result, appEnv) {
     if (s.Type == null) {
       s.Type = (s.type == null) ? 'double' : s.type;
     }
+    if (s.Type === 'varchar') {
+      s.Type = 'char';
+    }
     s.custom = false;
     eColumns[name] = s;
   });

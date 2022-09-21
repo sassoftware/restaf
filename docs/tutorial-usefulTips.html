@@ -235,6 +235,89 @@
 
 </code></pre>
 <hr>
+<h2>Configuring CAS server for CORS For releases 2021.1.4 and later</h2>
+<hr>
+<p>Please check your administration document for updates to this configuration.</p>
+<p>If your web application calls CAS thru REST calls (restaf does that) you must apply the following configurations.</p>
+<ul>
+<li>Set your KUBECONFIG env ( or use kubectl config commands to make your cluster current).</li>
+<li>Get a copy of the casdeployment custom resource file yaml. The example below assumes that the casdeployment name is ‘default’. If not default, use your casdeployment name from  the ‘kubectl get casdeployment’ command</li>
+</ul>
+<pre class="prettyprint source lang-sh"><code>kubectl get casdeployment default -o json > cas.json  
+</code></pre>
+<blockquote>
+<p>Before proceeding make backup copy of cas.json - for potential recovery.</p>
+</blockquote>
+<ul>
+<li>Locate the place to add your information.Search for SAS-LICENSE.</li>
+</ul>
+<pre class="prettyprint source lang-json"><code>&quot;containers&quot;: [
+     {
+        &quot;env&quot;: [
+              {
+                  &quot;name&quot;: &quot;SAS_LICENSE&quot;,
+                  &quot;valueFrom&quot;: {
+                        &quot;secretKeyRef&quot;: {
+                        &quot;key&quot;: &quot;SAS_LICENSE&quot;,
+                        &quot;name&quot;: &quot;sas-cas-license&quot;
+                        }
+                  }
+              },
+              {
+                  &quot;name&quot;: &quot;CONSUL_HTTP_ADDR&quot;,
+                  &quot;value&quot;: https://localhost:8500
+              },
+
+</code></pre>
+<ul>
+<li>If the environment variable TKHTTP_CORS_ALLOWED_ORIGINS does not exist in the json file, add it. If it does, modify it to for your purpose. Here is an example.</li>
+</ul>
+<pre class="prettyprint source lang-json"><code> &quot;containers&quot;: [
+     {
+         &quot;env&quot;: [
+             {
+                 &quot;name&quot;: &quot;SAS_LICENSE&quot;,
+                 &quot;valueFrom&quot;: {
+                     &quot;secretKeyRef&quot;: {
+                         &quot;key&quot;: &quot;SAS_LICENSE&quot;,
+                         &quot;name&quot;: &quot;sas-cas-license&quot;
+                     }
+                 }
+             },
+             {
+                 &quot;name&quot;: &quot;CONSUL_HTTP_ADDR&quot;,
+                 &quot;value&quot;: https://localhost:8500
+             },
+             {
+                 &quot;name&quot;: &quot;TKHTTP_CORS_ALLOWED_ORIGINS&quot;,
+                 &quot;value&quot;: “https://localhost:8080,... “
+             },
+
+</code></pre>
+<blockquote>
+<p>The value MUST MATCH what is in settings in SAS Environment Manager.</p>
+</blockquote>
+<ul>
+<li>After saving your changes to cas.json, delete the casdeployment.</li>
+</ul>
+<pre class="prettyprint source lang-sh"><code>Kubectl delete casdeployment default    (Use your casdeployment name if it is not ‘default’.)
+</code></pre>
+<ul>
+<li>Make sure the deployment has been deleted</li>
+</ul>
+<pre class="prettyprint source lang-sh"><code>‘kubectl get casdeployment’ no longer shows your deployment.(should take just a few seconds)
+</code></pre>
+<ul>
+<li>Redeploy your casdeployment:   Should take just a few seconds.</li>
+</ul>
+<pre class="prettyprint source lang-sh"><code>Kubectl create -f cas.json
+</code></pre>
+<ul>
+<li>Verify casdeployment is running</li>
+</ul>
+<pre class="prettyprint source lang-sh"><code>Kubectl get casdeployment shows your deployment again.
+</code></pre>
+<hr>
 <h2><strong>Managing SAS Viya Session Timeouts</strong></h2>
 <hr>
 <p>SAS Viya sessions will timeout after a set period of inactivity. In some situations one might want to set this timeout to specific values.</p>

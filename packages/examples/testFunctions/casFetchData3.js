@@ -51,6 +51,7 @@ module.exports = async function casFetchData3(testInfo) {
 		let result = await casFetchRows(store, session, payload);
 		 console.log('The next start is at:' + result.pagination.toString());
 		console.log(result.data.rows[0].toString());
+		console.log(result.data.schema);
 
 		while (result.pagination.next.from !== -1) {
 			 console.log('The start is at: ' + JSON.stringify(result.pagination.next.from));

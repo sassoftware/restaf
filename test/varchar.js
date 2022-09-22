@@ -17,15 +17,20 @@ async function runit () {
   };
   const cache = [];
   const appControl = getAppControl();
+
   const preamble = `   
   action datastep.runcode /
-  code= "
-     data casuser.testdatatemp;
-     set public.PRODUCT_MASTER;
-     run;
-     end;
-     ";
- `;
+    code= "
+       data casuser.testdatatemp;
+       keep x1 x2 x3 id;
+       /*length id $;*/
+       length id varchar(50);
+       do i = 1 to 1000;
+       x1=i; x2=3; x3=i*10; id='longstring'||compress(TRIMN('key'||i));
+       output;
+       end;
+       ";
+       `;
   appControl.preamble = preamble;
   payload.storeOptions = {
     casProxy: false
@@ -46,8 +51,8 @@ function getAppControl () {
     description: 'Simple Example',
 
     source: 'cas',
-    table : { caslib: 'public', name: 'PRODUCT_MASTER' },
-    byvars: ['pk'],
+    table : { caslib: 'casuser', name: 'testdatatemp' },
+    byvars: ['id'],
 
     initialFetch: {
       qs: {

@@ -44,16 +44,23 @@ async function setup (logonPayload, appControl) {
       throw 'initApp failed. Please see console';
     }
   }
+  debugger;
   return appEnv;
 }
 
 async function icasSetup (store, logonPayload, appControl) {
   debugger;
 
-  const r = await casSetup(store, logonPayload);
-  debugger;
   const preamble = (appControl.editControl.handlers.initApp != null) ? null : appControl.preamble;
+  let r;
 
+  try {
+    r = await casSetup(store, logonPayload);
+  } catch (err) {
+    console.log(err);
+    // eslint-disable-next-line no-throw-literal
+    throw 'cassetup failed';
+  }
   let appEnv = {
     source: appControl.source,
 
@@ -79,14 +86,22 @@ async function icasSetup (store, logonPayload, appControl) {
 
   if (preamble != null) {
     debugger;
-    const rx = await caslRun(store, r.session, preamble);
-    debugger;
-    if (rx.disposition.statusCode !== 0) {
-      debugger;
+    console.log('casSetup', preamble);
+    try {
+      const rx = await caslRun(store, r.session, preamble);
       console.log(JSON.stringify(rx, null, 4));
+      debugger;
+      if (rx.disposition.statusCode !== 0) {
+        debugger;
+        console.log(JSON.stringify(rx, null, 4));
+        // eslint-disable-next-line no-throw-literal
+        throw 'Preamble failed. Please see console';
+      }
+    } catch (err) {
+      console.log(err);
       // eslint-disable-next-line no-throw-literal
-      throw 'Preamble failed. Please see console';
-    };
+      throw 'caslRun failed. Please see console';
+    }
   };
 
   return appEnv;
@@ -95,6 +110,7 @@ async function icasSetup (store, logonPayload, appControl) {
 async function icomputeSetup (store, logonPayload, appControl) {
   // eslint-disable-next-line prefer-const
   const preamble = (appControl.editControl.handlers.initApp != null) ? null : appControl.preamble;
+
   let session = await computeSetup(store, appControl.computeContext, logonPayload);
 
   let appEnv = {

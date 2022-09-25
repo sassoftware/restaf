@@ -21,56 +21,22 @@ import { casSetup, computeSetup, computeSetupTables, caslRun } from '@sassoftwar
  */
 
 async function setup (logonPayload, appControl) {
-  console.log('setup: ', JSON.stringify(logonPayload.storeOptions));
-  debugger;
   let storeOptions = (logonPayload.storeOptions != null) ? logonPayload.storeOptions : { casProxy: true };
   const store = initStore(storeOptions);
-  let appEnv;
-  if (logonPayload.authType == null) {
-    logonPayload.authType = 'code';
-  }
-  if (appControl.source === 'cas') {
-    appEnv = await icasSetup(store, logonPayload, appControl);
-  } else {
-    appEnv = await icomputeSetup(store, logonPayload, appControl);
-  }
-
-  if (appControl.editControl.handlers.initApp != null) {
-    debugger;
-    const r = await appControl.editControl.handlers.initApp(appEnv, 'initApp');
-    if (r.statusCode === 2) {
-      console.log(JSON.stringify(r, null, 4));
-      // eslint-disable-next-line no-throw-literal
-      throw 'initApp failed. Please see console';
-    }
-  }
-  debugger;
-  return appEnv;
-}
-
-async function icasSetup (store, logonPayload, appControl) {
-  debugger;
-
-  const preamble = (appControl.editControl.handlers.initApp != null) ? null : appControl.preamble;
-  let r;
-
-  try {
-    r = await casSetup(store, logonPayload);
-  } catch (err) {
-    console.log(err);
-    // eslint-disable-next-line no-throw-literal
-    throw 'cassetup failed';
-  }
+  const useEntry = (appControl.source === 'cas') ? icasSetup : icomputeSetup;
   let appEnv = {
     source: appControl.source,
+    table : appControl.table,
+    byvars: appControl.byvar,
 
     store,
-    session  : r.session,
-    servers  : r.servers,
+    session  : null,
+    servers  : null,
     restaflib: null,
 
     logonPayload,
     appControl,
+    logs: [],
 
     state: {
       modified   : [],
@@ -83,22 +49,57 @@ async function icasSetup (store, logonPayload, appControl) {
 
     id: Date()
   };
+  if (logonPayload.authType == null || logonPayload.authType === 'code') {
+    logonPayload.authType = 'server';
+  }
+  try {
+    appEnv = await useEntry(store, logonPayload, appControl, appEnv);
+    if (appControl.editControl.handlers.initApp != null) {
+      const r = await appControl.editControl.handlers.initApp(appEnv, 'initApp');
+      if (r.statusCode === 2) {
+        console.log(JSON.stringify(r, null, 4));
+      appEnv.logs.push(JSON.stringify(r, null, 4));
+        // eslint-disable-next-line no-throw-literal
+        throw 'initApp failed. Please see console';
+      }
+    }
+  } catch (err) {
+    console.log(err);
+    // eslint-disable-next-line no-throw-literal
+    throw 'Setup failed. Please see console for error message';
+  }
+
+  return appEnv;
+}
+
+async function icasSetup (store, logonPayload, appControl, appEnv) {
+  const preamble = (appControl.editControl.handlers.initApp != null) ? null : appControl.preamble;
+  let r;
+
+  try {
+    r = await casSetup(store, logonPayload);
+  } catch (err) {
+    appEnv.logs.push(err);
+    console.log(err);
+    // eslint-disable-next-line no-throw-literal
+    throw 'cassetup failed';
+  }
+  appEnv.session = r.session;
+  appEnv.servers = r.servers;
 
   if (preamble != null) {
-    debugger;
     console.log('casSetup', preamble);
     try {
       const rx = await caslRun(store, r.session, preamble);
-      console.log(JSON.stringify(rx, null, 4));
-      debugger;
       if (rx.disposition.statusCode !== 0) {
-        debugger;
         console.log(JSON.stringify(rx, null, 4));
+        appEnv.logs.push(JSON.stringify(rx, null, 4));
         // eslint-disable-next-line no-throw-literal
         throw 'Preamble failed. Please see console';
       }
     } catch (err) {
       console.log(err);
+      appEnv.logs.push(JSON.stringify(err, null, 4));
       // eslint-disable-next-line no-throw-literal
       throw 'caslRun failed. Please see console';
     }

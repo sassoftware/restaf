@@ -17,9 +17,7 @@
  */
 async function computeSetup (store, contextName, payload,sessionPayload){
     if (payload != null) {
-        
         let msg =  await store.logon(payload);
-        console.log("======================", msg);
     }
     
     let {compute} = await store.addServices('compute');

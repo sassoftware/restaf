@@ -31,7 +31,7 @@ module.exports = async function casSubmit (testInfo) {
   let p = {
     action: 'builtins.echo',
     data  : {
-      code: 'data casuser.score; do i = 1 to 5000; x1=10;x2=20;x3=30; score1 = x1+x2+x3;end; run; '
+      code: 'data casuser.score; do i = 1 to 10; x1=10;x2=20;x3=30; score1 = x1+x2+x3;end; run; '
     }
   };
 
@@ -42,8 +42,9 @@ module.exports = async function casSubmit (testInfo) {
     return (status.items.isIdle === false);
   }
 
-  let r = await store.runAction(session, p,'AAA', null,'wait',5,progress);
+  // let r = await store.runAction(session, p,'AAA', null,'wait',5,progress);
 
+  let r = await store.runAction(session, p);
   logger.info(r);
   await store.apiCall(session.links('delete'));
   return 'done';

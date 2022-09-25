@@ -29,11 +29,8 @@
  */
 'use strict';
 async function casSetup (store, logonPayload) {
-	console.log(logonPayload);
 	if (logonPayload != null) {
-		    
-			let msg = await store.logon(logonPayload);
-			console.log(msg);
+		let msg = await store.logon(logonPayload);
 	}
 
 	let { casManagement } = await store.addServices('casManagement');
@@ -45,10 +42,8 @@ async function casSetup (store, logonPayload) {
 	
 	
 	let casserver = servers.itemsList(0);
-	
 	let session = await store.apiCall(servers.itemsCmd(casserver, 'createSession'));
 	
-	console.log('returning from casSetup')
 	return {servers, session};
 }
 export default casSetup;

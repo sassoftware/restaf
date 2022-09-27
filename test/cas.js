@@ -33,17 +33,24 @@ async function runit () {
     casProxy: false
   };
   const appEnv = await setup(payload, appControl);
-  debugger;
   await scrollTable('first', appEnv);
   cache.push(appEnv.state.data[0]);
-
+  console.log(appEnv.state.data.length);
   const x3New = appEnv.state.data[0].x3 + 100;
+  console.log(appEnv.state.data.length);
   await cellEdit('x3', x3New, 0, appEnv.state.data[0], appEnv);
   await scrollTable('first', appEnv);
   cache.push(appEnv.state.data[0]);
 
   debugger;
-  await scrollTable('next', appEnv);
+  const q = {
+    count : 2,
+    from  : 1,
+    format: false,
+    where : ''
+  };
+
+  await scrollTable('next', appEnv, q);
   cache.push(appEnv.state.data[0]);
 
   await scrollTable('prev', appEnv);
@@ -66,7 +73,7 @@ function getAppControl () {
       count : 2,
       from  : 1,
       format: false,
-      where : 'x1 GT 5'
+      where : ''
     },
     customColumns: {
       total: {

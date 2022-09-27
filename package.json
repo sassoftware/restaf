@@ -29,10 +29,6 @@
     "pub": "npm publish --tag dev --access public",
     "jsdoc": "jsdoc -c jsdoc.json"
   },
-  "dependencies": {
-    "@sassoftware/restaf": "^4.6.0",
-    "@sassoftware/restaflib": "^4.6.0"
-  },
   "devDependencies": {
     "@babel/cli": "^7.14.5",
     "@babel/core": "^7.14.6",
@@ -63,6 +59,7 @@
     "core-js": "^3.15.2",
     "cross-env": "^7.0.3",
     "eslint-config-standard": "^17.0.0",
+    "glob-parent": "^5.1.2",
     "npm-run-all": "^4.1.5",
     "prettier": "^2.0.4",
     "rimraf": "^3.0.2",
@@ -70,8 +67,15 @@
     "webpack-cli": "4.5.0",
     "webpack-node-externals": "2.5.2"
   },
+  "resolution": {
+    "**/glob-parent": ">=5.1.2"
+  },
   "files": [
     "dist",
     "lib"
-  ]
+  ],
+  "dependencies": {
+    "@sassoftware/restaf": "^4.6.2",
+    "@sassoftware/restaflib": "^4.6.2"
+  }
 }

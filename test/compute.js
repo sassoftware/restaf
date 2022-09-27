@@ -49,8 +49,13 @@ async function runit () {
   console.log('state values after edit--------------------------------');
   console.log(appEnv.state.data);
   console.log('-------------------------------------------------------');
-
-  result = await scrollTable('first', appEnv);
+  const p = {
+    limit : 1,
+    start : 0,
+    format: false,
+    where : 'x1 > 5000'
+  };
+  result = await scrollTable('first', appEnv, p);
   debugger;
   console.log('result of first fetch -------------------------------');
   console.log(appEnv.state.data);
@@ -75,8 +80,8 @@ function getAppControl () {
     cachePolicy: true,
 
     initialFetch: {
-      count : 1,
-      from  : 1,
+      limit : 1,
+      start : 0,
       format: false
     },
 

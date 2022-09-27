@@ -7,7 +7,7 @@
 import { casUpload, casAppendTable, computeRun } from '@sassoftware/restaflib';
 
 /**
- * @description Upload client data to a new table on client
+ * @description Upload client data to a new table on server
  * @async
  * @module uploadData
  * @category restafedit/core

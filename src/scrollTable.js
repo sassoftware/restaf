@@ -46,12 +46,8 @@ import prepFormData from './prepFormData';
  * Please see the restafeditExample in the Tutorial pulldown
  */
 async function scrollTable (direction, appEnv, payload) {
-  let fetchResults;
-  if (appEnv.source === 'cas') {
-    fetchResults = await icasScroll(direction, appEnv, payload);
-  } else {
-    fetchResults = await icomputeScroll(direction, appEnv, payload);
-  }
+  const useEntry = (appEnv.source === 'cas') ? icasScroll : icomputeScroll;
+  const fetchResults = await useEntry(direction, appEnv, payload);
   return fetchResults;
 }
 
@@ -93,7 +89,6 @@ async function icasScroll (direction, appEnv, payload) {
 
   c.table = table;
   const r = await casFetchRows(store, session, c);
-
   let t = null;
   if (r !== null) {
     t = await prepFormData(r.data, appEnv);

@@ -25,7 +25,6 @@ let { casSetup, casFetchRows, casUpdateData } = require('@sassoftware/restaflib'
 
 module.exports = async function casFetchData3(testInfo) {
 	    let {store, logger} = testInfo;
-		console.log(store);
 		let { session } = await casSetup(store);
 
 		let actionPayload = {
@@ -44,11 +43,16 @@ module.exports = async function casFetchData3(testInfo) {
 			count: 10,
 			format: true,
 			where: ' ',
-			table: { caslib: 'casuser', name: 'score' },
+			table: { caslib: 'casuser', name: 'scorexxxxx' },
 			
 		};
-
-		let result = await casFetchRows(store, session, payload);
+		let result;
+		try {
+		  result = await casFetchRows(store, session, payload);
+		} catch(err) {
+			console.log(JSON.stringify(err, null, 4));
+			throw 'Failed fetch';
+		}
 		 console.log('The next start is at:' + result.pagination.toString());
 		console.log(result.data.rows[0].toString());
 		console.log(result.data.schema);

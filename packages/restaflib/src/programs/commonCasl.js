@@ -56,8 +56,8 @@ function commonCasl (){
 	                casout={caslib= caslib name=name}; 
 	            if (status.statusCode ne 0 ) then rc = false;
             end; 
-         end;        
-         return rc;  
+        end;        
+        return rc;  
     end;   
 
 /*

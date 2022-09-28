@@ -13,9 +13,10 @@ function casFetchRows () {
        rc = checkAndLoadTable(caslib, name);
     
        if (rc ne true) then do;
-         results = {Errors= 'Unable to access ' ||caslib||'.'||name};   
-         return results;   
-         end;  
+        text = 'Unable to access ' ||caslib||'.'||name;   
+        rx = {severity=2,reason=6, status='error',statusCode=2, formatted=text};
+        exit(rx);  
+        end;  
 
         /*
          * get all table to get rowCount

@@ -46,6 +46,7 @@ test('CAS Submit', async () => {
 	expect(r).toBe('done');
 });
 
+/*
 test('CAS DataStep and Fetch', async () => {
 	let r = await testFunctions.casDSandFetch(testInfo);
 	expect(r).toMatchSnapshot();
@@ -59,6 +60,7 @@ test('CAS fetchrows with where v2', async () => {
 	let r = await testFunctions.casDSandFetch2v2(testInfo);
 	expect(r).toMatchSnapshot();
 });
+*/
 test.only('CAS DataStep and Fetch2', async () => {
 	let r = await testFunctions.casFetchData3(testInfo);
 	expect(r).toBe('done');

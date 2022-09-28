@@ -64,6 +64,7 @@ async function casFetchRows (store, session, payload){
     
     let result = await caslRunBase(store, session, src, payload);
     let r = result.items('results', 'casResults').toJS();
+    console.log(result.items().toJS());
     if ( r.data == null) {
         r.data = {rows: []};
     }

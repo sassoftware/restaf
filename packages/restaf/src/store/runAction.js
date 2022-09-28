@@ -61,11 +61,11 @@ async function runAction (store, session, payload,context, onCompletion, maxTrie
     if (maxTries != null) {
         actionResult = await submitAction(store, session, payload,context, maxTries, delay, progress);
     } else {
-        
         actionResult = await apiCall(store, session.links('execute'), payload,0);
     }
+    
     if (casError(actionResult) === true) {
-        throw JSON.stringify(actionResult.items());
+        throw JSON.stringify(actionResult.items('disposition').toJS());
     }
     if (onCompletion != null) {
         onCompletion(context, actionResult);

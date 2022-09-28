@@ -1,6 +1,8 @@
 'use strict';
 
 const nodeExternals = require('webpack-node-externals');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+
 const webpack = require('webpack');
 const path = require('path');
 const library = 'restafedit';
@@ -22,6 +24,9 @@ module.exports = (env) => {
         global: {}
       })
     );
+  }
+  if (env.p === 'a') {
+    plugins.push(new BundleAnalyzerPlugin());
   }
 
   const config = {

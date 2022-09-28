@@ -27,7 +27,8 @@
     "test:build": "run-s build",
     "test:lint": "eslint ./src",
     "pub": "npm publish --tag dev --access public",
-    "jsdoc": "jsdoc -c jsdoc.json"
+    "jsdoc": "jsdoc -c jsdoc.json",
+    "stats": "webpack --env target=node p=a --config webpack.config.js"
   },
   "devDependencies": {
     "@babel/cli": "^7.14.5",
@@ -64,6 +65,7 @@
     "prettier": "^2.0.4",
     "rimraf": "^3.0.2",
     "webpack": "4.46.0",
+    "webpack-bundle-analyzer": "^4.6.1",
     "webpack-cli": "4.5.0",
     "webpack-node-externals": "2.5.2"
   },

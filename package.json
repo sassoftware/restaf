@@ -74,7 +74,7 @@
     "dist",
     "lib"
   ],
-  "dependencies": {
+  "peerDependencies": {
     "@sassoftware/restaf": "^4.6.2",
     "@sassoftware/restaflib": "^4.6.2"
   }

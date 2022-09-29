@@ -9,7 +9,7 @@
  * @module termSession
  * @category restafedit/core
  * @param {appEnv} appEnv   app Environment from setup
- * @param {boolean=} deleteSession  default is true
+ * 
  * @returns {promise}       status object
  * @example
  *  let r  = await termSession(appEnv)
@@ -18,7 +18,7 @@
  *  the REST calls.
  */
 
-async function termApp (appEnv, deleteSession) {
+async function termApp (appEnv) {
   const { store, session } = appEnv;
   const handlers = appEnv.appControl.editControl.handlers;
   if (handlers.termapp != null) {
@@ -26,7 +26,7 @@ async function termApp (appEnv, deleteSession) {
   }
 
   // Setup for user supplied session which we do not want to delete
-  if (deleteSession !== false) {
+  if (appEnv.userSessionID == null) {
     await store.apiCall(session.links('delete'));
   };
 

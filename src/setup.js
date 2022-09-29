@@ -10,6 +10,8 @@ import { casSetup, computeSetup, computeSetupTables, caslRun } from '@sassoftwar
  * @category restafedit/core
  * @param {logonPayload} logonPayload  -information for connecting to Viya
  * @param {appControl} appControl       control information
+ * @param {string=} sessionID if specified, this session will be used.Must match source
+ *
  * @returns {promise}  returns appEnv to control the flow
  * @alias module: setup
  * @example
@@ -19,7 +21,7 @@ import { casSetup, computeSetup, computeSetupTables, caslRun } from '@sassoftwar
  *
  */
 
-async function setup (logonPayload, appControl) {
+async function setup (logonPayload, appControl, sessionID) {
   let storeOptions = (logonPayload.storeOptions != null) ? logonPayload.storeOptions : { casProxy: true };
   const store = initStore(storeOptions);
   const useEntry = (appControl.source === 'cas') ? icasSetup : icomputeSetup;
@@ -32,6 +34,9 @@ async function setup (logonPayload, appControl) {
     session  : null,
     servers  : null,
     restaflib: null,
+    sessionID: null,
+
+    userSessionID: null,
 
     logonPayload,
     appControl,
@@ -53,7 +58,7 @@ async function setup (logonPayload, appControl) {
       // eslint-disable-next-line no-throw-literal
       throw 'ERROR: Please specify a Viya host';
     }
-    appEnv = await useEntry(store, logonPayload, appControl, appEnv);
+    appEnv = await useEntry(store, logonPayload, appControl, appEnv, sessionID);
     // do the equivalent of fseinit
     if (appControl.editControl.handlers.initApp != null) {
       const r = await appControl.editControl.handlers.initApp(appEnv, 'initApp');
@@ -70,17 +75,18 @@ async function setup (logonPayload, appControl) {
     // eslint-disable-next-line no-throw-literal
     throw 'ERROR: Setup failed. Please see console for error messages';
   }
-
+  appEnv.sessionID = appEnv.session.items('id');
+  appEnv.userSessionID = sessionID;
   return appEnv;
 }
 
 // cas server
-async function icasSetup (store, logonPayload, appControl, appEnv) {
+async function icasSetup (store, logonPayload, appControl, appEnv, sessionID) {
   const preamble = (appControl.editControl.handlers.initApp != null) ? null : appControl.preamble;
   let r;
 
   try {
-    r = await casSetup(store, logonPayload);
+    r = await casSetup(store, logonPayload, sessionID);
     appEnv.session = r.session;
     appEnv.servers = r.servers;
   } catch (err) {
@@ -108,11 +114,11 @@ async function icasSetup (store, logonPayload, appControl, appEnv) {
 };
 
 // Compute server
-async function icomputeSetup (store, logonPayload, appControl, appEnv) {
+async function icomputeSetup (store, logonPayload, appControl, appEnv, sessionID) {
   // eslint-disable-next-line prefer-const
   const preamble = (appControl.editControl.handlers.initApp != null) ? null : appControl.preamble;
 
-  let session = await computeSetup(store, appControl.computeContext, logonPayload);
+  let session = await computeSetup(store, appControl.computeContext, logonPayload, sessionID);
   appEnv.session = session;
 
   // eslint-disable-next-line no-useless-catch

@@ -18,7 +18,6 @@ async function runit () {
   };
 
   const appControl = getAppControl();
-  debugger;
 
   // preamble - should be done in the context preamble
   // this arg is useful if you do not have a way to modify the context
@@ -35,6 +34,7 @@ async function runit () {
   run;`;
 
   const appEnv = await setup(payload, appControl);
+  
 
   debugger;
   // eslint-disable-next-line prefer-const

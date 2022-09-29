@@ -18,6 +18,7 @@ async function runit () {
   };
 
   const appControl = getAppControl();
+
   debugger;
 
   // preamble - should be done in the context preamble
@@ -34,7 +35,11 @@ async function runit () {
   end;
   run;`;
 
-  const appEnv = await setup(payload, appControl);
+  const appEnv1 = await setup(payload, appControl);
+  console.log(appEnv1.sessionID, ' ', appEnv1.userSessionID);
+
+  const appEnv = await setup(payload, appControl, appEnv1.sessionID);
+  console.log(appEnv.sessionID, ' ', appEnv.userSessionID);
 
   debugger;
   // eslint-disable-next-line prefer-const

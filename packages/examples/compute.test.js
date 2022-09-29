@@ -8,12 +8,12 @@ test("computeService: basic", async () => {
   let l = await testFunctions.computeDS(testInfo);
   expect(l).toMatchSnapshot();
 });
-test("computeTables: tables", async () => {
+test.only("computeTables: tables", async () => {
   expect.assertions();
   let l = await testFunctions.computeTables(testInfo);
   expect(l).toMatchSnapshot();
 });
-test.only("computeTables: withpreamble", async () => {
+test("computeTables: withpreamble", async () => {
   expect.assertions();
   let l = await testFunctions.computeWithPreamble(testInfo);
   expect(l).toMatchSnapshot();

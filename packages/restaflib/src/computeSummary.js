@@ -104,7 +104,7 @@ async function isetupTable(store, session, tables) {
         let currentLibrefs = await store.apiCall(session.links('librefs'), p);
         
         if (currentLibrefs.itemsList().size === 0) {
-            throw `Libref ${libref} not found`;
+            throw `ERROR: Libref ${libref} not found`;
         }
         // get the links for this libref
         let rlink = currentLibrefs.itemsCmd(libref, 'self');
@@ -112,12 +112,12 @@ async function isetupTable(store, session, tables) {
         
         // get the table
         p = {
-        qs: { filter: `eq(name,'${name}')`}
+          qs: { filter: `eq(name,'${name}')`}
         };
-        let tables = await store.apiCall(currentLibrefSelf.links('tables'));
+        let tables = await store.apiCall(currentLibrefSelf.links('tables'), p);
 
         if (tables.itemsList().size === 0) {
-            throw `Table ${name} not found`;
+            throw `ERROR: Table ${name} not found`;
         }
         let tname = `${libref}.${name}`.toLowerCase();
         let r= {

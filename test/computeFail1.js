@@ -34,7 +34,6 @@ async function runit () {
   run;`;
 
   const appEnv = await setup(payload, appControl);
-  
 
   debugger;
   // eslint-disable-next-line prefer-const

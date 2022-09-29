@@ -34,7 +34,7 @@ async function runit () {
     casProxy: false
   };
   const appEnv1 = await setup(payload, appControl);
-  const sessionID = appEnv1.sessionID;
+
   console.log(appEnv1.sessionID, ' ', appEnv1.userSessionID);
 
   const appEnv = await setup(payload, appControl, appEnv1.sessionID);

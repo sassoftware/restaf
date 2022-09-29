@@ -24,11 +24,14 @@
  * @category restaflib/cas
  * @param {store} store         - restaf store
  * @param {logonPayload} logonPayload  - if not null, then use this to logon to Viya
+ * @param {string=} sessionID - id of an existing session to attach.
  * 
  * @returns {promise}  returns an object {session: xxx, servers: yyy}
+ * @example 
+ *    const {servers, session} = await casSetup(storem logonPayload, <sessionID>)
  */
 'use strict';
-async function casSetup (store, logonPayload) {
+async function casSetup (store, logonPayload, sessionID) {
 	if (logonPayload != null) {
 		let msg = await store.logon(logonPayload);
 	}
@@ -42,7 +45,23 @@ async function casSetup (store, logonPayload) {
 	
 	
 	let casserver = servers.itemsList(0);
-	let session = await store.apiCall(servers.itemsCmd(casserver, 'createSession'));
+	let session = null;
+	if (sessionID == null) {
+       session = await store.apiCall(servers.itemsCmd(casserver, 'createSession'));
+	} else {
+		const payload = {
+			qs: {
+			  filter: `eq( id,'${sessionID}')`
+			}
+		  };
+		console.log(payload);
+		let sessionList = await store.apiCall(servers.itemsCmd(casserver, "sessions"),payload);
+		if (sessionList.items().size === 0) {
+			throw `ERROR: The sessionID ${sessionID} was not found.`;
+		}
+		let selfcmd = sessionList.itemsCmd(sessionList.itemsList(0), "self");
+        session = await store.apiCall(selfcmd);
+	}
 	
 	return {servers, session};
 }

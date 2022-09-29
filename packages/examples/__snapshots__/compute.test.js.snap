@@ -19,6 +19,8 @@ Array [
 ]
 `;
 
+exports[`computeTables: Attach 1`] = `undefined`;
+
 exports[`computeTables: tables 1`] = `
 Array [
   Array [

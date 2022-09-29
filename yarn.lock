@@ -1453,11 +1453,11 @@
 
 "@sassoftware/restaf@file:C:\\restaf\\main\\packages\\restaf":
   "resolved" "file:packages/restaf"
-  "version" "4.6.2"
+  "version" "4.6.3"
 
 "@sassoftware/restaflib@file:C:\\restaf\\main\\packages\\restaflib":
   "resolved" "file:packages/restaflib"
-  "version" "4.6.2"
+  "version" "4.6.3"
 
 "@sinonjs/commons@^1.7.0":
   "integrity" "sha512-xkNcLAn/wZaX14RPlwizcKicDk9G3F8m2nU3L7Ukm5zBgTwiT0wsoFAHx9Jq56fJA1z/7uKGtCRu16sOUCLIHQ=="
@@ -3366,7 +3366,7 @@
 
 "examples@file:C:\\restaf\\main\\packages\\examples":
   "resolved" "file:packages/examples"
-  "version" "4.6.2"
+  "version" "4.6.3"
   dependencies:
     "cross-env" "^7.0.3"
     "jest" "^27.5.0"

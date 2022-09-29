@@ -6,6 +6,7 @@
 
 let addServices   = require('./addServices');
 let casSession    = require('./casSession');
+let casSessionAttach = require('./casSessionAttach');
 let casEcho       = require('./casEcho');
 let casDSandFetch = require('./casDSandFetch');
 let casDSandFetch2 = require('./casDSandFetch2');
@@ -23,6 +24,7 @@ let casUploadbdat = require('./casUploadbdat');
 let casUploadhdat = require('./casUploadhdat');
 let casUploadAst = require('./casUploadAst');
 let computeDS = require('./computeDS');
+let computeDSAttach = require('./computeDSAttach');
 let filesCreate = require('./filesCreate');
 let filesPaginate = require('./filesPaginate');
 let casScoreHdat = require('./casScoreHdat');
@@ -44,6 +46,7 @@ let computeWithPreamble = require('./computeWithPreamble');
 module.exports = {
 	addServices,
 	casSession,
+	casSessionAttach,
 	casEcho,
 	casDSandFetch,
 	casDSandFetch2,
@@ -62,6 +65,7 @@ module.exports = {
 	casUploadAst,
 
 	computeDS,
+	computeDSAttach,
 	computeTables,
 	computeWithPreamble,
 	filesCreate,

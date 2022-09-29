@@ -115,7 +115,16 @@ async function icomputeSetup (store, logonPayload, appControl, appEnv) {
   let session = await computeSetup(store, appControl.computeContext, logonPayload);
   appEnv.session = session;
 
-  const tableSummary = await computeSetupTables(store, session, appControl.table, preamble);
+  // eslint-disable-next-line no-useless-catch
+
+  let tableSummary;
+  try {
+    tableSummary = await computeSetupTables(store, session, appControl.table, preamble);
+  } catch (err) {
+    console.log(err);
+    throw err;
+  }
+
   appEnv.tableSummary = tableSummary;
 
   return appEnv;

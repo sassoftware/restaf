@@ -202,40 +202,54 @@
 <blockquote>
 <p>You have to be an administrator to accomplish these steps</p>
 </blockquote>
-<h2><strong>sas.commons.web.security</strong></h2>
+<ul>
+<li>
+<p><a href="#websecurity">Web Security</a></p>
+<ol>
+<li><a href="#cors">CORS</a></li>
+<li><a href="#cookies">Cookies</a></li>
+<li><a href="#csrf">CSRF</a></li>
+<li><a href="#csp">Content Security Policy</a></li>
+</ol>
+</li>
+<li>
+<p><a href="#cascors">Configuring CAS server for CORS</a></p>
+</li>
+<li>
+<p><a href="#timeout">Setting SAS Viya Session Timeouts</a></p>
+</li>
+<li>
+<p><a href="#app">Application specific configurations</a></p>
+</li>
+</ul>
+<hr>
+<h2>Security<a name="websecurity"></a></h2>
+<hr>
 <blockquote>
 <p>Setting these might require a restart of the servers. The SASEnviromentManager UI gives you hints on this.</p>
 </blockquote>
-<p>You can set these thru SASEnvironment Manager. All of these can be found together by going to SASEnvironmentManager-&gt;Configuration-&gt;Definitions and filtering on security.</p>
-<ol>
-<li>
-<p><strong>CORS</strong></p>
+<p>You can set these thru SASEnvironment Manager. All of these can be found by going to SASEnvironmentManager-&gt;Configuration-&gt;Definitions and filtering on security.</p>
+<h3><strong>CORS</strong><a name="cors"></a></h3>
 <ul>
 <li><strong>allowCredentials</strong> Set this to true</li>
-<li><strong>Allowed Origins</strong> - set this to meet your needs.A * will leave this wide open to all clients and will not work when using withCredentials(common case in Viya applications).  In development servers setting this to https://localhost:some-port-no will work. Talk to your site administrator.</li>
+<li><strong>Allowed Origins</strong> - set this to meet your needs.A * will leave this wide open to all clients.</li>
 </ul>
-</li>
-<li>
-<p><strong>cookies</strong></p>
+<h3><strong>cookies</strong><a name="cookies"></a></h3>
 <ul>
 <li><strong>sameSite</strong> Critical for browsers like Chrome. For VA-SDK you need to set this to <strong>None</strong></li>
-<li>To set this use the SASEnvironmentManager-&gt;Configurations-&gt;Definitons-&gt;sas.commons.web.security.cookies</li>
 </ul>
-</li>
-<li>
-<p><strong>CSRF</strong></p>
+<h3><strong>CSRF</strong><a name="csrf"></a></h3>
 <ul>
-<li><strong>allowed URI</strong> A sample is shown below. Use your expertise in regex to specify the allowed uris.</li>
+<li><strong>allowed URI</strong>   set this to .* during development</li>
 </ul>
-</li>
-</ol>
-<pre class="prettyprint source lang-script"><code>        http(s?)[:]\/\/([^\.]+\.)*acme\.com,http(s)*[:]\/\/localhost([:])*\d*
-
-        During testing you can set this to .*
-
-</code></pre>
+<h3><strong>Content Security Policy</strong><a name="csp"></a></h3>
+<p>The notes here are for the simple case of handling forms. See SAS Administrator Document for more detailed notes. Starting with Viya 2022.09 release you have to set this to allow external applications access Viya.</p>
+<p>CSP for SAS Logon Manager needs to something like this. In the example I added the domain of my applications to the default settings for SAS Logon Manager. Note that the domains are separated by a blank (not commas).</p>
+<blockquote>
+default-src 'self'; object-src 'none'; frame-ancestors 'self'; form-action 'self' https://localhost:5002 https://mystaticcontent.zzzz.web.core.windows.net;
+</blockquote>
 <hr>
-<h2>Configuring CAS server for CORS For releases 2021.1.4 and later</h2>
+<h2>Configuring CAS server for CORS<a name="cascors"></a></h2>
 <hr>
 <p>Please check your administration document for updates to this configuration.</p>
 <p>If your web application calls CAS thru REST calls (restaf does that) you must apply the following configurations.</p>
@@ -318,7 +332,7 @@
 <pre class="prettyprint source lang-sh"><code>Kubectl get casdeployment shows your deployment again.
 </code></pre>
 <hr>
-<h2><strong>Managing SAS Viya Session Timeouts</strong></h2>
+<h2><strong>Setting SAS Viya Session Timeouts</strong><a name="timeout"></a></h2>
 <hr>
 <p>SAS Viya sessions will timeout after a set period of inactivity. In some situations one might want to set this timeout to specific values.</p>
 <ol>
@@ -361,28 +375,29 @@ n = every n seconds restaf will make a call to the services added to the session
 m = the session will timoeout after m secods
 
 </code></pre>
-<h3>Note to restaf-server users:</h3>
+<h3>Note to @sassoftware/viya-appserverjs users</h3>
 <p>Set the following in the env file</p>
 <p>KEEPALIVE=YES
 TIMERS=n,m</p>
 <p>n and m are described above:</p>
 <p>Here is an example (check every 5 mins and timeout in 4 hours and 1 minute)</p>
 <p>TIMERS=300,14460</p>
-<h2>Increasing the TTL for authentication tokens</h2>
+<h3>Increasing the TTL for authentication tokens</h3>
 <p>See the section below on clientid</p>
-<h3>Notes</h3>
+<h4>Notes</h4>
 <ol>
-<li>Users of restaf-server see the KEEPALIVE setting to keep the application authentication alive.</li>
+<li>Users of viyaappserver-js see the KEEPALIVE setting to keep the application authentication alive.</li>
 <li>It might also be useful to create authentication tokens with longer TTL. To do this increase the TTL setting when creating the clientid used to get the authentication token. See <a href="https:%5C/%5C/github.com/sassoftware/restaf/wiki/Managing-clientids">https://github.com/sassoftware/restaf/wiki/Managing-clientids</a> for details.</li>
 </ol>
-<h2>Application specific configurations</h2>
 <hr>
-<h2><strong>Logon callback uris</strong></h2>
+<h2>Application specific configurations<a name="app"></a></h2>
+<hr>
+<h3><strong>Logon callback uris</strong></h3>
 <p>This is useful if you want your custom apps to behave like our standard VA applications on timeout.</p>
 <p>The comma-delimited list of URIs that users can be redirected to after signing in following a time-out or logoff. SAS application URIs and registered client redirect URIs are automatically included in the list.</p>
 <p>Use SAS Environment Manager to set this in SAS Logon Manager configuration. An example is</p>
 <p><a href="http:%5C/%5C/localhost:8080/viyaapp,https:%5C/%5C/localhost/viyaapp">http://localhost:8080/viyaapp,https://localhost/viyaapp</a></p>
-<h2><strong>Setting up clientid for your custom applications</strong></h2>
+<h3><strong>Setting up clientid for your custom applications</strong></h3>
 <blockquote>
 <p>You can run this as part of your setup scripts. See <a href="https:%5C/%5C/github.com/sassoftware/restaf/wiki/Managing-clientids">https://github.com/sassoftware/restaf/wiki/Managing-clientids</a></p>
 </blockquote>

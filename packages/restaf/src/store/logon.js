@@ -30,7 +30,7 @@ import keepViyaAlive from './keepViyaAlive';
  * @description logon or connect to Viya
  * @module logon
  * @category restaf/core
- * @param {rafLogonPayload} See type definition for details
+ * @param {rafLogonPayload} logonPayload See type definition for details
  * @returns {promise}  returns a text 'done' if successful
  * @example
 let restaf    = require("@sassoftware/restaf");

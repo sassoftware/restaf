@@ -41,6 +41,8 @@ async function setup (logonPayload, appControl, sessionID) {
     logonPayload,
     appControl,
 
+    activeWhere: ' ',
+
     state: {
       modified   : [],
       pagination : {},

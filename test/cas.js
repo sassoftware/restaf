@@ -44,10 +44,12 @@ async function runit () {
 
   debugger;
   const q = {
-    count : 2,
-    from  : 1,
-    format: false,
-    where : ''
+    qs: {
+      start : 0,
+      limit : 10,
+      format: false,
+      where : ''
+    }
   };
 
   await scrollTable('next', appEnv, q);
@@ -70,10 +72,12 @@ function getAppControl () {
     byvars: ['id'],
 
     initialFetch: {
-      count : 2,
-      from  : 1,
-      format: false,
-      where : ''
+      qs: {
+        start : 0,
+        limit : 10,
+        format: false,
+        where : ' '
+      }
     },
     customColumns: {
       total: {

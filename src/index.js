@@ -8,6 +8,7 @@ import commonHandler from './commonHandler';
 import updateTableRows from './updateTableRows';
 import scrollTable from './scrollTable';
 import setup from './setup';
+import setWhere from './setWhere';
 import distinctValues from './distinctValues';
 import uploadData from './uploadData';
 import saveTable from './saveTable';
@@ -21,6 +22,7 @@ export {
   updateTableRows,
   saveTable,
   setup,
+  setWhere,
   uploadData,
   termApp
 };

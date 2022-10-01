@@ -83,8 +83,13 @@ async function icasScroll (direction, appEnv, payload) {
   if (c.from <= 0 || c.next === -1) {
     return null;
   }
+
   if (c.where == null) {
     c.where = ' ';
+  }
+
+  if (appEnv.activeWhere !== null) {
+    c.where = appEnv.activeWhere;
   }
 
   c.table = table;
@@ -113,7 +118,6 @@ async function icomputeScroll (direction, appEnv, payload) {
   const { table, initialFetch } = appEnv.appControl;
   const cachePolicy = (appEnv.appControl.cachePolicy == null) ? true : appEnv.appControl.cachePolicy;
   let control = null;
-
   const tname = `${table.libref}.${table.name}`.toLowerCase();
 
   if (payload == null) {
@@ -122,6 +126,13 @@ async function icomputeScroll (direction, appEnv, payload) {
     }
   } else {
     control = { ...payload };
+  }
+  if (appEnv.activeWhere != null) {
+    if (control != null) {
+      control.qs.where = appEnv.activeWhere;
+    } else {
+      control = { qs: { where: appEnv.activeWhere } };
+    }
   }
 
   // eslint-disable-next-line prefer-const

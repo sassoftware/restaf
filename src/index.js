@@ -13,6 +13,8 @@ import distinctValues from './distinctValues';
 import uploadData from './uploadData';
 import saveTable from './saveTable';
 import termApp from './termApp';
+import getLibraryList from './getLibraryList';
+import getTableList from './getTableList';
 
 export {
   cellEdit,
@@ -24,5 +26,7 @@ export {
   setup,
   setWhere,
   uploadData,
+  getLibraryList,
+  getTableList,
   termApp
 };

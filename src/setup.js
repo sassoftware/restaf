@@ -41,7 +41,7 @@ async function setup (logonPayload, appControl, sessionID) {
     logonPayload,
     appControl,
 
-    activeWhere: ' ',
+    activeWhere: (appControl.initialFetch.qs.where != null) ? appControl.initialFetch.qs.where : ' ',
 
     state: {
       modified   : [],

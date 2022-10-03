@@ -1,8 +1,10 @@
 /* eslint-disable quotes */
-const { setup, scrollTable, cellEdit, termApp } = require('../lib/index.js');
+const { setup, scrollTable, setWhere, termApp } = require('../lib/index.js');
 runit()
   .then(r => console.log(r))
-  .catch(err => console.log(err));
+  .catch(err => {
+    console.log(err);
+  });
 
 async function runit () {
   const payload = {
@@ -16,18 +18,18 @@ async function runit () {
   };
   const cache = [];
   const appControl = getAppControl();
-  const preamble = `   
-  action datastep.runcode /
-  code= "
-     data casuser.testdatatemp;
-     keep x1 x2 x3 id;
-     length id varchar(20);
-     do i = 1 to 1000;
-     x1=i; x2=3; x3=i*10; id=compress(TRIMN('key'||i));
-     output;
-     end;
-     ";
- `;
+  const preamble = `
+    libname tempdata '/tmp';run; 
+    data tempdata.testdatatemp;
+    keep x1 x2 x3 id;
+    length id $ 5;
+    do i = 1 to 1000;
+    x1=i; x2=3; x3=i*10; id=compress(TRIMN('key'||i));
+    
+    output;
+    end;
+    run;`;
+
   appControl.preamble = preamble;
   payload.storeOptions = {
     casProxy: false
@@ -36,30 +38,11 @@ async function runit () {
   await scrollTable('first', appEnv);
   cache.push(appEnv.state.data[0]);
   console.log(appEnv.state.data.length);
-  const x3New = appEnv.state.data[0].x3 + 100;
-  console.log(appEnv.state.data.length);
-  await cellEdit('x3', x3New, 0, appEnv.state.data[0], appEnv);
-  await scrollTable('first', appEnv);
-  cache.push(appEnv.state.data[0]);
-
+  console.log(appEnv.state.data[0]);
   debugger;
-  const q = {
-    qs: {
-      limit : 2,
-      start : 0,
-      format: false,
-      where : ''
-    }
-  };
-
-  await scrollTable('next', appEnv, q);
-  cache.push(appEnv.state.data[0]);
-
-  await scrollTable('prev', appEnv);
-  cache.push(appEnv.state.data[0]);
-
-  console.log(cache);
-  await termApp(appEnv);
+  setWhere('x1 ssas', appEnv);
+  await scrollTable('first', appEnv);
+  console.log(appEnv.state.data[0]);
   return 'done';
 };
 
@@ -67,14 +50,14 @@ function getAppControl () {
   return {
     description: 'Simple Example',
 
-    source: 'cas',
-    table : { caslib: 'casuser', name: 'testdatatempzz' },
+    source: 'compute',
+    table : { libref: 'tempdata', name: 'testdatatemp' },
     byvars: ['id'],
 
     initialFetch: {
       qs: {
-        limit : 2,
         start : 0,
+        limit : 10,
         format: false,
         where : ''
       }

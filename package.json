@@ -77,7 +77,7 @@
     "lib"
   ],
   "dependencies": {
-    "@sassoftware/restaf": "^4.6.4",
-    "@sassoftware/restaflib": "^4.6.4"
+    "@sassoftware/restaf": "^4.6.5",
+    "@sassoftware/restaflib": "^4.6.5"
   }
 }

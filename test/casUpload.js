@@ -29,7 +29,7 @@ async function runit () {
   const drop = ['drop1'];
   debugger;
   // table, data, drop, addon, appEnv, masterTable, saveFlag
-  const aftersave = await uploadData({ caslib: 'casuser', name: 'testedit' }, data, drop, addon, appEnv);
+  const aftersave = await uploadData({ caslib: 'casuser', name: 'testedit' }, data, addon, drop, appEnv);
 
   console.log(aftersave);
 
@@ -48,10 +48,11 @@ function getAppControl () {
     cachePolicy: true,
 
     initialFetch: {
-      count : 1,
-      from  : 10,
-      format: false,
-      where : ''
+      qs: {
+        limit : 10,
+        start : 0,
+        format: false
+      }
     },
 
     customColumns: {

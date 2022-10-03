@@ -1,5 +1,5 @@
 /* eslint-disable quotes */
-const { setup, distinctValues } = require('../lib/index.js');
+const { setup, getLibraryList, getTableList } = require('../lib/index.js');
 
 runit()
   .then(r => console.log(r))
@@ -15,12 +15,28 @@ async function runit () {
     password    : 'Go4thsas'
   };
   debugger;
-  const appEnv = await setup(payload, getAppControl());
+  const appControl = getAppControl();
+  const preamble = `   
+   libname tempdata '/tmp';run; 
+  data tempdata.testdatatemp;
+  keep x1 x2 x3 id;
+  length id $ 5;
+  do i = 1 to 1000;
+  x1=i; x2=3; x3=i*10; id=compress(TRIMN('key'||i));
+  
+  output;
+  end;
+  run;`;
+  appControl.preamble = preamble;
+  const appEnv = await setup(payload, appControl);
   debugger;
-  let values = await distinctValues('version', appEnv);
-  console.log(values);
-  values = await distinctValues('company', appEnv, { caslib: 'public', name: 'customer_master' });
-  console.log(values);
+
+  const libList = await getLibraryList(appEnv);
+  debugger;
+  console.log('--------------------', libList[0]);
+  debugger;
+  const tableList = await getTableList(libList[0], appEnv);
+  console.log(tableList);
   debugger;
   return 'done';
 };
@@ -29,8 +45,8 @@ function getAppControl () {
   return {
     description: 'Simple Example',
 
-    source: 'cas',
-    table : { caslib: 'Public', name: 'product_master' },
+    source: 'compute',
+    table : { libref: 'tempdata', name: 'testdatatemp' },
     access: {},
     byvars: ['pk'],
 

@@ -93,23 +93,30 @@ async function icasScroll (direction, appEnv, payload) {
   }
 
   c.table = table;
-  const r = await casFetchRows(store, session, c);
-  let t = null;
-  if (r !== null) {
-    t = await prepFormData(r.data, appEnv);
-    appEnv.state = {
-      modified   : [],
-      pagination : { ...r.pagination },
-      currentPage: control,
-      data       : [],
-      columns    : []
-    };
-    if (cachePolicy === true) {
-      appEnv.state.data = t.data;
-      appEnv.state.columns = t.columns;
+  try {
+    const r = await casFetchRows(store, session, c);
+    let t = null;
+    if (r !== null) {
+      t = await prepFormData(r.data, appEnv);
+      appEnv.state = {
+        modified   : [],
+        pagination : { ...r.pagination },
+        currentPage: {},
+        data       : [],
+        columns    : []
+      };
+      if (cachePolicy === true) {
+        appEnv.state.data = t.data;
+        appEnv.state.columns = t.columns;
+      }
+      t.pagination = { ...r.pagination };
+      return t;
     }
-    t.pagination = { ...r.pagination };
-    return t;
+  } catch (err) {
+    console.log(err);
+    appEnv.state.data = [];
+    // eslint-disable-next-line no-throw-literal
+    throw 'ERROR: Fetch failed. See console for logs';
   }
 }
 
@@ -137,7 +144,16 @@ async function icomputeScroll (direction, appEnv, payload) {
 
   // eslint-disable-next-line prefer-const
 
-  const data = await computeFetchData(store, tableSummary, tname, direction, control);
+  let data = null;
+
+  try {
+    data = await computeFetchData(store, tableSummary, tname, direction, control);
+  } catch (err) {
+    console.log(err.toJS());
+    appEnv.state.data = [];
+    // eslint-disable-next-line no-throw-literal
+    throw 'ERROR: Fetch failed. See console for logs';
+  }
 
   let result = null;
   if (data !== null) {

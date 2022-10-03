@@ -18,9 +18,7 @@ import { casUpload, casAppendTable, computeRun } from '@sassoftware/restaflib';
  * @param {appEnv} appEnv   - app Environment from setup
  * @returns {promise}       - {an array of unique values }
  * @example
- *  await uploadData(outputTable, data, drop, {},appEnv)
- *  This is useful to get a list of unique values for selected columns.
- *  {company:['IBM', 'Microsoft', 'SAS'] }
+ *
  */
 
 async function uploadData (table, data, drop, addon, appEnv, masterTable, saveFlag) {

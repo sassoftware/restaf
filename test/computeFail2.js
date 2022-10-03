@@ -50,10 +50,12 @@ async function runit () {
   console.log(appEnv.state.data);
   console.log('-------------------------------------------------------');
   const p = {
-    limit : 1,
-    start : 0,
-    format: false,
-    where : 'x1 > 5000'
+    qs: {
+      limit : 1,
+      start : 0,
+      format: false,
+      where : 'x1 > 5000'
+    }
   };
   result = await scrollTable('first', appEnv, p);
   debugger;
@@ -80,9 +82,11 @@ function getAppControl () {
     cachePolicy: true,
 
     initialFetch: {
-      limit : 1,
-      start : 0,
-      format: false
+      qs: {
+        limit : 1,
+        start : 0,
+        format: false
+      }
     },
 
     customColumns: {

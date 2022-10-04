@@ -19,10 +19,8 @@ import casTableList from './casTableList';
  */
 
 async function getTableList (lib, appEnv) {
-  debugger;
   const handler = (appEnv.source === 'cas') ? casTableList : computeTableList;
   const r = await handler(lib, appEnv);
-  debugger;
   return r;
 }
 

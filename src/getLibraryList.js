@@ -24,8 +24,6 @@ async function getLibraryList (appEnv) {
       }
     };
     const r = await store.apiCall(session.links('librefs'), p);
-    debugger;
-    console.log(r.itemsList().toJS());
     return r.itemsList().toJS();
   };
 
@@ -38,14 +36,11 @@ async function getLibraryList (appEnv) {
     };
     const rafLink = servers.itemsCmd(servers.itemsList(0), 'caslibs');
     const r = await store.apiCall(rafLink, p);
-    debugger;
-    console.log(r.itemsList().toJS());
     return r.itemsList().toJS();
   };
 
   const handler = (source === 'cas') ? getCaslibs : getLibrefs;
-  const libs = handler(appEnv);
-  console.log('returning', libs);
+  const libs = await handler(appEnv);
   return libs;
 }
 

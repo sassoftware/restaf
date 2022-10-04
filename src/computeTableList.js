@@ -9,7 +9,7 @@
  * @module computeTableList
  * @private
  * @category restafedit/core
- * @param {string} caslib   - caslib of interest
+ * @param {string} lib   - libref of interest
  * @param {appEnv} appEnv   - app Environment from setup
  * @returns {promise}       - returns an array of table names
  * @example
@@ -21,6 +21,7 @@
 async function computeTableList (lib, appEnv) {
   const { store, session } = appEnv;
 
+  lib = lib.toUpperCase();
   let p = {
     qs: {
       filter: `eq(name,'${lib}' )`

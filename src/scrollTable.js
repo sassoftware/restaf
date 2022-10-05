@@ -72,6 +72,7 @@ async function icasScroll (direction, appEnv, payload) {
 
   // Need to do this until we change resaflib..
 
+  debugger;
   let c = {};
   if (control.qs != null) {
     c = { ...control.qs };
@@ -94,7 +95,9 @@ async function icasScroll (direction, appEnv, payload) {
 
   c.table = table;
   try {
+    debugger;
     const r = await casFetchRows(store, session, c);
+    debugger;
     let t = null;
     if (r !== null) {
       t = await prepFormData(r.data, appEnv);

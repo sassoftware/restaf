@@ -10,7 +10,7 @@ import computeTableUnique from './computeTableUnique';
  * @description Get unique values for a specific column
  * @async
  * @module distinctValues
- * @category restafedit/core
+ * @category restafedit/utility
  * @param {string} columnName    column name
  * @param {appEnv} appEnv   - app Environment from setup
  * @param {casTable|computeTable=} table Optionally point to a different table

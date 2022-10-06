@@ -9,7 +9,7 @@ import { caslRun } from '@sassoftware/restaflib';
  * @async
  * @private
  * @module casTableUnique
- * @category restafedit/core
+ * @category restafedit/utility
  * @param {object} table object
  * @param {string} columnName    column name
  * @param {appEnv} appEnv   app Environment from setup

@@ -9,7 +9,7 @@ import { computeRun, computeFetchData } from '@sassoftware/restaflib';
  * @async
  * @private
  * @module sasTableUnique
- * @category restafedit/core
+ * @category restafedit/utility
  * @param {string} columnName    column name
  * @param {appEnv} appEnv   app Environment from setup
  * @returns {promise}       {an array of unique values }

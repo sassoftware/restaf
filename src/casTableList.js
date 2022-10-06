@@ -8,7 +8,7 @@
  * @async
  * @module casTableList
  * @private
- * @category restafedit/core
+ * @category restafedit/utility
  * @param {string} lib   - caslib of interest
  * @param {appEnv} appEnv   - app Environment from setup
  * @returns {promise}       - returns an array of table names

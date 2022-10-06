@@ -8,7 +8,7 @@
  * @async
  * @module computeTableList
  * @private
- * @category restafedit/core
+ * @category restafedit/utility
  * @param {string} lib   - libref of interest
  * @param {appEnv} appEnv   - app Environment from setup
  * @returns {promise}       - returns an array of table names

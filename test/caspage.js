@@ -1,5 +1,5 @@
 /* eslint-disable quotes */
-const { setup, scrollTable, cellEdit, termApp } = require('../lib/index.js');
+const { setup, scrollTable, termApp } = require('../lib/index.js');
 runit()
   .then(r => console.log(r))
   .catch(err => console.log(err));
@@ -14,7 +14,7 @@ async function runit () {
     password    : 'Go4thsas',
     storeOptions: { casProxy: true }
   };
-  const cache = [];
+
   const appControl = getAppControl();
   const preamble = `   
   action datastep.runcode /

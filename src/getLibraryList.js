@@ -7,7 +7,8 @@
  * @description get the list of tables in a caslib
  * @async
  * @module getLibraryList
- * @category restafedit/coret
+ * @category restafedit/utility
+ * @params {appEnv} appEnv
  * @returns {promise}   returns a list of caslib or libref based on source
  * @example
  *

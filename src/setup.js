@@ -44,9 +44,8 @@ async function setup (logonPayload, appControl, sessionID) {
     activeWhere: (appControl.initialFetch.qs.where != null) ? appControl.initialFetch.qs.where : ' ',
 
     state: {
-      modified   : [],
-      pagination : {},
-      currentPage: {},
+      modified  : [],
+      pagination: {},
 
       data   : {},
       columns: {}

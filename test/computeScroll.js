@@ -16,19 +16,18 @@ async function runit () {
   };
   const cache = [];
   const appControl = getAppControl();
-  const preamble = `   
-  action datastep.runcode /
-  code= "
-     data casuser.testdatatemp;
-     keep x1 x2 x3 id;
-     length id varchar(20);
-     do i = 1 to 1000;
-     x1=i; x2=3; x3=i*10; id=compress(TRIMN('key'||i));
-     output;
-     end;
-     ";
- `;
-  appControl.preamble = preamble;
+
+  appControl.preamble = `libname tempdata '/tmp';run; 
+    data tempdata.testdata;
+    keep x1 x2 x3 id;
+    length id $ 5;
+    do i = 1 to 20;
+    x1=i; x2=3; x3=i*10; id=compress(TRIMN('key'||i));
+  
+  output;
+  end;
+  run;`;
+
   payload.storeOptions = {
     casProxy: false
   };
@@ -36,31 +35,39 @@ async function runit () {
   debugger;
   await scrollTable('first', appEnv);
   cache.push(appEnv.state.data[0]);
-  console.log(appEnv.state.data.length);
-  const x3New = appEnv.state.data[0].x3 + 100;
-  console.log(appEnv.state.data.length);
-  await cellEdit('x3', x3New, 0, appEnv.state.data[0], appEnv);
-
+  console.log('xxxx ', appEnv.state.pagination);
   debugger;
+  await scrollTable('next', appEnv);
+  console.log(appEnv.state.pagination);
+  debugger;
+  await scrollTable('prev', appEnv);
+  console.log(appEnv.state.pagination);
 
-  await scrollTable('first', appEnv);
+  const p = {
+    qs: {
+      start : 10,
+      limit : 10,
+      format: false
+    }
+  };
+  await scrollTable('prev', appEnv, p);
+  console.log(appEnv.state.pagination);
+
+  await scrollTable('prev', appEnv);
   cache.push(appEnv.state.data[0]);
 
-  debugger;
   const q = {
     qs: {
-      start : 0,
+      start : 100,
       limit : 10,
       format: false,
       where : ''
     }
   };
+  console.log('------------calling past the max');
+  await scrollTable('prev', appEnv, q);
   debugger;
-  await scrollTable('next', appEnv, q);
-  cache.push(appEnv.state.data[0]);
-  debugger;
-  await scrollTable('prev', appEnv);
-  cache.push(appEnv.state.data[0]);
+  console.log(appEnv.state.data);
 
   console.log(cache);
   await termApp(appEnv);
@@ -71,8 +78,8 @@ function getAppControl () {
   return {
     description: 'Simple Example',
 
-    source: 'cas',
-    table : { caslib: 'casuser', name: 'testdatatemp' },
+    source: 'compute',
+    table : { libref: 'tempdata', name: 'testdata' },
     byvars: ['id'],
 
     initialFetch: {

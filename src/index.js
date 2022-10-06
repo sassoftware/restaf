@@ -15,18 +15,20 @@ import saveTable from './saveTable';
 import termApp from './termApp';
 import getLibraryList from './getLibraryList';
 import getTableList from './getTableList';
+import fetchRows from './fetchRows';
 
 export {
   cellEdit,
   commonHandler,
   distinctValues,
   scrollTable,
+  fetchRows,
+  getLibraryList,
+  getTableList,
   updateTableRows,
+  uploadData,
   saveTable,
   setup,
   setWhere,
-  uploadData,
-  getLibraryList,
-  getTableList,
   termApp
 };

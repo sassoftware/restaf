@@ -10,10 +10,10 @@ import casTableList from './casTableList';
  * @description get the list of tables in a specific library
  * @async
  * @module getTableList
- * @category restafedit/core
+ * @category restafedit/utility
  * @param {string} lib  - caslib or libref (must match source)
  * @param {appEnv} appEnv   - app Environment from setup
- * @returns {promise}       - returns an array of table names
+ * @returns {promise}       - returns an array of table names(cas or SAS)
  * @example
  *
  */

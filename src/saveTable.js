@@ -6,7 +6,7 @@
  * @description Save the current table to disk
  * @async
  * @module saveTable
- * @category restafedit/core
+ * @category restafedit/utility
  * @param {appEnv} appEnv
  * @param {object=} table - save the table to disk
  * @returns {promise}  Status object

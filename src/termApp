@@ -9,7 +9,7 @@
  * @module termSession
  * @category restafedit/core
  * @param {appEnv} appEnv   app Environment from setup
- * 
+ *
  * @returns {promise}       status object
  * @example
  *  let r  = await termSession(appEnv)

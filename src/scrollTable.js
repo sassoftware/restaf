@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { computeFetchData, casFetchRows } from '@sassoftware/restaflib';
+import { computeFetchData, casRowSets } from '@sassoftware/restaflib';
 import prepFormData from './prepFormData';
 /**
  * @description Simplify scrolling using next|prev|top
@@ -58,61 +58,42 @@ async function icasScroll (direction, appEnv, payload) {
   let control;
 
   if (payload != null) {
-    control = { ...payload };
+    control = { ...payload.qs };
+    if (control.where == null) {
+      control.where = ' ';
+    }
   } else {
     if (direction === 'first') {
-      control = { ...initialFetch };
+      control = { ...initialFetch.qs };
     } else if (direction !== null) {
+      debugger;
       control = { ...appEnv.state.pagination[direction] };
-      if (control.next === -1 || control.from <= 0) {
-        return null;
-      }
     }
+    control.where = appEnv.activeWhere;
   }
-
-  // Need to do this until we change resaflib..
 
   debugger;
-  let c = {};
-  if (control.qs != null) {
-    c = { ...control.qs };
-    c.from = c.start + 1;
-    c.count = c.limit;
-  } else {
-    c = { ...control };
-  }
-  if (c.from <= 0 || c.next === -1) {
-    return null;
-  }
+  control.table = table;
+  console.log(control);
+  debugger;
 
-  if (c.where == null) {
-    c.where = ' ';
-  }
-
-  if (appEnv.activeWhere !== null) {
-    c.where = appEnv.activeWhere;
-  }
-
-  c.table = table;
   try {
     debugger;
-    const r = await casFetchRows(store, session, c);
+    const r = await casRowSets(store, session, control);
     debugger;
     let t = null;
     if (r !== null) {
       t = await prepFormData(r.data, appEnv);
       appEnv.state = {
-        modified   : [],
-        pagination : { ...r.pagination },
-        currentPage: {},
-        data       : [],
-        columns    : []
+        modified  : [],
+        pagination: { ...r.pagination },
+        data      : [],
+        columns   : []
       };
       if (cachePolicy === true) {
         appEnv.state.data = t.data;
         appEnv.state.columns = t.columns;
       }
-      t.pagination = { ...r.pagination };
       return t;
     }
   } catch (err) {
@@ -129,7 +110,7 @@ async function icomputeScroll (direction, appEnv, payload) {
   const cachePolicy = (appEnv.appControl.cachePolicy == null) ? true : appEnv.appControl.cachePolicy;
   let control = null;
   const tname = `${table.libref}.${table.name}`.toLowerCase();
-
+  debugger;
   if (payload == null) {
     if (direction === 'first') {
       control = { ...initialFetch };
@@ -138,19 +119,17 @@ async function icomputeScroll (direction, appEnv, payload) {
     control = { ...payload };
   }
   if (appEnv.activeWhere != null) {
-    if (control != null) {
-      control.qs.where = appEnv.activeWhere;
-    } else {
-      control = { qs: { where: appEnv.activeWhere } };
-    }
-  }
+    control.qs.where = appEnv.activeWhere;
+  };
 
   // eslint-disable-next-line prefer-const
 
   let data = null;
-
+  debugger;
   try {
+    debugger;
     data = await computeFetchData(store, tableSummary, tname, direction, control);
+    debugger;
   } catch (err) {
     console.log(err.toJS());
     appEnv.state.data = [];
@@ -159,19 +138,24 @@ async function icomputeScroll (direction, appEnv, payload) {
   }
 
   let result = null;
+  console.log('------ ', data);
+  debugger;
   if (data !== null) {
     result = await prepFormData(data, appEnv);
     appEnv.state = {
-      modified   : [],
-      pagination : {},
-      currentPage: {},
-      data       : [],
-      columns    : []
+      modified  : [],
+      pagination: {},
+      data      : [],
+      columns   : []
     };
     if (cachePolicy === true) {
       appEnv.state.data = result.data;
       appEnv.state.columns = result.columns;
     }
+  } else {
+    console.log('setting state data to zero length');
+    debugger;
+    appEnv.state.data = [];
   }
 
   return result;

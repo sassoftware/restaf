@@ -10,7 +10,7 @@ import { casUpload, casAppendTable, computeRun } from '@sassoftware/restaflib';
  * @description Upload client data to a new table on server
  * @async
  * @module uploadData
- * @category restafedit/core
+ * @category restafedit/utility
  * @param {object} output table
  * @param {array}  data if null, data from appEnv.state will be uploded.
  * @param {array}  drop fields to drop from the output

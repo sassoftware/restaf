@@ -1,0 +1,15 @@
+upload --file ../../data/Cluster_SDOH1.sas --output public.MODEL_CLUSTER_SDOH1
+upload --file ../../data/Cluster_SDOH6.sas --output public.MODEL_CLUSTER_SDOH6
+upload --file ../../data/NeuralNetwork_High_med.sas --output public.MODEL_NEURALNETWORK_HIGH_MED
+upload --file ../../data/NeuralNetwork_high_med1.sas --output public.NeuralNetwork_high_med1
+
+upload --file ../../data/LeNet_snzrle.astore --output models.Lenet_snzrle
+
+upload --file ../../data/cars.csv --output public.cars
+upload --file ../../data/cars.csv --output public.cars
+upload --file ../../data/cms_opioid_sdoh.sas7bdat --output public.cms_opioid_sdoh
+upload --file ../../data/cluster_test2.sas7bdat --output public.cluster_test2
+upload --file ../../data/GRADIENT_BOOSTING___BAD_2.sashdat --output public.GRADIENT_BOOSTING___BAD_2
+
+
+

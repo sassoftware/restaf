@@ -1,0 +1,85 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`computeService: basic 1`] = `
+Array [
+  Array [
+    20,
+    20,
+    20,
+    20,
+    20,
+    20,
+    20,
+    20,
+    20,
+    20,
+    2,
+    11,
+  ],
+]
+`;
+
+exports[`computeTables: Attach 1`] = `undefined`;
+
+exports[`computeTables: tables 1`] = `
+Array [
+  Array [
+    "JAN49",
+    112,
+  ],
+  Array [
+    "FEB49",
+    118,
+  ],
+  Array [
+    "MAR49",
+    132,
+  ],
+]
+`;
+
+exports[`computeTables: withcontext 1`] = `
+Array [
+  Array [
+    1,
+    3,
+    10,
+    "key1",
+  ],
+  Array [
+    2,
+    3,
+    20,
+    "key2",
+  ],
+  Array [
+    3,
+    3,
+    30,
+    "key3",
+  ],
+]
+`;
+
+exports[`computeTables: withpreamble 1`] = `
+Array [
+  Array [
+    1,
+    3,
+    10,
+    "key1",
+  ],
+  Array [
+    2,
+    3,
+    20,
+    "key2",
+  ],
+  Array [
+    3,
+    3,
+    30,
+    "key3",
+  ],
+]
+`;

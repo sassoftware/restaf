@@ -1,0 +1,8 @@
+node_modules
+public/data
+dist
+lib
+data
+images
+.serverless
+token

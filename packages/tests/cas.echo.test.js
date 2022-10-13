@@ -17,7 +17,7 @@
  */
 
 'use strict';
-let testFunctions = require('../examples/testFunctions');
+let testFunctions = require('../examples/testFunctions/casEcho');
 let setupAll = require('../examples/lib/setupAll');
 let testInfo;
 beforeAll(async () => {
@@ -32,7 +32,7 @@ beforeAll(async () => {
 });
 
 test('CAS Echo', async () => {
-	let r = await testFunctions.casEcho(testInfo);
+	let r = await testFunctions(testInfo);
 	expect(r).toBe('done');
 });
 

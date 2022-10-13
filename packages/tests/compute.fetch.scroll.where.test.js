@@ -17,7 +17,7 @@
  */
 
 'use strict';
-const testFunctions = require('../examples/testFunctions/computeFetchScrollFail.js');
+const testFunctions = require('../examples/testFunctions/computeFetchScrollWhere.js');
 const setupAll = require('../examples/lib/setupAll');
 let testInfo;
 beforeAll(async () => {

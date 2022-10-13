@@ -123,5 +123,5 @@ module.exports = async function computeDS (testInfo) {
 	);
 	*/
 	await store.apiCall(computeSession.links('delete'));
-    return data.rows;
+    return 'done';
 };

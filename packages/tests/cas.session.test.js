@@ -1,4 +1,4 @@
-let testFunctions = require('../examples/testFunctions');
+let testFunctions = require('../examples/testFunctions/casSession');
 let setupAll = require('../examples/lib/setupAll');
 let testInfo;
 beforeAll(async () => {
@@ -13,6 +13,6 @@ beforeAll(async () => {
 });
 
 test('CAS Session', async () => {
-	let r = await testFunctions.casSession(testInfo);
+	let r = await testFunctions(testInfo);
 	expect(r).toBe('done');
 });

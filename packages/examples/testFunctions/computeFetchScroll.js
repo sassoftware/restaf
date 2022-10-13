@@ -58,7 +58,7 @@ module.exports = async function computeFetchScroll(testInfo) {
 	console.log(' l = ' , data.rows.length);
 	console.log('--------------------', data.scrollOptions);
 
-	while (data.pagination.point !== 'EOF'){
+	while (data.scrollOptions.indexOf('next') !== -1){
 		console.log(data.scrollOptions);
 		data = await restaflib.computeFetchData(store, tableSummary, t , 'next');
 		if (data != null) {
@@ -80,7 +80,7 @@ module.exports = async function computeFetchScroll(testInfo) {
 		}
 		debugger;
 		console.log('--------------------> ',data.scrollOptions);
-	} while (data.pagination.point !=='BOF');
+	} while (data.scrollOptions.indexOf('prev') !== -1);
 	
 	await store.apiCall(computeSession.links('delete'));
     return data.rows;

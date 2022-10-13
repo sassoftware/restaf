@@ -47,5 +47,5 @@ module.exports = async function casDSLoad (testInfo) {
 
 
 	await store.apiCall(session.links('delete'));
-	return r;
+	return 'done';
 };

@@ -21,7 +21,7 @@
 let restaflib = require('@sassoftware/restaflib');
 let { computeSetup, computeSetupTables} = restaflib;
 
-module.exports = async function computeFetchScrollFail(testInfo) {
+module.exports = async function computeFetchScrollWhere(testInfo) {
 	let { store, logger } = testInfo;
 
 	let computeSession = await computeSetup(store, "SAS Studio compute context", null);
@@ -52,7 +52,7 @@ module.exports = async function computeFetchScrollFail(testInfo) {
 		tableSummary,
 		t,
 		'first',
-		{qs: {limit: 5, start: 500}}
+		{qs: {where: 'x3 > 50'}}
 	);
 
 	debugger;
@@ -60,7 +60,7 @@ module.exports = async function computeFetchScrollFail(testInfo) {
 	console.log('--------------------', data.scrollOptions);
 	console.log('page: ', data.pagination);
 
-	while (data.pagination.point !== 'EOF'){
+	while (data.scrollOptions.indexOf('next') !== -1){
 		console.log(data.scrollOptions);
 		data = await restaflib.computeFetchData(store, tableSummary, t , 'next');
 		if (data != null) {
@@ -82,8 +82,8 @@ module.exports = async function computeFetchScrollFail(testInfo) {
 		}
 		debugger;
 		console.log('--------------------> ',data.scrollOptions);
-	} while (data.pagination.point !== 'BOF');
+	} while (data.scrollOptions.indexOf('prev') !== -1 );
 	
 	await store.apiCall(computeSession.links('delete'));
-    return data.rows;
+    return 'done';
 };

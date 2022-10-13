@@ -75,5 +75,9 @@
   "files": [
     "dist",
     "lib"
-  ]
+  ],
+  "dependencies": {
+    "@sassoftware/restaf": "^4.8.0",
+    "@sassoftware/restaflib": "^4.8.0"
+  }
 }

@@ -33,14 +33,14 @@ async function _casSQL (table, drop, appEnv) {
 }
 
 async function _computeSQL (table, drop, appEnv) {
-  const { store, session, tableSummary } = appEnv;
+  const { store, session } = appEnv;
   const { data, columns } = appEnv.state;
 
   const rowCount = data.length;
   if (rowCount === 0) {
     return { msg: 'No data to append', statusCode: 1 };
   }
-
+  debugger;
   const dropList = ['_index_', '_rowIndex'].concat(drop);
   const validCols = [];
   for (const c in columns) {
@@ -51,7 +51,7 @@ async function _computeSQL (table, drop, appEnv) {
   let set = ' ';
   console.log(validCols);
   const ncols = validCols.length - 1;
-
+  debugger;
   data.forEach(row => {
     let s = 'set ';
     let i = 0;
@@ -72,7 +72,6 @@ async function _computeSQL (table, drop, appEnv) {
     console.log(set);
   });
 
-
   const src = `
     proc sql;
     insert into ${table.libref}.${table.name}
@@ -87,7 +86,7 @@ async function _computeSQL (table, drop, appEnv) {
   console.log('Job Status: ', r.SASJobStatus);
   if (st === 'failed' || st === 'running') {
     console.log('Job  ended with status of ', st);
- }
+  }
   debugger;
   const logs = await computeResults(store, r, 'log');
   console.log(JSON.stringify(logs, null, 4));

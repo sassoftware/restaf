@@ -32,8 +32,8 @@ async function casTableList (lib, appEnv) {
       start: 0
     }
   };
-
-  const tlist = await store.apiCall(mylib.itemsCmd(lib, 'tables'));
+ 
+  const tlist = await store.apiCall(mylib.itemsCmd(lib, 'tables'), p);
   return tlist.itemsList().toJS();
 }
 export default casTableList;

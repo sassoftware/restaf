@@ -67,9 +67,8 @@ async function runit () {
   console.log('------------calling past the max');
   await scrollTable('prev', appEnv, q);
   debugger;
-  console.log(appEnv.state.data);
+  console.log(' missing data ', appEnv.state.data);
 
-  console.log(cache);
   await termApp(appEnv);
   return 'done';
 };
@@ -81,6 +80,8 @@ function getAppControl () {
     source: 'compute',
     table : { libref: 'tempdata', name: 'testdata' },
     byvars: ['id'],
+
+    onNoData: 'keep',
 
     initialFetch: {
       qs: {

@@ -18,11 +18,12 @@ async function runit () {
   const appControl = getAppControl();
   const preamble = `   
   action datastep.runcode /
+  single='YES'
   code= "
      data casuser.testdatatemp;
      keep x1 x2 x3 id;
      length id varchar(20);
-     do i = 1 to 1000;
+     do i = 1 to 15;
      x1=i; x2=3; x3=i*10; id=compress(TRIMN('key'||i));
      output;
      end;
@@ -47,22 +48,24 @@ async function runit () {
   cache.push(appEnv.state.data[0]);
 
   debugger;
-  const q = {
-    qs: {
-      start : 0,
-      limit : 10,
-      format: false,
-      where : ''
-    }
-  };
-  debugger;
-  await scrollTable('next', appEnv, q);
+  await scrollTable('next', appEnv);
   cache.push(appEnv.state.data[0]);
   debugger;
-  await scrollTable('prev', appEnv);
-  cache.push(appEnv.state.data[0]);
+  let r = await scrollTable('prev', appEnv);
+  console.log(appEnv.state.scrollOptions);
+  console.log(r);
 
-  console.log(cache);
+  debugger;
+  r = await scrollTable('next', appEnv);
+  console.log(appEnv.state.scrollOptions);
+  debugger;
+  r = await scrollTable('next', appEnv);
+  console.log(appEnv.state.scrollOptions);
+
+  r = await scrollTable('next', appEnv);
+  console.log(appEnv.state.scrollOptions);
+  debugger;
+  // console.log(cache);
   await termApp(appEnv);
   return 'done';
 };
@@ -131,20 +134,17 @@ async function termMyApp (appEnv) {
 async function init (data, rowIndex, appEnv, type) {
   const status = { statusCode: 0, msg: `${type} processing completed` };
   data.total = data.x1 + data.x2 + data.x3;
-  debugger;
   return [data, status];
 };
 async function main (data, rowIndex, appEnv, type) {
   const status = { statusCode: 0, msg: `${type} processing completed` };
   data.total = data.x1 + data.x2 + data.x3;
-  debugger;
   return [data, status];
 };
 
 async function term (data, rowIndex, appEnv, type) {
   const status = { statusCode: 0, msg: `${type} processing completed` };
   console.log('In term');
-  debugger;
   return [data, status];
 };
 

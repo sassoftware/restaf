@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { computeFetchData, casRowSets } from '@sassoftware/restaflib';
+import { computeFetchData, casFetchData } from '@sassoftware/restaflib';
 import prepFormData from './prepFormData';
 /**
  * @description Simplify scrolling using next|prev|top
@@ -50,11 +50,9 @@ async function scrollTable (direction, appEnv, payload) {
   const fetchResults = await useEntry(direction, appEnv, payload);
   return fetchResults;
 }
-
 async function icasScroll (direction, appEnv, payload) {
   const { store, session } = appEnv;
   const { initialFetch, table } = appEnv.appControl;
-  const cachePolicy = (appEnv.appControl.cachePolicy == null) ? true : appEnv.appControl.cachePolicy;
   let control;
 
   if (payload != null) {
@@ -66,8 +64,12 @@ async function icasScroll (direction, appEnv, payload) {
     if (direction === 'first') {
       control = { ...initialFetch.qs };
     } else if (direction !== null) {
-      debugger;
-      control = { ...appEnv.state.pagination[direction] };
+      const cs = appEnv.state.pagination[direction];
+      if (cs == null) {
+        // eslint-disable-next-line no-throw-literal
+        throw `Invalid scroll direction ${direction}`;
+      }
+      control = { ...cs };
     }
     control.where = appEnv.activeWhere;
   }
@@ -79,23 +81,18 @@ async function icasScroll (direction, appEnv, payload) {
 
   try {
     debugger;
-    const r = await casRowSets(store, session, control);
-    debugger;
-    let t = null;
-    if (r !== null) {
-      t = await prepFormData(r.data, appEnv);
-      appEnv.state = {
-        modified  : [],
-        pagination: { ...r.pagination },
-        data      : [],
-        columns   : []
-      };
-      if (cachePolicy === true) {
-        appEnv.state.data = t.data;
-        appEnv.state.columns = t.columns;
-      }
-      return t;
-    }
+    const r = await casFetchData(store, session, control);
+    const result = await prepFormData(r.data, appEnv);
+    appEnv.fetchCount = result.data.length;
+    appEnv.state = {
+      modified     : [],
+      pagination   : { ...r.pagination },
+      data         : result.data,
+      columns      : result.columns,
+      point        : setPoint(r.data.scrollOptions),
+      scrollOptions: [].concat(r.data.scrollOptions)
+    };
+    return result;
   } catch (err) {
     console.log(err);
     appEnv.state.data = [];
@@ -119,16 +116,20 @@ async function icomputeScroll (direction, appEnv, payload) {
     control = { ...payload };
   }
   if (appEnv.activeWhere != null) {
-    control.qs.where = appEnv.activeWhere;
-  };
+    if (control != null) {
+      control.qs.where = appEnv.activeWhere;
+    } else {
+      control = { qs: { where: appEnv.activeWhere } };
+    }
+  }
 
   // eslint-disable-next-line prefer-const
 
-  let data = null;
+  let r = null;
   debugger;
   try {
     debugger;
-    data = await computeFetchData(store, tableSummary, tname, direction, control);
+    r = await computeFetchData(store, tableSummary, tname, direction, control);
     debugger;
   } catch (err) {
     console.log(err.toJS());
@@ -138,27 +139,48 @@ async function icomputeScroll (direction, appEnv, payload) {
   }
 
   let result = null;
-  console.log('------ ', data);
   debugger;
-  if (data !== null) {
-    result = await prepFormData(data, appEnv);
-    appEnv.state = {
-      modified  : [],
-      pagination: {},
-      data      : [],
-      columns   : []
-    };
-    if (cachePolicy === true) {
-      appEnv.state.data = result.data;
-      appEnv.state.columns = result.columns;
+  if (r !== null) {
+    result = await prepFormData(r, appEnv);
+    appEnv.fetchCount = result.data.length;
+    if (appEnv.fetchCount > 0) {
+      appEnv.state = {
+        modified     : [],
+        pagination   : {},
+        data         : [],
+        columns      : [],
+        point        : setPoint(r.scrollOptions),
+        scrollOptions: [].concat(r.scrollOptions)
+      };
+      if (cachePolicy === true) {
+        appEnv.state.data = result.data;
+        appEnv.state.columns = result.columns;
+      }
+    } else {
+      appEnv.fetchCount = 0;
+      if (appEnv.onNoData !== 'keep') {
+        appEnv.state.data = [];
+      }
     }
   } else {
-    console.log('setting state data to zero length');
-    debugger;
-    appEnv.state.data = [];
+    appEnv.fetchCount = 0;
+    if (appEnv.onNoData !== 'keep') {
+      appEnv.state.data = [];
+    }
   }
 
   return result;
 }
 
+function setPoint (scrollOptions) {
+  let point;
+  if (scrollOptions.length === 0) {
+    point = 'all';
+  } else if (scrollOptions.indexOf('prev') < 0) {
+    point = 'BOF';
+  } else if (scrollOptions.indexOf('next') < 0) {
+    point = 'EOF';
+  }
+  return point;
+}
 export default scrollTable;

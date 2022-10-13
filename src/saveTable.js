@@ -25,7 +25,7 @@ async function saveTable (appEnv, table) {
     return { msg: 'Action does not apply to SAS 9 tables', statusCode: 0 };
   }
   const t = (table != null) ? table : appEnv.appControl.table;
-  await casSaveTable(store, session, t);
+  await casSaveTable(store, session, t, true, true);
   return { msg: 'Table saved', statusCode: 0 };
 }
 export default saveTable;

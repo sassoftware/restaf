@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { casUpload, casAppendTable, computeRun } from '@sassoftware/restaflib';
+import { casUpload, casAppendTable, casLoadTable, computeRun } from '@sassoftware/restaflib';
 
 /**
  * @description Upload client data to a new table on server
@@ -29,17 +29,18 @@ async function uploadData (table, data, drop, addon, appEnv, masterTable, saveFl
   };
   const t = Object.keys(data[0]);
   let dropArray = ['_index_', '_rowIndex'];
-  if (drop !== null) {
+  if (drop !== null && drop.length > 0) {
     dropArray = dropArray.concat(drop);
   }
   const columns = t.filter(c => {
     return !(dropArray.indexOf(c) >= 0);
   });
+  console.log(columns);
   const tempCols = {};
   columns.forEach(k => {
     tempCols[k] = appEnv.state.columns[k];
   });
-
+  console.log(tempCols);
   let csvArray = null;
   if (appEnv.source === 'cas') {
     csvArray = columns.join(',') + '\n';
@@ -62,6 +63,7 @@ async function uploadData (table, data, drop, addon, appEnv, masterTable, saveFl
       csvArray = csvArray + valArray.join(',') + '\n';
     }
   }
+  console.log(csvArray);
   let result;
   if (appEnv.source === 'cas') {
     result = await _casTableUpload(
@@ -109,6 +111,9 @@ async function _computeUpload (store, session, columns, table, csvArray) {
 async function _casTableUpload (store, session, table, csvArray, masterTable, saveFlag) {
   const t = `${table.caslib}.${table.name}`;
   let r = await casUpload(store, session, null, t, true, csvArray);
+  console.log('calling casLoadTable', table);
+  debugger;
+  await casLoadTable(store, session, table);
   if (masterTable != null) {
     r = await casAppendTable(store, session, table, masterTable, saveFlag);
     return r;

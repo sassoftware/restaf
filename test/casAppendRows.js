@@ -1,5 +1,7 @@
 /* eslint-disable quotes */
-const { setup, scrollTable, setWhere, termApp } = require('../lib/index.js');
+const { setup, scrollTable, appendRows, termApp } = require('../lib/index.js');
+const { caslRun } = require('@sassoftware/restaflib');
+
 runit()
   .then(r => console.log(r))
   .catch(err => console.log(err));
@@ -14,7 +16,7 @@ async function runit () {
     password    : 'Go4thsas',
     storeOptions: { casProxy: true }
   };
-  const cache = [];
+
   const appControl = getAppControl();
   const preamble = `   
   action datastep.runcode /
@@ -23,7 +25,7 @@ async function runit () {
      data casuser.testdatatemp;
      keep x1 x2 x3 id;
      length id varchar(20);
-     do i = 1 to 25;
+     do i = 1 to 15;
      x1=i; x2=3; x3=i*10; id=compress(TRIMN('key'||i));
      output;
      end;
@@ -34,28 +36,32 @@ async function runit () {
     casProxy: false
   };
   const appEnv = await setup(payload, appControl);
+  debugger;
+  const src = `
+  action datastep.runcode /
+  single='YES'
+  code = "data casuser.mastertemp;
+     keep x1 x2 x3 id;
+     length id varchar(15);
+     do i = 1 to 15;
+     x1=i*100; x2=5; x3=i*100; id=compress(TRIMN('keymaster'||i));
+     output;
+     end;
+     run;
+ 
+     "
+  `;
+  const r1 = await caslRun(appEnv.store, appEnv.session, src);
+  console.log('------------------');
+  console.log(r1);
+  console.log('------------------');
+
   await scrollTable('first', appEnv);
-  cache.push(appEnv.state.data[0]);
-  console.log(appEnv.state.data.length);
-
-  setWhere('x13 > 100', appEnv);
-  await scrollTable('first', appEnv);
-
-  cache.push(appEnv.state.data[0]);
-
-  await scrollTable('next', appEnv);
-  cache.push(appEnv.state.data[0]);
-
-  await scrollTable('next', appEnv);
-  cache.push(appEnv.state.data[0]);
-
-  setWhere(' ', appEnv);
-  await scrollTable('next', appEnv);
-  cache.push(appEnv.state.data[0]);
-
-  await scrollTable('first', appEnv);
-  cache.push(appEnv.state.data[0]);
-  console.log(cache);
+  const r = await appendRows({ caslib: 'casuser', name: 'deva1' }, [], appEnv);
+  debugger;
+  console.log(r);
+  debugger;
+  // console.log(cache);
   await termApp(appEnv);
   return 'done';
 };
@@ -83,9 +89,11 @@ function getAppControl () {
         FormattedLength: 12,
         Type           : 'double'
       }
+
     },
     editControl: {
-      handlers: { init, main, term, termApp: termMyApp, x1 }, /* note reuse of init */
+      
+      handlers: { init, main, term, x1 }, /* note reuse of init */
       autoSave: true
     },
     appData: {
@@ -117,27 +125,21 @@ function getAppControl () {
   };
 }
 
-async function termMyApp (appEnv) {
-  console.log('in termApp');
-  return { msg: 'done', satusCode: 0 };
-}
+
 async function init (data, rowIndex, appEnv, type) {
   const status = { statusCode: 0, msg: `${type} processing completed` };
   data.total = data.x1 + data.x2 + data.x3;
-  debugger;
   return [data, status];
 };
 async function main (data, rowIndex, appEnv, type) {
   const status = { statusCode: 0, msg: `${type} processing completed` };
   data.total = data.x1 + data.x2 + data.x3;
-  debugger;
   return [data, status];
 };
 
 async function term (data, rowIndex, appEnv, type) {
   const status = { statusCode: 0, msg: `${type} processing completed` };
   console.log('In term');
-  debugger;
   return [data, status];
 };
 
@@ -146,3 +148,4 @@ async function x1 (data, name, rowIndex, appEnv) {
   console.log('in x1');
   return [data, status];
 };
+

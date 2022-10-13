@@ -7,15 +7,20 @@ import cellEdit from './cellEdit';
 import commonHandler from './commonHandler';
 import updateTableRows from './updateTableRows';
 import scrollTable from './scrollTable';
+import fetchRows from './fetchRows';
+
 import setup from './setup';
+import termApp from './termApp';
 import setWhere from './setWhere';
-import distinctValues from './distinctValues';
+
 import uploadData from './uploadData';
 import saveTable from './saveTable';
-import termApp from './termApp';
+import appendTable from './appendTable';
+import appendRows from './appendRows';
+
+import distinctValues from './distinctValues';
 import getLibraryList from './getLibraryList';
 import getTableList from './getTableList';
-import fetchRows from './fetchRows';
 
 export {
   cellEdit,
@@ -23,6 +28,8 @@ export {
   distinctValues,
   scrollTable,
   fetchRows,
+  appendTable,
+  appendRows,
   getLibraryList,
   getTableList,
   updateTableRows,

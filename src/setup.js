@@ -30,6 +30,10 @@ async function setup (logonPayload, appControl, sessionID) {
     table : appControl.table,
     byvars: appControl.byvar,
 
+    onNoData: appControl.onNoData != null ? appControl.onNoData : 'clear',
+
+    fetchCount: 0,
+
     store,
     session  : null,
     servers  : null,
@@ -44,11 +48,12 @@ async function setup (logonPayload, appControl, sessionID) {
     activeWhere: (appControl.initialFetch.qs.where != null) ? appControl.initialFetch.qs.where : ' ',
 
     state: {
-      modified  : [],
-      pagination: {},
-
-      data   : {},
-      columns: {}
+      modified     : [],
+      pagination   : {},
+      point        : '',
+      scrollOptions: null,
+      data         : {},
+      columns      : {}
     },
 
     id: Date()

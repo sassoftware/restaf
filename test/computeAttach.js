@@ -61,11 +61,13 @@ async function runit () {
     where : 'x1 > 5000'
   };
   result = await scrollTable('first', appEnv, p);
+  console.log(appEnv.state.pagination);
   debugger;
   console.log('result of first fetch -------------------------------');
   console.log(appEnv.state.data);
 
   result = await scrollTable('prev', appEnv);
+  console.log(appEnv.state.pagination);
   console.log(result);
   console.log('result of scroll prev from top ----------------');
   console.log(appEnv.state.data);

@@ -8,7 +8,7 @@ import scrollTable from './scrollTable';
  * @description Fetch new records based on control argument
  * @async
  * @module fetchRows
- * @category restafedit/core
+ * @category restafedit/fetch
  * @param {fetchControl} control - info for records to retrieve
  * @param {appEnv} appEnv - appEnv
  * @returns {promise}  - { data:data, columns:ecolumns, pagination: pagination}

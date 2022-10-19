@@ -3,6 +3,15 @@
  * @category restafedit/core
  */
 /**
+ * restafedit fetch
+ * @category restafedit/fetch
+ */
+/**
+ * resafedit datamgmt
+ * @category restafedit/dataMgmt
+ */
+
+/**
  * Application Environment.
  * @typedef {object} appEnv
  */
@@ -38,10 +47,20 @@
 
 /**
  * Information to fetch records
+ * @typedef {object} fetchQuery
+ * @property {number} start
+ * @property {number} limit
+ * @property {boolean} format
+ * @property {string} where
+ */
+/**
+ * Information to fetch records
  * @typedef {object} fetchControl
+ * @property {fetchQuery} qs
  */
 
 /**
  * Information to fetch results
  * @typedef {object} fetchResults
+ *
  */

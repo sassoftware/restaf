@@ -2,7 +2,6 @@
  * Copyright © 2021, SAS Institute Inc., Cary, NC, USA.  All Rights Reserved.
  * SPDX-License-Identifier: Apache-2.0
  */
-
 /**
  * @description sort data for seelected column
  * @async
@@ -19,7 +18,6 @@
  *  This is useful to get a list of unique values for selected columns.
  *  {company:['IBM', 'Microsoft', 'SAS'] }
  */
-
 async function sort (columnName, appEnv, payload) {
   return [];
 };

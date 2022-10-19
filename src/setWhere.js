@@ -6,7 +6,7 @@
 /**
  * @description set a where clause for all subsequent fetches
  * @module setWhere
- * @category restafedit/core
+ * @category restafedit/fetch
  * @param {string} where  where expression(SAS Standard).Set to null to clear
  * @param {appEnv} appEnv   app Environment from setup
  * @returns {string} returns the current where
@@ -17,7 +17,7 @@
 
 function setWhere (where, appEnv) {
   const c = appEnv.activeWhere;
-  appEnv.activeWhere = where;
+  appEnv.activeWhere = (where == null) ? ' ' : where;
   return c;
 };
 export default setWhere;

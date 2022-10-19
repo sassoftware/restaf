@@ -2,9 +2,8 @@ import { casUpdateData } from '@sassoftware/restaflib';
 /**
  * @description Update the row on the server
  * @async
- * @private
  * @module updateTableRows
- * @category restafedit/core
+ * @category restafedit/dataMgmt
  * @param {rowObjectArray|rowObject} data  - data as a rowObject or Array of rowObjects
  * @param {appEnv} appEnv   - app Environment object from setup
  * @returns {promise}       - {msg: string, statusCode: 0|1|2}

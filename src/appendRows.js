@@ -10,7 +10,7 @@ import uploadData from './uploadData';
  * @description Append active table to master table
  * @async
  * @module appendRows
- * @category restafedit/core
+ * @category restafedit/dataMgmt
  * @param {table} table master table
  * @param {array} columns to drop
  * @param {appEnv} appEnv - appEnv

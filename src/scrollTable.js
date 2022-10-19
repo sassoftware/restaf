@@ -9,7 +9,7 @@ import prepFormData from './prepFormData';
  * @description Simplify scrolling using next|prev|top
  * @async
  * @module scrollTable
- * @category restafedit/core
+ * @category restafedit/fetch
  * @param {string} direction direction(next|prev|first)
  * @param {appEnv} appEnv
  * @param {object=} payload  override pogination with custom scrolling

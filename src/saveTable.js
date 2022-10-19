@@ -6,9 +6,9 @@
  * @description Save the current table to disk
  * @async
  * @module saveTable
- * @category restafedit/utility
+ * @category restafedit/dataMgmt
  * @param {appEnv} appEnv
- * @param {object=} table - save the table to disk
+ * @param {object=} table - save the inmemory table
  * @returns {promise}  Status object
  * @example
  * Saves the current cas table and leaves the inmemory table intact.

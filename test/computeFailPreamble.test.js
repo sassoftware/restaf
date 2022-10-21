@@ -1,6 +1,6 @@
 const { setup, scrollTable, cellEdit, termApp } = require('../lib/index.js');
 
-test ('computeFail1', async () => {
+test ('computeFailPreamble', async () => {
   const r = await runit();
   expect(r).toBe('failed');
   
@@ -31,45 +31,14 @@ async function runit () {
   end;
   run;`;
 
+  let appEnv;
   try {
-    const appEnv = await setup(payload, appControl);
+    appEnv = await setup(payload, appControl);
   } catch(err) {
     console.log('setup failed');
-    await termApp(appEnv);
+   //  await termApp(appEnv);
     return 'failed';
   }
-
-  debugger;
-  // eslint-disable-next-line prefer-const
-  let result = await scrollTable('first', appEnv);
-  debugger;
-  console.log('result of first fetch -------------------------------');
-  console.log(appEnv.state.data);
-  console.log(appEnv.state.pagination);
-
-  const x1 = result.data[0].x1 + 1000;
-  await cellEdit('x1', x1, 0, result.data[0], appEnv);
-  console.log('state values after edit--------------------------------');
-  console.log(appEnv.state.data);
-  console.log('-------------------------------------------------------');
-  const p = {
-    qs: {
-      limit : 1,
-      start : 0,
-      format: false,
-      where : 'x1 > 5000'
-    }
-  };
-  result = await scrollTable('first', appEnv, p);
-  debugger;
-  console.log('result of first fetch -------------------------------');
-  console.log(appEnv.state.data);
-
-  result = await scrollTable('prev', appEnv);
-  console.log(result);
-  console.log('result of scroll prev from top ----------------');
-  console.log(appEnv.state.data);
-  console.log('-------------------------------------------------------');
   await termApp(appEnv);
   return 'done';
 };

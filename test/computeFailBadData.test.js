@@ -1,6 +1,6 @@
 const { setup, scrollTable, cellEdit, termApp } = require('../lib/index.js');
 
-test ('computeFail2', async () => {
+test ('computeFailBadData', async () => {
   const r = await runit();
   expect(r).toBe('failed');
   
@@ -36,7 +36,6 @@ async function runit () {
     const appEnv = await setup(payload, appControl);
   } catch(err) {
     console.log('bad data caught');
-    await termApp(appEnv);
     return 'failed';
   }
 

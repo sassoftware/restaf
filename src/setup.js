@@ -2,6 +2,7 @@
 
 import { initStore } from '@sassoftware/restaf';
 import { casSetup, computeSetup, computeSetupTables, caslRun } from '@sassoftware/restaflib';
+import termApp from './termApp';
 
 /**
  * @description Setup an Edit session
@@ -85,7 +86,7 @@ async function icasSetup (store, logonPayload, appControl, appEnv, sessionID) {
   } catch (err) {
     console.log(err);
     // eslint-disable-next-line no-throw-literal
-    throw 'ERROR: cassetup failed. Please see console for messages';
+    throw 'ERROR: Unable to create session. Please see console for messages';
   }
 
   if (appControl.editControl.handlers.initApp != null) {
@@ -94,10 +95,12 @@ async function icasSetup (store, logonPayload, appControl, appEnv, sessionID) {
       if (r.statusCode === 2) {
         console.log(JSON.stringify(r, null, 4));
         // eslint-disable-next-line no-throw-literal
+        await termApp(appEnv, true);
         throw 'ERROR: initApp failed. Please see console for messages';
       }
     } catch (err) {
       console.log(err);
+      await termApp(appEnv, true);
       // eslint-disable-next-line no-throw-literal
       throw 'ERROR: Setup failed. Please see console for error messages';
     }
@@ -108,13 +111,14 @@ async function icasSetup (store, logonPayload, appControl, appEnv, sessionID) {
       const rx = await caslRun(store, r.session, appControl.preamble);
       if (rx.disposition.statusCode !== 0) {
         console.log(JSON.stringify(rx, null, 4));
-        // eslint-disable-next-line no-throw-literal
-        throw 'ERROR: Preamble failed. Please see console for messages';
+        // eslint-disable-next-line no-throw-litera
+        await termApp(appEnv, true);
+        throw 'ERROR: Preamble  code failed. Please see console for messages';
       }
     } catch (err) {
       console.log(err);
       // eslint-disable-next-line no-throw-literal
-      throw 'caslRun failed. Please see console';
+      throw 'Preamble failed in accessing cas. Please see console';
     }
   }
 
@@ -134,11 +138,13 @@ async function icomputeSetup (store, logonPayload, appControl, appEnv, sessionID
       if (r.statusCode === 2) {
         console.log(JSON.stringify(r, null, 4));
         // eslint-disable-next-line no-throw-literal
+        await termApp(appEnv, true);
         throw 'ERROR: initApp failed. Please see console for messages';
       }
     } catch (err) {
       console.log(err);
       // eslint-disable-next-line no-throw-literal
+      await termApp(appEnv, true);
       throw 'ERROR: Setup failed. Please see console for error messages';
     }
   }
@@ -150,6 +156,7 @@ async function icomputeSetup (store, logonPayload, appControl, appEnv, sessionID
     tableSummary = await computeSetupTables(store, session, appControl.table, appControl.preamble);
   } catch (err) {
     console.log(err);
+    await termApp(appEnv, true);
     throw err;
   }
 

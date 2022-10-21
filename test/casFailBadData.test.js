@@ -1,12 +1,12 @@
 /* eslint-disable quotes */
-const { setup } = require('../lib/index.js');
-test ('casFail1', async () => {
+const { setup, scrollTable, cellEdit, termApp } = require('../lib/index.js');
+test ('casFailBadData', async () => {
   const r = await runit();
   expect(r).toBe('failed');
   
 });
-
 async function runit () {
+  
   const payload = {
     host        : process.env.VIYA_SERVER,
     authType    : 'password',
@@ -16,12 +16,13 @@ async function runit () {
     password    : 'Go4thsas',
     storeOptions: { casProxy: true }
   };
+  const cache = [];
   const appControl = getAppControl();
   const preamble = `   
   action datastep.runcode /
   code= "
      data casuser.testdatatemp;
-     keep x1 x2 x3 id;xxxx
+     keep x1 x2 x3 id;
      length id varchar(20);
      do i = 1 to 1000;
      x1=i; x2=3; x3=i*10; id=compress(TRIMN('key'||i));
@@ -33,14 +34,40 @@ async function runit () {
   payload.storeOptions = {
     casProxy: false
   };
+  const appEnv = await setup(payload, appControl);
   try {
-    await setup(payload, appControl);
-    return 'done';
-  }
-  catch (err) {
-    console.log(err);
+    await scrollTable('first', appEnv);
+  } catch(err) {
+    console.log('scroll failed');
     return 'failed';
+  }
+  cache.push(appEnv.state.data[0]);
+  console.log(appEnv.state.data.length);
+  const x3New = appEnv.state.data[0].x3 + 100;
+  console.log(appEnv.state.data.length);
+  await cellEdit('x3', x3New, 0, appEnv.state.data[0], appEnv);
+  await scrollTable('first', appEnv);
+  cache.push(appEnv.state.data[0]);
+
+  debugger;
+  const q = {
+    qs: {
+      limit : 2,
+      start : 0,
+      format: false,
+      where : ''
+    }
   };
+
+  await scrollTable('next', appEnv, q);
+  cache.push(appEnv.state.data[0]);
+
+  await scrollTable('prev', appEnv);
+  cache.push(appEnv.state.data[0]);
+
+  console.log(cache);
+  await termApp(appEnv);
+  return 'done';
 };
 
 function getAppControl () {
@@ -48,7 +75,7 @@ function getAppControl () {
     description: 'Simple Example',
 
     source: 'cas',
-    table : { caslib: 'casuser', name: 'testdatatemp' },
+    table : { caslib: 'casuser', name: 'testdatatempzz' },
     byvars: ['id'],
 
     initialFetch: {

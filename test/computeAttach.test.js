@@ -2,7 +2,7 @@ const { setup, scrollTable, cellEdit, termApp } = require('../lib/index.js');
 
 test ('computeAttach', async () => {
   const r = await runit();
-  expect(r).toBe('failed');
+  expect(r).toBe('done');
 }); 
 
 async function runit () {
@@ -53,10 +53,12 @@ async function runit () {
   console.log(appEnv.state.data);
   console.log('-------------------------------------------------------');
   const p = {
-    limit : 1,
-    start : 0,
-    format: false,
-    where : 'x1 > 5000'
+    qs: {
+      limit : 1,
+      start : 0,
+      format: false,
+      where : 'x1 > 5000'
+    }
   };
   result = await scrollTable('first', appEnv, p);
   console.log(appEnv.state.pagination);
@@ -88,7 +90,8 @@ function getAppControl () {
       qs: {
         start : 0,
         limit : 1,
-        format: false
+        format: false,
+        where : ' '
       }
     },
 

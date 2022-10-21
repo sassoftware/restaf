@@ -19,10 +19,10 @@
  *  Note: If sessionID was specified in the call to setup, the session will not be deleted.
  */
 
-async function termApp (appEnv) {
+async function termApp (appEnv,setup) {
   const { store, session } = appEnv;
   const handlers = appEnv.appControl.editControl.handlers;
-  if (handlers.termapp != null) {
+  if (handlers.termapp != null && setup == null) {
     await handlers.termapp(appEnv);
   }
 
@@ -31,7 +31,7 @@ async function termApp (appEnv) {
   if (appEnv.userSessionID == null) {
     await store.apiCall(session.links('delete'));
   };
-
+  console.log('Application terminated');
   return { msg: 'Session terminated', statusCode: 0 };
 };
 export default termApp;

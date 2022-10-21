@@ -1,8 +1,11 @@
 /* eslint-disable quotes */
-const { setup, scrollTable, termApp } = require('../lib/index.js');
-runit()
-  .then(r => console.log(r))
-  .catch(err => console.log(err));
+const { setup, scrollTable, setWhere, termApp } = require('../lib/index.js');
+
+test ('computeWhereFail', async () => {
+  const r = await runit();
+  expect(r).toBe('failed');
+  
+});
 
 async function runit () {
   const payload = {
@@ -14,42 +17,39 @@ async function runit () {
     password    : 'Go4thsas',
     storeOptions: { casProxy: true }
   };
-
+  const cache = [];
   const appControl = getAppControl();
-  const preamble = `   
-  action datastep.runcode /
-  single='YES'
-  code= "
-     data casuser.testdatatemp;
-     keep x1 x2 x3 id;
-     length id varchar(20);
-     do i = 1 to 35;
-     x1=i; x2=3; x3=i*10; id=compress(TRIMN('key'||i));
-     output;
-     end;
-     ";
- `;
+  const preamble = `
+    libname tempdata '/tmp';run; 
+    data tempdata.testdatatemp14;
+    keep x1 x2 x3 id;
+    length id $ 5;
+    do i = 1 to 1000;
+    x1=i; x2=3; x3=i*10; id=compress(TRIMN('key'||i));
+    
+    output;
+    end;
+    run;`;
+
   appControl.preamble = preamble;
   payload.storeOptions = {
     casProxy: false
   };
   const appEnv = await setup(payload, appControl);
-  debugger;
   await scrollTable('first', appEnv);
-  console.log('pagination: ', appEnv.state.scrollOptions);
-
-  while (appEnv.state.scrollOptions.indexOf('next') >= 0) {
-    const r = await scrollTable('next', appEnv);
-    console.log(r === null);
-    console.log(appEnv.state.scrollOptions, appEnv.state.data.length);
+  cache.push(appEnv.state.data[0]);
+  console.log(appEnv.state.data.length);
+  console.log(appEnv.state.data[0]);
+  debugger;
+  setWhere('x1 ssas', appEnv);
+  try {
+    await scrollTable('first', appEnv);
+  } catch (err) {
+    console.log('bad where failed');
+    await termApp(appEnv);
+    return 'failed';
   }
-  do {
-    const r = await scrollTable('prev', appEnv);
-    console.log(r === null);
-    console.log(appEnv.state.scrollOptions, appEnv.state.data.length);
-  } while (appEnv.state.scrollOptions.indexOf('prev') >= 0);
-
-  await termApp(appEnv);
+  console.log(appEnv.state.data[0]);
   return 'done';
 };
 
@@ -57,18 +57,16 @@ function getAppControl () {
   return {
     description: 'Simple Example',
 
-    source: 'cas',
-    table : { caslib: 'casuser', name: 'testdatatemp' },
+    source: 'compute',
+    table : { libref: 'tempdata', name: 'testdatatemp14' },
     byvars: ['id'],
-
-    onNoData: 'noData',
 
     initialFetch: {
       qs: {
         start : 0,
         limit : 10,
         format: false,
-        where : ' '
+        where : ''
       }
     },
     customColumns: {

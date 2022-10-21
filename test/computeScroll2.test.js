@@ -1,9 +1,10 @@
 /* eslint-disable quotes */
-const { setup, scrollTable, setWhere, termApp } = require('../lib/index.js');
-runit()
-  .then(r => console.log(r))
-  .catch(err => console.log(err));
+const { setup, scrollTable, termApp } = require('../lib/index.js');
 
+test('computeScroll2', async () => {
+  const r = await runit();
+  expect(r).toBe('done');
+});
 async function runit () {
   const payload = {
     host        : process.env.VIYA_SERVER,
@@ -16,46 +17,40 @@ async function runit () {
   };
   const cache = [];
   const appControl = getAppControl();
-  const preamble = `   
-  action datastep.runcode /
-  single='YES'
-  code= "
-     data casuser.testdatatemp;
-     keep x1 x2 x3 id;
-     length id varchar(20);
-     do i = 1 to 25;
-     x1=i; x2=3; x3=i*10; id=compress(TRIMN('key'||i));
-     output;
-     end;
-     ";
- `;
-  appControl.preamble = preamble;
+
+  appControl.preamble = `libname tempdata '/tmp';run; 
+    data tempdata.testdata10;
+    keep x1 x2 x3 id;
+    length id $ 5;
+    do i = 1 to 20;
+    x1=i; x2=3; x3=i*10; id=compress(TRIMN('key'||i));
+  
+  output;
+  end;
+  run;`;
+
   payload.storeOptions = {
     casProxy: false
   };
   const appEnv = await setup(payload, appControl);
+  debugger;
   await scrollTable('first', appEnv);
   cache.push(appEnv.state.data[0]);
-  console.log(appEnv.state.data.length);
 
-  setWhere('x13 > 100', appEnv);
-  await scrollTable('first', appEnv);
+  const q = {
+    qs: {
+      start : 100,
+      limit : 10,
+      format: false,
+      where : ''
+    }
+  };
+  console.log('------------calling past the max');
+  await scrollTable('prev', appEnv, q);
+  debugger;
+  console.log(appEnv.state.data);
 
-  cache.push(appEnv.state.data[0]);
-
-  await scrollTable('next', appEnv);
-  cache.push(appEnv.state.data[0]);
-
-  await scrollTable('next', appEnv);
-  cache.push(appEnv.state.data[0]);
-
-  setWhere(' ', appEnv);
-  await scrollTable('next', appEnv);
-  cache.push(appEnv.state.data[0]);
-
-  await scrollTable('first', appEnv);
-  cache.push(appEnv.state.data[0]);
-  console.log(cache);
+  // console.log(cache);
   await termApp(appEnv);
   return 'done';
 };
@@ -64,8 +59,8 @@ function getAppControl () {
   return {
     description: 'Simple Example',
 
-    source: 'cas',
-    table : { caslib: 'casuser', name: 'testdatatemp' },
+    source: 'compute',
+    table : { libref: 'tempdata', name: 'testdata10' },
     byvars: ['id'],
 
     initialFetch: {

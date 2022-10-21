@@ -1,11 +1,10 @@
-const { setup, scrollTable, cellEdit } = require('../lib/index.js');
+const { setup, scrollTable, cellEdit, termApp } = require('../lib/index.js');
 
-runit()
-  .then(r => console.log(r))
-  .catch(err => {
-    debugger;
-    console.log('error', err);
-  });
+test ('computeFail2', async () => {
+  const r = await runit();
+  expect(r).toBe('failed');
+  
+});
 
 async function runit () {
   const payload = {
@@ -18,12 +17,13 @@ async function runit () {
   };
 
   const appControl = getAppControl();
+  debugger;
 
   // preamble - should be done in the context preamble
   // this arg is useful if you do not have a way to modify the context
   // eslint-disable-next-line quotes
   appControl.preamble = `libname tempdata '/tmp';run; 
-  data tempdata.testdata;zzzz
+  data tempdata.testdata5;
   keep x1 x2 x3 id;
   length id $ 5;
   do i = 1 to 20;
@@ -32,8 +32,13 @@ async function runit () {
   output;
   end;
   run;`;
-
-  const appEnv = await setup(payload, appControl);
+  try {
+    const appEnv = await setup(payload, appControl);
+  } catch(err) {
+    console.log('bad data caught');
+    await termApp(appEnv);
+    return 'failed';
+  }
 
   debugger;
   // eslint-disable-next-line prefer-const
@@ -66,7 +71,7 @@ async function runit () {
   console.log('result of scroll prev from top ----------------');
   console.log(appEnv.state.data);
   console.log('-------------------------------------------------------');
-
+  await termApp(appEnv);
   return 'done';
 };
 
@@ -75,7 +80,7 @@ function getAppControl () {
     description: 'Simple Example',
 
     source: 'compute',
-    table : { libref: 'tempData', name: 'TESTDATA' },
+    table : { libref: 'tempData', name: 'TESTDATAzzzzz' },
     byvars: ['key'],
 
     cachePolicy: true,

@@ -16,8 +16,14 @@ import { casSetup, computeSetup, computeSetupTables, caslRun } from '@sassoftwar
  * @alias module: setup
  * @example
  *  const appEnv = await setup(logonPayload, appControl);
- *
- * Please see the restafeditExample in the Tutorial pulldown
+ *  The setup method does the following:
+ *    1. Create a session based on the source
+ *    2. Optionally run the appInit handler (if specified)
+ *    3. Optionally run the preamble code (if specified)
+ *    4. Return the appEnv object.
+ * 
+ *    The appInit handler and the preamble code can be used to setup related information, create
+ *    temporary tables etc...
  *
  */
 
@@ -59,28 +65,11 @@ async function setup (logonPayload, appControl, sessionID) {
     id: Date()
   };
 
-  try {
-    if (logonPayload.host == null) {
-      // eslint-disable-next-line no-throw-literal
-      throw 'ERROR: Please specify a Viya host';
-    }
-    appEnv = await useEntry(store, logonPayload, appControl, appEnv, sessionID);
-    // do the equivalent of fseinit
-    if (appControl.editControl.handlers.initApp != null) {
-      const r = await appControl.editControl.handlers.initApp(appEnv, 'initApp');
-      appEnv.session = r.session;
-      appEnv.servers = r.servers;
-      if (r.statusCode === 2) {
-        console.log(JSON.stringify(r, null, 4));
-        // eslint-disable-next-line no-throw-literal
-        throw 'ERROR: initApp failed. Please see console for messages';
-      }
-    }
-  } catch (err) {
-    console.log(err);
+  if (logonPayload.host == null) {
     // eslint-disable-next-line no-throw-literal
-    throw 'ERROR: Setup failed. Please see console for error messages';
+    throw 'ERROR: Please specify a Viya host';
   }
+  appEnv = await useEntry(store, logonPayload, appControl, appEnv, sessionID);
   appEnv.sessionID = appEnv.session.items('id');
   appEnv.userSessionID = sessionID;
   return appEnv;
@@ -88,9 +77,7 @@ async function setup (logonPayload, appControl, sessionID) {
 
 // cas server
 async function icasSetup (store, logonPayload, appControl, appEnv, sessionID) {
-  const preamble = (appControl.editControl.handlers.initApp != null) ? null : appControl.preamble;
   let r;
-
   try {
     r = await casSetup(store, logonPayload, sessionID);
     appEnv.session = r.session;
@@ -101,9 +88,24 @@ async function icasSetup (store, logonPayload, appControl, appEnv, sessionID) {
     throw 'ERROR: cassetup failed. Please see console for messages';
   }
 
-  if (preamble != null) {
+  if (appControl.editControl.handlers.initApp != null) {
     try {
-      const rx = await caslRun(store, r.session, preamble);
+      const r = await appControl.editControl.handlers.initApp(appEnv, 'initApp');
+      if (r.statusCode === 2) {
+        console.log(JSON.stringify(r, null, 4));
+        // eslint-disable-next-line no-throw-literal
+        throw 'ERROR: initApp failed. Please see console for messages';
+      }
+    } catch (err) {
+      console.log(err);
+      // eslint-disable-next-line no-throw-literal
+      throw 'ERROR: Setup failed. Please see console for error messages';
+    }
+  }
+
+  if (appControl.preamble != null) {
+    try {
+      const rx = await caslRun(store, r.session, appControl.preamble);
       if (rx.disposition.statusCode !== 0) {
         console.log(JSON.stringify(rx, null, 4));
         // eslint-disable-next-line no-throw-literal
@@ -114,7 +116,7 @@ async function icasSetup (store, logonPayload, appControl, appEnv, sessionID) {
       // eslint-disable-next-line no-throw-literal
       throw 'caslRun failed. Please see console';
     }
-  };
+  }
 
   return appEnv;
 };
@@ -122,16 +124,30 @@ async function icasSetup (store, logonPayload, appControl, appEnv, sessionID) {
 // Compute server
 async function icomputeSetup (store, logonPayload, appControl, appEnv, sessionID) {
   // eslint-disable-next-line prefer-const
-  const preamble = (appControl.editControl.handlers.initApp != null) ? null : appControl.preamble;
 
   let session = await computeSetup(store, appControl.computeContext, logonPayload, sessionID);
   appEnv.session = session;
+
+  if (appControl.editControl.handlers.initApp != null) {
+    try {
+      const r = await appControl.editControl.handlers.initApp(appEnv, 'initApp');
+      if (r.statusCode === 2) {
+        console.log(JSON.stringify(r, null, 4));
+        // eslint-disable-next-line no-throw-literal
+        throw 'ERROR: initApp failed. Please see console for messages';
+      }
+    } catch (err) {
+      console.log(err);
+      // eslint-disable-next-line no-throw-literal
+      throw 'ERROR: Setup failed. Please see console for error messages';
+    }
+  }
 
   // eslint-disable-next-line no-useless-catch
 
   let tableSummary;
   try {
-    tableSummary = await computeSetupTables(store, session, appControl.table, preamble);
+    tableSummary = await computeSetupTables(store, session, appControl.table, appControl.preamble);
   } catch (err) {
     console.log(err);
     throw err;

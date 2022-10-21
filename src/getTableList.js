@@ -10,12 +10,13 @@ import casTableList from './casTableList';
  * @description get the list of tables in a specific library
  * @async
  * @module getTableList
- * @category restafedit/dataMgmt
+ * @category restafedit/utility
  * @param {string} lib  - caslib or libref (must match source)
  * @param {appEnv} appEnv   - app Environment from setup
  * @returns {promise}       - returns an array of table names(cas or SAS)
  * @example
- *
+ *  let list = await getTableList('sashelp', appEnv);
+ *  returns a list of tables - based on the value of source (cas|compute)
  */
 
 async function getTableList (lib, appEnv) {

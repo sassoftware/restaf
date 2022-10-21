@@ -4,18 +4,19 @@
  */
 
 /**
- * @description Run termapp handler(if specified) and delete the cas|compute session(optional)
+ * @description Run termapp handler and delete session
  * @async
- * @module termSession
+ * @module termApp
  * @category restafedit/core
- * @param {appEnv} appEnv   app Environment from setup
- *
- * @returns {promise}       status object
+ * @param {appEnv} appEnv   appEnv
+ * @returns {promise} returns status object
+ * @alias module: termApp
  * @example
  *  let r  = await termSession(appEnv)
- *  This is a good option for doing some post processing of the edited data.
+ *  This is a good option for some post processing at the end of edit session
  *  If the post processing is done on the Viya Server, recommend using restaf and restafedit to make
  *  the REST calls.
+ *  Note: If sessionID was specified in the call to setup, the session will not be deleted.
  */
 
 async function termApp (appEnv) {
@@ -25,7 +26,8 @@ async function termApp (appEnv) {
     await handlers.termapp(appEnv);
   }
 
-  // Setup for user supplied session which we do not want to delete
+  // If user supplied session do not delete session.
+
   if (appEnv.userSessionID == null) {
     await store.apiCall(session.links('delete'));
   };

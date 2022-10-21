@@ -10,15 +10,15 @@ import { casUpload, casAppendTable, casLoadTable, computeRun } from '@sassoftwar
  * @description Upload client data to a new table on server
  * @async
  * @module uploadData
- * @category restafedit/utility
+ * @category restafedit/dataMgmt
  * @param {object} output table
  * @param {array}  data if null, data from appEnv.state will be uploded.
  * @param {array}  drop fields to drop from the output
  * @param {object} addon columns additional columns(useful for adding key fields)
  * @param {appEnv} appEnv   - app Environment from setup
- * @returns {promise}       - {an array of unique values }
+ * @returns {promise}       - returns status object
  * @example
- *
+ *  let r = await uploadData({caslib:...}, null, ['total], {version: 10}, appEnv)
  */
 
 async function uploadData (table, data, drop, addon, appEnv, masterTable, saveFlag) {
@@ -35,7 +35,7 @@ async function uploadData (table, data, drop, addon, appEnv, masterTable, saveFl
   const columns = t.filter(c => {
     return !(dropArray.indexOf(c) >= 0);
   });
-  console.log(columns);
+
   const tempCols = {};
   columns.forEach(k => {
     tempCols[k] = appEnv.state.columns[k];
@@ -63,7 +63,7 @@ async function uploadData (table, data, drop, addon, appEnv, masterTable, saveFl
       csvArray = csvArray + valArray.join(',') + '\n';
     }
   }
-  console.log(csvArray);
+
   let result;
   if (appEnv.source === 'cas') {
     result = await _casTableUpload(
@@ -112,7 +112,7 @@ async function _casTableUpload (store, session, table, csvArray, masterTable, sa
   const t = `${table.caslib}.${table.name}`;
   let r = await casUpload(store, session, null, t, true, csvArray);
   console.log('calling casLoadTable', table);
-  debugger;
+  
   await casLoadTable(store, session, table);
   if (masterTable != null) {
     r = await casAppendTable(store, session, table, masterTable, saveFlag);

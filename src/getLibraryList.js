@@ -7,11 +7,13 @@
  * @description get the list of tables in a caslib
  * @async
  * @module getLibraryList
- * @category restafedit/dataMgmt
- * @params {appEnv} appEnv
+ * @category restafedit/utility
+ * @param {appEnv} appEnv
  * @returns {promise}   returns a list of caslib or libref based on source
  * @example
- *
+ *  let list = await getLibraryList(appEnv);
+ *  If the source is cas, the method returns a list of caslibs
+ *  If the source is compute, the method returns a list of librefs
  */
 
 async function getLibraryList (appEnv) {

@@ -1,11 +1,11 @@
-const { setup, uploadData, scrollTable } = require('../lib/index.js');
+const { setup, uploadData, scrollTable, termApp } = require('../lib/index.js');
 
-runit()
-  .then(r => console.log(r))
-  .catch(err => {
-    debugger;
-    console.log('error', err);
-  });
+
+test ('computeUpload', async () => {
+  const r = await runit();
+  expect(r).toBe('done');
+  
+});
 
 async function runit () {
   const payload = {
@@ -21,7 +21,7 @@ async function runit () {
   debugger;
   // eslint-disable-next-line quotes
   const preamble = `libname tempdata '/tmp';run; 
-  data tempdata.testdata;
+  data tempdata.testdata12;
   keep x1 x2 x3 id;
   length id $ 5;
   do i = 1 to 20;
@@ -40,6 +40,7 @@ async function runit () {
   debugger;
   const r = await uploadData(t, r1.data, ['total'], null, appEnv);
   console.log(r);
+  await termApp(appEnv);
   return 'done';
 };
 
@@ -48,15 +49,18 @@ function getAppControl () {
     description: 'Simple Example',
 
     source: 'compute',
-    table : { libref: 'tempdata', name: 'testdata' },
+    table : { libref: 'tempdata', name: 'testdata12' },
     byvars: ['id'],
 
     cachePolicy: true,
 
     initialFetch: {
-      count : 1,
-      from  : 5,
-      format: false
+      qs: {
+        limit : 1,
+        start : 4,
+        format: false,
+        where : ' '
+      }
     },
 
     customColumns: {
@@ -71,7 +75,6 @@ function getAppControl () {
       handlers: { init, main: init, term }, /* note reuse of init */
       save    : true,
       autoSave: true
-
     },
     appData: {
       layout  : {},
@@ -82,7 +85,6 @@ function getAppControl () {
         show            : []
       }
     }
-
   };
 }
 async function init (data, rowIndex, appEnv, type) {

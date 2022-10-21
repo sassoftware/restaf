@@ -1,9 +1,12 @@
 /* eslint-disable quotes */
-const { setup, getLibraryList, getTableList } = require('../lib/index.js');
+const { setup, getLibraryList, getTableList, termApp} = require('../lib/index.js');
 
-runit()
-  .then(r => console.log(r))
-  .catch(err => console.log(JSON.stringify(err, null, 4)));
+
+test ('computeLibrary', async () => {
+  const r = await runit();
+  expect(r).toBe('done');
+  
+});
 
 async function runit () {
   const payload = {
@@ -18,7 +21,7 @@ async function runit () {
   const appControl = getAppControl();
   const preamble = `   
    libname tempdata '/tmp';run; 
-  data tempdata.testdatatemp;
+  data tempdata.testdatatemp8;
   keep x1 x2 x3 id;
   length id $ 5;
   do i = 1 to 1000;
@@ -38,6 +41,7 @@ async function runit () {
   const tableList = await getTableList(libList[0], appEnv);
   console.log(tableList);
   debugger;
+  await termApp(appEnv);
   return 'done';
 };
 
@@ -46,7 +50,7 @@ function getAppControl () {
     description: 'Simple Example',
 
     source: 'compute',
-    table : { libref: 'tempdata', name: 'testdatatemp' },
+    table : { libref: 'tempdata', name: 'testdatatemp8' },
     access: {},
     byvars: ['pk'],
 

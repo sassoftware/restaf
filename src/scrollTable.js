@@ -12,9 +12,9 @@ import prepFormData from './prepFormData';
  * @category restafedit/fetch
  * @param {string} direction direction(next|prev|first)
  * @param {appEnv} appEnv
- * @param {object=} payload  override pogination with custom scrolling
  * @returns {promise}  result ready for display or null if it did not scroll
  * @example
+ *  see fetchRows for custom fetching
  *  let r = await scrollTable('next', appEnv);
  *    r=== { data:data, columns: ecolumns}
  *
@@ -73,14 +73,9 @@ async function icasScroll (direction, appEnv, payload) {
     }
     control.where = appEnv.activeWhere;
   }
-
-  debugger;
   control.table = table;
   console.log(control);
-  debugger;
-
   try {
-    debugger;
     const r = await casFetchData(store, session, control);
     const result = await prepFormData(r.data, appEnv);
     appEnv.fetchCount = result.data.length;
@@ -107,7 +102,7 @@ async function icomputeScroll (direction, appEnv, payload) {
   const cachePolicy = (appEnv.appControl.cachePolicy == null) ? true : appEnv.appControl.cachePolicy;
   let control = null;
   const tname = `${table.libref}.${table.name}`.toLowerCase();
-  debugger;
+
   if (payload == null) {
     if (direction === 'first') {
       control = { ...initialFetch };
@@ -126,11 +121,9 @@ async function icomputeScroll (direction, appEnv, payload) {
   // eslint-disable-next-line prefer-const
 
   let r = null;
-  debugger;
+
   try {
-    debugger;
     r = await computeFetchData(store, tableSummary, tname, direction, control);
-    debugger;
   } catch (err) {
     console.log(err.toJS());
     appEnv.state.data = [];
@@ -139,7 +132,7 @@ async function icomputeScroll (direction, appEnv, payload) {
   }
 
   let result = null;
-  debugger;
+
   if (r !== null) {
     result = await prepFormData(r, appEnv);
     appEnv.fetchCount = result.data.length;

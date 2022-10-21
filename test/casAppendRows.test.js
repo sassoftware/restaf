@@ -1,8 +1,11 @@
 /* eslint-disable quotes */
-const { setup, scrollTable, termApp } = require('../lib/index.js');
-runit()
-  .then(r => console.log(r))
-  .catch(err => console.log(err));
+const { setup, scrollTable, appendRows, termApp } = require('../lib/index.js');
+const { caslRun } = require('@sassoftware/restaflib');
+
+test ('casAppendRows', async () => {
+  const r = await runit();
+  expect(r).toBe('done');
+});
 
 async function runit () {
   const payload = {
@@ -20,39 +23,46 @@ async function runit () {
   action datastep.runcode /
   single='YES'
   code= "
-     data  casuser.pager;
+     data casuser.testdatatemp;
      keep x1 x2 x3 id;
      length id varchar(20);
-     do i = 1 to 10;
+     do i = 1 to 15;
      x1=i; x2=3; x3=i*10; id=compress(TRIMN('key'||i));
      output;
      end;
      ";
  `;
-
   appControl.preamble = preamble;
   payload.storeOptions = {
     casProxy: false
   };
-  debugger;
   const appEnv = await setup(payload, appControl);
-  /*
+  debugger;
+  const src = `
+  action datastep.runcode /
+  single='YES'
+  code = "data casuser.mastertemp;
+     keep x1 x2 x3 id;
+     length id varchar(15);
+     do i = 1 to 15;
+     x1=i*100; x2=5; x3=i*100; id=compress(TRIMN('keymaster'||i));
+     output;
+     end;
+     run;
+ 
+     "
+  `;
+  const r1 = await caslRun(appEnv.store, appEnv.session, src);
+  console.log('------------------');
+  console.log(r1);
+  console.log('------------------');
+
   await scrollTable('first', appEnv);
-  console.log(JSON.stringify(appEnv.state.pagination, null, 4));
-  */
+  const r = await appendRows({ caslib: 'casuser', name: 'deva1' }, [], appEnv);
   debugger;
-  const p = {
-    qs: {
-      start : 20,
-      limit : 10,
-      format: false,
-      where : ' '
-    }
-  };
-  await scrollTable('first', appEnv, p);
-  console.log(JSON.stringify(appEnv.state.pagination, null, 4));
-  console.log(appEnv.state.data);
+  console.log(r);
   debugger;
+  // console.log(cache);
   await termApp(appEnv);
   return 'done';
 };
@@ -62,12 +72,12 @@ function getAppControl () {
     description: 'Simple Example',
 
     source: 'cas',
-    table : { caslib: 'casuser', name: 'pager' },
+    table : { caslib: 'casuser', name: 'testdatatemp' },
     byvars: ['id'],
 
     initialFetch: {
       qs: {
-        start : 20,
+        start : 0,
         limit : 10,
         format: false,
         where : ' '
@@ -80,9 +90,10 @@ function getAppControl () {
         FormattedLength: 12,
         Type           : 'double'
       }
+
     },
     editControl: {
-      handlers: { init, main, term, termApp: termMyApp, x1 }, /* note reuse of init */
+      handlers: { init, main, term, x1 }, /* note reuse of init */
       autoSave: true
     },
     appData: {
@@ -114,10 +125,6 @@ function getAppControl () {
   };
 }
 
-async function termMyApp (appEnv) {
-  console.log('in termApp');
-  return { msg: 'done', satusCode: 0 };
-}
 async function init (data, rowIndex, appEnv, type) {
   const status = { statusCode: 0, msg: `${type} processing completed` };
   data.total = data.x1 + data.x2 + data.x3;

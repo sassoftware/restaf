@@ -1,8 +1,11 @@
 /* eslint-disable quotes */
 const { setup, scrollTable, setWhere, termApp } = require('../lib/index.js');
-runit()
-  .then(r => console.log(r))
-  .catch(err => console.log(err));
+
+test ('computeWhere', async () => {
+  const r = await runit();
+  expect(r).toBe('done');
+  
+});
 
 async function runit () {
   const payload = {
@@ -18,7 +21,7 @@ async function runit () {
   const appControl = getAppControl();
   const preamble = `
     libname tempdata '/tmp';run; 
-    data tempdata.testdatatemp;
+    data tempdata.testdatatemp1;
     keep x1 x2 x3 id;
     length id $ 5;
     do i = 1 to 1000;
@@ -71,7 +74,7 @@ function getAppControl () {
     description: 'Simple Example',
 
     source: 'compute',
-    table : { libref: 'tempdata', name: 'testdatatemp' },
+    table : { libref: 'tempdata', name: 'testdatatemp1' },
     byvars: ['id'],
 
     initialFetch: {

@@ -1,9 +1,10 @@
 /* eslint-disable quotes */
 const { setup, scrollTable, cellEdit, termApp } = require('../lib/index.js');
-runit()
-  .then(r => console.log(r))
-  .catch(err => console.log(err));
 
+test('Basic cas table', async () => {
+  const r = await runit();
+  expect(r).toBe('done');
+});
 async function runit () {
   const payload = {
     host        : process.env.VIYA_SERVER,
@@ -18,11 +19,12 @@ async function runit () {
   const appControl = getAppControl();
   const preamble = `   
   action datastep.runcode /
+  single='YES'
   code= "
      data casuser.testdatatemp;
      keep x1 x2 x3 id;
      length id varchar(20);
-     do i = 1 to 1000;
+     do i = 1 to 15;
      x1=i; x2=3; x3=i*10; id=compress(TRIMN('key'||i));
      output;
      end;
@@ -33,32 +35,32 @@ async function runit () {
     casProxy: false
   };
   const appEnv = await setup(payload, appControl);
+  debugger;
   await scrollTable('first', appEnv);
   cache.push(appEnv.state.data[0]);
   console.log(appEnv.state.data.length);
   const x3New = appEnv.state.data[0].x3 + 100;
   console.log(appEnv.state.data.length);
   await cellEdit('x3', x3New, 0, appEnv.state.data[0], appEnv);
+
+  debugger;
+
   await scrollTable('first', appEnv);
   cache.push(appEnv.state.data[0]);
 
   debugger;
-  const q = {
-    qs: {
-      limit : 2,
-      start : 0,
-      format: false,
-      where : ''
-    }
-  };
-
-  await scrollTable('next', appEnv, q);
+  await scrollTable('next', appEnv);
   cache.push(appEnv.state.data[0]);
+  debugger;
+  let r = await scrollTable('prev', appEnv);
+  console.log(appEnv.state.scrollOptions);
+  console.log(r);
 
-  await scrollTable('prev', appEnv);
-  cache.push(appEnv.state.data[0]);
-
-  console.log(cache);
+  debugger;
+  r = await scrollTable('next', appEnv);
+  console.log(appEnv.state.scrollOptions);
+  debugger;
+  // console.log(cache);
   await termApp(appEnv);
   return 'done';
 };
@@ -68,15 +70,15 @@ function getAppControl () {
     description: 'Simple Example',
 
     source: 'cas',
-    table : { caslib: 'casuser', name: 'testdatatempzz' },
+    table : { caslib: 'casuser', name: 'testdatatemp' },
     byvars: ['id'],
 
     initialFetch: {
       qs: {
-        limit : 2,
         start : 0,
+        limit : 10,
         format: false,
-        where : ''
+        where : ' '
       }
     },
     customColumns: {
@@ -127,20 +129,17 @@ async function termMyApp (appEnv) {
 async function init (data, rowIndex, appEnv, type) {
   const status = { statusCode: 0, msg: `${type} processing completed` };
   data.total = data.x1 + data.x2 + data.x3;
-  debugger;
   return [data, status];
 };
 async function main (data, rowIndex, appEnv, type) {
   const status = { statusCode: 0, msg: `${type} processing completed` };
   data.total = data.x1 + data.x2 + data.x3;
-  debugger;
   return [data, status];
 };
 
 async function term (data, rowIndex, appEnv, type) {
   const status = { statusCode: 0, msg: `${type} processing completed` };
   console.log('In term');
-  debugger;
   return [data, status];
 };
 

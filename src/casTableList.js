@@ -13,7 +13,8 @@
  * @param {appEnv} appEnv   - app Environment from setup
  * @returns {promise}       - returns an array of table names
  * @example
- *
+ *   list = await casTableList('sashelp', appEnv);
+ *   This method is primarily useful for UI's that want to display a table selector
  */
 
 async function casTableList (lib, appEnv) {

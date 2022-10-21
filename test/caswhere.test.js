@@ -1,8 +1,10 @@
 /* eslint-disable quotes */
 const { setup, scrollTable, setWhere, termApp } = require('../lib/index.js');
-runit()
-  .then(r => console.log(r))
-  .catch(err => console.log(err));
+test ('casFail1', async () => {
+  const r = await runit();
+  expect(r).toBe('failed');
+  
+});
 
 async function runit () {
   const payload = {
@@ -14,7 +16,7 @@ async function runit () {
     password    : 'Go4thsas',
     storeOptions: { casProxy: true }
   };
-
+  const cache = [];
   const appControl = getAppControl();
   const preamble = `   
   action datastep.runcode /
@@ -23,7 +25,7 @@ async function runit () {
      data casuser.testdatatemp;
      keep x1 x2 x3 id;
      length id varchar(20);
-     do i = 1 to 35;
+     do i = 1 to 25;
      x1=i; x2=3; x3=i*10; id=compress(TRIMN('key'||i));
      output;
      end;
@@ -34,28 +36,29 @@ async function runit () {
     casProxy: false
   };
   const appEnv = await setup(payload, appControl);
-  debugger;
   await scrollTable('first', appEnv);
-  console.log('pagination: ', appEnv.state.scrollOptions);
+  cache.push(appEnv.state.data[0]);
+  console.log(appEnv.state.data.length);
 
-  setWhere('x3 > 80', appEnv);
+  setWhere('x3 > 100', appEnv);
   await scrollTable('first', appEnv);
-  debugger;
-  console.log('initial read');
-  console.log(appEnv.state.scrollOptions, appEnv.state.data.length);
+  cache.push(appEnv.state.data[0]);
 
-  while (appEnv.state.scrollOptions.indexOf('next') >= 0) {
+  console.log('next with where');
+  await scrollTable('next', appEnv);
+  cache.push(appEnv.state.data[0]);
+
+  setWhere(' ', appEnv);
+  console.log('callign after where blank');
+  try { 
     await scrollTable('next', appEnv);
-    console.log(appEnv.state.scrollOptions, appEnv.state.data.length);
-    debugger;
+  } catch (err) {
+    console.log('caught bad next');
+    return 'failed';
   }
-  /*
-  do {
-    const r = await scrollTable('prev', appEnv);
-    console.log(r === null);
-    console.log(appEnv.state.scrollOptions);
-  } while (appEnv.state.scrollOptions.indexOf('prev') >= 0);
-  */
+  cache.push(appEnv.state.data[0]);
+
+  console.log(cache);
   await termApp(appEnv);
   return 'done';
 };
@@ -67,8 +70,6 @@ function getAppControl () {
     source: 'cas',
     table : { caslib: 'casuser', name: 'testdatatemp' },
     byvars: ['id'],
-
-    onNoData: 'noData',
 
     initialFetch: {
       qs: {
@@ -126,11 +127,13 @@ async function termMyApp (appEnv) {
 async function init (data, rowIndex, appEnv, type) {
   const status = { statusCode: 0, msg: `${type} processing completed` };
   data.total = data.x1 + data.x2 + data.x3;
+  debugger;
   return [data, status];
 };
 async function main (data, rowIndex, appEnv, type) {
   const status = { statusCode: 0, msg: `${type} processing completed` };
   data.total = data.x1 + data.x2 + data.x3;
+  debugger;
   return [data, status];
 };
 

@@ -8,13 +8,13 @@ import { computeRun, computeFetchData } from '@sassoftware/restaflib';
  * @description Get unique values for a specific column(sas table)
  * @async
  * @private
- * @module sasTableUnique
+ * @module computeTableUnique
  * @category restafedit/utility
  * @param {string} columnName    column name
  * @param {appEnv} appEnv   app Environment from setup
  * @returns {promise}       {an array of unique values }
  * @example
- *  let selectList = await casTableUnique('company, appEnv))
+ *  let selectList = await computeTableUnique('company, appEnv))
  *  This is useful to get a list of unique values for selected columns.
  *  {columnName:[ array of unquew values] }
  */

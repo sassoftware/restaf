@@ -1,9 +1,11 @@
 /* eslint-disable quotes */
-const { setup, getLibraryList, getTableList } = require('../lib/index.js');
+const { setup, distinctValues } = require('../lib/index.js');
 
-runit()
-  .then(r => console.log(r))
-  .catch(err => console.log(JSON.stringify(err, null, 4)));
+test ('casUnique', async () => {
+  const r = await runit();
+  expect(r).toBe('done');
+  
+});
 
 async function runit () {
   const payload = {
@@ -15,29 +17,12 @@ async function runit () {
     password    : 'Go4thsas'
   };
   debugger;
-  const appControl = getAppControl();
-  const preamble = `   
-  action datastep.runcode /
-  code= "
-     data casuser.testdatatemp;
-     keep x1 x2 x3 id;
-     length id varchar(20);
-     do i = 1 to 1000;
-     x1=i; x2=3; x3=i*10; id=compress(TRIMN('key'||i));
-     output;
-     end;
-     ";
- `;
-  appControl.preamble = preamble;
   const appEnv = await setup(payload, getAppControl());
   debugger;
-
-  const libList = await getLibraryList(appEnv);
-  debugger;
-  console.log('--------------------', libList[0]);
-  debugger;
-  const tableList = await getTableList(libList[0], appEnv);
-  console.log(tableList);
+  let values = await distinctValues('version', appEnv);
+  console.log(values);
+  values = await distinctValues('company', appEnv, { caslib: 'public', name: 'customer_master' });
+  console.log(values);
   debugger;
   return 'done';
 };

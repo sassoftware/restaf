@@ -1,8 +1,10 @@
 /* eslint-disable quotes */
-const { setup, scrollTable, cellEdit, termApp } = require('../lib/index.js');
-runit()
-  .then(r => console.log(r))
-  .catch(err => console.log(err));
+const { setup, scrollTable, setWhere, termApp } = require('../lib/index.js');
+test ('casScroll', async () => {
+  const r = await runit();
+  expect(r).toBe('done');
+  
+});
 
 async function runit () {
   const payload = {
@@ -15,15 +17,15 @@ async function runit () {
     storeOptions: { casProxy: true }
   };
 
-  const cache = [];
   const appControl = getAppControl();
   const preamble = `   
   action datastep.runcode /
+  single='YES'
   code= "
      data casuser.testdatatemp;
      keep x1 x2 x3 id;
      length id varchar(20);
-     do i = 1 to 1000;
+     do i = 1 to 35;
      x1=i; x2=3; x3=i*10; id=compress(TRIMN('key'||i));
      output;
      end;
@@ -33,38 +35,29 @@ async function runit () {
   payload.storeOptions = {
     casProxy: false
   };
-  const appEnv1 = await setup(payload, appControl);
-
-  console.log(appEnv1.sessionID, ' ', appEnv1.userSessionID);
-
-  const appEnv = await setup(payload, appControl, appEnv1.sessionID);
-  console.log(appEnv.sessionID, ' ', appEnv.userSessionID);
-
-  await scrollTable('first', appEnv);
-  cache.push(appEnv.state.data[0]);
-  console.log(appEnv.state.data.length);
-  const x3New = appEnv.state.data[0].x3 + 100;
-  console.log(appEnv.state.data.length);
-  await cellEdit('x3', x3New, 0, appEnv.state.data[0], appEnv);
-  await scrollTable('first', appEnv);
-  cache.push(appEnv.state.data[0]);
-
+  const appEnv = await setup(payload, appControl);
   debugger;
-  const q = {
-    qs: {
-      limit : 1,
-      start : 0,
-      format: false
-    }
-  };
+  await scrollTable('first', appEnv);
+  console.log('pagination: ', appEnv.state.scrollOptions);
 
-  await scrollTable('next', appEnv, q);
-  cache.push(appEnv.state.data[0]);
+  setWhere('x3 > 80', appEnv);
+  await scrollTable('first', appEnv);
+  debugger;
+  console.log('initial read');
+  console.log(appEnv.state.scrollOptions, appEnv.state.data.length);
 
-  await scrollTable('prev', appEnv);
-  cache.push(appEnv.state.data[0]);
-
-  console.log(cache);
+  while (appEnv.state.scrollOptions.indexOf('next') >= 0) {
+    await scrollTable('next', appEnv);
+    console.log(appEnv.state.scrollOptions, appEnv.state.data.length);
+    debugger;
+  }
+  /*
+  do {
+    const r = await scrollTable('prev', appEnv);
+    console.log(r === null);
+    console.log(appEnv.state.scrollOptions);
+  } while (appEnv.state.scrollOptions.indexOf('prev') >= 0);
+  */
   await termApp(appEnv);
   return 'done';
 };
@@ -77,13 +70,15 @@ function getAppControl () {
     table : { caslib: 'casuser', name: 'testdatatemp' },
     byvars: ['id'],
 
+    onNoData: 'noData',
+
     initialFetch: {
       qs: {
-        limit : 1,
         start : 0,
-        format: false
+        limit : 10,
+        format: false,
+        where : ' '
       }
-
     },
     customColumns: {
       total: {
@@ -133,13 +128,11 @@ async function termMyApp (appEnv) {
 async function init (data, rowIndex, appEnv, type) {
   const status = { statusCode: 0, msg: `${type} processing completed` };
   data.total = data.x1 + data.x2 + data.x3;
-  debugger;
   return [data, status];
 };
 async function main (data, rowIndex, appEnv, type) {
   const status = { statusCode: 0, msg: `${type} processing completed` };
   data.total = data.x1 + data.x2 + data.x3;
-  debugger;
   return [data, status];
 };
 

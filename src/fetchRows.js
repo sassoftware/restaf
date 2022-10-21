@@ -13,6 +13,8 @@ import scrollTable from './scrollTable';
  * @param {appEnv} appEnv - appEnv
  * @returns {promise}  - { data:data, columns:ecolumns, pagination: pagination}
  * @example
+ *    r = await fetchRows({qs:{start:0, limit: 200, format: false, where=''}, appEnv})
+ *    Use this method for custom fetching instead of scrollTable.
  *
  */
 async function fetchRows (control, appEnv) {

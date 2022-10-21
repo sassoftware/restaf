@@ -1,6 +1,6 @@
 import { casUpdateData } from '@sassoftware/restaflib';
 /**
- * @description Update the row on the server
+ * @description Update the row on the server using byvars as key
  * @async
  * @module updateTableRows
  * @category restafedit/dataMgmt
@@ -8,8 +8,8 @@ import { casUpdateData } from '@sassoftware/restaflib';
  * @param {appEnv} appEnv   - app Environment object from setup
  * @returns {promise}       - {msg: string, statusCode: 0|1|2}
  * @example
- *
- * Please see the restafeditExample in the Tutorial pulldown
+ *    let r = await updateTableRows(data, appEnv);
+ *    To append new rows see appendRows
  */
 async function updateTableRows (data, appEnv) {
   let result;

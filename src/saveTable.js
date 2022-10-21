@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 /**
- * @description Save the current table to disk
+ * @description Persists the inmemory cas table.
  * @async
  * @module saveTable
  * @category restafedit/dataMgmt
@@ -11,9 +11,8 @@
  * @param {object=} table - save the inmemory table
  * @returns {promise}  Status object
  * @example
- * Saves the current cas table and leaves the inmemory table intact.
- * If you want to save some other inmemory table pass the optional second parameter
- * This is a noop for SAS Tables
+ * Saves the current cas table and leave the inmemory table intact.
+ * This is a noop if source is compute.
  **/
 
 import { casSaveTable } from '@sassoftware/restaflib';

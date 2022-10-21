@@ -1,12 +1,10 @@
-const { setup, scrollTable, appendRows, termApp } = require('../lib/index.js');
-
-runit()
-  .then(r => console.log(r))
-  .catch(err => {
-    debugger;
-    console.log('error', err);
-  });
-
+/* eslint-disable quotes */
+const { setup, scrollTable, cellEdit, termApp } = require('../lib/index.js');
+test ('casFail1', async () => {
+  const r = await runit();
+  expect(r).toBe('failed');
+  
+});
 async function runit () {
   const payload = {
     host        : process.env.VIYA_SERVER,
@@ -14,43 +12,59 @@ async function runit () {
     clientID    : 'sas.ec',
     clientSecret: '',
     user        : 'sastest1',
-    password    : 'Go4thsas'
+    password    : 'Go4thsas',
+    storeOptions: { casProxy: true }
   };
+  const cache = [];
   const appControl = getAppControl();
-  debugger;
-
-  // preamble - should be done in the context preamble
-  // this arg is useful if you do not have a way to modify the context
-  // eslint-disable-next-line quotes
-  appControl.preamble = `libname tempdata '/tmp';run; 
-  data tempdata.testdatatemp;
-  keep x1 x2 x3 id;
-  length id $ 5;
-  do i = 1 to 50;
-  x1=i; x2=3; x3=i*10; id=compress(TRIMN('key'||i));
-  
-  output;
-  end;
-  run;
-  data tempdata.tempmaster;
-  keep x1 x2 x3 id;
-  length id $ 5;
-  do i = 1 to 10;
-  x1=i*100; x2=5; x3=i*100; id=compress(TRIMN('keyxx'||i));
-  output;
-  end;
-  run;
-  `
-  ;
-
+  const preamble = `   
+  action datastep.runcode /
+  code= "
+     data casuser.testdatatemp;
+     keep x1 x2 x3 id;
+     length id varchar(20);
+     do i = 1 to 1000;
+     x1=i; x2=3; x3=i*10; id=compress(TRIMN('key'||i));
+     output;
+     end;
+     ";
+ `;
+  appControl.preamble = preamble;
   payload.storeOptions = {
     casProxy: false
   };
   const appEnv = await setup(payload, appControl);
+  try {
+    await scrollTable('first', appEnv);
+  } catch(err) {
+    console.log('scroll failed');
+    return 'failed';
+  }
+  cache.push(appEnv.state.data[0]);
+  console.log(appEnv.state.data.length);
+  const x3New = appEnv.state.data[0].x3 + 100;
+  console.log(appEnv.state.data.length);
+  await cellEdit('x3', x3New, 0, appEnv.state.data[0], appEnv);
   await scrollTable('first', appEnv);
+  cache.push(appEnv.state.data[0]);
 
-  const r1 = await appendRows({ libref: 'tempdata', name: 'tempmaster' }, ['total'], appEnv);
+  debugger;
+  const q = {
+    qs: {
+      limit : 2,
+      start : 0,
+      format: false,
+      where : ''
+    }
+  };
 
+  await scrollTable('next', appEnv, q);
+  cache.push(appEnv.state.data[0]);
+
+  await scrollTable('prev', appEnv);
+  cache.push(appEnv.state.data[0]);
+
+  console.log(cache);
   await termApp(appEnv);
   return 'done';
 };
@@ -59,14 +73,14 @@ function getAppControl () {
   return {
     description: 'Simple Example',
 
-    source: 'compute',
-    table : { libref: 'tempdata', name: 'testdatatemp' },
+    source: 'cas',
+    table : { caslib: 'casuser', name: 'testdatatempzz' },
     byvars: ['id'],
 
     initialFetch: {
       qs: {
+        limit : 2,
         start : 0,
-        limit : 15,
         format: false,
         where : ''
       }

@@ -1,5 +1,6 @@
 /* eslint-disable quotes */
-const { setup, scrollTable, cellEdit, termApp } = require('../lib/index.js');
+const { setup, scrollTable, addRows, fetchRows, termApp } = require('../lib/index.js');
+
 runit()
   .then(r => console.log(r))
   .catch(err => console.log(err));
@@ -14,61 +15,63 @@ async function runit () {
     password    : 'Go4thsas',
     storeOptions: { casProxy: true }
   };
-  const cache = [];
+
   const appControl = getAppControl();
-
-  appControl.preamble = `libname tempdata '/tmp';run; 
-    data tempdata.testdata;
-    keep x1 x2 x3 id;
-    length id $ 5;
-    do i = 1 to 20;
-    x1=i; x2=3; x3=i*10; id=compress(TRIMN('key'||i));
-  
-  output;
-  end;
-  run;`;
-
+  const preamble = `   
+  action datastep.runcode /
+  single='YES'
+  code= "
+     data casuser.testdatatemp;
+     keep x1 x2 x3 id;
+     length id varchar(20);
+     do i = 1 to 15;
+     x1=i; x2=3; x3=i*10; id=compress(TRIMN('key'||i));
+     output;
+     end;
+     ";
+ `;
+  appControl.preamble = preamble;
   payload.storeOptions = {
     casProxy: false
   };
   const appEnv = await setup(payload, appControl);
-  debugger;
+
   await scrollTable('first', appEnv);
-  cache.push(appEnv.state.data[0]);
-  console.log('xxxx ', appEnv.state.pagination);
+  const newRows = appEnv.state.data.map((r, i) => {
+    r.id = 'keynew' + i.toString();
+    r.x3 = r.x3 * 1000;
+    return r;
+  });
+
+  const r = await addRows(newRows, appEnv);
   debugger;
-  await scrollTable('next', appEnv);
-  console.log(appEnv.state.pagination);
-  debugger;
-  await scrollTable('prev', appEnv);
-  console.log(appEnv.state.pagination);
+  console.log(r);
 
-  const p = {
+  let p = {
     qs: {
-      start : 10,
-      limit : 10,
-      format: false
-    }
-  };
-  await scrollTable('prev', appEnv, p);
-  console.log(appEnv.state.pagination);
-
-  await scrollTable('prev', appEnv);
-  cache.push(appEnv.state.data[0]);
-
-  const q = {
-    qs: {
-      start : 100,
+      start : 0,
       limit : 10,
       format: false,
-      where : ''
+      where : 'x3 gt 1000'
     }
   };
-  console.log('------------calling past the max');
-  await scrollTable('prev', appEnv, q);
-  debugger;
-  console.log(' missing data ', appEnv.state.data);
+  // eslint-disable-next-line no-unused-vars
+  let result = await fetchRows(p, appEnv);
+  console.log(JSON.stringify(appEnv.state.data));
 
+  p = {
+    qs: {
+      start : 0,
+      limit : 10,
+      format: false,
+      where : 'x3 lt 1000'
+    }
+  };
+  debugger;
+  // eslint-disable-next-line no-unused-vars
+  result = await fetchRows(p, appEnv);
+  console.log(JSON.stringify(appEnv.state.data));
+  // console.log(cache);
   await termApp(appEnv);
   return 'done';
 };
@@ -77,11 +80,9 @@ function getAppControl () {
   return {
     description: 'Simple Example',
 
-    source: 'compute',
-    table : { libref: 'tempdata', name: 'testdata' },
+    source: 'cas',
+    table : { caslib: 'casuser', name: 'testdatatemp' },
     byvars: ['id'],
-
-    onNoData: 'keep',
 
     initialFetch: {
       qs: {
@@ -98,9 +99,10 @@ function getAppControl () {
         FormattedLength: 12,
         Type           : 'double'
       }
+
     },
     editControl: {
-      handlers: { init, main, term, termApp: termMyApp, x1 }, /* note reuse of init */
+      handlers: { init, main, term, x1 }, /* note reuse of init */
       autoSave: true
     },
     appData: {
@@ -132,27 +134,20 @@ function getAppControl () {
   };
 }
 
-async function termMyApp (appEnv) {
-  console.log('in termApp');
-  return { msg: 'done', satusCode: 0 };
-}
 async function init (data, rowIndex, appEnv, type) {
   const status = { statusCode: 0, msg: `${type} processing completed` };
   data.total = data.x1 + data.x2 + data.x3;
-  debugger;
   return [data, status];
 };
 async function main (data, rowIndex, appEnv, type) {
   const status = { statusCode: 0, msg: `${type} processing completed` };
   data.total = data.x1 + data.x2 + data.x3;
-  debugger;
   return [data, status];
 };
 
 async function term (data, rowIndex, appEnv, type) {
   const status = { statusCode: 0, msg: `${type} processing completed` };
   console.log('In term');
-  debugger;
   return [data, status];
 };
 

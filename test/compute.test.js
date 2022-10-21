@@ -1,12 +1,11 @@
-const { setup, cellEdit, scrollTable } = require('../lib/index.js');
+const { setup, cellEdit, scrollTable, termApp } = require('../lib/index.js');
 const { computeRun } = require('@sassoftware/restaflib');
 
-runit()
-  .then(r => console.log(r))
-  .catch(err => {
-    debugger;
-    console.log('error', err);
-  });
+test ('compute', async () => {
+  const r = await runit();
+  expect(r).toBe('done');
+  
+});
 
 async function runit () {
   const payload = {
@@ -61,7 +60,7 @@ async function runit () {
   console.log(result.data[0]);
   console.log(appEnv.state.data[0]);
   console.log('-------------------------------------------------------');
-
+  await termApp(appEnv);
   return 'done';
 };
 

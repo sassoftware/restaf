@@ -1,14 +1,14 @@
-const { setup, distinctValues } = require('../lib/index.js');
+const { setup, distinctValues, termApp } = require('../lib/index.js');
 
 const restafedit = require('../lib/index.js');
 console.log(restafedit);
 
-runit()
-  .then(r => console.log(r))
-  .catch(err => {
-    debugger;
-    console.log('error', err);
-  });
+
+test ('computeUnique', async () => {
+  const r = await runit();
+  expect(r).toBe('done');
+  
+});
 
 async function runit () {
   const payload = {
@@ -30,7 +30,7 @@ async function runit () {
 
   const values = await distinctValues('type', appEnv);
   console.log(values);
-
+  await termApp(appEnv);
   return 'done';
 };
 

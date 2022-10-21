@@ -1,11 +1,11 @@
 /* eslint-disable quotes */
 const { setup, uploadData } = require('../lib/index.js');
 
-runit()
-  .then((r) => console.log(r))
-  .catch((err) => {
-    console.log(err);
-  });
+test ('casFail1', async () => {
+  const r = await runit();
+  expect(r).toBe('done');
+  
+});
 
 async function runit () {
   const payload = {

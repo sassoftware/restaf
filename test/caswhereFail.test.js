@@ -1,9 +1,10 @@
 /* eslint-disable quotes */
-const { setup, scrollTable, termApp } = require('../lib/index.js');
-runit()
-  .then(r => console.log(r))
-  .catch(err => console.log(err));
-
+const { setup, scrollTable, setWhere, termApp } = require('../lib/index.js');
+test ('casFail1', async () => {
+  const r = await runit();
+  expect(r).toBe('failed');
+  
+});
 async function runit () {
   const payload = {
     host        : process.env.VIYA_SERVER,
@@ -16,40 +17,35 @@ async function runit () {
   };
   const cache = [];
   const appControl = getAppControl();
-
-  appControl.preamble = `libname tempdata '/tmp';run; 
-    data tempdata.testdata;
-    keep x1 x2 x3 id;
-    length id $ 5;
-    do i = 1 to 20;
-    x1=i; x2=3; x3=i*10; id=compress(TRIMN('key'||i));
-  
-  output;
-  end;
-  run;`;
-
+  const preamble = `   
+  action datastep.runcode /
+  code= "
+     data casuser.testdatatemp;
+     keep x1 x2 x3 id;
+     length id varchar(20);
+     do i = 1 to 1000;
+     x1=i; x2=3; x3=i*10; id=compress(TRIMN('key'||i));
+     output;
+     end;
+     ";
+ `;
+  appControl.preamble = preamble;
   payload.storeOptions = {
     casProxy: false
   };
   const appEnv = await setup(payload, appControl);
-  debugger;
   await scrollTable('first', appEnv);
   cache.push(appEnv.state.data[0]);
+  console.log(appEnv.state.data.length);
 
-  const q = {
-    qs: {
-      start : 100,
-      limit : 10,
-      format: false,
-      where : ''
-    }
-  };
-  console.log('------------calling past the max');
-  await scrollTable('prev', appEnv, q);
-  debugger;
-  console.log(appEnv.state.data);
+  setWhere('x1 > 10 sss', appEnv);
+  try {
+    await scrollTable('first', appEnv);
+  } catch (err) {
+    console.log('caught bad where');
+    return 'failed';
+  }
 
-  // console.log(cache);
   await termApp(appEnv);
   return 'done';
 };
@@ -58,8 +54,8 @@ function getAppControl () {
   return {
     description: 'Simple Example',
 
-    source: 'compute',
-    table : { libref: 'tempdata', name: 'testdata' },
+    source: 'cas',
+    table : { caslib: 'casuser', name: 'testdatatemp' },
     byvars: ['id'],
 
     initialFetch: {
@@ -67,7 +63,7 @@ function getAppControl () {
         start : 0,
         limit : 10,
         format: false,
-        where : ' '
+        where : ''
       }
     },
     customColumns: {

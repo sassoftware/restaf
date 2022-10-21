@@ -7,40 +7,43 @@ import { computeRun, computeResults } from '@sassoftware/restaflib';
 import uploadData from './uploadData';
 
 /**
- * @description Append active table to master table
+ * @description Append client data to a master table other than working table
  * @async
  * @module appendRows
  * @category restafedit/dataMgmt
  * @param {table} table master table
- * @param {array} columns to drop
+ * @param {array} columns array of column names to drop
  * @param {appEnv} appEnv - appEnv
  * @returns {promise}  - status object
  * @example
- *
+ * To append all the rows on the client:
+ *  await appendRows({caslib: 'public, name: 'masterAccts'}, ['total', 'price'], appEnv)
+ *  Notes:
+ *    - Use addRows to add new rows to the working table
+ *    - use appendTable to append working table to a master table
  */
-async function appendRows (table, drop, appEnv) {
+async function appendRows (table, drop, appEnv, addData) {
   const handler = (appEnv.source === 'cas') ? _casSQL : _computeSQL;
-  const status = await handler(table, drop, appEnv);
+  const status = await handler(table, drop, appEnv, addData);
   return status;
 }
 
-async function _casSQL (table, drop, appEnv) {
+async function _casSQL (table, drop, appEnv, addData) {
   const tempTable = { caslib: table.caslib, name: 'restafedittemp' };
-  debugger;
-  const r = await uploadData(tempTable, appEnv.state.data, drop, {}, appEnv, table, false);
-  console.log(r);
+  const data = (addData != null) ? addData : appEnv.state.data;
+  const r = await uploadData(tempTable, data, drop, {}, appEnv, table, false);
   return r;
 }
 
-async function _computeSQL (table, drop, appEnv) {
+async function _computeSQL (table, drop, appEnv, addData) {
   const { store, session } = appEnv;
-  const { data, columns } = appEnv.state;
+  const { columns } = appEnv.state;
+  const data = (addData != null) ? addData : appEnv.state.data;
 
   const rowCount = data.length;
   if (rowCount === 0) {
     return { msg: 'No data to append', statusCode: 1 };
   }
-  debugger;
   const dropList = ['_index_', '_rowIndex'].concat(drop);
   const validCols = [];
   for (const c in columns) {
@@ -49,27 +52,19 @@ async function _computeSQL (table, drop, appEnv) {
     }
   }
   let set = ' ';
-  console.log(validCols);
   const ncols = validCols.length - 1;
-  debugger;
   data.forEach(row => {
     let s = 'set ';
     let i = 0;
-    console.log(row);
     validCols.forEach(c => {
       const d = row[c];
-      console.log(c, ' ', d);
-      debugger;
       s = s + c + '=' + value2String(d);
-      console.log(s);
       if (i < ncols) {
         s = s + ', ';
       }
-      console.log(s);
       i++;
     });
     set = set + s + '\n';
-    console.log(set);
   });
 
   const src = `
@@ -80,18 +75,14 @@ async function _computeSQL (table, drop, appEnv) {
     proc print data=${table.libref}.${table.name};
     run;
   `;
-  debugger;
   const r = await computeRun(store, session, src);
   const st = r.SASJobStatus;
-  console.log('Job Status: ', r.SASJobStatus);
   if (st === 'failed' || st === 'running') {
     console.log('Job  ended with status of ', st);
+    const logs = await computeResults(store, r, 'log');
+    console.log(JSON.stringify(logs, null, 4));
+    return { msg: `Job  ended with status of ${st}. See console for logs`, statusCode: 2 };
   }
-  debugger;
-  const logs = await computeResults(store, r, 'log');
-  console.log(JSON.stringify(logs, null, 4));
-  const listings = await computeResults(store, r, 'listing');
-  console.log(JSON.stringify(listings, null, 4));
   return { msg: 'Rows Appended', statusCode: 0 };
 }
 

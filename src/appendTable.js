@@ -6,19 +6,23 @@
 import { casAppendTable, computeAppendTable } from '@sassoftware/restaflib';
 
 /**
- * @description Append active table to master table
+ * @description Append active table to the master table
  * @async
  * @module appendTable
  * @category restafedit/dataMgmt
  * @param {table} table master table
  * @param {appEnv} appEnv - appEnv
+ * @param {boolean=} save - useful only for cas.ignored for compute
  * @returns {promise}  - status object
  * @example
+ *   const status = appendTable({caslib: 'public', 'name:'master'}, appEnv);
+ *   Append working table to the specified master table.
  *
  */
-async function appendTable (table, appEnv, data) {
+async function appendTable (table, appEnv, save) {
   const handler = (appEnv.source === 'cas') ? casAppendTable : computeAppendTable;
-  const result = await handler(appEnv.store, appEnv.session, appEnv.table, table, data);
+  const saveFlag = (save != null) ? true : save;
+  const result = await handler(appEnv.store, appEnv.session, appEnv.table, table, saveFlag);
   return result;
 }
 

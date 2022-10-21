@@ -8,6 +8,7 @@ import commonHandler from './commonHandler';
 import updateTableRows from './updateTableRows';
 import scrollTable from './scrollTable';
 import fetchRows from './fetchRows';
+import addRows from './addRows';
 
 import setup from './setup';
 import termApp from './termApp';
@@ -28,6 +29,7 @@ export {
   distinctValues,
   scrollTable,
   fetchRows,
+  addRows,
   appendTable,
   appendRows,
   getLibraryList,

@@ -1,10 +1,11 @@
 /* eslint-disable quotes */
-const { setup, scrollTable, setWhere, termApp } = require('../lib/index.js');
-runit()
-  .then(r => console.log(r))
-  .catch(err => {
-    console.log(err);
-  });
+const { setup, scrollTable, cellEdit, termApp } = require('../lib/index.js');
+
+test ('computeScroll', async () => {
+  const r = await runit();
+  expect(r).toBe('done');
+  
+});
 
 async function runit () {
   const payload = {
@@ -18,31 +19,60 @@ async function runit () {
   };
   const cache = [];
   const appControl = getAppControl();
-  const preamble = `
-    libname tempdata '/tmp';run; 
-    data tempdata.testdatatemp;
+
+  appControl.preamble = `libname tempdata '/tmp';run; 
+    data tempdata.testdata9;
     keep x1 x2 x3 id;
     length id $ 5;
-    do i = 1 to 1000;
+    do i = 1 to 20;
     x1=i; x2=3; x3=i*10; id=compress(TRIMN('key'||i));
-    
-    output;
-    end;
-    run;`;
+  
+  output;
+  end;
+  run;`;
 
-  appControl.preamble = preamble;
   payload.storeOptions = {
     casProxy: false
   };
   const appEnv = await setup(payload, appControl);
+  debugger;
   await scrollTable('first', appEnv);
   cache.push(appEnv.state.data[0]);
-  console.log(appEnv.state.data.length);
-  console.log(appEnv.state.data[0]);
+  console.log('xxxx ', appEnv.state.pagination);
   debugger;
-  setWhere('x1 ssas', appEnv);
-  await scrollTable('first', appEnv);
-  console.log(appEnv.state.data[0]);
+  await scrollTable('next', appEnv);
+  console.log(appEnv.state.pagination);
+  debugger;
+  await scrollTable('prev', appEnv);
+  console.log(appEnv.state.pagination);
+
+  const p = {
+    qs: {
+      start : 10,
+      limit : 10,
+      format: false
+    }
+  };
+  await scrollTable('prev', appEnv, p);
+  console.log(appEnv.state.pagination);
+
+  await scrollTable('prev', appEnv);
+  cache.push(appEnv.state.data[0]);
+
+  const q = {
+    qs: {
+      start : 100,
+      limit : 10,
+      format: false,
+      where : ''
+    }
+  };
+  console.log('------------calling past the max');
+  await scrollTable('prev', appEnv, q);
+  debugger;
+  console.log(' missing data ', appEnv.state.data);
+
+  await termApp(appEnv);
   return 'done';
 };
 
@@ -51,15 +81,17 @@ function getAppControl () {
     description: 'Simple Example',
 
     source: 'compute',
-    table : { libref: 'tempdata', name: 'testdatatemp' },
+    table : { libref: 'tempdata', name: 'testdata9' },
     byvars: ['id'],
+
+    onNoData: 'keep',
 
     initialFetch: {
       qs: {
         start : 0,
         limit : 10,
         format: false,
-        where : ''
+        where : ' '
       }
     },
     customColumns: {

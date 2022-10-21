@@ -1,9 +1,10 @@
 /* eslint-disable quotes */
-const { setup, scrollTable, cellEdit, termApp } = require('../lib/index.js');
-runit()
-  .then(r => console.log(r))
-  .catch(err => console.log(err));
-
+const { setup, scrollTable, termApp } = require('../lib/index.js');
+test ('casPage', async () => {
+  const r = await runit();
+  expect(r).toBe('done');
+  
+});
 async function runit () {
   const payload = {
     host        : process.env.VIYA_SERVER,
@@ -14,58 +15,45 @@ async function runit () {
     password    : 'Go4thsas',
     storeOptions: { casProxy: true }
   };
-  const cache = [];
+
   const appControl = getAppControl();
   const preamble = `   
   action datastep.runcode /
   single='YES'
   code= "
-     data casuser.testdatatemp;
+     data  casuser.pager;
      keep x1 x2 x3 id;
      length id varchar(20);
-     do i = 1 to 15;
+     do i = 1 to 10;
      x1=i; x2=3; x3=i*10; id=compress(TRIMN('key'||i));
      output;
      end;
      ";
  `;
+
   appControl.preamble = preamble;
   payload.storeOptions = {
     casProxy: false
   };
+  debugger;
   const appEnv = await setup(payload, appControl);
-  debugger;
+  /*
   await scrollTable('first', appEnv);
-  cache.push(appEnv.state.data[0]);
-  console.log(appEnv.state.data.length);
-  const x3New = appEnv.state.data[0].x3 + 100;
-  console.log(appEnv.state.data.length);
-  await cellEdit('x3', x3New, 0, appEnv.state.data[0], appEnv);
-
+  console.log(JSON.stringify(appEnv.state.pagination, null, 4));
+  */
   debugger;
-
-  await scrollTable('first', appEnv);
-  cache.push(appEnv.state.data[0]);
-
+  const p = {
+    qs: {
+      start : 20,
+      limit : 10,
+      format: false,
+      where : ' '
+    }
+  };
+  await scrollTable('first', appEnv, p);
+  console.log(JSON.stringify(appEnv.state.pagination, null, 4));
+  console.log(appEnv.state.data);
   debugger;
-  await scrollTable('next', appEnv);
-  cache.push(appEnv.state.data[0]);
-  debugger;
-  let r = await scrollTable('prev', appEnv);
-  console.log(appEnv.state.scrollOptions);
-  console.log(r);
-
-  debugger;
-  r = await scrollTable('next', appEnv);
-  console.log(appEnv.state.scrollOptions);
-  debugger;
-  r = await scrollTable('next', appEnv);
-  console.log(appEnv.state.scrollOptions);
-
-  r = await scrollTable('next', appEnv);
-  console.log(appEnv.state.scrollOptions);
-  debugger;
-  // console.log(cache);
   await termApp(appEnv);
   return 'done';
 };
@@ -75,12 +63,12 @@ function getAppControl () {
     description: 'Simple Example',
 
     source: 'cas',
-    table : { caslib: 'casuser', name: 'testdatatemp' },
+    table : { caslib: 'casuser', name: 'pager' },
     byvars: ['id'],
 
     initialFetch: {
       qs: {
-        start : 0,
+        start : 20,
         limit : 10,
         format: false,
         where : ' '

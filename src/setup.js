@@ -152,7 +152,9 @@ async function icomputeSetup (store, logonPayload, appControl, appEnv, sessionID
   // eslint-disable-next-line no-useless-catch
 
   let tableSummary;
+  debugger;
   try {
+    debugger;
     tableSummary = await computeSetupTables(store, session, appControl.table, appControl.preamble);
   } catch (err) {
     console.log(err);

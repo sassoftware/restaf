@@ -19,6 +19,7 @@ import commonHandler from './commonHandler';
  */
 async function prepFormData (result, appEnv) {
   const { schema, rows } = result;
+  const source = appEnv.source;
   const customColumns = appEnv.appControl.customColumns;
   let status = { statusCode: 0, msg: 'Initialization was successful' };
 
@@ -60,6 +61,9 @@ async function prepFormData (result, appEnv) {
     }
     if (s.Type === 'varchar') {
       s.Type = 'char';
+    }
+    if (source ==='compute') {
+      s.FormattedLength = s.length;
     }
     s.custom = false;
     eColumns[name] = s;

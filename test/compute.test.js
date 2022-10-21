@@ -40,6 +40,7 @@ async function runit () {
   console.log('result of a fetchTableRows-----------------------------');
   debugger;
   console.log(appEnv.state.data[0]);
+  console.log(JSON.stringify(appEnv.state.columns, null,4));
 
   console.log('-------------------------------------------------------');
   const x3New = result.data[0].x3 + 100;
@@ -75,7 +76,7 @@ function getAppControl () {
     cachePolicy: true,
 
     initialFetch: { /* use rowSets query pattern */
-      qs: { start: 0, limit: 1 }
+      qs: { start: 0, limit: 1, format: true, where: ' '}
     },
 
     customColumns: {
@@ -87,7 +88,7 @@ function getAppControl () {
       }
     },
     editControl: {
-      handlers: { initApp, init, main: init, term }, /* note reuse of init */
+      handlers: { init, main: init, term }, /* note reuse of init */
       save    : true,
       autoSave: true
 

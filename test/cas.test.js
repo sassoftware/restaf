@@ -38,6 +38,7 @@ async function runit () {
   debugger;
   await scrollTable('first', appEnv);
   cache.push(appEnv.state.data[0]);
+  console.log(appEnv.state.columns.toString());
   console.log(appEnv.state.data.length);
   const x3New = appEnv.state.data[0].x3 + 100;
   console.log(appEnv.state.data.length);

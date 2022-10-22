@@ -58,7 +58,7 @@ async function setup (logonPayload, appControl, sessionID) {
       modified     : [],
       pagination   : {},
       point        : '',
-      scrollOptions: null,
+      scrollOptions: [],
       data         : {},
       columns      : {}
     },

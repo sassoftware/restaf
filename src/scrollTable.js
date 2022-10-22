@@ -53,6 +53,7 @@ async function scrollTable (direction, appEnv, payload) {
 async function icasScroll (direction, appEnv, payload) {
   const { store, session } = appEnv;
   const { initialFetch, table } = appEnv.appControl;
+  const cachePolicy = (appEnv.appControl.cachePolicy == null) ? true : appEnv.appControl.cachePolicy;
   let control;
 
   if (payload != null) {
@@ -79,14 +80,24 @@ async function icasScroll (direction, appEnv, payload) {
     const r = await casFetchData(store, session, control);
     const result = await prepFormData(r.data, appEnv);
     appEnv.fetchCount = result.data.length;
-    appEnv.state = {
-      modified     : [],
-      pagination   : { ...r.pagination },
-      data         : result.data,
-      columns      : result.columns,
-      point        : setPoint(r.data.scrollOptions),
-      scrollOptions: [].concat(r.data.scrollOptions)
-    };
+    if (appEnv.fetchCount > 0) {
+      appEnv.state = {
+        modified     : [],
+        pagination   : { ...r.pagination },
+        data         : result.data,
+        columns      : result.columns,
+        point        : setPoint(r.data.scrollOptions),
+        scrollOptions: [].concat(r.data.scrollOptions)
+      };
+      if (cachePolicy === true) {
+        appEnv.state.data = result.data;
+        appEnv.state.columns = result.columns;
+      }
+    } else {
+      if (appEnv.onNoData !== 'keep') {
+        appEnv.state.data = [];
+      }
+    }
     return result;
   } catch (err) {
     console.log(err);

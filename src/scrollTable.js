@@ -132,9 +132,9 @@ async function icomputeScroll (direction, appEnv, payload) {
   // eslint-disable-next-line prefer-const
 
   let r = null;
-
+  console.log(control);
   try {
-    r = await computeFetchData(store, tableSummary, tname, direction, control);
+    r = await computeFetchData(store, tableSummary, tname, direction, control, 'rows');
   } catch (err) {
     console.log(err.toJS());
     appEnv.state.data = [];

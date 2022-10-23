@@ -39,22 +39,6 @@ module.exports = async function computeDS (testInfo) {
 		output;
 		end;
 		run;
-        data work.dtemp1;
-            array x{10};  
-            do j = 1 to &maxRows;  
-                do i = 1 to 10;  
-				x{i} = j * 10;  
-                end;  
-            output;  
-			put _ALL_;  
-            end;  
-			run;  
-		
-			proc print;run;  
-			proc print data=sashelp.cars; run;
-            ods html close;
-			run;
-			
             `;
 	logger.info('Compute Service');
 	console.log(Date());
@@ -76,8 +60,7 @@ module.exports = async function computeDS (testInfo) {
 		store,
 		computeSession,
 		src,
-		macros,
-        1,
+		macros
 		/*
 		checkStatus,
 		context
@@ -85,12 +68,15 @@ module.exports = async function computeDS (testInfo) {
 
     );
 	console.log(computeSummary.SASJobStatus);
+	/*
 	console.log(context);
 	console.log(Date());
-	
+	*/
+	/*
 	let log = await restaflib.computeResults(store, computeSummary, 'log');
 	console.log(log);
 	logger.info(log);
+	*/
 	// let ods = await restaflib.computeResults(store, computeSummary, 'ods');
 	// logger.info(ods);
 
@@ -105,11 +91,13 @@ module.exports = async function computeDS (testInfo) {
 		data = await restaflib.computeFetchData(
 			store,
 			computeSummary,
-			'DTEMP1',
+			'TESTDATA',
 			'next',
-			{qs:{limit: 1}}
+			{qs:{limit: 1, includeIndex: true }}
 		);
 		console.log(Object.keys(data));
+		console.log(data.rows[0]);
+
 		// logger.info(data.columns);
 		logger.info(`Row ${i+1}  ${data.rows[0]}`);
 	}

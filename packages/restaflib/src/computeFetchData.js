@@ -126,17 +126,22 @@ async function computeFetchData (store, computeSummary, table, direction, payloa
 	return data;
 }
 function cells2RowSet(schema, result) {
-	let rowsData = result.items().toJS().map( (r,i) => {
+	let rowsData = result.items().toJS().map( (r) => {
 		let cell = r.cells; 
-		let row = {};
-		for (let j=0; j < cell.length; j++ ){
-			let colName = schema[j].name;
-			row[colName] = cell[j];
-		}
-		return row;
+		return cell;
 	})
 	return rowsData;
 }
 
 
 export default computeFetchData;
+
+/*
+let cell = r.cells; 
+		let row = {};
+		for (let j=0; j < cell.length; j++ ){
+			let colName = schema[j].name;
+			row[colName] = cell[j];
+		}
+		return row;
+*/

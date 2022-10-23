@@ -94,7 +94,7 @@ module.exports = async function computeDS (testInfo) {
 			'TESTDATA',
 			'next',
 			{ qs:{limit: 1}},
-			"rowSet"
+			"rows"
 		);
 		console.log(Object.keys(data));
 		console.log(data.rows[0]);

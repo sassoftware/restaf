@@ -16,10 +16,12 @@
  * 
  * @returns {promise} - {columns: <columnames>, rows: <data for rows> , scrollOptions: <available scroll directions>}
  */
-async function computeFetchData (store, computeSummary, table, direction, payload) {
+async function computeFetchData (store, computeSummary, table, direction, payload,useRow) {
 	let data = null;
 	let tname = (typeof table === 'string') ? table : `${table.libref}.${table.name}`;
 	tname = tname.toUpperCase(); /*to allow for compute service table info */
+	let ipayload = (payload != null) ? {...payload} : {qs:{}};
+	ipayload.qs.includeIndex = true;
 	
 	// is payload an override or the real thing?
 	let adhoc = (payload != null && direction == null) ? true: false;
@@ -33,12 +35,25 @@ async function computeFetchData (store, computeSummary, table, direction, payloa
 		}
 		if (tableInfo.current === null || direction == null || direction === 'first') {
 			let t1 = await store.apiCall(tableInfo.self);
-			let result = await store.apiCall(t1.links('rowSet'), payload);
 			
 			// get columns explicitly since user can control this thru payload
 			let columns = await store.apiCall(t1.links('columns'));
 			let schema = [];
 			let items = columns.items().toJS();
+			let linkRel = (useRow === 'rows') ? 'rows' : 'rowSet';
+			if (linkRel === 'rows') {
+				schema.push(
+					{
+						name: '_item_',
+						Column: '_Item_',
+						Label : 'Index',
+						length: 12,
+						type: 'FLOAT',
+						custom: false
+					}
+				)
+			};
+
 			for(let cx in items) {
 				let c = items[cx];
 				let newcol = {
@@ -50,16 +65,25 @@ async function computeFetchData (store, computeSummary, table, direction, payloa
 					custom: false
 				}
 			schema.push(newcol);
-   		    }
+			}
+
+			// Now get data using rows or rowSet rel
+			// should probably drop rowSet since is seems to be missing query features
+
+		
+			
+			let result = await store.apiCall(t1.links(linkRel),ipayload);
+			
+			// If using linkRel of rows, convert the data to rowSet schema
+			let rowsData = (linkRel === 'rowSet') ? result.items().toJS().rows : cells2RowSet(schema, result);
 			tableInfo.current = result;
 			tableInfo.schema = schema;
-			let datax = result.items().toJS();
-			tableInfo.columns = datax.columns;
+			tableInfo.columns = columns;
 
 			data = {
-				columns: datax.columns,
+				columns: columns, /* need to remove this */
 				schema: schema,
-                rows   : datax.rows,
+                rows   : rowsData,
                 
 				scrollOptions: result
 					.scrollCmds()
@@ -84,14 +108,14 @@ async function computeFetchData (store, computeSummary, table, direction, payloa
 				scrollOptions: current.scrollCmds().keySeq().toJS()
 			};
 			if (dir !== null && current.scrollCmds(dir) !== null) {
-				let result = await store.apiCall(current.scrollCmds(dir), payload);
+				let result = await store.apiCall(current.scrollCmds(dir), ipayload);
 				
 				tableInfo.current = result;
-				let datax = result.items().toJS();
+				let rowsData = (useRow !== 'rows') ? result.items().toJS().rows : cells2RowSet(tableInfo.schema, result);
 				data = {
 					schema: tableInfo.schema,
-					columns: datax.columns,
-                    rows   : datax.rows,
+					columns: tableInfo.schema,
+                    rows   : rowsData,
 					scrollOptions: result.scrollCmds().keySeq().toJS()
 				};
 				
@@ -101,5 +125,18 @@ async function computeFetchData (store, computeSummary, table, direction, payloa
 	           
 	return data;
 }
+function cells2RowSet(schema, result) {
+	let rowsData = result.items().toJS().map( (r,i) => {
+		let cell = r.cells; 
+		let row = {};
+		for (let j=0; j < cell.length; j++ ){
+			let colName = schema[j].name;
+			row[colName] = cell[j];
+		}
+		return row;
+	})
+	return rowsData;
+}
+
 
 export default computeFetchData;

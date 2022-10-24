@@ -44,10 +44,10 @@ async function computeFetchData (store, computeSummary, table, direction, payloa
 			if (linkRel === 'rows') {
 				schema.push(
 					{
-						name: '_item_',
-						Column: '_Item_',
+						name: '_index_',
+						Column: '_Index_',
 						Label : 'Index',
-						length: 12,
+						length: 8,
 						type: 'FLOAT',
 						custom: false
 					}
@@ -123,7 +123,7 @@ async function computeFetchData (store, computeSummary, table, direction, payloa
 		}
 	}
 	           
-	return data;
+	return done;
 }
 function cells2RowSet(schema, result) {
 	let rowsData = result.items().toJS().map( (r) => {

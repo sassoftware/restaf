@@ -83,5 +83,5 @@ module.exports = async function computeFetchScroll(testInfo) {
 	} while (data.scrollOptions.indexOf('prev') !== -1);
 	
 	await store.apiCall(computeSession.links('delete'));
-    return data.rows;
+    return 'done';
 };

@@ -11,20 +11,22 @@ import uploadData from './uploadData';
  * @async
  * @module appendRows
  * @category restafedit/dataMgmt
+ * @param {rowObjectArray} data 
  * @param {table} table master table
  * @param {array} columns array of column names to drop
  * @param {appEnv} appEnv - appEnv
  * @returns {promise}  - status object
  * @example
  * To append all the rows on the client:
- *  await appendRows({caslib: 'public, name: 'masterAccts'}, ['total', 'price'], appEnv)
+ * If data is null, the data in appEnv.state will be appended
+ *  await appendRows(mydata, {caslib: 'public, name: 'masterAccts'}, ['total', 'price'], appEnv)
  *  Notes:
  *    - Use addRows to add new rows to the working table
  *    - use appendTable to append working table to a master table
  */
-async function appendRows (table, drop, appEnv, addData) {
+async function appendRows (data, table, drop, appEnv) {
   const handler = (appEnv.source === 'cas') ? _casSQL : _computeSQL;
-  const status = await handler(table, drop, appEnv, addData);
+  const status = await handler(table, drop, appEnv, data);
   return status;
 }
 

@@ -41,6 +41,7 @@ async function runit () {
   debugger;
   console.log(appEnv.state.data[0]);
   console.log(JSON.stringify(appEnv.state.columns, null,4));
+  console.log(appEnv.state.columns);
 
   console.log('-------------------------------------------------------');
   const x3New = result.data[0].x3 + 100;

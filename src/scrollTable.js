@@ -48,6 +48,7 @@ import prepFormData from './prepFormData';
 async function scrollTable (direction, appEnv, payload) {
   const useEntry = (appEnv.source === 'cas') ? icasScroll : icomputeScroll;
   const fetchResults = await useEntry(direction, appEnv, payload);
+  debugger;
   return fetchResults;
 }
 async function icasScroll (direction, appEnv, payload) {

@@ -44,6 +44,9 @@ async function runit () {
     const r = await scrollTable('next', appEnv);
     console.log(r === null);
     console.log(appEnv.state.scrollOptions, appEnv.state.data.length);
+    if (appEnv.state.data.length < 20) {
+      console.log(console.log(appEnv.state.data));
+    }
   }
   do {
     const r = await scrollTable('prev', appEnv);

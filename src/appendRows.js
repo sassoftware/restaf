@@ -24,16 +24,16 @@ import uploadData from './uploadData';
  *    - Use addRows to add new rows to the working table
  *    - use appendTable to append working table to a master table
  */
-async function appendRows (data, table, drop, appEnv) {
+async function appendRows (data, table, drop, appEnv, saveFlag) {
   const handler = (appEnv.source === 'cas') ? _casSQL : _computeSQL;
-  const status = await handler(table, drop, appEnv, data);
+  const status = await handler(table, drop, appEnv, data, saveFlag);
   return status;
 }
 
-async function _casSQL (table, drop, appEnv, addData) {
+async function _casSQL (table, drop, appEnv, addData, saveFlag) {
   const tempTable = { caslib: table.caslib, name: 'restafedittemp' };
   const data = (addData != null) ? addData : appEnv.state.data;
-  const r = await uploadData(tempTable, data, drop, {}, appEnv, table, false);
+  const r = await uploadData(tempTable, data, drop, {}, appEnv, table, saveFlag);
   return r;
 }
 

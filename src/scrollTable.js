@@ -90,6 +90,7 @@ async function icasScroll (direction, appEnv, payload) {
         point        : setPoint(r.data.scrollOptions),
         scrollOptions: [].concat(r.data.scrollOptions)
       };
+      debugger;
       if (cachePolicy === true) {
         appEnv.state.data = result.data;
         appEnv.state.columns = result.columns;
@@ -99,6 +100,7 @@ async function icasScroll (direction, appEnv, payload) {
         appEnv.state.data = [];
       }
     }
+    debugger;
     return result;
   } catch (err) {
     console.log(err);

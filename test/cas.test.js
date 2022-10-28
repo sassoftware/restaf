@@ -24,7 +24,7 @@ async function runit () {
      data casuser.testdatatemp;
      keep x1 x2 x3 id;
      length id varchar(20);
-     do i = 1 to 15;
+     do i = 1 to 35;
      x1=i; x2=3; x3=i*10; id=compress(TRIMN('key'||i));
      output;
      end;
@@ -37,18 +37,19 @@ async function runit () {
   const appEnv = await setup(payload, appControl);
   debugger;
   await scrollTable('first', appEnv);
-  cache.push(appEnv.state.data[0]);
-  console.log(appEnv.state.columns.toString());
+  cache.push({row1: appEnv.state.data[0]});
+  console.log(appEnv.state.columns.toString()); 
   console.log(appEnv.state.data.length);
   const x3New = appEnv.state.data[0].x3 + 100;
   console.log(appEnv.state.data.length);
   await cellEdit('x3', x3New, 0, appEnv.state.data[0], appEnv);
 
   debugger;
-
+  await scrollTable('next', appEnv);
+  cache.push({rownext: appEnv.state.data[0]});
   await scrollTable('first', appEnv);
-  cache.push(appEnv.state.data[0]);
-
+  cache.push({row1again: appEnv.state.data[0]});
+/*
   debugger;
   await scrollTable('next', appEnv);
   cache.push(appEnv.state.data[0]);
@@ -61,7 +62,8 @@ async function runit () {
   r = await scrollTable('next', appEnv);
   console.log(appEnv.state.scrollOptions);
   debugger;
-  // console.log(cache);
+  */
+  console.log(cache);
   await termApp(appEnv);
   return 'done';
 };
@@ -77,7 +79,7 @@ function getAppControl () {
     initialFetch: {
       qs: {
         start : 0,
-        limit : 10,
+        limit : 20,
         format: false,
         where : ' '
       }

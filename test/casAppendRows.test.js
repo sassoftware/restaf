@@ -58,7 +58,7 @@ async function runit () {
   console.log('------------------');
 
   await scrollTable('first', appEnv);
-  const r = await appendRows(appEnv.state.data, { caslib: 'casuser', name: 'deva1' }, [], appEnv);
+  const r = await appendRows(appEnv.state.data, { caslib: 'casuser', name: 'deva1' }, [], appEnv, true);
   debugger;
   console.log(r);
   debugger;

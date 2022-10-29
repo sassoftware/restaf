@@ -1,10 +1,10 @@
 /* eslint-disable quotes */
 const { setup, scrollTable, addRows, fetchRows, termApp } = require('../lib/index.js');
 
-runit()
-  .then(r => console.log(r))
-  .catch(err => console.log(err));
-
+test('addRows', async () => {
+  const r = await runit();
+  expect(r).toBe('done');
+});
 async function runit () {
   const payload = {
     host        : process.env.VIYA_SERVER,
@@ -34,6 +34,7 @@ async function runit () {
   payload.storeOptions = {
     casProxy: false
   };
+  debugger;
   const appEnv = await setup(payload, appControl);
 
   await scrollTable('first', appEnv);
@@ -42,8 +43,8 @@ async function runit () {
     r.x3 = r.x3 * 1000;
     return r;
   });
-
-  const r = await addRows(newRows, appEnv);
+  debugger;
+  const r = await addRows(newRows, appEnv, true);
   debugger;
   console.log(r);
 

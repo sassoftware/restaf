@@ -1,6 +1,6 @@
 /* eslint-disable quotes */
-const { setup, scrollTable, appendRows, termApp } = require('../lib/index.js');
-const { caslRun } = require('@sassoftware/restaflib');
+const { setup, saveTable, scrollTable, appendRows, termApp } = require('../lib/index.js');
+const { caslRun, casLoadTable } = require('@sassoftware/restaflib');
 
 test ('casAppendRows', async () => {
   const r = await runit();
@@ -36,6 +36,7 @@ async function runit () {
   payload.storeOptions = {
     casProxy: false
   };
+  debugger;
   const appEnv = await setup(payload, appControl);
   debugger;
   const src = `
@@ -49,20 +50,29 @@ async function runit () {
      output;
      end;
      run;
- 
      "
   `;
   const r1 = await caslRun(appEnv.store, appEnv.session, src);
+  debugger;
+
+  const l1 = await casLoadTable(appEnv.store, appEnv.session, { caslib: 'casuser', name: 'mastertemp' });
+  console.log(l1);
+  debugger;
+  const s1 = await saveTable(appEnv, { caslib: 'casuser', name: 'mastertemp' });
+
   console.log('------------------');
   console.log(r1);
+  console.log('===========');
+  console.log(s1);
   console.log('------------------');
-
+/*
   await scrollTable('first', appEnv);
-  const r = await appendRows(appEnv.state.data, { caslib: 'casuser', name: 'deva1' }, [], appEnv, true);
+  const r = await appendRows(appEnv.state.data, { caslib: 'casuser', name: 'mastertemp' }, ['total'], appEnv, true);
   debugger;
   console.log(r);
   debugger;
   // console.log(cache);
+  */
   await termApp(appEnv);
   return 'done';
 };

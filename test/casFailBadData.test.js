@@ -41,33 +41,8 @@ async function runit () {
     console.log('scroll failed');
     return 'failed';
   }
-  cache.push(appEnv.state.data[0]);
-  console.log(appEnv.state.data.length);
-  const x3New = appEnv.state.data[0].x3 + 100;
-  console.log(appEnv.state.data.length);
-  await cellEdit('x3', x3New, 0, appEnv.state.data[0], appEnv);
-  await scrollTable('first', appEnv);
-  cache.push(appEnv.state.data[0]);
-
-  debugger;
-  const q = {
-    qs: {
-      limit : 2,
-      start : 0,
-      format: false,
-      where : ''
-    }
-  };
-
-  await scrollTable('next', appEnv, q);
-  cache.push(appEnv.state.data[0]);
-
-  await scrollTable('prev', appEnv);
-  cache.push(appEnv.state.data[0]);
-
-  console.log(cache);
-  await termApp(appEnv);
-  return 'done';
+  
+  
 };
 
 function getAppControl () {

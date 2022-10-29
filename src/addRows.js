@@ -12,6 +12,7 @@ import appendRows from './appendRows';
  * @category restafedit/dataMgmt
  * @param {rowObjectArray=} data data to add to current table
  * @param {appEnv} appEnv - appEnv
+ * @param (boolean=) save Save the table(defaultis true)
  * @returns {promise}  - status object
  * @example
  * To add new rows to the working table.
@@ -20,15 +21,17 @@ import appendRows from './appendRows';
  *  The columns must match the columns in the working table.
  *
  */
-async function addRows (data, appEnv) {
+async function addRows (data, appEnv, save) {
   const table = appEnv.table; /* write to current table */
+  debugger;
   const drop = [];
   for (const c in appEnv.state.columns) {
     if (appEnv.state.columns[c].custom === true) {
       drop.push(c);
     }
   }
-  const status = await appendRows(table, drop, appEnv, data);
+  let d = (Array.isArray(data) === true) ? data : [data];
+  const status = await appendRows(d, table, drop, appEnv, save);
   return status;
 }
 

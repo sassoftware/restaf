@@ -78,10 +78,6 @@
     "dist",
     "lib"
   ],
-  "dependencies": {
-    "@sassoftware/restaf": "^4.8.3",
-    "@sassoftware/restaflib": "^4.8.3"
-  },
   "jest": {
     "testTimeout": 10000000,
     "verbose": false

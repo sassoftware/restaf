@@ -15,6 +15,7 @@ import uploadData from './uploadData';
  * @param {table} table master table
  * @param {array} columns array of column names to drop
  * @param {appEnv} appEnv - appEnv
+ * @param {boolean=} save save the table after append (default=true)
  * @returns {promise}  - status object
  * @example
  * To append all the rows on the client:
@@ -24,9 +25,9 @@ import uploadData from './uploadData';
  *    - Use addRows to add new rows to the working table
  *    - use appendTable to append working table to a master table
  */
-async function appendRows (data, table, drop, appEnv, saveFlag) {
+async function appendRows (data, table, drop, appEnv, save) {
   const handler = (appEnv.source === 'cas') ? _casSQL : _computeSQL;
-  const status = await handler(table, drop, appEnv, data, saveFlag);
+  const status = await handler(table, drop, appEnv, data, save);
   return status;
 }
 
@@ -48,6 +49,7 @@ async function _computeSQL (table, drop, appEnv, addData) {
   }
   const dropList = ['_index_', '_rowIndex'].concat(drop);
   const validCols = [];
+  debugger;
   for (const c in columns) {
     if (dropList.indexOf(c) === -1) {
       validCols.push(c);

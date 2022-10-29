@@ -17,11 +17,24 @@ async function runit () {
     password    : 'Go4thsas'
   };
   debugger;
-  const appEnv = await setup(payload, getAppControl());
+  let appControl = getAppControl();
+  const preamble = `   
+  action datastep.runcode /
+  single='YES'
+  code= "
+     data casuser.testdatatemp;
+     keep x1 x2 x3 id;
+     length id varchar(20);
+     do i = 1 to 35;
+     x1=i; x2=3; x3=i*10; id=compress(TRIMN('key'||i));
+     output;
+     end;
+     ";
+ `;
+  appControl.preamble = preamble;
+  const appEnv = await setup(payload, appControl);
   debugger;
-  let values = await distinctValues('version', appEnv);
-  console.log(values);
-  values = await distinctValues('company', appEnv, { caslib: 'public', name: 'customer_master' });
+  let values = await distinctValues('id', appEnv, appEnv.table);
   console.log(values);
   debugger;
   return 'done';
@@ -32,9 +45,9 @@ function getAppControl () {
     description: 'Simple Example',
 
     source: 'cas',
-    table : { caslib: 'Public', name: 'product_master' },
+    table : { caslib: 'casuser', name: 'testdatatemp' },
     access: {},
-    byvars: ['pk'],
+    byvars: ['id'],
 
     cachePolicy: true,
 

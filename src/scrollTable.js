@@ -48,7 +48,7 @@ import prepFormData from './prepFormData';
 async function scrollTable (direction, appEnv, payload) {
   const useEntry = (appEnv.source === 'cas') ? icasScroll : icomputeScroll;
   const fetchResults = await useEntry(direction, appEnv, payload);
-  debugger;
+  ;
   return fetchResults;
 }
 async function icasScroll (direction, appEnv, payload) {
@@ -76,7 +76,6 @@ async function icasScroll (direction, appEnv, payload) {
     control.where = appEnv.activeWhere;
   }
   control.table = table;
-  console.log(control);
   try {
     const r = await casFetchData(store, session, control);
     const result = await prepFormData(r.data, appEnv);
@@ -90,7 +89,7 @@ async function icasScroll (direction, appEnv, payload) {
         point        : setPoint(r.data.scrollOptions),
         scrollOptions: [].concat(r.data.scrollOptions)
       };
-      debugger;
+      ;
       if (cachePolicy === true) {
         appEnv.state.data = result.data;
         appEnv.state.columns = result.columns;
@@ -100,7 +99,7 @@ async function icasScroll (direction, appEnv, payload) {
         appEnv.state.data = [];
       }
     }
-    debugger;
+    ;
     return result;
   } catch (err) {
     console.log(err);
@@ -135,7 +134,6 @@ async function icomputeScroll (direction, appEnv, payload) {
   // eslint-disable-next-line prefer-const
 
   let r = null;
-  console.log(control);
   try {
     r = await computeFetchData(store, tableSummary, tname, direction, control, 'rows');
   } catch (err) {

@@ -48,7 +48,6 @@ function makePayload (data, appEnv) {
     data : t,
     where: w
   };
-  console.log(t);
   return payload;
 }
 

@@ -31,7 +31,7 @@ async function termApp (appEnv,setup) {
   if (appEnv.userSessionID == null) {
     await store.apiCall(session.links('delete'));
   };
-  console.log('Application terminated');
+  console.log('Application terminated successfully');
   return { msg: 'Session terminated', statusCode: 0 };
 };
 export default termApp;

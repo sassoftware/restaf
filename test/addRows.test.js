@@ -24,7 +24,7 @@ async function runit () {
      data casuser.testdatatemp;
      keep x1 x2 x3 id;
      length id varchar(20);
-     do i = 1 to 15;
+     do i = 1 to 5;
      x1=i; x2=3; x3=i*10; id=compress(TRIMN('key'||i));
      output;
      end;
@@ -44,7 +44,7 @@ async function runit () {
     return r;
   });
   debugger;
-  const r = await addRows(newRows, appEnv, true);
+  const r = await addRows(newRows[0], appEnv, true);
   debugger;
   console.log(r);
 
@@ -65,7 +65,7 @@ async function runit () {
       start : 0,
       limit : 10,
       format: false,
-      where : 'x3 lt 1000'
+      where : 'x3 ge 1000'
     }
   };
   debugger;

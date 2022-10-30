@@ -23,7 +23,7 @@ import appendRows from './appendRows';
  */
 async function addRows (data, appEnv, save) {
   const table = appEnv.table; /* write to current table */
-  debugger;
+  ;
   const drop = [];
   for (const c in appEnv.state.columns) {
     if (appEnv.state.columns[c].custom === true) {

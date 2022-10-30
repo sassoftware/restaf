@@ -49,7 +49,7 @@ async function _computeSQL (table, drop, appEnv, addData) {
   }
   const dropList = ['_index_', '_rowIndex'].concat(drop);
   const validCols = [];
-  debugger;
+  ;
   for (const c in columns) {
     if (dropList.indexOf(c) === -1) {
       validCols.push(c);

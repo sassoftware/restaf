@@ -1,7 +1,7 @@
 /* eslint-disable quotes */
-const { setup, scrollTable, cellEdit, termApp } = require('../lib/index.js');
+const { setup, scrollTable, cellEdit,setWhere, termApp } = require('../lib/index.js');
 
-test('Basic cas table', async () => {
+test('casBasic', async () => {
   const r = await runit();
   expect(r).toBe('done');
 });
@@ -23,9 +23,10 @@ async function runit () {
   code= "
      data casuser.testdatatemp;
      keep x1 x2 x3 id;
-     length id varchar(20);
-     do i = 1 to 35;
-     x1=i; x2=3; x3=i*10; id=compress(TRIMN('key'||i));
+     length id char $5.;
+     do i = 10 to 35;
+     x1=i; x2=3; x3=i*10; id=strip(compress(TRIMN('key'||i)));
+  
      output;
      end;
      ";
@@ -49,6 +50,12 @@ async function runit () {
   cache.push({rownext: appEnv.state.data[0]});
   await scrollTable('first', appEnv);
   cache.push({row1again: appEnv.state.data[0]});
+
+  
+  setWhere(`id = 'key10'`, appEnv);
+  await scrollTable('first', appEnv);
+  cache.push({where: appEnv.state.data[0]});
+
 /*
   debugger;
   await scrollTable('next', appEnv);

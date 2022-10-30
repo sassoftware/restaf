@@ -27,7 +27,7 @@ async function uploadData (table, data, drop, addon, appEnv, masterTable, saveFl
   if (data === null) {
     data = appEnv.state.data;
   };
-  debugger;
+  ;
   const t = Object.keys(data[0]);
   let dropArray = ['_index_', '_rowIndex'];
   if (drop !== null && drop.length > 0) {
@@ -41,7 +41,6 @@ async function uploadData (table, data, drop, addon, appEnv, masterTable, saveFl
   columns.forEach(k => {
     tempCols[k] = appEnv.state.columns[k];
   });
-  console.log(tempCols);
   let csvArray = null;
   if (appEnv.source === 'cas') {
     csvArray = columns.join(',') + '\n';
@@ -111,10 +110,8 @@ async function _computeUpload (store, session, columns, table, csvArray) {
 }
 async function _casTableUpload (store, session, table, csvArray, masterTable, saveFlag) {
   const t = `${table.caslib}.${table.name}`;
-  debugger;
   let r = await casUpload(store, session, null, t, true, csvArray);
-  console.log('calling casLoadTable', table);
-  
+
   await casLoadTable(store, session, table);
   if (masterTable != null) {
     r = await casAppendTable(store, session, table, masterTable, saveFlag);

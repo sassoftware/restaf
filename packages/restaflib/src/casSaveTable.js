@@ -18,7 +18,7 @@
  * 
  * @returns {promise}  returns status object
  */
-async function casSaveTable (store, session, table, replace){
+async function casSaveTable (store, session, table, replace, loadTable){
   const {caslib, name} = table;
    let  payload = {
 		action: 'table.save',
@@ -29,7 +29,7 @@ async function casSaveTable (store, session, table, replace){
 			table  : table
 		}
 	};
-
+   debugger;
    await store.runAction(session, payload);
 
     return {msg: `${caslib}.${name} saved}`, statusCode: 0};

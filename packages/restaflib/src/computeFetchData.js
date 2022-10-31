@@ -26,6 +26,7 @@ async function computeFetchData (store, computeSummary, table, direction, payloa
 	// is payload an override or the real thing?
 	let adhoc = (payload != null && direction == null) ? true: false;
 	let tableInfo = computeSummary.tables[tname];
+	debugger;
 	if ( tableInfo != null) {
 		
 		// reset info on this table if user does adhoc retrieval
@@ -53,7 +54,7 @@ async function computeFetchData (store, computeSummary, table, direction, payloa
 					}
 				)
 			};
-
+			debugger;
 			for(let cx in items) {
 				let c = items[cx];
 				let newcol = {
@@ -123,7 +124,7 @@ async function computeFetchData (store, computeSummary, table, direction, payloa
 		}
 	}
 	           
-	return done;
+	return data;
 }
 function cells2RowSet(schema, result) {
 	let rowsData = result.items().toJS().map( (r) => {

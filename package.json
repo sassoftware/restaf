@@ -40,7 +40,8 @@
     "build": "npm run restaf:build && npm run restaflib:build",
     "puball": "npm run restaf:pub && npm run restaflib:pub",
     "format": "prettier-eslint --eslint-config-path ./.eslintrc.json --write '**/*.js'",
-    "lint": "eslint . --ext .js --fix"
+    "lint": "eslint . --ext .js --fix",
+    "dlink": "npm run dlink --workspaces --if-present"
   },
   "devDependencies": {
     "@babel/cli": "^7.14.5",

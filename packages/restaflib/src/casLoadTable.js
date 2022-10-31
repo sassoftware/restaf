@@ -29,14 +29,18 @@ async function casLoadTable (store, session, table){
 			exit(rx);  
 	   end; 
 	   print 'return code = ' || rc;
+	   send_response({casResults={status='ok'}});
+	   /*
 	   action table.tableExists r=result/    
 	   caslib = _args_.caslib    
 	   name  = _args_.name;    
 	   print result;
 	   send_response ({casResults= {status = 'ok'}});
+	   */
   `;
-  
+  debugger;
   const r = await caslRun(store,session, src, table, true);
+  debugger;
   console.log(JSON.stringify(r, null,4));
   return {msg: `${table.caslib}.${table.name} loaded}`, statusCode: 0};
 }

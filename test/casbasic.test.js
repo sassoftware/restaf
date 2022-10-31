@@ -24,7 +24,7 @@ async function runit () {
      data casuser.testdatatemp;
      keep x1 x2 x3 id;
      length id char $5.;
-     do i = 10 to 35;
+     do i = 1 to 35;
      x1=i; x2=3; x3=i*10; id=strip(compress(TRIMN('key'||i)));
   
      output;
@@ -39,6 +39,7 @@ async function runit () {
   debugger;
   await scrollTable('first', appEnv);
   cache.push({row1: appEnv.state.data[0]});
+  const keepid= appEnv.state.data[0].id;
   console.log(appEnv.state.columns.toString()); 
   console.log(appEnv.state.data.length);
   const x3New = appEnv.state.data[0].x3 + 100;
@@ -50,9 +51,10 @@ async function runit () {
   cache.push({rownext: appEnv.state.data[0]});
   await scrollTable('first', appEnv);
   cache.push({row1again: appEnv.state.data[0]});
-
   
-  setWhere(`id = 'key10'`, appEnv);
+  const where = "id = 'key1'";
+  console.log(where)
+  setWhere(where, appEnv);
   await scrollTable('first', appEnv);
   cache.push({where: appEnv.state.data[0]});
 

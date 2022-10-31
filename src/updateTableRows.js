@@ -34,15 +34,17 @@ function makePayload (data, appEnv) {
 
   const t = {};
   for (const k in data) {
-    if (!(k === '_index_' || k === '_rowIndex') && columns[k].custom === false) {
+    if (!(k === '_index_' || k === '_rowIndex' || columns[k].custom === true || byvars.includes(k))) {
       t[k] = data[k];
     };
   };
 
   const w = {};
   byvars.forEach((k) => {
-    w[k] = t[k];
+    w[k] = data[k];
   });
+  
+  
   const payload = {
     table,
     data : t,

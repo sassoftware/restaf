@@ -1,8 +1,8 @@
 /* eslint-disable quotes */
 const { setup, scrollTable, setWhere, termApp } = require('../lib/index.js');
-test ('casFail1', async () => {
+test ('casWhere', async () => {
   const r = await runit();
-  expect(r).toBe('failed');
+  expect(r).toBe('done');
   
 });
 
@@ -49,9 +49,9 @@ async function runit () {
   cache.push(appEnv.state.data[0]);
 
   setWhere(' ', appEnv);
-  console.log('callign after where blank');
+  console.log('calling after where blank');
   try { 
-    await scrollTable('next', appEnv);
+    await scrollTable('first', appEnv);
   } catch (err) {
     console.log('caught bad next');
     return 'failed';

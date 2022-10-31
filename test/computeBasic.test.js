@@ -1,7 +1,7 @@
 const { setup, cellEdit, scrollTable, termApp } = require('../lib/index.js');
 const { computeRun } = require('@sassoftware/restaflib');
 
-test ('compute', async () => {
+test ('computeBasic', async () => {
   const r = await runit();
   expect(r).toBe('done');
   

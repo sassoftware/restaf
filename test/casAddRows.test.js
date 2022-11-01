@@ -1,7 +1,7 @@
 /* eslint-disable quotes */
 const { setup, scrollTable, addRows, fetchRows, termApp } = require('../lib/index.js');
 
-test('addRows', async () => {
+test('addAddRows', async () => {
   const r = await runit();
   expect(r).toBe('done');
 });

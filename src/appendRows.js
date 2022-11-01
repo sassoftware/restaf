@@ -81,9 +81,9 @@ async function _computeSQL (table, drop, appEnv, addData) {
   `;
   const r = await computeRun(store, session, src);
   const st = r.SASJobStatus;
+  // console.log('Job  ended with status of ', st);
+  // const logs = await computeResults(store, r, 'log');
   if (st === 'failed' || st === 'running') {
-    console.log('Job  ended with status of ', st);
-    const logs = await computeResults(store, r, 'log');
     console.log(JSON.stringify(logs, null, 4));
     return { msg: `Job  ended with status of ${st}. See console for logs`, statusCode: 2 };
   }

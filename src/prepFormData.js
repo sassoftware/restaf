@@ -62,11 +62,12 @@ async function prepFormData (result, appEnv) {
     if (s.Type === 'varchar') {
       s.Type = 'char';
     }
+    s.Type = s.Type.toLowerCase();
     if (source ==='compute') {
       s.FormattedLength = s.length;
     }
     s.custom = false;
-    s.customType = (s.Type === 'char') ? 'string' : 'number';
+    s.customType = (s.Type === 'char') ? 'text' : 'number';
     eColumns[name] = s;
   });
 
@@ -77,6 +78,7 @@ async function prepFormData (result, appEnv) {
       c.name = k;
       c.custom = true;
       eColumns[k] = c;
+      c.customType = (c.Type.toLowerCase() === 'char') ? 'text' : 'number';
     }
   }
 

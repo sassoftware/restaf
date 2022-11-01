@@ -66,6 +66,7 @@ async function prepFormData (result, appEnv) {
       s.FormattedLength = s.length;
     }
     s.custom = false;
+    s.customType = (s.Type === 'char') ? 'string' : 'number';
     eColumns[name] = s;
   });
 

@@ -1,11 +1,10 @@
 /* eslint-disable quotes */
-const { setup, scrollTable, setWhere, termApp } = require('../lib/index.js');
-test ('casScroll', async () => {
+const { setup, scrollTable, cellEdit, termApp } = require('../lib/index.js');
+
+test('casNocode', async () => {
   const r = await runit();
   expect(r).toBe('done');
-  
 });
-
 async function runit () {
   const payload = {
     host        : process.env.VIYA_SERVER,
@@ -16,7 +15,7 @@ async function runit () {
     password    : 'Go4thsas',
     storeOptions: { casProxy: true }
   };
-
+  const cache = [];
   const appControl = getAppControl();
   const preamble = `   
   action datastep.runcode /
@@ -38,29 +37,35 @@ async function runit () {
   const appEnv = await setup(payload, appControl);
   debugger;
   await scrollTable('first', appEnv);
-  console.log('pagination: ', appEnv.state.scrollOptions);
-
-  let w = 'id contains "key10"';
-   w = w.replaceAll(/"/g, "\'");
-   console.log(w);
-  setWhere(w, appEnv);
-  await scrollTable('first', appEnv);
+  cache.push({row1: appEnv.state.data[0]});
+  console.log(appEnv.state.columns.toString()); 
+  console.log(appEnv.state.data.length);
+  const x3New = appEnv.state.data[0].x3 + 100;
+  console.log(appEnv.state.data.length);
   debugger;
-  console.log('initial read');
-  console.log(appEnv.state.scrollOptions, appEnv.state.data.length);
+  await cellEdit('x3', x3New, 0, appEnv.state.data[0], appEnv);
+  console.log(appEnv.state.data[0]);
 
-  while (appEnv.state.scrollOptions.indexOf('next') >= 0) {
-    await scrollTable('next', appEnv);
-    console.log(appEnv.state.scrollOptions, appEnv.state.data.length);
-    debugger;
-  }
-  /*
-  do {
-    const r = await scrollTable('prev', appEnv);
-    console.log(r === null);
-    console.log(appEnv.state.scrollOptions);
-  } while (appEnv.state.scrollOptions.indexOf('prev') >= 0);
+  debugger;
+  await scrollTable('next', appEnv);
+  cache.push({rownext: appEnv.state.data[0]});
+  await scrollTable('first', appEnv);
+  cache.push({row1again: appEnv.state.data[0]});
+/*
+  debugger;
+  await scrollTable('next', appEnv);
+  cache.push(appEnv.state.data[0]);
+  debugger;
+  let r = await scrollTable('prev', appEnv);
+  console.log(appEnv.state.scrollOptions);
+  console.log(r);
+
+  debugger;
+  r = await scrollTable('next', appEnv);
+  console.log(appEnv.state.scrollOptions);
+  debugger;
   */
+  console.log(cache);
   await termApp(appEnv);
   return 'done';
 };
@@ -73,12 +78,10 @@ function getAppControl () {
     table : { caslib: 'casuser', name: 'testdatatemp' },
     byvars: ['id'],
 
-    onNoData: 'noData',
-
     initialFetch: {
       qs: {
         start : 0,
-        limit : 10,
+        limit : 20,
         format: false,
         where : ' '
       }
@@ -92,7 +95,7 @@ function getAppControl () {
       }
     },
     editControl: {
-      handlers: { init, main, term, termApp: termMyApp, x1 }, /* note reuse of init */
+      handlers: handlers, /* note reuse of init */
       autoSave: true
     },
     appData: {
@@ -128,26 +131,11 @@ async function termMyApp (appEnv) {
   console.log('in termApp');
   return { msg: 'done', satusCode: 0 };
 }
-async function init (data, rowIndex, appEnv, type) {
-  const status = { statusCode: 0, msg: `${type} processing completed` };
-  data.total = data.x1 + data.x2 + data.x3;
-  return [data, status];
-};
-async function main (data, rowIndex, appEnv, type) {
-  const status = { statusCode: 0, msg: `${type} processing completed` };
-  data.total = data.x1 + data.x2 + data.x3;
-  return [data, status];
-};
+let handlers = {
+  init: async (data) => data.total = data.x1 + data.x2 + data.x3,
+  main: async (data) => data.total = data.x1 + data.x2 + data.x3,
+  term: async (data) => data,
+  x3: async (data) => 1000,
+  termApp: termMyApp
+}
 
-async function term (data, rowIndex, appEnv, type) {
-  const status = { statusCode: 0, msg: `${type} processing completed` };
-  console.log('In term');
-  debugger;
-  return [data, status];
-};
-
-async function x1 (data, name, rowIndex, appEnv) {
-  const status = { statusCode: 0, msg: `${name} handler executed.` };
-  console.log('in x1');
-  return [data, status];
-};

@@ -6,6 +6,7 @@
 import text2Float from './text2Float';
 import commonHandler from './commonHandler';
 import updateTableRows from './updateTableRows';
+import handlerResult from './handlerResult';
 
 /**
  * @description Process edit of a cell and optionally save the data
@@ -43,7 +44,8 @@ async function cellEdit (name, value, rowIndex, currentData, appEnv) {
   let status = { statusCode: 0, msg: '' };
 
   if (handlers[name] != null) {
-    const r = await handlers[name](newDataRow, name, rowIndex, appEnv);
+    let r1 = await handlers[name](newDataRow, name, rowIndex, appEnv);
+    let r = handlerResult(r1, newDataRow, name);
     newDataRow = r[0];
     status = r[1];
     if (status.statusCode === 2) {
@@ -51,11 +53,14 @@ async function cellEdit (name, value, rowIndex, currentData, appEnv) {
     }
   }
   let r = await commonHandler('main', newDataRow, rowIndex, appEnv);
+  if (r[1].statusCode === 2) {
+    return { data: r[0], status: r[1] };
+  }
+  
   if (iautoSave === true) {
     r = await commonHandler('term', r[0], rowIndex, appEnv);
-    status = r[1];
-    if (status.statusCode === 2) {
-      return { data: r[0], status };
+    if (r[1].statusCode === 2) {
+       return { data: r[0], status: r[1] };
     }
     status = await updateTableRows(r[0], appEnv);
   }
@@ -64,7 +69,6 @@ async function cellEdit (name, value, rowIndex, currentData, appEnv) {
   if (cachePolicy === true) {
     appEnv.state.data[currentData._rowIndex] = newDataRow;
   }
-
   return ({ data: newDataRow, status });
 }
 export default cellEdit;

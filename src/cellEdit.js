@@ -42,7 +42,7 @@ async function cellEdit (name, value, rowIndex, currentData, appEnv) {
 
   newDataRow[name] = text2Float(value, columns[name]);
   let status = { statusCode: 0, msg: '' };
-
+  newDataRow['_modified'] = true;
   if (handlers[name] != null) {
     let r1 = await handlers[name](newDataRow, name, rowIndex, appEnv);
     let r = handlerResult(r1, newDataRow, name);

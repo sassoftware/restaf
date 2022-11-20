@@ -29,7 +29,7 @@ async function uploadData (table, data, drop, addon, appEnv, masterTable, saveFl
   };
   ;
   const t = Object.keys(data[0]);
-  let dropArray = ['_index_', '_rowIndex'];
+  let dropArray = ['_index_', '_rowIndex', '_modified'];
   if (drop !== null && drop.length > 0) {
     dropArray = dropArray.concat(drop);
   }

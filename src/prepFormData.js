@@ -24,7 +24,7 @@ async function prepFormData (result, appEnv) {
   let status = { statusCode: 0, msg: 'Initialization was successful' };
 
   const makeRowObject = (columns, row, rown) => {
-    const rowObj = { _rowIndex: rown };
+    const rowObj = {_rowIndex: rown, _modified: false };
     row.forEach((r, i) => {
       const s = columns[i];
       const name = s.Column.toLowerCase();

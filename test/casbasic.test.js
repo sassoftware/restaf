@@ -23,7 +23,7 @@ async function runit () {
   code= "
      data casuser.testdatatemp;
      keep x1 x2 x3 id;
-     length id char $5.;
+     length id varying $5.;
      do i = 1 to 35;
      x1=i; x2=3; x3=i*10; id=strip(compress(TRIMN('key'||i)));
   
@@ -58,20 +58,7 @@ async function runit () {
   await scrollTable('first', appEnv);
   cache.push({where: appEnv.state.data[0]});
 
-/*
-  debugger;
-  await scrollTable('next', appEnv);
-  cache.push(appEnv.state.data[0]);
-  debugger;
-  let r = await scrollTable('prev', appEnv);
-  console.log(appEnv.state.scrollOptions);
-  console.log(r);
 
-  debugger;
-  r = await scrollTable('next', appEnv);
-  console.log(appEnv.state.scrollOptions);
-  debugger;
-  */
   console.log(cache);
   await termApp(appEnv);
   return 'done';

@@ -47,7 +47,7 @@ async function _computeSQL (table, drop, appEnv, addData) {
   if (rowCount === 0) {
     return { msg: 'No data to append', statusCode: 1 };
   }
-  const dropList = ['_index_', '_rowIndex'].concat(drop);
+  const dropList = ['_index_', '_rowIndex', '_modified'].concat(drop);
   const validCols = [];
   ;
   for (const c in columns) {

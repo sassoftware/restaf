@@ -135,7 +135,7 @@ let handlers = {
   init: async (data) => data.total = data.x1 + data.x2 + data.x3,
   main: async (data) => data.total = data.x1 + data.x2 + data.x3,
   term: async (data) => data,
-  x3: async (data) => 1000,
+  x3: async (data) => (data.x3 > 50) ? 50 : data.x3,
   termApp: termMyApp
 }
 

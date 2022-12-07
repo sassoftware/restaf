@@ -90,7 +90,7 @@ function getAppControl () {
     },
     editControl: {
       handlers: { init, main, term, termApp: termMyApp, x1 }, /* note reuse of init */
-      autoSave: true
+      autoSave: false
     },
     appData: {
       layout  : {},

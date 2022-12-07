@@ -24,7 +24,7 @@ async function prepFormData (result, appEnv) {
   let status = { statusCode: 0, msg: 'Initialization was successful' };
 
   const makeRowObject = (columns, row, rown) => {
-    const rowObj = {_rowIndex: rown, _modified: false };
+    const rowObj = {_rowIndex: rown, _modified: 0 };
     row.forEach((r, i) => {
       const s = columns[i];
       const name = s.Column.toLowerCase();
@@ -81,6 +81,18 @@ async function prepFormData (result, appEnv) {
       c.customType = (c.Type.toLowerCase() === 'char') ? 'text' : 'number';
     }
   }
+  ['_rowIndex', '_modified'].map((k) => {
+    let c = {
+      Column         : k,
+      Type           : 'double',
+      Label          : 'Internal' + k,
+      FormattedLength: 12,
+      customType     : 'number',
+      internal       : true
+    }
+    eColumns[k] = c;
+  });
+
 
   return {
     columns: eColumns,

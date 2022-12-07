@@ -26,7 +26,7 @@ async function addRows (data, appEnv, save) {
   ;
   const drop = [];
   for (const c in appEnv.state.columns) {
-    if (appEnv.state.columns[c].custom === true) {
+    if (appEnv.state.columns[c].custom === true || appEnv.state.columns[c].internal != null) {
       drop.push(c);
     }
   }

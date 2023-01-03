@@ -31,11 +31,13 @@ async function updateTableRows (data, appEnv) {
 function makePayload (data, appEnv) {
   const { table, byvars } = appEnv.appControl;
   const columns = appEnv.state.columns;
-
+  const localvar = ['_index_', '_rowIndex', '_modified'];
   const t = {};
   for (const k in data) {
-    if (!(k === '_index_' || k === '_rowIndex' || k === '_modified') || columns[k].custom === true /*|| byvars.includes(k)*/) {
-      t[k] = data[k];
+    if (localvar.indexOf(k) === -1) {
+      if (columns[k].custom === false) {
+         t[k] = data[k];
+      }
     };
   };
 

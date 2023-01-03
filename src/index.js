@@ -22,6 +22,7 @@ import appendRows from './appendRows';
 import distinctValues from './distinctValues';
 import getLibraryList from './getLibraryList';
 import getTableList from './getTableList';
+import getTableSummary from './getTableSummary';
 
 export {
   cellEdit,
@@ -34,6 +35,7 @@ export {
   appendRows,
   getLibraryList,
   getTableList,
+  getTableSummary,
   updateTableRows,
   uploadData,
   saveTable,

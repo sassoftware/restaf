@@ -1,4 +1,4 @@
-const { setup, cellEdit, scrollTable, termApp } = require('../lib/index.js');
+const { setup, cellEdit, scrollTable, getTableSummary, termApp } = require('../lib/index.js');
 const { computeRun } = require('@sassoftware/restaflib');
 
 test ('computeBasic', async () => {
@@ -34,7 +34,6 @@ async function runit () {
   appControl.preamble = preamble;
 
   const appEnv = await setup(payload, appControl);
-  console.log(appEnv.state.tableSummary);
 
   debugger;
   let result = await scrollTable('first', appEnv);
@@ -43,26 +42,9 @@ async function runit () {
   console.log(appEnv.state.data[0]);
   console.log(JSON.stringify(appEnv.state.columns, null,4));
   console.log(appEnv.state.columns);
-
-  console.log('-------------------------------------------------------');
-  const x3New = result.data[0].x3 + 100;
-  await cellEdit('x3', x3New, 0, result.data[0], appEnv);
-  debugger;
-  console.log(appEnv.state.data[0]);
-  console.log('-------------------------------------------------------');
-  debugger;
-  result = await scrollTable('next', appEnv);
-  debugger;
-  console.log('result of scroll next----------------------------------');
-  console.log(result.data[0]);
-  console.log(appEnv.state.data[0]);
-  console.log('-------------------------------------------------------');
-
-  result = await scrollTable('prev', appEnv);
-  console.log('result of scroll prev wit modified data----------------');
-  console.log(result.data[0]);
-  console.log(appEnv.state.data[0]);
-  console.log('-------------------------------------------------------');
+  r = await getTableSummary(appEnv);
+  console.log(r);
+  console.log(appEnv.state.tableSummary);
   await termApp(appEnv);
   return 'done';
 };

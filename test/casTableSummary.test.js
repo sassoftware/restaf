@@ -1,7 +1,7 @@
 /* eslint-disable quotes */
-const { setup, scrollTable, cellEdit,setWhere, termApp } = require('../lib/index.js');
+const { setup, scrollTable, cellEdit,setWhere, getTableSummary, termApp } = require('../lib/index.js');
 
-test('casBasic', async () => {
+test('casTableSummary', async () => {
   const r = await runit();
   expect(r).toBe('done');
 });
@@ -36,9 +36,10 @@ async function runit () {
     casProxy: false
   };
   const appEnv = await setup(payload, appControl);
-  console.log(appEnv.state.tableSummary);
   debugger;
   await scrollTable('first', appEnv);
+  let summary = await getTableSummary(appEnv);
+  console.log(summary);
   cache.push({row1: appEnv.state.data[0]});
   const keepid= appEnv.state.data[0].id;
   console.log(appEnv.state.columns.toString()); 
@@ -46,21 +47,10 @@ async function runit () {
   const x3New = appEnv.state.data[0].x3 + 100;
   console.log(appEnv.state.data.length);
   await cellEdit('x3', x3New, 0, appEnv.state.data[0], appEnv);
+  summary = await getTableSummary(appEnv);
+  console.log(summary);
+  console.log(appEnv.state.tableSummary);
 
-  debugger;
-  await scrollTable('next', appEnv);
-  cache.push({rownext: appEnv.state.data[0]});
-  await scrollTable('first', appEnv);
-  cache.push({row1again: appEnv.state.data[0]});
-  
-  const where = "id = 'key1'";
-  console.log(where)
-  setWhere(where, appEnv);
-  await scrollTable('first', appEnv);
-  cache.push({where: appEnv.state.data[0]});
-
-
-  console.log(cache);
   await termApp(appEnv);
   return 'done';
 };

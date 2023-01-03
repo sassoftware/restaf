@@ -18,6 +18,7 @@ import uploadData from './uploadData';
 import saveTable from './saveTable';
 import appendTable from './appendTable';
 import appendRows from './appendRows';
+import getTableSummary from './getTableSummary';
 
 import distinctValues from './distinctValues';
 import getLibraryList from './getLibraryList';
@@ -34,6 +35,7 @@ export {
   appendRows,
   getLibraryList,
   getTableList,
+  getTableSummary,
   updateTableRows,
   uploadData,
   saveTable,

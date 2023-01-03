@@ -2,6 +2,7 @@
 
 import { initStore } from '@sassoftware/restaf';
 import { casSetup, computeSetup, computeSetupTables, caslRun } from '@sassoftware/restaflib';
+import getTableSummary from './getTableSummary';
 import termApp from './termApp';
 
 /**
@@ -60,7 +61,8 @@ async function setup (logonPayload, appControl, sessionID) {
       point        : '',
       scrollOptions: [],
       data         : {},
-      columns      : {}
+      columns      : {},
+      tableSummary : {}
     },
 
     id: Date()
@@ -73,6 +75,7 @@ async function setup (logonPayload, appControl, sessionID) {
   appEnv = await useEntry(store, logonPayload, appControl, appEnv, sessionID);
   appEnv.sessionID = appEnv.session.items('id');
   appEnv.userSessionID = sessionID;
+  await getTableSummary(appEnv);
   return appEnv;
 }
 

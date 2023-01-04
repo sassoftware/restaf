@@ -62,7 +62,8 @@ async function setup (logonPayload, appControl, sessionID) {
       point        : '',
       scrollOptions: [],
       data         : {},
-      columns      : {}
+      columns      : {},
+      tableSummary : {}
     },
 
     id: Date()
@@ -75,7 +76,7 @@ async function setup (logonPayload, appControl, sessionID) {
   appEnv = await useEntry(store, logonPayload, appControl, appEnv, sessionID);
   appEnv.sessionID = appEnv.session.items('id');
   appEnv.userSessionID = sessionID;
-  appEnv.state.tableSummary = await getTableSummary(appEnv);
+  await getTableSummary(appEnv);
   return appEnv;
 }
 
@@ -157,7 +158,6 @@ async function icomputeSetup (store, logonPayload, appControl, appEnv, sessionID
   let tableSummary;
   ;
   try {
-    ;
     tableSummary = await computeSetupTables(store, session, appControl.table, appControl.preamble);
   } catch (err) {
     console.log(err);

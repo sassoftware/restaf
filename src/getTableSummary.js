@@ -9,8 +9,14 @@ import {caslRun, computeRun} from '@sassoftware/restaflib';
  * @returns {promise}       - returns an array of table names(cas or SAS)
  * @example
  *  let list = await getTableSummary(appEnv);
- *  returns summary information object
- *  { rowcount:<no of rows>, columnCount: <no of columns}, source:{other information}
+ *  returns summary information object. The function also sets the results in appEnv.state.tableSummary
+ *  For consistency between cas and compute, rowCount and columnCount are
+ *  set for both cases.
+ * { 
+ *  rowCount: number,
+ *  columnCount: number
+ *  ...rest...
+ *  }
  */
 
 async function getTableSummary (appEnv) {
@@ -28,7 +34,7 @@ async function casTableSummary(appEnv) {
   summary = result.tableInfo[1];
   summary.rowCount = result.tableInfo[1, 'Rows'];
   summary.columnCount = result.tableInfo[1, 'Columns'];
-  send_response({casResults= summary});
+  send_response({casResults=summary});
 `;    
  let r = await caslRun(store, session, src, table);
  return r.results.casResults;
@@ -37,9 +43,8 @@ async function casTableSummary(appEnv) {
 async function computeTableSummary(appEnv) {
   const {store, tableSummary, table} = appEnv;
   const tname = `${table.libref}.${table.name}`.toUpperCase();
-  let tableInfo = tableSummary.tables[tname];
-  let t1 = await store.apiCall(tableInfo.self);
-  const data = t1.items().toJS();
-  return data;
+  const tableInfo = tableSummary.tables[tname];
+  const t1 = await store.apiCall(tableInfo.self);
+  return t1.items().toJS();
 }
 export default getTableSummary;

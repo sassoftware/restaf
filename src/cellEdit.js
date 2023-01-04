@@ -42,7 +42,6 @@ async function cellEdit (name, value, rowIndex, currentData, appEnv) {
 
   newDataRow[name] = text2Float(value, columns[name]);
   let status = { statusCode: 0, msg: '' };
-  newDataRow['_modified'] = true;
   if (handlers[name] != null) {
     let r1 = await handlers[name](newDataRow, name, rowIndex, appEnv);
     let r = handlerResult(r1, newDataRow, name);
@@ -56,15 +55,18 @@ async function cellEdit (name, value, rowIndex, currentData, appEnv) {
   if (r[1].statusCode === 2) {
     return { data: r[0], status: r[1] };
   }
-  
+  r[0]._modified = 1;
+
   if (iautoSave === true) {
     r = await commonHandler('term', r[0], rowIndex, appEnv);
     if (r[1].statusCode === 2) {
        return { data: r[0], status: r[1] };
     }
     status = await updateTableRows(r[0], appEnv);
-  }
+    r[0]._modified = 0;
+  } 
   newDataRow = r[0];
+ 
 
   if (cachePolicy === true) {
     appEnv.state.data[currentData._rowIndex] = newDataRow;

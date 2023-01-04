@@ -2,7 +2,6 @@
 
 function handlerResult (r, data, name) {
     let status = {statusCode: 0, msg: ''};
-    debugger;
     // use case (x) => data.x1=10;
     if (r === undefined){
       {return [data, status]}

@@ -16,28 +16,24 @@
  *
  */
 
-"use strict";
+'use strict';
+let testFunctions = require('../examples/testFunctions/foldersPaginate.js');
+let setupAll = require('../examples/lib/setupAll');
+let testInfo;
+beforeAll(async () => {
+	try {
+		console.log('calling setup');
+		testInfo = await setupAll();
+	} catch (err) {
+		console.log(err);
+		process.exit(1);
+	}
+});
 
-// Pagination
-
-module.exports = async function filesPaginate (testInfo) {
-  let { store, logger } = testInfo;
-
-  let { files } = await store.addServices("files");
-
-  let filesList = await store.apiCall(files.links("files"));
-  console.log(JSON.stringify(filesList.itemsList().toJS(), null,4));
-
-  let next;
-  // do this loop while the service returns the next link or counter is 0
-  
-  while ((next = filesList.scrollCmds("next")) !== null) {
-    filesList = await store.apiCall(next);
-    let l = filesList.itemsList().toJS();
-    console.log(JSON.stringify(l, null,4));
-  }
+test('foldersPaginate.js', async () => {
+	let r = await testFunctions(testInfo);
+	expect(r).toBe('done');
+});
 
 
-  return "done";
-};
-
+	

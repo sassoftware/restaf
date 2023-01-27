@@ -21,19 +21,23 @@
 let restaflib = require('@sassoftware/restaflib');
 let { masDescribe, masRun } = restaflib;
 
-module.exports = async function masScore (save, testInfo) {
+module.exports = async function masScore (testInfo) {
 	let { store, logger } = testInfo;
 	let models = [ process.env.MASMODEL ];
 	let masControl = await restaflib.masSetup(store, models);
 	console.log(masControl);
-	let desc = masDescribe(masControl, models[0], 'score');
+	debugger;
+	let desc = masDescribe(masControl, models[0]);
 	console.log(desc);
-	let scenario = desc.map((m) => {
-		m.value = 1.5;
+	debugger;
+	debugger;
+	let scenario = {};
+   desc.map((m) => {
+		scenario[m.name] = 1.5;
 		return m;
 	});
 	logger.info(scenario);
-	let result = await masRun(store, masControl, models[ 0 ], scenario, 'score', 'execute');
+	let result = await masRun(store, masControl, models[ 0 ], scenario);
 	logger.info(result);
 	console.log(JSON.stringify(result, null,4));
 	return 'done';

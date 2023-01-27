@@ -21,6 +21,7 @@ import programs from './programs';
  * @param {boolean=} useCommons - include the common casl programs(checkAndLoad etc...)
  * @returns {promise}  returns results from cas
  * @example
+
  * let restaf = require("@sassoftware/restaf");
 let payload = require('./config')();
 let {casSetup} = require('@sassoftware/restaflib');
@@ -44,12 +45,8 @@ async function example () {
            send_response({a=r1, b=r2, c=c});
         `;
 
-  let p = {
-    action: "sccasl.runcasl",
-    data  : { code: casl }
-  };
 
-  let r = await store.runAction(session, p);
+  let r = await store.runCasl(session, casl);
 
   console.log(r.items().toJS());
   let a = r.items().toJS();

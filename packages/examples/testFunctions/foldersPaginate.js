@@ -25,18 +25,33 @@ module.exports = async function foldersPaginate (testInfo) {
   let { store, logger } = testInfo;
 
   let { folders } = await store.addServices("folders");
-  logger.info(store.getXsrfData());
+  console.log(folders.itemsList().toJS());
+
 
   let foldersList = await store.apiCall(folders.links("folders"));
-  logger.info(foldersList.itemsList());
+  // logger.info(foldersList.itemsList().toJS());
+  console.log(foldersList.itemsList().toJS());
   let next;
   // do this loop while the service returns the next link or counter is 0
 
   while ((next = foldersList.scrollCmds("next")) !== null) {
     foldersList = await store.apiCall(next);
-    
-    logger.info(foldersList.itemsList());
+    console.log(foldersList.itemsList().toJS());
+    // logger.info(foldersList.itemsList().toJS());
   }
+  let payload = {
+    qs: {
+      filter: `eq(name,"sastest1")`
+    }
+  }
+  
+  foldersList = await store.apiCall(folders.links("folders"), payload);
+  // logger.info(foldersList.itemsList().toJS());
+  console.log(foldersList.itemsList().toJS());
+  console.log(foldersList.items().toJS());
+
+  let sublist = await store.apiCall(foldersList.itemsCmd('sastest1', 'members'));
+  console.log(sublist.items().toJS());
 
   return "done";
 };

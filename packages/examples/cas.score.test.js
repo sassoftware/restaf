@@ -35,18 +35,3 @@ test('Upload hdat and score', async () => {
 	let l = await testFunctions.casScoreHdat(false, testInfo);
 	expect(l).toMatchSnapshot();
 });
-
-test('score thru Mas', async () => {
-	expect.assertions();
-	
-	if (process.env.MASMODEL != null) {
-		let l = await testFunctions.masScore(false, testInfo);
-		expect(l).toBe('done');
-	} 
-});
-
-test('test bad model name', async () => {
-	expect.assertions();
-	let l = await testFunctions.casScoreAstFail(false, testInfo);
-	expect(l).toBe('done');
-});

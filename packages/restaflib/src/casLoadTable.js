@@ -19,29 +19,23 @@ import caslRun from './caslRun';
  * 
  * @returns {promise}  returns status object
  */
-async function casLoadTable (store, session, table){
+async function casLoadTable (store, session, table, force){
 
+	
   const src = `
-       rc = checkAndLoadTable(_args_.caslib, _args_.name);
-	   if (rc ne true) then do;
+	  print _args_;
+		${drop}
+    rc = checkAndLoadTable(_args_.caslib, _args_.name, ${f});
+		if (rc ne true) then do;
 			text = 'Unable to access ' ||caslib||'.'||name;   
 			rx = {severity=2,reason=6, status='error',statusCode=2, formatted=text};
 			exit(rx);  
-	   end; 
-	   print 'return code = ' || rc;
-	   send_response({casResults={status='ok'}});
-	   /*
-	   action table.tableExists r=result/    
-	   caslib = _args_.caslib    
-	   name  = _args_.name;    
-	   print result;
-	   send_response ({casResults= {status = 'ok'}});
-	   */
+		end; 
+	  print 'return code = ' || rc;
+	  send_response({casResults={status='ok'}});
   `;
-  debugger;
+	debugger;
   const r = await caslRun(store,session, src, table, true);
-  debugger;
-  console.log(JSON.stringify(r, null,4));
   return {msg: `${table.caslib}.${table.name} loaded}`, statusCode: 0};
 }
 export default casLoadTable;

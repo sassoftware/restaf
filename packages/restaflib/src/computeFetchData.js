@@ -26,7 +26,6 @@ async function computeFetchData (store, computeSummary, table, direction, payloa
 	// is payload an override or the real thing?
 	let adhoc = (payload != null && direction == null) ? true: false;
 	let tableInfo = computeSummary.tables[tname];
-	debugger;
 	if ( tableInfo != null) {
 		
 		// reset info on this table if user does adhoc retrieval
@@ -54,7 +53,6 @@ async function computeFetchData (store, computeSummary, table, direction, payloa
 					}
 				)
 			};
-			debugger;
 			for(let cx in items) {
 				let c = items[cx];
 				let newcol = {
@@ -71,8 +69,6 @@ async function computeFetchData (store, computeSummary, table, direction, payloa
 			// Now get data using rows or rowSet rel
 			// should probably drop rowSet since is seems to be missing query features
 
-		
-			
 			let result = await store.apiCall(t1.links(linkRel),ipayload);
 			
 			// If using linkRel of rows, convert the data to rowSet schema

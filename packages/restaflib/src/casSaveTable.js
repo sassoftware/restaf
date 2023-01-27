@@ -20,6 +20,7 @@
  */
 async function casSaveTable (store, session, table, replace, loadTable){
   const {caslib, name} = table;
+
    let  payload = {
 		action: 'table.save',
 		data  : {
@@ -29,9 +30,7 @@ async function casSaveTable (store, session, table, replace, loadTable){
 			table  : table
 		}
 	};
-   debugger;
-   await store.runAction(session, payload);
-
-    return {msg: `${caslib}.${name} saved}`, statusCode: 0};
+  await store.runAction(session, payload);
+	return {msg: `${caslib}.${name} saved}`, statusCode: 0};
 }
 export default casSaveTable;

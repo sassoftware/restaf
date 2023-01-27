@@ -31,7 +31,7 @@ beforeAll(async () => {
 	}
 });
 
-test('cas.fetch.scroll.js', async () => {
+test('cas.ds.load.test.js', async () => {
 	let r = await testFunctions(testInfo);
 	expect(r).toBe('done');
 });

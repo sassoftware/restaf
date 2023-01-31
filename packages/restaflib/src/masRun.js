@@ -92,6 +92,7 @@ async function masRun (store, masControl, modelName, scenario, step, cmd) {
 
 	let result = await store.apiCall(rafLink, scorePayload);
 	let outputs = result.items('outputs').toJS();
+	console.log(outputs);
 	let score;
 	if (inputIsArray === true) {
 		score = outputs;

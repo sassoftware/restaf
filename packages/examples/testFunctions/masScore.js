@@ -24,6 +24,7 @@ let { masDescribe, masRun } = restaflib;
 module.exports = async function masScore (testInfo) {
 	let { store, logger } = testInfo;
 	let models = ['MfgFloorDecision1_0'];
+	debugger;
 	let masControl = await restaflib.masSetup(store, models);
 	console.log(masControl);
 	debugger;
@@ -32,9 +33,9 @@ module.exports = async function masScore (testInfo) {
 	debugger;
 	debugger;
 	let scenario = {
-		days_out_of_service: 0,
-		machine_id: 177583,
-		sensor_ratio: 32.01024460839
+		days_out_of_service: 1,
+		// machine_id: 789531,
+		sensor_ratio: 38.5
 	}
    
 	logger.info(scenario);

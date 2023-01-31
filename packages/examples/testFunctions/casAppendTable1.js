@@ -24,7 +24,7 @@ let { casSetup, casUpload, casAppendTable} = restaflib;
 
 let fs = require('fs');
 
-module.exports = async function casAppendTable1 (save, testInfo) {
+module.exports = async function casAppendTable1 (testInfo, save) {
 	let { store, logger } = testInfo;
 	let { session } = await casSetup(store, null);
 
@@ -56,7 +56,7 @@ module.exports = async function casAppendTable1 (save, testInfo) {
 };
 
 function readFile (filename, fileType) {
-	let data = fs.readFileSync(`./data/${filename}.${fileType}`, 'utf-8');
+	let data = fs.readFileSync(`../../data/${filename}.${fileType}`, 'utf-8');
 	console.log(data);
 	return data;
   }

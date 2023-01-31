@@ -24,7 +24,7 @@ async function casLoadTable (store, session, table, _force){
 	  print _args_;
     rc = checkAndLoadTable(_args_.caslib, _args_.name);
 		if (rc ne true) then do;
-			text = 'Unable to access ' ||_args_.caslib||'.'||_args_name;   
+			text = 'Unable to access ' ||_args_.caslib||'.'||_args_.name;   
 			rx = {severity=2,reason=6, status='error',statusCode=2, formatted=text};
 			exit(rx);  
 		end; 

@@ -20,24 +20,22 @@ async function getScoreStep (store, microanalyticScore, name) {
           filter: `eq(name,'${name.trim()}')`
       }
     };
-    debugger;
+    ;
     let modList = await store.apiCall(microanalyticScore.links('modules'), payload);
    // print.itemsList(modList, 'list of all models');
     if (modList.itemsList().size === 0) {
        return null;
     }
-    debugger;
+    ;
     let rafLink = modList.itemsCmd(name, 'steps');
     let allSteps = await store.apiCall(rafLink);
-    debugger;
+    ;
     let control = {
         name        : name,
         stepsRafLink: allSteps,
         stepIds     : modList.items(name, 'data','stepIds').toJS(),
         microanalyticScore: microanalyticScore
-    }
-    console.log(control);
-    debugger;
+    };
     return control;
      
 }

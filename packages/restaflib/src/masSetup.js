@@ -27,13 +27,13 @@ async function masSetup (store,models, logonPayload){
         service: microanalyticScore,
         steps  : {}
     }
-    debugger;
+    ;
     for (let i=0; i < models.length; i++) {
         let m = models[ i ];
         let result = await getScoreStep(store, microanalyticScore, m);
         control.steps[ m ] = result;
     }
-    debugger;
+    ;
     return control;
 }
 	

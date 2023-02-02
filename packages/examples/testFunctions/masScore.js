@@ -23,23 +23,28 @@ let { masDescribe, masRun } = restaflib;
 
 module.exports = async function masScore (testInfo) {
 	let { store, logger } = testInfo;
-	let models = ['MfgFloorDecision1_0'];
+	let { microanalyticScore } = await store.addServices('microanalyticScore');
+	let modelList1 = await store.apiCall(microanalyticScore.links('modules'));
+	console.log(JSON.stringify(modelList1.itemsList(), null, 4));
+
+	// let models = ['LogisticRegression_f726351799f44e2d927a40c950047331'];
+	let models = ['machine2_0']
 	debugger;
 	let masControl = await restaflib.masSetup(store, models);
-	console.log(masControl);
+	console.log(JSON.stringify(masControl, 1,4));
 	debugger;
 	let desc = masDescribe(masControl, models[0]);
 	console.log(desc);
 	debugger;
 	debugger;
-	let scenario = {
-		days_out_of_service: 1,
-		// machine_id: 789531,
-		sensor_ratio: 38.5
-	}
-   
+	let scenario = {};
+	desc.map((d,i) => {
+		scenario[d.name] = 100;
+	});
+	
 	logger.info(scenario);
-	let result = await masRun(store, masControl, models[ 0 ], scenario);
+	debugger;
+	let result = await masRun(store, masControl, models[ 0 ], scenario, null, 'execute');
 	logger.info(result);
 	console.log(JSON.stringify(result, null,4));
 	return 'done';

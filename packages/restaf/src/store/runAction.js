@@ -63,7 +63,7 @@ async function runAction (store, session, payload,context, onCompletion, maxTrie
     } else {
         actionResult = await apiCall(store, session.links('execute'), payload,0);
     }
-    debugger;
+
     if (casError(actionResult) === true) {
         console.log(JSON.stringify(actionResult.items(), null,4));
         throw JSON.stringify(actionResult.items('disposition').toJS());

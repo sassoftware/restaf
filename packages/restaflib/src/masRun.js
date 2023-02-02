@@ -42,7 +42,7 @@
  */
 async function masRun (store, masControl, modelName, scenario, step, cmd) {
 	let stepControl = masControl.steps[modelName];
-	
+	;
 	let inputIsArray = false;
 	let inputs = [];
 	if (Array.isArray(scenario) === false) {
@@ -60,6 +60,7 @@ async function masRun (store, masControl, modelName, scenario, step, cmd) {
 	};
 	let currentStep = null;
 	//TBD: Need to convert stepId from array to object for cleaner coding
+	;
 	if (step == null) {
 		let stepIndex = stepControl.stepIds.findIndex(x => (x === 'execute') ||( x === 'score'));
 		if (stepIndex === -1 ) {
@@ -76,8 +77,11 @@ async function masRun (store, masControl, modelName, scenario, step, cmd) {
 		}
 	}
 	if (cmd == null) {
-		cmd = currentStep;
+		cmd = 'execute';
 	}
+	
+
+	;
 	let rafLink = stepControl.stepsRafLink.itemsCmd(currentStep,cmd);
 	if (rafLink === null) {
 		let t= [
@@ -92,7 +96,7 @@ async function masRun (store, masControl, modelName, scenario, step, cmd) {
 
 	let result = await store.apiCall(rafLink, scorePayload);
 	let outputs = result.items('outputs').toJS();
-	console.log(outputs);
+
 	let score;
 	if (inputIsArray === true) {
 		score = outputs;

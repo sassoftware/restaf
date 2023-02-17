@@ -27,12 +27,18 @@ module.exports = async function computeFetchScroll(testInfo) {
 	let computeSession = await computeSetup(store, "SAS Studio compute context", null);
 	// const preamble = `libname test '/mnt/viya-share/data/deva';run;`;
 	const preamble = `libname tempdata '/tmp';run; 
-	data tempdata.testdata;
-	keep x1 x2 x3 key;
-	do i = 1 to 15; x1=i; x2=3; x3=i*10; key=compress('key'||i);
-	output;
-	end;
-	run;
+  data tempdata.testdata;
+  array x(20) x1-x20;
+  length id $ 5;
+  do i = 1 to 20;
+    do j = 1 to 20;
+      x[j] = j*i;
+    end;
+  id=compress(TRIMN('key'||i));
+	keep _all_;
+  output;
+end;
+run;
 	`;
 	  
 

@@ -35,9 +35,16 @@ async function computeFetchData (store, computeSummary, table, direction, payloa
 		}
 		if (tableInfo.current === null || direction == null || direction === 'first') {
 			let t1 = await store.apiCall(tableInfo.self);
-			
+			let colCount =  t1.items().toJS()['columnCount']
 			// get columns explicitly since user can control this thru payload
-			let columns = await store.apiCall(t1.links('columns'));
+			let qc = {
+        qs: {
+					start: 0,
+					limit: colCount
+				}
+			};
+
+			let columns = await store.apiCall(t1.links('columns'), qc);
 			let schema = [];
 			let items = columns.items().toJS();
 			let linkRel = (useRow === 'rows') ? 'rows' : 'rowSet';

@@ -43,7 +43,6 @@ async function casSetup (store, logonPayload, sessionID) {
 		throw { Error: 'No cas servers were found' };
 	} 
 	
-	
 	let casserver = servers.itemsList(0);
 	let session = null;
 	if (sessionID == null) {

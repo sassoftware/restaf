@@ -13,6 +13,7 @@
  * @param {computeSummary} computeSummary - Summary object created by computeSummary method
  * @param {string} table - name of the table
  * @param {string} scroll direction - null(to get first set)|next|prev|first|last
+ * @param {object} payload - query values
  * 
  * @returns {promise} - {columns: <columnames>, rows: <data for rows> , scrollOptions: <available scroll directions>}
  */

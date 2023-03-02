@@ -26,7 +26,10 @@ async function computeSetup(store, contextName, payload, sessionPayload, session
     let session = null;
     // Use user specified session
     if (sessionID != null) {
-      let  p = {
+        if (typeof sessionID === 'object') { /* passed in restaf session object itself */
+            return sessionID;
+        }
+        let p = {
             qs: {
                 filter: `eq( id,'${sessionID}')`
             }
@@ -42,12 +45,12 @@ async function computeSetup(store, contextName, payload, sessionPayload, session
 
     // PuP case
     if (store.store.config.options.computeServerId != null) {
-      session = await store.apiCall(compute.links('createSession'));
-      return session;
+        session = await store.apiCall(compute.links('createSession'));
+        return session;
     }
 
     // create a session - most common case
-  
+
     if (contextName == null) {
         contextName = 'SAS Job Execution';
     };
@@ -64,7 +67,7 @@ async function computeSetup(store, contextName, payload, sessionPayload, session
         p = (sessionPayload == null) ? null : sessionPayload;
         let createSession = contexts.itemsCmd(name, 'createSession');
         session = await store.apiCall(createSession, sessionPayload);
-    } 
+    }
 
     return session;
 }

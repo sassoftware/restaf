@@ -31,37 +31,39 @@
  *    const {servers, session} = await casSetup(storem logonPayload, <sessionID>)
  */
 'use strict';
-async function casSetup (store, logonPayload, sessionID) {
+async function casSetup(store, logonPayload, sessionID) {
 	if (logonPayload != null) {
 		let msg = await store.logon(logonPayload);
 	}
 
 	let { casManagement } = await store.addServices('casManagement');
 	let servers = await store.apiCall(casManagement.links('servers'));
-	
+
 	if (servers.itemsList().size === 0) {
 		throw { Error: 'No cas servers were found' };
-	} 
-	
+	}
+
 	let casserver = servers.itemsList(0);
 	let session = null;
 	if (sessionID == null) {
-       session = await store.apiCall(servers.itemsCmd(casserver, 'createSession'));
+		session = await store.apiCall(servers.itemsCmd(casserver, 'createSession'));
+	} else if (typeof sessionID === 'object') {
+		session = sessionID;
 	} else {
 		const payload = {
 			qs: {
-			  filter: `eq( id,'${sessionID}')`
+				filter: `eq( id,'${sessionID}')`
 			}
-		  };
-		let sessionList = await store.apiCall(servers.itemsCmd(casserver, "sessions"),payload);
+		};
+		let sessionList = await store.apiCall(servers.itemsCmd(casserver, "sessions"), payload);
 		if (sessionList.items().size === 0) {
 			throw `ERROR: The sessionID ${sessionID} was not found.`;
 		}
 		let selfcmd = sessionList.itemsCmd(sessionList.itemsList(0), "self");
-        session = await store.apiCall(selfcmd);
+		session = await store.apiCall(selfcmd);
 	}
-	
-	return {servers, session};
+
+	return { servers, session };
 }
 export default casSetup;
 

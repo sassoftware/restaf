@@ -24,11 +24,20 @@ let { computeSetup } = restaflib;
 module.exports = async function computeDSAttach (testInfo) {
 	let { store, logger } = testInfo;
 
+	console.log(Date(), 'start: ');
 	let computeSession = await computeSetup(store, null, null);
+	
 	let sessionID = computeSession.items('id');
-	console.log(sessionID);
-	let session = await computeSetup(store, null, null, null, sessionID);
-	console.log(session.items('id'));
+	console.log(Date(),'step0: ',sessionID);
+	let session1 = await computeSetup(store, null, null, null, sessionID);
+	let sessionID1 = session1.items('id');
+	console.log(Date(), 'step1 ',sessionID1);
+	let session2 = await computeSetup(store, null, null, null, computeSession);
+	let sessionID2 = session2.items('id');
+	console.log(Date(), 'step 3:', sessionID2);
+
+	console.log( sessionID, '\n', sessionID1, '\n', sessionID2)
+	/*
 	let macros = { maxRows: 100 };
 	let src = `
 
@@ -55,5 +64,7 @@ module.exports = async function computeDSAttach (testInfo) {
     );
 
 	console.log(computeSummary.SASJobStatus);
+	*/
 	await store.apiCall(computeSession.links('delete'));
+	return 'done'
 };

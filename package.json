@@ -1,5 +1,5 @@
 {
-  "name": "restaf",
+  "name": "@sassoftware/restaf",
   "version": "4.8.11",
   "description": "Library for writing SAS Viya application using REST APIs",
   "author": "Deva Kumaraswamy <deva.kumar@sas.com>",
@@ -86,8 +86,9 @@
     "**/node-notifier": "^8.0.1",
     "**/trim-newlines": ">=4.0.1",
     "**/mem": "^5.1.1",
-    "**/glob-parent": ">=5.1.2",
-    "**/json-schema": ">=0.4.0"
+    "**/glob-parent": "5.1.2",
+    "**/json-schema": ">=0.4.0",
+    "**/json5" : "2.2.0"
   },
   "dependencies": {
     "@babel/runtime": "^7.7.7",

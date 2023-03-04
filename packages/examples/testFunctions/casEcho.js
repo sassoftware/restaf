@@ -26,8 +26,11 @@ let { casSetup, caslRun} = require('@sassoftware/restaflib');
 module.exports = async function casEcho (testInfo) {
 	let { store, logger } = testInfo;
   let { session } = await casSetup(store, null);
-  logger.info(session.items().toJS());
-    
+  store.setAppData('casSession', session);
+  let t = store.getAppData('casSession').toJS();
+  console.log(t);
+  session = t;
+  
   let p = {
     action: 'builtins.echo',
     data  : {
@@ -60,6 +63,7 @@ module.exports = async function casEcho (testInfo) {
     // eslint-disable-next-line no-throw-literal
     throw 'Failed to create unique values';
   }
+  
   
 
   await store.apiCall(session.links('delete'));

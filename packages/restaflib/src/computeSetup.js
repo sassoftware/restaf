@@ -17,6 +17,11 @@
  * @returns {promise} - returns a compute session
  */
 async function computeSetup(store, contextName, payload, sessionPayload, sessionID) {
+
+    if (sessionID != null && typeof sessionID === 'object') { /* passed in restaf session object itself */
+        return sessionID;
+    }
+
     if (payload != null) {
         let msg = await store.logon(payload);
     }
@@ -26,9 +31,6 @@ async function computeSetup(store, contextName, payload, sessionPayload, session
     let session = null;
     // Use user specified session
     if (sessionID != null) {
-        if (typeof sessionID === 'object') { /* passed in restaf session object itself */
-            return sessionID;
-        }
         let p = {
             qs: {
                 filter: `eq( id,'${sessionID}')`

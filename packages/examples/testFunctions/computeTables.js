@@ -24,14 +24,22 @@ let { computeSetup, computeSetupTables,computeRun } = restaflib;
 module.exports = async function computeTables (testInfo) {
 	let { store, logger } = testInfo;
 
-	let computeSession = await computeSetup(store, null, null);
- 
+	let start = new Date();
+	let computeSession = await computeSetup(store, null, null, null, null);
+	console.log('first session: ',new Date() - start);
 	logger.info('Compute Service Tables');
 	let t = {libref: 'SASHELP', name: 'AIR'};
 	
-	
-	let tableSummary = await computeSetupTables(store, computeSession, t);
-	
+	start = new Date();
+	let tableSummary = await computeSetupTables(store, computeSession, t, null);
+	console.log('first table summary ',new Date() - start);
+	start = new Date();
+	let computeSession2 = await computeSetup(store, null, null, null, computeSession);
+	console.log(computeSession2.items('id'));
+	console.log('second session ', new Date() - start);
+	start = new Date();
+	tableSummary = await computeSetupTables(store, computeSession2, t, null);
+	console.log('second summary: ', new Date() - start);
 	let tname = `${t.libref}.${t.name}`;
 	
 	let data = await restaflib.computeFetchData(
@@ -43,5 +51,5 @@ module.exports = async function computeTables (testInfo) {
 	);
 	console.log(data.rows);
 	await store.apiCall(computeSession.links('delete'));
-    return data.rows;
+  return 'done';
 };

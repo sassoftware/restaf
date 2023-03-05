@@ -24,17 +24,20 @@ let { computeSetup } = restaflib;
 module.exports = async function computeDSAttach (testInfo) {
 	let { store, logger } = testInfo;
 
-	console.log(Date(), 'start: ');
+	let start = new Date();
 	let computeSession = await computeSetup(store, null, null);
-	
 	let sessionID = computeSession.items('id');
-	console.log(Date(),'step0: ',sessionID);
+	console.log('step0: ',sessionID, ' ', new Date() - start );
+
+	start = new Date();
 	let session1 = await computeSetup(store, null, null, null, sessionID);
 	let sessionID1 = session1.items('id');
-	console.log(Date(), 'step1 ',sessionID1);
+	console.log('step1 ',sessionID1, ' ', new Date() - start);
+
+	start = new Date();
 	let session2 = await computeSetup(store, null, null, null, computeSession);
 	let sessionID2 = session2.items('id');
-	console.log(Date(), 'step 3:', sessionID2);
+	console.log('step 3:', sessionID2, ' ', new Date() - start);
 
 	console.log( sessionID, '\n', sessionID1, '\n', sessionID2)
 	/*

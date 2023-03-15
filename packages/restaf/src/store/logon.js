@@ -41,7 +41,7 @@ let logonPayload = {
     clientID: 'sas.ec',
     clientSecret: '',
     user: 'sastest1',
-    password: 'Go4thsas'
+    password: 'somepassword'
 };
 
 let store = restaf.initStore();

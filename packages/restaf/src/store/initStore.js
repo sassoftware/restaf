@@ -57,6 +57,7 @@ function initStore (iconfig) {
     if (iconfig != null) {
         config = { ...config, ...iconfig };
     }
+    console.log(config);
     let store = configureSagaStore(config);
     
     return  {

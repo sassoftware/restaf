@@ -1,8 +1,6 @@
 /*
  * ------------------------------------------------------------------------------------
- *   Copyright (c) SAS Institute Inc.
- *   Licensed under the Apache License, Version 2.0 (the "License");
- *   you may not use this file except in compliance with the License.
+ *   Copyright © 2023, SAS Institute Inc., Cary, NC, USA. *   you may not use this file except in compliance with the License.
  *   You may obtain a copy of the License at
  *
  *   http://www.apache.org/licenses/LICENSE-2.0
@@ -39,11 +37,11 @@ module.exports = async function computeFetchScrollWhere(testInfo) {
 	logger.info('Compute Service Tables');
 	let t = {libref: 'tempdata', name: 'testdata'};
 	
-	debugger;
+	
 	
 	let tableSummary = await computeSetupTables(store, computeSession, t, preamble);
 	
-	debugger;
+	
 
 	// let tname = `${t.libref}.${t.name}`;
 	
@@ -55,7 +53,7 @@ module.exports = async function computeFetchScrollWhere(testInfo) {
 		{qs: {where: 'x3 > 50'}}
 	);
 
-	debugger;
+	
 	console.log(' l = ' , data.rows.length);
 	console.log('--------------------', data.scrollOptions);
 	console.log('page: ', data.pagination);
@@ -69,7 +67,7 @@ module.exports = async function computeFetchScrollWhere(testInfo) {
 			console.log('data is null');
 		}
 		console.log('--------------------> ',data.scrollOptions);
-		debugger;
+		
 		
 	};
 
@@ -80,7 +78,7 @@ module.exports = async function computeFetchScrollWhere(testInfo) {
 		} else {
 			console.log('data is null');
 		}
-		debugger;
+		
 		console.log('--------------------> ',data.scrollOptions);
 	} while (data.scrollOptions.indexOf('prev') !== -1 );
 	

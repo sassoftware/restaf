@@ -1,7 +1,6 @@
 /*
   ------------------------------------------------------------------------------------
-	Copyright (c) SAS Institute Inc.
-	Licensed under the Apache License, Version 2.0 (the 'License');
+	Copyright © 2023, SAS Institute Inc., Cary, NC, USA.  All Rights reserved	Licensed under the Apache License, Version 2.0 (the 'License');
 	you may not use this file except in compliance with the License.
 	You may obtain a copy of the License at
  *
@@ -26,7 +25,7 @@
   module.exports = async function casFetchScrollFail(testInfo) {
 		  let {store, logger} = testInfo;
 		  let { session } = await casSetup(store);
-		  debugger;
+		  
 		  let actionPayload = {
 			  action: 'datastep.runCode',
 			  data: {
@@ -47,7 +46,7 @@
 			  
 		  };
 		  let result;
-		  debugger;
+		  
 		  try {
 			result = await casFetchData(store, session, payload);
 		  } catch(err) {
@@ -56,17 +55,17 @@
 		  }
 		  console.log('The next start is at:' + JSON.stringify(result.pagination, null,4));
 		  console.log(result.data.rows);
-		  debugger;
+		  
 		  while (result.pagination.next != null) {
-			  debugger;
+			  
 			   console.log('The start is at: ' + JSON.stringify(result.pagination.next.start));
 			   result = await casFetchData(store, session, result.pagination.next);
-			   debugger;
+			   
 			   console.log(Object.keys(result.pagination));
 		  };
 		   console.log('--------------------------------------- scroll backwards');
 		  let done = false;
-		  debugger;
+		  
 		  do {
 			  console.log('The start is at: ' + JSON.stringify(result.pagination.prev.start));
 			  result = await casFetchData(store, session, result.pagination.prev);

@@ -1,7 +1,6 @@
 /*
  * ------------------------------------------------------------------------------------
- *   Copyright (c) SAS Institute Inc.
- *   Licensed under the Apache License, Version 2.0 (the 'License');
+ *   Copyright © 2023, SAS Institute Inc., Cary, NC, USA.  All Rights reserved *   Licensed under the Apache License, Version 2.0 (the 'License');
  *   you may not use this file except in compliance with the License.
  *   You may obtain a copy of the License at
  *
@@ -29,7 +28,7 @@ module.exports = async function casUploadCsv3 (save, testInfo) {
 	let { session } = await casSetup(store, null);
 	let altsrc = readFile('cars', 'csv');
 	let output = 'casuser.dtemp1';
-	debugger;
+	
 	let dr = await cleanup(store, session, output);
 	let r = await upload(
 		store,
@@ -56,7 +55,7 @@ module.exports = async function casUploadCsv3 (save, testInfo) {
 	);
 
 	// run fetch action
-	debugger;
+	
 	let actionPayload = {
 		action: 'table.fetch',
 		data  : {
@@ -66,7 +65,7 @@ module.exports = async function casUploadCsv3 (save, testInfo) {
 			}
 		}
 	};
-	debugger;
+	
 	let actionResult = await store.runAction(session, actionPayload);
 
 	logger.info(actionResult.items('tables'));

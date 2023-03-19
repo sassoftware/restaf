@@ -1,8 +1,6 @@
 /*
  * ------------------------------------------------------------------------------------
- *   Copyright (c) SAS Institute Inc.
- *   Licensed under the Apache License, Version 2.0 (the "License");
- *   you may not use this file except in compliance with the License.
+ *   Copyright © 2023, SAS Institute Inc., Cary, NC, USA. *   you may not use this file except in compliance with the License.
  *   You may obtain a copy of the License at
  *
  *   http://www.apache.org/licenses/LICENSE-2.0
@@ -45,6 +43,7 @@ module.exports = async function casEcho (testInfo) {
   console.log(r.items().toJS().disposition.severity);
   logger.info(r);
 
+  /*
   const src = `
   results = selectionLists(_args_.column,_args_.table.caslib, _args_.table.name);
   send_response({casResults = {data=results.data, statusCode=results.statusCode}});
@@ -63,7 +62,7 @@ module.exports = async function casEcho (testInfo) {
     // eslint-disable-next-line no-throw-literal
     throw 'Failed to create unique values';
   }
-  
+  */
   
 
   await store.apiCall(session.links('delete'));

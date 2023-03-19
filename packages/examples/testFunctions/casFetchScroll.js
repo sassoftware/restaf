@@ -1,7 +1,6 @@
 /*
   ------------------------------------------------------------------------------------
-	Copyright (c) SAS Institute Inc.
-	Licensed under the Apache License, Version 2.0 (the 'License');
+	Copyright © 2023, SAS Institute Inc., Cary, NC, USA.  All Rights reserved	Licensed under the Apache License, Version 2.0 (the 'License');
 	you may not use this file except in compliance with the License.
 	You may obtain a copy of the License at
  *
@@ -28,7 +27,7 @@ module.exports = async function casFetchScroll(testInfo) {
 		let { session } = await casSetup(store);
 		const cachef = [];
 		const cacheb = [];
-		debugger;
+		
 		let actionPayload = {
 			action: 'datastep.runCode',
 			data: {
@@ -49,7 +48,7 @@ module.exports = async function casFetchScroll(testInfo) {
 			
 		};
 		let result;
-		debugger;
+		
 		try {
 		  result = await casFetchData(store, session, payload);
 		} catch(err) {
@@ -59,22 +58,22 @@ module.exports = async function casFetchScroll(testInfo) {
 		
 		cachef.push([result.data.scrollOptions, result.data.rows.length]);
 		while (result.data.scrollOptions.indexOf('next') !== -1) {
-			debugger;
+			
 			 result = await casFetchData(store, session, result.pagination.next);
 			 cachef.push([result.data.scrollOptions, result.data.rows.length]);
-			 debugger;
+			 
 		};
 
 
 		 console.log('--------------------------------------- scroll backwards');
 		let done = false;
-		debugger;
+		
 		do {
             result = await casFetchData(store, session, result.pagination.prev);
             cacheb.push([result.data.scrollOptions, result.data.rows.length]);
 		} while (
 			result.data.scrollOptions.indexOf('prev') !== -1);
-		debugger;
+		
 		console.log(JSON.stringify(cachef, null,4));
 		console.log(JSON.stringify(cacheb, null,4));
 		await store.apiCall(session.links('delete'));

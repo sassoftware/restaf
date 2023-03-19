@@ -5,7 +5,7 @@ before the data step when submitting this code.
 /*options VALIDMEMNAME=EXTEND VALIDVARNAME=ANY;*/
    /*------------------------------------------
    Generated SAS Scoring Code
-     Date             : 02Jul2019:21:19:56
+     Date             : 02Jul2023:21:19:56
      Locale           : en_US
      Model Type       : Cluster
      Interval variable: SDOH_PMU(SDOH1 Physically Mentally Unhealthy)

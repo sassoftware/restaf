@@ -1,7 +1,6 @@
 /*
  * ------------------------------------------------------------------------------------
- *   Copyright (c) SAS Institute Inc.
- *   Licensed under the Apache License, Version 2.0 (the 'License');
+ *   Copyright © 2023, SAS Institute Inc., Cary, NC, USA.  All Rights reserved *   Licensed under the Apache License, Version 2.0 (the 'License');
  *   you may not use this file except in compliance with the License.
  *   You may obtain a copy of the License at
  *
@@ -29,21 +28,21 @@ module.exports = async function masScore (testInfo) {
 
 	// let models = ['LogisticRegression_f726351799f44e2d927a40c950047331'];
 	let models = ['machine2_0']
-	debugger;
+	
 	let masControl = await restaflib.masSetup(store, models);
 	console.log(JSON.stringify(masControl, 1,4));
-	debugger;
+	
 	let desc = masDescribe(masControl, models[0]);
 	console.log(desc);
-	debugger;
-	debugger;
+	
+	
 	let scenario = {};
 	desc.map((d,i) => {
 		scenario[d.name] = 100;
 	});
 	
 	logger.info(scenario);
-	debugger;
+	
 	let result = await masRun(store, masControl, models[ 0 ], scenario, null, 'execute');
 	logger.info(result);
 	console.log(JSON.stringify(result, null,4));

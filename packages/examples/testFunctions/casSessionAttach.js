@@ -7,7 +7,9 @@
 let restaflib = require('@sassoftware/restaflib');
 module.exports = async function casSessionAttach (testInfo) {
 	let {store, logger} = testInfo;
+	debugger;
 	let { session } = await restaflib.casSetup(store, null);
+	debugger;
 	let sessionID = session.items('id');
 	console.log(sessionID);
 

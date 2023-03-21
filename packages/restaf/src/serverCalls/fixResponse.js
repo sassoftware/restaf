@@ -109,18 +109,21 @@
          response.data.results = { items: Object.assign({}, response.data.results) };
          response.data.results.customHandling = iLink.customHandling;
      }
- 
+     
+     //TBD: This could probbably be removed due to enhancements to casManagement
      if ((iLink.href === '/casManagement/' || iLink.href === '/casManagement')
           && iLink.method === 'GET') {
-         response.data.results.links.map(l => {
+         response.data.results.links = response.data.results.links.map(l => {
              if (l.rel === 'collection') {
                  l.title    = 'servers';
                  l.rel      = 'servers';
-                 l.patch    = 'cas'; /* flag to indicate we need to patch cas related stuff */
+                 l.patch    = 'cas';  
              }
              return l;
          });
      }
+     
+     
      // A seperate loop in case casManagement fixes the issue
      if (iLink.hasOwnProperty('patch') && iLink.rel === 'servers') {
          let items = response.data.results.items;

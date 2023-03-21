@@ -17,6 +17,7 @@
 'use strict';
 
 let fs = require('fs');
+let getToken = require('./getToken');
 
 module.exports = function configtest () {
 	
@@ -36,12 +37,7 @@ module.exports = function configtest () {
 	}
 
 	let logonPayload = null;
-	let token = null;
-	if (process.env.TOKENFILE != null) {
-		console.log(process.env.TOKENFILE);
-		
-		token = fs.readFileSync(process.env.TOKENFILE, 'utf8');
-	}
+	let token = getToken();
 	if (token !== null) {
 		logonPayload = {
 			authType : 'server',

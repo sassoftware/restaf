@@ -37,7 +37,7 @@ module.exports = function configtest () {
 	}
 
 	let logonPayload = null;
-	let token = getToken();
+	let token =(process.env.TOKENFILE != null) ?  getToken() : null;
 	if (token !== null) {
 		logonPayload = {
 			authType : 'server',

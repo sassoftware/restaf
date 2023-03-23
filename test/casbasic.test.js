@@ -4,23 +4,18 @@ const getToken = require('./getToken');
 console.log(getToken);
 
 test('casBasic', async () => {
-  console.log(getToken);
-  const r = await runit();
+  const payload = {
+    host        : process.env.VIYA_SERVER,
+    authType    : 'server',
+    token       : getToken(),
+    tokenType   : 'bearer',
+    storeOptions: { casProxy: true }
+  };
+  const r = await runit(payload);
   expect(r).toBe('done');
 });
 
-async function runit () {
-  const payload = {
-    host        : process.env.VIYA_SERVER,
-    authType    : 'password',
-    clientID    : 'sas.ec',
-    clientSecret: '',
-    user        : 'sastest1',
-    password    : 'Go4thsas',
-    storeOptions: { casProxy: true }
-  };
-  
-  
+async function runit (payload) {
   const cache = [];
   const appControl = getAppControl();
   const preamble = `   

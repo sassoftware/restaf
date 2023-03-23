@@ -76,12 +76,11 @@ async function setup (logonPayload, appControl, sessionID, builtins) {
     activeWhere: (appControl.initialFetch.qs.where != null) ? appControl.initialFetch.qs.where : ' ',
     builtins: (builtins != null) ? builtins: {},
     state: {
-      tableSummary : {},
       modified     : [],
       pagination   : {},
       point        : '',
       scrollOptions: [],
-      data         : {},
+      data         : [],
       columns      : {},
       tableSummary : {}
     },
@@ -103,12 +102,15 @@ async function setup (logonPayload, appControl, sessionID, builtins) {
 // cas server
 async function icasSetup (store, logonPayload, appControl, appEnv, sessionID) {
   let r;
+  debugger;
   try {
+    debugger;
     r = await casSetup(store, logonPayload, sessionID);
     appEnv.session = r.session;
     appEnv.servers = r.servers;
   } catch (err) {
-    console.log(err);
+    debugger;
+    console.log(JSON.stringify(err, null,4));
     // eslint-disable-next-line no-throw-literal
     throw 'ERROR: Unable to create session. Please see console for messages';
   }

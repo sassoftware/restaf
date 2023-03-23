@@ -29,6 +29,7 @@ async function runit () {
   debugger;
   console.log(appEnv.builtins);
   console.log(appEnv.state.tableSummary);
+  console.log(appEnv);
   await termApp(appEnv);
   
   
@@ -41,6 +42,7 @@ function getAppControl () {
 
     source: 'cas',
     table : null,
+    /*
     byvars: ['id'],
 
     initialFetch: {
@@ -60,7 +62,7 @@ function getAppControl () {
       }
     },
     editControl: {
-      handlers: { init, main, term, initApp, termApp: termMyApp, x3 }, /* note reuse of init */
+      handlers: { init, main, term, initApp, termApp: termMyApp, x3 }, 
       autoSave: true,
       autoSaveTable: true
     },
@@ -87,8 +89,10 @@ function getAppControl () {
           }
         }
       }
-
+    
+    
     }
+    */
 
   };
 }

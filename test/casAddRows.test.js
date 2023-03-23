@@ -6,7 +6,7 @@ test('addAddRows', async () => {
   expect(r).toBe('done');
 });
 async function runit () {
-  const payload = {
+  let payload = {
     host        : process.env.VIYA_SERVER,
     authType    : 'password',
     clientID    : 'sas.ec',
@@ -15,7 +15,7 @@ async function runit () {
     password    : 'Go4thsas',
     storeOptions: { casProxy: true }
   };
-
+ 
   const appControl = getAppControl();
   const preamble = `   
   action datastep.runcode /

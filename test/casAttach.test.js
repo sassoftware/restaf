@@ -41,9 +41,10 @@ async function runit () {
   const appEnv = await setup(payload, appControl, appEnv1.sessionID);
   console.log(appEnv.sessionID, ' ', appEnv.userSessionID);
 
-  await scrollTable('first', appEnv);
-  cache.push(appEnv.state.data[0]);
-  console.log(appEnv.state.data.length);
+  const appEnv2 = await setup(payload, appControl, appEnv1.sessionID,{}, appEnv.store );
+  await scrollTable('first', appEnv2);
+  cache.push(appEnv2.state.data[0]);
+  console.log(appEnv2.state.data.length);
 
   console.log(cache);
   await termApp(appEnv);

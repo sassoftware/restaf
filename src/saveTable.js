@@ -1,5 +1,5 @@
 /*
- * Copyright © 2021, SAS Institute Inc., Cary, NC, USA.  All Rights Reserved.
+ * Copyright © 2023, SAS Institute Inc., Cary, NC, USA.  All Rights Reserved.
  * SPDX-License-Identifier: Apache-2.0
  */
 /**
@@ -25,6 +25,7 @@ async function saveTable (appEnv, table) {
   }
   const t = (table != null) ? table : appEnv.appControl.table;
   await casSaveTable(store, session, t, true, true);
+
   return { msg: 'Table saved', statusCode: 0 };
 }
 export default saveTable;

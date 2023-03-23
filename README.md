@@ -19,23 +19,39 @@
 
 ---
 
-**Latest Version** @sassoftware/restafedit@next
+**Latest Version** @sassoftware/restafedit@latest
 
-Going back in history, SAS had products like SAS/FSP and SAS/AF that allowed users to create simple or complex interactive applications. As SAS moved to the Viya platform these products were dropped. SAS provided REST API (application programming interfaces) as an industry standard way for creating applications.
+@sassoftware/restafedit is an unified way to read and write SAS Viya tables (CAS or SAS tables) with just a few lines of code.
 
-The key component of these applications is entering data. Common destinations of the modified data are:
+Here is an example of scrolling thru a CAS table.
 
-- The client application
-- Custom code on a Viya
-  - Compute server
-  - CAS (Cloud Analytic Server) server
-  - MAS (Micro Analytic Score)
-  - Other SAS services that can be accessed via REST API
-- Some external servers
-  - Azure App running a SAS Decision using SAS Container Runtime (SCR)
-  - Others...
+```js
+ let appControl = {
+    source: 'cas',
+    table : { caslib: 'casuser', name: 'testdatatemp' }
+ };
+ const {
+   const payload = {
+    host        : <your Viya Server>,
+    authType    : 'token',
+    token       : <your SAS authorization token>,
+    tokenType   : 'bearer'
+  }
+ }
+ 
+  let appEnv = setup(payload, appControl);
+  // get first set of records
+  await scrollTable('first', appEnv);
+  console.log(JSON.stringify(r.data));
 
-The goal of this project is to create a small reusable library to simplify the  data entry in SAS Viya.
+  // read the rest of the table
+  while (appEnv.state.scrollOptions.includes('next')) {
+    const r = await scrollTable('next', appEnv);
+    console.log(JSON.stringify(r.data));
+    // do something with the data
+  }
+
+```
 
 ## Currently Supported Features<a name="t4"></a>
 

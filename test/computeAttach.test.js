@@ -22,7 +22,8 @@ async function runit () {
   // preamble - should be done in the context preamble
   // this arg is useful if you do not have a way to modify the context
   // eslint-disable-next-line quotes
-  appControl.preamble = `libname tempdata '/tmp';run; 
+  appControl.preamble = null;
+  let x = `libname tempdata '/tmp';run; 
   data tempdata.testdata3;
   keep x1 x2 x3 id;
   length id $ 5;
@@ -33,46 +34,29 @@ async function runit () {
   end;
   run;`;
 
+  let start = new Date();
   const appEnv1 = await setup(payload, appControl);
   console.log(appEnv1.sessionID, ' ', appEnv1.userSessionID);
-
-  const appEnv = await setup(payload, appControl, appEnv1.sessionID);
-  console.log(appEnv.sessionID, ' ', appEnv.userSessionID);
+  console.log( 'first setup....', new Date() - start);
+  debugger;
+  start = new Date();
+  const appEnv2 = await setup(payload, appControl, appEnv1.sessionID);
+  console.log(appEnv2.sessionID, ' ', appEnv2.session.items('id'));
+  console.log( 'Second setup.....', new Date() - start);
+  start = new Date();
 
   debugger;
   // eslint-disable-next-line prefer-const
-  let result = await scrollTable('first', appEnv);
+  start = new Date();
+  let result = await scrollTable('first', appEnv2);
+  console.log('after fetch---------------', new Date() - start);
+  
   debugger;
   console.log('result of first fetch -------------------------------');
-  console.log(appEnv.state.data);
-  console.log(appEnv.state.pagination);
+  console.log(appEnv2.state.data);
+  console.log(appEnv2.state.pagination);
 
-  const x1 = result.data[0].x1 + 1000;
-  await cellEdit('x1', x1, 0, result.data[0], appEnv);
-  console.log('state values after edit--------------------------------');
-  console.log(appEnv.state.data);
-  console.log('-------------------------------------------------------');
-  const p = {
-    qs: {
-      limit : 1,
-      start : 0,
-      format: false,
-      where : 'x1 > 5000'
-    }
-  };
-  result = await scrollTable('first', appEnv, p);
-  console.log(appEnv.state.pagination);
-  debugger;
-  console.log('result of first fetch -------------------------------');
-  console.log(appEnv.state.data);
-
-  result = await scrollTable('prev', appEnv);
-  console.log(appEnv.state.pagination);
-  console.log(result);
-  console.log('result of scroll prev from top ----------------');
-  console.log(appEnv.state.data);
-  console.log('-------------------------------------------------------');
-  await termApp(appEnv);
+  await termApp(appEnv2);
   return 'done';
 };
 
@@ -81,8 +65,8 @@ function getAppControl () {
     description: 'Simple Example',
 
     source: 'compute',
-    table : { libref: 'tempData', name: 'TESTDATA3' },
-    byvars: ['key'],
+    table : { libref: 'SASHELP', name: 'AIR' },
+    byvars: [' '],
 
     cachePolicy: true,
 

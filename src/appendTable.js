@@ -20,9 +20,11 @@ import { casAppendTable, computeAppendTable } from '@sassoftware/restaflib';
  *
  */
 async function appendTable (table, appEnv, save) {
+  
   const handler = (appEnv.source === 'cas') ? casAppendTable : computeAppendTable;
   const saveFlag = (save != null) ? true : save;
   const result = await handler(appEnv.store, appEnv.session, appEnv.table, table, saveFlag);
+  
   return result;
 }
 

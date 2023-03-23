@@ -1,5 +1,5 @@
 /*
- * Copyright © 2021, SAS Institute Inc., Cary, NC, USA.  All Rights Reserved.
+ * Copyright © 2023, SAS Institute Inc., Cary, NC, USA.  All Rights Reserved.
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -23,7 +23,7 @@ async function getLibraryList (appEnv) {
     const p = {
       qs: {
         start: 0,
-        limit: 1000
+        limit: 100
       }
     };
     const r = await store.apiCall(session.links('librefs'), p);
@@ -34,7 +34,7 @@ async function getLibraryList (appEnv) {
     const p = {
       qs: {
         start: 0,
-        limit: 1000
+        limit: 100
       }
     };
     const rafLink = servers.itemsCmd(servers.itemsList(0), 'caslibs');

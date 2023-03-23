@@ -56,7 +56,7 @@ async function icasScroll (direction, appEnv, payload) {
   const { initialFetch, table } = appEnv.appControl;
   const cachePolicy = (appEnv.appControl.cachePolicy == null) ? true : appEnv.appControl.cachePolicy;
   let control;
-
+  
   if (payload != null) {
     control = { ...payload.qs };
     if (control.where == null) {

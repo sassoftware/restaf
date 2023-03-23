@@ -1,4 +1,4 @@
-const { setup, cellEdit, scrollTable, termApp } = require('../lib/index.js');
+const { setup, cellEdit, scrollTable, termApp, getTableSummary } = require('../lib/index.js');
 const { computeRun } = require('@sassoftware/restaflib');
 
 test ('computeBasic', async () => {
@@ -22,18 +22,21 @@ async function runit () {
   // eslint-disable-next-line quotes
   const preamble = `libname tempdata '/tmp';run; 
   data tempdata.testdata;
-  keep x1 x2 x3 id;
+  array x(20) x1-x20;
   length id $ 5;
   do i = 1 to 20;
-  x1=i; x2=3; x3=i*10; id=compress(TRIMN('key'||i));
-  
+    do j = 1 to 20;
+      x[j] = j*i;
+    end;
+  id=compress(TRIMN('key'||i));
   output;
-  end;
-  run;`;
+end;
+run;`;
   debugger;
   appControl.preamble = preamble;
 
   const appEnv = await setup(payload, appControl);
+  rc = await getTableSummary(appEnv);
   console.log(appEnv.state.tableSummary);
 
   debugger;

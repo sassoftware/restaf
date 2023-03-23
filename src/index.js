@@ -3,6 +3,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import restaf from '@sassoftware/restaf';
+import restaflib from '@sassoftware/restaflib';
 import cellEdit from './cellEdit';
 import commonHandler from './commonHandler';
 import updateTableRows from './updateTableRows';
@@ -41,5 +43,7 @@ export {
   saveTable,
   setup,
   setWhere,
-  termApp
+  termApp,
+  restaf,
+  restaflib
 };

@@ -1,10 +1,14 @@
 /* eslint-disable quotes */
-const { setup, scrollTable, cellEdit,setWhere, termApp } = require('../lib/index.js');
+const { setup, scrollTable, cellEdit,setWhere, termApp,saveTable } = require('../lib/index.js');
+const getToken = require('./getToken');
+console.log(getToken);
 
 test('casBasic', async () => {
+  console.log(getToken);
   const r = await runit();
   expect(r).toBe('done');
 });
+
 async function runit () {
   const payload = {
     host        : process.env.VIYA_SERVER,
@@ -15,15 +19,17 @@ async function runit () {
     password    : 'Go4thsas',
     storeOptions: { casProxy: true }
   };
+  
+  
   const cache = [];
   const appControl = getAppControl();
   const preamble = `   
   action datastep.runcode /
   single='YES'
   code= "
-     data casuser.testdatatemp;
+     data casuser.TESTTEMPDATA;
      keep x1 x2 x3 id;
-     length id varying $5.;
+     length id $5.;
      do i = 1 to 35;
      x1=i; x2=3; x3=i*10; id=strip(compress(TRIMN('key'||i)));
   
@@ -35,15 +41,21 @@ async function runit () {
   payload.storeOptions = {
     casProxy: false
   };
+  debugger;
   const appEnv = await setup(payload, appControl);
+  debugger;
+  console.log(appEnv.builtins);
   console.log(appEnv.state.tableSummary);
   debugger;
-  await scrollTable('first', appEnv);
+  let r = await scrollTable('first', appEnv);
+  console.log(r.data[0]);
+  
   cache.push({row1: appEnv.state.data[0]});
   const keepid= appEnv.state.data[0].id;
   console.log(appEnv.state.columns.toString()); 
   console.log(appEnv.state.data.length);
-  const x3New = appEnv.state.data[0].x3 + 100;
+  const x3New = appEnv.state.data[0].x3 + 900;
+  ;
   console.log(appEnv.state.data.length);
   await cellEdit('x3', x3New, 0, appEnv.state.data[0], appEnv);
 
@@ -59,9 +71,11 @@ async function runit () {
   await scrollTable('first', appEnv);
   cache.push({where: appEnv.state.data[0]});
 
-
+  // await saveTable(appEnv)
   console.log(cache);
   await termApp(appEnv);
+  
+  
   return 'done';
 };
 
@@ -70,7 +84,7 @@ function getAppControl () {
     description: 'Simple Example',
 
     source: 'cas',
-    table : { caslib: 'casuser', name: 'testdatatemp' },
+    table : { caslib: 'casuser', name: 'TESTTEMPDATA' },
     byvars: ['id'],
 
     initialFetch: {
@@ -90,8 +104,9 @@ function getAppControl () {
       }
     },
     editControl: {
-      handlers: { init, main, term, termApp: termMyApp, x1 }, /* note reuse of init */
-      autoSave: true
+      handlers: { init, main, term, termApp: termMyApp, x3 }, /* note reuse of init */
+      autoSave: true,
+      autoSaveTable: true
     },
     appData: {
       layout  : {},
@@ -143,8 +158,8 @@ async function term (data, rowIndex, appEnv, type) {
   return [data, status];
 };
 
-async function x1 (data, name, rowIndex, appEnv) {
+async function x3 (data, name, rowIndex, appEnv) {
   const status = { statusCode: 0, msg: `${name} handler executed.` };
-  console.log('in x1');
+  console.log('in x3');
   return [data, status];
 };

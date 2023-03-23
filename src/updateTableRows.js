@@ -1,3 +1,7 @@
+/*
+ * Copyright © 2023, SAS Institute Inc., Cary, NC, USA.  All Rights Reserved.
+ * SPDX-License-Identifier: Apache-2.0
+ */
 import { casUpdateData } from '@sassoftware/restaflib';
 /**
  * @description Update the row on the server using byvars as key
@@ -35,7 +39,6 @@ function makePayload (data, appEnv) {
   const t = {};
   for (const k in data) {
     // if (!(k === '_index_' || k === '_rowIndex' || k === '_modified') || columns[k].custom === true /*|| byvars.includes(k)*/) {
-      console.log(k);
     if (!(columns[k].internal != null || columns[k].custom === true || k === '_index_')) { 
       t[k] = data[k];
     };

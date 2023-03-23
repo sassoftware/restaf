@@ -1,5 +1,5 @@
 /*
- * Copyright © 2021, SAS Institute Inc., Cary, NC, USA.  All Rights Reserved.
+ * Copyright © 2023, SAS Institute Inc., Cary, NC, USA.  All Rights Reserved.
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -7,6 +7,7 @@ import text2Float from './text2Float';
 import commonHandler from './commonHandler';
 import updateTableRows from './updateTableRows';
 import handlerResult from './handlerResult';
+import saveTable from './saveTable';
 
 /**
  * @description Process edit of a cell and optionally save the data
@@ -56,18 +57,19 @@ async function cellEdit (name, value, rowIndex, currentData, appEnv) {
     return { data: r[0], status: r[1] };
   }
   r[0]._modified = 1;
-
   if (iautoSave === true) {
     r = await commonHandler('term', r[0], rowIndex, appEnv);
     if (r[1].statusCode === 2) {
        return { data: r[0], status: r[1] };
     }
+
     status = await updateTableRows(r[0], appEnv);
-    r[0]._modified = 0;
+    if (appEnv.appControl.editControl.autoSaveTable === true) {
+      saveTable(appEnv);
+    }
+   // r[0]._modified = 0;
   } 
   newDataRow = r[0];
- 
-
   if (cachePolicy === true) {
     appEnv.state.data[currentData._rowIndex] = newDataRow;
   }

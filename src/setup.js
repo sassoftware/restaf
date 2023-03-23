@@ -1,3 +1,7 @@
+/*
+ * Copyright © 2023, SAS Institute Inc., Cary, NC, USA.  All Rights Reserved.
+ * SPDX-License-Identifier: Apache-2.0
+ */
 /* eslint-disable prefer-const */
 
 import { initStore } from '@sassoftware/restaf';
@@ -20,6 +24,7 @@ import termApp from './termApp';
  *  const appEnv = await setup(logonPayload, appControl);
  *  The setup method does the following:
  *    1. Create a session based on the source
+ *       - Specify the sessionID if you want to use a session you have created.
  *    2. Optionally run the appInit handler (if specified)
  *    3. Optionally run the preamble code (if specified)
  *    4. Return the appEnv object.
@@ -28,11 +33,27 @@ import termApp from './termApp';
  *    temporary tables etc...
  *
  */
-
-async function setup (logonPayload, appControl, sessionID) {
+async function setup (logonPayload, appControl, sessionID, builtins) {
   let storeOptions = (logonPayload.storeOptions != null) ? logonPayload.storeOptions : { casProxy: true };
-  const store = initStore(storeOptions);
+  // Note: that each setup creates its own store
+  let store = initStore(storeOptions);
   const useEntry = (appControl.source === 'cas') ? icasSetup : icomputeSetup;
+  if (sessionID == undefined) {
+    sessionID = null;
+  }
+  
+  const _verify = (field, value) => {
+    if (appControl[field] == null) {
+      appControl[field] = value;
+    }
+  }
+  // check
+  _verify('byvars', []);
+  _verify('customColumns', {});
+  _verify('editControl', {handlers:{}, autoSave: true});
+  _verify('initialFetch', {qs: {start: 0, limit: 10, format: false,where: ' '}});
+  
+
   let appEnv = {
     source: appControl.source,
     table : appControl.table,
@@ -47,14 +68,13 @@ async function setup (logonPayload, appControl, sessionID) {
     servers  : null,
     restaflib: null,
     sessionID: null,
-
     userSessionID: null,
 
     logonPayload,
     appControl,
 
     activeWhere: (appControl.initialFetch.qs.where != null) ? appControl.initialFetch.qs.where : ' ',
-
+    builtins: (builtins != null) ? builtins: {},
     state: {
       tableSummary : {},
       modified     : [],
@@ -76,7 +96,7 @@ async function setup (logonPayload, appControl, sessionID) {
   appEnv = await useEntry(store, logonPayload, appControl, appEnv, sessionID);
   appEnv.sessionID = appEnv.session.items('id');
   appEnv.userSessionID = sessionID;
-  await getTableSummary(appEnv);
+  // await getTableSummary(appEnv);
   return appEnv;
 }
 
@@ -99,12 +119,12 @@ async function icasSetup (store, logonPayload, appControl, appEnv, sessionID) {
       if (r.statusCode === 2) {
         console.log(JSON.stringify(r, null, 4));
         // eslint-disable-next-line no-throw-literal
-        await termApp(appEnv, true);
+        // await termApp(appEnv, true);
         throw 'ERROR: initApp failed. Please see console for messages';
       }
     } catch (err) {
       console.log(err);
-      await termApp(appEnv, true);
+       //  await termApp(appEnv, true);
       // eslint-disable-next-line no-throw-literal
       throw 'ERROR: Setup failed. Please see console for error messages';
     }
@@ -116,7 +136,7 @@ async function icasSetup (store, logonPayload, appControl, appEnv, sessionID) {
       if (rx.disposition.statusCode !== 0) {
         console.log(JSON.stringify(rx, null, 4));
         // eslint-disable-next-line no-throw-litera
-        await termApp(appEnv, true);
+       // await termApp(appEnv, true);
         throw 'ERROR: Preamble  code failed. Please see console for messages';
       }
     } catch (err) {
@@ -132,41 +152,42 @@ async function icasSetup (store, logonPayload, appControl, appEnv, sessionID) {
 // Compute server
 async function icomputeSetup (store, logonPayload, appControl, appEnv, sessionID) {
   // eslint-disable-next-line prefer-const
-
-  let session = await computeSetup(store, appControl.computeContext, logonPayload, sessionID);
+  let session;
+  //Use sessionID to reuse an existing session
+  session = await computeSetup(store, appControl.computeContext, logonPayload, null, sessionID);
   appEnv.session = session;
-
+  appEnv.sessionID = session.items('id');
+  if (sessionID != null) {
+    appEnv.userSessionID = sessionID;
+  }
   if (appControl.editControl.handlers.initApp != null) {
     try {
       const r = await appControl.editControl.handlers.initApp(appEnv, 'initApp');
       if (r.statusCode === 2) {
         console.log(JSON.stringify(r, null, 4));
         // eslint-disable-next-line no-throw-literal
-        await termApp(appEnv, true);
+       // await termApp(appEnv, true);
         throw 'ERROR: initApp failed. Please see console for messages';
       }
     } catch (err) {
       console.log(err);
       // eslint-disable-next-line no-throw-literal
-      await termApp(appEnv, true);
+      // await termApp(appEnv, true);
       throw 'ERROR: Setup failed. Please see console for error messages';
     }
   }
 
-  // eslint-disable-next-line no-useless-catch
-
-  let tableSummary;
-  ;
-  try {
-    tableSummary = await computeSetupTables(store, session, appControl.table, appControl.preamble);
-  } catch (err) {
-    console.log(err);
-    await termApp(appEnv, true);
-    throw err;
+  let tableSummary = {};
+  if (appControl.table != null){
+    try {
+      tableSummary = await computeSetupTables(store, session, appControl.table, appControl.preamble);
+    } catch (err) {
+      console.log(err);
+      // await termApp(appEnv, true);
+      throw err;
+    }
   }
-
   appEnv.tableSummary = tableSummary;
-
   return appEnv;
 }
 

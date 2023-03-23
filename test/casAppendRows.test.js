@@ -54,11 +54,12 @@ async function runit () {
   `;
   const r1 = await caslRun(appEnv.store, appEnv.session, src);
   debugger;
+  debugger;
+  const s1 = await saveTable(appEnv, { caslib: 'casuser', name: 'mastertemp' });
 
   const l1 = await casLoadTable(appEnv.store, appEnv.session, { caslib: 'casuser', name: 'mastertemp' });
   console.log(l1);
-  debugger;
-  const s1 = await saveTable(appEnv, { caslib: 'casuser', name: 'mastertemp' });
+  
 
   console.log('------------------');
   console.log(r1);

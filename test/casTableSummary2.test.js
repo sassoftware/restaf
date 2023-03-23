@@ -17,40 +17,15 @@ async function runit () {
   };
   const cache = [];
   const appControl = getAppControl();
-  const preamble = `   
-  action datastep.runcode /
-  single='YES'
-  code= "
-     data casuser.testdatatemp;
-     keep x1 x2 x3 id;
-     length id varying $5.;
-     do i = 1 to 35;
-     x1=i; x2=3; x3=i*10; id=strip(compress(TRIMN('key'||i)));
-  
-     output;
-     end;
-     ";
- `;
-  appControl.preamble = preamble;
+
   payload.storeOptions = {
     casProxy: false
   };
   const appEnv = await setup(payload, appControl);
   console.log(appEnv.state.tableSummary);
-  debugger;
-  await scrollTable('first', appEnv);
-  let summary = await getTableSummary(appEnv);
-  console.log(summary);
-  cache.push({row1: appEnv.state.data[0]});
-  const keepid= appEnv.state.data[0].id;
-  console.log(appEnv.state.columns.toString()); 
-  console.log(appEnv.state.data.length);
-  const x3New = appEnv.state.data[0].x3 + 100;
-  console.log(appEnv.state.data.length);
-  await cellEdit('x3', x3New, 0, appEnv.state.data[0], appEnv);
   summary = await getTableSummary(appEnv);
   console.log(summary);
-  console.log(appEnv.state);
+  console.log(appEnv.state.tableSummary);
 
   await termApp(appEnv);
   return 'done';
@@ -61,7 +36,7 @@ function getAppControl () {
     description: 'Simple Example',
 
     source: 'cas',
-    table : { caslib: 'casuser', name: 'testdatatemp' },
+    table : { caslib: 'casuser', name: 'test1' },
     byvars: ['id'],
 
     initialFetch: {
@@ -90,7 +65,7 @@ function getAppControl () {
 
       uiControl: {
         defaultComponent: 'InputEntry',
-        show            : ['id', 'total', 'x2', 'x1', 'x3'],
+        show            : [ ],
         visuals         : {
           x2: {
             component: 'Slider',

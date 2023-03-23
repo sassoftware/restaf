@@ -1,3 +1,7 @@
+/*
+ * Copyright © 2023, SAS Institute Inc., Cary, NC, USA.  All Rights Reserved.
+ * SPDX-License-Identifier: Apache-2.0
+ */
 import {caslRun} from '@sassoftware/restaflib';
 
 /**
@@ -20,6 +24,7 @@ import {caslRun} from '@sassoftware/restaflib';
  */
 
 async function getTableSummary (appEnv) {
+  
   const handler = (appEnv.source === 'cas') ? casTableSummary : computeTableSummary;
   const r = await handler(appEnv);
   appEnv.state.tableSummary = r;
@@ -27,7 +32,14 @@ async function getTableSummary (appEnv) {
 }
 async function casTableSummary(appEnv) {
   const {store, session, table} = appEnv;
+  
   const src = `
+  rc = checkAndLoadTable(_args_.caslib, _args_.name);
+  if (rc ne true) then do;
+    text = 'Unable to access ' ||_args_.caslib||'.'||_args_.name;   
+    rx = {severity=2,reason=6, status='error',statusCode=2, formatted=text};
+    exit(rx);  
+  end; 
   action table.tableinfo r=result/
     caslib= _args_.caslib name=_args_.name;
     run;
@@ -36,7 +48,7 @@ async function casTableSummary(appEnv) {
   summary.columnCount = result.tableInfo[1, 'Columns'];
   send_response({casResults=summary});
 `;    
- let r = await caslRun(store, session, src, table);
+ let r = await caslRun(store, session, src, table,true);
  return r.results.casResults;
 }
 

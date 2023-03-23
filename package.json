@@ -1,6 +1,6 @@
 {
   "name": "@sassoftware/restafedit",
-  "version": "1.16.4",
+  "version": "1.19.3",
   "description": "Library for data editing in SAS Viya",
   "author": "devaKumaraswamy",
   "license": "Apache-2.0",
@@ -83,7 +83,7 @@
     "verbose": false
   },
   "dependencies": {
-    "@sassoftware/restaf": "^4.8.4",
-    "@sassoftware/restaflib": "^4.8.4"
+    "@sassoftware/restaf": "^4.9.1",
+    "@sassoftware/restaflib": "^4.9.1"
   }
 }

@@ -17,6 +17,7 @@ import termApp from './termApp';
  * @param {logonPayload} logonPayload  -information for connecting to Viya
  * @param {appControl} appControl       control information
  * @param {string=} sessionID if specified, this session will be used.Must match source
+ * @param {object=} builtins object with builtin functions to use in calculations
  *
  * @returns {promise}  returns appEnv to control the flow
  * @alias module: setup
@@ -58,17 +59,16 @@ async function setup (logonPayload, appControl, sessionID, builtins) {
     source: appControl.source,
     table : appControl.table,
     byvars: appControl.byvar,
-
     onNoData: appControl.onNoData != null ? appControl.onNoData : 'clear',
-
     fetchCount: 0,
-
     store,
     session  : null,
     servers  : null,
     restaflib: null,
     sessionID: null,
     userSessionID: null,
+    casServerName: appControl.casServerName,
+    computeContext: appControl.computeContext,
 
     logonPayload,
     appControl,
@@ -105,16 +105,18 @@ async function icasSetup (store, logonPayload, appControl, appEnv, sessionID) {
   debugger;
   try {
     debugger;
-    r = await casSetup(store, logonPayload, sessionID);
+    r = await casSetup(store, logonPayload, sessionID, appEnv.casServerName);
     appEnv.session = r.session;
     appEnv.servers = r.servers;
+    appEnv.casServerName = appEnv.session.links('execute','link','server');
   } catch (err) {
     debugger;
     console.log(JSON.stringify(err, null,4));
     // eslint-disable-next-line no-throw-literal
     throw 'ERROR: Unable to create session. Please see console for messages';
   }
-
+  appEnv.serverName = appEnv.session.links('execute','link','server');
+  
   if (appControl.editControl.handlers.initApp != null) {
     try {
       const r = await appControl.editControl.handlers.initApp(appEnv, 'initApp');

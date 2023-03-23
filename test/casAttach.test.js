@@ -1,21 +1,19 @@
 /* eslint-disable quotes */
 const { setup, scrollTable, cellEdit, termApp } = require('../lib/index.js');
+const getToken  = require('./getToken');
 test ('casAttach', async () => {
-  const r = await runit();
+  const payload = {
+    host        : process.env.VIYA_SERVER,
+    authType    : 'server',
+    token       : getToken(),
+    tokenType   : 'bearer',
+    storeOptions: { casProxy: true }
+  };
+  const r = await runit(payload);
   expect(r).toBe('done');
 });
 
-async function runit () {
-  const payload = {
-    host        : process.env.VIYA_SERVER,
-    authType    : 'password',
-    clientID    : 'sas.ec',
-    clientSecret: '',
-    user        : 'sastest1',
-    password    : 'Go4thsas',
-    storeOptions: { casProxy: true }
-  };
-
+async function runit (payload) {
   const cache = [];
   const appControl = getAppControl();
   const preamble = `   
@@ -41,7 +39,7 @@ async function runit () {
   const appEnv = await setup(payload, appControl, appEnv1.sessionID);
   console.log(appEnv.sessionID, ' ', appEnv.userSessionID);
 
-  const appEnv2 = await setup(payload, appControl, appEnv1.sessionID,{}, appEnv.store );
+  const appEnv2 = await setup(payload, appControl, appEnv1.sessionID,{}, appEnv.store, appEnv.casServerName );
   await scrollTable('first', appEnv2);
   cache.push(appEnv2.state.data[0]);
   console.log(appEnv2.state.data.length);

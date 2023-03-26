@@ -30,6 +30,7 @@ async function addRows (data, appEnv, save) {
       drop.push(c);
     }
   }
+  
   let d = (Array.isArray(data) === true) ? data : [data];
   const status = await appendRows(d, table, drop, appEnv, save);
   return status;

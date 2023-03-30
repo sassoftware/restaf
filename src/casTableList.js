@@ -19,14 +19,19 @@
 
 async function casTableList (lib, appEnv) {
   const { store, servers } = appEnv;
-  const casServer = appEnv.casServerName;
-
+  const casServerx = appEnv.casServerName;
+  /*
+  const casServer = servers.itemsList(0);
+  console.log(appEnv.casServerName);
+  console.log(casServer);
+  */
   let p = {
     qs: {
       filter: `eq(name,'${lib}' )`
     }
   };
-  const mylib = await store.apiCall(servers.itemsCmd(casServer, 'caslibs'), p);
+  let t = servers.itemsCmd(casServerx, 'caslibs')
+  const mylib = await store.apiCall(servers.itemsCmd(casServerx, 'caslibs'), p);
   p = {
     qs: {
       limit: 1000,
@@ -34,7 +39,12 @@ async function casTableList (lib, appEnv) {
     }
   };
 
-  const tlist = await store.apiCall(mylib.itemsCmd(lib, 'tables'), p);
-  return tlist.itemsList().toJS();
+  if (mylib.itemsList().size === 0) {
+    console.log('no items found for ' + lib );
+    return [];
+  } else {
+    const tlist = await store.apiCall(mylib.itemsCmd(lib, 'tables'), p);
+    return tlist.itemsList().toJS();
+  }
 }
 export default casTableList;

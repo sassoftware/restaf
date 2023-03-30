@@ -1,20 +1,21 @@
 /* eslint-disable quotes */
 const { setup, getLibraryList, getTableList } = require('../lib/index.js');
-test ('casLibrary', async () => {
-  const r = await runit();
-  expect(r).toBe('done');
-  
-});
+const getToken = require('./getToken');
 
-async function runit () {
+test('casBasic', async () => {
   const payload = {
     host        : process.env.VIYA_SERVER,
-    authType    : 'password',
-    clientID    : 'sas.ec',
-    clientSecret: '',
-    user        : 'sastest1',
-    password    : 'Go4thsas'
+    authType    : 'server',
+    token       : getToken(),
+    tokenType   : 'bearer',
+    storeOptions: { casProxy: true }
   };
+  console.log(payload);
+  const r = await runit(payload);
+  expect(r).toBe('done');
+});
+
+async function runit (payload) {
   debugger;
   const appControl = getAppControl();
   const preamble = `   

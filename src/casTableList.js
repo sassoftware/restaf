@@ -30,9 +30,9 @@ async function casTableList (lib, appEnv) {
       filter: `eq(name,'${lib}' )`
     }
   };
-  console.log(p);
-  console.log(lib);
-  console.log(appEnv.casServerName);
+  console.log('p', p);
+  console.log('lib', lib);
+  console.log('cx: ' , casServerx);
   let t = servers.itemsCmd(casServerx, 'caslibs')
   const mylib = await store.apiCall(servers.itemsCmd(casServerx, 'caslibs'), p);
   p = {

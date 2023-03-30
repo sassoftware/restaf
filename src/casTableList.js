@@ -19,7 +19,7 @@
 
 async function casTableList (lib, appEnv) {
   const { store, servers } = appEnv;
-  const casServer = servers.itemsList(0);
+  const casServer = appEnv.casServerName;
 
   let p = {
     qs: {

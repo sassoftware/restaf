@@ -26,6 +26,8 @@ import getLibraryList from './getLibraryList';
 import getTableList from './getTableList';
 import getTableSummary from './getTableSummary';
 
+import prepFormData from './prepFormData';
+
 export {
   cellEdit,
   commonHandler,
@@ -45,5 +47,6 @@ export {
   setWhere,
   termApp,
   restaf,
-  restaflib
+  restaflib,
+  prepFormData
 };

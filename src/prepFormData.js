@@ -3,21 +3,17 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-/*
-* output
-* extended columns and data ready for use in dataform and table
-*/
+
 import commonHandler from './commonHandler';
 /**
  * @description reduce fetch results
- * @private
  * @async
  * @module prepFormData
  * @param {object} result - result from casFetchRow(rows and schema)
  * @param {object} appEnv - app Environment from setup
  * @returns {promise}     - {columns: eColumns, rowsObject: newRows}
  */
-async function prepFormData (result, appEnv) {
+async function prepFormData (result, appEnv, makerow) {
   const { schema, rows } = result;
   const source = appEnv.source;
   const customColumns = appEnv.appControl.customColumns;
@@ -42,7 +38,7 @@ async function prepFormData (result, appEnv) {
     return rowObj;
   };
 
-  const newRows = [];
+  let newRows = [];
   for (let i = 0; i < rows.length; i++) {
     const t = makeRowObject(schema, rows[i], i);
 
@@ -94,7 +90,13 @@ async function prepFormData (result, appEnv) {
     eColumns[k] = c;
   });
 
-
+  if (makerow === true) {
+    let t = {};
+    for (const k in eColumns) {
+      t[k] = (eColumns[k].customType === 'text') ? ' ' : 0;
+    }
+    newRows = [t];
+  }
   return {
     columns: eColumns,
     data   : newRows,

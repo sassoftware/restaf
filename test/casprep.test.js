@@ -1,35 +1,49 @@
 /* eslint-disable quotes */
-const { setup, scrollTable, cellEdit,setWhere, termApp,saveTable } = require('../lib/index.js');
-const getToken = require('./getToken');
+const { setup, scrollTable, cellEdit,setWhere, prepFormData, termApp,saveTable } = require('../lib/index.js');
+const getToken = require('./getToken.js');
 console.log(getToken);
 
 test('casBasic', async () => {
-  console.log(getToken);
-  const r = await runit();
-  expect(r).toBe('done');
-});
-
-async function runit () {
   const payload = {
     host        : process.env.VIYA_SERVER,
     authType    : 'server',
     token       : getToken(),
-    tokenType   : 'bearer'
+    tokenType   : 'bearer',
+    storeOptions: { casProxy: true }
   };
-  
-  
+  const r = await runit(payload);
+  expect(r).toBe('done');
+});
+
+async function runit (payload) {
   const cache = [];
   const appControl = getAppControl();
+  const preamble = `   
+  action datastep.runcode /
+  single='YES'
+  code= "
+     data casuser.TESTTEMPDATA;
+     keep x1 x2 x3 id;
+     length id $5.;
+     do i = 1 to 35;
+     x1=i; x2=3; x3=i*10; id=strip(compress(TRIMN('key'||i)));
+  
+     output;
+     end;
+     ";
+ `;
   appControl.preamble = null;
   payload.storeOptions = {
     casProxy: false
   };
   debugger;
   const appEnv = await setup(payload, appControl);
-  debugger;
-  console.log(appEnv.builtins);
-  console.log(appEnv.state.tableSummary);
-  console.log(appEnv);
+  console.log(JSON.stringify(appEnv.state, null,4));
+  console.log(JSON.stringify(appEnv.appControl.customColumns, null,4));
+  let r = {schema: [], rows: []};
+  const result = await prepFormData(r, appEnv, true);
+  console.log('result');
+  console.log(result)
   await termApp(appEnv);
   
   
@@ -42,8 +56,7 @@ function getAppControl () {
 
     source: 'cas',
     table : null,
-    /* 
-    byvars: ['id'],
+    byvars: [],
 
     initialFetch: {
       qs: {
@@ -59,10 +72,16 @@ function getAppControl () {
         Label          : 'Grand Total',
         FormattedLength: 12,
         Type           : 'double'
+      },
+      x: {
+        Column         : 'X',
+        Label          : 'Input',
+        FormattedLength: 12,
+        Type           : 'double'
       }
     },
     editControl: {
-      handlers: { init, main, term, initApp, termApp: termMyApp, x3 }, 
+      handlers: { init, main, term, termApp: termMyApp }, /* note reuse of init */
       autoSave: true,
       autoSaveTable: true
     },
@@ -72,7 +91,7 @@ function getAppControl () {
 
       uiControl: {
         defaultComponent: 'InputEntry',
-        show            : ['id', 'total', 'x2', 'x1', 'x3'],
+        show            : [],
         visuals         : {
           x2: {
             component: 'Slider',
@@ -89,31 +108,24 @@ function getAppControl () {
           }
         }
       }
-    
-    
+
     }
-    */
 
   };
 }
 
-async function initApp (appEnv) {
-  console.log('in initApp');
-  console.log('Table in initApp: ' ,appEnv.table);
-  return { msg: 'done', satusCode: 0 };
-}
 async function termMyApp (appEnv) {
   console.log('in termApp');
   return { msg: 'done', satusCode: 0 };
 }
 async function init (data, rowIndex, appEnv, type) {
   const status = { statusCode: 0, msg: `${type} processing completed` };
-  data.total = data.x1 + data.x2 + data.x3;
+  data.total = data.x *100;
   return [data, status];
 };
 async function main (data, rowIndex, appEnv, type) {
   const status = { statusCode: 0, msg: `${type} processing completed` };
-  data.total = data.x1 + data.x2 + data.x3;
+  data.total = data.x *100;
   return [data, status];
 };
 
@@ -123,8 +135,8 @@ async function term (data, rowIndex, appEnv, type) {
   return [data, status];
 };
 
-async function x3 (data, name, rowIndex, appEnv) {
+async function x (data, name, rowIndex, appEnv) {
   const status = { statusCode: 0, msg: `${name} handler executed.` };
-  console.log('in x3');
+  console.log('in x');
   return [data, status];
 };

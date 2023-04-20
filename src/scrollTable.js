@@ -82,6 +82,7 @@ async function icasScroll (direction, appEnv, payload) {
     appEnv.fetchCount = result.data.length;
     if (appEnv.fetchCount > 0) {
       appEnv.state = {
+        cache        : result.cache,
         modified     : [],
         pagination   : { ...r.pagination },
         data         : result.data,

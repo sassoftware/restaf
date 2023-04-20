@@ -44,6 +44,7 @@ async function runit (payload) {
   console.log(appEnv.casServerName);
   debugger;
   let r = await scrollTable('first', appEnv);
+  console.log(JSON.stringify(appEnv.state.cache));
   console.log(r.data[0]);
   
   cache.push({row1: appEnv.state.data[0]});

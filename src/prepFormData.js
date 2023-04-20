@@ -9,9 +9,9 @@ import commonHandler from './commonHandler';
  * @description reduce fetch results
  * @async
  * @module prepFormData
- * @param {object} result - result from casFetchRow(rows and schema)
+ * @param {object} result - result from data fetch{schema: [], rows:[]}
  * @param {object} appEnv - app Environment from setup
- * @returns {promise}     - {columns: eColumns, rowsObject: newRows}
+ * @returns {promise}     - {columns: eColumns, rowsObject: newRows, schema: schema, status: status}
  */
 async function prepFormData (result, appEnv, makerow) {
   const { schema, rows } = result;
@@ -98,6 +98,7 @@ async function prepFormData (result, appEnv, makerow) {
     newRows = [t];
   }
   return {
+    cache  : result,
     columns: eColumns,
     data   : newRows,
     status

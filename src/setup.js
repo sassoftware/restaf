@@ -76,6 +76,7 @@ async function setup (logonPayload, appControl, sessionID, builtins) {
     activeWhere: (appControl.initialFetch.qs.where != null) ? appControl.initialFetch.qs.where : ' ',
     builtins: (builtins != null) ? builtins: {},
     state: {
+      cache        : {rows:[], columns: []},   
       modified     : [],
       pagination   : {},
       point        : '',

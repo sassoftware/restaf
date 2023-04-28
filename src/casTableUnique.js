@@ -12,6 +12,7 @@ import { caslRun } from '@sassoftware/restaflib';
  * @category restafedit/utility
  * @param {object} table object
  * @param {string} columnName    column name
+ * @param {string} where         where clause
  * @param {appEnv} appEnv   app Environment from setup
  * @returns {promise}       {an array of unique values }
  * @example
@@ -20,17 +21,21 @@ import { caslRun } from '@sassoftware/restaflib';
  *  {columnName:[ array of unque values] }
  */
 
-async function casTableUnique (table, columnName, appEnv) {
+async function casTableUnique (table, columnName, where, appEnv) {
   const { store, session } = appEnv;
+  if (where == null) {
+    where = '';
+  };
 
   const src = `
-  results = selectionLists(_args_.column,_args_.table.caslib, _args_.table.name);
+  results = selectionLists(_args_.column,_args_.table.lib, _args_.table.name, _args_.where);
   send_response({casResults = {data=results}});
   `
   ;
   const args = {
     table,
-    column: columnName
+    column: columnName,
+    where: where
   };
 
   const result = await caslRun(store, session, src, args, true);

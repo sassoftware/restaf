@@ -1,5 +1,6 @@
 /* eslint-disable quotes */
 const { setup, scrollTable, cellEdit,setWhere, getTableSummary, termApp } = require('../lib/index.js');
+const getToken = require('./getToken');
 
 test('casTableSummary', async () => {
   const r = await runit();
@@ -8,11 +9,9 @@ test('casTableSummary', async () => {
 async function runit () {
   const payload = {
     host        : process.env.VIYA_SERVER,
-    authType    : 'password',
-    clientID    : 'sas.ec',
-    clientSecret: '',
-    user        : 'sastest1',
-    password    : 'Go4thsas',
+    authType    : 'server',
+    token       : getToken(),
+    tokenType   : 'bearer',
     storeOptions: { casProxy: true }
   };
   const cache = [];
@@ -41,6 +40,7 @@ async function runit () {
   await scrollTable('first', appEnv);
   let summary = await getTableSummary(appEnv);
   console.log(summary);
+  /*
   cache.push({row1: appEnv.state.data[0]});
   const keepid= appEnv.state.data[0].id;
   console.log(appEnv.state.columns.toString()); 
@@ -51,6 +51,7 @@ async function runit () {
   summary = await getTableSummary(appEnv);
   console.log(summary);
   console.log(appEnv.state);
+  */
 
   await termApp(appEnv);
   return 'done';

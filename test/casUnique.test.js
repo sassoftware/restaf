@@ -1,22 +1,21 @@
 /* eslint-disable quotes */
 const { setup, distinctValues } = require('../lib/index.js');
 
-test ('casUnique', async () => {
-  const r = await runit();
-  expect(r).toBe('done');
-  
-});
+const getToken = require('./getToken');
 
-async function runit () {
+test('casBasic', async () => {
   const payload = {
     host        : process.env.VIYA_SERVER,
-    authType    : 'password',
-    clientID    : 'sas.ec',
-    clientSecret: '',
-    user        : 'sastest1',
-    password    : 'Go4thsas'
+    authType    : 'server',
+    token       : getToken(),
+    tokenType   : 'bearer',
+    storeOptions: { casProxy: true }
   };
-  debugger;
+  const r = await runit(payload);
+  expect(r).toBe('done');
+});
+
+async function runit (payload) {
   let appControl = getAppControl();
   const preamble = `   
   action datastep.runcode /
@@ -34,7 +33,7 @@ async function runit () {
   appControl.preamble = preamble;
   const appEnv = await setup(payload, appControl);
   debugger;
-  let values = await distinctValues('id', appEnv, appEnv.table);
+  let values = await distinctValues(['make'], appEnv, {lib: 'casuser', name: 'cars'}, `origin eq 'Europe'`);
   console.log(values);
   debugger;
   return 'done';

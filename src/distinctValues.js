@@ -21,13 +21,16 @@ import computeTableUnique from './computeTableUnique';
  *  {company:['IBM', 'Microsoft', 'SAS'] }
  */
 
-async function distinctValues (columnName, appEnv, table) {
+async function distinctValues (columnName, appEnv, table, where) {
   let data;
   const t = (table != null) ? table : appEnv.appControl.table;
+  if (where == null) {
+    where = '';
+  };
   if (appEnv.source === 'cas') {
-    data = await casTableUnique(t, columnName, appEnv);
+    data = await casTableUnique(t, columnName,where, appEnv);
   } else {
-    data = await computeTableUnique(t, columnName, appEnv);
+    data = await computeTableUnique(t, columnName,where, appEnv);
   }
   return data;
 };

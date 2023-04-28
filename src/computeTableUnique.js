@@ -19,7 +19,7 @@ import { computeRun, computeFetchData } from '@sassoftware/restaflib';
  *  {columnName:[ array of unquew values] }
  */
 
-async function computeTableUnique (table, columnName, appEnv) {
+async function computeTableUnique (table, columnName, where, appEnv) {
   const { store, session } = appEnv;
   const t = `${table.libref}.${table.name}`;
 
@@ -27,7 +27,8 @@ async function computeTableUnique (table, columnName, appEnv) {
     PROC SQL;
     CREATE TABLE WORK.QUERY
     AS
-    SELECT distinct(${columnName}) as utype FROM ${t};
+    SELECT distinct(${columnName}) as utype FROM ${t}
+    WHERE ${where};
    QUIT;`;
 
   const computeSummary = await computeRun(store, session, code);

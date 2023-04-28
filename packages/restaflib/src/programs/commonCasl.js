@@ -136,22 +136,22 @@ end;
     /* Returns unique values                   */  
     /*-----------------------------------------*/  
  
-    function selectionLists(idvars,caslib, name);   
+    function selectionLists(idvars,caslib, name, where);   
          
         s = checkAndLoadTable(caslib, name);   
         if ( s ne true) then do;   
         results = {Errors= 'Unable to access ' ||caslib||'.'||name, statusCode = s};   
       
         end;   
-         
+        print idvars;
         do k over idvars;   
-        r  = _getValues(k, caslib, name);   
+        r  = _getValues(k, caslib, name, where);   
         results[k] = r;   
         end;   
-        return { data=results, statusCode=0};      
+        return { data=results, statusCode=0};   
     end;   
          
-    function _getValues(id, caslib, name) ;   
+    function _getValues(id, caslib, name, where) ;   
                      
         action table.dropTable/   
         caslib='casuser' name='dtemp1' quiet=TRUE;   
@@ -162,7 +162,7 @@ end;
         action simple.groupby result=r status=rc/   
             aggregator = 'N'   
             inputs     = {id}   
-            table      = {caslib=caslib name=name}   
+            table      = {caslib=caslib name=name, where=where}   
             casout     = {caslib='casuser' name='dtemp1'}   
         ;   
         action table.fetch result=r/   

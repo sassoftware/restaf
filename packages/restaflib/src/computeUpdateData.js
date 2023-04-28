@@ -33,11 +33,15 @@ async function computeUpdateData(store, session, payload) {
     src = src + ' ' + set;
     let swhere = ' WHERE ';
     let andbit = ' ';
-    for( let k in where) {
-        let v = where[k];
-        let valString = value2String(v);
-        swhere = swhere + andbit + k + `= ${valString} `;
-        andbit = ' AND '
+    if (typeof where === 'string') {
+      swhere = swhere + where;
+    } else {
+      for( let k in where) {
+          let v = where[k];
+          let valString = value2String(v);
+          swhere = swhere + andbit + k + `= ${valString} `;
+          andbit = ' AND '
+      }
     }
     src = src + ' ' + swhere + ';run;';
     const asrc = src.split(/\r?\n/);

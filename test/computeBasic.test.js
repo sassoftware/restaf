@@ -1,22 +1,22 @@
 const { setup, cellEdit, scrollTable, termApp, getTableSummary } = require('../lib/index.js');
 const { computeRun } = require('@sassoftware/restaflib');
+const getToken = require('./getToken');
+console.log(getToken);
 
-test ('computeBasic', async () => {
-  const r = await runit();
-  expect(r).toBe('done');
-  
-});
-
-async function runit () {
+test('casBasic', async () => {
   const payload = {
     host        : process.env.VIYA_SERVER,
-    authType    : 'password',
-    clientID    : 'sas.ec',
-    clientSecret: '',
-    user        : 'sastest1',
-    password    : 'Go4thsas'
+    authType    : 'server',
+    token       : getToken(),
+    tokenType   : 'bearer',
+    storeOptions: { casProxy: true }
   };
+  const r = await runit(payload);
+  expect(r).toBe('done');
+});
 
+async function runit (payload) {
+  
   const appControl = getAppControl();
   debugger;
   // eslint-disable-next-line quotes
@@ -38,15 +38,20 @@ run;`;
   const appEnv = await setup(payload, appControl);
   rc = await getTableSummary(appEnv);
   console.log(appEnv.state.tableSummary);
+  console.log(appEnv.state.cache);
 
   debugger;
   let result = await scrollTable('first', appEnv);
   console.log('result of a fetchTableRows-----------------------------');
   debugger;
+  console.log(appEnv.state.cache);
+  /*
   console.log(appEnv.state.data[0]);
   console.log(JSON.stringify(appEnv.state.columns, null,4));
   console.log(appEnv.state.columns);
-
+  console.log(appEnv.state.cache);
+  */
+/*
   console.log('-------------------------------------------------------');
   const x3New = result.data[0].x3 + 100;
   await cellEdit('x3', x3New, 0, result.data[0], appEnv);
@@ -66,6 +71,7 @@ run;`;
   console.log(result.data[0]);
   console.log(appEnv.state.data[0]);
   console.log('-------------------------------------------------------');
+  */
   await termApp(appEnv);
   return 'done';
 };

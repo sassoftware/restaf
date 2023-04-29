@@ -98,7 +98,7 @@ async function prepFormData (result, appEnv, makerow) {
     newRows = [t];
   }
   return {
-    cache  : result,
+    cache  : {schema, rows},
     columns: eColumns,
     data   : newRows,
     status

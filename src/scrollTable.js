@@ -90,11 +90,12 @@ async function icasScroll (direction, appEnv, payload) {
         point        : setPoint(r.data.scrollOptions),
         scrollOptions: [].concat(r.data.scrollOptions)
       };
-      ;
+      /*
       if (cachePolicy === true) {
         appEnv.state.data = result.data;
         appEnv.state.columns = result.columns;
       }
+      */
     } else {
       if (appEnv.onNoData !== 'keep') {
         appEnv.state.data = [];
@@ -151,17 +152,20 @@ async function icomputeScroll (direction, appEnv, payload) {
     appEnv.fetchCount = result.data.length;
     if (appEnv.fetchCount > 0) {
       appEnv.state = {
+        cache        : result.cache,
         modified     : [],
-        pagination   : {},
-        data         : [],
-        columns      : [],
+        pagination   : {...r.pagination},
+        data         : result.data,
+        columns      : result.columns,
         point        : setPoint(r.scrollOptions),
         scrollOptions: [].concat(r.scrollOptions)
       };
+      /*
       if (cachePolicy === true) {
         appEnv.state.data = result.data;
         appEnv.state.columns = result.columns;
       }
+      */
     } else {
       appEnv.fetchCount = 0;
       if (appEnv.onNoData !== 'keep') {

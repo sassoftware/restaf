@@ -33,7 +33,7 @@ async function runit (payload) {
   appControl.preamble = preamble;
   const appEnv = await setup(payload, appControl);
   debugger;
-  let values = await distinctValues(['make'], appEnv, {lib: 'casuser', name: 'cars'}, `origin eq 'Europe'`);
+  let values = await distinctValues(['make'], appEnv, {caslib: 'casuser', name: 'cars'}, `origin eq 'Europe'`);
   console.log(values);
   debugger;
   return 'done';

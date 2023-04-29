@@ -1,25 +1,19 @@
 const { setup, distinctValues, termApp } = require('../lib/index.js');
+const getToken = require('./getToken');
 
-const restafedit = require('../lib/index.js');
-console.log(restafedit);
-
-
-test ('computeUnique', async () => {
-  const r = await runit();
-  expect(r).toBe('done');
-  
-});
-
-async function runit () {
+test('casBasic', async () => {
   const payload = {
     host        : process.env.VIYA_SERVER,
-    authType    : 'password',
-    clientID    : 'sas.ec',
-    clientSecret: '',
-    user        : 'sastest1',
-    password    : 'Go4thsas'
+    authType    : 'server',
+    token       : getToken(),
+    tokenType   : 'bearer',
+    storeOptions: { casProxy: true }
   };
+  const r = await runit(payload);
+  expect(r).toBe('done');
+});
 
+async function runit (payload) {
   const appControl = getAppControl();
   ;
   console.log('appControl -------------------------------');
@@ -28,7 +22,8 @@ async function runit () {
   debugger;
   const appEnv = await setup(payload, appControl);
 
-  const values = await distinctValues('type', appEnv);
+  let values = await distinctValues(['make'], appEnv, {libref: 'SASHELP', name: 'CARS'}, '');
+
   console.log(values);
   await termApp(appEnv);
   return 'done';

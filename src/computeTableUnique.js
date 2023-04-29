@@ -21,16 +21,19 @@ import { computeRun, computeFetchData } from '@sassoftware/restaflib';
 
 async function computeTableUnique (table, columnName, where, appEnv) {
   const { store, session } = appEnv;
-  const t = `${table.libref}.${table.name}`;
+  const t = `${table.libref}.${table.name}`.toUpperCase();
 
-  const code = `
+  let  code = `
     PROC SQL;
     CREATE TABLE WORK.QUERY
     AS
-    SELECT distinct(${columnName}) as utype FROM ${t}
-    WHERE ${where};
-   QUIT;`;
+    SELECT distinct(${columnName}) as utype FROM ${t}`;
 
+  if ( where != null && where.length > 0) {
+    code = code + ` WHERE ${where}`;
+  }
+  code = code + '; QUIT;';
+  console.log(code);
   const computeSummary = await computeRun(store, session, code);
   const values = {};
   let dir = 'first';

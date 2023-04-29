@@ -28,7 +28,7 @@ async function casTableUnique (table, columnName, where, appEnv) {
   };
 
   const src = `
-  results = selectionLists(_args_.column,_args_.table.lib, _args_.table.name, _args_.where);
+  results = selectionLists(_args_.column,_args_.table.caslib, _args_.table.name, _args_.where);
   send_response({casResults = {data=results}});
   `
   ;

@@ -25,6 +25,7 @@ import distinctValues from './distinctValues';
 import getLibraryList from './getLibraryList';
 import getTableList from './getTableList';
 import getTableSummary from './getTableSummary';
+import getTableColumns from './getTableColumns';
 
 import prepFormData from './prepFormData';
 
@@ -40,6 +41,7 @@ export {
   getLibraryList,
   getTableList,
   getTableSummary,
+  getTableColumns,
   updateTableRows,
   uploadData,
   saveTable,

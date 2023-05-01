@@ -1,9 +1,9 @@
 /* eslint-disable quotes */
-const { setup, distinctValues } = require('../lib/index.js');
+const { setup, distinctValues, getTableColumns } = require('../lib/index.js');
 
 const getToken = require('./getToken');
 
-test('casBasic', async () => {
+test('casUnique', async () => {
   const payload = {
     host        : process.env.VIYA_SERVER,
     authType    : 'server',
@@ -30,12 +30,22 @@ async function runit (payload) {
      end;
      ";
  `;
-  appControl.preamble = preamble;
+  appControl.preamble = null;
   const appEnv = await setup(payload, appControl);
   debugger;
+  
   let values = await distinctValues(['make'], appEnv, {caslib: 'casuser', name: 'cars'}, `origin eq 'Europe'`);
   console.log(values);
+  
   debugger;
+  let table = {caslib: 'casuser', name: 'testtempdata'};
+  
+  let columns = await getTableColumns('cas',table, appEnv);
+  /*
+  console.log(JSON.stringify(results.results.casResults.ColumnInfo, null, 4));
+  let columns = results.results.casResults.ColumnInfo.rows.map(r => r[0].toLowerCase());
+  */
+  console.log(columns);
   return 'done';
 };
 

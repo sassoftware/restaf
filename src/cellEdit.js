@@ -41,17 +41,22 @@ async function cellEdit (name, value, rowIndex, currentData, appEnv) {
   const iautoSave = (autoSave == null) ? true : autoSave;
   const cachePolicy = (appEnv.appControl.cachePolicy == null) ? true : appEnv.appControl.cachePolicy;
 
-  newDataRow[name] = text2Float(value, columns[name]);
   let status = { statusCode: 0, msg: '' };
-  if (handlers[name] != null) {
-    let r1 = await handlers[name](newDataRow, name, rowIndex, appEnv);
-    let r = handlerResult(r1, newDataRow, name);
-    newDataRow = r[0];
-    status = r[1];
-    if (status.statusCode === 2) {
-      return { data: r[0], status };
+  if ( name != null ) {
+    newDataRow[name] = text2Float(value, columns[name]);
+    if (handlers[name] != null) {
+      let r1 = await handlers[name](newDataRow, name, rowIndex, appEnv);
+      let r = handlerResult(r1, newDataRow, name);
+      newDataRow = r[0];
+      status = r[1];
+      if (status.statusCode === 2) {
+        return { data: r[0], status };
+      }
     }
+  } else {
+    let r1 = await commonHandler('init', newDataRow, rowIndex, appEnv);
   }
+
   let r = await commonHandler('main', newDataRow, rowIndex, appEnv);
   if (r[1].statusCode === 2) {
     return { data: r[0], status: r[1] };

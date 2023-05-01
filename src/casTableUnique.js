@@ -44,8 +44,8 @@ async function casTableUnique (table, columnName, where, appEnv) {
     throw 'Failed to create unique list';
   }
 
-  const data = result.results.casResults.data.data;
-
+  const data = result.results.casResults.data;
+  console.log(JSON.stringify(result));
   return data;
 };
 export default casTableUnique;

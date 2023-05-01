@@ -1,4 +1,4 @@
-const { setup, distinctValues, termApp } = require('../lib/index.js');
+const { setup, distinctValues, getTableColumns, termApp } = require('../lib/index.js');
 const getToken = require('./getToken');
 
 test('casBasic', async () => {
@@ -15,16 +15,14 @@ test('casBasic', async () => {
 
 async function runit (payload) {
   const appControl = getAppControl();
-  ;
-  console.log('appControl -------------------------------');
-  console.log(appControl);
-  console.log('------------------------------------------');
-  debugger;
-  const appEnv = await setup(payload, appControl);
+  let appEnv = await setup(payload, appControl);
 
-  let values = await distinctValues(['make'], appEnv, {libref: 'SASHELP', name: 'CARS'}, '');
-
+  let values = await distinctValues(['make'], appEnv, {libref: 'SASHELP', name: 'CARS'});
+  
   console.log(values);
+  let table = {libref: 'SASHELP', name: 'CARS'};
+  let columns = await getTableColumns('compute',table, appEnv);
+  console.log(columns);
   await termApp(appEnv);
   return 'done';
 };
@@ -34,7 +32,7 @@ function getAppControl () {
     description: 'Simple Example',
 
     source: 'compute',
-    table : { libref: 'SASHELP', name: 'CARS' },
+    table : { libref: 'SASHELP', name: "CARS" },
     byvars: ['key'],
 
     cachePolicy: true,

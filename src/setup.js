@@ -104,12 +104,14 @@ async function setup (logonPayload, appControl, sessionID, builtins) {
 async function icasSetup (store, logonPayload, appControl, appEnv, sessionID) {
   let r;
   try {
+    console.log('icassetup');
+    console.log(sessionID)
     r = await casSetup(store, logonPayload, sessionID, appEnv.casServerName);
     appEnv.session = r.session;
     appEnv.servers = r.servers;
     appEnv.casServerName = appEnv.session.links('execute','link','server');
   } catch (err) {
-    console.log(JSON.stringify(err, null,4));
+    
     // eslint-disable-next-line no-throw-literal
     throw 'ERROR: Unable to create session. Please see console for messages';
   }

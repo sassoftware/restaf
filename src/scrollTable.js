@@ -139,7 +139,6 @@ async function icomputeScroll (direction, appEnv, payload) {
   try {
     r = await computeFetchData(store, tableSummary, tname, direction, control, 'rows');
   } catch (err) {
-    console.log(err.toJS());
     appEnv.state.data = [];
     // eslint-disable-next-line no-throw-literal
     throw 'ERROR: Fetch failed. See console for logs';

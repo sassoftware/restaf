@@ -45,7 +45,6 @@ async function casTableUnique (table, columnName, where, appEnv) {
   }
 
   const data = result.results.casResults.data;
-  console.log(JSON.stringify(result));
   return data;
 };
 export default casTableUnique;

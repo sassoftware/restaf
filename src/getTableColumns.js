@@ -62,7 +62,6 @@ async function computeTableColumns(appEnv, table) {
   const { store, session } = appEnv;
   debugger;
   let {libref, name} = table;
-  console.log('in compute');
   libref = libref.toUpperCase();
   name = name.toUpperCase();
   let p = {
@@ -80,10 +79,7 @@ async function computeTableColumns(appEnv, table) {
   };
   debugger;
   const tables = await store.apiCall(selflib.links('tables'), p);
-
-  console.log('tables', tables.links().keySeq().toJS());
   const tablesSelf = await store.apiCall(tables.itemsCmd('self'));
-  console.log('tablesSelf', tablesSelf.links().keySeq().toJS());
   debugger;
   
   const tableDetails = await store.apiCall(tablesSelf.links('columns'));

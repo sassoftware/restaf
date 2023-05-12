@@ -20,19 +20,12 @@
 async function casTableList (lib, appEnv) {
   const { store, servers } = appEnv;
   const casServerx = appEnv.casServerName;
-  /*
-  const casServer = servers.itemsList(0);
-  console.log(appEnv.casServerName);
-  console.log(casServer);
-  */
+
   let p = {
     qs: {
       filter: `eq(name,'${lib}' )`
     }
   };
-  console.log('p', p);
-  console.log('lib', lib);
-  console.log('cx: ' , casServerx);
   let t = servers.itemsCmd(casServerx, 'caslibs')
   const mylib = await store.apiCall(servers.itemsCmd(casServerx, 'caslibs'), p);
   p = {
@@ -43,7 +36,6 @@ async function casTableList (lib, appEnv) {
   };
 
   if (mylib.itemsList().size === 0) {
-    console.log('no items found for ' + lib );
     return [];
   } else {
     const tlist = await store.apiCall(mylib.itemsCmd(lib, 'tables'), p);

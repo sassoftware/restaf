@@ -41,6 +41,7 @@
     "winston": "^3.2.1"
   },
   "devDependencies": {
-    "eslint": "^8.8.0"
+    "eslint": "^8.8.0",
+    "microbundle": "^0.15.1"
   }
 }

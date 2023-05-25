@@ -33,5 +33,8 @@
     "pub": "npm publish --tag test --access public",
     "jsdoc": "jsdoc -c jsdoc.json",
     "dlink": "npm link"
+  },
+  "devDependencies": {
+    "microbundle": "^0.15.1"
   }
 }

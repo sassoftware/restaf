@@ -62,13 +62,21 @@ async function runit (payload) {
   await scrollTable('first', appEnv);
   cache.push({row1again: appEnv.state.data[0]});
   
+  try {
+    let r = await saveTable(appEnv);
+    console.log(r);
+ } catch (e) {
+   console.log(e);
+ }
   const where = "id = 'key1'";
   console.log(where)
   setWhere(where, appEnv);
   await scrollTable('first', appEnv);
   cache.push({where: appEnv.state.data[0]});
-
-  // await saveTable(appEnv)
+  
+  
+  
+  
   console.log(cache);
   await termApp(appEnv);
   

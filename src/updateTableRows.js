@@ -52,7 +52,7 @@ function makePayload (data, appEnv, altTable) {
   
   const payload = {
     table: (altTable != null) ? altTable : table,
-    data : data,
+    data : t,
     where: w
   };
   return payload;

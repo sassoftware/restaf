@@ -15,7 +15,7 @@ import { casUpdateData } from '@sassoftware/restaflib';
  *    let r = await updateTableRows(data, appEnv);
  *    To append new rows see appendRows
  */
-async function updateTableRows (data, appEnv) {
+async function updateTableRows (data, appEnv, altTable) {
   let result;
   const byvars = appEnv.appControl.byvars;
   if (byvars === null || byvars.length === 0) {
@@ -24,15 +24,15 @@ async function updateTableRows (data, appEnv) {
 
   if (Array.isArray(data) === true) {
     for (let i = 0; i < data.length; i++) {
-      result = await _updateData(data[i], appEnv);
+      result = await _updateData(data[i], appEnv, altTable);
     }
   } else {
-    result = await _updateData(data, appEnv);
+    result = await _updateData(data, appEnv, altTable);
   }
   return result;
 }
 
-function makePayload (data, appEnv) {
+function makePayload (data, appEnv, altTable) {
   const { table, byvars } = appEnv.appControl;
   const columns = appEnv.state.columns;
   
@@ -51,17 +51,17 @@ function makePayload (data, appEnv) {
   
   
   const payload = {
-    table,
-    data : t,
+    table: (altTable != null) ? altTable : table,
+    data : data,
     where: w
   };
   return payload;
 }
 
-async function _updateData (data, appEnv) {
+async function _updateData (data, appEnv, altTable) {
   const { store, session } = appEnv;
   const handler = (appEnv.source === 'cas') ? casUpdateData : _computeUpdateData;
-  const payload = makePayload(data, appEnv);
+  const payload = makePayload(data, appEnv, altTable);
   const status = await handler(store, session, payload);
   return status;
 }
@@ -69,6 +69,7 @@ async function _updateData (data, appEnv) {
 
 async function _computeUpdateData (store, session, payload) {
   const { data, table, where } = payload;
+ 
   let src =
     `proc sql; update ${table.libref}.${table.name}`;
   let set = 'SET ';

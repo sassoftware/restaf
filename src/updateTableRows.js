@@ -18,8 +18,9 @@ import { casUpdateData } from '@sassoftware/restaflib';
 async function updateTableRows (data, appEnv, altTable, altByvars) {
   let result;
   const byvars = appEnv.appControl.byvars;
-  if (byvars === null || byvars.length === 0) {
-    if (altByvars == null || altByvars.length === 0) {
+  
+  if (altByvars == null || altByvars.length === 0) {
+    if (byvars === null || byvars.length === 0) {
        return [null, { msg: 'Error: Please specify a by variable', statusCode: 1 }];
     };
   }
@@ -40,14 +41,24 @@ function makePayload (data, appEnv, altTable, altByvars) {
   
   const t = {};
   let byvarset = (altByvars != null) ? altByvars : byvars;
-  for (const k in data) {
-    // if (!(k === '_index_' || k === '_rowIndex' || k === '_modified') || columns[k].custom === true /*|| byvars.includes(k)*/) {
-    if (!(columns[k].internal != null || columns[k].custom === true || k === '_index_')) { 
+  if (altTable != null) {
+    for (const k in data) {
       if ( byvarset.includes(k) === false) {
         t[k] = data[k];
       }
+    }
+  } else {
+    for (const k in data) {
+
+      // if (!(k === '_index_' || k === '_rowIndex' || k === '_modified') || columns[k].custom === true /*|| byvars.includes(k)*/) {
+     
+      if (!(columns[k].internal != null || columns[k].custom === true || k === '_index_')) { 
+        if ( byvarset.includes(k) === false) {
+          t[k] = data[k];
+        }
+      };
     };
-  };
+  }
 
   const w = {};
  
@@ -64,10 +75,10 @@ function makePayload (data, appEnv, altTable, altByvars) {
   return payload;
 }
 
-async function _updateData (data, appEnv, altTable) {
+async function _updateData (data, appEnv, altTable, altByVars) {
   const { store, session } = appEnv;
   const handler = (appEnv.source === 'cas') ? casUpdateData : _computeUpdateData;
-  const payload = makePayload(data, appEnv, altTable);
+  const payload = makePayload(data, appEnv, altTable, altByVars);
   const status = await handler(store, session, payload);
   return status;
 }

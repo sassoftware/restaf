@@ -40,7 +40,9 @@ function makePayload (data, appEnv, altTable) {
   for (const k in data) {
     // if (!(k === '_index_' || k === '_rowIndex' || k === '_modified') || columns[k].custom === true /*|| byvars.includes(k)*/) {
     if (!(columns[k].internal != null || columns[k].custom === true || k === '_index_')) { 
-      t[k] = data[k];
+      if ( byvars.includes(k) === false) {
+        t[k] = data[k];
+      }
     };
   };
 

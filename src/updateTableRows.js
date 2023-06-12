@@ -15,39 +15,43 @@ import { casUpdateData } from '@sassoftware/restaflib';
  *    let r = await updateTableRows(data, appEnv);
  *    To append new rows see appendRows
  */
-async function updateTableRows (data, appEnv, altTable) {
+async function updateTableRows (data, appEnv, altTable, altByvars) {
   let result;
   const byvars = appEnv.appControl.byvars;
   if (byvars === null || byvars.length === 0) {
-    return [null, { msg: 'Error: Please specify a by variable', statusCode: 1 }];
+    if (altByvars == null || altByvars.length === 0) {
+       return [null, { msg: 'Error: Please specify a by variable', statusCode: 1 }];
+    };
   }
 
   if (Array.isArray(data) === true) {
     for (let i = 0; i < data.length; i++) {
-      result = await _updateData(data[i], appEnv, altTable);
+      result = await _updateData(data[i], appEnv, altTable, altByvars);
     }
   } else {
-    result = await _updateData(data, appEnv, altTable);
+    result = await _updateData(data, appEnv, altTable, altByvars);
   }
   return result;
 }
 
-function makePayload (data, appEnv, altTable) {
+function makePayload (data, appEnv, altTable, altByvars) {
   const { table, byvars } = appEnv.appControl;
   const columns = appEnv.state.columns;
   
   const t = {};
+  let byvarset = (altByvars != null) ? altByvars : byvars;
   for (const k in data) {
     // if (!(k === '_index_' || k === '_rowIndex' || k === '_modified') || columns[k].custom === true /*|| byvars.includes(k)*/) {
     if (!(columns[k].internal != null || columns[k].custom === true || k === '_index_')) { 
-      if ( byvars.includes(k) === false) {
+      if ( byvarset.includes(k) === false) {
         t[k] = data[k];
       }
     };
   };
 
   const w = {};
-  byvars.forEach((k) => {
+ 
+  byvarset.forEach((k) => {
     w[k] = data[k];
   });
   

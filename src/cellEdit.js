@@ -46,7 +46,7 @@ async function cellEdit (name, value, rowIndex, currentData, appEnv) {
     newDataRow[name] = text2Float(value, columns[name]);
     if (handlers[name] != null) {
       let r1 = await handlers[name](newDataRow, name, rowIndex, appEnv);
-      let r = handlerResult(r1, newDataRow, name);
+      let r = handlerResult(r1, newDataRow, name, status);
       newDataRow = r[0];
       status = r[1];
       if (status.statusCode === 2) {
@@ -68,7 +68,7 @@ async function cellEdit (name, value, rowIndex, currentData, appEnv) {
        return { data: r[0], status: r[1] };
     }
 
-    status = await updateTableRows(r[0], appEnv);
+    await updateTableRows(r[0], appEnv);
     if (appEnv.appControl.editControl.autoSaveTable === true) {
       saveTable(appEnv);
     }

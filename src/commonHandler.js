@@ -20,12 +20,12 @@ import handlerResult from './handlerResult';
  * to call this directly
  * Please see the restafeditExample in the Tutorial pulldown
  */
-async function commonHandler (type, data, rowIndex, appEnv) {
+async function commonHandler (type, data, rowIndex, appEnv, status) {
   const { handlers } = appEnv.appControl.editControl;
-  let r = [data, { statusCode: 0, msg: null }];
+  let r = null;
   if (handlers[type] != null) {
     r = await handlers[type](data, rowIndex, appEnv, type);
   }
-  return handlerResult(r, data, null );
+  return handlerResult(r, data, null , status);
 };
 export default commonHandler;

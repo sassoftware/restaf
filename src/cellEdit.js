@@ -54,17 +54,21 @@ async function cellEdit (name, value, rowIndex, currentData, appEnv) {
       }
     }
   } else {
-    let r1 = await commonHandler('init', newDataRow, rowIndex, appEnv);
+    let r1 = await commonHandler('init', newDataRow, rowIndex, appEnv. status);
   }
 
-  let r = await commonHandler('main', newDataRow, rowIndex, appEnv);
-  if (r[1].statusCode === 2) {
+  let r = await commonHandler('main', newDataRow, rowIndex, appEnv, status);
+ //  r = handlerResult(r, newDataRow, null, status);
+  status = r[1];
+  if (status.statusCode === 2) {
     return { data: r[0], status: r[1] };
   }
   r[0]._modified = 1;
   if (iautoSave === true) {
-    r = await commonHandler('term', r[0], rowIndex, appEnv);
-    if (r[1].statusCode === 2) {
+    r = await commonHandler('term', r[0], rowIndex, appEnv, status);
+   // r = handlerResult(r, newDataRow, null, status);
+    status = r[1];
+    if (status.statusCode === 2) {
        return { data: r[0], status: r[1] };
     }
 

@@ -54,8 +54,9 @@ async function runit (payload) {
   const x3New = appEnv.state.data[0].x3 + 900;
   ;
   console.log(appEnv.state.data.length);
-  await cellEdit('x3', x3New, 0, appEnv.state.data[0], appEnv);
-
+  r = await cellEdit('x3', x3New, 0, appEnv.state.data[0], appEnv);
+  console.log('x3 cell edit done');
+  console.log(r.status);
   debugger;
   await scrollTable('next', appEnv);
   cache.push({rownext: appEnv.state.data[0]});
@@ -110,7 +111,7 @@ function getAppControl () {
     },
     editControl: {
       handlers: { init, main, term, termApp: termMyApp, x3 }, /* note reuse of init */
-      autoSave: true,
+      autoSave: false,
       autoSaveTable: true
     },
     appData: {
@@ -154,13 +155,13 @@ async function init (data, rowIndex, appEnv, type) {
 async function main (data, rowIndex, appEnv, type) {
   const status = { statusCode: 0, msg: `${type} processing completed` };
   data.total = data.x1 + data.x2 + data.x3;
-  return [data, status];
+  return data;
 };
 
 async function term (data, rowIndex, appEnv, type) {
   const status = { statusCode: 0, msg: `${type} processing completed` };
   console.log('In term');
-  return [data, status];
+  return data
 };
 
 async function x3 (data, name, rowIndex, appEnv) {

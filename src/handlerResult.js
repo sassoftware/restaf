@@ -4,20 +4,17 @@
  */
 // Allow for a variety of handler forms
 
-function handlerResult (r, data, name) {
-    let istatus = { statusCode: 0, msg: '' };
+function handlerResult (r, data, name, istatus) {
+   // let istatus = { statusCode: 0, msg: '' };
   
     // use case (x) => data.x1=10;
-    if (r === undefined){
+    if (r == null){
       {return [data, istatus]}
     } 
 
     // standard case return [data, status]
     if (Array.isArray(r) === true ) {
-      if (r.length == 1) {
-        r[1] = istatus;
-      }
-      return r;
+       return (r.length == 2) ? r : [data, istatus]
     //  return data;
     } else if (typeof r === 'object') { 
       return [r, istatus];

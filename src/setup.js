@@ -34,7 +34,7 @@ import termApp from './termApp';
  *    temporary tables etc...
  *
  */
-async function setup (logonPayload, appControl, sessionID, builtins) {
+async function setup (logonPayload, appControl, sessionID, builtins, user){
   let storeOptions = (logonPayload.storeOptions != null) ? logonPayload.storeOptions : { casProxy: true };
   // Note: that each setup creates its own store
   let store = initStore(storeOptions);
@@ -60,6 +60,7 @@ async function setup (logonPayload, appControl, sessionID, builtins) {
     table : appControl.table,
     byvars: appControl.byvar,
     onNoData: appControl.onNoData != null ? appControl.onNoData : 'clear',
+    user: appControl.user,
     fetchCount: 0,
     store,
     session  : null,
@@ -69,6 +70,7 @@ async function setup (logonPayload, appControl, sessionID, builtins) {
     userSessionID: null,
     casServerName: appControl.casServerName,
     computeContext: appControl.computeContext,
+    user: user,
 
     logonPayload,
     appControl,
@@ -83,7 +85,8 @@ async function setup (logonPayload, appControl, sessionID, builtins) {
       scrollOptions: [],
       data         : [],
       columns      : {},
-      tableSummary : {}
+      tableSummary : {},
+      userData     : {}
     },
 
     id: Date()

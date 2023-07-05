@@ -59,8 +59,9 @@ async function setup (logonPayload, appControl, sessionID, builtins, user){
     source: appControl.source,
     table : appControl.table,
     byvars: appControl.byvar,
+    userData: {},
     onNoData: appControl.onNoData != null ? appControl.onNoData : 'clear',
-    user: appControl.user,
+    user: user,
     fetchCount: 0,
     store,
     session  : null,
@@ -70,13 +71,12 @@ async function setup (logonPayload, appControl, sessionID, builtins, user){
     userSessionID: null,
     casServerName: appControl.casServerName,
     computeContext: appControl.computeContext,
-    user: user,
-
     logonPayload,
     appControl,
 
     activeWhere: (appControl.initialFetch.qs.where != null) ? appControl.initialFetch.qs.where : ' ',
     builtins: (builtins != null) ? builtins: {},
+   
     state: {
       cache        : {rows:[], columns: []},   
       modified     : [],
@@ -85,8 +85,7 @@ async function setup (logonPayload, appControl, sessionID, builtins, user){
       scrollOptions: [],
       data         : [],
       columns      : {},
-      tableSummary : {},
-      userData     : {}
+      tableSummary : {}
     },
 
     id: Date()

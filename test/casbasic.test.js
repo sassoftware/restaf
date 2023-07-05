@@ -143,16 +143,24 @@ function getAppControl () {
   };
 }
 
+async function initApp (appEnv) {
+  console.log('in initapp');
+  console.log('userdata ',appEnv.userData);
+  return { msg: 'done', statusCode: 0 };
+}
 async function termMyApp (appEnv) {
   console.log('in termApp');
-  return { msg: 'done', satusCode: 0 };
+
+  return { msg: 'done', statusCode: 0 };
 }
 async function init (data, rowIndex, appEnv, type) {
+  console.log('userdatainit ',appEnv.userData);
   const status = { statusCode: 0, msg: `${type} processing completed` };
   data.total = data.x1 + data.x2 + data.x3;
   return [data, status];
 };
 async function main (data, rowIndex, appEnv, type) {
+  console.log(appEnv.userData);
   const status = { statusCode: 0, msg: `${type} processing completed` };
   data.total = data.x1 + data.x2 + data.x3;
   return data;

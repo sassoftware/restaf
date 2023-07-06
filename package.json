@@ -21,7 +21,7 @@
     "node": ">=10"
   },
   "scripts": {
-    "build": "rimraf dist && rimraf lib && webpack --env target=node p=n --config webpack.config.js && webpack --env target=web p=n --config webpack.config.js && webpack --env target=web p=y --config webpack.config.js",
+    "build": "rimraf dist && rimraf lib && webpack --env target=node  p=n --config webpack.config.js && webpack --env target=web p=n --config webpack.config.js && webpack --env target=web p=y --config webpack.config.js",
     "test": "cd test && cross-env NODE_TLS_REJECT_UNAUTHORIZED=0 npx jest",
     "debug": "cd test && cross-env RESTAFENV=.env NODE_TLS_REJECT_UNAUTHORIZED=0 node --inspect-brk ../node_modules/jest/bin/jest.js  -- --runInBand",
     "test:build": "run-s build",

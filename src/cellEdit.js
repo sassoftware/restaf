@@ -54,7 +54,7 @@ async function cellEdit (name, value, rowIndex, currentData, appEnv) {
       }
     }
   } else {
-    let r1 = await commonHandler('init', newDataRow, rowIndex, appEnv. status);
+    let r1 = await commonHandler('init', newDataRow, rowIndex, appEnv, status);
   }
 
   let r = await commonHandler('main', newDataRow, rowIndex, appEnv, status);
@@ -64,7 +64,7 @@ async function cellEdit (name, value, rowIndex, currentData, appEnv) {
     return { data: r[0], status: r[1] };
   }
   r[0]._modified = 1;
-  if (iautoSave === true) {
+  if (iautoSave === true && appEnv.table != null) {
     r = await commonHandler('term', r[0], rowIndex, appEnv, status);
    // r = handlerResult(r, newDataRow, null, status);
     status = r[1];

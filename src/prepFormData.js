@@ -11,6 +11,7 @@ import commonHandler from './commonHandler';
  * @module prepFormData
  * @param {object} result - result from data fetch{schema: [], rows:[]}
  * @param {object} appEnv - app Environment from setup
+ * @param {boolean} makerow - function to make a row object
  * @returns {promise}     - {columns: eColumns, rowsObject: newRows, schema: schema, status: status}
  */
 async function prepFormData (result, appEnv, makerow) {
@@ -29,23 +30,33 @@ async function prepFormData (result, appEnv, makerow) {
     });
 
     if (customColumns != null) {
-      for (const k in customColumns) {
-        const c = customColumns[k];
-        const name = c.Column.toLowerCase();
-        rowObj[name] = c.value;
-      }
+      addCustomColumns(customColumns, rowObj);
     }
     return rowObj;
   };
 
+  const addCustomColumns = (customColumns, rowObj) => {
+    for (const k in customColumns) {
+      const c = customColumns[k];
+      const name = c.Column.toLowerCase();
+      rowObj[name] = c.value;
+    }
+  return rowObj;
+  }
   let newRows = [];
-  for (let i = 0; i < rows.length; i++) {
-    const t = makeRowObject(schema, rows[i], i);
+  if (rows.length > 0 ) {
+    for (let i = 0; i < rows.length; i++) {
+      const t = makeRowObject(schema, rows[i], i);
 
-    const [t1, statusi] = await commonHandler('init', t, i, appEnv);
-    status = statusi;
-    newRows.push(t1);
-  };
+      const [t1, statusi] = await commonHandler('init', t, i, appEnv);
+      status = statusi;
+      newRows.push(t1);
+    };
+  } else {
+    let rowObj = {};
+    let t = addCustomColumns(customColumns, rowObj);
+    newRows.push(t);
+  }
 
   // extend column and make it an object
   const eColumns = {};
@@ -97,6 +108,7 @@ async function prepFormData (result, appEnv, makerow) {
     }
     newRows = [t];
   }
+  
   return {
     cache  : {schema, rows},
     columns: eColumns,

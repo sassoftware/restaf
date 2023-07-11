@@ -78,7 +78,7 @@ async function setup (logonPayload, appControl, sessionID, builtins, user){
     builtins: (builtins != null) ? builtins: {},
    
     state: {
-      cache        : {rows:[], columns: []},   
+      cache        : {rows:[], schema: []},   
       modified     : [],
       pagination   : {},
       point        : '',

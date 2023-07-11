@@ -100,7 +100,8 @@ async function prepFormData (result, appEnv, makerow) {
     }
     eColumns[k] = c;
   });
-
+  console.log(eColumns);
+  console.log(newRows);
   if (makerow === true) {
     let t = {};
     for (const k in eColumns) {
@@ -108,7 +109,8 @@ async function prepFormData (result, appEnv, makerow) {
     }
     newRows = [t];
   }
-  
+
+
   return {
     cache  : {schema, rows},
     columns: eColumns,

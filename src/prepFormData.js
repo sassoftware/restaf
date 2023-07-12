@@ -89,7 +89,11 @@ async function prepFormData (result, appEnv, makerow) {
       c.customType = (c.Type.toLowerCase() === 'char') ? 'text' : 'number';
     }
   }
-  ['_rowIndex', '_modified'].map((k) => {
+  let internalColumns = ['_rowIndex', '_modified'];
+  if (appEnv.table === null) {
+    internalColumns.push('_index_');
+  }
+  internalColumns.map((k) => {
     let c = {
       Column         : k,
       Type           : 'double',

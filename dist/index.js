@@ -466,7 +466,7 @@ eval("/* harmony import */ var _sassoftware_restaflib__WEBPACK_IMPORTED_MODULE_0
 /*! all exports used */
 /***/ (function(module, exports, __webpack_require__) {
 
-eval("module.exports = __webpack_require__(/*! C:\\gen2\\restafeditweb5\\src/index */\"./index.js\");\n\n\n//# sourceURL=webpack://restafedit/multi_./index?");
+eval("module.exports = __webpack_require__(/*! C:\\sassoftware\\restafedit\\src/index */\"./index.js\");\n\n\n//# sourceURL=webpack://restafedit/multi_./index?");
 
 /***/ })
 

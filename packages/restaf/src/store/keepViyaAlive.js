@@ -40,7 +40,7 @@ async function keepViyaAlive (store,aliveURL,interval, timeout, onTimeout) {
     return true;
 }
 async function ikeepViyaAlive (store, aliveURL) {
-    if (aliveURL !== null) {
+    if (aliveURL !== null && aliveURL !== true) {
         let payload = {
             url    : aliveURL,
             method : 'GET',

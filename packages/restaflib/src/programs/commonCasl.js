@@ -24,6 +24,8 @@ function commonCasl (){
  */
  /*------------------------------------------------*/
 
+
+
  function checkAndLoadTable(caslib, name);   
 
         /* verify caslib is there */
@@ -60,6 +62,41 @@ function commonCasl (){
         return rc;  
     end;   
 
+    function saveAndLoadTable(caslib, source, targetlib, targetname);
+
+        /* load source */
+        r = checkAndLoadTable(caslib, source);
+
+        sashdat = target||".sashdat";
+        table.save /
+            caslib= targetlib name=sashdat
+            table = {caslib=caslib name=source} replace=true;
+        
+        table.droptable /
+            caslib=targetlib name=target quiet=true;
+        
+        table.loadtable result=r/
+            caslib=targetlib casout={caslib=targetlib name=target replace=TRUE}
+            path=sashdat;
+        
+        return r;
+
+ end;
+ function saveAndPromoteTable(caslib, target, source);
+    sashdat = target||".sashdat";
+    table.save /
+        caslib= caslib name=sashdat
+        table = {caslib=caslib name=source} replace=true;
+
+    table.droptable /
+        caslib=caslib name=target quiet=true;
+    
+    table.loadtable result=r/
+        caslib=caslib casout={caslib=caslib name=target promote=TRUE}
+        path=sashdat;
+
+    return r;
+ end;
 /*
  * return path to table
  */
@@ -258,6 +295,7 @@ end;
 
      `;
      
+
 return casl;
 }
 export default commonCasl;

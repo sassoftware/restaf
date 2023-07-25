@@ -37,25 +37,14 @@ module.exports = function configtest () {
 	}
 
 	let logonPayload = null;
-	let token =(process.env.SASTOKEN != null) ?  getToken() : null;
-	if (token !== null) {
-		logonPayload = {
-			authType : 'server',
-			host     : process.env.VIYA_SERVER,
-			token    : token,
-			tokenType: 'bearer',
-		};
-	} else {
-		logonPayload = {
-			authType: 'password',
-			host    : process.env.VIYA_SERVER,
-			user    : process.env['USER'],
-			password: process.env['PASSWORD'],
-			clientID: (process.env.CLIENTID == null) ? 'sas.ec' : process.env.CLIENTID,
-			clientSecret: (process.env.CLIENTSECRET == null) ? '' : process.env.CLIENTSECRET
-		};
+	console.log('xxxx', process.env.SASTOKEN);
+	logonPayload = {
+		authType : 'server',
+		host     : process.env.VIYA_SERVER,
+		token    : getToken(),
+		tokenType: 'bearer',
 	};
-	
+	console.log('logonPayload', logonPayload)
 	console.log(process.env.NODE_TLS_REJECT_UNAUTHORIZED);
 
 	return logonPayload;

@@ -40,7 +40,7 @@ async function keepViyaAlive (store,aliveURL,interval, timeout, onTimeout) {
     return true;
 }
 async function ikeepViyaAlive (store, aliveURL) {
-    if (aliveURL !== null && aliveURL !== true) {
+    if (aliveURL !== null) {
         let payload = {
             url    : aliveURL,
             method : 'GET',
@@ -53,7 +53,9 @@ async function ikeepViyaAlive (store, aliveURL) {
             route  : 'keepAlive',
             payload: payload
         };
-        store.dispatch(action);
+        if (aliveURL !== true) {
+           store.dispatch(action);
+        }
     }
 
 	// This keeps the app server session alive

@@ -46,7 +46,7 @@ function commonCasl (){
         * if not loaded then try to load it   
         */   
         rc = true;
-        if (result.exists eq 0) then do;   
+        if (result.exists eq 0 or result.exists eq 2) then do;   
             path = lookupPath(caslib, name);
             if (path eq '*') then do;
                rc = false;

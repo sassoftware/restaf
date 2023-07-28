@@ -34,7 +34,7 @@ import termApp from './termApp';
  *    temporary tables etc...
  *
  */
-async function setup (logonPayload, appControl, sessionID, builtins, user){
+async function setup (logonPayload, appControl, sessionID, builtins, user, userFunctions){
   let storeOptions = (logonPayload.storeOptions != null) ? logonPayload.storeOptions : { casProxy: true };
   // Note: that each setup creates its own store
   let store = initStore(storeOptions);
@@ -69,6 +69,7 @@ async function setup (logonPayload, appControl, sessionID, builtins, user){
     restaflib: null,
     sessionID: null,
     userSessionID: null,
+    userFunctions: (userFunctions != null) ? userFunctions : {},
     casServerName: appControl.casServerName,
     computeContext: appControl.computeContext,
     logonPayload,

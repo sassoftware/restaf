@@ -33,7 +33,7 @@ async function computeTableUnique (table, columnName, where, appEnv) {
     code = code + ` WHERE ${where}`;
   }
   code = code + '; QUIT;';
-  console.log(code);
+ 
   const computeSummary = await computeRun(store, session, code);
   const values = {};
   let dir = 'first';

@@ -107,7 +107,7 @@ async function setup (logonPayload, appControl, sessionID, builtins, user, userF
 async function icasSetup (store, logonPayload, appControl, appEnv, sessionID) {
   let r;
   try {
-    // console.log(sessionID)
+   
     r = await casSetup(store, logonPayload, sessionID, appEnv.casServerName);
     appEnv.session = r.session;
     appEnv.servers = r.servers;

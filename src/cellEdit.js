@@ -71,17 +71,19 @@ async function cellEdit (name, value, rowIndex, currentData, appEnv) {
     if (status.statusCode === 2) {
        return { data: r[0], status: r[1] };
     }
-
-    await updateTableRows(r[0], appEnv);
-    if (appEnv.appControl.editControl.autoSaveTable === true) {
-      saveTable(appEnv);
+      await updateTableRows(r[0], appEnv);
+      if (appEnv.appControl.editControl.autoSaveTable === true) {
+        saveTable(appEnv);
+      }
     }
    // r[0]._modified = 0;
-  } 
+
   newDataRow = r[0];
-  if (cachePolicy === true) {
+
+  if (cachePolicy !== false) {
     appEnv.state.data[currentData._rowIndex] = newDataRow;
   }
+
   return ({ data: newDataRow, status });
 }
 export default cellEdit;

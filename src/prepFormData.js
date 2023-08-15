@@ -36,6 +36,7 @@ async function prepFormData (result, appEnv, makerow) {
   };
 
   const addCustomColumns = (customColumns, rowObj) => {
+
     for (const k in customColumns) {
       const c = customColumns[k];
       const name = c.Column.toLowerCase();
@@ -53,7 +54,7 @@ async function prepFormData (result, appEnv, makerow) {
       newRows.push(t1);
     };
   } else {
-    let rowObj = {};
+    let rowObj = {_rowIndex: 0, _modified: 0 };
     let t = addCustomColumns(customColumns, rowObj);
     newRows.push(t);
   }
@@ -104,8 +105,7 @@ async function prepFormData (result, appEnv, makerow) {
     }
     eColumns[k] = c;
   });
-  console.log(eColumns);
-  console.log(newRows);
+
   if (makerow === true) {
     let t = {};
     for (const k in eColumns) {
@@ -115,11 +115,13 @@ async function prepFormData (result, appEnv, makerow) {
   }
 
 
-  return {
+  let res = {
     cache  : {schema, rows},
     columns: eColumns,
     data   : newRows,
     status
   };
+ 
+  return res;
 }
 export default prepFormData;

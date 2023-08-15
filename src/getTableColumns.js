@@ -60,7 +60,7 @@ async function casTableColumns(appEnv, table) {
 
 async function computeTableColumns(appEnv, table) {
   const { store, session } = appEnv;
-  debugger;
+  
   let {libref, name} = table;
   libref = libref.toUpperCase();
   name = name.toUpperCase();
@@ -77,14 +77,14 @@ async function computeTableColumns(appEnv, table) {
       filter: `eq(name,'${name}' )`
     }
   };
-  debugger;
+  
   const tables = await store.apiCall(selflib.links('tables'), p);
   const tablesSelf = await store.apiCall(tables.itemsCmd('self'));
-  debugger;
+  
   
   const tableDetails = await store.apiCall(tablesSelf.links('columns'));
-  debugger;
-  console.log(tableDetails.itemsList().toJS());
+  
+
   return tableDetails.itemsList().toJS();
 }
 export default getTableColumns;

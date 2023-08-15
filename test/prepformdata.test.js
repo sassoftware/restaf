@@ -32,7 +32,7 @@ async function runit (payload) {
      end;
      ";
  `;
-  appControl.preamble = preamble;
+  appControl.preamble = null;
   payload.storeOptions = {
     casProxy: false
   };
@@ -43,8 +43,8 @@ async function runit (payload) {
   console.log(appEnv.state.tableSummary);
   console.log(appEnv.casServerName);
   debugger;
-  let r = prepFormData(appEnv.state.cache, appEnv,true);
-  console.log(JSON.stringify(r.data));
+  let r = await prepFormData(appEnv.state.cache, appEnv,false);
+  console.log(JSON.stringify(r));
  
   
   return 'done';
@@ -77,7 +77,8 @@ function getAppControl () {
     editControl: {
       handlers: { init, main, term, termApp: termMyApp, x3 }, /* note reuse of init */
       autoSave: false,
-      autoSaveTable: true
+      autoSaveTable: true,
+      cachePolicy: true
     },
     appData: {
       layout  : {},

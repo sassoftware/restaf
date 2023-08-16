@@ -62,7 +62,7 @@ function commonCasl (){
         return rc;  
     end;   
 
-    function saveAndLoadTable(caslib, source, targetlib, targetname);
+    function saveAndLoadTable(caslib, source, targetlib, targetname,promote);
 
         /* load source */
         r = checkAndLoadTable(caslib, source);
@@ -75,25 +75,46 @@ function commonCasl (){
         table.droptable /
             caslib=targetlib name=target quiet=true;
         
-        table.loadtable result=r/
+        table.loadtable result=r status=rc/
             caslib=targetlib casout={caslib=targetlib name=target replace=TRUE}
             path=sashdat;
-        
+
+        if (promote eq true) then do;
+            table.promote result=r status=rc/
+              caslib=caslib name=target quiet=true
+              targetLib=caslib target=target;
+        if (rc.severity eq 2) then do;
+            print rc;
+            print 'Ignoring error';
+            end;
+        r = 0;
         return r;
 
  end;
  function saveAndPromoteTable(caslib, target, source);
     sashdat = target||".sashdat";
+    rc = checkAndLoadTable(caslib, source);
+    table.droptable /
+        caslib=caslib name=target quiet=true;
+
     table.save /
         caslib= caslib name=sashdat
         table = {caslib=caslib name=source} replace=true;
-
-    table.droptable /
-        caslib=caslib name=target quiet=true;
     
     table.loadtable result=r/
-        caslib=caslib casout={caslib=caslib name=target promote=TRUE}
+        caslib=caslib casout={caslib=caslib name=target replace=TRUE}
         path=sashdat;
+
+    table.promote result=r status=rc/
+        caslib=caslib name=target quiet=true
+        targetLib=caslib target=target;
+    print rc;
+    r = rc.severity;
+    if (rc.severity gt 0) then do;
+      print rc;
+      print 'Ignoring error';
+      rc = 0;
+    end;
 
     return r;
  end;

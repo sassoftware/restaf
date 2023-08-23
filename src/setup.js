@@ -79,7 +79,7 @@ async function setup (logonPayload, appControl, sessionID, builtins, user, userF
 
     activeWhere: (appControl.initialFetch.qs.where != null) ? appControl.initialFetch.qs.where : ' ',
     builtins: (builtins != null) ? builtins: {},
-   
+
     state: {
       cache        : {rows:[], schema: []},   
       modified     : [],
@@ -120,9 +120,7 @@ async function icasSetup (store, logonPayload, appControl, appEnv, sessionID) {
     // eslint-disable-next-line no-throw-literal
     throw 'ERROR: Unable to create session. Please see console for messages';
   }
-  appEnv.restaf = restaf;
-  appEnv.restafedit = restafedit;
-  appEnv.restaflib = restaflib;
+  
   appEnv.serverName = appEnv.session.links('execute','link','server');
   
   if (appControl.editControl.handlers.initApp != null) {

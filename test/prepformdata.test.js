@@ -43,8 +43,8 @@ async function runit (payload) {
   console.log(appEnv.state.tableSummary);
   console.log(appEnv.casServerName);
   debugger;
-  let r = await prepFormData(appEnv.state.cache, appEnv,false);
-  console.log(JSON.stringify(r));
+  let r = await prepFormData(appEnv.state.cache, appEnv,true);
+  console.log(JSON.stringify(r.data));
  
   
   return 'done';
@@ -71,7 +71,8 @@ function getAppControl () {
         Column         : 'Total',
         Label          : 'Grand Total',
         FormattedLength: 12,
-        Type           : 'double'
+        Type           : 'double',
+        value          : 100
       }
     },
     editControl: {

@@ -6,8 +6,11 @@
 
 import { initStore } from '@sassoftware/restaf';
 import { casSetup, computeSetup, computeSetupTables, caslRun } from '@sassoftware/restaflib';
+
+/*
 import getTableSummary from './getTableSummary';
 import termApp from './termApp';
+*/
 
 /**
  * @description Setup an Edit session
@@ -66,7 +69,6 @@ async function setup (logonPayload, appControl, sessionID, builtins, user, userF
     store,
     session  : null,
     servers  : null,
-    restaflib: null,
     sessionID: null,
     userSessionID: null,
     userFunctions: (userFunctions != null) ? userFunctions : {},
@@ -105,6 +107,7 @@ async function setup (logonPayload, appControl, sessionID, builtins, user, userF
 
 // cas server
 async function icasSetup (store, logonPayload, appControl, appEnv, sessionID) {
+  
   let r;
   try {
    
@@ -117,6 +120,9 @@ async function icasSetup (store, logonPayload, appControl, appEnv, sessionID) {
     // eslint-disable-next-line no-throw-literal
     throw 'ERROR: Unable to create session. Please see console for messages';
   }
+  appEnv.restaf = restaf;
+  appEnv.restafedit = restafedit;
+  appEnv.restaflib = restaflib;
   appEnv.serverName = appEnv.session.links('execute','link','server');
   
   if (appControl.editControl.handlers.initApp != null) {

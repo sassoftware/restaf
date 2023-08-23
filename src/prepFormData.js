@@ -48,7 +48,7 @@ async function prepFormData (result, appEnv, makerow) {
   if (rows.length > 0 ) {
     for (let i = 0; i < rows.length; i++) {
       const t = makeRowObject(schema, rows[i], i);
-
+      
       const [t1, statusi] = await commonHandler('init', t, i, appEnv);
       status = statusi;
       newRows.push(t1);
@@ -57,6 +57,7 @@ async function prepFormData (result, appEnv, makerow) {
     let rowObj = {_rowIndex: 0, _modified: 0 };
     let t = addCustomColumns(customColumns, rowObj);
     const [t1, statusi] = await commonHandler('init', t, 0, appEnv);
+ 
     status = statusi;
     newRows.push(t1);
   }

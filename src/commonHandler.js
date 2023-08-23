@@ -22,6 +22,7 @@ import handlerResult from './handlerResult';
  */
 async function commonHandler (type, data, rowIndex, appEnv, status) {
   const { handlers } = appEnv.appControl.editControl;
+  appEnv.handlers = handlers;
   let r = null;
   
   if (handlers[type] != null) {

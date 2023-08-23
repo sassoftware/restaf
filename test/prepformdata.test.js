@@ -121,7 +121,7 @@ async function termMyApp (appEnv) {
   return { msg: 'done', statusCode: 0 };
 }
 async function init (data, rowIndex, appEnv, type) {
-  console.log('userdatainit ',appEnv.userData);
+  console.log('.............. in init');
   const status = { statusCode: 0, msg: `${type} processing completed` };
   data.total = data.x1 + data.x2 + data.x3;
   return [data, status];

@@ -79,6 +79,7 @@ async function icasScroll (direction, appEnv, payload) {
   try {
     const r = await casFetchData(store, session, control);
     const result = await prepFormData(r.data, appEnv);
+    
     appEnv.fetchCount = result.data.length;
     if (appEnv.fetchCount > 0) {
       appEnv.state = {

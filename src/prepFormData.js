@@ -19,7 +19,7 @@ async function prepFormData (result, appEnv, makerow) {
   const source = appEnv.source;
   const customColumns = appEnv.appControl.customColumns;
   let status = { statusCode: 0, msg: 'Initialization was successful' };
-
+  
   const makeRowObject = (columns, row, rown) => {
 
     const rowObj = {_rowIndex: rown, _modified: 0 };
@@ -56,7 +56,9 @@ async function prepFormData (result, appEnv, makerow) {
   } else {
     let rowObj = {_rowIndex: 0, _modified: 0 };
     let t = addCustomColumns(customColumns, rowObj);
-    newRows.push(t);
+    const [t1, statusi] = await commonHandler('init', t, 0, appEnv);
+    status = statusi;
+    newRows.push(t1);
   }
 
   // extend column and make it an object

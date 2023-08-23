@@ -42,6 +42,7 @@ async function cellEdit (name, value, rowIndex, currentData, appEnv) {
   const cachePolicy = (appEnv.appControl.cachePolicy == null) ? true : appEnv.appControl.cachePolicy;
   appEnv.handlers = handlers;
   let status = { statusCode: 0, msg: '' };
+  
   if ( name != null ) {
     newDataRow[name] = text2Float(value, columns[name]);
     if (handlers[name] != null) {

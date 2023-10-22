@@ -6,6 +6,7 @@
 
 import { initStore } from '@sassoftware/restaf';
 import { casSetup, computeSetup, computeSetupTables, caslRun } from '@sassoftware/restaflib';
+import prepFormData from './prepFormData';
 
 /*
 import getTableSummary from './getTableSummary';
@@ -20,7 +21,10 @@ import termApp from './termApp';
  * @param {logonPayload} logonPayload  -information for connecting to Viya
  * @param {appControl} appControl       control information
  * @param {string=} sessionID if specified, this session will be used.Must match source
- * @param {object=} builtins object with builtin functions to use in calculations
+ * @param {object=} builtins  builtins functions
+ * @param {string=} user  user name
+ * @param {object=} userFunctions  user functions
+ * 
  *
  * @returns {promise}  returns appEnv to control the flow
  * @alias module: setup
@@ -38,10 +42,11 @@ import termApp from './termApp';
  *
  */
 async function setup (logonPayload, appControl, sessionID, builtins, user, userFunctions){
+  const {source} = appControl;
   let storeOptions = (logonPayload.storeOptions != null) ? logonPayload.storeOptions : { casProxy: true };
   // Note: that each setup creates its own store
   let store = initStore(storeOptions);
-  const useEntry = (appControl.source === 'cas') ? icasSetup : icomputeSetup;
+  const useEntry = (source === 'cas') ? icasSetup : source === 'compute' ?  icomputeSetup : nosource;
   if (sessionID == undefined) {
     sessionID = null;
   }
@@ -52,14 +57,14 @@ async function setup (logonPayload, appControl, sessionID, builtins, user, userF
     }
   }
   // check
+  _verify('table', null);
   _verify('byvars', []);
   _verify('customColumns', {});
   _verify('editControl', {handlers:{}, autoSave: true});
   _verify('initialFetch', {qs: {start: 0, limit: 10, format: false,where: ' '}});
   
-
   let appEnv = {
-    source: appControl.source,
+    source: source,
     table : appControl.table,
     byvars: appControl.byvar,
     userData: {},
@@ -99,18 +104,46 @@ async function setup (logonPayload, appControl, sessionID, builtins, user, userF
     throw 'ERROR: Please specify a Viya host';
   }
   appEnv = await useEntry(store, logonPayload, appControl, appEnv, sessionID);
-  appEnv.sessionID = appEnv.session.items('id');
-  appEnv.userSessionID = sessionID;
-  // await getTableSummary(appEnv);
+  if (appEnv.sessionID !== null) {
+    appEnv.sessionID = appEnv.session.items('id');
+    appEnv.userSessionID = sessionID;
+  }
+ 
   return appEnv;
 }
 
+// _nosource
+async function nosource (_store, _logonPayload, appControl, appEnv, _sessionID) {
+  let r = await prepFormData(appEnv.state.cache,appEnv, true);
+  if (appControl.editControl.handlers.initApp != null) {
+    await _initApp(appEnv);
+  }
+  appEnv.state.data = r.data;
+  appEnv.state.columns = r.columns;
+  appEnv.state.cache = r.cache;
+  return appEnv;
+}
+
+async function _initApp (appEnv) {
+  try {
+    const r = await appEnv.appControl.editControl.handlers.initApp(appEnv, 'initApp');
+    if (r.statusCode === 2) {
+      console.log(JSON.stringify(r, null, 4));
+      // eslint-disable-next-line no-throw-literal
+     // await termApp(appEnv, true);
+      throw 'ERROR: initApp failed. Please see console for messages';
+    }
+  } catch (err) {
+    console.log(err);
+    // eslint-disable-next-line no-throw-literal
+    // await termApp(appEnv, true);
+    throw 'ERROR: Setup failed. Please see console for error messages';
+  }
+}
 // cas server
 async function icasSetup (store, logonPayload, appControl, appEnv, sessionID) {
-  
   let r;
   try {
-   
     r = await casSetup(store, logonPayload, sessionID, appEnv.casServerName);
     appEnv.session = r.session;
     appEnv.servers = r.servers;
@@ -124,20 +157,7 @@ async function icasSetup (store, logonPayload, appControl, appEnv, sessionID) {
   appEnv.serverName = appEnv.session.links('execute','link','server');
   
   if (appControl.editControl.handlers.initApp != null) {
-    try {
-      const r = await appControl.editControl.handlers.initApp(appEnv, 'initApp');
-      if (r.statusCode === 2) {
-        console.log(JSON.stringify(r, null, 4));
-        // eslint-disable-next-line no-throw-literal
-        // await termApp(appEnv, true);
-        throw 'ERROR: initApp failed. Please see console for messages';
-      }
-    } catch (err) {
-      console.log(err);
-       //  await termApp(appEnv, true);
-      // eslint-disable-next-line no-throw-literal
-      throw 'ERROR: Setup failed. Please see console for error messages';
-    }
+    await _initApp(appEnv);
   }
 
   if (appControl.preamble != null) {
@@ -171,20 +191,7 @@ async function icomputeSetup (store, logonPayload, appControl, appEnv, sessionID
     appEnv.userSessionID = sessionID;
   }
   if (appControl.editControl.handlers.initApp != null) {
-    try {
-      const r = await appControl.editControl.handlers.initApp(appEnv, 'initApp');
-      if (r.statusCode === 2) {
-        console.log(JSON.stringify(r, null, 4));
-        // eslint-disable-next-line no-throw-literal
-       // await termApp(appEnv, true);
-        throw 'ERROR: initApp failed. Please see console for messages';
-      }
-    } catch (err) {
-      console.log(err);
-      // eslint-disable-next-line no-throw-literal
-      // await termApp(appEnv, true);
-      throw 'ERROR: Setup failed. Please see console for error messages';
-    }
+    await _initApp(appEnv);
   }
 
   let tableSummary = {};

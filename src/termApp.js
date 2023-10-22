@@ -28,7 +28,7 @@ async function termApp (appEnv,setup) {
 
   // If user supplied session do not delete session.
 
-  if (appEnv.userSessionID == null) {
+  if (appEnv.userSessionID == null && appEnv.session != null) {
     await store.apiCall(session.links('delete'));
   };
   console.log('Application terminated successfully');

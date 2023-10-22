@@ -110,7 +110,7 @@ function getAppControl () {
       }
     },
     editControl: {
-      handlers: { init, main, term, termApp: termMyApp, x3 }, /* note reuse of init */
+      handlers: { initApp,init, main, term, termApp: termMyApp, x3 }, /* note reuse of init */
       autoSave: false,
       autoSaveTable: true
     },

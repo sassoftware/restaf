@@ -113,6 +113,7 @@ async function prepFormData (result, appEnv, makerow) {
     let t = {};
     for (const k in eColumns) {
       t[k] = (eColumns[k].customType === 'text') ? ' ' : 0;
+      console.log(k, t[k]);
     }
     newRows = [t];
   }

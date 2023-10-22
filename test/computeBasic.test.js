@@ -99,7 +99,7 @@ function getAppControl () {
       }
     },
     editControl: {
-      handlers: { init, main: init, term }, /* note reuse of init */
+      handlers: { initApp, init, main: init, term }, /* note reuse of init */
       save    : true,
       autoSave: true
 

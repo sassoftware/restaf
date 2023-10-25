@@ -83,7 +83,7 @@
     "verbose": false
   },
   "dependencies": {
-    "@sassoftware/restaf": "^4.10.4",
-    "@sassoftware/restaflib": "^4.10.4"
+    "@sassoftware/restaf": "^4.11.0",
+    "@sassoftware/restaflib": "^4.11.0"
   }
 }

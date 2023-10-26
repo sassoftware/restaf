@@ -1,6 +1,6 @@
 {
   "name": "@sassoftware/restaflib",
-  "version": "4.11.1",
+  "version": "5.0.0",
   "description": "collection of useful functions for common scenarios",
   "repository": {
     "type": "git",

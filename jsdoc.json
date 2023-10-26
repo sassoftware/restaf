@@ -1,0 +1,39 @@
+{
+  "plugins": ["plugins/markdown", "node_modules/better-docs/category"],
+  "recurseDepth": 10,
+  "source": {
+    "include": [
+      "main-types.js", 
+      ".other packages..."
+ ],
+    "exclude": ["./packages/restaflib/src/print"],
+    "includePattern": ".js",
+    "excludePattern": "(node_modules)"
+  },
+  "tags": {
+    "allowUnknownTags": ["category"],
+    "dictionaries": ["jsdoc"] 
+  }, 
+ 
+  "templates": {
+    "cleverLinks": true,
+    "search": true,
+    "monospaceLinks": true,
+    "useLongnameInNav": true,
+    "showInheritedInNav": true,
+    "default": {
+      "outputSourceFiles": false
+      }
+    
+  },
+  "opts": {
+    "template": "node_modules/better-docs",
+    "destination": "./jsdocs",
+    "recurse": true,
+    "private": true,
+    "readme": "./README.md",
+    "tutorials": "./tutorials"
+  }
+  
+}
+  

@@ -1,0 +1,8 @@
+node_modules
+public
+dist
+lib
+data
+images
+packages/examples
+packages/tests

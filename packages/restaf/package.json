@@ -1,0 +1,48 @@
+{
+  "name": "@sassoftware/restaf",
+  "version": "4.11.1",
+  "description": "Library for writing SAS Viya application using REST APIs",
+  "author": "Deva Kumaraswamy <deva.kumar@sas.com>",
+  "license": "Apache-2.0",
+  "keywords": [
+    "restaf",
+    "SAS",
+    "Viya",
+    "REST API"
+  ],
+  "homepage": "https://github.com/sassoftware/restaf#README.md",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sassoftware/restaf/tree/main/packages/restaf"
+  },
+  "bugs": {
+    "url": "https://github.com/sassoftware/restaf/issues"
+  },
+  "unpkg": "/dist/restaf.min.js",
+  "main": "./lib/restaf.js",
+  "modules": "/dist/restaf.min.js",
+  "browser": "/dist/restaf.min.js",
+  "files": [
+    "lib",
+    "dist"
+  ],
+  "engines": {
+    "node": ">=10.16.0",
+    "npm": ">=6.10.0",
+    "yarn": ">=1.17.3"
+  },
+  "browserslist": [
+    "last 2 versions",
+    "ie >= 11",
+    "maintained node versions"
+  ],
+  "scripts": {
+    "test": "node",
+    "build": "rimraf dist && rimraf lib && webpack --env target=node p=n --config webpack.config.js && webpack --env target=web p=n --config webpack.config.js && webpack --env target=web p=y --config webpack.config.js",
+    "babel": "babel src --out-dir jslib",
+    "pub": "npm publish --tag dev --access public",
+    "lint": "eslint . --fix",
+    "jsdoc": "jsdoc -c jsdoc.json",
+    "dlink": "npm link"
+  }
+}

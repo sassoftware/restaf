@@ -18,6 +18,8 @@ import axios from 'axios';
 import qs from 'qs' ;
 import fixResponse from './fixResponse';
 import Https from 'https';
+import {URL} from 'url';
+import { hostname } from 'os';
 
 // axios.defaults.withCredentials = true
 axios.interceptors.response.use(
@@ -73,6 +75,7 @@ function trustedGrant ( iconfig ) {
         transformRequest: function ( data ) {
             return ( qs.stringify( data ) );
         }
+        
     };
     
     return ( makeCall( config, iconfig, iconfig ) );
@@ -134,7 +137,7 @@ function request ( iconfig ) {
         },
     };
 
-   if ( logonInfo.token !== null ) {
+    if ( logonInfo.token !== null ) {
         config.headers = {
             Authorization: logonInfo.tokenType + ' ' + logonInfo.token
         };
@@ -188,13 +191,21 @@ function request ( iconfig ) {
             config[k] = httpOptions[k];
         }
     }
+    // TBD: if it works move the parsing to initStore
+    if (logonInfo.options.proxyServer != null ) {
+        const pURL = new URL(logonInfo.options.proxyServer);
+        config.proxy = {
+            protocol: pURL.protocol,
+            host    : pURL.hostname,
+            port    : pURL.port,
+        }
+    }   
+   
     return makeCall( config, iconfig, logonInfo );
 }
 function patchURL4ns( logInfo, link ) {
     let host = logInfo.host;
-    if (logInfo.options.proxyServer != null ) {
-        host = logInfo.options.proxyServer;
-    } else if (logInfo.options.ns != null ) {
+    if (logInfo.options.ns != null ) {
         let service = link.split( '/' )[1];
         host = `${logInfo.protocol}${service}.storeConfig.ns.svc.cluster.local`;
     }
@@ -213,7 +224,7 @@ function makeCall ( config, iconfig, storeConfig ) {
         let agent = new Https.Agent( opt );
         config.httpsAgent = agent;
     }
-
+    console.log(storeConfig);
     return new  Promise ( ( resolve, reject )  => {
         axios( config )
             .then( response => {

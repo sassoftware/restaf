@@ -119,11 +119,6 @@ const logon = ( store, ipayload ) => {
             // remove once testing of setting options in initStore is complete
             
             debugger;
-            if ( store.config.options == null ) {
-                store.config.options = {};
-            }
-            // store.config.options = {};
-            debugger;
 
             if ( payload.options != null ) {
                 store.config.options= {...payload.options};
@@ -163,9 +158,14 @@ const logon = ( store, ipayload ) => {
                     type   : ( payload.authType === 'LOGOFF' ) ? VIYA_LOGOFF : VIYA_LOGON,
                     payload: { ...payload, }
                 };
-                
+                // adding proxy option for use with axios
+                payload.options.proxy = null;
+                if (payload.options.proxyServer != null) {
+                  payload.options.proxy = parse(payload.options.proxyServer);
+                } 
+                 
                 action.payload.sslOptions = store.config.hasOwnProperty( 'sslOptions' ) ? store.config.sslOptions : null;
-                
+                console.log(payload.options);
                 unSubscribe = store.subscribe( logonExit );
                 action.storeConfig = store.config;
                // action.type = VIYA_LOGON;

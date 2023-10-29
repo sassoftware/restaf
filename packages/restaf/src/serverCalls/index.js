@@ -18,8 +18,6 @@ import axios from 'axios';
 import qs from 'qs' ;
 import fixResponse from './fixResponse';
 import Https from 'https';
-import {URL} from 'url';
-import { hostname } from 'os';
 
 // axios.defaults.withCredentials = true
 axios.interceptors.response.use(
@@ -39,7 +37,7 @@ function trustedGrant ( iconfig ) {
     let auth1 = Buffer.from( iconfig.clientID + ':' + iconfig.clientSecret ).toString( 'base64' );
     
     auth1 = 'Basic ' + auth1;
-    let l = patchURL4ns( iconfig, link.href );
+    let l  = patchURL4ns( iconfig, link.href );
     let url = `${l}${link.href}`;
     
     let config = {
@@ -193,12 +191,22 @@ function request ( iconfig ) {
     }
     // TBD: if it works move the parsing to initStore
     if (logonInfo.options.proxyServer != null ) {
-        const pURL = new URL(logonInfo.options.proxyServer);
-        config.proxy = {
-            protocol: pURL.protocol,
-            host    : pURL.hostname,
-            port    : pURL.port,
+        if (iconfig.logInfo.options.proxyServer != null ) {
+            let proxy = iconfig.logonInfo.options.proxy;
+            config.proxy = {
+                protocol: proxy.protocol,
+                host    : proxy.hostname
+            }
+            if (proxy.port != null && proxy.port.trim().length > 0 ) {
+                config.proxy.port = Number(proxy.port);
+            }
+            if (proxy.pathname != null && proxy.pathname.trim().length > 0) {
+                config.url = `${l}${proxy.pathname}${iLink.href}`;
+                console.log('proxy path: ' + config.url)
+            }
+    
         }
+        console.log(config.proxy);
     }   
    
     return makeCall( config, iconfig, logonInfo );
@@ -214,17 +222,12 @@ function patchURL4ns( logInfo, link ) {
 
 function makeCall ( config, iconfig, storeConfig ) {
     
-    // for nodejs apps use the nodejs env variables instead of restaf config.
-    // NODE_TLS_REJECT_UNAUTHORIZED
-    // SSL_CERT_FILE
-    // let { sslOptions } = iconfig;
- 
-    if ( storeConfig.protocol === 'https://' ) {
+    if ( storeConfig.protocol === 'https://') {
         let opt = ( storeConfig.sslOptions != null ) ? storeConfig.sslOptions : {};
-        let agent = new Https.Agent( opt );
+        let agent = new Https.Agent( opt )
         config.httpsAgent = agent;
     }
-    console.log(storeConfig);
+ 
     return new  Promise ( ( resolve, reject )  => {
         axios( config )
             .then( response => {

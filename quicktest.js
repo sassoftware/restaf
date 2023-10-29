@@ -8,7 +8,12 @@ let logonPayload = {
   authType : "server",
 };
 
-let store = restaf.initStore({ casProxy: true });
+let store = restaf.initStore(
+  { casProxy: true, 
+    options : {
+       proxyServer: 'https://localhost:8080/xyz'
+    }});
+
 run()
   .then((r) => console.log("done"))
   .catch((err) => console.log(JSON.stringify(err, null, 4)));

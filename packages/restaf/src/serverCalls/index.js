@@ -13,301 +13,297 @@
  limitations under the License.
  ---------------------------------------------------------------------------------------*/
 
-
-import axios from 'axios';
-import qs from 'qs' ;
-import fixResponse from './fixResponse';
-import Https from 'https';
+import axios from "axios";
+import qs from "qs";
+import fixResponse from "./fixResponse";
+import Https from "https";
 
 // axios.defaults.withCredentials = true
 axios.interceptors.response.use(
-    function ( response ) {
-        return response;
-    },
-    function ( error ) {
-        return Promise.reject( error );
-    }
+  function (response) {
+    return response;
+  },
+  function (error) {
+    return Promise.reject(error);
+  }
 );
 
-
 /* X-Uaa-Csrf */
-function trustedGrant ( iconfig ) {
+function trustedGrant(iconfig) {
+  let link = iconfig.link;
+  let auth1 = Buffer.from(
+    iconfig.clientID + ":" + iconfig.clientSecret
+  ).toString("base64");
 
-    let link  = iconfig.link ;
-    let auth1 = Buffer.from( iconfig.clientID + ':' + iconfig.clientSecret ).toString( 'base64' );
-    
-    auth1 = 'Basic ' + auth1;
-    let l  = patchURL4ns( iconfig, link.href );
-    let url = `${l}${link.href}`;
-    
-    let config = {
-        method: link.method,
-        url   : url , /*iconfig.host + link.href,*/
+  auth1 = "Basic " + auth1;
+  let baseUrl = patchURL4ns(iconfig, link.href);
+  let config = {
+    method : link.method,
+    baseURl: baseUrl,
+    url    : link.href,/*iconfig.host + link.href,*/
 
-        headers: {
-             Accept: link.responseType,
+    headers: {
+      Accept        : link.responseType,
+      "Content-Type": link.type /* Axios seems to be case sensitive */,
+      Authorization : auth1,
+    },
+    withCredentials: false,
 
-            'Content-Type': link.type,/* Axios seems to be case sensitive */
+    data: {
+      grant_type: "password",
+      username  : iconfig.user,
+      password  : iconfig.password,
+    },
 
-             Authorization: auth1
-        },
-        withCredentials: false,
+    validateStatus: function (status) {
+      return status >= 200 && status < 300;
+    },
+    transformResponse: function (data) {
+      return data;
+    },
+    transformRequest: function (data) {
+      return qs.stringify(data);
+    },
+  };
 
-        data: {
-            'grant_type': 'password',
-            username    : iconfig.user,
-            password    : iconfig.password
-            /*
-            client_id    : iconfig.clientID,
-            client_secret: iconfig.clientSecret
-            */
-        },
+  return makeCall(config, iconfig, iconfig);
+}
 
-        validateStatus: function ( status ) {
-            
-            return status >= 200 && status < 300;
-        },
-        transformResponse: function ( data ) {
-            return data ;
-        },
-        transformRequest: function ( data ) {
-            return ( qs.stringify( data ) );
-        }
-        
+function request(iconfig) {
+  "use strict";
+  let { link, logonInfo } = iconfig;
+  let iLink = { ...link };
+  let payload = iconfig.hasOwnProperty("payload") ? iconfig.payload : null;
+  let iqs = null;
+  let idata = null;
+  let iheaders = null;
+  let ixsrf = null;
+  let casAction = null;
+
+  if (payload !== null) {
+    casAction = hasItem(payload, "action");
+    iqs = hasItem(payload, "qs");
+    idata = hasItem(payload, "data");
+    iheaders = hasItem(payload, "headers");
+    ixsrf = hasItem(payload, "xsrf");
+  }
+
+  let baseUrl = patchURL4ns(logonInfo, iLink.href);
+  // let url = `${l}${iLink.href}`;
+
+  // handle casaction upload
+  casAction = casAction != null ? casAction.toLowerCase() : null;
+  let url = casAction !== null ? `${iLink.href}/${casAction}` : `${iLink.href}`;
+
+  if (iLink.hasOwnProperty("customHandling") && casAction !== null) {
+    // casAction = casAction.toLowerCase();
+    if (casAction === "table.upload") {
+      iLink.method = "PUT";
+      iLink.type = "application/octet-stream";
+      iLink.responseType = "application/json";
+    }
+  }
+
+  let config = {
+    method : iLink.method,
+    baseURL: baseUrl,
+    url    : url,
+
+    transformResponse: function (data) {
+      return data;
+    },
+    validateStatus: function (status) {
+      /* 304 for state calls */
+      return (
+        status === 302 || status === 304 || (status >= 200 && status < 300)
+      );
+    },
+  };
+
+  if (logonInfo.token !== null) {
+    config.headers = {
+      Authorization: logonInfo.tokenType + " " + logonInfo.token,
     };
-    
-    return ( makeCall( config, iconfig, iconfig ) );
+  } else {
+    config.headers = {};
+    config.withCredentials =
+      iconfig.withCredentials == null ? true : iconfig.withCredentials;
+  }
+
+  let type = fullType(iLink.type);
+  if (iLink.hasOwnProperty("responseType")) {
+    if (type !== null) {
+      config.headers["Content-Type"] = type;
+    }
+    config.headers.Accept = fullType(iLink.responseType);
+  } else if (type !== null) {
+    config.headers.Accept = type;
+    if (
+      iLink.method === "PUT" ||
+      iLink.method === "POST" ||
+      iLink.method === "PATCH"
+    ) {
+      config.headers["Content-Type"] = type;
+    }
+  }
+
+  if (iheaders !== null) {
+    for (let ih in iheaders) {
+      //noinspection JSUnfilteredForInLoop
+      if (ih.toLowerCase() === "json-parameters") {
+        //noinspection JSUnfilteredForInLoop
+        config.headers[ih] =
+          typeof iheaders[ih] === "object"
+            ? JSON.stringify(iheaders[ih])
+            : iheaders[ih];
+      } else {
+        //noinspection JSUnfilteredForInLoop
+        config.headers[ih] = iheaders[ih];
+      }
+    }
+  }
+
+  if (ixsrf !== null) {
+    let xsrfHeaderName = ixsrf["x-csrf-header"];
+    config.xsrfHeaderName = xsrfHeaderName;
+    // https://github.com/axios/axios/issues/2024
+    config.headers[xsrfHeaderName] = ixsrf["x-csrf-token"];
+  }
+
+  if (iqs !== null) {
+    config.params = { ...iqs };
+  }
+
+  config.data = idata === null ? {} : idata;
+  config.maxContentLength = 2 * 10063256;
+  let httpOptions = iconfig.storeConfig.httpOptions;
+  if (httpOptions != null) {
+    for (let k in httpOptions) {
+      config[k] = httpOptions[k];
+    }
+  }
+  setupProxy(iconfig, config);
+  return makeCall(config, iconfig, logonInfo);
 }
-
-
-function request ( iconfig ) {
-      'use strict';
-    let { link, logonInfo } = iconfig;
-    
-    let iLink = {...link } ;
-    let payload    = iconfig.hasOwnProperty( 'payload' ) ? iconfig.payload : null ;
-    let iqs        = null;
-    let idata      = null;
-    let iheaders   = null;
-    let ixsrf      = null;
-    let casAction  = null;
-    
-    if ( payload !== null ) {
-        casAction     = hasItem( payload, 'action' );
-        iqs           = hasItem( payload, 'qs' );
-        idata         = hasItem( payload, 'data' );
-        iheaders      = hasItem( payload, 'headers' );
-        ixsrf         = hasItem( payload, 'xsrf' );
-    }
-   
-    let l = patchURL4ns( logonInfo, iLink.href );
-    let url = `${l}${iLink.href}`;
-
-    // handle casaction upload
-    casAction  = ( casAction != null ) ? casAction.toLowerCase() : null;
-    if ( casAction === 'upload' ) {
-        casAction = 'table.upload';
-    }
-
-    if ( casAction !== null ) {
-        url = `${url}/${casAction}`;
-    }
-
-    if ( iLink.hasOwnProperty( 'customHandling' ) && casAction !== null ) {
-        // casAction = casAction.toLowerCase();
-        if ( casAction === 'table.upload' ) {
-
-            iLink.method       = 'PUT';
-            iLink.type         =  'application/octet-stream';
-            iLink.responseType = 'application/json';
-        }
-    }
-
-    let config = {
-        method           : iLink.method,
-        url              : url,
-        transformResponse: function ( data ) {
-            return data ;
-        },
-        validateStatus: function ( status ) {
-            /* 304 for state calls */
-            return ( status === 302 || status === 304 ||status >= 200 && status < 300 );
-        },
+function setupProxy(iconfig, config) {
+  let logonInfo = iconfig.logonInfo;
+  if (logonInfo.options.proxyServer != null) {
+    let proxy = iconfig.logonInfo.options.proxy;
+    config.proxy = {
+      protocol: (proxy.protocol.indexOf("https") !== -1) ? "https" : "http", // proxy protocol
+      host    : proxy.hostname,
     };
-
-    if ( logonInfo.token !== null ) {
-        config.headers = {
-            Authorization: logonInfo.tokenType + ' ' + logonInfo.token
-        };
-   } else {
-      config.headers = {};
-      config.withCredentials = ( iconfig.withCredentials == null )? true: iconfig.withCredentials;
-   }
-  
-    let type   = fullType( iLink.type );
-    if ( iLink.hasOwnProperty( 'responseType' ) ) {
-        if ( type !== null ) {
-           config.headers[ 'Content-Type' ] = type;
-        }
-        config.headers.Accept = fullType( iLink.responseType );
-    } else if ( type !== null ) {
-        config.headers.Accept = type;
-        if ( iLink.method === 'PUT' || iLink.method === 'POST' || iLink.method === 'PATCH' ) {
-            config.headers[ 'Content-Type' ] = type;
-        }
+    if (proxy.port != null && proxy.port.trim().length > 0) {
+      config.proxy.port = Number(proxy.port);
     }
-
-    if ( iheaders !== null ) {
-        for ( let ih in iheaders ) {
-            //noinspection JSUnfilteredForInLoop
-            if ( ih.toLowerCase() === 'json-parameters' ) {
-                //noinspection JSUnfilteredForInLoop
-                config.headers[ih] = ( typeof iheaders [ih] === 'object' ) ? JSON.stringify( iheaders[ih] ) : iheaders[ih];
-            } else {
-                //noinspection JSUnfilteredForInLoop
-                config.headers[ih] = iheaders[ih] ;
-            }
-        }
-    }  
-   
-    if ( ixsrf !== null ) {
-        let xsrfHeaderName = ixsrf['x-csrf-header'];
-        config.xsrfHeaderName = xsrfHeaderName;
-        // https://github.com/axios/axios/issues/2024
-        config.headers[xsrfHeaderName] = ixsrf['x-csrf-token']; 
+    if (proxy.pathname != null && proxy.pathname.trim().length > 0) {
+      config.url = `${proxy.pathname}${config.url}`;
+      console.log("proxy path: " + config.url);
     }
-   
-    if ( iqs !== null ) {
-        config.params = {...iqs};
-    }
-
-    config.data = ( idata === null ) ? {} : idata;
-    config.maxContentLength = 2 * 10063256;
-    let httpOptions = iconfig.storeConfig.httpOptions;
-    if( httpOptions != null ) {
-        for ( let k in httpOptions ) {
-            config[k] = httpOptions[k];
-        }
-    }
-    // TBD: if it works move the parsing to initStore
-    if (logonInfo.options.proxyServer != null ) {
-        if (iconfig.logInfo.options.proxyServer != null ) {
-            let proxy = iconfig.logonInfo.options.proxy;
-            config.proxy = {
-                protocol: proxy.protocol,
-                host    : proxy.hostname
-            }
-            if (proxy.port != null && proxy.port.trim().length > 0 ) {
-                config.proxy.port = Number(proxy.port);
-            }
-            if (proxy.pathname != null && proxy.pathname.trim().length > 0) {
-                config.url = `${l}${proxy.pathname}${iLink.href}`;
-                console.log('proxy path: ' + config.url)
-            }
     
-        }
-        console.log(config.proxy);
-    }   
-   
-    return makeCall( config, iconfig, logonInfo );
+    config.baseURL = `${config.proxy.protocol}://${config.proxy.host}:${config.proxy.port}`;
+    delete config.proxy;
+    console.log(config.proxy);
+  }
 }
-function patchURL4ns( logInfo, link ) {
-    let host = logInfo.host;
-    if (logInfo.options.ns != null ) {
-        let service = link.split( '/' )[1];
-        host = `${logInfo.protocol}${service}.storeConfig.ns.svc.cluster.local`;
-    }
-    return host;
+function patchURL4ns(logInfo, link) {
+  let host = logInfo.host;
+  if (logInfo.options.ns != null) {
+    let service = link.split("/")[1];
+    host = `${logInfo.protocol}${service}.storeConfig.ns.svc.cluster.local`;
+  }
+  return host;
 }
 
-function makeCall ( config, iconfig, storeConfig ) {
-    
-    if ( storeConfig.protocol === 'https://') {
-        let opt = ( storeConfig.sslOptions != null ) ? storeConfig.sslOptions : {};
-        let agent = new Https.Agent( opt )
-        config.httpsAgent = agent;
-    }
+function makeCall(config, iconfig, storeConfig) {
  
-    return new  Promise ( ( resolve, reject )  => {
-        axios( config )
-            .then( response => {
-                
-                parseJSON( response.data )
-                    .then( data => {
-                        
-                        iconfig.data = null;/* get rid of the payload*/
-                        response.data = { results: data, iconfig: Object.assign( {}, iconfig ) };
-                        if ( data.hasOwnProperty( 'errorCode' ) ) {
-                            //noinspection JSUnresolvedVariable
-                            response.status = response.data.results.httpStatusCode;
-                            response.statusText = `errorCode: ${response.data.results.errorCode}`;
-                            reject ( { response: response } );
-                        } else {
-                            resolve ( fixResponse( response ) );
-                        }
-                    } )
-                    .catch( () => {
-                        iconfig.data = null;
-                        response.data = { results: response.data , iconfig: Object.assign( {}, iconfig ) };
-                        resolve ( fixResponse( response ) );
-                    } );
-            } )
-            .catch( error => {
-                
-                reject( error );
-            } );
-        } );
-    }
-
-function parseJSON ( data ) {
-    //noinspection JSUnusedLocalSymbols
-    return new Promise( ( resolve, reject ) => {
-
-        if ( typeof data === 'object' ) {
-            resolve( data );
-        } else {
-            let temp = data.replace( /\r?\n|\r/g, ' ' );
-
-            try {
-
-               let odata = JSON.parse( temp );
-               resolve( odata );
-            } catch ( err ) {
-                resolve( data );
+  if (storeConfig.protocol === "https://" && config.agent == null) {
+    let opt = storeConfig.sslOptions != null ? storeConfig.sslOptions : {};
+    let agent = new Https.Agent(opt);
+    config.httpsAgent = agent;
+  }
+  console.log('>>>>>>>>>>>>>>>>>', config.baseURL);
+  console.log('>>>>>>>>>>>>>>>>>', config.url);
+  debugger;
+  return new Promise((resolve, reject) => {
+    axios(config)
+      .then((response) => {
+        parseJSON(response.data)
+          .then((data) => {
+            iconfig.data = null; /* get rid of the payload*/
+            response.data = {
+              results: data,
+              iconfig: Object.assign({}, iconfig),
+            };
+            if (data.hasOwnProperty("errorCode")) {
+              //noinspection JSUnresolvedVariable
+              response.status = response.data.results.httpStatusCode;
+              response.statusText = `errorCode: ${response.data.results.errorCode}`;
+              reject({ response: response });
+            } else {
+              resolve(fixResponse(response));
             }
-        }
-    } );
+          })
+          .catch(() => {
+            iconfig.data = null;
+            response.data = {
+              results: response.data,
+              iconfig: Object.assign({}, iconfig),
+            };
+            resolve(fixResponse(response));
+          });
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
 }
 
-function hasItem ( payload, name ) {
-    
-    for ( let k of Object.keys( payload ) ) {
-        if ( k.toUpperCase() === name.toUpperCase() ) {
-            return payload [ k ];
-            }
-        }
-    return null;
-}
-
-function fullType ( type ) {
-
-    let ntype = type;
-    if ( ( ntype === undefined || ntype === null ) ) {
-        ntype = null;
+function parseJSON(data) {
+  //noinspection JSUnusedLocalSymbols
+  return new Promise((resolve, reject) => {
+    if (typeof data === "object") {
+      resolve(data);
     } else {
-        if ( ntype.indexOf( 'application/vnd' ) !== -1 ) {
-            if ( ntype.indexOf( '+json' ) === -1 ) {
-                ntype = ntype + '+json';
-            }
-        }
+      let temp = data.replace(/\r?\n|\r/g, " ");
+
+      try {
+        let odata = JSON.parse(temp);
+        resolve(odata);
+      } catch (err) {
+        resolve(data);
+      }
     }
-    return ntype;
+  });
+}
+
+function hasItem(payload, name) {
+  for (let k of Object.keys(payload)) {
+    if (k.toUpperCase() === name.toUpperCase()) {
+      return payload[k];
+    }
+  }
+  return null;
+}
+
+function fullType(type) {
+  let ntype = type;
+  if (ntype === undefined || ntype === null) {
+    ntype = null;
+  } else {
+    if (ntype.indexOf("application/vnd") !== -1) {
+      if (ntype.indexOf("+json") === -1) {
+        ntype = ntype + "+json";
+      }
+    }
+  }
+  return ntype;
 }
 
 // Code below is for experimenting.
 
-function keepAlive ( action ) {
-    return axios( action.payload );
+function keepAlive(action) {
+  return axios(action.payload);
 }
 
 export { trustedGrant, keepAlive, request };

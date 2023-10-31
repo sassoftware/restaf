@@ -185,32 +185,27 @@ function request(iconfig) {
   setupProxy(iconfig, config);
   return makeCall(config, iconfig, logonInfo);
 }
+// setup if using reverse proxy server
 function setupProxy(iconfig, config) {
-  let logonInfo = iconfig.logonInfo;
-  if (logonInfo.options.proxyServer != null) {
-    let proxy = iconfig.logonInfo.options.proxy;
-    config.proxy = {
-      protocol: (proxy.protocol.indexOf("https") !== -1) ? "https" : "http", // proxy protocol
-      host    : proxy.hostname,
-    };
-    if (proxy.port != null && proxy.port.trim().length > 0) {
-      config.proxy.port = Number(proxy.port);
-    }
+  let options = iconfig.logonInfo.options
+  if (options.proxyServer != null) {
+    let proxy = options.proxy;
+    console.log("proxy: " + JSON.stringify(proxy));
     if (proxy.pathname != null && proxy.pathname.trim().length > 0) {
-      config.url = `${proxy.pathname}${config.url}`;
+      config.url = `${proxy.pathname}${config.url}`;//prepend url with proxy path
       console.log("proxy path: " + config.url);
     }
-    
-    config.baseURL = `${config.proxy.protocol}://${config.proxy.host}:${config.proxy.port}`;
-    delete config.proxy;
-    console.log(config.proxy);
+    config.baseURL = `${proxy.protocol}//${proxy.host}`;//override base url
+    console.log('++++++++++++++++++', config.baseURL);
+    console.log('+++++++++++++++', config.url);
   }
 }
+// patch the url for namespace - useful for k8s to make calls into another namespace
 function patchURL4ns(logInfo, link) {
   let host = logInfo.host;
   if (logInfo.options.ns != null) {
     let service = link.split("/")[1];
-    host = `${logInfo.protocol}${service}.storeConfig.ns.svc.cluster.local`;
+    host = `${logInfo.protocol}${service}.{logInfo.options.ns}.svc.cluster.local`;
   }
   return host;
 }
@@ -222,10 +217,8 @@ function makeCall(config, iconfig, storeConfig) {
     let agent = new Https.Agent(opt);
     config.httpsAgent = agent;
   }
-  console.log('>>>>>>>>>>>>>>>>>', config.baseURL);
-  console.log('>>>>>>>>>>>>>>>>>', config.url);
-  debugger;
   return new Promise((resolve, reject) => {
+    console.log(config);
     axios(config)
       .then((response) => {
         parseJSON(response.data)

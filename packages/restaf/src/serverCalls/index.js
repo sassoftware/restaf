@@ -190,14 +190,10 @@ function setupProxy(iconfig, config) {
   let options = iconfig.logonInfo.options
   if (options.proxyServer != null) {
     let proxy = options.proxy;
-    console.log("proxy: " + JSON.stringify(proxy));
     if (proxy.pathname != null && proxy.pathname.trim().length > 0) {
       config.url = `${proxy.pathname}${config.url}`;//prepend url with proxy path
-      console.log("proxy path: " + config.url);
     }
     config.baseURL = `${proxy.protocol}//${proxy.host}`;//override base url
-    console.log('++++++++++++++++++', config.baseURL);
-    console.log('+++++++++++++++', config.url);
   }
 }
 // patch the url for namespace - useful for k8s to make calls into another namespace
@@ -218,7 +214,6 @@ function makeCall(config, iconfig, storeConfig) {
     config.httpsAgent = agent;
   }
   return new Promise((resolve, reject) => {
-    console.log(config);
     axios(config)
       .then((response) => {
         parseJSON(response.data)

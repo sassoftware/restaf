@@ -103,7 +103,7 @@ const logon = ( store, ipayload ) => {
                     payload = {...payload, ...urlInfo};
                 }
             }
-            debugger;
+
             if ( payload == null ) {
                 if ( urlInfo !== null ) {
                     payload = urlInfo;
@@ -117,9 +117,6 @@ const logon = ( store, ipayload ) => {
         
             // persist options in payload - currently used for pup support
             // remove once testing of setting options in initStore is complete
-            
-            debugger;
-
             if ( payload.options != null ) {
                 store.config.options= {...payload.options};
             }
@@ -165,7 +162,6 @@ const logon = ( store, ipayload ) => {
                 } 
                  
                 action.payload.sslOptions = store.config.hasOwnProperty( 'sslOptions' ) ? store.config.sslOptions : null;
-                console.log(payload.options);
                 unSubscribe = store.subscribe( logonExit );
                 action.storeConfig = store.config;
                // action.type = VIYA_LOGON;

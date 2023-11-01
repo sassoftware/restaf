@@ -27,8 +27,7 @@ async function computeSetup( store, contextName, payload, sessionPayload, sessio
     }
 
     let { compute } = await store.addServices( 'compute' );
-    console.log(compute.links( 'server' ));
-  
+
     // Not PUP
     let session = null;
     // Use user specified session

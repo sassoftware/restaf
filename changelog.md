@@ -13,3 +13,7 @@ Next gen
 ## 5.0.3
 
 - compute/session filter seems to be broken. So doing local filtering until the issue is resolved.
+
+## 5.0.4
+
+- make companion changes to 5.0.3 changes

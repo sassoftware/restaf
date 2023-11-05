@@ -38,21 +38,19 @@ async function computeSetup( store, contextName, payload, sessionPayload, sessio
             /*qs: {
                 filter: `eq( id,'${sessionID}')`
             }
-            */
-            
+            */ 
         };
         let sessionList = await store.apiCall( compute.links( 'sessions' ), p );
-        if ( sessionList.itemsList().toJS().includes(sessionID) === false) {
+        let index = sessionList.itemsList().toJS().indexOf(sessionID);
+        if (index < 0) {
             throw `ERROR: The sessionID ${sessionID} was not found.`;
         }
-        
+        let selfcmd = sessionList.itemsCmd( sessionList.itemsList(index), "self" );
+        session = await store.apiCall( selfcmd );
         return session;
     }
 
-    // PuP case
-    
     if ( store.store.config.options.computeServerId != null ) {
-        
         session = await store.apiCall( compute.links( 'createSession' ) );
         return session;
     }
@@ -78,7 +76,7 @@ async function computeSetup( store, contextName, payload, sessionPayload, sessio
         session = await store.apiCall( createSession, sessionPayload );
         
     }
-    
+    console.log(session.items().toJS());   
     return session;
 }
 export default computeSetup;

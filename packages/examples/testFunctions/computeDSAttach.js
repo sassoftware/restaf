@@ -24,6 +24,7 @@ module.exports = async function computeDSAttach ( testInfo ) {
 
 	let start = new Date();
 	let computeSession = await computeSetup( store, null, null );
+	console.log( 'step0: ',computeSession.items().toJS());
 	let sessionID = computeSession.items( 'id' );
 	console.log( 'step0: ',sessionID, ' ', new Date() - start );
 

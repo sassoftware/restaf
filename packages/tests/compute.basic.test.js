@@ -29,7 +29,7 @@ beforeAll( async () => {
 	}
 } );
 
-test( 'cas.fetch.scroll.js', async () => {
+test( 'computeDS', async () => {
 	let r = await testFunctions( testInfo );
 	expect( r ).toBe( 'done' );
 } );

@@ -9,3 +9,7 @@ Next gen
 - New store options
   - proxyServer - redirect calls to proxyserver
   - computeServerId - id of work bench compute server
+
+## 5.0.3
+
+- compute/session filter seems to be broken. So doing local filtering until the issue is resolved.

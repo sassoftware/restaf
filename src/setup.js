@@ -41,17 +41,23 @@ import termApp from './termApp';
  *    temporary tables etc...
  *
  */
-async function setup (logonPayload, appControl, sessionID, builtins, user, userFunctions){
+async function setup (logonPayload, appControl, sessionID, builtins, user, userFunctions, storeConfig){
   const {source} = appControl;
-  console.log(logonPayload.options);
-  let storeOptions = (logonPayload.options != null) ? logonPayload.options : 
-             { casProxy: true, options: {} };
+  console.log('Incoming logonPayload.storeConfig', storeConfig);
+  debugger;
+  if (storeConfig == null) {
+    storeConfig = { 
+      casProxy: true, 
+      options: {ns: null, proxyServer: null} };
+  }
   // Note: that each setup creates its own store
-  console.log('storeOptions', storeOptions)
-  let store = initStore(storeOptions);
+  console.log('storeConfig', storeConfig)
+  let store = initStore(storeConfig);
   if (logonPayload !== null) {
     let msg = await store.logon(logonPayload);
   }
+
+  console.log('after logon in setup:' , store.connection());
   const useEntry = (source === 'cas') ? icasSetup : source === 'compute' ?  icomputeSetup : nosource;
   if (sessionID == undefined) {
     sessionID = null;

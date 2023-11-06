@@ -17,3 +17,7 @@ Next gen
 ## 5.0.4
 
 - make companion changes to 5.0.3 changes
+
+## 5.0.5
+
+- undo previous two patches

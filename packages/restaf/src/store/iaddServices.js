@@ -57,6 +57,7 @@ const iaddServices = ( store, services )  => {
             //to support PuP / workbench
             if ( service == 'compute' && store.config.options.computeServerId != null 
                  && store.config.options.computeServerId.trim().length > 0) {
+                    console.log('assuming workbench');
                     s.link.href = '/compute/servers/' + store.config.options.computeServerId + '/';
                     s.link.url  = s.link.href;
             }

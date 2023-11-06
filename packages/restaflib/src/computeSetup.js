@@ -34,23 +34,25 @@ async function computeSetup( store, contextName, payload, sessionPayload, sessio
         let p = {
             start: 0,
             limit: 100, 
-            /*starting with 2023.10 this filtering in compute seems broken */
-            /*qs: {
-                filter: `eq( id,'${sessionID}')`
+            qs   : {
+                filter: `eq(id,'${sessionID}')`
             }
-            */ 
+             
         };
         let sessionList = await store.apiCall( compute.links( 'sessions' ), p );
+        console.log(sessionList.itemsList().toJS());
         let index = sessionList.itemsList().toJS().indexOf(sessionID);
         if (index < 0) {
             throw `ERROR: The sessionID ${sessionID} was not found.`;
         }
+        console.log({index});
         let selfcmd = sessionList.itemsCmd( sessionList.itemsList(index), "self" );
         session = await store.apiCall( selfcmd );
         return session;
     }
 
     if ( store.store.config.options.computeServerId != null ) {
+        console.log('detected workbench');
         session = await store.apiCall( compute.links( 'createSession' ) );
         return session;
     }
@@ -63,20 +65,35 @@ async function computeSetup( store, contextName, payload, sessionPayload, sessio
     let p = {
         qs: { filter: `contains(name,'${contextName}')` }
     };
-    
-    let contexts = await store.apiCall( compute.links( "contexts" ), p );
-    if ( contexts.itemsList().size === 0 ) {
+    let contexts = null;
+    try {
+      console.log(p);
+      debugger;
+      contexts = await store.apiCall( compute.links( "contexts" ), p );
+      debugger;
+      console.log(contexts.itemsList().size);
+      if ( contexts.itemsList().size === 0 ) {
         throw `Context ${contextName} not found`;
+      }
+    }
+    catch ( err ) {
+        debugger;
+        console.log('Error: Not able to get context');
+        throw err;
     }
     
+    console.log(contexts.itemsList().toJS());
     let name = contexts.itemsList( 0 );
+    console.log({name});
     if ( sessionID == null ) {
         p = ( sessionPayload == null ) ? null : sessionPayload;
         let createSession = contexts.itemsCmd( name, 'createSession' );
+        console.log({createSession});
         session = await store.apiCall( createSession, sessionPayload );
         
     }
-    console.log(session.items().toJS());   
+    console.log('session=', session.items().toJS());
+    debugger;   
     return session;
 }
 export default computeSetup;

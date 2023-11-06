@@ -24,7 +24,7 @@ async function computeTableList (lib, appEnv) {
   lib = lib.toUpperCase();
   let p = {
     qs: {
-      filter: `eq(name,'${lib}' )`
+      filter: `eq(name,'${lib}')`
     }
   };
   const mylib = await store.apiCall(session.links('librefs'), p);

@@ -49,6 +49,9 @@ async function setup (logonPayload, appControl, sessionID, builtins, user, userF
   // Note: that each setup creates its own store
   console.log('storeOptions', storeOptions)
   let store = initStore(storeOptions);
+  if (logonPayload !== null) {
+    let msg = await store.logon(logonPayload);
+  }
   const useEntry = (source === 'cas') ? icasSetup : source === 'compute' ?  icomputeSetup : nosource;
   if (sessionID == undefined) {
     sessionID = null;
@@ -106,7 +109,7 @@ async function setup (logonPayload, appControl, sessionID, builtins, user, userF
     // eslint-disable-next-line no-throw-literal
     throw 'ERROR: Please specify a Viya host';
   }
-  appEnv = await useEntry(store, logonPayload, appControl, appEnv, sessionID);
+  appEnv = await useEntry(store, null/*logonPayload*/, appControl, appEnv, sessionID);
   let id1 = appEnv.session.items('id');
   let ssid = await store.apiCall( appEnv.session.links( 'self' ) );
   let id = ssid.items('id');
@@ -189,6 +192,7 @@ async function icasSetup (store, logonPayload, appControl, appEnv, sessionID) {
 async function icomputeSetup (store, logonPayload, appControl, appEnv, sessionID) {
   // eslint-disable-next-line prefer-const
   let session;
+  debugger;
   session = await computeSetup(store, appControl.computeContext, logonPayload, null, sessionID);
   debugger;
   appEnv.session = session;

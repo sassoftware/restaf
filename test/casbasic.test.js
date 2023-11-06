@@ -9,7 +9,7 @@ test('casBasic', async () => {
     authType    : 'server',
     token       : getToken(),
     tokenType   : 'bearer',
-    storeOptions: { casProxy: true }
+    options     : { casProxy: true, options: {}}
   };
   const r = await runit(payload);
   expect(r).toBe('done');

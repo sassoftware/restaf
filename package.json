@@ -81,9 +81,5 @@
   "jest": {
     "testTimeout": 10000000,
     "verbose": false
-  },
-  "dependencies": {
-    "@sassoftware/restaf": "^5.0.2",
-    "@sassoftware/restaflib": "^5.0.2"
   }
 }

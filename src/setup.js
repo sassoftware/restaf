@@ -43,8 +43,11 @@ import termApp from './termApp';
  */
 async function setup (logonPayload, appControl, sessionID, builtins, user, userFunctions){
   const {source} = appControl;
-  let storeOptions = (logonPayload.storeOptions != null) ? logonPayload.storeOptions : { casProxy: true };
+  console.log(logonPayload.options);
+  let storeOptions = (logonPayload.options != null) ? logonPayload.options : 
+             { casProxy: true, options: {} };
   // Note: that each setup creates its own store
+  console.log('storeOptions', storeOptions)
   let store = initStore(storeOptions);
   const useEntry = (source === 'cas') ? icasSetup : source === 'compute' ?  icomputeSetup : nosource;
   if (sessionID == undefined) {
@@ -104,11 +107,12 @@ async function setup (logonPayload, appControl, sessionID, builtins, user, userF
     throw 'ERROR: Please specify a Viya host';
   }
   appEnv = await useEntry(store, logonPayload, appControl, appEnv, sessionID);
-  if (appEnv.sessionID !== null) {
-    appEnv.sessionID = appEnv.session.items('id');
-    appEnv.userSessionID = sessionID;
-  }
- 
+  let id1 = appEnv.session.items('id');
+  let ssid = await store.apiCall( appEnv.session.links( 'self' ) );
+  let id = ssid.items('id');
+  console.log('compare:' , id1, ' ', id);
+  appEnv.sessionID = id;
+  appEnv.userSessionID = sessionID;
   return appEnv;
 }
 
@@ -144,7 +148,9 @@ async function _initApp (appEnv) {
 async function icasSetup (store, logonPayload, appControl, appEnv, sessionID) {
   let r;
   try {
+    debugger;
     r = await casSetup(store, logonPayload, sessionID, appEnv.casServerName);
+    debugger;
     appEnv.session = r.session;
     appEnv.servers = r.servers;
     appEnv.casServerName = appEnv.session.links('execute','link','server');
@@ -183,13 +189,16 @@ async function icasSetup (store, logonPayload, appControl, appEnv, sessionID) {
 async function icomputeSetup (store, logonPayload, appControl, appEnv, sessionID) {
   // eslint-disable-next-line prefer-const
   let session;
-  //Use sessionID to reuse an existing session
   session = await computeSetup(store, appControl.computeContext, logonPayload, null, sessionID);
+  debugger;
   appEnv.session = session;
-  appEnv.sessionID = session.items('id');
   if (sessionID != null) {
     appEnv.userSessionID = sessionID;
   }
+  /*
+  appEnv.sessionID = session.items('id');
+ 
+  */
   if (appControl.editControl.handlers.initApp != null) {
     await _initApp(appEnv);
   }

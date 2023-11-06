@@ -3,13 +3,13 @@ const { computeRun } = require('@sassoftware/restaflib');
 const getToken = require('./getToken');
 console.log(getToken);
 
-test('casBasic', async () => {
-  const payload = {
+test('computeBasic', async () => {
+  let payload = {
     host        : process.env.VIYA_SERVER,
     authType    : 'server',
     token       : getToken(),
     tokenType   : 'bearer',
-    storeOptions: { casProxy: true }
+    options     : { casProxy: true, options: {}},
   };
   const r = await runit(payload);
   expect(r).toBe('done');
@@ -34,7 +34,7 @@ end;
 run;`;
   debugger;
   appControl.preamble = preamble;
-
+  debugger;
   const appEnv = await setup(payload, appControl);
   rc = await getTableSummary(appEnv);
   console.log(appEnv.state.tableSummary);

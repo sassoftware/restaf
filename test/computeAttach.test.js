@@ -1,19 +1,18 @@
 const { setup, scrollTable, cellEdit, termApp } = require('../lib/index.js');
-
+const getToken  = require('./getToken');
 test ('computeAttach', async () => {
-  const r = await runit();
+  const payload = {
+    host        : process.env.VIYA_SERVER,
+    authType    : 'server',
+    token       : getToken(),
+    tokenType   : 'bearer',
+    storeOptions: { casProxy: true }
+  };
+  const r = await runit(payload);
   expect(r).toBe('done');
 }); 
 
-async function runit () {
-  const payload = {
-    host        : process.env.VIYA_SERVER,
-    authType    : 'password',
-    clientID    : 'sas.ec',
-    clientSecret: '',
-    user        : 'sastest1',
-    password    : 'Go4thsas'
-  };
+async function runit (payload) {
 
   const appControl = getAppControl();
 
@@ -36,17 +35,18 @@ async function runit () {
 
   let start = new Date();
   const appEnv1 = await setup(payload, appControl);
-  console.log(appEnv1.sessionID, ' ', appEnv1.userSessionID);
+  console.log('run1 ', appEnv1.sessionID, ' ', appEnv1.userSessionID);
   console.log( 'first setup....', new Date() - start);
   debugger;
   start = new Date();
   const appEnv2 = await setup(payload, appControl, appEnv1.sessionID);
-  console.log(appEnv2.sessionID, ' ', appEnv2.session.items('id'));
+  console.log('run2 ',appEnv2.sessionID, ' ', appEnv2.session.items('id'));
   console.log( 'Second setup.....', new Date() - start);
   start = new Date();
 
   debugger;
   // eslint-disable-next-line prefer-const
+  /*
   start = new Date();
   let result = await scrollTable('first', appEnv2);
   console.log('after fetch---------------', new Date() - start);
@@ -55,6 +55,7 @@ async function runit () {
   console.log('result of first fetch -------------------------------');
   console.log(appEnv2.state.data);
   console.log(appEnv2.state.pagination);
+  */
 
   await termApp(appEnv2);
   return 'done';

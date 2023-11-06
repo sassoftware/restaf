@@ -1,22 +1,20 @@
 /* eslint-disable quotes */
 const { setup, getLibraryList, getTableList, termApp} = require('../lib/index.js');
+const getToken = require('./getToken')
 
-
-test ('computeLibrary', async () => {
-  const r = await runit();
+test('computeLibrary', async () => {
+  let payload = {
+    host        : process.env.VIYA_SERVER,
+    authType    : 'server',
+    token       : getToken(),
+    tokenType   : 'bearer',
+    options     : { casProxy: true, options: {}}
+  };
+  const r = await runit(payload);
   expect(r).toBe('done');
-  
 });
 
-async function runit () {
-  const payload = {
-    host        : process.env.VIYA_SERVER,
-    authType    : 'password',
-    clientID    : 'sas.ec',
-    clientSecret: '',
-    user        : 'sastest1',
-    password    : 'Go4thsas'
-  };
+async function runit (payload) {
   debugger;
   const appControl = getAppControl();
   const preamble = `   

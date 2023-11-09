@@ -17,6 +17,7 @@ import axios from "axios";
 import qs from "qs";
 import fixResponse from "./fixResponse";
 import Https from "https";
+import Http from "http";
 
 // axios.defaults.withCredentials = true
 axios.interceptors.response.use(
@@ -187,7 +188,8 @@ function request(iconfig) {
 }
 // setup if using reverse proxy server
 function setupProxy(iconfig, config) {
-  let options = iconfig.logonInfo.options
+  debugger;
+  let options = iconfig.logonInfo.options;
   if (options.proxyServer != null) {
     let proxy = options.proxy;
     if (proxy.pathname != null && proxy.pathname.trim().length > 0) {
@@ -207,13 +209,19 @@ function patchURL4ns(logInfo, link) {
 }
 
 function makeCall(config, iconfig, storeConfig) {
- 
+  debugger;
   if (storeConfig.protocol === "https://" && config.agent == null) {
     let opt = storeConfig.sslOptions != null ? storeConfig.sslOptions : {};
     let agent = new Https.Agent(opt);
     config.httpsAgent = agent;
   }
+  else {
+    let opt = {};
+    let agent = new Http.Agent(opt);
+    config.httpAgent = agent;
+  }
   return new Promise((resolve, reject) => {
+    debugger;
     axios(config)
       .then((response) => {
         parseJSON(response.data)

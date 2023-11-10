@@ -24,7 +24,7 @@ import { VIYA_LOGON, VIYA_LOGOFF, VIYA_LOGON_SERVER, VIYA_LOGON_IMPLICIT, VIYA_L
 import qs from 'qs';
 import parse from 'url-parse';
 import keepViyaAlive from './keepViyaAlive';
-import {URL} from 'url';
+
 /**
  * @description logon or connect to Viya
  * @module logon

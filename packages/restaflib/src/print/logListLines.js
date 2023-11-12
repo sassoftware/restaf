@@ -15,7 +15,7 @@
  * @returns {string} log lines as HTML
  * 
  */
-import colors from 'colors/safe';
+import colors from 'colors';
 
 async function logListLines ( dataL ) {
     

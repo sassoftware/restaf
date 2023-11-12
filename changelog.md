@@ -21,3 +21,9 @@ Next gen
 ## 5.0.5
 
 - undo previous two patches
+
+## 5.0.10-test
+
+- fixed issues with restaflib/src/programs
+- cleaned up dependencies
+

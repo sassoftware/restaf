@@ -8,6 +8,7 @@ let logonPayload = {
   authType : "server",
 };
 
+
 let store = restaf.initStore(
   { casProxy: true, 
     options : {

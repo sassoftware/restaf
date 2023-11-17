@@ -17,7 +17,7 @@ import axios from "axios";
 import qs from "qs";
 import fixResponse from "./fixResponse";
 import Https from "https";
-import Http from "http";
+
 
 // axios.defaults.withCredentials = true
 axios.interceptors.response.use(
@@ -215,14 +215,15 @@ function makeCall(config, iconfig, storeConfig) {
     let agent = new Https.Agent(opt);
     config.httpsAgent = agent;
     console.log('setting httpsAgent'); 
-  }
+  }/*
   else {
     let opt = {};
     let agent = new Http.Agent(opt);
     config.httpAgent = agent;
     config.withCredentials = true;
     console.log('setting httpAgent');
-  }
+  }*/
+  
   return new Promise((resolve, reject) => {
     debugger;
     console.log('making call with this config', config);

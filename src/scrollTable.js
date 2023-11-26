@@ -77,6 +77,7 @@ async function icasScroll (direction, appEnv, payload) {
   }
   control.table = table;
   try {
+    debugger;
     const r = await casFetchData(store, session, control);
     const result = await prepFormData(r.data, appEnv);
     

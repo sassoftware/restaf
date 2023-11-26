@@ -18,7 +18,7 @@ async function runit() {
 
   let appControl = {
     source: 'cas',
-    table: { caslib: 'casuser', name: 'testdatatemp' },
+    table: { caslib: 'Public', name: 'cars' },
     /*
     byvars: [''],
     initialFetch: {

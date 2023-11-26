@@ -177,7 +177,7 @@ async function icasSetup (store, logonPayload, appControl, appEnv, sessionID) {
 
   if (appControl.preamble != null) {
     try {
-      const rx = await caslRun(store, r.session, appControl.preamble);
+      const rx = await caslRun(store, r.session, appControl.preamble, {},true);
       if (rx.disposition.statusCode !== 0) {
         console.log(JSON.stringify(rx, null, 4));
         // eslint-disable-next-line no-throw-litera

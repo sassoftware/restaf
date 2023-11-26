@@ -64,7 +64,7 @@ example()
 async function caslRun ( store, session, src, args, useCommons, ...rest ) {
     let tsrc = src;
 
-    if ( useCommons === true ) {
+    if ( useCommons !== false ) {
         tsrc = src + ' ' + programs[ 'commonCasl' ]();
     }
     let result  = await caslRunBase( store,session, tsrc, args, ...rest );

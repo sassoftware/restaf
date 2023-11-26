@@ -214,7 +214,6 @@ function makeCall(config, iconfig, storeConfig) {
     let opt = storeConfig.sslOptions != null ? storeConfig.sslOptions : {};
     let agent = new Https.Agent(opt);
     config.httpsAgent = agent;
-    console.log('setting httpsAgent'); 
   }/*
   else {
     let opt = {};
@@ -226,7 +225,7 @@ function makeCall(config, iconfig, storeConfig) {
   
   return new Promise((resolve, reject) => {
     debugger;
-    console.log('making call with this config', config);
+    //console.log('making call with this config', config);
     axios(config)
       .then((response) => {
         parseJSON(response.data)

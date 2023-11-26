@@ -1,5 +1,3 @@
-'use strict' ;
-
 let nodeExternals  = require( 'webpack-node-externals' );
 let webpack = require( 'webpack' );
 let  path    = require( 'path' );

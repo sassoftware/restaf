@@ -28,6 +28,7 @@
  */
 async function casFetchData ( store, session, payload ){
     let src    = programs['commonCasl']() + ' ' +  programs['casFetchData']();
+   // console.log(src);
     let result = await caslRunBase( store, session, src, payload );
     
     return result.items( 'results', 'casResults' ).toJS();    

@@ -19,7 +19,7 @@ async function prepFormData (result, appEnv, makerow) {
   const source = appEnv.source;
   const customColumns = appEnv.appControl.customColumns;
   let status = { statusCode: 0, msg: 'Initialization was successful' };
-  
+  debugger;
   const makeRowObject = (columns, row, rown) => {
 
     const rowObj = {_rowIndex: rown, _modified: 0 };

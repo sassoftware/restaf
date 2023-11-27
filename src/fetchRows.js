@@ -18,6 +18,7 @@ import scrollTable from './scrollTable';
  *
  */
 async function fetchRows (control, appEnv) {
+  debugger;
   const result = await scrollTable(null, appEnv, control);
   return result;
 }

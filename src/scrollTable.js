@@ -139,7 +139,9 @@ async function icomputeScroll (direction, appEnv, payload) {
 
   let r = null;
   try {
+    debugger;
     r = await computeFetchData(store, tableSummary, tname, direction, control, 'rows');
+    debugger;
   } catch (err) {
     appEnv.state.data = [];
     // eslint-disable-next-line no-throw-literal
@@ -149,8 +151,10 @@ async function icomputeScroll (direction, appEnv, payload) {
   let result = null;
 
   if (r !== null) {
+    debugger;
     result = await prepFormData(r, appEnv);
     appEnv.fetchCount = result.data.length;
+
     if (appEnv.fetchCount > 0) {
       appEnv.state = {
         cache        : result.cache,

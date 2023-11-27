@@ -84,7 +84,7 @@
   },
   "dependencies": {
     "@babel/eslint-parser": "^7.22.15",
-    "@sassoftware/restaf": "^5.1.1",
-    "@sassoftware/restaflib": "^5.1.1"
+    "@sassoftware/restaf": "^5.1.2",
+    "@sassoftware/restaflib": "^5.1.2"
   }
 }

@@ -188,7 +188,7 @@ function request(iconfig) {
 }
 // setup if using reverse proxy server
 function setupProxy(iconfig, config) {
-  debugger;
+  
   let options = iconfig.logonInfo.options;
   if (options.proxyServer != null) {
     let proxy = options.proxy;
@@ -209,7 +209,6 @@ function patchURL4ns(logInfo, link) {
 }
 
 function makeCall(config, iconfig, storeConfig) {
-  debugger;
   if (storeConfig.protocol === "https://" && config.agent == null) {
     let opt = storeConfig.sslOptions != null ? storeConfig.sslOptions : {};
     let agent = new Https.Agent(opt);
@@ -224,7 +223,7 @@ function makeCall(config, iconfig, storeConfig) {
   }*/
   
   return new Promise((resolve, reject) => {
-    debugger;
+
     //console.log('making call with this config', config);
     axios(config)
       .then((response) => {

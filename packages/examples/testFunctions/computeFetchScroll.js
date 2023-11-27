@@ -46,8 +46,6 @@ run;
 	
 	
 	let tableSummary = await computeSetupTables( store, computeSession, t, preamble );
-	
-	
 
 	// let tname = `${t.libref}.${t.name}`;
 	
@@ -56,7 +54,7 @@ run;
 		tableSummary,
 		t,
 		'first',
-		{qs: {limit: 5}}
+		{qs: {limit: 1}}
 	)
 	
 	console.log( ' l = ' , data.rows.length );

@@ -26,17 +26,21 @@ module.exports = async function computeDS ( testInfo ) {
  
 	let macros = { maxRows: 1000 };
 	let src = `
-
+		%let syscc=0;
         ods html style=barrettsblue; 
 		libname tempdata '/tmp';run; 
 		data tempdata.testdata;
-		keep x1 x2 x3 key;
+		keep x1 x3 x2 key;
 		do i = 1 to 10; 
+		key=compress('key'||i);
 		   x1=i; 
-		   x2=3; x3=i*10; key=compress('key'||i);
+		   x3=i*10;
+		   x2='X2'; 
 		output;
 		end;
 		run;
+		data tempdata.baseball; set sashelp.baseball; run;
+		quit;
             `;
 	logger.info( 'Compute Service' );
 	console.log( Date() );
@@ -65,50 +69,21 @@ module.exports = async function computeDS ( testInfo ) {
 		*/
 
     );
-	console.log( computeSummary.SASJobStatus );
-	/*
-	console.log(context);
-	console.log(Date());
-	*/
-	/*
-	let log = await restaflib.computeResults(store, computeSummary, 'log');
-	console.log(log);
-	logger.info(log);
-	*/
-	// let ods = await restaflib.computeResults(store, computeSummary, 'ods');
-	// logger.info(ods);
-
-	let tables = await restaflib.computeResults(
+	debugger;
+	let data = await restaflib.computeFetchData(
 		store,
 		computeSummary,
-		'tables'
+		'BASEBALL',
+		'next',
+		{ qs: {limit: 1}},
+		"rows"
 	);
-	logger.info( tables );
-    let data;
-	for ( let i=0; i <= 1; i++ ) {
-		data = await restaflib.computeFetchData(
-			store,
-			computeSummary,
-			'TESTDATA',
-			'next',
-			{ qs: {limit: 1}},
-			"rows"
-		);
+
+	
 		console.log( Object.keys( data ) );
+		console.log( JSON.stringify(data.schema, null,4 ));
 		console.log( data.rows[0] );
 
-		// logger.info(data.columns);
-		logger.info( `Row ${i+1}  ${data.rows[0]}` );
-	}
-	/*
-	data = await restaflib.computeFetchData(
-		store,
-		computeSummary,
-		'DTEMP1',
-		null,
-		{qs:{start: 10, limit:10}}
-	);
-	*/
 	await store.apiCall( computeSession.links( 'delete' ) );
     return 'done';
 };

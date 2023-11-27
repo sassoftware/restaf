@@ -46,8 +46,10 @@ async function computeFetchData ( store, computeSummary, table, direction, paylo
             };
 
             let columns = await store.apiCall( t1.links( 'columns' ), qc );
+            debugger;
             let schema = [];
             let items = columns.items().toJS();
+            debugger;
             let linkRel = ( useRow === 'rows' ) ? 'rows' : 'rowSet';
             if ( linkRel === 'rows' ) {
                 schema.push(
@@ -71,16 +73,17 @@ async function computeFetchData ( store, computeSummary, table, direction, paylo
                     type  : c.data.type,
                     custom: false
                 }
-            schema.push( newcol );
+            schema[c.data.index + 1] = newcol;
             }
-
             // Now get data using rows or rowSet rel
             // should probably drop rowSet since is seems to be missing query features
-
+            debugger;
             let result = await store.apiCall( t1.links( linkRel ),ipayload );
-            
+            debugger;
             // If using linkRel of rows, convert the data to rowSet schema
+     
             let rowsData = ( linkRel === 'rowSet' ) ? result.items().toJS().rows : cells2RowSet( schema, result );
+            let colInOrder = result.items().toJS().columns;
             tableInfo.current = result;
             tableInfo.schema = schema;
             tableInfo.columns = columns;

@@ -55,10 +55,13 @@ async function icasScroll (direction, appEnv, payload) {
   const { store, session } = appEnv;
   const { initialFetch, table } = appEnv.appControl;
   const cachePolicy = (appEnv.appControl.cachePolicy == null) ? true : appEnv.appControl.cachePolicy;
-  let control;
-  
+  let control = {...initialFetch.qs};
+
   if (payload != null) {
-    control = { ...payload.qs };
+    control = {...control, ...payload.qs };
+    if (control.format == null) {
+      control.format = false;
+    }
     if (control.where == null) {
       control.where = ' ';
     }
@@ -67,10 +70,12 @@ async function icasScroll (direction, appEnv, payload) {
       control = { ...initialFetch.qs };
     } else if (direction !== null) {
       const cs = appEnv.state.pagination[direction];
+      console.log('cs===', cs);
       if (cs == null) {
         // eslint-disable-next-line no-throw-literal
         throw `Invalid scroll direction ${direction}`;
       }
+      console.log('cs=', cs);
       control = { ...cs };
     }
     control.where = appEnv.activeWhere;
@@ -117,25 +122,31 @@ async function icomputeScroll (direction, appEnv, payload) {
   const { store, tableSummary } = appEnv;
   const { table, initialFetch } = appEnv.appControl;
   const cachePolicy = (appEnv.appControl.cachePolicy == null) ? true : appEnv.appControl.cachePolicy;
-  let control = null;
   const tname = `${table.libref}.${table.name}`.toLowerCase();
 
-  if (payload == null) {
-    if (direction === 'first') {
-      control = { ...initialFetch };
-    }
+  let control = null;
+  let qs = { ...initialFetch.qs };
+  delete qs.start;
+
+  console.log('payload=', payload);
+  //Treat direction of first as a special case
+  if (direction === 'first') {
+    control = { ...initialFetch };
   } else {
-    control = { ...payload };
-  }
-  if (appEnv.activeWhere != null) {
-    if (control != null) {
-      control.qs.where = appEnv.activeWhere;
+    //make sure to pass filter setup to override the scroll options
+    if (payload == null) {
+      control = { qs: qs };
     } else {
-      control = { qs: { where: appEnv.activeWhere } };
+      control = { qs: { ...qs, ...payload.qs } };
+    }
+    if (appEnv.activeWhere != null) {
+      control.qs.where = appEnv.activeWhere;
     }
   }
 
-  // eslint-disable-next-line prefer-const
+  if (appEnv.activeWhere != null) {
+    control.qs.where = appEnv.activeWhere;
+  }
 
   let r = null;
   try {

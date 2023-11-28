@@ -65,11 +65,13 @@ async function cellEdit (name, value, rowIndex, currentData, appEnv) {
     return { data: r[0], status: r[1] };
   }
   r[0]._modified = 1;
+  debugger;
   if (iautoSave === true && appEnv.table != null) {
     r = await commonHandler('term', r[0], rowIndex, appEnv, status);
    // r = handlerResult(r, newDataRow, null, status);
     status = r[1];
     if (status.statusCode === 2) {
+      console.log(status);
        return { data: r[0], status: r[1] };
     }
       await updateTableRows(r[0], appEnv);

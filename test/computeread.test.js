@@ -39,7 +39,7 @@ async function runit (payload) {
   console.log(appEnv.state.columns);
   // console.log(appEnv.state.cache);
   
-/*
+  /*
   console.log('-------------------------------------------------------');
   const x3New = result.data[0].x3 + 100;
   await cellEdit('x3', x3New, 0, result.data[0], appEnv);

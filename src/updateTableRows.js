@@ -18,7 +18,7 @@ import { casUpdateData } from '@sassoftware/restaflib';
 async function updateTableRows (data, appEnv, altTable, altByvars) {
   let result;
   const byvars = appEnv.appControl.byvars;
-  
+  debugger;
   if (altByvars == null || altByvars.length === 0) {
     if (byvars === null || byvars.length === 0) {
        return [null, { msg: 'Error: Please specify a by variable', statusCode: 1 }];
@@ -111,6 +111,8 @@ async function _computeUpdateData (store, session, payload) {
   const p = {
     data: { code: asrc }
   };
+  console.log(p);
+  debugger;
   const job = await store.apiCall(session.links('execute'), p);
   const qs = {
     qs: {
@@ -118,9 +120,14 @@ async function _computeUpdateData (store, session, payload) {
       timeout : 1
     }
   };
+  debugger;
   const status = await store.jobState(job, qs);
+  debugger;
   const c = (status.data === 'completed' ? 0 : 1);
-
+  console.log('statusInfo:' , status.job.statusInfo);
+  debugger;
+  console.log(status.data);
+  debugger;
   return { statusCode: c, msg: status.data };
 }
 

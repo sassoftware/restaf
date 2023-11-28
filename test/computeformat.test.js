@@ -1,6 +1,6 @@
 const { setup, cellEdit, scrollTable, termApp, getTableSummary } = require('../lib/index.js');
 const { computeRun } = require('@sassoftware/restaflib');
-const getToken = require('./getToken');
+const getToken = require('./getToken.js');
 console.log(getToken);
 
 test('computeBasic', async () => {
@@ -31,6 +31,7 @@ async function runit (payload) {
   id=compress(TRIMN('key'||i));
   output;
 end;
+data tempdata.cars; set sashelp.cars;run;
 run;`;
   debugger;
   appControl.preamble = preamble;
@@ -57,8 +58,8 @@ run;`;
   
 
   console.log('-------------------------------------------------------');
-  const x3New = result.data[0].x3 + 100;
-  await cellEdit('x3', x3New, 0, result.data[0], appEnv);
+  const msrp = 50000;
+  await cellEdit('msrp', msrp, 0, result.data[0], appEnv);
   debugger;
   console.log(appEnv.state.data[0]);
   console.log('-------------------------------------------------------');
@@ -67,20 +68,22 @@ run;`;
   console.log('after reread');
   console.log(appEnv.state.data[0]);
 
-  /*
   result = await scrollTable('next', appEnv);
   debugger;
   console.log('result of scroll next----------------------------------');
-  console.log(result.data[0]);
   console.log(appEnv.state.data[0]);
   console.log('-------------------------------------------------------');
 
-  result = await scrollTable('prev', appEnv);
+  result = await scrollTable('next', appEnv);
   console.log('result of scroll prev wit modified data----------------');
-  console.log(result.data[0]);
   console.log(appEnv.state.data[0]);
   console.log('-------------------------------------------------------');
-  */
+  
+  result = await scrollTable('next', appEnv);
+  debugger;
+  console.log('result of scroll next----------------------------------');
+  console.log(appEnv.state.data[0]);
+  console.log('-------------------------------------------------------');
   await termApp(appEnv);
   return 'done';
 };
@@ -90,13 +93,13 @@ function getAppControl () {
     description: 'Simple Example',
 
     source: 'compute',
-    table : { libref: 'tempdata', name: 'testdata' },
-    byvars: ['id'],
+    table : { libref: 'tempdata', name: 'cars' },
+    byvars: ['make', 'model', 'type'],
 
     cachePolicy: true,
 
     initialFetch: { /* use rowSets query pattern */
-      qs: { start: 0, limit: 1, format: true, where: ' ', includeIndex: true}
+      qs: { start: 0, limit: 1, format: false, where: ' ', includeIndex: true}
     },
 
     customColumns: {
@@ -149,7 +152,7 @@ async function initApp (appEnv) {
 
 async function init (data, rowIndex, appEnv, type) {
   const status = { statusCode: 0, msg: `${type} processing completed` };
-  data.total = data.x1 + data.x2 + data.x3;
+  console.log('init:', data)
   return [data, status];
 };
 

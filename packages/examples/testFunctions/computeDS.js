@@ -39,7 +39,7 @@ module.exports = async function computeDS ( testInfo ) {
 		output;
 		end;
 		run;
-		data tempdata.baseball; set sashelp.baseball; run;
+		data tempdata.air; set sashelp.air; run;
 		quit;
             `;
 	logger.info( 'Compute Service' );
@@ -73,9 +73,9 @@ module.exports = async function computeDS ( testInfo ) {
 	let data = await restaflib.computeFetchData(
 		store,
 		computeSummary,
-		'BASEBALL',
-		'next',
-		{ qs: {limit: 1}},
+		'AIR',
+		'first',
+		{ qs: {limit: 1, format: false}},
 		"rows"
 	);
 

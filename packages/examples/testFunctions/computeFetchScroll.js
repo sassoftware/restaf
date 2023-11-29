@@ -37,11 +37,12 @@ module.exports = async function computeFetchScroll( testInfo ) {
   output;
 end;
 run;
+data tempdata.cars; set sashelp.cars(obs=5); run;
 	`;
 	  
 
 	logger.info( 'Compute Service Tables' );
-	let t = {libref: 'tempdata', name: 'testdata'};
+	let t = {libref: 'tempdata', name: 'cars'};
 	
 	
 	
@@ -54,17 +55,17 @@ run;
 		tableSummary,
 		t,
 		'first',
-		{qs: {limit: 1}}
+		{qs: {limit: 1, format: false}}, 'rows'
 	)
-	
-	console.log( ' l = ' , data.rows.length );
+	console.log('schema=', JSON.stringify(data.schema));
+	console.log( ' data= ' , JSON.stringify(data.rows));
 	console.log( '--------------------', data.scrollOptions );
 
 	while ( data.scrollOptions.indexOf( 'next' ) !== -1 ){
 		console.log( data.scrollOptions );
-		data = await restaflib.computeFetchData( store, tableSummary, t , 'next' );
+		data = await restaflib.computeFetchData( store, tableSummary, t , 'next',{qs: {limit: 1, format: false}},'rows' );
 		if ( data != null ) {
-	  	  console.log( 'data=' , data.rows );
+	  	  console.log( 'data=' , JSON.stringify(data.rows) );
 		} else {
 			console.log( 'data is null' );
 		}
@@ -74,9 +75,9 @@ run;
 	}
 
 	do {
-		data = await restaflib.computeFetchData( store, tableSummary, t , 'prev' );
+		data = await restaflib.computeFetchData( store, tableSummary, t , 'prev', {qs: {limit: 1, format: false}},'rows' );
 		if ( data != null ) {
-	  	  console.log( 'data=' , data.rows );
+	  	  console.log( 'data=' , JSON.stringify(data.rows) );
 		} else {
 			console.log( 'data is null' );
 		}

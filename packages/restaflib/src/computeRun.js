@@ -87,15 +87,17 @@ async function computeRun ( store,session, src, macros, timeout,checkStatus, use
     // generate macro variables
    
     let code =[];
+    debugger;
     if ( macros != null ) {
         for ( let arg in macros ) {
-            let c = `%let ${arg} = ${macros[arg]};`;
+            let c = `%let ${arg}=${macros[arg]};`;
             code.push( c );
         }
     }
- 
+    console.log(code);
     // Concat macro to code
-    let asrc = src.split( /\r?\n/ );
+    let asrc = src.replace(/\t/g, ' ');
+    asrc = asrc.split( /\r?\n/);
     code = code.concat( asrc );
 
     // run code and get results

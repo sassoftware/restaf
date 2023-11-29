@@ -63,7 +63,7 @@ example()
 
 async function caslRun ( store, session, src, args, useCommons, ...rest ) {
     let tsrc = src;
-
+    debugger;
     if ( useCommons !== false ) {
         tsrc = src + ' ' + programs[ 'commonCasl' ]();
     }

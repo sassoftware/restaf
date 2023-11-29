@@ -17,7 +17,7 @@
 'use strict';
 
 let restaflib = require( '@sassoftware/restaflib' );
-let { computeSetup } = restaflib;
+let { computeSetup, computeResults } = restaflib;
 
 module.exports = async function computeDS ( testInfo ) {
 	let { store, logger } = testInfo;
@@ -39,7 +39,6 @@ module.exports = async function computeDS ( testInfo ) {
 		output;
 		end;
 		run;
-		data tempdata.air; set sashelp.air; run;
 		quit;
             `;
 	logger.info( 'Compute Service' );
@@ -58,6 +57,7 @@ module.exports = async function computeDS ( testInfo ) {
 		state  : '',
 		counter: 1
 	};
+	debugger;
 	let computeSummary = await restaflib.computeRun(
 		store,
 		computeSession,
@@ -69,20 +69,15 @@ module.exports = async function computeDS ( testInfo ) {
 		*/
 
     );
-	debugger;
-	let data = await restaflib.computeFetchData(
-		store,
-		computeSummary,
-		'AIR',
-		'first',
-		{ qs: {limit: 1, format: false}},
-		"rows"
-	);
-
-	
-		console.log( Object.keys( data ) );
-		console.log( JSON.stringify(data.schema, null,4 ));
-		console.log( data.rows[0] );
+	let log = await computeResults(store, computeSummary, 'log');
+    console.log(log);
+	log.map( ( data ) => {
+        let line = data.line.replace( /(\r\n|\n|\r)/gm, "" );
+        if ( line.length === 0 ) {
+           console.log( ' ' );
+        } else {}
+		  console.log( line );
+	} );
 
 	await store.apiCall( computeSession.links( 'delete' ) );
     return 'done';

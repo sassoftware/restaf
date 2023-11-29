@@ -4,9 +4,14 @@
  */
 /* eslint-disable prefer-const */
 
-import { initStore } from '@sassoftware/restaf';
-import { casSetup, computeSetup, computeSetupTables, caslRun } from '@sassoftware/restaflib';
-import prepFormData from './prepFormData';
+import { initStore } from "@sassoftware/restaf";
+import {
+  casSetup,
+  computeSetup,
+  computeSetupTables,
+  caslRun,
+} from "@sassoftware/restaflib";
+import prepFormData from "./prepFormData";
 
 /*
 import getTableSummary from './getTableSummary';
@@ -24,7 +29,7 @@ import termApp from './termApp';
  * @param {object=} builtins  builtins functions
  * @param {string=} user  user name
  * @param {object=} userFunctions  user functions
- * 
+ *
  *
  * @returns {promise}  returns appEnv to control the flow
  * @alias module: setup
@@ -36,100 +41,133 @@ import termApp from './termApp';
  *    2. Optionally run the appInit handler (if specified)
  *    3. Optionally run the preamble code (if specified)
  *    4. Return the appEnv object.
- * 
+ *
  *    The appInit handler and the preamble code can be used to setup related information, create
  *    temporary tables etc...
  *
  */
-async function setup (logonPayload, appControl, sessionID, builtins, user, userFunctions, storeConfig){
-  const {source} = appControl;
-  console.log('Incoming logonPayload.storeConfig', storeConfig);
+async function setup(
+  logonPayload,
+  appControl,
+  sessionID,
+  builtins,
+  user,
+  userFunctions,
+  storeConfig
+) {
+  const { source } = appControl;
+  console.log("Incoming logonPayload.storeConfig", storeConfig);
   debugger;
   if (storeConfig == null) {
-    storeConfig = { 
-      casProxy: true, 
-      options: {ns: null, proxyServer: null} };
+    storeConfig = {
+      casProxy: true,
+      options: { ns: null, proxyServer: null },
+    };
   }
   // Note: that each setup creates its own store
-  console.log('storeConfig', storeConfig)
+  console.log("storeConfig", storeConfig);
   let store = initStore(storeConfig);
   if (logonPayload !== null) {
     let msg = await store.logon(logonPayload);
   }
 
-  console.log('after logon in setup:' , store.connection());
-  const useEntry = (source === 'cas') ? icasSetup : source === 'compute' ?  icomputeSetup : nosource;
+  console.log("after logon in setup:", store.connection());
+  const useEntry =
+    source === "cas"
+      ? icasSetup
+      : source === "compute"
+      ? icomputeSetup
+      : nosource;
   if (sessionID == undefined) {
     sessionID = null;
   }
-  
+
   const _verify = (field, value) => {
     if (appControl[field] == null) {
       appControl[field] = value;
     }
-  }
+  };
   // check
-  _verify('table', null);
-  _verify('byvars', []);
-  _verify('customColumns', {});
-  _verify('editControl', {handlers:{}, autoSave: true});
-  _verify('initialFetch', {qs: {start: 0, limit: 10, format: false,where: ' '}});
-  
+  _verify("table", null);
+  _verify("byvars", []);
+  _verify("customColumns", {});
+  _verify("editControl", { handlers: {}, autoSave: true });
+  _verify("initialFetch", {
+    qs: { start: 0, limit: 10, format: false, where: " " },
+  });
+
   let appEnv = {
     source: source,
-    table : appControl.table,
+    table: appControl.table,
     byvars: appControl.byvar,
     userData: {},
-    onNoData: appControl.onNoData != null ? appControl.onNoData : 'clear',
+    onNoData: appControl.onNoData != null ? appControl.onNoData : "clear",
     user: user,
     fetchCount: 0,
     store,
-    session  : null,
-    servers  : null,
+    session: null,
+    servers: null,
     sessionID: null,
     userSessionID: null,
-    userFunctions: (userFunctions != null) ? userFunctions : {},
+    userFunctions: userFunctions != null ? userFunctions : {},
     casServerName: appControl.casServerName,
     computeContext: appControl.computeContext,
     logonPayload,
     appControl,
 
-    activeWhere: (appControl.initialFetch.qs.where != null) ? appControl.initialFetch.qs.where : ' ',
-    builtins: (builtins != null) ? builtins: {},
+    activeWhere:
+      appControl.initialFetch.qs.where != null
+        ? appControl.initialFetch.qs.where
+        : " ",
+    builtins: builtins != null ? builtins : {},
 
     state: {
-      cache        : {rows:[], schema: []},   
-      modified     : [],
-      pagination   : {},
-      point        : '',
+      cache: { rows: [], schema: [] },
+      modified: [],
+      pagination: {},
+      point: "",
       scrollOptions: [],
-      data         : [],
-      columns      : {},
-      tableSummary : {}
+      data: [],
+      columns: {},
+      tableSummary: {},
     },
 
-    id: Date()
+    id: Date(),
   };
 
   if (logonPayload.host == null) {
     // eslint-disable-next-line no-throw-literal
-    throw 'ERROR: Please specify a Viya host';
+    throw "ERROR: Please specify a Viya host";
   }
-  appEnv = await useEntry(store, null/*logonPayload*/, appControl, appEnv, sessionID);
-  let id1 = appEnv.session.items('id');
-  let ssid = await store.apiCall( appEnv.session.links( 'self' ) );
-  let id = ssid.items('id');
-  console.log('compare:' , id1, ' ', id);
+  appEnv = await useEntry(
+    store,
+    null /*logonPayload*/,
+    appControl,
+    appEnv,
+    sessionID
+  );
+  let id1 = appEnv.session.items("id");
+  let ssid = await store.apiCall(appEnv.session.links("self"));
+  let id = ssid.items("id");
+  console.log("compare:", id1, " ", id);
   appEnv.sessionID = id;
   appEnv.userSessionID = sessionID;
   return appEnv;
 }
 
 // _nosource
-async function nosource (_store, _logonPayload, appControl, appEnv, _sessionID) {
-  let r = await prepFormData(appEnv.state.cache,appEnv, true);
+async function nosource(_store, _logonPayload, appControl, appEnv, _sessionID) {
+  let r = await prepFormData(appEnv.state.cache, appEnv, true);
+  // TBD: Need to handle preamble for this case.
   if (appControl.editControl.handlers.initApp != null) {
-    await _initApp(appEnv);
+    try {
+      await _initApp(appEnv);
+    } catch (err) {
+      console.log(err);
+      // eslint-disable-next-line no-throw-literal
+      // await termApp(appEnv, true);
+      throw "ERROR: initApp failed. Please see console for messages";
+    }
   }
   appEnv.state.data = r.data;
   appEnv.state.columns = r.columns;
@@ -137,24 +175,27 @@ async function nosource (_store, _logonPayload, appControl, appEnv, _sessionID) 
   return appEnv;
 }
 
-async function _initApp (appEnv) {
+async function _initApp(appEnv) {
   try {
-    const r = await appEnv.appControl.editControl.handlers.initApp(appEnv, 'initApp');
+    const r = await appEnv.appControl.editControl.handlers.initApp(
+      appEnv,
+      "initApp"
+    );
     if (r.statusCode === 2) {
       console.log(JSON.stringify(r, null, 4));
       // eslint-disable-next-line no-throw-literal
-     // await termApp(appEnv, true);
-      throw 'ERROR: initApp failed. Please see console for messages';
+      // await termApp(appEnv, true);
+      throw "ERROR: initApp failed. Please see console for messages";
     }
   } catch (err) {
     console.log(err);
     // eslint-disable-next-line no-throw-literal
     // await termApp(appEnv, true);
-    throw 'ERROR: Setup failed. Please see console for error messages';
+    throw "ERROR: Setup failed. Please see console for error messages";
   }
 }
 // cas server
-async function icasSetup (store, logonPayload, appControl, appEnv, sessionID) {
+async function icasSetup(store, logonPayload, appControl, appEnv, sessionID) {
   let r;
   try {
     debugger;
@@ -162,61 +203,80 @@ async function icasSetup (store, logonPayload, appControl, appEnv, sessionID) {
     debugger;
     appEnv.session = r.session;
     appEnv.servers = r.servers;
-    appEnv.casServerName = appEnv.session.links('execute','link','server');
+    appEnv.casServerName = appEnv.session.links("execute", "link", "server");
   } catch (err) {
-    
     // eslint-disable-next-line no-throw-literal
-    throw 'ERROR: Unable to create session. Please see console for messages';
+    throw "ERROR: Unable to create session. Please see console for messages";
   }
-  
-  appEnv.serverName = appEnv.session.links('execute','link','server');
-  
+
+  appEnv.serverName = appEnv.session.links("execute", "link", "server");
+
   if (appControl.editControl.handlers.initApp != null) {
     await _initApp(appEnv);
   }
 
   if (appControl.preamble != null) {
     try {
-      const rx = await caslRun(store, r.session, appControl.preamble, {},true);
+      const rx = await caslRun(store, r.session, appControl.preamble, {}, true);
       if (rx.disposition.statusCode !== 0) {
         console.log(JSON.stringify(rx, null, 4));
         // eslint-disable-next-line no-throw-litera
-       // await termApp(appEnv, true);
-        throw 'ERROR: Preamble  code failed. Please see console for messages';
+        // await termApp(appEnv, true);
+        throw "ERROR: Preamble  code failed. Please see console for messages";
       }
     } catch (err) {
       console.log(err);
       // eslint-disable-next-line no-throw-literal
-      throw 'Preamble failed in accessing cas. Please see console';
+      throw "Preamble failed in accessing cas. Please see console";
     }
   }
 
   return appEnv;
-};
+}
 
 // Compute server
-async function icomputeSetup (store, logonPayload, appControl, appEnv, sessionID) {
+async function icomputeSetup(
+  store,
+  logonPayload,
+  appControl,
+  appEnv,
+  sessionID
+) {
   // eslint-disable-next-line prefer-const
   let session;
   debugger;
-  session = await computeSetup(store, appControl.computeContext, logonPayload, null, sessionID);
+  session = await computeSetup(
+    store,
+    appControl.computeContext,
+    logonPayload,
+    null,
+    sessionID
+  );
   debugger;
   appEnv.session = session;
   if (sessionID != null) {
     appEnv.userSessionID = sessionID;
   }
-  /*
-  appEnv.sessionID = session.items('id');
- 
-  */
-  if (appControl.editControl.handlers.initApp != null) {
-    await _initApp(appEnv);
-  }
 
+  try {
+    if (appControl.editControl.handlers.initApp != null) {
+      await _initApp(appEnv);
+    }
+  } catch (err) {
+    console.log(err);
+    throw "ERROR: initApp failed. Please see console for messages";
+  }
+  
   let tableSummary = {};
-  if (appControl.table != null){
+
+  if (appControl.table != null) {
     try {
-      tableSummary = await computeSetupTables(store, session, appControl.table, appControl.preamble);
+      tableSummary = await computeSetupTables(
+        store,
+        session,
+        appControl.table,
+        appControl.preamble
+      );
     } catch (err) {
       console.log(err);
       // await termApp(appEnv, true);

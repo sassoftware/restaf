@@ -20,7 +20,7 @@ async function runit (payload) {
   const appControl = getAppControl();
   debugger;
   // eslint-disable-next-line quotes
-  const preamble = null;
+  const preamble = 'xxxx';
   debugger;
   appControl.preamble = preamble;
   debugger;
@@ -75,7 +75,7 @@ function getAppControl () {
     cachePolicy: true,
 
     initialFetch: { /* use rowSets query pattern */
-      qs: { start: 0, limit: 1, format: true, where: ' ', includeIndex: true}
+      qs: { start: 0, limit: 1, format: false, where: ' '}
     },
 
     customColumns: {

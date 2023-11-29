@@ -29,16 +29,23 @@ async function runit (payload) {
       x[j] = j*i;
     end;
   id=compress(TRIMN('key'||i));
-  output;
+  outputxxxxx;
 end;
 run;`;
   debugger;
   appControl.preamble = preamble;
   debugger;
-  const appEnv = await setup(payload, appControl);
-  rc = await getTableSummary(appEnv);
-  console.log(appEnv.state.tableSummary);
-  console.log(appEnv.state.cache);
+  let appEnv;
+  try {
+    appEnv = await setup(payload, appControl);
+    rc = await getTableSummary(appEnv);
+    console.log(appEnv.state.tableSummary);
+    console.log(appEnv.state.cache);
+  } catch (err) {
+    console.log(err);
+    return 'failed';
+  }
+
 
   debugger;
   let result = await scrollTable('first', appEnv);
@@ -66,21 +73,6 @@ run;`;
   result = await scrollTable('first', appEnv);
   console.log('after reread');
   console.log(appEnv.state.data[0]);
-
-  /*
-  result = await scrollTable('next', appEnv);
-  debugger;
-  console.log('result of scroll next----------------------------------');
-  console.log(result.data[0]);
-  console.log(appEnv.state.data[0]);
-  console.log('-------------------------------------------------------');
-
-  result = await scrollTable('prev', appEnv);
-  console.log('result of scroll prev wit modified data----------------');
-  console.log(result.data[0]);
-  console.log(appEnv.state.data[0]);
-  console.log('-------------------------------------------------------');
-  */
   await termApp(appEnv);
   return 'done';
 };

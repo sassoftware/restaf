@@ -227,7 +227,7 @@ async function icasSetup(store, logonPayload, appControl, appEnv, sessionID) {
     } catch (err) {
       console.log(err);
       // eslint-disable-next-line no-throw-literal
-      throw "Preamble failed in accessing cas. Please see console";
+      throw "Preamble failed.Please see console";
     }
   }
 

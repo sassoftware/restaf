@@ -33,6 +33,7 @@
   "devDependencies": {
     "@babel/cli": "^7.14.5",
     "@babel/core": "^7.14.6",
+    "@babel/eslint-parser": "^7.22.15",
     "@babel/plugin-proposal-decorators": "^7.14.5",
     "@babel/plugin-proposal-do-expressions": "^7.14.5",
     "@babel/plugin-proposal-export-default-from": "^7.14.5",
@@ -83,7 +84,6 @@
     "verbose": false
   },
   "dependencies": {
-    "@babel/eslint-parser": "^7.22.15",
     "@sassoftware/restaf": "^5.1.4",
     "@sassoftware/restaflib": "^5.1.4"
   }

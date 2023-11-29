@@ -24,7 +24,7 @@ import computeSummary from  './computeSummary';
 async function computeRunBase ( store, session, code, timeout,eventHandler,userContext ){
    
     let payload  = {
-        data: {code: 'options NOSYNTAXCHECK OBS=MAX;%let syscc=0;' + code}
+        data: {code: code}
     };
     // Now execute the data step and wait for completion
 

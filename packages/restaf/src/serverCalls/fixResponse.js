@@ -14,13 +14,18 @@
  ---------------------------------------------------------------------------------------*/
    'use strict';
 
- let fixImages = require( './fixImages' );
- let fixReports = require( './fixReports' );
- let casSessionLinks = require( './casSessionLinks' );
- let reduceCasResults = require( './reduceCasResults' );
- let fixMlPipelineAutomation = require( './fixMlPipelineAutomation' );
+ 
+ // let fixImages = require( './fixImages' );
+ // let fixReports = require( './fixReports' );
+ // let casSessionLinks = require( './casSessionLinks' );
+ // let reduceCasResults = require( './reduceCasResults' );
+ // let fixMlPipelineAutomation = require( './fixMlPipelineAutomation' );
 
-
+import fixImages from './fixImages';
+import fixReports from './fixReports';
+import casSessionLinks from './casSessionLinks';
+import reduceCasResults from './reduceCasResults';
+import fixMlPipelineAutomation from './fixMlPipelineAutomation';
  function fixResponse ( response ) {
  
      //

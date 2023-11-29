@@ -86,15 +86,15 @@ async function computeRun ( store,session, src, macros, timeout,checkStatus, use
 
     // generate macro variables
    
-    let code =[];
-    debugger;
+    let code =['options NOSYNTAXCHECK OBS=MAX;%let syscc=0;'];
+   
     if ( macros != null ) {
         for ( let arg in macros ) {
             let c = `%let ${arg}=${macros[arg]};`;
             code.push( c );
         }
     }
-    console.log(code);
+
     // Concat macro to code
     let asrc = src.replace(/\t/g, ' ');
     asrc = asrc.split( /\r?\n/);

@@ -17,7 +17,8 @@
   'use strict';
 
 /* import uuid from 'uuid' ;*/
-let Immutable = require( 'immutable' );
+// let Immutable = require( 'immutable' );
+import Immutable from 'immutable';
 const { Map, fromJS } = Immutable;
 
 import { VIYA_LOGON_COMPLETE, BEGIN_LOGON, VIYA_LOGOFF, VIYA_LOGON_SERVER, VIYA_LOGON_IMPLICIT, VIYA_LOGOFF_COMPLETE,

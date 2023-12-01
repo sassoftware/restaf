@@ -82,11 +82,13 @@ async function computeFetchData(
           type: c.data.type,
           custom: false,
         };
-        schema[c.data.index + 1] = newcol;
+        let indx = ipayload.qs.includeIndex === true ? 1 : 0;
+        schema[c.data.index + indx] = newcol;
       }
       // Now get data using rows or rowSet rel
       // should probably drop rowSet since is seems to be missing query features
       debugger;
+      console.log('ipayload', ipayload);
       let result = await store.apiCall(t1.links(linkRel), ipayload);
       debugger;
       // If using linkRel of rows, convert the data to rowSet schema
@@ -124,6 +126,7 @@ async function computeFetchData(
         scrollOptions: current.scrollCmds().keySeq().toJS(),
       };
       if (dir !== null && current.scrollCmds(dir) !== null) {
+        console.log('ipayload2', ipayload);
         let result = await store.apiCall(current.scrollCmds(dir), ipayload);
 
         tableInfo.current = result;

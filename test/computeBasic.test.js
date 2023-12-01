@@ -22,7 +22,7 @@ async function runit (payload) {
   // eslint-disable-next-line quotes
   const preamble = `libname tempdata '/tmp';run; 
   data tempdata.testdata;
-  array x(3) x1-x3;
+  array x(3) x1-x3;zzzz
   length id $ 5;
   do i = 1 to 20;
     do j = 1 to 3;
@@ -30,6 +30,7 @@ async function runit (payload) {
     end;
   id=compress(TRIMN('key'||i));
   output;
+ 
 end;
 run;`;
   debugger;
@@ -88,7 +89,7 @@ function getAppControl () {
     cachePolicy: true,
 
     initialFetch: { /* use rowSets query pattern */
-      qs: { start: 0, limit: 1, format: true, where: ' ', includeIndex: false}
+      qs: { start: 0, limit: 1, format: true, where: ' '}
     },
 
     customColumns: {

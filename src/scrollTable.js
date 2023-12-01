@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { computeFetchData, casFetchData } from '@sassoftware/restaflib';
+import { computeFetchData, casFetchData} from '@sassoftware/restaflib';
 import prepFormData from './prepFormData';
 /**
  * @description Simplify scrolling using next|prev|top
@@ -126,7 +126,7 @@ async function icomputeScroll (direction, appEnv, payload) {
 
   let control = null;
   let qs = { ...initialFetch.qs };
-  qs.includeIndex = true;
+ // qs.includeIndex = true;
   delete qs.start;
 
   console.log('payload=', payload);
@@ -150,6 +150,7 @@ async function icomputeScroll (direction, appEnv, payload) {
   }
 
   let r = null;
+  control.qs.includeIndex = true;
   try {
     debugger;
     r = await computeFetchData(store, tableSummary, tname, direction, control, 'rows');

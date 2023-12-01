@@ -84,7 +84,7 @@
     "verbose": false
   },
   "dependencies": {
-    "@sassoftware/restaf": "^5.1.4",
-    "@sassoftware/restaflib": "^5.1.4"
+    "@sassoftware/restaf": "^5.1.5",
+    "@sassoftware/restaflib": "^5.1.5"
   }
 }

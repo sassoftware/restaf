@@ -10,6 +10,7 @@ import {
   computeSetup,
   computeRun,
   computeSetupTables,
+  computeResults,
   caslRun,
 } from "@sassoftware/restaflib";
 import prepFormData from "./prepFormData";
@@ -268,15 +269,19 @@ async function icomputeSetup(
     throw "ERROR: initApp failed. Please see console for messages";
   }
   
-  let tableSummary = {};
+  
   if ( appControl.preamble != null ) {
     console.log('running preamble', appControl.preamble);
     const result = await computeRun( store, session, appControl.preamble );
-    if ( result.SASJobStatus !== 'completed' ) {
+    console.log(result.SASJobStatus);
+    if ( result.SASJobStatus === 'error' ) {
+      let log = await computeResults(store, result, 'log');
+      console.log(log);
       throw `Error: Preamble failed with completion code of ${result.SASJobStatus}`;
     }
       
   }
+  let tableSummary = {};
   if (appControl.table != null) {
     try {
       tableSummary = await computeSetupTables(

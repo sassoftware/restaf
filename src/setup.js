@@ -8,6 +8,7 @@ import { initStore } from "@sassoftware/restaf";
 import {
   casSetup,
   computeSetup,
+  computeRun,
   computeSetupTables,
   caslRun,
 } from "@sassoftware/restaflib";
@@ -268,14 +269,21 @@ async function icomputeSetup(
   }
   
   let tableSummary = {};
-
+  if ( appControl.preamble != null ) {
+    console.log('running preamble', appControl.preamble);
+    const result = await computeRun( store, session, appControl.preamble );
+    if ( result.SASJobStatus !== 'completed' ) {
+      throw `Error: Preamble failed with completion code of ${result.SASJobStatus}`;
+    }
+      
+  }
   if (appControl.table != null) {
     try {
       tableSummary = await computeSetupTables(
         store,
         session,
         appControl.table,
-        appControl.preamble
+        null,/*appControl.preamble -- do preamble here */
       );
     } catch (err) {
       console.log(err);

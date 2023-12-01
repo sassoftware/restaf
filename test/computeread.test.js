@@ -20,7 +20,7 @@ async function runit (payload) {
   const appControl = getAppControl();
   debugger;
   // eslint-disable-next-line quotes
-  const preamble = 'xxxx';
+  const preamble = 'libname tmp "/tmp";data tmp.cars; set sashelp.cars;run;';
   debugger;
   appControl.preamble = preamble;
   debugger;
@@ -69,7 +69,7 @@ function getAppControl () {
     description: 'Simple Example',
 
     source: 'compute',
-    table : { libref: 'sashelp', name: 'cars' },
+    table : { libref: 'tmp', name: 'cars' },
     byvars: ['id'],
 
     cachePolicy: true,

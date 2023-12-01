@@ -20,7 +20,7 @@ async function runit (payload) {
   const appControl = getAppControl();
   debugger;
   // eslint-disable-next-line quotes
-  const preamble = null;
+  const preamble = "libname tmp '/tmp';data tmp.cars; set sashelp.cars;run;"
   debugger;
   appControl.preamble = preamble;
   debugger;
@@ -46,7 +46,7 @@ function getAppControl () {
     description: 'Simple Example',
 
     source: 'compute',
-    table : { libref: 'sashelp', name: 'cars' },
+    table : { libref: 'tmp', name: 'cars' },
     byvars: [],
 
     cachePolicy: true,
@@ -86,9 +86,9 @@ function getAppControl () {
 async function init (data, rowIndex, appEnv, type) {
   debugger;
   let src = 'proc print data=sashelp.cars; run;';
-  let output = await appEnv.builtins.submit(src, {x:100},{log: true}, appEnv);
+ // let output = await appEnv.builtins.submit(src, {x:100},{log: true}, appEnv);
   debugger;
-  console.log(output.results.log);
+  //console.log(output.results.log);
   return data; 
 };
 

@@ -30,9 +30,10 @@ async function computeFetchData(
     typeof table === "string" ? table : `${table.libref}.${table.name}`;
   tname = tname.toUpperCase(); /*to allow for compute service table info */
   let ipayload = payload != null ? { ...payload } : { qs: {} };
-  ipayload.qs.includeIndex = true;
+  // ipayload.qs.includeIndex = ;
 
   // is payload an override or the real thing?
+  debugger;
   let adhoc = payload != null && direction == null ? true : false;
   let tableInfo = computeSummary.tables[tname];
   if (tableInfo != null) {
@@ -60,7 +61,7 @@ async function computeFetchData(
       let schema = [];
       let items = columns.items().toJS();
       let linkRel = useRow === "rows" ? "rows" : "rowSet";
-      if (linkRel === "rows") {
+      if (linkRel === "rows" && ipayload.qs.includeIndex === true) {
         schema.push({
           name: "_index_",
           Column: "_Index_",
@@ -70,7 +71,7 @@ async function computeFetchData(
           custom: false,
         });
       }
-
+      debugger;
       for (let cx in items) {
         let c = items[cx];
         let newcol = {
@@ -144,6 +145,7 @@ async function computeFetchData(
 function cells2RowSet(schema, result) {
   let rowsData = result.items().toJS().map((r) => {
     let cell = r.cells;
+    console.log(cell);
     return cell;
   });
   return rowsData;

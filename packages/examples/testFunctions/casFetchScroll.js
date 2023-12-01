@@ -44,6 +44,7 @@ module.exports = async function casFetchScroll( testInfo ) {
 			limit : 10,
 			format: true,
 			where : '',
+			includeFullSummary: true,
 			table : { caslib: 'casuser', name: 'score' },
 			
 		};

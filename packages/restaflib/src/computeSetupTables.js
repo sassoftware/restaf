@@ -24,14 +24,13 @@ import computeResults from './computeResults';
 async function computeSetupTables( store, session, tables, preamble ){
     
     if ( preamble != null ) {
-      
       const result = await computeRun( store, session, preamble );
       if ( result.SASJobStatus !== 'completed' ) {
         throw `Error: Preamble failed with completion code of ${result.SASJobStatus}`;
       }
         
     }
-      
+  
     let r = await computeSummary( store, session, null, tables );
     return r;
 }

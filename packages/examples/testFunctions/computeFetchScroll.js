@@ -55,7 +55,7 @@ data tempdata.cars; set sashelp.cars(obs=5); run;
 		tableSummary,
 		t,
 		'first',
-		{qs: {limit: 1, format: false}}, 'rows'
+		{qs: {limit: 1, format: false,includeIndex: true}}, 'rows'
 	)
 	console.log('schema=', JSON.stringify(data.schema));
 	console.log( ' data= ' , JSON.stringify(data.rows));
@@ -63,7 +63,7 @@ data tempdata.cars; set sashelp.cars(obs=5); run;
 
 	while ( data.scrollOptions.indexOf( 'next' ) !== -1 ){
 		console.log( data.scrollOptions );
-		data = await restaflib.computeFetchData( store, tableSummary, t , 'next',{qs: {limit: 1, format: false}},'rows' );
+		data = await restaflib.computeFetchData( store, tableSummary, t , 'next',{qs: {limit: 1, format: false, includeIndex: true}},'rows' );
 		if ( data != null ) {
 	  	  console.log( 'data=' , JSON.stringify(data.rows) );
 		} else {
@@ -75,7 +75,7 @@ data tempdata.cars; set sashelp.cars(obs=5); run;
 	}
 
 	do {
-		data = await restaflib.computeFetchData( store, tableSummary, t , 'prev', {qs: {limit: 1, format: false}},'rows' );
+		data = await restaflib.computeFetchData( store, tableSummary, t , 'prev', {qs: {limit: 1, format: false, includeIndex: true}},'rows' );
 		if ( data != null ) {
 	  	  console.log( 'data=' , JSON.stringify(data.rows) );
 		} else {

@@ -126,6 +126,7 @@ async function icomputeScroll (direction, appEnv, payload) {
 
   let control = null;
   let qs = { ...initialFetch.qs };
+  qs.includeIndex = true;
   delete qs.start;
 
   console.log('payload=', payload);

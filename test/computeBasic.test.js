@@ -89,7 +89,7 @@ function getAppControl () {
     cachePolicy: true,
 
     initialFetch: { /* use rowSets query pattern */
-      qs: { start: 0, limit: 1, format: true, where: ' '}
+      qs: { start: 0, limit: 1, format: true, includeIndex: true, where: ' '}
     },
 
     customColumns: {

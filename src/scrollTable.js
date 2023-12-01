@@ -150,7 +150,7 @@ async function icomputeScroll (direction, appEnv, payload) {
   }
 
   let r = null;
-  control.qs.includeIndex = true;
+  control.qs.includeIndex = (control.qs.includeIndex == null) ? false : control.qs.includeIndex;
   try {
     debugger;
     r = await computeFetchData(store, tableSummary, tname, direction, control, 'rows');

@@ -22,7 +22,7 @@ async function runit (payload) {
   // eslint-disable-next-line quotes
   const preamble = `libname tempdata '/tmp';run; 
   data tempdata.testdata;
-  array x(3) x1-x3;zzzz
+  array x(3) x1-x3;
   length id $ 5;
   do i = 1 to 20;
     do j = 1 to 3;

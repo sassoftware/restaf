@@ -10,9 +10,9 @@
     "eslint:recommended"
   ],
   "parserOptions": {
-    "ecmaVersion": 6,
-    "sourceType": "module",
+    "ecmaVersion": 2020,
     "ecmaFeatures": {
+      "legacyDecorators": true,
       "jsx": true
     }
   },

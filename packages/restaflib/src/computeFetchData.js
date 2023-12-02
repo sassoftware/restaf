@@ -26,41 +26,31 @@ async function computeFetchData(
   useRow
 ) {
   let data = null;
-  let tname =
-    typeof table === "string" ? table : `${table.libref}.${table.name}`;
+  let tname = typeof table === "string" ? table : `${table.libref}.${table.name}`;
   tname = tname.toUpperCase(); /*to allow for compute service table info */
   let ipayload = payload != null ? { ...payload } : { qs: {} };
-  // ipayload.qs.includeIndex = ;
-
-  // is payload an override or the real thing?
+  let linkRel =(useRow == null) ? "rows" : useRow;
   debugger;
+  // is payload an override or is this an adhoc request(i.e user is ignoring scroll info)
   let adhoc = payload != null && direction == null ? true : false;
+
+  // retrieve current info on this table(if any)
   let tableInfo = computeSummary.tables[tname];
   if (tableInfo != null) {
-    // reset info on this table if user does adhoc retrieval
-    // trying to keep track of multiple streams for same table is a nightmare
+    // reset current on if this is an adhoc request.
     if (adhoc === true) {
       tableInfo.current = null;
     }
-    if (
-      tableInfo.current === null ||
-      direction == null ||
-      direction === "first"
-    ) {
+    //get column info 
+    if (tableInfo.current === null || direction == null ||direction === "first") {
       let t1 = await store.apiCall(tableInfo.self);
       let colCount = t1.items().toJS()["columnCount"];
       // get columns explicitly since user can control this thru payload
-      let qc = {
-        qs: {
-          start: 0,
-          limit: colCount,
-        },
-      };
-
+      let qc = {qs: {start: 0,limit: colCount}};
       let columns = await store.apiCall(t1.links("columns"), qc);
       let schema = [];
       let items = columns.items().toJS();
-      let linkRel = useRow === "rows" ? "rows" : "rowSet";
+    
       if (linkRel === "rows" && ipayload.qs.includeIndex === true) {
         schema.push({
           name: "_index_",
@@ -71,7 +61,6 @@ async function computeFetchData(
           custom: false,
         });
       }
-      debugger;
       for (let cx in items) {
         let c = items[cx];
         let newcol = {
@@ -86,16 +75,10 @@ async function computeFetchData(
         schema[c.data.index + indx] = newcol;
       }
       // Now get data using rows or rowSet rel
-      // should probably drop rowSet since is seems to be missing query features
-      debugger;
-      console.log('ipayload', ipayload);
       let result = await store.apiCall(t1.links(linkRel), ipayload);
-      debugger;
+
       // If using linkRel of rows, convert the data to rowSet schema
-      let rowsData =
-        linkRel === "rowSet"
-          ? result.items('rows').toJS()
-          : cells2RowSet(schema, result);
+      let rowsData = (linkRel === "rowSet") ? result.items('rows').toJS() : cells2RowSet(result);
 
       tableInfo.current = result;
       tableInfo.schema = schema;
@@ -105,7 +88,6 @@ async function computeFetchData(
         columns: columns,
         schema: schema,
         rows: rowsData,
-
         scrollOptions: result.scrollCmds().keySeq().toJS(),
       };
     } else {
@@ -126,14 +108,9 @@ async function computeFetchData(
         scrollOptions: current.scrollCmds().keySeq().toJS(),
       };
       if (dir !== null && current.scrollCmds(dir) !== null) {
-        console.log('ipayload2', ipayload);
         let result = await store.apiCall(current.scrollCmds(dir), ipayload);
-
         tableInfo.current = result;
-        let rowsData =
-          useRow !== "rows"
-            ? result.items('rows').toJS()
-            : cells2RowSet(tableInfo.schema, result);
+        let rowsData = (linkRel !== "rows") ? result.items('rows').toJS() : cells2RowSet(result);
         data = {
           schema: tableInfo.schema,
           columns: tableInfo.schema,
@@ -145,11 +122,11 @@ async function computeFetchData(
   }
   return data;
 }
-function cells2RowSet(schema, result) {
+// convert cells to rowSet
+function cells2RowSet(result) {
   let rowsData = result.items().toJS().map((r) => {
-    let cell = r.cells;
-    console.log(cell);
-    return cell;
+    console.log(r.cells.toString());
+    return r.cells;
   });
   return rowsData;
 }

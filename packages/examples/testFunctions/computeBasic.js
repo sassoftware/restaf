@@ -19,7 +19,7 @@
 let restaflib = require( '@sassoftware/restaflib' );
 let { computeSetup, computeResults } = restaflib;
 
-module.exports = async function computeDS ( testInfo ) {
+module.exports = async function computeBasic ( testInfo ) {
 	let { store, logger } = testInfo;
 
 	let computeSession = await computeSetup( store, null, null );

@@ -28,7 +28,7 @@ module.exports = async function computeFetchScroll( testInfo ) {
   data tempdata.testdata;
   array x(20) x1-x20;
   length id $ 5;
-  do i = 1 to 20;
+  do i = 1 to 5;
     do j = 1 to 20;
       x[j] = j*i;
     end;
@@ -37,52 +37,43 @@ module.exports = async function computeFetchScroll( testInfo ) {
   output;
 end;
 run;
-data tempdata.cars; set sashelp.cars(obs=5); run;
 	`;
 	  
-
-	logger.info( 'Compute Service Tables' );
-	let t = {libref: 'tempdata', name: 'cars'};
-	
-	
+	let t = {libref: 'tempdata', name: 'testdata'};
 	
 	let tableSummary = await computeSetupTables( store, computeSession, t, preamble );
 
 	// let tname = `${t.libref}.${t.name}`;
-	let includeIndex = false;
+	let includeIndex = true;
+	let relType = null; /*'rows';*/
+
 	let data = await restaflib.computeFetchData(
 		store,
 		tableSummary,
 		t,
 		'first',
-		{qs: {limit: 1, format: false,includeIndex: includeIndex}}, 'rows'
+		{qs: {limit: 1, format: false,includeIndex: includeIndex}}, relType
 	)
 	console.log('schema=', JSON.stringify(data.schema));
 	console.log( ' data= ' , JSON.stringify(data.rows));
-	console.log( '--------------------', data.scrollOptions );
-
 	while ( data.scrollOptions.indexOf( 'next' ) !== -1 ){
 		console.log( data.scrollOptions );
-		data = await restaflib.computeFetchData( store, tableSummary, t , 'next',{qs: {limit: 1, format: false, includeIndex: includeIndex}},'rows' );
+		data = await restaflib.computeFetchData( store, tableSummary, t , 'next',{qs: {limit: 1, format: false, includeIndex: includeIndex}},relType );
 		if ( data != null ) {
 	  	  console.log( 'data=' , JSON.stringify(data.rows) );
 		} else {
 			console.log( 'data is null' );
 		}
-		console.log( '--------------------> ',data.scrollOptions );
-		
-		
 	}
 
 	do {
-		data = await restaflib.computeFetchData( store, tableSummary, t , 'prev', {qs: {limit: 1, format: false, includeIndex: includeIndex}},'rows' );
+		data = await restaflib.computeFetchData( store, tableSummary, t , 'prev', {qs: {limit: 1, format: false, includeIndex: includeIndex}},relType );
 		if ( data != null ) {
 	  	  console.log( 'data=' , JSON.stringify(data.rows) );
 		} else {
 			console.log( 'data is null' );
 		}
-		
-		console.log( '--------------------> ',data.scrollOptions );
+	
 	} while ( data.scrollOptions.indexOf( 'prev' ) !== -1 );
 	
 	await store.apiCall( computeSession.links( 'delete' ) );

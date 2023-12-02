@@ -15,7 +15,7 @@
  */
 
 'use strict';
-const testFunctions = require( '../examples/testFunctions/computeDS.js' );
+const testFunctions = require( '../examples/testFunctions/computeBasic.js' );
 const setupAll = require( '../examples/lib/setupAll' );
 let testInfo;
 beforeAll( async () => {
@@ -29,7 +29,7 @@ beforeAll( async () => {
 	}
 } );
 
-test( 'computeDS', async () => {
+test( 'computeBasic', async () => {
 	let r = await testFunctions( testInfo );
 	expect( r ).toBe( 'done' );
 } );

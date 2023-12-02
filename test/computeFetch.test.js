@@ -1,7 +1,7 @@
 /* eslint-disable quotes */
 const { setup, scrollTable, termApp } = require('../lib/index.js');
-const getToken = require('./getToken');
-test ('computeScroll', async () => {
+const getToken = require('./getToken.js');
+test ('computeFetch', async () => {
   let payload = {
     host        : process.env.VIYA_SERVER,
     authType    : 'server',
@@ -44,32 +44,6 @@ async function runit (payload) {
   debugger;
   await scrollTable('prev', appEnv);
   console.log(appEnv.state.pagination);
-
-  const p = {
-    qs: {
-      start : 5,
-      limit : 10,
-      format: false
-    }
-  };
-  await scrollTable('prev', appEnv, p);
-  console.log(appEnv.state.pagination);
-
-  await scrollTable('prev', appEnv);
-  cache.push(appEnv.state.data[0]);
-
-  const q = {
-    qs: {
-      start : 10,
-      limit : 10,
-      format: false,
-      where : ''
-    }
-  };
-  console.log('------------calling past the max');
-  await scrollTable('prev', appEnv, q);
-  debugger;
-  console.log(' missing data ', appEnv.state.data);
 
   await termApp(appEnv);
   return 'done';

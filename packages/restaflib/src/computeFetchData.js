@@ -28,13 +28,16 @@ async function computeFetchData(
   let data = null;
   let tname = typeof table === "string" ? table : `${table.libref}.${table.name}`;
   tname = tname.toUpperCase(); /*to allow for compute service table info */
+
   let ipayload = payload != null ? { ...payload } : { qs: {} };
+  ipayload.qs.includeIndex = true;
   let linkRel =(useRow == null) ? "rows" : useRow;
   debugger;
   // is payload an override or is this an adhoc request(i.e user is ignoring scroll info)
   let adhoc = payload != null && direction == null ? true : false;
 
   // retrieve current info on this table(if any)
+  console.log('query ', ipayload);
   let tableInfo = computeSummary.tables[tname];
   if (tableInfo != null) {
     // reset current on if this is an adhoc request.
@@ -51,7 +54,7 @@ async function computeFetchData(
       let schema = [];
       let items = columns.items().toJS();
     
-      if (linkRel === "rows" && ipayload.qs.includeIndex === true) {
+      if (linkRel === "rows") {
         schema.push({
           name: "_index_",
           Column: "_Index_",

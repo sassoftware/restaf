@@ -36,30 +36,36 @@ module.exports = async function computeFetchScroll( testInfo ) {
 	keep _all_;
   output;
 end;
+data tempdata.testdata;set sashelp.cars(obs=5);run;
 run;
+
 	`;
 	  
 	let t = {libref: 'tempdata', name: 'testdata'};
-	
-	let tableSummary = await computeSetupTables( store, computeSession, t, preamble );
-
-	// let tname = `${t.libref}.${t.name}`;
 	let includeIndex = true;
 	let relType = null; /*'rows';*/
+	
+	let tableSummary = await computeSetupTables( store, computeSession, t, preamble );
+  let qsload = {qs: {formt: false, includeIndex: includeIndex}};
 
+	// let tname = `${t.libref}.${t.name}`;
+	
+	//qsload=null;
 	let data = await restaflib.computeFetchData(
 		store,
 		tableSummary,
 		t,
 		'first',
-		{qs: {limit: 1, format: false,includeIndex: includeIndex}}, relType
+		{qs: {limit: 2, format: false,includeIndex: includeIndex}}, relType
 	)
 	console.log('schema=', JSON.stringify(data.schema));
+	console.log('rcount=', data.rows.length);
 	console.log( ' data= ' , JSON.stringify(data.rows));
 	while ( data.scrollOptions.indexOf( 'next' ) !== -1 ){
 		console.log( data.scrollOptions );
-		data = await restaflib.computeFetchData( store, tableSummary, t , 'next',{qs: {limit: 1, format: false, includeIndex: includeIndex}},relType );
+		data = await restaflib.computeFetchData( store, tableSummary, t , 'next',qsload,relType );
 		if ( data != null ) {
+			console.log('rcount=', data.rows.length);
 	  	  console.log( 'data=' , JSON.stringify(data.rows) );
 		} else {
 			console.log( 'data is null' );
@@ -67,7 +73,7 @@ run;
 	}
 
 	do {
-		data = await restaflib.computeFetchData( store, tableSummary, t , 'prev', {qs: {limit: 1, format: false, includeIndex: includeIndex}},relType );
+		data = await restaflib.computeFetchData( store, tableSummary, t , 'prev', qsload,relType );
 		if ( data != null ) {
 	  	  console.log( 'data=' , JSON.stringify(data.rows) );
 		} else {

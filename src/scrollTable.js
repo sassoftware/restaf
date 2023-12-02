@@ -124,31 +124,22 @@ async function icomputeScroll (direction, appEnv, payload) {
   const cachePolicy = (appEnv.appControl.cachePolicy == null) ? true : appEnv.appControl.cachePolicy;
   const tname = `${table.libref}.${table.name}`.toLowerCase();
 
-  let control = null;
-  let qs = { ...initialFetch.qs };
- // qs.includeIndex = true;
-  delete qs.start;
+  let control = {};
 
   console.log('payload=', payload);
-  //Treat direction of first as a special case
-  if (direction === 'first') {
+  /*Treat direction of first as a special case, ignore payload*/
+  if (direction === 'first') {/*Treat direction of first as a special case, ignore payload*/
     control = { ...initialFetch };
-  } else {
-    //make sure to pass filter setup to override the scroll options
-    if (payload == null) {
-      control = { qs: qs };
-    } else {
-      control = { qs: { ...qs, ...payload.qs } };
-    }
-    if (appEnv.activeWhere != null) {
-      control.qs.where = appEnv.activeWhere;
-    }
+  } else if (direction !== null) {  /* following normal scroll patterns */
+    control = {qs:{}};/* just use what is in the scroll options */
+  } else { /* custom scrolling - just honor what is there */
+    control = (payload != null) ? { ...payload } : {qs:{}};
   }
-
-  if (appEnv.activeWhere != null) {
+    
+  if (appEnv.activeWhere != null) { /* add where processing */
     control.qs.where = appEnv.activeWhere;
   }
-
+  control.qs.includeIndex = true;
   let r = null;
   // control.qs.includeIndex = (control.qs.includeIndex == null) ? false : control.qs.includeIndex;
   control.qs.includeIndex = true; /* force to include index */
@@ -213,3 +204,12 @@ function setPoint (scrollOptions) {
   return point;
 }
 export default scrollTable;
+
+//make sure to pass filter setup to override the scroll options
+    /*
+    if (payload == null) {
+      control = { qs: qs };
+    } else {
+      control = { qs: { ...qs, ...payload.qs } };
+    }
+    */

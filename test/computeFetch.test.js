@@ -16,14 +16,14 @@ test ('computeFetch', async () => {
 
 async function runit (payload) {
  
-  const cache = [];
+  let cache = [];
   const appControl = getAppControl();
 
   appControl.preamble = `libname tempdata '/tmp';run; 
     data tempdata.testdata9;
     keep x1 x2 x3 id;
     length id $ 20;
-    do i = 1 to 2;
+    do i = 1 to 50;
     x1=i*20; x2=3; x3=i*10; id=compress(TRIMN('key'||i));
   
   output;
@@ -36,14 +36,17 @@ async function runit (payload) {
   const appEnv = await setup(payload, appControl);
   debugger;
   await scrollTable('first', appEnv);
-  cache.push(appEnv.state.data[0]);
-  console.log('xxxx ', appEnv.state.pagination);
-  debugger;
-  await scrollTable('next', appEnv);
-  console.log(appEnv.state.pagination);
-  debugger;
-  await scrollTable('prev', appEnv);
-  console.log(appEnv.state.pagination);
+  cache = cache.concat(appEnv.state.data);
+  do {
+    await scrollTable('next', appEnv);
+    cache = cache.concat(appEnv.state.data);
+  //  cache.push(appEnv.state.data[0]);
+  } while ( appEnv.state.scrollOptions.indexOf( 'next' ) !== -1 );
+  console.log('--------------------------------------');
+  cache.map((row,i) => {
+    console.log('i=', i+1, JSON.stringify(row));
+  });
+  console.log('--------------------------------------');
 
   await termApp(appEnv);
   return 'done';
@@ -62,9 +65,10 @@ function getAppControl () {
     initialFetch: {
       qs: {
         start : 0,
-        limit : 10,
+        limit : 5,
         format: false,
-        where : ' '
+        where : ' ',
+        includeIndex: true
       }
     },
     customColumns: {

@@ -65,7 +65,6 @@ async function prepFormData (result, appEnv, makerow) {
   // extend column and make it an object
   const eColumns = {};
   schema.forEach((s, i) => {
-    console.log(i, ' ',JSON.stringify(s));
     debugger;
     const name = s.Column.toLowerCase();
     s.name = name;
@@ -115,7 +114,6 @@ async function prepFormData (result, appEnv, makerow) {
     let t = {};
     for (const k in eColumns) {
       t[k] = (eColumns[k].customType === 'text') ? ' ' : 0;
-      console.log(k, t[k]);
     }
     newRows = [t];
   }

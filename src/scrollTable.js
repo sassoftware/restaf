@@ -120,29 +120,27 @@ async function icasScroll (direction, appEnv, payload) {
 
 async function icomputeScroll (direction, appEnv, payload) {
   const { store, tableSummary } = appEnv;
-  const { table, initialFetch } = appEnv.appControl;
+  const { table, initialFetch} = appEnv.appControl;
   const cachePolicy = (appEnv.appControl.cachePolicy == null) ? true : appEnv.appControl.cachePolicy;
   const tname = `${table.libref}.${table.name}`.toLowerCase();
-
-  let control = {};
+  // compute service does not remember these settings from the initial fetch. 
+  let control = {qs: {format: initialFetch.qs.format, includeIndex: true}};
 
   console.log('payload=', payload);
   /*Treat direction of first as a special case, ignore payload*/
   if (direction === 'first') {/*Treat direction of first as a special case, ignore payload*/
     control = { ...initialFetch };
-  } else if (direction !== null) {  /* following normal scroll patterns */
-    control = {qs:{}};/* just use what is in the scroll options */
-  } else { /* custom scrolling - just honor what is there */
-    control = (payload != null) ? { ...payload } : {qs:{}};
+  } else if (direction == null) {  /* custom scrolling */
+    control = {...payload};
   }
+  // if none of the other two cases, then direction is set.
     
   if (appEnv.activeWhere != null) { /* add where processing */
     control.qs.where = appEnv.activeWhere;
   }
-  control.qs.includeIndex = true;
+  // control.qs.includeIndex = true;
   let r = null;
-  // control.qs.includeIndex = (control.qs.includeIndex == null) ? false : control.qs.includeIndex;
-  control.qs.includeIndex = true; /* force to include index */
+  console.log('query in scrollTable.compute=', control);
   try {
     debugger;
     r = await computeFetchData(store, tableSummary, tname, direction, control, 'rows');

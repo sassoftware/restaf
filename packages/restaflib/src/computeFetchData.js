@@ -15,7 +15,7 @@
  * @param {string} scroll direction - null(to get first set)|next|prev|first|last
  * @param {object} payload - query values
  *
- * @returns {promise} - {columns: <columnames>, rows: <data for rows> , scrollOptions: <available scroll directions>}
+ * @returns {promise} - {columns: <column names>, rows: <data for rows> , scrollOptions: <available scroll directions>}
  */
 async function computeFetchData(
   store,
@@ -32,12 +32,10 @@ async function computeFetchData(
   let ipayload = payload != null ? { ...payload } : { qs: {} };
   ipayload.qs.includeIndex = true;
   let linkRel =(useRow == null) ? "rows" : useRow;
-  debugger;
   // is payload an override or is this an adhoc request(i.e user is ignoring scroll info)
   let adhoc = payload != null && direction == null ? true : false;
 
   // retrieve current info on this table(if any)
-  console.log('query ', ipayload);
   let tableInfo = computeSummary.tables[tname];
   if (tableInfo != null) {
     // reset current on if this is an adhoc request.
@@ -128,7 +126,6 @@ async function computeFetchData(
 // convert cells to rowSet
 function cells2RowSet(result) {
   let rowsData = result.items().toJS().map((r) => {
-    console.log(r.cells.toString());
     return r.cells;
   });
   return rowsData;

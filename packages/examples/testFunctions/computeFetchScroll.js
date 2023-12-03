@@ -46,7 +46,7 @@ run;
 	let relType = null; /*'rows';*/
 	
 	let tableSummary = await computeSetupTables( store, computeSession, t, preamble );
-  let qsload = {qs: {formt: false, includeIndex: includeIndex}};
+  let qsload = {qs: {format: false, includeIndex: includeIndex}};
 
 	// let tname = `${t.libref}.${t.name}`;
 	

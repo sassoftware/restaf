@@ -23,7 +23,6 @@ module.exports = async function computeFetchScroll( testInfo ) {
 	let { store, logger } = testInfo;
 
 	let computeSession = await computeSetup( store, "SAS Studio compute context", null );
-	// const preamble = `libname test '/mnt/viya-share/data/deva';run;`;
 	const preamble = `libname tempdata '/tmp';run; 
   data tempdata.testdata;
   array x(20) x1-x20;
@@ -46,7 +45,7 @@ run;
 	let relType = null; /*'rows';*/
 	
 	let tableSummary = await computeSetupTables( store, computeSession, t, preamble );
-  let qsload = {qs: {format: false, includeIndex: includeIndex}};
+  let qsload = {qs: {format: true, includeIndex: includeIndex}};
 
 	// let tname = `${t.libref}.${t.name}`;
 	
@@ -56,9 +55,9 @@ run;
 		tableSummary,
 		t,
 		'first',
-		{qs: {limit: 2, format: false,includeIndex: includeIndex}}, relType
+		{qs: {limit: 2, format: true,includeIndex: includeIndex}}, relType
 	)
-	console.log('schema=', JSON.stringify(data.schema));
+	console.log('schema=', JSON.stringify(data.schema, null,4));
 	console.log('rcount=', data.rows.length);
 	console.log( ' data= ' , JSON.stringify(data.rows));
 	while ( data.scrollOptions.indexOf( 'next' ) !== -1 ){

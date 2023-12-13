@@ -34,7 +34,7 @@ async function jobResults( store, session, job ) {
         log    : null,
         listing: null,
         ods    : null,
-        job    : null,
+        job    : job /*null*/,
         tables : {},
         files  : {}
     };

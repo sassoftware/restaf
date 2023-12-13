@@ -17,17 +17,20 @@
 'use strict';
 
 let restaflib = require( '@sassoftware/restaflib' );
+
 let { computeSetup, computeResults } = restaflib;
 
 module.exports = async function computeBasic ( testInfo ) {
 	let { store, logger } = testInfo;
 
 	let computeSession = await computeSetup( store, null, null );
- 
+	let origEtag = computeSession.headers( 'etag' );
+	debugger;
+	
 	let macros = { maxRows: 1000 };
+	
 	let src = `
-		%let syscc=0;
-        ods html style=barrettsblue; 
+    ods html style=barrettsblue; 
 		libname tempdata '/tmp';run; 
 		data tempdata.testdata;
 		keep x1 x3 x2 key;
@@ -38,9 +41,10 @@ module.exports = async function computeBasic ( testInfo ) {
 		   x2='X2'; 
 		output;
 		end;
-		run;
-		quit;
-            `;
+		run
+   `;
+
+
 	logger.info( 'Compute Service' );
 	console.log( Date() );
 	const checkStatus = ( state, context ) => {
@@ -58,19 +62,30 @@ module.exports = async function computeBasic ( testInfo ) {
 		counter: 1
 	};
 	debugger;
-	let computeSummary = await restaflib.computeRun(
-		store,
-		computeSession,
-		src,
-		macros
-		/*
-		checkStatus,
-		context
-		*/
+	let computeSummary = null;
+	try {
+		computeSummary = await restaflib.computeRun(
+			store,
+			computeSession,
+			src,
+			macros
+			/*
+			checkStatus,
+			context
+			*/
 
-    );
+			);
+			debugger;
+		console.log( 'Job Status: ', computeSummary.SASJobStatus );
+		
+	} catch (e) {
+		debugger;
+		console.log('Job failed')
+		console.log(JSON.stringify(e, null, 4));
+	}
+
 	let log = await computeResults(store, computeSummary, 'log');
-    console.log(log);
+ 
 	log.map( ( data ) => {
         let line = data.line.replace( /(\r\n|\n|\r)/gm, "" );
         if ( line.length === 0 ) {
@@ -78,7 +93,32 @@ module.exports = async function computeBasic ( testInfo ) {
         } else {}
 		  console.log( line );
 	} );
-
+  
+	//let status = await clearSession(store, computeSession, origEtag);
 	await store.apiCall( computeSession.links( 'delete' ) );
     return 'done';
 };
+async function clearSession(store, computeSession, origEtag){
+	console.log({origEtag});
+	let p = {
+			headers: {
+					'If-None-Match': origEtag	
+			}
+	}
+	debugger;
+	let state = await store.apiCall(computeSession.links('state'), p);
+	console.log('state of session after running job:' , state.items());
+  debugger;
+	let newEtag = computeSession.headers( 'etag' );
+	console.log({newEtag});
+	p = {
+		headers: {
+				'If-Match': newEtag	
+		}
+ }
+	console.log(p);
+	let status = await store.apiCall(computeSession.links('cancel'), p);
+	debugger;
+	// await store.apiCall( computeSession.links( 'delete' ) );
+	return 'done';
+}

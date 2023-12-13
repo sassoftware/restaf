@@ -59,17 +59,21 @@ async function computeFetchData(
           Label: "Index",
           length: 8,
           type: "FLOAT",
-          custom: false,
+          format: "BEST",
+          informat: "BEST",
         });
       }
       for (let cx in items) {
         let c = items[cx];
+        console.log(c.name, c.data.type, c.data.format, c.data.informat);
         let newcol = {
           name: c.name.toLowerCase(),
           Column: c.name.toLowerCase(),
           Label: c.data.label,
           length: c.data.length,
           type: c.data.type,
+          format: (c.data.format != null) ? c.data.format.name : null,
+          informat: (c.data.informat != null) ? c.data.informat.name : null,
           custom: false,
         };
         let indx = ipayload.qs.includeIndex === true ? 1 : 0;

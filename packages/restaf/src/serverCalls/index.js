@@ -216,7 +216,7 @@ function makeCall(config, iconfig, storeConfig) {
   }
   
   return new Promise((resolve, reject) => {
-
+    debugger;
     axios(config)
       .then((response) => {
         parseJSON(response.data)

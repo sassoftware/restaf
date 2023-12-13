@@ -28,6 +28,8 @@ async function computeRunBase ( store, session, code, timeout,eventHandler,userC
     };
     // Now execute the data step and wait for completion
 
+    // clear bad state if any
+
     let job = await store.apiCall( session.links( 'execute' ), payload );
 
     let p = {
@@ -39,15 +41,20 @@ async function computeRunBase ( store, session, code, timeout,eventHandler,userC
         }
     }
     let status = await store.jobState( job, p, 'longpoll', 0, eventHandler,userContext );
+    let results = await computeSummary( store, session, status.job );
+    results.SASJobStatus   = status.data;
+    results.jobStateStatus = status;
+    return results;
+    /*
     if ( status.data === 'running' ) {
         throw `ERROR: Job did not complete in allotted time`;
     } else {
         let results = await computeSummary( store, session, status.job );
         results.SASJobStatus   = status.data;
         results.jobStateStatus = status;
-     
         return results;
         }
+        */
 }
-export default computeRunBase;
 
+export default computeRunBase;

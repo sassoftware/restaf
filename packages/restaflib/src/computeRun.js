@@ -98,7 +98,7 @@ async function computeRun ( store,session, src, macros, timeout,checkStatus, use
     // Concat macro to code
     let asrc = src.replace(/\t/g, ' ');
     asrc = asrc.split( /\r?\n/);
-    code = code.concat( asrc );
+    code = code.concat( asrc ).concat(';')
 
     // run code and get results
     let resultSummary = await computeRunBase( store, session, code, timeout, checkStatus, userContext );

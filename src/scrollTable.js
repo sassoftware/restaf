@@ -138,12 +138,22 @@ async function icomputeScroll (direction, appEnv, payload) {
   if (appEnv.activeWhere != null) { /* add where processing */
     control.qs.where = appEnv.activeWhere;
   }
-  // control.qs.includeIndex = true;
+  control.qs.includeIndex = 1;
   let r = null;
   console.log('query in scrollTable.compute=', control);
   try {
     debugger;
+    let argsList = {
+      store: store,
+      tableSummary: tableSummary,
+      tname: tname,
+      direction: direction,
+      control: control,
+      useRow: 'rows'
+    };
+    console.log('argsList=', argsList);
     r = await computeFetchData(store, tableSummary, tname, direction, control, 'rows');
+ 
     debugger;
   } catch (err) {
     appEnv.state.data = [];

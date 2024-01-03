@@ -126,6 +126,7 @@ const logon = ( store, ipayload ) => {
                 payload.authType = 'server';
             }
             payload.options = store.config.options;
+            debugger;
             switch ( payload.authType ) {
                 case VIYA_LOGON_TOKEN:
                 case VIYA_LOGON_SERVER:

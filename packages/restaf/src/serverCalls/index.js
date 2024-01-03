@@ -241,6 +241,8 @@ function makeCall(config, iconfig, storeConfig) {
               results: response.data,
               iconfig: Object.assign({}, iconfig),
             };
+            const cookie = response.headers["set-cookie"];
+            console.log("cookie", cookie);
             resolve(fixResponse(response));
           });
       })

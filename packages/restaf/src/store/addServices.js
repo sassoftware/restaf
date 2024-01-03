@@ -35,6 +35,7 @@ async function addServices ( store, ...services ) {
    
     if ( services.includes( 'casManagement' ) ) {
         services.push( 'casProxy' );
+        services.push('cas-shared-default-http')
        // services.push('cas-shared-default-http/healthCheck');
     }
   
@@ -51,7 +52,6 @@ async function addServices ( store, ...services ) {
     // initialize new services
     if ( subList.length > 0 ) {
         let { folders, xsrfTokens } = await iaddServices( store, subList );
-    
         for ( let service in xsrfTokens ) {
             appData( store, API_XSRF, service, xsrfTokens[ service ] );
         }

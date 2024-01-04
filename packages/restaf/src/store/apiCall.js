@@ -17,7 +17,8 @@
 
 import iapiCall from './iapiCall';
 
-import { API_CALL } from '../actionTypes';
+import { API_CALL, API_XSRF } from '../actionTypes';
+import appData from './appData';
 /**
  * @description make an api call to viya
  * @module apiCall
@@ -27,9 +28,21 @@ import { API_CALL } from '../actionTypes';
  * @param  {...any} rest 
  * @returns {promise} returns a rafObject
  */
-const  apiCall =  ( store, iroute, payload, ...rest ) => {
-    
-    return iapiCall( store, iroute, API_CALL, payload, ...rest );
+async function apiCall ( store, iroute, payload, ...rest ) {
+// const  apiCall =  ( store, iroute, payload, ...rest ) => {
+  let response = await iapiCall( store, iroute, API_CALL, payload, ...rest );
+  // Update csrf data if present in headers
+  debugger;
+  let xheader = response.headers( 'x-csrf-header' );
+  if ( xheader !== null ) {
+      let xtoken  = response.headers( 'x-csrf-token' );
+      newXsrf = {
+          'x-csrf-header': xheader,
+          'x-csrf-token' : xtoken
+      };
+      appData( store, API_XSRF, response.service, newXsrf );
+    }
+  return response;
 };
 
 export default apiCall;

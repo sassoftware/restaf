@@ -19,6 +19,8 @@
 import getResults    from './getResults';
 import extendFolder  from './extendFolder';
 import prepareAction from './prepareAction';
+import {APP_DATA_ROOT, API_XSRF} from '../actionTypes';
+
 // import ikeepAlive from './ikeepAlive';
 
 
@@ -65,10 +67,9 @@ const  iapiCall =  ( store, iroute, actionType, payload, delay, eventHandler, pa
                     unSubscribe();
                     reject( f.get( 'statusInfo' ) );
                 } else if ( runStatus === 'ready' ) {
-                    
                     unSubscribe();
-                    
                     let efolder = extendFolder( store, f );
+                    efolder.service = action.serviceName;
                     //ikeepAlive(store); 
                     resolve( efolder );
                 }

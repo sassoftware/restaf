@@ -37,10 +37,11 @@ module.exports = async function casEcho ( store ) {
 
   let { session } = await casSetup( store, null );
   store.setAppData( 'casSession', session );
+  debugger;
   let t = store.getAppData( 'casSession' ).toJS();
   console.log( t );
   session = t;
-  
+  console.log('-----------------------------', JSON.stringify(store.getXsrfData()));
   let p = {
     action: 'builtins.echo',
     data  : {
@@ -50,10 +51,14 @@ module.exports = async function casEcho ( store ) {
   logger.info( p );
 
   let r = await store.runAction( session, p );
+  console.log('-----------------------------', JSON.stringify(store.getXsrfData()));
+  /*
   console.log( JSON.stringify( session.links( "execute" ), null, 4 ) );
   console.log( r.items().toJS() );
   console.log( r.items().toJS().disposition.severity );
+  */
   logger.info( r );
+ 
 }
 
 

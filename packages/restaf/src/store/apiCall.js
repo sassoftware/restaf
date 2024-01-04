@@ -32,6 +32,7 @@ async function apiCall ( store, iroute, payload, ...rest ) {
 // const  apiCall =  ( store, iroute, payload, ...rest ) => {
   let response = await iapiCall( store, iroute, API_CALL, payload, ...rest );
   // Update csrf data if present in headers
+  // TBD: csrf with DELETE behavior needs to be reviewed
   debugger;
   let xheader = response.headers( 'x-csrf-header' );
   let newXsrf = null;
@@ -41,8 +42,9 @@ async function apiCall ( store, iroute, payload, ...rest ) {
           'x-csrf-header': xheader,
           'x-csrf-token' : xtoken
       };
+      appData( store, API_XSRF, response.service, newXsrf );
     }
-    appData( store, API_XSRF, response.service, newXsrf );
+   
   return response;
 };
 

@@ -42,6 +42,7 @@ async function runit (payload) {
   console.log(appEnv.builtins);
   console.log(appEnv.state.tableSummary);
   console.log(appEnv.casServerName);
+  console.log(JSON.stringify(appEnv.store.getXsrfData(), null,4));
   debugger;
   let r = await scrollTable('first', appEnv);
   console.log(JSON.stringify(appEnv.state.cache));
@@ -79,6 +80,7 @@ async function runit (payload) {
   
   
   console.log(cache);
+  console.log(JSON.stringify(appEnv.store.getXsrfData(), null,4));
   await termApp(appEnv);
   
   

@@ -34,14 +34,15 @@ async function apiCall ( store, iroute, payload, ...rest ) {
   // Update csrf data if present in headers
   debugger;
   let xheader = response.headers( 'x-csrf-header' );
+  let newXsrf = null;
   if ( xheader !== null ) {
       let xtoken  = response.headers( 'x-csrf-token' );
       newXsrf = {
           'x-csrf-header': xheader,
           'x-csrf-token' : xtoken
       };
-      appData( store, API_XSRF, response.service, newXsrf );
     }
+    appData( store, API_XSRF, response.service, newXsrf );
   return response;
 };
 

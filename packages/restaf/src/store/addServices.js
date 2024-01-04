@@ -35,7 +35,6 @@ async function addServices ( store, ...services ) {
    
     if ( services.includes( 'casManagement' ) ) {
         services.push( 'casProxy' );
-        services.push('cas-shared-default-http')
        // services.push('cas-shared-default-http/healthCheck');
     }
   

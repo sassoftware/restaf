@@ -51,7 +51,7 @@ import keepViyaAlive   from './keepViyaAlive';
  *    to Viya using the REST API. 
  */
 function initStore ( iconfig ) {
-    let config = { casProxy: false };
+    let config = { casProxy: true };
     if ( iconfig != null ) {
         config = { ...config, ...iconfig };
     }     

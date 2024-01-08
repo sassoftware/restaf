@@ -28,7 +28,7 @@ const prepareAction = function ( store, iroute, actionType, payload, delay,
     let link;
     let serviceName;
     let current;
-
+    debugger;
     if ( typeof iroute === 'string' ) {
         current = getResults( store, iroute );
         route   = iroute;

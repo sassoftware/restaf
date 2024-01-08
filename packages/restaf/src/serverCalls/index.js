@@ -169,6 +169,9 @@ function request(iconfig) {
     config.xsrfHeaderName = xsrfHeaderName;
     // https://github.com/axios/axios/issues/2024
     config.headers[xsrfHeaderName] = ixsrf["x-csrf-token"];
+    if (ixsrf["tkhttp_id"] != null) {
+      config.headers["tkhttp_id"] = ixsrf["tkhttp_id"];
+    }
   }
 
   if (iqs !== null) {
@@ -224,7 +227,7 @@ function makeCall(config, iconfig, storeConfig) {
             iconfig.data = null; /* get rid of the payload*/
             response.data = {
               results: data,
-              iconfig: Object.assign({}, iconfig),
+              iconfig: Object.assign({}, iconfig)
             };
             if (data.hasOwnProperty("errorCode")) {
               //noinspection JSUnresolvedVariable

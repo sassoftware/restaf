@@ -40,11 +40,12 @@ async function apiCall ( store, iroute, payload, ...rest ) {
       let xtoken  = response.headers( 'x-csrf-token' );
       newXsrf = {
           'x-csrf-header': xheader,
-          'x-csrf-token' : xtoken
+          'x-csrf-token' : xtoken,
+          'tkhttp_id'    : response.headers('tkhttp_id')
       };
       appData( store, API_XSRF, response.service, newXsrf );
     }
-   
+
   return response;
 };
 

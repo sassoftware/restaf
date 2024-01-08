@@ -26,7 +26,7 @@ import fixReports from './fixReports';
 import casSessionLinks from './casSessionLinks';
 import reduceCasResults from './reduceCasResults';
 import fixMlPipelineAutomation from './fixMlPipelineAutomation';
- function fixResponse ( response ) {
+ function fixResponse ( response) {
  
      //
      // Ensure all header keys are lowercase
@@ -39,9 +39,16 @@ import fixMlPipelineAutomation from './fixMlPipelineAutomation';
          let k1 = k.toLowerCase();
          //noinspection JSUnfilteredForInLoop
          headers[k1] = response.headers [k];
+         if (k === 'set-cookie') {
+            console.log('cookie', headers[k1]);
+            const cookies = headers[k1];
+            const cookieValue = cookies.find(cookie => cookie.includes('tkhttp-id'));
+            console.log(cookieValue);
+            headers['tkhttp-id'] = cookieValue;
+         }
      }
- 
-     
+
+
      response.headers = headers;
      let cType = response.headers['content-type'];
  

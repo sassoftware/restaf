@@ -1,22 +1,5 @@
-var src = `
-		%let syscc=0;
-        ods html style=barrettsblue; 
-		libname tempdata '/tmp';run; 
-		data tempdata.testdata;
-		keep x1 x3 x2 key;
-		do i = 1 to 10; 
-		key=compress('key'||i);
-		   x1=i; 
-		   x3=i*10;
-		   x2='X2'; 
-		output;
-		end;
-		run;
-		quit;
-            `;
-console.log(src);
-let asrc = src.replace(/\t/g, ' ');
-asrc = asrc.split( /\r?\n/);
-
-
-console.log(asrc);
+let z = 'tkhttp-id=xo9khoakemFzJ/WkdGFeHpVbHg3QEIP83jX8vz3Tw4I6nqVPDe.9w0DlZt.3xFpitK8MOZAoN1Z9cDOtfyXBuG1gaYPaP45QmXNRgCI5q5YasmqsvrY2durGd0zTLQBSLALvx62auCEIJmmUtYu7LFbHhIaICUnlDC866lvx6aqD3DvzUsbMbfhUJgg2c0rLXIMdYd9QboSwZnw0RmOKLla9kylIHaENMvdIbwTRVqFQDHV3C6FypDgPbNrOwFgExxlliwaFMOoDm/G99tjVEHzvN2iCrqIXI5Ns0wlOxQY; path=/; Secure; SameSite=None';
+let cookie = z.split(';')[0].split('=')[1];
+console.log(cookie);
+let x = z.match('(^|;)\\s*' + 'tkhttp-id' + '\\s*=\\s*([^;]+)')?.pop() || '';
+console.log(x);

@@ -30,7 +30,7 @@ const  iapiCall =  ( store, iroute, actionType, payload, delay, eventHandler, pa
         let route;
         let unSubscribe;
         let start = true;
-
+        debugger;
         // create action
         let action = prepareAction( store, iroute, actionType, payload, delay, eventHandler, parentRoute, jobContext );
         if ( action === null ) {

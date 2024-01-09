@@ -80,7 +80,7 @@ function request(iconfig) {
   let iheaders = null;
   let ixsrf = null;
   let casAction = null;
-
+  debugger;
   if (payload !== null) {
     casAction = hasItem(payload, "action");
     iqs = hasItem(payload, "qs");
@@ -163,16 +163,19 @@ function request(iconfig) {
       }
     }
   }
-
-  if (ixsrf !== null) {
-    let xsrfHeaderName = ixsrf["x-csrf-header"];
+  debugger;
+  console.log(ixsrf);
+  let xsrfHeaderName = ixsrf["x-csrf-header"];
+  if (xsrfHeaderName == null) {
     config.xsrfHeaderName = xsrfHeaderName;
     // https://github.com/axios/axios/issues/2024
     config.headers[xsrfHeaderName] = ixsrf["x-csrf-token"];
-    if (ixsrf["tkhttp_id"] != null) {
-      config.headers["tkhttp_id"] = ixsrf["tkhttp_id"];
-    }
   }
+  if (ixsrf["tkhttp_id"] != null) {
+    config.headers["tkhttp_id"] = ixsrf["tkhttp_id"];
+  }
+  console.log('tkhttp-id== ', config.headers['tkhttp-id']);
+  
 
   if (iqs !== null) {
     config.params = { ...iqs };
@@ -220,6 +223,7 @@ function makeCall(config, iconfig, storeConfig) {
   
   return new Promise((resolve, reject) => {
     debugger;
+    console.log(config.url);
     axios(config)
       .then((response) => {
         parseJSON(response.data)

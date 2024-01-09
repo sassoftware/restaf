@@ -72,9 +72,9 @@ const prepareAction = function ( store, iroute, actionType, payload, delay,
     if ( link.href.indexOf( 'casProxy' ) >= 0 ) {
         serviceName = 'casProxy';
     }
-    
+    debugger;
     let xsrfHeader = getXsrfData( store, serviceName );
-   
+    debugger;
     if ( payload != null ) {
         action.payload = payload;
     }

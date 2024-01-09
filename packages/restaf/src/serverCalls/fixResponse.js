@@ -39,15 +39,17 @@ import fixMlPipelineAutomation from './fixMlPipelineAutomation';
          let k1 = k.toLowerCase();
          //noinspection JSUnfilteredForInLoop
          headers[k1] = response.headers [k];
-         if (k === 'set-cookie') {
-            console.log('cookie', headers[k1]);
-            const cookies = headers[k1];
+         if (k1 === 'set-cookie') {
+            console.log('cookie', headers[k]);
+            const cookies = headers[k];
             const cookieValue = cookies.find(cookie => cookie.includes('tkhttp-id'));
-            console.log(cookieValue);
-            headers['tkhttp-id'] = cookieValue;
+            if (cookieValue != null) {
+                console.log(cookieValue);
+                headers['tkhttp-id'] = cookieValue.split(';')[0].split('=')[1];
+                console.log(headers['tkhttp-id']);
+            }
          }
      }
-
 
      response.headers = headers;
      let cType = response.headers['content-type'];
@@ -97,7 +99,6 @@ import fixMlPipelineAutomation from './fixMlPipelineAutomation';
 		}
 
      if ( iLink.hasOwnProperty( 'itemType' ) && iLink.itemType === 'application/vnd.sas.cas.session.summary' ) {
-         
          let items = response.data.results.items;
          let pre = `/${iLink.casHttp}/cas/sessions`;
          for ( let i = 0; i < items.length; i++ ) {

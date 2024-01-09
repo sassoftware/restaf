@@ -30,6 +30,7 @@ beforeAll( async () => {
 	}
 } );
 test( 'CAS Echo', async () => {
+	debugger;
 	let r = await testFunctions( testInfo );
 	expect( r ).toBe( 'done' );
 } );

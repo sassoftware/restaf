@@ -19,6 +19,8 @@ import iapiCall from './iapiCall';
 
 import { API_CALL, API_XSRF } from '../actionTypes';
 import appData from './appData';
+import setXsrData from './setXsrData';
+
 /**
  * @description make an api call to viya
  * @module apiCall
@@ -36,19 +38,7 @@ async function apiCall ( store, iroute, payload, ...rest ) {
   // Update csrf data if present in headers
   // TBD: csrf with DELETE behavior needs to be reviewed
   debugger;
-  let xheader = response.headers( 'x-csrf-header' );
-  let newXsrf = {}
-  if ( xheader !== null ) {
-    let xtoken  = response.headers( 'x-csrf-token' );
-    newXsrf = {
-        'x-csrf-header': xheader,
-        'x-csrf-token' : xtoken
-    };
-  }
-  let tkhttpid = response.headers('tkhttp_id')
-  if (tkhttpid != null) {
-    newXsrf['tkhttp-id'] = tkhttpid;
-  }
+  let newXsrf = setXsrData(response.headers);
   debugger;
   appData( store, API_XSRF, response.service, newXsrf );
 

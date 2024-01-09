@@ -14,81 +14,84 @@
  *
  */
 
-  'use strict';
+"use strict";
 
-let Immutable = require( 'immutable' );
+let Immutable = require("immutable");
 
-import getResults   from './getResults';
-import getXsrfData from './getXsrfData';
+import getResults from "./getResults";
+import getXsrfData from "./getXsrfData";
 
-const prepareAction = function ( store, iroute, actionType, payload, delay,
-                                eventHandler, parentRoute, jobContext ) {
-    let paginator;
-    let route;
-    let link;
-    let serviceName;
-    let current;
-    debugger;
-    if ( typeof iroute === 'string' ) {
-        current = getResults( store, iroute );
-        route   = iroute;
-    } else {
-        current = iroute;
-        route   = current.get( 'route' );
-    }
+const prepareAction = function (
+  store,
+  iroute,
+  actionType,
+  payload,
+  delay,
+  eventHandler,
+  parentRoute,
+  jobContext
+) {
+  let paginator;
+  let route;
+  let link;
+  let serviceName;
+  let current;
+  debugger;
+  if (typeof iroute === "string") {
+    current = getResults(store, iroute);
+    route = iroute;
+  } else {
+    current = iroute;
+    route = current.get("route");
+  }
 
-    if ( current === null || Immutable.Iterable.isIterable( current ) === false ) {
-        return null;
-    }
-    /* */
-    paginator = current.get( 'paginator' );
-    link      = current.get( 'link' ).toJS();
+  if (current === null || Immutable.Iterable.isIterable(current) === false) {
+    return null;
+  }
+  /* */
+  paginator = current.get("paginator");
+  link = current.get("link").toJS();
 
-    if ( paginator ) {
-        route = current.get( 'parentRoute' );
-        serviceName = route.split( ':/' )[0];
-    } else {
-        let searchPath = route.split( ':/' );
-        serviceName = searchPath [0];
+  if (paginator) {
+    route = current.get("parentRoute");
+    serviceName = route.split(":/")[0];
+  } else {
+    let searchPath = route.split(":/");
+    serviceName = searchPath[0];
 
-        searchPath.splice( 1, 0, store.apiCallNo );
-        route = searchPath.join( ':/' );
+    searchPath.splice(1, 0, store.apiCallNo);
+    route = searchPath.join(":/");
 
-        store.apiCallNo++;
-    }
-    let action = {
-        type        : actionType,
-        delay       : ( delay == null ) ? 0 : delay,
-        paginator   : paginator,
-        serviceName : serviceName,
-        route       : route,
-        eventHandler: eventHandler,
-        parentRoute : parentRoute,
-        jobContext  : jobContext,
-        storeConfig : store.config,
-        link
-    } ;
+    store.apiCallNo++;
+  }
+  let action = {
+    type: actionType,
+    delay: delay == null ? 0 : delay,
+    paginator: paginator,
+    serviceName: serviceName,
+    route: route,
+    eventHandler: eventHandler,
+    parentRoute: parentRoute,
+    jobContext: jobContext,
+    storeConfig: store.config,
+    link,
+  };
 
-    if ( link.href.indexOf( 'casProxy' ) >= 0 ) {
-        serviceName = 'casProxy';
-    }
-    debugger;
-    let xsrfHeader = getXsrfData( store, serviceName );
-    debugger;
-    if ( payload != null ) {
-        action.payload = payload;
-    }
-    if ( xsrfHeader !== null ) {
-        
-        if ( payload != null ) {
-            action.payload.xsrf = xsrfHeader;
-         } else {
-            action.payload = {xsrf: xsrfHeader};
-        }
-    
-    }
-    
-    return action; 
+  if (link.href.indexOf("casProxy") >= 0) {
+    serviceName = "casProxy";
+  }
+  debugger;
+  if (payload != null) {
+    action.payload = payload;
+  }
+  let xsrfHeader = getXsrfData(store, serviceName);
+  debugger;
+  if (payload != null) {
+    action.payload.xsrf = xsrfHeader;
+  } else {
+    action.payload = { xsrf: xsrfHeader };
+  }
 
+  return action;
 };
 export default prepareAction;

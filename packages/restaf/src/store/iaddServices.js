@@ -21,6 +21,7 @@ import getResults   from './getResults';
 import extendFolder from './extendFolder';
 import injectAsyncReducers  from '../reducers/injectAsyncReducers';
 import baseReducer          from '../reducers/baseReducer';
+import setXsrfData from './setXsrData';
 
 const iaddServices = ( store, services )  => {
     return new Promise( ( resolve, reject ) => {
@@ -107,18 +108,7 @@ const iaddServices = ( store, services )  => {
                         count++;
                         let ff = extendFolder( store, f );
                         folders[services[i]] = ff;
-                        
-                        let xheader = ff.headers( 'x-csrf-header' );
-                        if ( xheader !== null ) {
-                            let xtoken  = ff.headers( 'x-csrf-token' );
-                            let xx = {
-                                'x-csrf-header': xheader,
-                                'x-csrf-token' : xtoken
-                            };
-                            xsrfTokens[services[i]] = xx;
-                        } else {
-                            xsrfTokens[services[i]] = null;
-                        }
+                        xsrfTokens[services[i]] = setXsrfData(ff.headers);
                     }
                 }
             }

@@ -120,15 +120,11 @@ function request(iconfig) {
       );
     },
   };
-
+  config.headers = {};
   if (logonInfo.token !== null) {
-    config.headers = {
-      Authorization: logonInfo.tokenType + " " + logonInfo.token,
-    };
+    config.headers['Authorization'] = logonInfo.tokenType + " " + logonInfo.token;
   } else {
-    config.headers = {};
-    config.withCredentials =
-      iconfig.withCredentials == null ? true : iconfig.withCredentials;
+    config.withCredentials = iconfig.withCredentials == null ? true : iconfig.withCredentials;
   }
 
   let type = fullType(iLink.type);
@@ -165,16 +161,18 @@ function request(iconfig) {
   }
   debugger;
   console.log(ixsrf);
-  let xsrfHeaderName = ixsrf["x-csrf-header"];
-  if (xsrfHeaderName == null) {
-    config.xsrfHeaderName = xsrfHeaderName;
-    // https://github.com/axios/axios/issues/2024
-    config.headers[xsrfHeaderName] = ixsrf["x-csrf-token"];
+  if (ixsrf !== null) {/* TBD: fix parallel calls to get of this conditional */
+    let xsrfHeaderName = ixsrf["x-csrf-header"];
+    if (xsrfHeaderName != null) {
+      config.xsrfHeaderName = xsrfHeaderName;
+      // https://github.com/axios/axios/issues/2024
+      config.headers[xsrfHeaderName] = ixsrf["x-csrf-token"];
+    }
+    if (ixsrf["tkhttp_id"] != null) {
+      config.headers["tkhttp_id"] = ixsrf["tkhttp_id"];
+    }
+    console.log('tkhttp-id== ', config.headers['tkhttp-id']);
   }
-  if (ixsrf["tkhttp_id"] != null) {
-    config.headers["tkhttp_id"] = ixsrf["tkhttp_id"];
-  }
-  console.log('tkhttp-id== ', config.headers['tkhttp-id']);
   
 
   if (iqs !== null) {

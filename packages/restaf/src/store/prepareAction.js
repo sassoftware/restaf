@@ -62,7 +62,7 @@ const prepareAction = function (
 
     searchPath.splice(1, 0, store.apiCallNo);
     route = searchPath.join(":/");
-
+   
     store.apiCallNo++;
   }
   
@@ -77,12 +77,13 @@ const prepareAction = function (
     parentRoute: parentRoute,
     jobContext: jobContext,
     storeConfig: store.config,
+    usedService: serviceName,
     link,
   };
  
   let xsrf= getXsrfData(store, serviceName);
   if (link.href.split('/')[1] === 'casProxy') {
-    serviceName = "casProxy";
+    action.usedService = 'casProxy';
   }
  
   debugger;
@@ -93,7 +94,10 @@ const prepareAction = function (
   debugger;
   if (serviceName === "casProxy") {
     debugger;
+    
     let xsrfcas = getXsrfData(store, "cassession");
+    console.log(action.usedService, action.serviceName);
+    console.log('in Prep',  JSON.stringify(getXsrfData(store), null, 4));
     if (xsrfcas != null) {
       console.log(xsrfcas);
       xsrf = getXsrfData(store, "casProxy");

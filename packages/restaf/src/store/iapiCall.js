@@ -70,6 +70,7 @@ const  iapiCall =  ( store, iroute, actionType, payload, delay, eventHandler, pa
                     unSubscribe();
                     let efolder = extendFolder( store, f );
                     efolder.service = action.serviceName;
+                    efolder.usedService = action.usedService;
                     //ikeepAlive(store); 
                     resolve( efolder );
                 }

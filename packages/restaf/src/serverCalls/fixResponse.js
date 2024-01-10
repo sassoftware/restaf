@@ -42,7 +42,7 @@ import fixMlPipelineAutomation from './fixMlPipelineAutomation';
      }
      headers['tkhttp-id'] = null;
      if (headers['set-cookie'] != null) {
-        let cookieValue = response.headers[k].find(cookie => cookie.includes('tkhttp-id'));
+        let cookieValue = response.headers['set-cookie'].find(cookie => cookie.includes('tkhttp-id'));
         headers['tkhttp-id'] = (cookieValue != null) ? cookieValue.split(';')[0].split('=')[1] : null;
      }
     

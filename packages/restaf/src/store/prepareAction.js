@@ -18,6 +18,7 @@
 
 let Immutable = require("immutable");
 
+import { get } from "lodash";
 import getResults from "./getResults";
 import getXsrfData from "./getXsrfData";
 
@@ -78,8 +79,9 @@ const prepareAction = function (
     storeConfig: store.config,
     link,
   };
-
-  if (link.href.indexOf("casProxy") >= 0) {
+ 
+  let xsrf= getXsrfData(store, serviceName);
+  if (link.href.split('/')[1] === 'casProxy') {
     serviceName = "casProxy";
   }
  
@@ -87,15 +89,18 @@ const prepareAction = function (
   if (payload != null) {
     action.payload = payload;
   }
-  let xsrf= getXsrfData(store, serviceName);
+  
   debugger;
   if (serviceName === "casProxy") {
-    let xsrfcas = getXsrfData(store, "casManagement");
-    /*
-    console.log('...........................', xsrfcas['tkhttp-id']);
-    xsrf['tkhttp-id'] = xsrfcas['tkhttp-id'];
-    */
-    console.log(xsrfcas);
+    debugger;
+    let xsrfcas = getXsrfData(store, "cassession");
+    if (xsrfcas != null) {
+      console.log(xsrfcas);
+      xsrf = getXsrfData(store, "casProxy");
+      console.log(xsrf);
+      xsrf['tkhttp-id'] = xsrfcas['tkhttp-id'];
+      console.log(xsrf);
+    }
   }
 
   debugger;

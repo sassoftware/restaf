@@ -41,7 +41,12 @@ async function apiCall ( store, iroute, payload, ...rest ) {
   debugger;
 
   let newXsrf = readXsrfData(response.headers, response.service);
-  appData( store, API_XSRF, response.service, newXsrf )
+  appData( store, API_XSRF, response.service, newXsrf );
+  debugger;
+  if (newXsrf['tkhttp-id'] !== null) {
+    console.log('saving tkhttp');
+    appData( store, API_XSRF, 'cassession', newXsrf );
+  }
   
   return response;
 };

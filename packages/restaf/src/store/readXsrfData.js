@@ -22,6 +22,7 @@ function readXsrfData(headers, service) {
   }
   let xheader = headers( 'x-csrf-header' );
   if ( xheader !== null ) {
+      xheader = xheader.toUpperCase();
       let xtoken  = headers( 'x-csrf-token' );
       xsrfData['x-csrf-header'] = xheader;
       xsrfData['x-csrf-token']      = xtoken;

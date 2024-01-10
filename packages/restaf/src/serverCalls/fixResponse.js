@@ -35,20 +35,17 @@ import fixMlPipelineAutomation from './fixMlPipelineAutomation';
      let headers = {};
      
      for ( let k in response.headers ) {
-         //noinspection JSUnfilteredForInLoop
-         let k1 = k.toLowerCase();
-         //noinspection JSUnfilteredForInLoop
-         headers[k1] = response.headers [k];
-         if (k1 === 'set-cookie') {
-            const cookies = headers[k1];
-            const cookieValue = cookies.find(cookie => cookie.includes('tkhttp-id'));
-            if (cookieValue != null) {
-                headers['tkhttp-id'] = cookieValue.split(';')[0].split('=')[1];
-                console.log(' in fixresponse:' , response.data.iconfig.link.href,'==',headers['tkhttp-id']);
-            }
-         }
+        //noinspection JSUnfilteredForInLoop
+        let k1 = k.toLowerCase();
+        //noinspection JSUnfilteredForInLoop
+        headers[k1] = response.headers [k];
      }
-
+     headers['tkhttp-id'] = null;
+     if (headers['set-cookie'] != null) {
+        let cookieValue = response.headers[k].find(cookie => cookie.includes('tkhttp-id'));
+        headers['tkhttp-id'] = (cookieValue != null) ? cookieValue.split(';')[0].split('=')[1] : null;
+     }
+    
      response.headers = headers;
      let cType = response.headers['content-type'];
  

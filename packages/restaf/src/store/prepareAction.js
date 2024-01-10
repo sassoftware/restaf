@@ -64,9 +64,7 @@ const prepareAction = function (
 
     store.apiCallNo++;
   }
-  if (link.href.indexOf("casProxy") >= 0) {
-    serviceName = "casProxy";
-  }
+  
   
   let action = {
     type: actionType,
@@ -81,12 +79,25 @@ const prepareAction = function (
     link,
   };
 
+  if (link.href.indexOf("casProxy") >= 0) {
+    serviceName = "casProxy";
+  }
  
   debugger;
   if (payload != null) {
     action.payload = payload;
   }
-  let xsrf = getXsrfData(store, serviceName);
+  let xsrf= getXsrfData(store, serviceName);
+  debugger;
+  if (serviceName === "casProxy") {
+    let xsrfcas = getXsrfData(store, "casManagement");
+    /*
+    console.log('...........................', xsrfcas['tkhttp-id']);
+    xsrf['tkhttp-id'] = xsrfcas['tkhttp-id'];
+    */
+    console.log(xsrfcas);
+  }
+
   debugger;
   if (payload != null) {
     action.payload.xsrf = xsrf;

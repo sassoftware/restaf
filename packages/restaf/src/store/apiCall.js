@@ -39,18 +39,9 @@ async function apiCall ( store, iroute, payload, ...rest ) {
   // Update csrf data if present in headers
   // TBD: csrf with DELETE behavior needs to be reviewed
   debugger;
+
   let newXsrf = readXsrfData(response.headers, response.service);
-  
-  appData( store, API_XSRF, response.service, newXsrf );
-  if (newXsrf['tkhttp-id'] !== null) {
-    let proxyXsrf =  getXsrfData( store, 'casProxy' );
-    console.log('proxyXsrf', proxyXsrf);
-    debugger;
-    if (proxyXsrf != null) {
-      proxyXsrf['tkhttp-id'] = newXsrf['tkhttp-id']
-      appData( store, API_XSRF, 'casProxy', proxyXsrf );
-    }
-  }
+  appData( store, API_XSRF, response.service, newXsrf )
   
   return response;
 };

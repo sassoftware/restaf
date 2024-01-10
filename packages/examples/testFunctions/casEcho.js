@@ -35,7 +35,7 @@ module.exports = async function casEcho ( testInfo ) {
   };
   logger.info( p );
 
-  let r = await store.runAction( session, p );
+  //let r = await store.runAction( session, p );
   console.log(JSON.stringify(store.getXsrfData()));
   //console.log( JSON.stringify( session.links( "execute" ), null, 4 ) );
   

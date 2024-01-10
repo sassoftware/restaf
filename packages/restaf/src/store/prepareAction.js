@@ -96,8 +96,8 @@ const prepareAction = function (
     let xsrfcas = getXsrfData(store, "cassession");
     if (xsrfcas != null) {
       console.log(xsrfcas);
-      xsrf = getXsrfData(store, "casProxy");
-      console.log(xsrf);
+     // xsrf = getXsrfData(store, "casProxy");
+     // console.log(xsrf);
       xsrf['tkhttp-id'] = xsrfcas['tkhttp-id'];
       console.log(xsrf);
     }

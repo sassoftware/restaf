@@ -40,7 +40,7 @@ import fixMlPipelineAutomation from './fixMlPipelineAutomation';
          //noinspection JSUnfilteredForInLoop
          headers[k1] = response.headers [k];
          if (k1 === 'set-cookie') {
-            const cookies = headers[k];
+            const cookies = headers[k1];
             const cookieValue = cookies.find(cookie => cookie.includes('tkhttp-id'));
             if (cookieValue != null) {
                 headers['tkhttp-id'] = cookieValue.split(';')[0].split('=')[1];

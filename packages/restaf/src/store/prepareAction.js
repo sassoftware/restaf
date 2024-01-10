@@ -64,6 +64,10 @@ const prepareAction = function (
 
     store.apiCallNo++;
   }
+  if (link.href.indexOf("casProxy") >= 0) {
+    serviceName = "casProxy";
+  }
+  
   let action = {
     type: actionType,
     delay: delay == null ? 0 : delay,
@@ -77,19 +81,17 @@ const prepareAction = function (
     link,
   };
 
-  if (link.href.indexOf("casProxy") >= 0) {
-    serviceName = "casProxy";
-  }
+ 
   debugger;
   if (payload != null) {
     action.payload = payload;
   }
-  let xsrfHeader = getXsrfData(store, serviceName);
+  let xsrf = getXsrfData(store, serviceName);
   debugger;
   if (payload != null) {
-    action.payload.xsrf = xsrfHeader;
+    action.payload.xsrf = xsrf;
   } else {
-    action.payload = { xsrf: xsrfHeader };
+    action.payload = { xsrf: xsrf };
   }
 
   return action;

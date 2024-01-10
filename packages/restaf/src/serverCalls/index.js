@@ -160,9 +160,9 @@ function request(iconfig) {
     }
   }
   debugger;
-  console.log(ixsrf);
   if (ixsrf !== null) {/* TBD: fix parallel calls to get of this conditional */
     let xsrfHeaderName = ixsrf["x-csrf-header"];
+    console.log(xsrfHeaderName);
     if (xsrfHeaderName != null) {
       config.xsrfHeaderName = xsrfHeaderName;
       // https://github.com/axios/axios/issues/2024
@@ -171,7 +171,6 @@ function request(iconfig) {
     if (ixsrf["tkhttp_id"] != null) {
       config.headers["tkhttp_id"] = ixsrf["tkhttp_id"];
     }
-    console.log('tkhttp-id== ', config.headers['tkhttp-id']);
   }
   
 
@@ -221,7 +220,10 @@ function makeCall(config, iconfig, storeConfig) {
   
   return new Promise((resolve, reject) => {
     debugger;
-    console.log(config.url);
+    if (config.headers['tkhttp-id'] != null) {
+      console.log(config.url, '--' ,config.headers['tkhttp-id']);
+      console.log('-----------------------');
+    }
     axios(config)
       .then((response) => {
         parseJSON(response.data)

@@ -40,13 +40,11 @@ import fixMlPipelineAutomation from './fixMlPipelineAutomation';
          //noinspection JSUnfilteredForInLoop
          headers[k1] = response.headers [k];
          if (k1 === 'set-cookie') {
-            console.log('cookie', headers[k]);
             const cookies = headers[k];
             const cookieValue = cookies.find(cookie => cookie.includes('tkhttp-id'));
             if (cookieValue != null) {
-                console.log(cookieValue);
                 headers['tkhttp-id'] = cookieValue.split(';')[0].split('=')[1];
-                console.log(headers['tkhttp-id']);
+                console.log(' in fixresponse:' , response.data.iconfig.link.href,'==',headers['tkhttp-id']);
             }
          }
      }

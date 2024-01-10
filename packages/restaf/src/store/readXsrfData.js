@@ -13,8 +13,9 @@
  * ---------------------------------------------------------------------------------------
  *
  */
-function setXsrfData(headers) {
+function readXsrfData(headers, service) {
   let xsrfData = {
+    serviceName: service,
     'x-csrf-header': null,
     'x-csrf-token' : null,
     'tkhttp-id': null
@@ -23,12 +24,9 @@ function setXsrfData(headers) {
   if ( xheader !== null ) {
       let xtoken  = headers( 'x-csrf-token' );
       xsrfData['x-csrf-header'] = xheader;
-      xsrf['x-csrf-token']      = xtoken;
+      xsrfData['x-csrf-token']      = xtoken;
   }
-  if (headers('tkhttp-id') != null) {
-      xsrfData['tkhttp-id'] = headers('tkhttp-id');
-  }
-  console.log('---------------------', xsrfData);
+  xsrfData['tkhttp-id'] = (headers('tkhttp-id') != null) ? headers('tkhttp-id') : null;
   return xsrfData;
 }
-export default setXsrfData;
+export default readXsrfData;

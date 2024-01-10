@@ -26,7 +26,7 @@ module.exports = async function casEcho ( testInfo ) {
   debugger;
   let { session } = await casSetup( store, null );
   // console.log(session);
-  // console.log(JSON.stringify(store.getXsrfData()));
+  console.log(JSON.stringify(store.getXsrfData()));
   let p = {
     action: 'builtins.echo',
     data  : {

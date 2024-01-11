@@ -21,12 +21,15 @@ function readXsrfData(headers, service) {
     'tkhttp-id': null
   }
   let xheader = headers( 'x-csrf-header' )
-  console.log(xheader);;
-  xsrfData['x-csrf-header'] = headers( 'x-csrf-header' );
+  console.log(xheader);
+  xsrfData['x-csrf-header'] = xheader;
+  // xsrf data is present
   if (xheader != null) {
-     xsrfData['x-csrf-token' ] = headers( xheader.toLowerCase() );
+    xsrfData[xheader] = headers( xheader.toLowerCase() );
   }
+  // save tkhtt-id for cas use
   xsrfData['tkhttp-id'] = (headers('tkhttp-id') != null) ? headers('tkhttp-id') : null;
+  console.log('Incoming xsrf data ', JSON.stringify(xsrfData, null,4));
   return xsrfData;
 }
 export default readXsrfData;

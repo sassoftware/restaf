@@ -38,7 +38,6 @@ async function casSetup( store, logonPayload, sessionID, casServer ) {
 	}
 
 	let { casManagement } = await store.addServices( 'casManagement' );
-	console.log(JSON.stringify(store.getXsrfData()));
 	let servers = await store.apiCall( casManagement.links( 'servers' ) );
 
 	if ( servers.itemsList().size === 0 ) {

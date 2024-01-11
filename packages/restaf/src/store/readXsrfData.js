@@ -20,12 +20,11 @@ function readXsrfData(headers, service) {
     'x-csrf-token' : null,
     'tkhttp-id': null
   }
-  let xheader = headers( 'x-csrf-header' );
-  if ( xheader !== null ) {
-      xheader = xheader.toUpperCase();
-      let xtoken  = headers( 'x-csrf-token' );
-      xsrfData['x-csrf-header'] = xheader;
-      xsrfData['x-csrf-token']      = xtoken;
+  let xheader = headers( 'x-csrf-header' )
+  console.log(xheader);;
+  xsrfData['x-csrf-header'] = headers( 'x-csrf-header' );
+  if (xheader != null) {
+     xsrfData['x-csrf-token' ] = headers( xheader.toLowerCase() );
   }
   xsrfData['tkhttp-id'] = (headers('tkhttp-id') != null) ? headers('tkhttp-id') : null;
   return xsrfData;

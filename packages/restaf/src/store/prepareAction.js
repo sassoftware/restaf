@@ -81,18 +81,19 @@ const prepareAction = function (
     link,
   };
  
-  let xsrf= getXsrfData(store, serviceName);
+  
   if (link.href.split('/')[1] === 'casProxy') {
     action.usedService = 'casProxy';
   }
  
+  let xsrf= getXsrfData(store, action.usedService);
   debugger;
   if (payload != null) {
     action.payload = payload;
   }
   
   debugger;
-  if (serviceName === "casProxy") {
+  if (action.usedService === "casProxy") {
     debugger;
     
     let xsrfcas = getXsrfData(store, "cassession");
@@ -100,8 +101,6 @@ const prepareAction = function (
     console.log('in Prep',  JSON.stringify(getXsrfData(store), null, 4));
     if (xsrfcas != null) {
       console.log(xsrfcas);
-      xsrf = getXsrfData(store, "casProxy");
-      console.log(xsrf);
       xsrf['tkhttp-id'] = xsrfcas['tkhttp-id'];
       console.log(xsrf);
     }

@@ -162,14 +162,15 @@ function request(iconfig) {
   debugger;
   if (ixsrf !== null) {/* TBD: fix parallel calls to get of this conditional */
     let xsrfHeaderName = ixsrf["x-csrf-header"];
+    console.log('**********************', ixsrf);
     console.log(xsrfHeaderName);
     if (xsrfHeaderName != null) {
       config.xsrfHeaderName = xsrfHeaderName;
       // https://github.com/axios/axios/issues/2024
       config.headers[xsrfHeaderName] = ixsrf["x-csrf-token"];
     }
-    if (ixsrf["tkhttp_id"] != null) {
-      config.headers["tkhttp_id"] = ixsrf["tkhttp_id"];
+    if (ixsrf["tkhttp-id"] != null) {
+      config.headers["tkhttp-id"] = ixsrf["tkhttp-id"];
     }
   }
   
@@ -220,10 +221,10 @@ function makeCall(config, iconfig, storeConfig) {
   
   return new Promise((resolve, reject) => {
     debugger;
-    if (config.headers['tkhttp-id'] != null) {
-      console.log(config.url, '--' ,config.headers['tkhttp-id']);
+      console.log('---------------------------------')
+      console.log(config.url, '--' ,config.headers['tkhttp_id']);
+      console.log(config.url, '--' ,config.headers['x-csrf-token']);
       console.log('-----------------------');
-    }
     axios(config)
       .then((response) => {
         parseJSON(response.data)

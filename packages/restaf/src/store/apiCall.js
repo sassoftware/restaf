@@ -36,18 +36,12 @@ async function apiCall ( store, iroute, payload, ...rest ) {
   debugger;
   let response = await iapiCall( store, iroute, API_CALL, payload, ...rest );
   debugger;
-  // Update csrf data if present in headers
-  // TBD: csrf with DELETE behavior needs to be reviewed
-  debugger;
-
   let newXsrf = readXsrfData(response.headers, response.usedService);
   appData( store, API_XSRF, response.usedService, newXsrf );
   console.log(response.usedService, response.service);
-  console.log('After call',  JSON.stringify(getXsrfData(store), null, 4));
-  
+  console.log(`apiCall to ${response.usedService}`,  JSON.stringify(getXsrfData(store), null, 4));
   debugger;
   if (newXsrf['tkhttp-id'] !== null) {
-    console.log('saving tkhttp');
     appData( store, API_XSRF, 'cassession', newXsrf );
   }
   

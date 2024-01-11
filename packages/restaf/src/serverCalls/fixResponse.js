@@ -37,6 +37,9 @@ import fixMlPipelineAutomation from './fixMlPipelineAutomation';
      for ( let k in response.headers ) {
         //noinspection JSUnfilteredForInLoop
         let k1 = k.toLowerCase();
+        if (k1 === 'x-csrf-header' || k1 === 'x-csrf-token') {
+            console.log(k1, response.headers[k]);
+        }
         //noinspection JSUnfilteredForInLoop
         headers[k1] = response.headers [k];
      }

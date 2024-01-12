@@ -62,7 +62,7 @@ const iaddServices = ( store, services )  => {
                     s.link.href = '/compute/servers/' + store.config.options.computeServerId + '/';
                     s.link.url  = s.link.href;
             }
-      
+           
             return s;
         } );
         

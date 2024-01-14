@@ -37,17 +37,21 @@ import fixMlPipelineAutomation from './fixMlPipelineAutomation';
      for ( let k in response.headers ) {
         //noinspection JSUnfilteredForInLoop
         let k1 = k.toLowerCase();
-        if (k1 === 'x-csrf-header' || k1 === 'x-csrf-token') {
-            console.log(k1, response.headers[k]);
-        }
         //noinspection JSUnfilteredForInLoop
         headers[k1] = response.headers [k];
      }
-     headers['tkhttp-id'] = null;
-     if (headers['set-cookie'] != null) {
-        let cookieValue = response.headers['set-cookie'].find(cookie => cookie.includes('tkhttp-id'));
-        headers['tkhttp-id'] = (cookieValue != null) ? cookieValue.split(';')[0].split('=')[1] : null;
-     }
+    headers['tkhttp-id'] = null;
+    let cookieValue = null
+    try {
+      let _w = window;
+      cookieValue = document.cookie.split(';').find(cookie => cookie.includes('tkhttp-id'));
+    }
+    catch (e) {
+      if (headers['set-cookie'] != null) {
+        cookieValue = response.headers['set-cookie'].find(cookie => cookie.includes('tkhttp-id'));
+      }
+    }
+    headers['tkhttp-id'] = (cookieValue != null) ? cookieValue.split(';')[0].split('=')[1] : null;
     
      response.headers = headers;
      let cType = response.headers['content-type'];

@@ -13,15 +13,14 @@
  * ---------------------------------------------------------------------------------------
  *
  */
-function readXsrfData(headers, service) {
+function readXsrfData(headers, service, iroute) {
   let xsrfData = {
     serviceName: service,
+    iroute: iroute,
     'x-csrf-header': null,
-    'x-csrf-token' : null,
     'tkhttp-id': null
   }
   let xheader = headers( 'x-csrf-header' )
-  console.log(xheader);
   xsrfData['x-csrf-header'] = xheader;
   // xsrf data is present
   if (xheader != null) {
@@ -29,7 +28,6 @@ function readXsrfData(headers, service) {
   }
   // save tkhtt-id for cas use
   xsrfData['tkhttp-id'] = (headers('tkhttp-id') != null) ? headers('tkhttp-id') : null;
-  console.log('Incoming xsrf data ', JSON.stringify(xsrfData, null,4));
   return xsrfData;
 }
 export default readXsrfData;

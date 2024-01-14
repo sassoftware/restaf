@@ -51,6 +51,7 @@ const iaddServices = ( store, services )  => {
                 logonInfo  : null,
                 tLink      : null, /* null indicates root of service */
                 serviceName: service,
+                usedService: service,
                 route      : service,
                 
                 storeConfig: store.config
@@ -108,7 +109,7 @@ const iaddServices = ( store, services )  => {
                         count++;
                         let ff = extendFolder( store, f );
                         folders[services[i]] = ff;
-                        xsrfTokens[services[i]] = readXsrfData(ff.headers, services[i]);
+                        xsrfTokens[services[i]] = readXsrfData(ff.headers, services[i], services[i]);
                     }
                 }
             }

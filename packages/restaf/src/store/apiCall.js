@@ -36,18 +36,12 @@ async function apiCall ( store, iroute, payload, ...rest ) {
   debugger;
   let response = await iapiCall( store, iroute, API_CALL, payload, ...rest );
   debugger;
-  let newXsrf = readXsrfData(response.headers, response.usedService);
-  let oldXsrf = getXsrfData(store, response.usedService);
-  if (oldXsrf != null && newXsrf['x-csrf-header'] == null) {
-    console.log('Note: Skipping updates to xsrf data as a patch');
-  } else {
-     appData( store, API_XSRF, response.usedService, newXsrf );
+  let newXsrf = readXsrfData(response.headers, response.usedService, iroute.route);
+  if (newXsrf['x-csrf-header'] != null || newXsrf['tkhttp-id'] != null) {
+    appData( store, API_XSRF, response.usedService, newXsrf);
   }
-  console.log(response.usedService, response.service);
-  console.log(`apiCall to ${response.usedService}`,  JSON.stringify(getXsrfData(store), null, 4));
-  debugger;
-  if (newXsrf['tkhttp-id'] !== null) {
-    appData( store, API_XSRF, 'cassession', newXsrf );
+  if (newXsrf['tkhttp-id'] != null) {
+    appData( store, API_XSRF, 'tkhttpid', newXsrf);
   }
   
   return response;

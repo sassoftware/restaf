@@ -20,6 +20,7 @@ import iaddServices from './iaddServices';
 import { API_XSRF } from '../actionTypes';
 import appData from './appData';
 import getServiceRoot from './getServiceRoot';
+import getXsrfData from './getXsrfData';
 /**
  * @description Add(initialize) services to the store
  * @async
@@ -34,9 +35,9 @@ import getServiceRoot from './getServiceRoot';
 async function addServices ( store, ...services ) {
    debugger;
     if ( services.includes( 'casManagement' ) ) {
+        // services.push('casManagement/cas');
         services.push( 'casProxy' );
        // services.push('cas-shared-default-http/healthCheck');
-       services.push('cas-shared-default-http');
     }
   
     // loop for initialized services
@@ -52,18 +53,16 @@ async function addServices ( store, ...services ) {
     // initialize new services
     if ( subList.length > 0 ) {
         debugger;
-        let { folders, xsrfTokens } = await iaddServices( store, subList );
-        for ( let service in xsrfTokens ) {
-            debugger;
-            appData( store, API_XSRF, service, xsrfTokens[ service ] );
+        for ( let service of subList ) {
+            let { folders, xsrfTokens } = await iaddServices( store, [service] );
+            let xsrf = xsrfTokens[ service ];
+            appData( store, API_XSRF, service, xsrf, service );
+            if (xsrf['tkhttp-id'] != null) {
+                appData( store, API_XSRF, 'tkhttpid', xsrf, service );
+            }
+           ifolder[ service ] = folders[ service ];
         }
-        // merge new ones into preloaded list
-        for ( let s in folders ) {
-            ifolder[ s ] = folders[ s ];
-        }
-
     }
-    debugger;
     return ifolder;
 
 }

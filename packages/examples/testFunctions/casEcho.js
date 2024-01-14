@@ -24,12 +24,12 @@ let { casSetup, caslRun} = require( '@sassoftware/restaflib' );
 module.exports = async function casEcho ( testInfo ) {
 	let { store, logger } = testInfo;
   debugger;
-  let x = await store.addServices('casManagement');
-  console.log(JSON.stringify(store.getXsrfData()));
-  /*
+  
   let { session } = await casSetup( store, null );
   // console.log(session);
-  console.log(JSON.stringify(store.getXsrfData()));
+ 
+  console.log('after cassetup', JSON.stringify(store.getXsrfData()));
+ 
   let p = {
     action: 'builtins.echo',
     data  : {
@@ -39,10 +39,11 @@ module.exports = async function casEcho ( testInfo ) {
   logger.info( p );
 
   let r = await store.runAction( session, p );
-  console.log(JSON.stringify(store.getXsrfData()));
+
+  console.log('after run action 1', (JSON.stringify(store.getXsrfData(), null,4)))
   
   r = await store.runAction( session, p );
-  console.log(JSON.stringify(store.getXsrfData()));
+  console.log('after run action 2', (JSON.stringify(store.getXsrfData(), null,4)))
   
   //console.log( JSON.stringify( session.links( "execute" ), null, 4 ) );
   

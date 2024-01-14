@@ -84,6 +84,8 @@ const prepareAction = function (
   
   if (link.href.split('/')[1] === 'casProxy') {
     action.usedService = 'casProxy';
+  } else if (link.href.split('/')[1] === 'cas-shared-default-http') {
+    action.usedService = 'cas-shared-default-http';
   }
  
   let xsrf= getXsrfData(store, action.usedService);
@@ -93,17 +95,13 @@ const prepareAction = function (
   }
   
   debugger;
-  if (action.usedService === "casProxy") {
+  if (action.usedService === "casProxy" || action.usedService === "cas-shared-default-http") {
     debugger;
-    
-    let xsrfcas = getXsrfData(store, "cassession");
-    console.log(action.usedService, action.serviceName);
-    console.log('in Prep',  JSON.stringify(getXsrfData(store), null, 4));
-    if (xsrfcas != null) {
-      console.log(xsrfcas);
-      xsrf['tkhttp-id'] = xsrfcas['tkhttp-id'];
-      console.log(xsrf);
-    }
+    xsrf = getXsrfData(store, action.usedService);
+    let tkhttpid= getXsrfData(store, 'tkhttpid');
+    if (tkhttpid != null) {
+      xsrf['tkhttp-id'] = tkhttpid['tkhttp-id'];
+    } 
   }
 
   debugger;

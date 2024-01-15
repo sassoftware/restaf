@@ -36,7 +36,7 @@
     "restaf:pub": "cd ./packages/restaf && npm run pub",
     "restaflib:pub": "cd ./packages/restaflib && npm run pub",
     "restaflib:build": "cd ./packages/restaflib && yarn build",
-    "build": "npm run restaf:build && npm run restaflib:build",
+    "build": "cross-env NODE_OPTIONS=--openssl-legacy-provider npm run restaf:build && npm run restaflib:build",
     "puball": "npm run restaf:pub && npm run restaflib:pub",
     "format": "prettier-eslint --eslint-config-path ./.eslintrc.json --write '**/*.js'",
     "lint": "eslint . --ext .js --fix",

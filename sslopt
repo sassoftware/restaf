@@ -1,1 +1,2 @@
 export NODE_OPTIONS=--openssl-legacy-provider
+# need go update node

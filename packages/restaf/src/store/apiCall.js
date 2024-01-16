@@ -33,9 +33,9 @@ import getXsrfData from './getXsrfData';
  */
 async function apiCall ( store, iroute, payload, ...rest ) {
 // const  apiCall =  ( store, iroute, payload, ...rest ) => {
-  debugger;
+  
   let response = await iapiCall( store, iroute, API_CALL, payload, ...rest );
-  debugger;
+  
   let newXsrf = readXsrfData(response.headers, response.usedService, iroute.route);
   if (newXsrf['x-csrf-header'] != null || newXsrf['tkhttp-id'] != null) {
     appData( store, API_XSRF, response.usedService, newXsrf);

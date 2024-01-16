@@ -37,7 +37,7 @@ const prepareAction = function (
   let link;
   let serviceName;
   let current;
-  debugger;
+  
   if (typeof iroute === "string") {
     current = getResults(store, iroute);
     route = iroute;
@@ -89,14 +89,14 @@ const prepareAction = function (
   }
  
   let xsrf= getXsrfData(store, action.usedService);
-  debugger;
+  
   if (payload != null) {
     action.payload = payload;
   }
   
-  debugger;
+  
   if (action.usedService === "casProxy" || action.usedService === "cas-shared-default-http") {
-    debugger;
+    
     xsrf = getXsrfData(store, action.usedService);
     let tkhttpid= getXsrfData(store, 'tkhttpid');
     if (tkhttpid != null) {
@@ -104,7 +104,7 @@ const prepareAction = function (
     } 
   }
 
-  debugger;
+  
   if (payload != null) {
     action.payload.xsrf = xsrf;
   } else {

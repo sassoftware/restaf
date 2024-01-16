@@ -32,7 +32,7 @@
  */
 'use strict';
 async function casSetup( store, logonPayload, sessionID, casServer ) {
-  debugger;
+
 	if ( logonPayload != null ) {
 		let msg = await store.logon( logonPayload );
 	}

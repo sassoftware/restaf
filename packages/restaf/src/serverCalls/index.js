@@ -80,7 +80,7 @@ function request(iconfig) {
   let iheaders = null;
   let ixsrf = null;
   let casAction = null;
-  debugger;
+  
   if (payload !== null) {
     casAction = hasItem(payload, "action");
     iqs = hasItem(payload, "qs");
@@ -159,7 +159,7 @@ function request(iconfig) {
       }
     }
   }
-  debugger;
+  
   if (ixsrf !== null) {/* TBD: fix parallel calls to get of this conditional */
     let xsrfHeaderName = ixsrf["x-csrf-header"];
     if (xsrfHeaderName != null) {

@@ -33,7 +33,7 @@ import getXsrfData from './getXsrfData';
  * 
  */
 async function addServices ( store, ...services ) {
-   debugger;
+   
     if ( services.includes( 'casManagement' ) ) {
         // services.push('casManagement/cas');
         services.push( 'casProxy' );
@@ -52,7 +52,7 @@ async function addServices ( store, ...services ) {
 
     // initialize new services
     if ( subList.length > 0 ) {
-        debugger;
+        
         for ( let service of subList ) {
             let { folders, xsrfTokens } = await iaddServices( store, [service] );
             let xsrf = xsrfTokens[ service ];

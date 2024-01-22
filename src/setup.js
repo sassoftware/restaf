@@ -67,13 +67,12 @@ async function setup(
     };
   }
   // Note: that each setup creates its own store
-  console.log("storeConfig", storeConfig);
+
   let store = initStore(storeConfig);
   if (logonPayload !== null) {
     let msg = await store.logon(logonPayload);
   }
 
-  console.log("after logon in setup:", store.connection());
   const useEntry =
     source === "cas"
       ? icasSetup
@@ -151,7 +150,6 @@ async function setup(
   let id1 = appEnv.session.items("id");
   let ssid = await store.apiCall(appEnv.session.links("self"));
   let id = ssid.items("id");
-  console.log("compare:", id1, " ", id);
   appEnv.sessionID = id;
   appEnv.userSessionID = sessionID;
   return appEnv;

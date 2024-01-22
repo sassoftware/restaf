@@ -68,7 +68,7 @@ async function casSetup( store, logonPayload, sessionID, casServer ) {
 			}
 		};
 
-		console.log('after session' ,JSON.stringify(store.getXsrfData()));
+		// console.log('after session' ,JSON.stringify(store.getXsrfData()));
 		let sessionList = await store.apiCall( servers.itemsCmd( casserver, "sessions" ), payload );
 		if ( sessionList.items().size === 0 ) {
 			throw `ERROR: The sessionID ${sessionID} was not found.`;

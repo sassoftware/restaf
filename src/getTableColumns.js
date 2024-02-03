@@ -30,7 +30,7 @@ async function getTableColumns (source, table, appEnv) {
   
   const handler = (source === 'cas') ? casTableColumns : computeTableColumns;
   const r = await handler(appEnv, table);
-  appEnv.state.tableSummary = r;
+ // appEnv.state.tableSummary = r;
   return r;
 }
 async function casTableColumns(appEnv, table) {

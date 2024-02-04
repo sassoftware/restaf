@@ -20,10 +20,10 @@
 async function casTableList (lib, appEnv) {
   const { store, servers } = appEnv;
   const casServerx = appEnv.casServerName;
-
+  debugger;
   let p = {
     qs: {
-      filter: `eq(name,'${lib}' )`
+      filter: `eq(name,'${lib}')`
     }
   };
   let t = servers.itemsCmd(casServerx, 'caslibs')

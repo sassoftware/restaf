@@ -1,6 +1,6 @@
 /* eslint-disable quotes */
 
-const { setup, scrollTable, cellEdit,setWhere, termApp,saveTable, getTableColumns } = require('../lib/index.js');
+const { setup, scrollTable, cellEdit,setWhere, termApp,saveTable, getTableColumns, getTableList } = require('../lib/index.js');
 const getToken = require('./getToken');
 console.log(getToken);
 
@@ -45,6 +45,9 @@ async function runit (payload) {
   console.log(appEnv.casServerName);
   console.log(JSON.stringify(appEnv.store.getXsrfData(), null,4));
   debugger;
+  let txx = await getTableList('casuser', appEnv);
+  console.log(txx);
+  debugger;
   let r = await scrollTable('first', appEnv);
   console.log(JSON.stringify(appEnv.state.cache));
   console.log(r.data[0]);
@@ -83,6 +86,8 @@ async function runit (payload) {
 
   console.log(cache);
   console.log(JSON.stringify(appEnv.store.getXsrfData(), null,4));
+  let tx = await getTableList('casuser', appEnv);
+  console.log(tx);
   await termApp(appEnv);
   
   

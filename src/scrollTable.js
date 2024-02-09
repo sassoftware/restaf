@@ -82,7 +82,7 @@ async function icasScroll (direction, appEnv, payload) {
   }
   control.table = table;
   try {
-    debugger;
+    
     const r = await casFetchData(store, session, control);
     const result = await prepFormData(r.data, appEnv);
     
@@ -142,7 +142,7 @@ async function icomputeScroll (direction, appEnv, payload) {
   let r = null;
   console.log('query in scrollTable.compute=', control);
   try {
-    debugger;
+    
     let argsList = {
       store: store,
       tableSummary: tableSummary,
@@ -154,7 +154,7 @@ async function icomputeScroll (direction, appEnv, payload) {
     console.log('argsList=', argsList);
     r = await computeFetchData(store, tableSummary, tname, direction, control, 'rows');
  
-    debugger;
+    
   } catch (err) {
     appEnv.state.data = [];
     // eslint-disable-next-line no-throw-literal
@@ -164,7 +164,7 @@ async function icomputeScroll (direction, appEnv, payload) {
   let result = null;
 
   if (r !== null) {
-    debugger;
+    
     result = await prepFormData(r, appEnv);
     appEnv.fetchCount = result.data.length;
 

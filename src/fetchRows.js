@@ -19,7 +19,7 @@ import { computeFetchData, casFetchData,  computeSetupTables} from '@sassoftware
  *
  */
 async function fetchRows (icontrol, appEnv, table) {
-  debugger;
+  
   let result;
   if (table) {
     const { store, session } = appEnv;

@@ -59,7 +59,7 @@ async function setup(
 ) {
   const { source } = appControl;
   console.log("Incoming logonPayload.storeConfig", storeConfig);
-  debugger;
+  
   if (storeConfig == null) {
     storeConfig = {
       casProxy: true,
@@ -197,9 +197,9 @@ async function _initApp(appEnv) {
 async function icasSetup(store, logonPayload, appControl, appEnv, sessionID) {
   let r;
   try {
-    debugger;
+    
     r = await casSetup(store, logonPayload, sessionID, appEnv.casServerName);
-    debugger;
+    
     appEnv.session = r.session;
     appEnv.servers = r.servers;
     appEnv.casServerName = appEnv.session.links("execute", "link", "server");
@@ -243,7 +243,7 @@ async function icomputeSetup(
 ) {
   // eslint-disable-next-line prefer-const
   let session;
-  debugger;
+  
   session = await computeSetup(
     store,
     appControl.computeContext,
@@ -251,7 +251,7 @@ async function icomputeSetup(
     null,
     sessionID
   );
-  debugger;
+  
   appEnv.session = session;
   if (sessionID != null) {
     appEnv.userSessionID = sessionID;

@@ -19,7 +19,7 @@ async function prepFormData (result, appEnv, makerow) {
   const source = appEnv.source;
   const customColumns = appEnv.appControl.customColumns;
   let status = { statusCode: 0, msg: 'Initialization was successful' };
-  debugger;
+  
   const makeRowObject = (columns, row, rown) => {
 
     const rowObj = {_rowIndex: rown, _modified: 0 };
@@ -65,7 +65,7 @@ async function prepFormData (result, appEnv, makerow) {
   // extend column and make it an object
   const eColumns = {};
   schema.forEach((s, i) => {
-    debugger;
+    
     const name = s.Column.toLowerCase();
     s.name = name;
     s.Label = (s.Label == null || s.Label.length === 0) ? s.Column : s.Label;

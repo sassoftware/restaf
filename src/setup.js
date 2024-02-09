@@ -58,7 +58,7 @@ async function setup(
   storeConfig
 ) {
   const { source } = appControl;
-  console.log("Incoming logonPayload.storeConfig", storeConfig);
+
   
   if (storeConfig == null) {
     storeConfig = {

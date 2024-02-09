@@ -40,6 +40,8 @@ async function runit (payload) {
   debugger;
   const tableList = await getTableList(libList[0], appEnv);
   console.log(tableList);
+  const tableList2 = await getTableList('Samples', appEnv);
+  console.log(tableList2);
   debugger;
   return 'done';
 };

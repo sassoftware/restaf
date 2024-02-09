@@ -19,9 +19,9 @@ import casTableList from './casTableList';
  *  returns a list of tables - based on the value of source (cas|compute)
  */
 
-async function getTableList (lib, appEnv) {
+async function getTableList (lib, appEnv, payload) {
   const handler = (appEnv.source === 'cas') ? casTableList : computeTableList;
-  const r = await handler(lib, appEnv);
+  const r = await handler(lib, appEnv, payload);
   return r;
 }
 

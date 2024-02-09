@@ -1,7 +1,7 @@
 /* eslint-disable quotes */
 
 const { setup, scrollTable, cellEdit,setWhere, termApp,saveTable, getTableColumns, getTableList } = require('../lib/index.js');
-const getToken = require('./getToken');
+const getToken = require('./getToken.js');
 console.log(getToken);
 
 test('casBasic', async () => {
@@ -45,57 +45,8 @@ async function runit (payload) {
   console.log(appEnv.casServerName);
   console.log(JSON.stringify(appEnv.store.getXsrfData(), null,4));
   debugger;
-  let p = {
-    qs: {
-      start : 0,
-      limit : 5,
-      format: false,
-      where : ' '
-    }
-  }
-  let txx = await getTableList('Samples', appEnv, p);
+  let txx = await 'samples', appEnv);
   console.log(txx);
-  debugger;
-  let r = await scrollTable('first', appEnv);
-  console.log(JSON.stringify(appEnv.state.cache));
-  console.log(r.data[0]);
-  
-  cache.push({row1: appEnv.state.data[0]});
-  const keepid= appEnv.state.data[0].id;
-  console.log(appEnv.state.columns.toString()); 
-  console.log(appEnv.state.data.length);
-  const x3New = appEnv.state.data[0].x3 + 900;
-  ;
-  console.log(appEnv.state.data.length);
-  r = await cellEdit('x3', x3New, 0, appEnv.state.data[0], appEnv);
-  console.log('x3 cell edit done');
-  console.log(r.status);
-  debugger;
-  await scrollTable('next', appEnv);
-  cache.push({rownext: appEnv.state.data[0]});
-  await scrollTable('first', appEnv);
-  cache.push({row1again: appEnv.state.data[0]});
-  
-  try {
-    let r = await saveTable(appEnv);
-    console.log(r);
- } catch (e) {
-   console.log(e);
- }
-  const where = "id = 'key1'";
-  console.log(where)
-  setWhere(where, appEnv);
-  await scrollTable('first', appEnv);
-  console.log(getTableColumns)
-  console.log(appEnv.table);
-  let columns = await getTableColumns('cas', appEnv.table, appEnv);
-  console.log(columns);
-  cache.push({where: appEnv.state.data[0]});
-
-  console.log(cache);
-
-  let tx = await getTableList('Samples', appEnv, p);
-  console.log(tx);
   await termApp(appEnv);
   
   

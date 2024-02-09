@@ -126,7 +126,6 @@ async function setup(
       cache: { rows: [], schema: [] },
       modified: [],
       pagination: {},
-      point: "",
       scrollOptions: [],
       data: [],
       columns: {},
@@ -136,7 +135,7 @@ async function setup(
     id: Date(),
   };
 
-  if (logonPayload.host == null) {
+  if (logonPayload && logonPayload.host == null) {
     // eslint-disable-next-line no-throw-literal
     throw "ERROR: Please specify a Viya host";
   }

@@ -16,21 +16,16 @@
  *  If the source is compute, the method returns a list of librefs
  */
 
-async function getLibraryList (appEnv) {
+async function getLibraryList (appEnv, payload) {
   const { store, session, servers, source } = appEnv;
 
-  const getLibrefs = async () => {
-    const p = {
-      qs: {
-        start: 0,
-        limit: 100
-      }
-    };
-    const r = await store.apiCall(session.links('librefs'), p);
+  const getLibrefs = async (payload) => {
+    
+    const r = await store.apiCall(session.links('librefs'), payload);
     return r.itemsList().toJS();
   };
 
-  const getCaslibs = async () => {
+  const getCaslibs = async (payload) => {
     const p = {
       qs: {
         start: 0,
@@ -38,12 +33,21 @@ async function getLibraryList (appEnv) {
       }
     };
     const rafLink = servers.itemsCmd(servers.itemsList(0), 'caslibs');
-    const r = await store.apiCall(rafLink, p);
+    const r = await store.apiCall(rafLink, payload);
     return r.itemsList().toJS();
   };
+  let p = payload;
+  if ( p == null ) {
+    p = {
+      qs: {
+        limit: 100,
+        start: 0
+      }
+    };
+  }
 
   const handler = (source === 'cas') ? getCaslibs : getLibrefs;
-  const libs = await handler(appEnv);
+  const libs = await handler(appEnv,p);
   return libs;
 }
 

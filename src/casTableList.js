@@ -17,29 +17,38 @@
  *   This method is primarily useful for UI's that want to display a table selector
  */
 
-async function casTableList (lib, appEnv) {
-  const { store, servers } = appEnv;
-  const casServerx = appEnv.casServerName;
-  debugger;
+async function casTableList (lib, appEnv, payload) {
+  const { store} = appEnv;
+
+  // get links for the current caslib
   let p = {
     qs: {
       filter: `eq(name,'${lib}')`
     }
   };
-  let t = servers.itemsCmd(casServerx, 'caslibs')
-  const mylib = await store.apiCall(servers.itemsCmd(casServerx, 'caslibs'), p);
-  p = {
-    qs: {
-      limit: 1000,
-      start: 0
-    }
-  };
+  console.log(appEnv.servers);
+   
+  const mylib = await store.apiCall(appEnv.servers.itemsCmd(appEnv.casServerName, 'caslibs'), p);
 
+  // if caslib was not found
   if (mylib.itemsList().size === 0) {
+    console.log('caslib not found');
     return [];
-  } else {
-    const tlist = await store.apiCall(mylib.itemsCmd(lib, 'tables'), p);
-    return tlist.itemsList().toJS();
   }
+  
+  p = payload;
+  if (p == null) {
+    p = {
+      qs: {
+        limit: 1000,
+        start: 0
+      }
+    };
+  }
+
+  const tlist = await store.apiCall(mylib.itemsCmd(lib, 'tables'), p);
+  console.log(tlist.itemsList().toJS());
+  return tlist.itemsList().toJS();
+  
 }
 export default casTableList;

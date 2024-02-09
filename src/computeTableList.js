@@ -18,7 +18,7 @@
  *  {company:['IBM', 'Microsoft', 'SAS'] }
  */
 
-async function computeTableList (lib, appEnv) {
+async function computeTableList (lib, appEnv, payload) {
   const { store, session } = appEnv;
 
   lib = lib.toUpperCase();
@@ -28,13 +28,22 @@ async function computeTableList (lib, appEnv) {
     }
   };
   const mylib = await store.apiCall(session.links('librefs'), p);
+  
+  if (mylib.itemsList().size === 0) {
+    console.log('caslib not found');
+    return [];
+  }
+  
   const selflib = await store.apiCall(mylib.itemsCmd(lib, 'self'));
-  p = {
-    qs: {
-      limit: 1000,
-      start: 0
-    }
-  };
+  p = payload;
+  if (p == null) {
+    p = {
+      qs: {
+        limit: 1000,
+        start: 0
+      }
+    };
+  }
 
   const tables = await store.apiCall(selflib.links('tables'), p);
   return tables.itemsList().toJS();

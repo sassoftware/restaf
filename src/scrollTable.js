@@ -126,7 +126,6 @@ async function icomputeScroll (direction, appEnv, payload) {
   // compute service does not remember these settings from the initial fetch. 
   let control = {qs: {format: initialFetch.qs.format, includeIndex: true}};
 
-  console.log('payload=', payload);
   /*Treat direction of first as a special case, ignore payload*/
   if (direction === 'first') {/*Treat direction of first as a special case, ignore payload*/
     control = { ...initialFetch };
@@ -140,7 +139,7 @@ async function icomputeScroll (direction, appEnv, payload) {
   }
   control.qs.includeIndex = 1;
   let r = null;
-  console.log('query in scrollTable.compute=', control);
+  
   try {
     
     let argsList = {
@@ -151,7 +150,7 @@ async function icomputeScroll (direction, appEnv, payload) {
       control: control,
       useRow: 'rows'
     };
-    console.log('argsList=', argsList);
+   
     r = await computeFetchData(store, tableSummary, tname, direction, control, 'rows');
  
     

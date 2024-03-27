@@ -49,28 +49,28 @@ module.exports = (env) => {
       libraryTarget : 'umd',
       filename      : outputFile,
       umdNamedDefine: true
-    },
+      },
     node: {
       fs: 'empty'
     },
 
     module: {
       rules: [
-        {
+    {
           test   : /\.(js|jsx)$/,
           use    : [{ loader: 'babel-loader' }],
           include: APP_PATH,
           exclude: /node_modules/
         }
       ]
-    },
+  },
 
     plugins,
 
     resolve: {
       extensions: ['.js']
     }
-  };
+};
 
   if (env.target === 'node') {
     config.externals = [nodeExternals()];

@@ -1,4 +1,4 @@
-const { setup, cellEdit, scrollTable, termApp, getTableSummary } = require('../lib/index.js');
+const { setup, cellEdit, scrollTable, termApp, getTableSummary, getTableColumns} = require('../lib/index.js');
 const { computeRun } = require('@sassoftware/restaflib');
 const getToken = require('./getToken');
 console.log(getToken);
@@ -40,10 +40,13 @@ run;`;
   try {
     appEnv = await setup(payload, appControl);
     rc = await getTableSummary(appEnv);
+
     console.log(appEnv.state.tableSummary);
-    console.log(appEnv.state.cache);
+    rc = await getTableColumns(appControl.source, appControl.table, appEnv);
+    console.log('rc', rc);
   } catch (err) {
     console.log(err);
+    console.log(JSON.stringify(err, null, 4 ));
     return 'failed';
   }
 

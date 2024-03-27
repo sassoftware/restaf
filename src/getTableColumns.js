@@ -2,7 +2,6 @@
  * Copyright © 2023, SAS Institute Inc., Cary, NC, USA.  All Rights Reserved.
  * SPDX-License-Identifier: Apache-2.0
  */
-import {caslRun} from '@sassoftware/restaflib';
 
 /**
  * @description get the columns for a table
@@ -25,66 +24,13 @@ import {caslRun} from '@sassoftware/restaflib';
  *  ...rest...
  *  }
  */
-
+import igetTableColumns from './igetTableColumns';
 async function getTableColumns (source, table, appEnv) {
-  
-  const handler = (source === 'cas') ? casTableColumns : computeTableColumns;
-  const r = await handler(appEnv, table);
- // appEnv.state.tableSummary = r;
-  return r;
-}
-async function casTableColumns(appEnv, table) {
-  const {store, session} = appEnv;
-  
-  const src = `
-  rc = checkAndLoadTable(_args_.table.caslib, _args_.table.name);
-  if (rc ne true) then do;
-    text = 'Unable to access ' ||_args_.table.caslib||'.'||_args_.table.name;   
-    rx = {severity=2,reason=6, status='error',statusCode=2, formatted=text};
-    exit(rx);  
-  end; 
-  action table.columnInfo r=result/
-    table = {caslib= _args_.table.caslib,  name=_args_.table.name};
-    run;
-  summary = result; 
-  send_response({casResults=summary});
-  `;    
-  let args = {
-    table: table
-  };
- 
- let r = await caslRun(store, session, src, args,true);
- let columns = r.results.casResults.ColumnInfo.rows.map(r => r[0].toLowerCase());
- return columns;
-}
-
-async function computeTableColumns(appEnv, table) {
-  const { store, session } = appEnv;
-  
-  let {libref, name} = table;
-  libref = libref.toUpperCase();
-  name = name.toUpperCase();
-  let p = {
-    qs: {
-      filter: `eq(name,'${libref}' )`
-    }
-  };
-  const mylib = await store.apiCall(session.links('librefs'), p);
-  const selflib = await store.apiCall(mylib.itemsCmd(libref, 'self'));
-
-  p = {
-    qs: {
-      filter: `eq(name,'${name}' )`
-    }
-  };
-  
-  const tables = await store.apiCall(selflib.links('tables'), p);
-  const tablesSelf = await store.apiCall(tables.itemsCmd('self'));
-  
-  
-  const tableDetails = await store.apiCall(tablesSelf.links('columns'));
-  
-
-  return tableDetails.itemsList().toJS();
+  let name = table.name;
+  let libname = (source === 'cas') ? table.caslib : table.libref;
+  debugger;
+  let columns = await igetTableColumns(
+    appEnv.store, appEnv.session, source, libname, name);
+  return columns;
 }
 export default getTableColumns;

@@ -42,7 +42,6 @@ async function cellEdit (name, value, rowIndex, currentData, appEnv) {
   const cachePolicy = (appEnv.appControl.cachePolicy == null) ? true : appEnv.appControl.cachePolicy;
   appEnv.handlers = handlers;
   let status = { statusCode: 0, msg: '' };
-  
   if ( name != null ) {
     newDataRow[name] = text2Float(value, columns[name]);
     if (handlers[name] != null) {
@@ -53,10 +52,11 @@ async function cellEdit (name, value, rowIndex, currentData, appEnv) {
       if (status.statusCode === 2) {
         return { data: r[0], status };
       }
+    } else {
+      let r1 = await commonHandler('init', newDataRow, rowIndex, appEnv, status);
     }
-  } else {
-    let r1 = await commonHandler('init', newDataRow, rowIndex, appEnv, status);
   }
+
 
   let r = await commonHandler('main', newDataRow, rowIndex, appEnv, status);
  //  r = handlerResult(r, newDataRow, null, status);

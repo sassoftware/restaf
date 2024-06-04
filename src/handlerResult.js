@@ -14,7 +14,18 @@ function handlerResult (r, data, name, istatus) {
 
     // standard case return [data, status]
     if (Array.isArray(r) === true ) {
-       return (r.length == 2) ? r : [data, istatus]
+      // return (r.length == 2) ? r : [data, istatus]
+      if (r.length == 2) {
+        if (typeof r[0] === 'object') {
+          return r;
+        } else {
+          // return [value, status]
+          data[name]= r[0];
+          return [data, r[1]];
+        }
+      } else {
+        return [data, istatus];
+      }
     //  return data;
     } else if (typeof r === 'object') { 
       return [r, istatus];

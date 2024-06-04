@@ -1,7 +1,7 @@
 /* eslint-disable quotes */
 const { setup, scrollTable, cellEdit,setWhere, termApp,saveTable } = require('../lib/index.js');
 const getToken = require('./getToken.js');
-console.log(getToken);
+//console.log(getToken);
 
 test('formBasic', async () => {
   const r = await runit();
@@ -11,6 +11,8 @@ test('formBasic', async () => {
 async function runit () {
   const payload = {
     host: 'http://localhost',
+    authType: 'none'
+
   };
   
   
@@ -23,9 +25,13 @@ async function runit () {
   debugger;
   const appEnv = await setup(payload, appControl);
   debugger;
+  /*
   console.log(appEnv.builtins);
   console.log(appEnv.state.tableSummary);
   console.log(appEnv);
+  */
+
+  let r = await cellEdit('total',200, 0, appEnv.state.data[0], appEnv);
   await termApp(appEnv);
   
   
@@ -45,7 +51,7 @@ function getAppControl () {
       }
     },
     editControl: {
-      handlers: { initApp, init, main, term, initApp, termApp: termMyApp, x3 }, 
+      handlers: { initApp, init, main, term, initApp, termApp: termMyApp, total }, 
       autoSave: true,
       autoSaveTable: true
     }
@@ -55,7 +61,7 @@ function getAppControl () {
 async function initApp (appEnv) {
   console.log('in initApp');
   console.log('Table in initApp: ' ,appEnv.table);
-  return { msg: 'done', satusCode: 0 };
+  return { msg: 'done', statusCode: 0 };
 }
 async function termMyApp (appEnv) {
   console.log('in termApp');
@@ -78,8 +84,9 @@ async function term (data, rowIndex, appEnv, type) {
   return [data, status];
 };
 
-async function x3 (data, name, rowIndex, appEnv) {
+async function total (data, name, rowIndex, appEnv) {
   const status = { statusCode: 0, msg: `${name} handler executed.` };
-  console.log('in x3');
+  console.log(data[name]);
+  console.log('in total');
   return [data, status];
 };

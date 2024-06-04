@@ -69,7 +69,7 @@ async function setup(
   // Note: that each setup creates its own store
 
   let store = initStore(storeConfig);
-  if (logonPayload !== null) {
+  if (logonPayload !== null && logonPayload.authType !== "none") {
     let msg = await store.logon(logonPayload);
   }
 
@@ -146,16 +146,19 @@ async function setup(
     appEnv,
     sessionID
   );
-  let id1 = appEnv.session.items("id");
-  let ssid = await store.apiCall(appEnv.session.links("self"));
-  let id = ssid.items("id");
-  appEnv.sessionID = id;
-  appEnv.userSessionID = sessionID;
+  if (appControl.source !== 'none') {
+    let id1 = appEnv.session.items("id");
+    let ssid = await store.apiCall(appEnv.session.links("self"));
+    let id = ssid.items("id");
+    appEnv.sessionID = id;
+    appEnv.userSessionID = sessionID;
+  }
   return appEnv;
 }
 
 // _nosource
 async function nosource(_store, _logonPayload, appControl, appEnv, _sessionID) {
+
   let r = await prepFormData(appEnv.state.cache, appEnv, true);
   // TBD: Need to handle preamble for this case.
   if (appControl.editControl.handlers.initApp != null) {
@@ -171,6 +174,7 @@ async function nosource(_store, _logonPayload, appControl, appEnv, _sessionID) {
   appEnv.state.data = r.data;
   appEnv.state.columns = r.columns;
   appEnv.state.cache = r.cache;
+  console.log(appEnv);
   return appEnv;
 }
 
@@ -270,8 +274,8 @@ async function icomputeSetup(
   if ( appControl.preamble != null ) {
     console.log('running preamble', appControl.preamble);
     const result = await computeRun( store, session, appControl.preamble );
-    console.log(result.SASJobStatus);
     if ( result.SASJobStatus === 'error' ) {
+      console.log(result.SASJobStatus);
       let log = await computeResults(store, result, 'log');
       console.log(log);
       throw `Error: Preamble failed with completion code of ${result.SASJobStatus}`;

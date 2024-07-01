@@ -1,6 +1,6 @@
 {
   "name": "@sassoftware/restafedit",
-  "version": "2.4.9",
+  "version": "2.4.10",
   "description": "Library for data editing in SAS Viya",
   "author": "devaKumaraswamy",
   "license": "Apache-2.0",

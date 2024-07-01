@@ -32,6 +32,8 @@ async function runit () {
   */
 
   let r = await cellEdit('total',200, 0, appEnv.state.data[0], appEnv);
+  console.log(r);
+  console.log(appEnv.state.data[0]);
   await termApp(appEnv);
   
   

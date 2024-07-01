@@ -34,7 +34,7 @@ import saveTable from './saveTable';
  */
 async function cellEdit (name, value, rowIndex, currentData, appEnv) {
   /* do not modify the data directly. caller will probably do a setState */
-
+  debugger;
   let newDataRow = { ...currentData };
   const columns = appEnv.state.columns;
   const { handlers, autoSave } = appEnv.appControl.editControl;
@@ -42,8 +42,11 @@ async function cellEdit (name, value, rowIndex, currentData, appEnv) {
   const cachePolicy = (appEnv.appControl.cachePolicy == null) ? true : appEnv.appControl.cachePolicy;
   appEnv.handlers = handlers;
   let status = { statusCode: 0, msg: '' };
+  debugger;
   if ( name != null ) {
+    debugger;
     newDataRow[name] = text2Float(value, columns[name]);
+    debugger;
     if (handlers[name] != null) {
       let r1 = await handlers[name](newDataRow, name, rowIndex, appEnv);
       let r = handlerResult(r1, newDataRow, name, status);
@@ -59,7 +62,7 @@ async function cellEdit (name, value, rowIndex, currentData, appEnv) {
 
 
   let r = await commonHandler('main', newDataRow, rowIndex, appEnv, status);
- //  r = handlerResult(r, newDataRow, null, status);
+ // r = handlerResult(r, newDataRow, null, status);
   status = r[1];
   if (status.statusCode === 2) {
     return { data: r[0], status: r[1] };

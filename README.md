@@ -13,6 +13,7 @@
 - [Accessing Viya from the handlers](#handlers)
 - [Notes on logonPayload](#logon)
 
+> [Documentation](/docs/index.html)
 ---
 
 ## Introduction<a name="intro"></a>
@@ -58,7 +59,7 @@ Here is an example of scrolling thru a CAS table.
 - Creation and management of CAS session or Compute Session
 - Reading one or more records from a cas table or SAS table
   - where clause supported
-- Update the records based on a key
+- Update the records based on a key(will update all records with that key)
 - Scrolling through the table
 - Saving the inmemory cas Table
 - Allow users to specify calculations(called handlers in this document)
@@ -136,7 +137,7 @@ Link: <https://github.com/sassoftware/restaf/blob/restafedit/test/example1.js>
 
 The appControl is used to setup and control the flow of the application from a data handling point of view.
 Other than the information for connecting to Viya there is no other configuration information needed.
-<blockquote>
+
  Comments are inline
  </blockquote>
 
@@ -201,10 +202,10 @@ async function runit () {
   const viyaConnection = {
     host        : process.env.VIYA_SERVER,
     authType    : 'password',
-    clientID    : 'sas.ec',
+    clientID    : process.env.CLIENTID,
     clientSecret: '',
-    user        : 'sastest1',
-    password    : 'Go4thsas'
+    user        : '<your userid>',
+    password    : '<your password>'
   };
 
   // For readability moved the appControl definition
@@ -315,10 +316,10 @@ async function runit () {
   const viyaConnection = {
     host        : process.env.VIYA_SERVER,
     authType    : 'password',
-    clientID    : 'sas.ec',
+    clientID    : process.env.clientid,
     clientSecret: '',
-    user        : 'sastest1',
-    password    : 'Go4thsas'
+    user        : 'username',
+    password    : 'password'
   };
 
   // For readability moved the appControl definition
@@ -764,8 +765,7 @@ The schema is below with sample values.
        pagination : {}, /* internal use to help with pagination */
        data       : {}, /* array of currrent rowObjects(see below) */
        columns    : {}  /* columns in eschema form (see below) */
-    },
-    appControl: <appControl passed by the user>
+    }
 }
     
 ```

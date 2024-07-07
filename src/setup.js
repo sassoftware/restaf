@@ -1,5 +1,5 @@
 /*
- * Copyright © 2023, SAS Institute Inc., Cary, NC, USA.  All Rights Reserved.
+ * Copyright © 2024, SAS Institute Inc., Cary, NC, USA.  All Rights Reserved.
  * SPDX-License-Identifier: Apache-2.0
  */
 /* eslint-disable prefer-const */
@@ -31,6 +31,7 @@ import termApp from './termApp';
  * @param {object=} builtins  builtins functions
  * @param {string=} user  user name
  * @param {object=} userFunctions  user functions
+ * @param {object=} storeConfig  store configuration - passed to initStore
  *
  *
  * @returns {promise}  returns appEnv to control the flow

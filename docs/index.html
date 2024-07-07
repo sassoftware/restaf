@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Home</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Home</h1>
+
+    
+
+
+
+    
+
+
+    <h3> </h3>
+
+
+
+
+
+
+
+
+
+
+    
+
+
+
+
+    <section>
+        <article><h1>restafedit - library for browsing and editing CAS tables and SAS Tables</h1>
+<ul>
+<li><a href="#intro">Introduction</a>
+<ul>
+<li><a href="https://sassoftware.github.io/restaf">Link to API documentation</a></li>
+</ul>
+</li>
+<li><a href="#install">Installation</a></li>
+<li><a href="#basicflow">Basic Flow</a></li>
+<li><a href="#example1">Getting Started Example</a></li>
+<li><a href="#example2">Editing with calculations</a></li>
+<li><a href="#webapp1">First Web Application</a></li>
+<li><a href="#reactapp1">React Application</a></li>
+<li><a href="#appcontrol">Additional fields in appControl</a></li>
+<li><a href="#appenv">Using appEnv</a></li>
+<li><a href="#handlers">Accessing Viya from the handlers</a></li>
+<li><a href="#logon">Notes on logonPayload</a></li>
+</ul>
+<hr>
+<h2>Introduction<a name="intro"></a></h2>
+<hr>
+<p><strong>Latest Version</strong> @sassoftware/restafedit@latest</p>
+<p>@sassoftware/restafedit is an unified way to read and write SAS Viya tables (CAS or SAS tables) with just a few lines of code.</p>
+<p>Here is an example of scrolling thru a CAS table.</p>
+<pre class="prettyprint source lang-js"><code> let appControl = {
+    source: 'cas',
+    table : { caslib: 'casuser', name: 'testdatatemp' }
+ };
+ const {
+   const payload = {
+    host        : &lt;your Viya Server>,
+    authType    : 'token',
+    token       : &lt;your SAS authorization token>,
+    tokenType   : 'bearer'
+  }
+ }
+ 
+  let appEnv = setup(payload, appControl);
+  // get first set of records
+  await scrollTable('first', appEnv);
+  console.log(JSON.stringify(r.data));
+
+  // read the rest of the table
+  while (appEnv.state.scrollOptions.includes('next')) {
+    const r = await scrollTable('next', appEnv);
+    console.log(JSON.stringify(r.data));
+    // do something with the data
+  }
+
+</code></pre>
+<h2>Currently Supported Features<a name="t4"></a></h2>
+<ul>
+<li>Creation and management of CAS session or Compute Session</li>
+<li>Reading one or more records from a cas table or SAS table
+<ul>
+<li>where clause supported</li>
+</ul>
+</li>
+<li>Update the records based on a key</li>
+<li>Scrolling through the table</li>
+<li>Saving the inmemory cas Table</li>
+<li>Allow users to specify calculations(called handlers in this document)
+<ul>
+<li><em>init</em> calculations on reading the record</li>
+<li><em>main</em> calculations on editing a cell</li>
+<li><em>term</em> calculations before saving the row to server</li>
+<li>Calculations for each column on editing. <em>main</em> is run after this calculation
+<ul>
+<li>The name of the handler must match the lower-cased name of the column</li>
+</ul>
+</li>
+<li>Using this pattern developer can add more handlers</li>
+<li>Run calculations on the client using JavaScript</li>
+<li>Handlers can call the server for additional calculations.
+<ul>
+<li>On the cas server use casl</li>
+<li>On compute server use SAS programs</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Access to other SAS REST API
+<ul>
+<li>Recommend using <a href="https://sassoftware.github.io/restaf">restaf and restaflib</a> for rapid appplication development</li>
+<li>External destination using http (ex: An Azure App for a SAS Decisioning Flow)</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2>Basic Flow<a name="basicflow"></a></h2>
+<hr>
+<p>The Table Editor in the picture below is supplied by the user.
+<img src="editorapp.png" alt="viyaedit"></p>
+<h3>Working Examples</h3>
+<ul>
+<li>
+<p><a href="https://github.com/sassoftware/restaf-uidemos/tree/editorapp">Simple Editor Application</a> - Demonstrates the use of this library using basic javascript and html to edit a cas table.</p>
+</li>
+<li>
+<p><a href="https://github.com/sassoftware/restaf-uidemos/tree/editorappreact">React Application Editing</a> - Demonstrates a react application.</p>
+</li>
+</ul>
+<hr>
+<h2>Installation<a name="install"></a></h2>
+<hr>
+<p>The library can be installed using npm, yarn.
+It can also be accessed via script tags in your browser.</p>
+<h3>Script Tags</h3>
+<p>restafedit depends on restaf and restaflib</p>
+<pre class="prettyprint source lang-html"><code> &lt;script src=&quot;https://unpkg.com/@sassoftware/restaf@next&quot;>&lt;/script>
+ &lt;script src=&quot;https://unpkg.com/@sassoftware/restaflib@next&quot;>&lt;/script>
+ &lt;script src=&quot;https://unpkg.com/@sassoftware/restafedit@next&quot;>&lt;/script>
+
+</code></pre>
+<h3>nodejs</h3>
+<pre class="prettyprint source lang-sh"><code>npm install @sassoftware/restaf@next @sassoftware/restaflib@next @sassoftware/restafedit@next
+</code></pre>
+<hr>
+<h2>Writing your first editor<a name="example1"></a></h2>
+<hr>
+<h3><code>Scenario 1</code></h3>
+<ul>
+<li>read data from a cas table</li>
+<li>modify a row and update the inmemory table</li>
+<li>save the inmemory table</li>
+<li>do more scrolling</li>
+</ul>
+<p>Link: <a href="https:%5C/%5C/github.com/sassoftware/restaf/blob/restafedit/test/example1.js">https://github.com/sassoftware/restaf/blob/restafedit/test/example1.js</a></p>
+<h4>Review of appControl</h4>
+<p>The appControl is used to setup and control the flow of the application from a data handling point of view.
+Other than the information for connecting to Viya there is no other configuration information needed.</p>
+<p>Comments are inline</p>
+ </blockquote>
+<pre class="prettyprint source lang-js"><code> description: 'Simple Example',
+    // the source is either 'cas' or 'compute'. This defines which server is being accessed in this session
+    source: 'cas', 
+    
+    // Specify the table to be edited. 
+    // If the source is cas, then caslib is specified
+    // If the source is compute, then change caslib to libref below
+
+    table : { caslib: 'public', name: 'TESTDATA' },
+    
+    // To update a record, the key column must be specified.
+    // If this is not specified, autoSave will be turned off
+
+    byvars: ['id'],
+
+    // This is primarily used to do the initial read
+    // If using a table viewer, the limit should be set to some reasonable number
+    // A limit of 1 should be used when editing thru a form.
+    // If the source is compute then you can use all the options allowed for rowSets API
+    // (https://developer.sas.com/apis/rest/Compute/#get-a-row-set-from-a-data-set)
+    initialFetch: {
+      qs: {
+        start : 0,
+        limit : 1,
+        format: false,
+        where : 'x1 GT 5'
+      }
+    },
+
+    // Specify calculated/custom columns. 
+    // It is optional (as in the first example below)
+    customColumns: {},
+
+    // User adds their handlers for calculations.
+    // All of these are optional.
+    // This is discussed in Scenario 2
+    editControl: {
+      handlers: {}, /* place holder for calculations */
+      autoSave: true  /* this is default. On each edit the data on server is updated */
+    },
+    appData: {} /* place holder for additional user data. In later examples this is used to control the UI */
+
+  };
+</code></pre>
+<pre class="prettyprint source lang-js"><code>const { setup, scrollTable, cellEdit, saveTable } = require('../dist/index.js');
+
+runit()
+  .then(r => console.log(r))
+  .catch(err => console.log(err));
+
+
+async function runit () {
+
+  // See https://github.com/sassoftware/restaf/wiki/authentication for
+  // more details and other options
+  const viyaConnection = {
+    host        : process.env.VIYA_SERVER,
+    authType    : 'password',
+    clientID    : process.env.CLIENTID,
+    clientSecret: '',
+    user        : '&lt;your userid>',
+    password    : '&lt;your password>'
+  };
+
+  // For readability moved the appControl definition
+  // to the end as a function
+  // Also a good practice since it allows runtime creation of appControl
+  const appControl = getAppControl();
+
+  // setup edit session
+  const appEnv = await setup(viyaConnection, appControl);
+
+  // get the first set of records
+  // data is available as appEnv.state.data
+  // the column definitions are also available as appEnv.state.columns
+
+  let result = await scrollTable('first', appEnv);
+  console.log(result.status);
+  console.log(appEnv.state.data);
+
+  // Simulate an edit operation
+  // The updated record is also updated on the cas inmemory table
+  // Uses the byvars in the appControl as the key for merge
+
+  const x3New = result.data[0].x3 + 100;
+  await cellEdit('x3', x3New, 0, result.data[0], appEnv);
+
+  // Confirm it was written to the inmemory table
+  // by refetching it
+  result = await scrollTable('first', appEnv);
+  console.log(appEnv.state.data);
+
+  // Optionally persist the imemory table
+  const status = await saveTable(appEnv);
+  console.log(status);
+
+  // Continue to scroll (next|prev|first) and do more editing
+  result = await scrollTable('next', appEnv);
+  // Do some more editing
+  result = await scrollTable('prev', appEnv);
+  return 'done';
+};
+
+function getAppControl () {
+  return {
+    description: 'Simple Example',
+
+    source: 'cas',
+    table : { caslib: 'public', name: 'TESTDATA' },
+    byvars: ['id'],
+
+    cachePolicy: true,
+
+    initialFetch: {
+      qs: {
+        start : 0,
+        limit : 1,
+        format: false,
+        where : 'x1 GT 5'
+      }
+    },
+
+    customColumns: {},
+
+    editControl: {
+      handlers: {}, /* place holder for calculations */
+      autoSave: true
+    },
+    appData: {} /* place holder for additional user data  */
+
+  };
+}
+</code></pre>
+<hr>
+<h2>Editing with calculations<a name="example2"></a></h2>
+<hr>
+<h3><code>Scenario 2</code></h3>
+<p>In a typical edit session user input is checked and some temporary(computed/calcuated) columns are updated.</p>
+<p>restafedit allows the developer to do these by specifying the information in the appControl.</p>
+<ul>
+<li>
+<p>Custom Columns -- Specify your additional columns in the CustomColumns field in appControl. There is no limit to the number of calculated columns</p>
+</li>
+<li>
+<p>Calculations -- Specify functions in the editControl.handlers object.</p>
+</li>
+</ul>
+<p>Below is the updated example. The custom column is calculated when a record is read and when a cell is modified in the <em>init</em> and <em>main</em> handlers(functions).</p>
+<p>When the column x1 is modified the handler <em>x1</em> followed by <em>main</em> are executed.</p>
+<p>Before the record is written to the server, the <em>term</em> handler is executed.</p>
+<p>All of these handlers are optional. If you have computed columns then at a minimum you should specify the <em>init</em> and <em>main</em> handlers. In many cases you can use the same handler for <em>init</em> and <em>main</em>.</p>
+<p>Link: <a href="https:%5C/%5C/github.com/sassoftware/restaf/blob/restafedit/test/example2.js">https://github.com/sassoftware/restaf/blob/restafedit/test/example2.js</a></p>
+<pre class="prettyprint source lang-js"><code>/* eslint-disable quotes */
+const { setup, scrollTable, cellEdit, saveTable } = require('../dist/index.js');
+
+runit()
+  .then(r => console.log(r))
+  .catch(err => console.log(err));
+
+async function runit () {
+  const viyaConnection = {
+    host        : process.env.VIYA_SERVER,
+    authType    : 'password',
+    clientID    : process.env.clientid,
+    clientSecret: '',
+    user        : 'username',
+    password    : 'password'
+  };
+
+  // For readability moved the appControl definition
+  // to the end as a function
+  // Also a good practice since it allows runtime creation of appControl
+  const appControl = getAppControl();
+
+  // setup edit session
+  const appEnv = await setup(viyaConnection, appControl);
+
+  // get the first set of records
+  // data is available as appEnv.state.data
+  // the column definitions are also available as appEnv.state.columns
+
+  let result = await scrollTable('first', appEnv);
+  console.log(result.status);
+  console.log(appEnv.state.data);
+
+  // Simulate an edit operation
+  // The updated record is also updated on the cas inmemory table
+
+  const x3New = result.data[0].x3 + 100;
+  await cellEdit('x3', x3New, 0, result.data[0], appEnv);
+
+  // Confirm it was written to the inmemory table
+  // by refetching it
+  result = await scrollTable('first', appEnv);
+  console.log(appEnv.state.data);
+
+  // Optionally persist the imemory table
+  const status = await saveTable(appEnv);
+  console.log(status);
+
+  // Continue to scroll (next|prev|first) and do more editing
+  result = await scrollTable('next', appEnv);
+  // Do some more editing
+  result = await scrollTable('prev', appEnv);
+  return 'done';
+};
+
+function getAppControl () {
+  return {
+    description: 'Simple Example',
+
+    source: 'cas',
+    table : { caslib: 'public', name: 'TESTDATA' },
+    byvars: ['id'],
+
+    cachePolicy: true,
+
+    initialFetch: {
+      qs: {
+        start : 0,
+        limit : 1,
+        format: false,
+        where : 'x1 GT 5'
+      }
+    },
+    customColumns: {
+      total: {
+        Column         : 'Total',
+        Label          : 'Grand Total',
+        FormattedLength: 12,
+        Type           : 'double'
+      }
+    },
+
+    editControl: {
+      handlers: { init, main, term, x1 }
+    },
+    appData: {} /* place holder for additional user data  */
+
+  };
+}
+async function init (data, rowIndex, appEnv, type) {
+  let status = { statusCode: 0, msg: `${type} processing completed` };
+  data.total = data.x1 + data.x2 + data.x3;
+  debugger;
+  return [data, status];
+};
+async function main (data, rowIndex, appEnv, type) {
+  let status = { statusCode: 0, msg: `${type} processing completed` };
+  data.total = data.x1 + data.x2 + data.x3;
+  debugger;
+  return [data, status];
+};
+
+async function term (data, rowIndex, appEnv, type) {
+  let status = { statusCode: 0, msg: `${type} processing completed` };
+  console.log('In term');
+  debugger;
+  return [data, status];
+};
+
+async function x1 (data, name, rowIndex, appEnv) {
+  let status = { statusCode: 0, msg: `${name} handler executed.` };
+  if (data.x1 > 10) {
+    status = { statusCode: 1, msg: `Value of X1 exceeded 10. Set to 10` };
+  }
+  return [data, status];
+};
+
+</code></pre>
+<hr>
+<h2>First Web Application<a name="webapp1"></a></h2>
+<hr>
+<h3><code>Scenario 3</code></h3>
+<p>In this scenario, the goal is to create  very simple web application that mimics Scenario 2.
+Note that the application code is very similar to Example 2, with the obvious additional coding in the html file for display.
+The simple display is shown below. The html for this display is <a href="https://github.com/sassoftware/restaf-uidemos/blob/editorapp/public/index.html">here</a>.</p>
+<p><img src="webExample1.png" alt="webExample1"></p>
+<p>The code to handle the initialization, cellediting and scrolling is the code below. Notice the similarity with the Example 2 Scenario aboe.
+The key differences are:</p>
+<ul>
+<li>The authentication(viyaConnection) uses authorization_code flow.</li>
+<li>The initialize function is executed after DOM initialization.</li>
+</ul>
+<p>The html</p>
+<pre class="prettyprint source lang-js"><code>
+// web app version of Example 2
+// Main difference is the initialize function to do the initialization
+// when the body is initialized
+//
+function getAppControl() {
+  return {
+    description: 'Simple Example',
+    source: 'cas',
+    table : {caslib: 'public', name: 'TESTDATA'},
+    byvars: ['id'],
+    initialFetch: {
+      qs: {
+        start : 0,
+        limit : 1,
+        format: false,
+        where :  ''
+      }
+    },
+    customColumns: {
+      total: {
+        Column         : &quot;Total&quot;,
+        Label          : &quot;Grand Total&quot;,
+        FormattedLength: 12,
+        Type           : &quot;double&quot;
+        }
+    },
+    editControl: {
+      handlers: {init: init, main: main, term: term, x1: x1},
+      autoSave: true, 
+  
+    },
+    appData: {}
+
+  };
+};
+
+async function initialize(viyaConnection) {
+  // In this example the browser ia authenticated
+  // So the viyaConnection has the following schema
+  // { host: &lt;viyahostURL, authType: 'code'}
+  debugger;
+  let appControl = getAppControl();
+  let r = await restafedit.setup(viyaConnection, appControl);
+  let r2 = await restafedit.scrollTable('first', r);
+  return r;
+  }
+async function init (data,rowIndex,appEnv,type) {
+  let status = {code: 0, msg: `${type} processing completed`};
+  data.total = data.x1 + data.x2 + data.x3 ;
+  return [data, status];
+};
+async function main (data, rowIndex,appEnv, type) {
+let status = {code: 0, msg: `${type} processing completed`};
+data.total = data.x1 + data.x2 + data.x3 ;
+return [data, status];
+};
+async function term (data, rowIndex,appEnv, type) {
+  let status = {code: 0, msg: `${type} processing completed`};
+  return [data, status];
+};
+
+async function x1 (data, name, rowIndex, appEnv) {
+  let status = {code: 1, msg: `${name} handler executed.`};
+  if (data.x1 > 10) {
+      data.x1 = 10;
+      msg = {code: 0, msg: &quot;Exceeded Max. Value reset to max&quot;};
+  }
+  return [data, status];
+}
+
+</code></pre>
+<hr>
+<h2>React Application<a name="reactapp1"></a></h2>
+<hr>
+<h3><code>Scenario 4</code></h3>
+<p>In this scenario the web application in scenario 3 is converted to a react application.
+The working example is in this <a href="https://github.com/sassoftware/restaf-uidemos/tree/editorappreact">repository</a></p>
+<blockquote>
+The example uses material-ui as the component library.
+The restafedit library is component library agnostic.
+</blockquote>
+<p>Ignoring the react specific setups, the editing application setup is very similar to the previous scenarios. The appControl is extracted here for convenience.</p>
+<h4>A note on appData</h4>
+<p>This is optional. It can be used by the application writer to setup additional configurations.
+In this example this is used to customize the UI. This can be safely ignored at this point since it is application specific.</p>
+<pre class="prettyprint source lang-js"><code>// web app version of Example 3
+// Main difference is the initialize function to do the initialization
+// when the body is initialized
+//
+
+async function init (data, rowIndex, appEnv, type) {
+  data.total = data.x1 + data.x2 + data.x3 ;
+  return [data, { code: 0, msg: `${type} processing completed` }];
+};
+async function main (data, rowIndex, appEnv, type) {
+  data.total = data.x1 + data.x2 + data.x3 ;
+  return [data, { code: 0, msg: `${type} processing completed` }];;
+};
+async function term (data, rowIndex, appEnv, type) {
+  return [data, { code: 0, msg: `${type} processing completed` }];
+};
+
+async function x1 (data, name, rowIndex, appEnv) {
+  let status = { code: 1, msg: `${name} handler executed.` };
+  if (data.x1 > 10) {
+    data.x1 = 10;
+    status = { code: 0, msg: 'Exceeded Max. Value reset to max' };
+  }
+  return [data, status];
+};
+
+// eslint-disable-next-line no-unused-vars
+function getAppControl () {
+  return {
+    description: 'Simple Example',
+
+    source: 'cas',
+    table : { caslib: 'public', name: 'TESTDATA' },
+    byvars: ['id'],
+
+    initialFetch: {
+      qs: {
+        start : 0,
+        limit : 10,
+        format: false,
+        where : ''
+      }
+    },
+    customColumns: {
+      total: {
+        Column         : 'Total',
+        Label          : 'Grand Total',
+        FormattedLength: 12,
+        Type           : 'double'
+      }
+    },
+    editControl: {
+      // eslint-disable-next-line object-shorthand
+      handlers: { init, main: main, term: term, x1: x1 },
+      autoSave: true
+    },
+    appData: {
+      viewType: 'table', /* table|form */
+      form: {
+        defaultComponent: 'InputEntry',
+        show            : ['id', 'x1', 'x2', 'x3', 'total'],
+        classes         : {},
+        title           : 'Editing Data with React Components',
+        visuals         : {
+          total: {
+            props: {
+              disabled: true
+            }
+          },
+          id: {
+            props: {
+              disabled: true,
+            }
+          }
+        }
+      }
+    }
+  };
+}
+
+</code></pre>
+<h3>Table versus form editing</h3>
+<p>This particular application is designed to either a table or a form for editing.</p>
+<p>There are significant differences in how the user interacts with an application which uses a Table versus a custom form in an UI.</p>
+<p>However, at the lowest level both require the same functionality - Accessing data, verifying the entered data, saving the modified records, executing additional processing on the server.</p>
+<p>One of the key goals of this project is to create a single code base to handle both scenarios.</p>
+<h3>Notes on the application</h3>
+<p>The main entry into the application is shown below. If you are familiar with react programming please see the <a href="https://github.com/sassoftware/restaf-uidemos/tree/editorappreact">repository</a> for details.</p>
+<p>The main thing to note here is that a DataEditor component is being called.
+The appControl and viyaConnection information is passed to it.
+This particular implementation allows the app to switch between table editing and form editing.</p>
+<pre class="prettyprint source lang-jsx"><code>
+import React, { Fragment } from 'react';
+import DataEditor from './DataEditor';
+import TableEditor from './TableEditor';
+import DataForm from './DataForm';
+import Grid from '@material-ui/core/Grid';
+
+function ViyaDataEditor (props) {
+  
+  const _selectViewer = () => {
+    return (props.appControl.appData.viewType === 'table') ? TableEditor : DataForm;
+  };
+  
+  const show = (
+    &lt;Fragment>
+    &lt;div key={Date()}>
+      &lt;Grid container spacing={3} direction=&quot;row&quot;>
+          &lt;Grid item>
+            &lt;DataEditor key={Date()}
+                  appControl={props.appControl}
+                  viyaConnection={props.viyaConnection}
+                  editor={_selectViewer}
+                  />
+          &lt;/Grid>
+        &lt;/Grid>
+    &lt;/div>
+    &lt;/Fragment>
+  );
+  
+  return show;
+}
+export default ViyaDataEditor;
+</code></pre>
+<p>Below is image of the application for form editing and table editing.</p>
+<p><img src="reactform.png" alt="Form Editing"></p>
+<p><img src="reacttable.png" alt="Table Editing"></p>
+<hr>
+<h2>Additional fields in appControl<a name="appcontrol"></a></h2>
+<hr>
+<h3>compute context</h3>
+<p>For compute sessions, the default compute context is SAS Job Execution context. This can be overriden by passing in
+the name of a different compute context.</p>
+<p>{
+...
+table: {libref: 'user', name: 'test'},
+computeContext: 'mycontext'
+...
+}</p>
+<h3>preamble</h3>
+<p>If the <em>preamble</em> is specified, setup will execute that code. For cas source, the code must be casl code. For compute it must be standard SAS code.
+In certain scenarios it might be necessary to run some code on the server prior to editing.
+For example one might want to create a local copy of the table for the user to edit. At the end of the session, this could post processed by application code.</p>
+<p>{
+...
+table: {caslib: 'casuser', name: 'test'},
+preamble:
+<code>action datastep.runCode /     code='data casuser.test;set public.master;run;';</code>
+,
+...</p>
+<p>}</p>
+<h3>initApp handler</h3>
+<p>The preamble is designed for small snippets of code. For more complicated initialization code, specify the iniaApp handler.
+If termapp is specified, the preamble will be ignored.</p>
+<p>The syntax for the termapp handler is as follows:</p>
+<pre class="prettyprint source lang-js"><code>
+const status = initApp(appEnv);
+
+</code></pre>
+<p>If status.statusCode is 2, then setup will throw an exception.</p>
+<h3>appTerm handler</h3>
+<p>If specified, the appTerm handler is  called.
+This handler is most useful for doing additional work on the server before terminating the edit session.
+Do not delete the server session in this handler. See appTerm method documentation.</p>
+<pre class="prettyprint source lang-js"><code>const rc = await appTerm(appEnv);
+</code></pre>
+<h3>Using appEnv<a name="appenv"></a></h3>
+<p>appEnv is returend from the setup method. It is passed to all handlers.
+This object houses all the information needed access Viya, edit handlers, etc...
+For convenience the appControl is also stored in appEnv</p>
+<p>The schema is below with sample values.</p>
+<pre class="prettyprint source lang-js"><code>{
+    store       : &lt;this is the control object for restaf library>,
+    session     : &lt;cas session object or compute session>
+    restaflib   : &lt;object to access functions in restaflib>,
+    logonPayload: &lt;information to connect to Viya -see below>,
+    appControl  : appControl /* passed in by user to setup -see below */
+    state       : {
+       modified   : [], /* future - keep track of modified rows */
+       pagination : {}, /* internal use to help with pagination */
+       data       : {}, /* array of currrent rowObjects(see below) */
+       columns    : {}  /* columns in eschema form (see below) */
+    }
+}
+    
+</code></pre>
+<hr>
+<h3>Notes on appEnv</h3>
+<hr>
+<p>This is designed to make it convenient to track all relevant information by the library and the user of the library.</p>
+<ul>
+<li>
+<p><strong>store</strong> This is created by <a href="https://sassoftware.github.io/restaf/module-runAction.html">restaf</a> library that makes the final calls to Viya REST APIs. The methods in restafedit makes use of restaf and restafedit.</p>
+</li>
+<li>
+<p><strong>session</strong> This is the current cas session or compute session. It is stored here to allow users to run additional actions in the same session.</p>
+</li>
+<li>
+<p><strong>logonPayload</strong>  This is used connect to Viya. Passed in by user to setup. See below for more information</p>
+</li>
+<li>
+<p><strong>appControl</strong> This is the information passed in by the user to setup. See below</p>
+</li>
+<li>
+<p><strong>state</strong> This holds the data retrieved from the server. You can override this behaviour with the cachePolicy(see below). Feel free to cache the data in other ways, especially if you want this source of truth to be available in other parts of your application. See below for details on state.</p>
+</li>
+</ul>
+<h3>Details on state</h3>
+<h3>data</h3>
+<p>state.data is an array of rowObjects. A rowObject has the form. The keys are the lower-cased names of the columns including computed columns that were defined. his allows the custom handlers like init, main and term to access these as though they are columns from the table.</p>
+<p>An additional column <em>_rowIndex</em> is added to each row. This is the index into the data array. This allows restafedit to locate the data even when the application has modified the order of the data for display.</p>
+<pre class="prettyprint source lang-js"><code>
+[{x1: 20, x2: 'abc',....}, {x1:30,...}]
+
+
+</code></pre>
+<p>If you added computed columns they will also be in this object. This allows the custom handlers like init, main and term to access these.</p>
+<p>When updating the data on the server, the custom columns are dropped.</p>
+<h3>Columns</h3>
+<p>The schema returned from the server is reduced to this form(eschema) and enhanced with information on custom columns.</p>
+<pre class="prettyprint source lang-js"><code>[x1: {schema for x1}, x2: {schema for x2},...]
+</code></pre>
+<p>An extra key 'custom&quot; is added to each of the details. This is set to &quot;true&quot; if the column is a custom column.</p>
+<p>This additional key is useful in some situations:</p>
+<ul>
+<li>Save operations can drop these columns</li>
+<li>Can be used by UI to apply a different style to custom columns</li>
+</ul>
+<h3>byvars</h3>
+<p>At the current time, we have to use key columns to identify the row to be updated. So byVars is an array of the key fields.</p>
+<p>ex: ['X1', 'X2']</p>
+<hr>
+<h2>Notes on logonPayload<a name="logon"><a></h2>
+<hr>
+<p>The logonPayload is designed to handle many situations. See this <a href="https://github.com/sassoftware/restaf/wiki/authentication">link</a> for all the options.</p>
+<p>Some common cases are described below</p>
+<h3>Authenticated browser</h3>
+<p>If the browser is authenticated(authorization_code flow) then the following is recommend</p>
+<pre class="prettyprint source lang-js"><code>{ host: &lt;url for your Viya server>, authType: 'code'}
+</code></pre>
+<p>If you use the authentication token, then use the following:</p>
+<pre class="prettyprint source lang-js"><code>{ 
+    host: &lt;url for your Viya server>,
+    token: &lt;your authentication token>
+}
+</code></pre>
+<hr>
+<h2>Accessing Viya from the handlers<a name="handlers"></a></h2>
+<hr>
+<p>The appEnv has the necessary information to access SAS Viya and in particular the cas session used by the edit session.</p>
+<p>Note that you can use restaf and restaflib in the handlers(with store) to access any Viya REST API. You are not restricted to the current cas session.</p>
+<p>The example below doing some calculations on the cas server</p>
+<pre class="prettyprint source lang-js"><code>
+import calculate from './calculate.js';
+
+async function main (data, _rowIndex, appEnv,_type) {
+    let {store, restaflib, session} = appEnv;
+    let status = {code: 0 , msg: &quot;Main processing completed&quot;};
+
+    // create casl statements
+    let code = `
+        send_response({total= _args_.x1 + _args_.x2 + _args_.x3});
+    `;
+
+    // run the code and return results - data is tranformed to _args_ by caslRun
+
+    let r = await restaflib.caslRun(store, session, code, data);
+    data.total = r.results.total;
+
+    return [data, status];
+};
+export default main;
+</code></pre></article>
+    </section>
+
+
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-addRows.html">addRows</a></li><li><a href="module-appendRows.html">appendRows</a></li><li><a href="module-appendTable.html">appendTable</a></li><li><a href="module-cellEdit.html">cellEdit</a></li><li><a href="module-distinctValues.html">distinctValues</a></li><li><a href="module-fetchRows.html">fetchRows</a></li><li><a href="module-getLibraryList.html">getLibraryList</a></li><li><a href="module-getTableColumns.html">getTableColumns</a></li><li><a href="module-getTableList.html">getTableList</a></li><li><a href="module-getTableSummary.html">getTableSummary</a></li><li><a href="module-prepFormData.html">prepFormData</a></li><li><a href="module-saveTable.html">saveTable</a></li><li><a href="module-scrollTable.html">scrollTable</a></li><li><a href="module-setWhere.html">setWhere</a></li><li><a href="module-setup.html">setup</a></li><li><a href="module-termApp.html">termApp</a></li><li><a href="module-updateTableRows.html">updateTableRows</a></li><li><a href="module-uploadData.html">uploadData</a></li></ul><h3><a href="global.html">Global</a></h3>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.3</a> on Sun Jul 07 2024 10:03:19 GMT-0400 (Eastern Daylight Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

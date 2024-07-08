@@ -1,20 +1,38 @@
 {
-    "plugins": ["plugins/markdown"],
-    "recurseDepth": 10,
-    "source": {
-      "include": ["src"],
-      "includePattern": ".js$|doc",
-      "excludePattern": "(node_modules/|docs)"
-    },
-    "templates": {
-      "cleverLinks": true,
-      "monospaceLinks": true
-    },
-    "opts": {
-      "destination": "./docs",
-      "recurse": true,
-      "readme": "README.md"
-    }
+  "plugins": ["plugins/markdown"],
+  "recurseDepth": 10,
+  "source": {
+    "include": [
+      "types.js",
+      "./src"
+ ],
+    "exclude": [],
+    "includePattern": ".js",
+    "excludePattern": "(node_modules)"
+  },
+  "tags": {
+    "allowUnknownTags": ["category"],
+    "dictionaries": ["jsdoc"] 
+  }, 
   
-  }
+  "templates": {
+    "cleverLinks": true,
+    "search": true,
+    "monospaceLinks": true,
+    "useLongnameInNav": true,
+    "showInheritedInNav": true,
+    "default": {
+      "outputSourceFiles": false
+    }
     
+  },
+  "opts": {
+    "template": "node_modules/better-docs",
+    "destination": "./docs",
+    "recurse": true,
+    "private": true,
+    "readme": "./README.md"
+  }
+  
+}
+  

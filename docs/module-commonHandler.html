@@ -5,7 +5,7 @@
   
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title> getTableList</title>
+  <title> commonHandler</title>
 
   <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -78,7 +78,7 @@
             <div class="content">
                 <header class="page-title">
                     <p>Module</p>
-                    <h1>getTableList</h1>
+                    <h1>commonHandler</h1>
                 </header>
                 
 
@@ -99,7 +99,7 @@
     <div class="container-overview">
     
         
-            <div class="description"><p>get the list of tables in a specific library</p></div>
+            <div class="description"><p>Run init, main or term handlers</p></div>
         
 
         
@@ -140,7 +140,7 @@
             
 <tr class="deep-level-0">
   
-      <td class="name"><code>lib</code></td>
+      <td class="name"><code>type</code></td>
   
 
   <td class="type">
@@ -156,7 +156,57 @@
 
   
 
-  <td class="description last"><p>caslib or libref (must match source)</p></td>
+  <td class="description last"><p>type of exit (init|main|term)</p></td>
+</tr>
+
+
+        
+
+            
+<tr class="deep-level-0">
+  
+      <td class="name"><code>data</code></td>
+  
+
+  <td class="type">
+  
+      
+<code class="param-type"><a href="global.html#rowObject">rowObject</a></code>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last"><p>rowObject</p></td>
+</tr>
+
+
+        
+
+            
+<tr class="deep-level-0">
+  
+      <td class="name"><code>rowIndex</code></td>
+  
+
+  <td class="type">
+  
+      
+<code class="param-type">number</code>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last"><p>client-side Row Index</p></td>
 </tr>
 
 
@@ -254,7 +304,7 @@
 <div class="columns">
     
     <div class='param-desc column is-7'><ul>
-<li>returns an array of table names(cas or SAS)</li>
+<li>[data, status]</li>
 </ul></div>
     
     
@@ -278,7 +328,7 @@
     <h5>Example</h5>
     
     
-        <pre class="prettyprint"><code>let list = await getTableList('sashelp', appEnv); returns a list of tables - based on the value of source (cas|compute)</code></pre>
+        <pre class="prettyprint"><code>The function returns the updated data and the status.This function is called by cellEdit, so there is probably little reasonto call this directlyPlease see the restafeditExample in the Tutorial pulldown</code></pre>
     
 
 

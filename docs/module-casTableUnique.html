@@ -5,7 +5,7 @@
   
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title> getTableList</title>
+  <title> casTableUnique</title>
 
   <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -78,7 +78,7 @@
             <div class="content">
                 <header class="page-title">
                     <p>Module</p>
-                    <h1>getTableList</h1>
+                    <h1>casTableUnique</h1>
                 </header>
                 
 
@@ -99,7 +99,7 @@
     <div class="container-overview">
     
         
-            <div class="description"><p>get the list of tables in a specific library</p></div>
+            <div class="description"><p>Get unique values for a specific column</p></div>
         
 
         
@@ -140,7 +140,32 @@
             
 <tr class="deep-level-0">
   
-      <td class="name"><code>lib</code></td>
+      <td class="name"><code>table</code></td>
+  
+
+  <td class="type">
+  
+      
+<code class="param-type">object</code>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last"><p>object</p></td>
+</tr>
+
+
+        
+
+            
+<tr class="deep-level-0">
+  
+      <td class="name"><code>columnName</code></td>
   
 
   <td class="type">
@@ -156,7 +181,32 @@
 
   
 
-  <td class="description last"><p>caslib or libref (must match source)</p></td>
+  <td class="description last"><p>column name</p></td>
+</tr>
+
+
+        
+
+            
+<tr class="deep-level-0">
+  
+      <td class="name"><code>where</code></td>
+  
+
+  <td class="type">
+  
+      
+<code class="param-type">string</code>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last"><p>where clause</p></td>
 </tr>
 
 
@@ -253,9 +303,7 @@
 
 <div class="columns">
     
-    <div class='param-desc column is-7'><ul>
-<li>returns an array of table names(cas or SAS)</li>
-</ul></div>
+    <div class='param-desc column is-7'><p>{an array of unique values }</p></div>
     
     
     <div class='column is-5 has-text-left'>
@@ -278,7 +326,7 @@
     <h5>Example</h5>
     
     
-        <pre class="prettyprint"><code>let list = await getTableList('sashelp', appEnv); returns a list of tables - based on the value of source (cas|compute)</code></pre>
+        <pre class="prettyprint"><code>let selectList = await casTableUnique('company, appEnv)) This is useful to get a list of unique values for selected columns. {columnName:[ array of unque values] }</code></pre>
     
 
 

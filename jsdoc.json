@@ -6,7 +6,7 @@
       "types.js",
       "./src"
  ],
-    "exclude": [],
+    "exclude": ["./lib", "./test"],
     "includePattern": ".js",
     "excludePattern": "(node_modules)"
   },
@@ -22,7 +22,7 @@
     "useLongnameInNav": true,
     "showInheritedInNav": true,
     "default": {
-      "outputSourceFiles": false
+      "outputSourceFiles": true
     }
     
   },

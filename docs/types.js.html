@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -5,7 +7,7 @@
   
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title> getTableSummary</title>
+  <title> types.js</title>
 
   <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -77,220 +79,92 @@
         <div class="core" id="main-content-wrapper">
             <div class="content">
                 <header class="page-title">
-                    <p>Module</p>
-                    <h1>getTableSummary</h1>
+                    <p>Source</p>
+                    <h1>types.js</h1>
                 </header>
                 
 
 
 
-
-<section>
-
-<header>
     
-        
-            
-        
-    
-</header>
-
-<article>
-    <div class="container-overview">
-    
-        
-            <div class="description"><p>get the list of tables in a specific library</p></div>
-        
-
-        
-            
-
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-<div class="table-container">
-    <table class="params table">
-        <thead>
-        <tr>
-            
-            <th>Name</th>
-            
-
-            <th>Type</th>
-
-            
-
-            
-
-            <th class="last">Description</th>
-        </tr>
-        </thead>
-
-        <tbody>
-        
-
-            
-<tr class="deep-level-0">
-  
-      <td class="name"><code>appEnv</code></td>
-  
-
-  <td class="type">
-  
-      
-<code class="param-type"><a href="global.html#appEnv">appEnv</a></code>
-
-
-  
-  </td>
-
-  
-
-  
-
-  <td class="description last"><p>app Environment from setup</p></td>
-</tr>
-
-
-        
-        </tbody>
-    </table>
-</div>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    
-
-    
-
-    
-
-    
-        <p class="tag-source">
-            <a href="src_getTableSummary.js.html" class="button">View Source</a>
-            <span>
-                <a href="src_getTableSummary.js.html">src/getTableSummary.js</a>, <a href="src_getTableSummary.js.html#line7">line 7</a>
-            </span>
-        </p>
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <div class='columns method-parameter'>
-        <div class="column is-2"><label>Returns:</label></div>
-        <div class="column is-10">
-            
-                    
-
-<div class="columns">
-    
-    <div class='param-desc column is-7'><ul>
-<li>returns an array of table names(cas or SAS)</li>
-</ul></div>
-    
-    
-    <div class='column is-5 has-text-left'>
-        <label>Type: </label>
-        
-<code class="param-type">promise</code>
-
-
-    </div>
-    
-</div>
-
-                
-        </div>
-    </div>
-
-
-
-
-    <h5>Example</h5>
-    
-    
-        <pre class="prettyprint"><code>let list = await getTableSummary(appEnv); returns summary information object. The function also sets the results in appEnv.state.tableSummary For consistency between cas and compute, rowCount and columnCount are set for both cases.{  rowCount: number, columnCount: number ...rest... }</code></pre>
-    
-
-
-
-        
-    
-    </div>
-    
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</article>
-
-</section>
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * connecting to SAS Viya 
+ * @typedef {object} logonPayload
+ * @property {string} authType - code|token|implicit
+ * @property {URL} host - host url
+ * @property {string} clientID - client id (if authType is implicit)
+ * @property {string} redirectUri - redirect uri (if authType is implicit)
+ * @property {string} token - token (if authType is token)
+ * @property {string} tokenType - bearer(if authType is token)
+ * 
+ */
+
+/**
+ * control object for restafedit
+ * @typedef {object} appEnv
+ * @property {string} source - cas|compute|none
+ * @property {Table} table - table object| null
+ * @property {array} byvars - by variables
+ * @property {object} userData - user data
+ * @property {string} user - user name
+ * @property {number} fetchCount - number of rows to fetch
+ * @property {object} store - restaf store object
+ * @property {object} session - session object
+ * @property {object} servers - servers object
+ * @property {string} sessionID - session id
+ * @property {string} userSessionID - user session id
+ * @property {object} userFunctions - user functions
+ * @property {string} casServerName - cas server name
+ * @property {string} computeContext - compute context
+ * @property {logonPayload} logonPayload - logonPayload
+ * @property {appControl} appControl - appControl
+ * @property {string} activeWhere - active where clause
+ * @property {object} builtins - builtins
+ * @property {state} state - state object
+ * @property {string} id - id
+ */
+
+/**
+ * dataCache object
+ * @typedef {object} dataCache
+ * @property {array} rows - rows
+ * @property {array} schema - schema
+ */
+ 
+/** 
+ * current state of the fetched data
+ * @typedef {object} state
+ * @property {dataCache} cache - cache object
+ * @property {array} modified - modified rows
+ * @property {object} pagination - pagination object
+ * @property {array} scrollOptions - scroll options
+ * @property {array} data - data
+ * @property {object} columns - columns
+ * @property {object} tableSummary - table summary
+ */
+
+/**
+ * request object
+ * @typedef {object} appControl
+ * @property {string} description
+ * @property {string} source - cas|compute|none
+ * @property {Table} table - table name
+ * @property {array} byvars - by variables
+ * @property {fetchQuery} initialFetch
+ * @property {object} customColumns - custom columns
+ * @property {string} preamble - preamble
+ * @property {object} editControl - edit control
+ * @property {object} editControl.handlers - edit control handlers
+ * @property {boolean} editControl.autoSave - auto save
+ * @property {object} appData - user app data(opaque)
+ * 
+ */
+
+</code></pre>
+        </article>
+    </section>
 
 
 

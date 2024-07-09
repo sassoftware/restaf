@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -5,7 +7,7 @@
   
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title> getTableSummary</title>
+  <title> src/fetchRows.js</title>
 
   <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -77,220 +79,61 @@
         <div class="core" id="main-content-wrapper">
             <div class="content">
                 <header class="page-title">
-                    <p>Module</p>
-                    <h1>getTableSummary</h1>
+                    <p>Source</p>
+                    <h1>src/fetchRows.js</h1>
                 </header>
                 
 
 
 
-
-<section>
-
-<header>
     
-        
-            
-        
-    
-</header>
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/*
 
-<article>
-    <div class="container-overview">
-    
-        
-            <div class="description"><p>get the list of tables in a specific library</p></div>
-        
+ * Copyright © 2024, SAS Institute Inc., Cary, NC, USA.  All Rights Reserved.
+ * SPDX-License-Identifier: Apache-2.0
+ */
 
-        
-            
-
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-<div class="table-container">
-    <table class="params table">
-        <thead>
-        <tr>
-            
-            <th>Name</th>
-            
-
-            <th>Type</th>
-
-            
-
-            
-
-            <th class="last">Description</th>
-        </tr>
-        </thead>
-
-        <tbody>
-        
-
-            
-<tr class="deep-level-0">
+import scrollTable from './scrollTable';
+import { computeFetchData, casFetchData,  computeSetupTables} from '@sassoftware/restaflib';
+/**
+ * @description Fetch new records based on control argument
+ * @async
+ * @module fetchRows
+ * @category restafedit/fetch
+ * @param {fetchControl} control - info for records to retrieve
+ * @param {appEnv} appEnv - appEnv
+ * @returns {promise}  - { data:data, columns:ecolumns, pagination: pagination}
+ * @example
+ *    r = await fetchRows({qs:{start:0, limit: 200, format: false, where=''}, appEnv})
+ *    Use this method for custom fetching instead of scrollTable.
+ *
+ */
+async function fetchRows (icontrol, appEnv, table) {
   
-      <td class="name"><code>appEnv</code></td>
-  
-
-  <td class="type">
-  
-      
-<code class="param-type"><a href="global.html#appEnv">appEnv</a></code>
-
-
-  
-  </td>
-
-  
-
-  
-
-  <td class="description last"><p>app Environment from setup</p></td>
-</tr>
-
-
-        
-        </tbody>
-    </table>
-</div>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    
-
-    
-
-    
-
-    
-        <p class="tag-source">
-            <a href="src_getTableSummary.js.html" class="button">View Source</a>
-            <span>
-                <a href="src_getTableSummary.js.html">src/getTableSummary.js</a>, <a href="src_getTableSummary.js.html#line7">line 7</a>
-            </span>
-        </p>
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <div class='columns method-parameter'>
-        <div class="column is-2"><label>Returns:</label></div>
-        <div class="column is-10">
-            
-                    
-
-<div class="columns">
-    
-    <div class='param-desc column is-7'><ul>
-<li>returns an array of table names(cas or SAS)</li>
-</ul></div>
-    
-    
-    <div class='column is-5 has-text-left'>
-        <label>Type: </label>
-        
-<code class="param-type">promise</code>
-
-
-    </div>
-    
-</div>
-
-                
-        </div>
-    </div>
-
-
-
-
-    <h5>Example</h5>
-    
-    
-        <pre class="prettyprint"><code>let list = await getTableSummary(appEnv); returns summary information object. The function also sets the results in appEnv.state.tableSummary For consistency between cas and compute, rowCount and columnCount are set for both cases.{  rowCount: number, columnCount: number ...rest... }</code></pre>
-    
-
-
-
-        
-    
-    </div>
-    
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</article>
-
-</section>
+  let result;
+  if (table) {
+    const { store, session } = appEnv;
+    let control = {...icontrol};
+    if (appEnv.source === 'cas') {
+      control.table = table;
+      result = await casFetchData(store, session, control);
+    } else {
+      let tableSummary = computeSetupTables(store, session, table);
+      let r  = await computeFetchData(store, tableSummary, table, null,icontrol);
+      result = r.rows;
+    }
+  }  else {
+    result = await scrollTable(null, appEnv, icontrol);
+  }
+  return result;
+}
+
+export default fetchRows;
+</code></pre>
+        </article>
+    </section>
 
 
 

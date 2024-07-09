@@ -1,6 +1,6 @@
 /**
- * logonPayload object for SAS Viya 
- * @typedef {object} logonPayload - information set in setupAssistant config
+ * connecting to SAS Viya 
+ * @typedef {object} logonPayload
  * @property {string} authType - code|token|implicit
  * @property {URL} host - host url
  * @property {string} clientID - client id (if authType is implicit)
@@ -11,23 +11,8 @@
  */
 
 /**
- * viyaEnv object
- * @typedef {object} viyaEnv - viya session control object
- * @property {string} host - url to viya server
- * @property {logonPayload} logonPayload - logonPayload - passed in to setupAssistant
- * @property {string} source - cas|compute|none
- * @property {string} sessionID - session id if source is cas or compute
- * @property {object} session - session object(for restaf users) if source is cas or compute
- * @property {object} servers - servers object(for restaf users) if source is cas or compute
- * @property {object} serverName - compute context or cas server name
- * @property {object} store - restaf store object(for restaf users)
- * @property {object} restaflib - restaflib object(for restaf users)
- * @property {object} restafedit - restafedit object(for restaf users)
-*/
-/**
- * appEnv - main control object for restafedit
- * 
- * @typedef {object} appEnv - main control object for restafedit
+ * control object for restafedit
+ * @typedef {object} appEnv
  * @property {string} source - cas|compute|none
  * @property {Table} table - table object| null
  * @property {array} byvars - by variables
@@ -52,13 +37,14 @@
 
 /**
  * dataCache object
- * @typedef {object} dataCache - cache object
+ * @typedef {object} dataCache
  * @property {array} rows - rows
  * @property {array} schema - schema
  */
  
-/** state - current state of the fetched data
- * @typedef {object} state - current state of the fetched data
+/** 
+ * current state of the fetched data
+ * @typedef {object} state
  * @property {dataCache} cache - cache object
  * @property {array} modified - modified rows
  * @property {object} pagination - pagination object
@@ -69,14 +55,19 @@
  */
 
 /**
- * appControl object
- * @typedef {object} appControl - control object
+ * request object
+ * @typedef {object} appControl
  * @property {string} description
+ * @property {string} source - cas|compute|none
  * @property {Table} table - table name
  * @property {array} byvars - by variables
+ * @property {fetchQuery} initialFetch
  * @property {object} customColumns - custom columns
+ * @property {string} preamble - preamble
  * @property {object} editControl - edit control
- * @property {initialFetch} initialFetch - initial fetch
+ * @property {object} editControl.handlers - edit control handlers
+ * @property {boolean} editControl.autoSave - auto save
  * @property {object} appData - user app data(opaque)
  * 
  */
+

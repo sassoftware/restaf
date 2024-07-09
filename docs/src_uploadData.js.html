@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -5,7 +7,7 @@
   
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title> getTableSummary</title>
+  <title> src/uploadData.js</title>
 
   <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -77,220 +79,142 @@
         <div class="core" id="main-content-wrapper">
             <div class="content">
                 <header class="page-title">
-                    <p>Module</p>
-                    <h1>getTableSummary</h1>
+                    <p>Source</p>
+                    <h1>src/uploadData.js</h1>
                 </header>
                 
 
 
 
-
-<section>
-
-<header>
     
-        
-            
-        
-    
-</header>
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/* eslint-disable no-tabs */
+/*
+ * Copyright © 2024, SAS Institute Inc., Cary, NC, USA.  All Rights Reserved.
+ * SPDX-License-Identifier: Apache-2.0
+ */
 
-<article>
-    <div class="container-overview">
-    
-        
-            <div class="description"><p>get the list of tables in a specific library</p></div>
-        
+import { casUpload, casAppendTable, casLoadTable, computeRun } from '@sassoftware/restaflib';
 
-        
-            
+/**
+ * @description Upload client data to a new table on server
+ * @async
+ * @module uploadData
+ * @category restafedit/dataMgmt
+ * @param {object} output table
+ * @param {array}  data if null, data from appEnv.state will be uploded.
+ * @param {array}  drop fields to drop from the output
+ * @param {object} addon columns additional columns(useful for adding key fields)
+ * @param {appEnv} appEnv   - app Environment from setup
+ * @returns {promise}       - returns status object
+ * @example
+ *  let r = await uploadData({caslib:...}, null, ['total], {version: 10}, appEnv)
+ */
 
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-<div class="table-container">
-    <table class="params table">
-        <thead>
-        <tr>
-            
-            <th>Name</th>
-            
-
-            <th>Type</th>
-
-            
-
-            
-
-            <th class="last">Description</th>
-        </tr>
-        </thead>
-
-        <tbody>
-        
-
-            
-<tr class="deep-level-0">
+async function uploadData (table, data, drop, addon, appEnv, masterTable, saveFlag) {
+  const { store, session } = appEnv;
+  // eslint-disable-next-line prefer-const
+  if (data === null) {
+    data = appEnv.state.data;
+  };
+  ;
+  const t = Object.keys(data[0]);
+  let dropArray = ['_index_', '_rowIndex', '_modified'];
+  if (drop !== null &amp;&amp; drop.length > 0) {
+    dropArray = dropArray.concat(drop);
+  }
+  const columns = t.filter(c => {
+    return !(dropArray.indexOf(c) >= 0);
+  });
   
-      <td class="name"><code>appEnv</code></td>
-  
-
-  <td class="type">
-  
-      
-<code class="param-type"><a href="global.html#appEnv">appEnv</a></code>
-
-
-  
-  </td>
-
-  
-
-  
-
-  <td class="description last"><p>app Environment from setup</p></td>
-</tr>
-
-
-        
-        </tbody>
-    </table>
-</div>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    
-
-    
-
-    
-
-    
-        <p class="tag-source">
-            <a href="src_getTableSummary.js.html" class="button">View Source</a>
-            <span>
-                <a href="src_getTableSummary.js.html">src/getTableSummary.js</a>, <a href="src_getTableSummary.js.html#line7">line 7</a>
-            </span>
-        </p>
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <div class='columns method-parameter'>
-        <div class="column is-2"><label>Returns:</label></div>
-        <div class="column is-10">
-            
-                    
-
-<div class="columns">
-    
-    <div class='param-desc column is-7'><ul>
-<li>returns an array of table names(cas or SAS)</li>
-</ul></div>
-    
-    
-    <div class='column is-5 has-text-left'>
-        <label>Type: </label>
-        
-<code class="param-type">promise</code>
-
-
-    </div>
-    
-</div>
-
-                
-        </div>
-    </div>
-
-
-
-
-    <h5>Example</h5>
-    
-    
-        <pre class="prettyprint"><code>let list = await getTableSummary(appEnv); returns summary information object. The function also sets the results in appEnv.state.tableSummary For consistency between cas and compute, rowCount and columnCount are set for both cases.{  rowCount: number, columnCount: number ...rest... }</code></pre>
-    
-
-
-
-        
-    
-    </div>
-    
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</article>
-
-</section>
+  const tempCols = {};
+  columns.forEach(k => {
+    tempCols[k] = appEnv.state.columns[k];
+  });
+  let csvArray = null;
+  if (appEnv.source === 'cas') {
+    csvArray = columns.join(',') + '\n';
+  };
+
+  for (let i = 0; i &lt; data.length; i++) {
+    let temp = data[i];
+    temp = { ...temp, ...addon };
+    const valArray = [];
+    columns.forEach((c, l) => {
+      let v = temp[c];
+      if (typeof v === 'string') {
+        v = v.trim();
+      }
+      valArray[l] = v;
+    });
+    if (csvArray === null) {
+      csvArray = valArray.join(',') + '\n';
+    } else {
+      csvArray = csvArray + valArray.join(',') + '\n';
+    }
+  }
+
+  let result;
+  if (appEnv.source === 'cas') {
+    result = await _casTableUpload(
+      store,
+      session,
+      table,
+      csvArray,
+      masterTable,
+      saveFlag
+    );
+  } else {
+    result = await _computeUpload(
+      store,
+      session,
+      tempCols,
+      table,
+      csvArray
+    );
+  }
+  return result;
+}
+
+// TBD: switch to a datastep with arrays for each column. More reliable
+async function _computeUpload (store, session, columns, table, csvArray) {
+  let src = `data ${table.libref}.${table.name}; INFILE datalines delimiter=',' ;\n`;
+  let l = '';
+  let inx = 'INPUT ';
+  for (const k in columns) {
+    const c = columns[k];
+    inx = inx + c.Column + ' ';
+    if (c.Type === 'CHAR') {
+      const x = ` ${c.Column} $ ${c.length} \n`;
+      l = l + ' ' + x;
+    }
+  }
+  if (l.length > 0) {
+    l = 'LENGTH ' + l + ';\n';
+  };
+  inx = inx + ';\n';
+
+  src = src + ';\n' + l + inx + 'datalines;\n' + csvArray + '\n; run; proc print;run;\n';
+  await computeRun(store, session, src);
+  return { msg: 'done', statusCode: 0 };
+}
+async function _casTableUpload (store, session, table, csvArray, masterTable, saveFlag) {
+  const t = `${table.caslib}.${table.name}`;
+  let r = await casUpload(store, session, null, t, true, csvArray);
+
+  await casLoadTable(store, session, table);
+  if (masterTable != null) {
+    r = await casAppendTable(store, session, table, masterTable, saveFlag);
+    return r;
+  } else {
+    return r;
+  }
+}
+export default uploadData;
+</code></pre>
+        </article>
+    </section>
 
 
 

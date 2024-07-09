@@ -595,6 +595,7 @@ function getAppControl () {
         Type           : 'double'
       }
     },
+    preamble: ' ', /* code to run before the edit session starts */
     editControl: {
       // eslint-disable-next-line object-shorthand
       handlers: { init, main: main, term: term, x1: x1 },

@@ -73,34 +73,10 @@ function getAppControl () {
         Type           : 'double'
       }
     },
+    preamble: null,
     editControl: {
       handlers: { init, main, term, termApp: termMyApp, x1 }, /* note reuse of init */
       autoSave: true
-    },
-    appData: {
-      layout  : {},
-      formName: 'testdata',
-
-      uiControl: {
-        defaultComponent: 'InputEntry',
-        show            : ['id', 'total', 'x2', 'x1', 'x3'],
-        visuals         : {
-          x2: {
-            component: 'Slider',
-            props    : {
-              min  : 0,
-              max  : 50,
-              steps: 1
-            }
-          },
-          total: {
-            props: {
-              disabled: true
-            }
-          }
-        }
-      }
-
     }
 
   };

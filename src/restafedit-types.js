@@ -7,14 +7,11 @@
  * @category restafedit/fetch
  */
 /**
- * resafedit datamgmt
+ * restafedit datamgmt
  * @category restafedit/dataMgmt
  */
 
-/**
- * Application Environment.
- * @typedef {object} appEnv
- */
+
 
 /**
  * Data row as object.
@@ -35,10 +32,6 @@
  * @typedef {object} byVars
  */
 
-/**
- * Logon payload
- * @typedef {object} logonPayload
- */
 
 /*
  * Information supplied by user
@@ -52,11 +45,6 @@
  * @property {number} limit
  * @property {boolean} format
  * @property {string} where
- */
-/**
- * Information to fetch records
- * @typedef {object} fetchControl
- * @property {fetchQuery} qs
  */
 
 /**

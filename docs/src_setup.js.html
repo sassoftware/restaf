@@ -1,0 +1,428 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title> src/setup.js</title>
+
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="./build/entry.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700|Inconsolata,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+  <link type="text/css" rel="stylesheet" href="">
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  
+</head>
+
+
+
+<body class="layout small-header">
+    <div id="stickyNavbarOverlay"></div>
+    
+
+<div class="top-nav">
+    <div class="inner">
+        <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+        <div class="logo">
+            
+            
+        </div>
+        <div class="menu">
+            
+            <div class="navigation">
+                <a
+                    href="index.html"
+                    class="link"
+                >
+                    Documentation
+                </a>
+                
+                
+                
+            </div>
+        </div>
+    </div>
+</div>
+    <div id="main">
+        <div
+            class="sidebar "
+            id="sidebarNav"
+        >
+            
+                <div class="search-wrapper">
+                    <input id="search" type="text" placeholder="Search docs..." class="input">
+                </div>
+            
+            <nav>
+                
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Modules</h3><ul><li><a href="module-addRows.html">addRows</a></li><li><a href="module-appendRows.html">appendRows</a></li><li><a href="module-appendTable.html">appendTable</a></li><li><a href="module-cellEdit.html">cellEdit</a></li><li><a href="module-distinctValues.html">distinctValues</a></li><li><a href="module-fetchRows.html">fetchRows</a></li><li><a href="module-getLibraryList.html">getLibraryList</a></li><li><a href="module-getTableColumns.html">getTableColumns</a></li><li><a href="module-getTableList.html">getTableList</a></li><li><a href="module-getTableSummary.html">getTableSummary</a></li><li><a href="module-prepFormData.html">prepFormData</a></li><li><a href="module-saveTable.html">saveTable</a></li><li><a href="module-scrollTable.html">scrollTable</a></li><li><a href="module-setWhere.html">setWhere</a></li><li><a href="module-setup.html">setup</a></li><li><a href="module-termApp.html">termApp</a></li><li><a href="module-updateTableRows.html">updateTableRows</a></li><li><a href="module-uploadData.html">uploadData</a></li></ul><h3><a href="global.html">Global</a></h3></div>
+                
+            </nav>
+        </div>
+        <div class="core" id="main-content-wrapper">
+            <div class="content">
+                <header class="page-title">
+                    <p>Source</p>
+                    <h1>src/setup.js</h1>
+                </header>
+                
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/*
+ * Copyright © 2024, SAS Institute Inc., Cary, NC, USA.  All Rights Reserved.
+ * SPDX-License-Identifier: Apache-2.0
+ */
+/* eslint-disable prefer-const */
+
+import { initStore } from "@sassoftware/restaf";
+import {
+  casSetup,
+  computeSetup,
+  computeRun,
+  computeSetupTables,
+  computeResults,
+  caslRun,
+} from "@sassoftware/restaflib";
+import prepFormData from "./prepFormData";
+
+/*
+import getTableSummary from './getTableSummary';
+import termApp from './termApp';
+*/
+
+/**
+ * @description Setup an Edit session
+ * @async
+ * @module setup
+ * @category restafedit/core
+ * @param {logonPayload} logonPayload  -information for connecting to Viya
+ * @param {appControl} appControl       control information
+ * @param {string=} sessionID if specified, this session will be used.Must match source
+ * @param {object=} builtins  builtins functions
+ * @param {string=} user  user name
+ * @param {object=} userFunctions  user functions
+ * @param {object=} storeConfig  store configuration - passed to initStore
+ *
+ *
+ * @returns {promise}  returns appEnv to control the flow
+ * @alias module: setup
+ * @example
+ *  const appEnv = await setup(logonPayload, appControl);
+ *  The setup method does the following:
+ *    1. Create a session based on the source
+ *       - Specify the sessionID if you want to use a session you have created.
+ *    2. Optionally run the appInit handler (if specified)
+ *    3. Optionally run the preamble code (if specified)
+ *    4. Return the appEnv object.
+ *
+ *    The appInit handler and the preamble code can be used to setup related information, create
+ *    temporary tables etc...
+ *
+ */
+async function setup(
+  logonPayload,
+  appControl,
+  sessionID,
+  builtins,
+  user,
+  userFunctions,
+  storeConfig
+) {
+  const { source } = appControl;
+
+  
+  if (storeConfig == null) {
+    storeConfig = {
+      casProxy: true,
+      options: { ns: null, proxyServer: null },
+    };
+  }
+  // Note: that each setup creates its own store
+
+  let store = initStore(storeConfig);
+  if (logonPayload !== null &amp;&amp; logonPayload.authType !== "none") {
+    let msg = await store.logon(logonPayload);
+  }
+
+  const useEntry =
+    source === "cas"
+      ? icasSetup
+      : source === "compute"
+      ? icomputeSetup
+      : nosource;
+  if (sessionID == undefined) {
+    sessionID = null;
+  }
+
+  const _verify = (field, value) => {
+    if (appControl[field] == null) {
+      appControl[field] = value;
+    }
+  };
+  // check
+  _verify("table", null);
+  _verify("byvars", []);
+  _verify("customColumns", {});
+  _verify("editControl", { handlers: {}, autoSave: true });
+  _verify("initialFetch", {
+    qs: { start: 0, limit: 10, format: false, where: " " },
+  });
+
+  let appEnv = {
+    source: source,
+    table: appControl.table,
+    byvars: appControl.byvar,
+    userData: {},
+    onNoData: appControl.onNoData != null ? appControl.onNoData : "clear",
+    user: user,
+    fetchCount: 0,
+    store,
+    session: null,
+    servers: null,
+    sessionID: null,
+    userSessionID: null,
+    userFunctions: userFunctions != null ? userFunctions : {},
+    casServerName: appControl.casServerName,
+    computeContext: appControl.computeContext,
+    logonPayload,
+    appControl,
+
+    activeWhere:
+      appControl.initialFetch.qs.where != null
+        ? appControl.initialFetch.qs.where
+        : " ",
+    builtins: builtins != null ? builtins : {},
+
+    state: {
+      cache: { rows: [], schema: [] },
+      modified: [],
+      pagination: {},
+      scrollOptions: [],
+      data: [],
+      columns: {},
+      tableSummary: {},
+    },
+
+    id: Date(),
+  };
+
+  if (logonPayload &amp;&amp; logonPayload.host == null) {
+    // eslint-disable-next-line no-throw-literal
+    throw "ERROR: Please specify a Viya host";
+  }
+  appEnv = await useEntry(
+    store,
+    null /*logonPayload*/,
+    appControl,
+    appEnv,
+    sessionID
+  );
+  if (appControl.source !== 'none') {
+    let id1 = appEnv.session.items("id");
+    let ssid = await store.apiCall(appEnv.session.links("self"));
+    let id = ssid.items("id");
+    appEnv.sessionID = id;
+    appEnv.userSessionID = sessionID;
+  }
+  return appEnv;
+}
+
+// _nosource
+async function nosource(_store, _logonPayload, appControl, appEnv, _sessionID) {
+
+  let r = await prepFormData(appEnv.state.cache, appEnv, true);
+  // TBD: Need to handle preamble for this case.
+  if (appControl.editControl.handlers.initApp != null) {
+    try {
+      await _initApp(appEnv);
+    } catch (err) {
+      console.log(err);
+      // eslint-disable-next-line no-throw-literal
+      // await termApp(appEnv, true);
+      throw "ERROR: initApp failed. Please see console for messages";
+    }
+  }
+  appEnv.state.data = r.data;
+  appEnv.state.columns = r.columns;
+  appEnv.state.cache = r.cache;
+  console.log(appEnv);
+  return appEnv;
+}
+
+async function _initApp(appEnv) {
+  try {
+    const r = await appEnv.appControl.editControl.handlers.initApp(
+      appEnv,
+      "initApp"
+    );
+    if (r.statusCode === 2) {
+      console.log(JSON.stringify(r, null, 4));
+      // eslint-disable-next-line no-throw-literal
+      // await termApp(appEnv, true);
+      throw "ERROR: initApp failed. Please see console for messages";
+    }
+  } catch (err) {
+    console.log(err);
+    // eslint-disable-next-line no-throw-literal
+    // await termApp(appEnv, true);
+    throw "ERROR: Setup failed. Please see console for error messages";
+  }
+}
+// cas server
+async function icasSetup(store, logonPayload, appControl, appEnv, sessionID) {
+  let r;
+  try {
+    
+    r = await casSetup(store, logonPayload, sessionID, appEnv.casServerName);
+    
+    appEnv.session = r.session;
+    appEnv.servers = r.servers;
+    appEnv.casServerName = appEnv.session.links("execute", "link", "server");
+  } catch (err) {
+    // eslint-disable-next-line no-throw-literal
+    throw "ERROR: Unable to create session. Please see console for messages";
+  }
+
+  appEnv.serverName = appEnv.session.links("execute", "link", "server");
+
+  if (appControl.editControl.handlers.initApp != null) {
+    await _initApp(appEnv);
+  }
+
+  if (appControl.preamble != null) {
+    try {
+      const rx = await caslRun(store, r.session, appControl.preamble, {}, true);
+      if (rx.disposition.statusCode !== 0) {
+        console.log(JSON.stringify(rx, null, 4));
+        // eslint-disable-next-line no-throw-litera
+        // await termApp(appEnv, true);
+        throw "ERROR: Preamble  code failed. Please see console for messages";
+      }
+    } catch (err) {
+      console.log(err);
+      // eslint-disable-next-line no-throw-literal
+      throw "Preamble failed.Please see console";
+    }
+  }
+
+  return appEnv;
+}
+
+// Compute server
+async function icomputeSetup(
+  store,
+  logonPayload,
+  appControl,
+  appEnv,
+  sessionID
+) {
+  // eslint-disable-next-line prefer-const
+  let session;
+  
+  session = await computeSetup(
+    store,
+    appControl.computeContext,
+    logonPayload,
+    null,
+    sessionID
+  );
+  
+  appEnv.session = session;
+  if (sessionID != null) {
+    appEnv.userSessionID = sessionID;
+  }
+
+  try {
+    if (appControl.editControl.handlers.initApp != null) {
+      await _initApp(appEnv);
+    }
+  } catch (err) {
+    console.log(err);
+    throw "ERROR: initApp failed. Please see console for messages";
+  }
+  
+  
+  if ( appControl.preamble != null ) {
+    console.log('running preamble', appControl.preamble);
+    const result = await computeRun( store, session, appControl.preamble );
+    if ( result.SASJobStatus === 'error' ) {
+      console.log(result.SASJobStatus);
+      let log = await computeResults(store, result, 'log');
+      console.log(log);
+      throw `Error: Preamble failed with completion code of ${result.SASJobStatus}`;
+    }
+      
+  }
+  let tableSummary = {};
+  if (appControl.table != null) {
+    try {
+      tableSummary = await computeSetupTables(
+        store,
+        session,
+        appControl.table,
+        null,/*appControl.preamble -- do preamble here */
+      );
+    } catch (err) {
+      console.log(err);
+      // await termApp(appEnv, true);
+      throw err;
+    }
+  }
+  appEnv.tableSummary = tableSummary;
+  return appEnv;
+}
+
+export default setup;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+            </div>
+            
+            <footer class="footer">
+                <div class="content has-text-centered">
+                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.3</a></p>
+                    <p class="sidebar-created-by">
+                        <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by
+                        <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
+                    </p>
+                </div>
+            </footer>
+            
+        </div>
+        <div id="side-nav" class="side-nav">
+        </div>
+    </div>
+<script src="scripts/app.min.js"></script>
+<script>PR.prettyPrint();</script>
+<script src="scripts/linenumber.js"> </script>
+
+<script src="scripts/search.js"> </script>
+
+
+</body>
+</html>

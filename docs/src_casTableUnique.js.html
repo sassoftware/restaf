@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -5,7 +7,7 @@
   
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title> getTableSummary</title>
+  <title> src/casTableUnique.js</title>
 
   <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -77,220 +79,69 @@
         <div class="core" id="main-content-wrapper">
             <div class="content">
                 <header class="page-title">
-                    <p>Module</p>
-                    <h1>getTableSummary</h1>
+                    <p>Source</p>
+                    <h1>src/casTableUnique.js</h1>
                 </header>
                 
 
 
 
-
-<section>
-
-<header>
     
-        
-            
-        
-    
-</header>
-
-<article>
-    <div class="container-overview">
-    
-        
-            <div class="description"><p>get the list of tables in a specific library</p></div>
-        
-
-        
-            
-
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-<div class="table-container">
-    <table class="params table">
-        <thead>
-        <tr>
-            
-            <th>Name</th>
-            
-
-            <th>Type</th>
-
-            
-
-            
-
-            <th class="last">Description</th>
-        </tr>
-        </thead>
-
-        <tbody>
-        
-
-            
-<tr class="deep-level-0">
-  
-      <td class="name"><code>appEnv</code></td>
-  
-
-  <td class="type">
-  
-      
-<code class="param-type"><a href="global.html#appEnv">appEnv</a></code>
-
-
-  
-  </td>
-
-  
-
-  
-
-  <td class="description last"><p>app Environment from setup</p></td>
-</tr>
-
-
-        
-        </tbody>
-    </table>
-</div>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    
-
-    
-
-    
-
-    
-        <p class="tag-source">
-            <a href="src_getTableSummary.js.html" class="button">View Source</a>
-            <span>
-                <a href="src_getTableSummary.js.html">src/getTableSummary.js</a>, <a href="src_getTableSummary.js.html#line7">line 7</a>
-            </span>
-        </p>
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <div class='columns method-parameter'>
-        <div class="column is-2"><label>Returns:</label></div>
-        <div class="column is-10">
-            
-                    
-
-<div class="columns">
-    
-    <div class='param-desc column is-7'><ul>
-<li>returns an array of table names(cas or SAS)</li>
-</ul></div>
-    
-    
-    <div class='column is-5 has-text-left'>
-        <label>Type: </label>
-        
-<code class="param-type">promise</code>
-
-
-    </div>
-    
-</div>
-
-                
-        </div>
-    </div>
-
-
-
-
-    <h5>Example</h5>
-    
-    
-        <pre class="prettyprint"><code>let list = await getTableSummary(appEnv); returns summary information object. The function also sets the results in appEnv.state.tableSummary For consistency between cas and compute, rowCount and columnCount are set for both cases.{  rowCount: number, columnCount: number ...rest... }</code></pre>
-    
-
-
-
-        
-    
-    </div>
-    
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</article>
-
-</section>
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/*
+ * Copyright © 2024, SAS Institute Inc., Cary, NC, USA.  All Rights Reserved.
+ * SPDX-License-Identifier: Apache-2.0
+ */
+import { caslRun } from '@sassoftware/restaflib';
+
+/**
+ * @description Get unique values for a specific column
+ * @async
+ * @private
+ * @module casTableUnique
+ * @category restafedit/utility
+ * @param {object} table object
+ * @param {string} columnName    column name
+ * @param {string} where         where clause
+ * @param {appEnv} appEnv   app Environment from setup
+ * @returns {promise}       {an array of unique values }
+ * @example
+ *  let selectList = await casTableUnique('company, appEnv))
+ *  This is useful to get a list of unique values for selected columns.
+ *  {columnName:[ array of unque values] }
+ */
+
+async function casTableUnique (table, columnName, where, appEnv) {
+  const { store, session } = appEnv;
+  if (where == null) {
+    where = '';
+  };
+
+  const src = `
+  results = selectionLists(_args_.column,_args_.table.caslib, _args_.table.name, _args_.where);
+  send_response({casResults = {data=results}});
+  `
+  ;
+  const args = {
+    table,
+    column: columnName,
+    where: where
+  };
+
+  const result = await caslRun(store, session, src, args, true);
+  if (result.results.casResults.data.statusCode !== 0) {
+    // eslint-disable-next-line no-throw-literal
+    throw 'Failed to create unique list';
+  }
+
+  const data = result.results.casResults.data;
+  return data;
+};
+export default casTableUnique;
+</code></pre>
+        </article>
+    </section>
 
 
 

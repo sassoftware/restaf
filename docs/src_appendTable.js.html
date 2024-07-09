@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -5,7 +7,7 @@
   
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title> getTableSummary</title>
+  <title> src/appendTable.js</title>
 
   <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -77,220 +79,50 @@
         <div class="core" id="main-content-wrapper">
             <div class="content">
                 <header class="page-title">
-                    <p>Module</p>
-                    <h1>getTableSummary</h1>
+                    <p>Source</p>
+                    <h1>src/appendTable.js</h1>
                 </header>
                 
 
 
 
-
-<section>
-
-<header>
     
-        
-            
-        
-    
-</header>
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/*
+ * Copyright © 2024, SAS Institute Inc., Cary, NC, USA.  All Rights Reserved.
+ * SPDX-License-Identifier: Apache-2.0
+ */
 
-<article>
-    <div class="container-overview">
-    
-        
-            <div class="description"><p>get the list of tables in a specific library</p></div>
-        
+import { casAppendTable, computeAppendTable } from '@sassoftware/restaflib';
 
-        
-            
-
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-<div class="table-container">
-    <table class="params table">
-        <thead>
-        <tr>
-            
-            <th>Name</th>
-            
-
-            <th>Type</th>
-
-            
-
-            
-
-            <th class="last">Description</th>
-        </tr>
-        </thead>
-
-        <tbody>
-        
-
-            
-<tr class="deep-level-0">
+/**
+ * @description Append active table to the master table
+ * @async
+ * @module appendTable
+ * @category restafedit/dataMgmt
+ * @param {table} table master table
+ * @param {appEnv} appEnv - appEnv
+ * @param {boolean=} save - useful only for cas.ignored for compute
+ * @returns {promise}  - status object
+ * @example
+ *   const status = appendTable({caslib: 'public', 'name:'master'}, appEnv);
+ *   Append working table to the specified master table.
+ *
+ */
+async function appendTable (table, appEnv, save) {
   
-      <td class="name"><code>appEnv</code></td>
+  const handler = (appEnv.source === 'cas') ? casAppendTable : computeAppendTable;
+  const saveFlag = (save != null) ? true : save;
+  const result = await handler(appEnv.store, appEnv.session, appEnv.table, table, saveFlag);
   
-
-  <td class="type">
-  
-      
-<code class="param-type"><a href="global.html#appEnv">appEnv</a></code>
-
-
-  
-  </td>
-
-  
-
-  
-
-  <td class="description last"><p>app Environment from setup</p></td>
-</tr>
-
-
-        
-        </tbody>
-    </table>
-</div>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    
-
-    
-
-    
-
-    
-        <p class="tag-source">
-            <a href="src_getTableSummary.js.html" class="button">View Source</a>
-            <span>
-                <a href="src_getTableSummary.js.html">src/getTableSummary.js</a>, <a href="src_getTableSummary.js.html#line7">line 7</a>
-            </span>
-        </p>
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <div class='columns method-parameter'>
-        <div class="column is-2"><label>Returns:</label></div>
-        <div class="column is-10">
-            
-                    
-
-<div class="columns">
-    
-    <div class='param-desc column is-7'><ul>
-<li>returns an array of table names(cas or SAS)</li>
-</ul></div>
-    
-    
-    <div class='column is-5 has-text-left'>
-        <label>Type: </label>
-        
-<code class="param-type">promise</code>
-
-
-    </div>
-    
-</div>
-
-                
-        </div>
-    </div>
-
-
-
-
-    <h5>Example</h5>
-    
-    
-        <pre class="prettyprint"><code>let list = await getTableSummary(appEnv); returns summary information object. The function also sets the results in appEnv.state.tableSummary For consistency between cas and compute, rowCount and columnCount are set for both cases.{  rowCount: number, columnCount: number ...rest... }</code></pre>
-    
-
-
-
-        
-    
-    </div>
-    
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</article>
-
-</section>
+  return result;
+}
+
+export default appendTable;
+</code></pre>
+        </article>
+    </section>
 
 
 

@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -5,7 +7,7 @@
   
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title> getTableSummary</title>
+  <title> src/computeTableUnique.js</title>
 
   <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -77,220 +79,71 @@
         <div class="core" id="main-content-wrapper">
             <div class="content">
                 <header class="page-title">
-                    <p>Module</p>
-                    <h1>getTableSummary</h1>
+                    <p>Source</p>
+                    <h1>src/computeTableUnique.js</h1>
                 </header>
                 
 
 
 
-
-<section>
-
-<header>
     
-        
-            
-        
-    
-</header>
-
-<article>
-    <div class="container-overview">
-    
-        
-            <div class="description"><p>get the list of tables in a specific library</p></div>
-        
-
-        
-            
-
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-<div class="table-container">
-    <table class="params table">
-        <thead>
-        <tr>
-            
-            <th>Name</th>
-            
-
-            <th>Type</th>
-
-            
-
-            
-
-            <th class="last">Description</th>
-        </tr>
-        </thead>
-
-        <tbody>
-        
-
-            
-<tr class="deep-level-0">
-  
-      <td class="name"><code>appEnv</code></td>
-  
-
-  <td class="type">
-  
-      
-<code class="param-type"><a href="global.html#appEnv">appEnv</a></code>
-
-
-  
-  </td>
-
-  
-
-  
-
-  <td class="description last"><p>app Environment from setup</p></td>
-</tr>
-
-
-        
-        </tbody>
-    </table>
-</div>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    
-
-    
-
-    
-
-    
-        <p class="tag-source">
-            <a href="src_getTableSummary.js.html" class="button">View Source</a>
-            <span>
-                <a href="src_getTableSummary.js.html">src/getTableSummary.js</a>, <a href="src_getTableSummary.js.html#line7">line 7</a>
-            </span>
-        </p>
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <div class='columns method-parameter'>
-        <div class="column is-2"><label>Returns:</label></div>
-        <div class="column is-10">
-            
-                    
-
-<div class="columns">
-    
-    <div class='param-desc column is-7'><ul>
-<li>returns an array of table names(cas or SAS)</li>
-</ul></div>
-    
-    
-    <div class='column is-5 has-text-left'>
-        <label>Type: </label>
-        
-<code class="param-type">promise</code>
-
-
-    </div>
-    
-</div>
-
-                
-        </div>
-    </div>
-
-
-
-
-    <h5>Example</h5>
-    
-    
-        <pre class="prettyprint"><code>let list = await getTableSummary(appEnv); returns summary information object. The function also sets the results in appEnv.state.tableSummary For consistency between cas and compute, rowCount and columnCount are set for both cases.{  rowCount: number, columnCount: number ...rest... }</code></pre>
-    
-
-
-
-        
-    
-    </div>
-    
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</article>
-
-</section>
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/*
+ * Copyright © 2024, SAS Institute Inc., Cary, NC, USA.  All Rights Reserved.
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import { computeRun, computeFetchData } from '@sassoftware/restaflib';
+/**
+ * @description Get unique values for a specific column(sas table)
+ * @async
+ * @private
+ * @module computeTableUnique
+ * @category restafedit/utility
+ * @param {string} columnName    column name
+ * @param {appEnv} appEnv   app Environment from setup
+ * @returns {promise}       {an array of unique values }
+ * @example
+ *  let selectList = await computeTableUnique('company, appEnv))
+ *  This is useful to get a list of unique values for selected columns.
+ *  {columnName:[ array of unquew values] }
+ */
+
+async function computeTableUnique (table, columnName, where, appEnv) {
+  const { store, session } = appEnv;
+  const t = `${table.libref}.${table.name}`.toUpperCase();
+
+  let  code = `
+    PROC SQL;
+    CREATE TABLE WORK.QUERY
+    AS
+    SELECT distinct(${columnName}) as utype FROM ${t}`;
+
+  if ( where != null &amp;&amp; where.length > 0) {
+    code = code + ` WHERE ${where}`;
+  }
+  code = code + '; QUIT;';
+ 
+  const computeSummary = await computeRun(store, session, code);
+  const values = {};
+  let dir = 'first';
+  const res = [];
+  let data;
+  do {
+    data = await computeFetchData(store, computeSummary, 'QUERY', dir);
+    const r = data.rows.map(r1 => r1[0]);
+    res.push(...r);
+    dir = 'next';
+  } while (data.scrollOptions.indexOf('next') >= 0);
+
+  values[columnName] = res;
+  return values;
+};
+export default computeTableUnique;
+</code></pre>
+        </article>
+    </section>
 
 
 

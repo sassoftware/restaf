@@ -26,12 +26,14 @@ async function getLibraryList (appEnv, payload) {
   };
 
   const getCaslibs = async (payload) => {
+    /*
     const p = {
       qs: {
         start: 0,
-        limit: 100
+        limit: 1000
       }
     };
+    */
     const rafLink = servers.itemsCmd(servers.itemsList(0), 'caslibs');
     const r = await store.apiCall(rafLink, payload);
     return r.itemsList().toJS();
@@ -40,7 +42,7 @@ async function getLibraryList (appEnv, payload) {
   if ( p == null ) {
     p = {
       qs: {
-        limit: 100,
+        limit: 1000,
         start: 0
       }
     };

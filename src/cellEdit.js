@@ -32,7 +32,9 @@ import saveTable from './saveTable';
       - The 'term' handler(if specified) will be called
       - The data for that row will be persisted to the server
  */
+
 async function cellEdit (name, value, rowIndex, currentData, appEnv) {
+
   /* do not modify the data directly. caller will probably do a setState */
   debugger;
   let newDataRow = { ...currentData };
@@ -43,6 +45,7 @@ async function cellEdit (name, value, rowIndex, currentData, appEnv) {
   appEnv.handlers = handlers;
   let status = { statusCode: 0, msg: '' };
   debugger;
+
   if ( name != null ) {
     debugger;
     newDataRow[name] = text2Float(value, columns[name]);

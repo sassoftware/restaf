@@ -77,15 +77,15 @@ async function prepFormData (result, appEnv, makerow) {
     if (s.Type == null) {
       s.Type = (s.type == null) ? 'number' : s.type;
     }
-    if (s.Type === 'varchar') {
-      s.Type = 'char';
+    if (s.Type === 'varchar' | s.Type === 'char'){
+      s.Type = 'string';
     }
     s.Type = s.Type.toLowerCase();
     if (source ==='compute') {
       s.FormattedLength = s.length;
     }
     s.custom = false;
-    s.customType = (s.Type === 'char'|| s.Type === 'varchar') ? 'text' : 'number';
+    s.customType = (s.Type === 'char'|| s.Type === 'varchar') ? 'string' : 'number';
     eColumns[name] = s;
   });
 
@@ -96,7 +96,7 @@ async function prepFormData (result, appEnv, makerow) {
       c.name = k;
       c.custom = true;
       eColumns[k] = c;
-      c.customType = (c.Type.toLowerCase() === 'char') ? 'text' : 'number';
+      c.customType = (c.Type.toLowerCase() === 'char') ? 'string' : 'number';
     }
   }
   let internalColumns = ['_rowIndex', '_modified'];
@@ -118,7 +118,7 @@ async function prepFormData (result, appEnv, makerow) {
   if (makerow === true) {
     let t = {};
     for (const k in eColumns) {
-      t[k] = (eColumns[k].customType === 'text') ? ' ' : 0;
+      t[k] = (eColumns[k].customType === 'string') ? ' ' : (eColumns[k].customType === 'boolean') ? false : 0;
     }
     newRows = [t];
   }

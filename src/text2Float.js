@@ -9,12 +9,19 @@ function text2Float (value, f) {
   }
   let svalue = value;
   const t = f.Type.toLowerCase();
-  if (typeof svalue === 'string' && (t === 'decimal' || t === 'number' || t === 'double' || t === 'float')) {
+  if (t === 'string' || t === 'char') {
+    svalue = value;
+  } else if (typeof svalue === 'string' && t === 'int') {
+    svalue = parseInt(value);
+    if (isNaN(value) === true) {
+      value = 0;
+    }
+  } else if (typeof svalue === 'string' && (t === 'decimal' || t === 'number' || t === 'double' || t === 'float')) {
     svalue = parseFloat(value * 1.0);
     if (isNaN(value) === true) {
       value = 0;
     }
-  }
+  } 
   return svalue;
 }
 export default text2Float;

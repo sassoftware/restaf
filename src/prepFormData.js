@@ -20,6 +20,7 @@ async function prepFormData (result, appEnv, makerow) {
   const customColumns = appEnv.appControl.customColumns;
   let status = { statusCode: 0, msg: 'Initialization was successful' };
   
+  // function to make a data row object
   const makeRowObject = (columns, row, rown) => {
 
     const rowObj = {_rowIndex: rown, _modified: 0 };
@@ -35,6 +36,7 @@ async function prepFormData (result, appEnv, makerow) {
     return rowObj;
   };
 
+  // function to add custom columns to the row object
   const addCustomColumns = (customColumns, rowObj) => {
 
     for (const k in customColumns) {
@@ -44,11 +46,13 @@ async function prepFormData (result, appEnv, makerow) {
     }
   return rowObj;
   }
+
+  // initialize the data rows with incoming data rows
   let newRows = [];
   if (rows.length > 0 ) {
     for (let i = 0; i < rows.length; i++) {
       const t = makeRowObject(schema, rows[i], i);
-      
+      // run the init handler for each new row object
       const [t1, statusi] = await commonHandler('init', t, i, appEnv);
       status = statusi;
       newRows.push(t1);
@@ -56,6 +60,7 @@ async function prepFormData (result, appEnv, makerow) {
   } else {
     let rowObj = {_rowIndex: 0, _modified: 0 };
     let t = addCustomColumns(customColumns, rowObj);
+    // run the init handler for each new row object
     const [t1, statusi] = await commonHandler('init', t, 0, appEnv);
  
     status = statusi;
@@ -70,7 +75,7 @@ async function prepFormData (result, appEnv, makerow) {
     s.name = name;
     s.Label = (s.Label == null || s.Label.length === 0) ? s.Column : s.Label;
     if (s.Type == null) {
-      s.Type = (s.type == null) ? 'double' : s.type;
+      s.Type = (s.type == null) ? 'number' : s.type;
     }
     if (s.Type === 'varchar') {
       s.Type = 'char';
@@ -80,7 +85,7 @@ async function prepFormData (result, appEnv, makerow) {
       s.FormattedLength = s.length;
     }
     s.custom = false;
-    s.customType = (s.Type === 'char') ? 'text' : 'number';
+    s.customType = (s.Type === 'char'|| s.Type === 'varchar') ? 'text' : 'number';
     eColumns[name] = s;
   });
 

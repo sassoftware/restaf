@@ -5,6 +5,7 @@
 
 
 import commonHandler from './commonHandler';
+import typeValidation from './typeValidation.js';
 /**
  * @description reduce fetch results
  * @async
@@ -49,6 +50,7 @@ async function prepFormData (result, appEnv, makerow) {
 
   // initialize the data rows with incoming data rows
   let newRows = [];
+  debugger;
   if (rows.length > 0 ) {
     for (let i = 0; i < rows.length; i++) {
       const t = makeRowObject(schema, rows[i], i);
@@ -74,18 +76,20 @@ async function prepFormData (result, appEnv, makerow) {
     const name = s.Column.toLowerCase();
     s.name = name;
     s.Label = (s.Label == null || s.Label.length === 0) ? s.Column : s.Label;
+    s.Type = typeValidation((s.Type == null) ? 'string' : s.Type.toLowerCase());
+    /*
     if (s.Type == null) {
       s.Type = (s.type == null) ? 'number' : s.type;
     }
     if (s.Type === 'varchar' | s.Type === 'char'){
       s.Type = 'string';
     }
-    s.Type = s.Type.toLowerCase();
+      */
     if (source ==='compute') {
       s.FormattedLength = s.length;
     }
     s.custom = false;
-    s.customType = (s.Type === 'char'|| s.Type === 'varchar') ? 'string' : 'number';
+    s.customType = s.Type;
     eColumns[name] = s;
   });
 
@@ -96,7 +100,8 @@ async function prepFormData (result, appEnv, makerow) {
       c.name = k;
       c.custom = true;
       eColumns[k] = c;
-      c.customType = (c.Type.toLowerCase() === 'char') ? 'string' : 'number';
+      c.Type = typeValidation((c.Type == null) ? 'string' : c.Type.toLowerCase());
+      c.customType = c.Type;
     }
   }
   let internalColumns = ['_rowIndex', '_modified'];
@@ -106,7 +111,7 @@ async function prepFormData (result, appEnv, makerow) {
   internalColumns.map((k) => {
     let c = {
       Column         : k,
-      Type           : 'double',
+      Type           : 'number',
       Label          : 'Internal' + k,
       FormattedLength: 12,
       customType     : 'number',

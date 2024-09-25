@@ -2,26 +2,35 @@
  * Copyright © 2024, SAS Institute Inc., Cary, NC, USA.  All Rights Reserved.
  * SPDX-License-Identifier: Apache-2.0
  */
-function text2Float (value, f) {
+import typeValidation from "./typeValidation";
+function text2Float(value, f) {
   // Attempting to allow objects as values
-  if (typeof value === 'object') {
+  if (typeof value === "object") {
     return value;
   }
   let svalue = value;
-  const t = f.Type.toLowerCase();
-  if (t === 'string' || t === 'char') {
-    svalue = value;
-  } else if (typeof svalue === 'string' && t === 'int') {
-    svalue = parseInt(value);
-    if (isNaN(value) === true) {
-      value = 0;
+  if (typeof value === "string") {
+    let t = typeValidation(f.Type.toLowerCase());
+    if (t == "int") {
+      svalue = parseInt(value);
+      if (isNaN(value) === true) {
+        value = 0;
+      }
+    } else if (t === "number") {
+      svalue = parseFloat(value * 1.0);
+      if (isNaN(value) === true) {
+        value = 0;
+      } else if (t === "boolean") {
+        let vals = ["true", "yes", 1];
+        let v = value.toLowerCase();
+        if (vals.includes(v)) {
+          svalue = true;
+        } else {
+          svalue = false;
+        }
+      }
     }
-  } else if (typeof svalue === 'string' && (t === 'decimal' || t === 'number' || t === 'double' || t === 'float')) {
-    svalue = parseFloat(value * 1.0);
-    if (isNaN(value) === true) {
-      value = 0;
-    }
-  } 
+  }
   return svalue;
 }
 export default text2Float;

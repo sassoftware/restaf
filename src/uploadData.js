@@ -94,7 +94,7 @@ async function _computeUpload (store, session, columns, table, csvArray) {
   for (const k in columns) {
     const c = columns[k];
     inx = inx + c.Column + ' ';
-    if (c.Type === 'CHAR') {
+    if (c.Type === 'string') {
       const x = ` ${c.Column} $ ${c.length} \n`;
       l = l + ' ' + x;
     }

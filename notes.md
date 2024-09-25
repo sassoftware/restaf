@@ -1,0 +1,1 @@
+npm version premajor --preid alpha

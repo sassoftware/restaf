@@ -43,7 +43,8 @@ async function runit (payload) {
   console.log(appEnv.builtins);
   console.log(appEnv.state.tableSummary);
   console.log(appEnv.casServerName);
-  console.log(JSON.stringify(appEnv.store.getXsrfData(), null,4));
+  console.log(appEnv.state.data);
+  //console.log(JSON.stringify(appEnv.store.getXsrfData(), null,4));
   debugger;
   let p = {
     qs: {
@@ -53,9 +54,6 @@ async function runit (payload) {
       where : ' '
     }
   }
-  let txx = await getTableList('Samples', appEnv, p);
-  console.log(txx);
-  debugger;
   let r = await scrollTable('first', appEnv);
   console.log(JSON.stringify(appEnv.state.cache));
   console.log(r.data[0]);

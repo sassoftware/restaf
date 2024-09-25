@@ -28,7 +28,8 @@
     "test:lint": "eslint ./src",
     "pub": "npm publish --tag dev --access public",
     "jsdoc": "rimraf docs && jsdoc -c jsdoc.json",
-    "stats": "webpack --env target=node p=a --config webpack.config.js"
+    "stats": "webpack --env target=node p=a --config webpack.config.js",
+    "bump": "npm version prerelease"
   },
   "devDependencies": {
     "@babel/cli": "^7.14.5",

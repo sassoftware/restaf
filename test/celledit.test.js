@@ -1,7 +1,7 @@
 /* eslint-disable quotes */
 
 const { setup, scrollTable, cellEdit,setWhere, termApp,saveTable, getTableColumns, getTableList } = require('../lib/index.js');
-const getToken = require('./getToken');
+const getToken = require('./getToken.js');
 console.log(getToken);
 
 test('casBasic', async () => {
@@ -40,35 +40,11 @@ async function runit (payload) {
   debugger;
   const appEnv = await setup(payload, appControl);
   debugger;
-  console.log(appEnv.builtins);
-  console.log(appEnv.state.tableSummary);
-  console.log(appEnv.casServerName);
-  console.log(appEnv.state.data);
-  //console.log(JSON.stringify(appEnv.store.getXsrfData(), null,4));
-  debugger;
-  let p = {
-    qs: {
-      start : 0,
-      limit : 5,
-      format: false,
-      where : ' '
-    }
-  } 
-  let r = await scrollTable('first', appEnv);
-  console.log(JSON.stringify(appEnv.state.cache));
-  console.log(r.data[0]);
-  
-  cache.push({row1: appEnv.state.data[0]});
-  const keepid= appEnv.state.data[0].id;
-  console.log(appEnv.state.columns.toString()); 
-  console.log(appEnv.state.data.length);
-  const x3New = appEnv.state.data[0].x3 + 900;
-  console.log(appEnv.state.data.length);
-  debugger;
+  console.log(JSON.stringify(appEnv.state.data));
+  let x3New = 1000;
   r = await cellEdit('x3', x3New, 0, appEnv.state.data[0], appEnv);
   console.log('x3 cell edit done');
   console.log(r.status);
-  console.log( console.log(r.data[0]));
   debugger;
   await scrollTable('next', appEnv);
   cache.push({rownext: appEnv.state.data[0]});
@@ -85,16 +61,8 @@ async function runit (payload) {
   console.log(where)
   setWhere(where, appEnv);
   await scrollTable('first', appEnv);
-  console.log(getTableColumns)
-  console.log(appEnv.table);
-  let columns = await getTableColumns('cas', appEnv.table, appEnv);
-  console.log(columns);
-  cache.push({where: appEnv.state.data[0]});
-
-  console.log(cache);
-
-  let tx = await getTableList('Samples', appEnv, p);
-  console.log(tx);
+  console.log(JSON.stringify(appEnv.state.data));
+ 
   await termApp(appEnv);
   
   
@@ -127,7 +95,7 @@ function getAppControl () {
     },
     editControl: {
       handlers: { initApp,init, main, term, termApp: termMyApp, x3 }, /* note reuse of init */
-      autoSave: true,
+      autoSave: false,
       autoSaveTable: true
     },
     appData: {
@@ -190,7 +158,6 @@ async function term (data, rowIndex, appEnv, type) {
 };
 
 async function x3 (data, name, rowIndex, appEnv) {
-  let x=data.x3/0;
   const status = { statusCode: 0, msg: `${name} handler executed.` };
   console.log('in x3');
 

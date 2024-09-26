@@ -76,6 +76,8 @@ async function prepFormData (result, appEnv, makerow) {
     const name = s.Column.toLowerCase();
     s.name = name;
     s.Label = (s.Label == null || s.Label.length === 0) ? s.Column : s.Label;
+    s.customType = (s.Type == null) ? 'string' : s.Type.toLowerCase();//keep original type
+    // convert type to valid js types
     s.Type = typeValidation((s.Type == null) ? 'string' : s.Type.toLowerCase());
     /*
     if (s.Type == null) {
@@ -89,7 +91,7 @@ async function prepFormData (result, appEnv, makerow) {
       s.FormattedLength = s.length;
     }
     s.custom = false;
-    s.customType = s.Type;
+    //s.customType = s.Type;
     eColumns[name] = s;
   });
 
@@ -100,8 +102,8 @@ async function prepFormData (result, appEnv, makerow) {
       c.name = k;
       c.custom = true;
       eColumns[k] = c;
-      c.Type = typeValidation((c.Type == null) ? 'string' : c.Type.toLowerCase());
       c.customType = c.Type;
+      c.Type = typeValidation((c.Type == null) ? 'string' : c.Type.toLowerCase());
     }
   }
   let internalColumns = ['_rowIndex', '_modified'];
@@ -123,12 +125,12 @@ async function prepFormData (result, appEnv, makerow) {
   if (makerow === true) {
     let t = {};
     for (const k in eColumns) {
-      t[k] = (eColumns[k].customType === 'string') ? ' ' : (eColumns[k].customType === 'boolean') ? false : 0;
+      t[k] = (eColumns[k].Type === 'string') ? ' ' : (eColumns[k].Type === 'boolean') ? false : 0;
     }
     newRows = [t];
   }
 
-
+  debugger;
   let res = {
     cache  : {schema, rows},
     columns: eColumns,

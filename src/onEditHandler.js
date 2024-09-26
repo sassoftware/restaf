@@ -7,12 +7,13 @@ import handlerResult from './handlerResult';
  * @description Run init, main or term handlers
  * @async
  * @private
- * @module commonHandler
+ * @module onEditHandler
  * @category restafedit/core
- * @param {string} type   - type of exit (init|main|term)
+ * @param {string} type   - type of exit (column name)
  * @param {rowObject} data        - rowObject
  * @param {number} rowIndex    - client-side Row Index
  * @param {appEnv} appEnv      - app Environment from setup
+ * @param {object} status      - status object
  * @returns {promise}     - [data, status]
  * @example
  * The function returns the updated data and the status.
@@ -20,16 +21,15 @@ import handlerResult from './handlerResult';
  * to call this directly
  * Please see the restafeditExample in the Tutorial pulldown
  */
-async function commonHandler (type, data, rowIndex, appEnv, status) {
+async function onEditHandler (type, data, rowIndex, appEnv, status) {
   const { handlers } = appEnv.appControl.editControl;
   appEnv.handlers = handlers;
   let r = null;
-  
+  debugger;
   if (handlers[type] != null) {
     try {
-       r = await handlers[type](data, rowIndex, appEnv, type);
-    } 
-    catch(err){
+       r = await handlers[type](data,type,  rowIndex, appEnv);
+    } catch (err) {
       console.log('Error in handler', type, err);
       status = { statusCode: 2, msg: `Error in handler ${type}. See console` };
       r = null;
@@ -37,4 +37,4 @@ async function commonHandler (type, data, rowIndex, appEnv, status) {
   }
   return handlerResult(r, data, null , status);
 };
-export default commonHandler;
+export default onEditHandler;

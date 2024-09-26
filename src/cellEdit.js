@@ -7,6 +7,7 @@ import text2Float from './text2Float';
 import commonHandler from './commonHandler';
 import updateTableRows from './updateTableRows';
 import handlerResult from './handlerResult';
+import onEditHandler from './onEditHandler';
 import saveTable from './saveTable';
 
 /**
@@ -51,8 +52,12 @@ async function cellEdit (name, value, rowIndex, currentData, appEnv) {
     newDataRow[name] = text2Float(value, columns[name]);
     debugger;
     if (handlers[name] != null) {
+      let r = await onEditHandler(name,newDataRow, rowIndex, appEnv, status);
+      /*
       let r1 = await handlers[name](newDataRow, name, rowIndex, appEnv);
       let r = handlerResult(r1, newDataRow, name, status);
+      */
+     debugger;
       newDataRow = r[0];
       status = r[1];
       if (status.statusCode === 2) {

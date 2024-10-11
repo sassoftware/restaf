@@ -64,6 +64,7 @@ async function cellEdit (name, value, rowIndex, currentData, appEnv) {
         return { data: r[0], status };
       }
     } else {
+      debugger;
       let r1 = await commonHandler('init', newDataRow, rowIndex, appEnv, status);
     }
   }

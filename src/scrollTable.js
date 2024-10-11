@@ -74,7 +74,7 @@ async function icasScroll (direction, appEnv, payload) {
       console.log('cs===', cs);
       if (cs == null) {
         // eslint-disable-next-line no-throw-literal
-        throw `Invalid scroll direction ${direction}`;
+        return null;
       }
       console.log('cs=', cs);
       control = { ...cs };

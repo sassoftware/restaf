@@ -3,6 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import handlerResult from './handlerResult';
+import onEditHandler from './onEditHandler';
 /**
  * @description Run init, main or term handlers
  * @async
@@ -35,6 +36,7 @@ async function commonHandler (type, data, rowIndex, appEnv, status) {
       r = null;
     }
   }
+  debugger;
   return handlerResult(r, data, null , status);
 };
 export default commonHandler;

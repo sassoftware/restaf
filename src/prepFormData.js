@@ -55,7 +55,8 @@ async function prepFormData (result, appEnv, makerow) {
     for (let i = 0; i < rows.length; i++) {
       const t = makeRowObject(schema, rows[i], i);
       // run the init handler for each new row object
-      const [t1, statusi] = await commonHandler('init', t, i, appEnv);
+      debugger;
+      const [t1, statusi] = await commonHandler('init', t, i, appEnv, status);
       status = statusi;
       newRows.push(t1);
     };

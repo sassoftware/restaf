@@ -3,7 +3,7 @@ const { setup, scrollTable, cellEdit,setWhere, termApp,saveTable } = require('..
 const getToken = require('./getToken');
 console.log(getToken);
 
-test('casBasic', async () => {
+test('No Data', async () => {
   console.log(getToken);
   const r = await runit();
   expect(r).toBe('done');

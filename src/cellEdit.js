@@ -3,12 +3,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import text2Float from './text2Float';
-import commonHandler from './commonHandler';
-import updateTableRows from './updateTableRows';
-import handlerResult from './handlerResult';
-import onEditHandler from './onEditHandler';
-import saveTable from './saveTable';
+import text2Float from "./text2Float";
+import commonHandler from "./commonHandler";
+import updateTableRows from "./updateTableRows";
+import handlerResult from "./handlerResult";
+import onEditHandler from "./onEditHandler";
+import saveTable from "./saveTable";
 
 /**
  * @description Process edit of a cell and optionally save the data
@@ -34,64 +34,61 @@ import saveTable from './saveTable';
       - The data for that row will be persisted to the server
  */
 
-async function cellEdit (name, value, rowIndex, currentData, appEnv) {
-
+async function cellEdit(name, value, rowIndex, currentData, appEnv) {
   /* do not modify the data directly. caller will probably do a setState */
   debugger;
   let newDataRow = { ...currentData };
   const columns = appEnv.state.columns;
   const { handlers, autoSave } = appEnv.appControl.editControl;
-  const iautoSave = (autoSave == null) ? true : autoSave;
-  const cachePolicy = (appEnv.appControl.cachePolicy == null) ? true : appEnv.appControl.cachePolicy;
+  const iautoSave = autoSave == null ? true : autoSave;
+  const cachePolicy =
+    appEnv.appControl.cachePolicy == null
+      ? true
+      : appEnv.appControl.cachePolicy;
   appEnv.handlers = handlers;
-  let status = { statusCode: 0, msg: '' };
+  let status = { statusCode: 0, msg: "" };
   debugger;
 
-  if ( name != null ) {
+  if (name != null) {
     debugger;
     newDataRow[name] = text2Float(value, columns[name]);
     debugger;
     if (handlers[name] != null) {
-      let r = await onEditHandler(name,newDataRow, rowIndex, appEnv, status);
-      /*
-      let r1 = await handlers[name](newDataRow, name, rowIndex, appEnv);
-      let r = handlerResult(r1, newDataRow, name, status);
-      */
-     debugger;
+      let r = await onEditHandler(name, newDataRow, rowIndex, appEnv, status);
+      debugger;
       newDataRow = r[0];
       status = r[1];
       if (status.statusCode === 2) {
         return { data: r[0], status };
       }
-    } else {
-      debugger;
-      let r1 = await commonHandler('init', newDataRow, rowIndex, appEnv, status);
     }
+  } else {
+    debugger;
+    let r1 = await commonHandler("init", newDataRow, rowIndex, appEnv, status);
   }
 
-
-  let r = await commonHandler('main', newDataRow, rowIndex, appEnv, status);
- // r = handlerResult(r, newDataRow, null, status);
+  let r = await commonHandler("main", newDataRow, rowIndex, appEnv, status);
+  // r = handlerResult(r, newDataRow, null, status);
   status = r[1];
   if (status.statusCode === 2) {
     return { data: r[0], status: r[1] };
   }
   r[0]._modified = 1;
-  
+
   if (iautoSave === true && appEnv.table != null) {
-    r = await commonHandler('term', r[0], rowIndex, appEnv, status);
-   // r = handlerResult(r, newDataRow, null, status);
+    r = await commonHandler("term", r[0], rowIndex, appEnv, status);
+    // r = handlerResult(r, newDataRow, null, status);
     status = r[1];
     if (status.statusCode === 2) {
       console.log(status);
-       return { data: r[0], status: r[1] };
+      return { data: r[0], status: r[1] };
     }
-      await updateTableRows(r[0], appEnv);
-      if (appEnv.appControl.editControl.autoSaveTable === true) {
-        saveTable(appEnv);
-      }
+    await updateTableRows(r[0], appEnv);
+    if (appEnv.appControl.editControl.autoSaveTable === true) {
+      saveTable(appEnv);
     }
-   // r[0]._modified = 0;
+  }
+  // r[0]._modified = 0;
 
   newDataRow = r[0];
 
@@ -99,6 +96,6 @@ async function cellEdit (name, value, rowIndex, currentData, appEnv) {
     appEnv.state.data[currentData._rowIndex] = newDataRow;
   }
 
-  return ({ data: newDataRow, status });
+  return { data: newDataRow, status };
 }
 export default cellEdit;

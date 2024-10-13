@@ -49,24 +49,30 @@ async function cellEdit(name, value, rowIndex, currentData, appEnv) {
   let status = { statusCode: 0, msg: "" };
   debugger;
 
-  if (name != null) {
-    debugger;
-    newDataRow[name] = text2Float(value, columns[name]);
-    debugger;
-    if (handlers[name] != null) {
-      let r = await onEditHandler(name, newDataRow, rowIndex, appEnv, status);
-      debugger;
-      newDataRow = r[0];
-      status = r[1];
-      if (status.statusCode === 2) {
-        return { data: r[0], status };
-      }
+  // mainly for use with af frames for initialization
+  if (name === "init" || name == null) {  
+    let r = await commonHandler("init", newDataRow, rowIndex, appEnv, status);
+    newDataRow = r[0];
+    if (cachePolicy !== false) {
+      appEnv.state.data[currentData._rowIndex] = newDataRow;
     }
-  } else {
-    debugger;
-    let r1 = await commonHandler("init", newDataRow, rowIndex, appEnv, status);
+    return { data: newDataRow, status };
   }
 
+  // Handle onEdit for all types of forms
+  debugger;
+  newDataRow[name] = text2Float(value, columns[name]);
+  debugger;
+  if (handlers[name] != null) {
+   let r = await onEditHandler(name, newDataRow, rowIndex, appEnv, status);
+    debugger;
+    newDataRow = r[0];
+    status = r[1];
+    if (status.statusCode === 2) {
+      return { data: r[0], status };
+    }
+  }
+  
   let r = await commonHandler("main", newDataRow, rowIndex, appEnv, status);
   // r = handlerResult(r, newDataRow, null, status);
   status = r[1];
@@ -88,7 +94,7 @@ async function cellEdit(name, value, rowIndex, currentData, appEnv) {
       saveTable(appEnv);
     }
   }
-  // r[0]._modified = 0;
+
 
   newDataRow = r[0];
 

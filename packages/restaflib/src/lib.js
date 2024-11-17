@@ -41,8 +41,8 @@ import masDescribe     from './masDescribe';
 import masRun          from './masRun';
 import masAddModel     from './masAddModel';
 
-import casUpload       from './casUpload';
-import uploadData      from './uploadData';
+//import casUpload       from './casUpload';
+//import uploadData      from './uploadData';
 
 
 function lib () {
@@ -84,8 +84,8 @@ function lib () {
         masDescribe: masDescribe,
         masRun     : masRun,
         
-        casUpload : casUpload,
-        uploadData: uploadData
+    //    casUpload : casUpload,
+    //   uploadData: uploadData
     };
 }
 export default lib;

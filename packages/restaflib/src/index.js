@@ -16,7 +16,7 @@ import casFetchRows    from './casFetchRows';
 import casUpdateData   from './casUpdateData';
 import casAppendTable  from './casAppendTable';
 import casTableToJson  from './casTableToJson';
-import casUpload       from './casUpload';
+//import casUpload       from './casUpload';
 import casSaveTable    from './casSaveTable';
 import casLoadTable    from './casLoadTable';
 
@@ -54,7 +54,7 @@ import masAddModel     from './masAddModel';
 //import print           from './print';
 
 
-import uploadData      from './uploadData';
+//import uploadData      from './uploadData';
 
 
 import libx            from './lib';
@@ -71,7 +71,7 @@ export {
     casFetchRows,
     casAppendTable,
     casUpdateData,
-    casUpload,
+    //casUpload,
     casSaveTable,
     casLoadTable,
 
@@ -106,7 +106,7 @@ export {
     masDescribe,
     masRun,
     masScore,
-    uploadData,
+    //uploadData,
 
     lib
 };

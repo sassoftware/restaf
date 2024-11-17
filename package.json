@@ -40,7 +40,8 @@
     "puball": "npm run restaf:pub && npm run restaflib:pub",
     "format": "prettier-eslint --eslint-config-path ./.eslintrc.json --write '**/*.js'",
     "lint": "eslint . --ext .js --fix",
-    "dlink": "npm run dlink --workspaces --if-present"
+    "dlink": "npm run dlink --workspaces --if-present",
+    "bump": "npm version prerelease && npm run bump --workspaces --if-present"
   },
   "devDependencies": {
     "@babel/cli": "^7.23.0",

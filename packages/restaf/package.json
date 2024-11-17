@@ -43,6 +43,7 @@
     "pub": "npm publish --tag alpha --access public",
     "lint": "eslint . --fix",
     "jsdoc": "jsdoc -c jsdoc.json",
-    "dlink": "npm link"
+    "dlink": "npm link",
+    "bump": "npm version prerelease"
   }
 }

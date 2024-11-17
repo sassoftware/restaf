@@ -4,7 +4,7 @@
  */
 
 import { computeRun, computeResults } from '@sassoftware/restaflib';
-import uploadData from './uploadData';
+import uploadData from './uploadData.js';
 
 /**
  * @description Append client data to a master table other than working table

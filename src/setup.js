@@ -30,7 +30,7 @@ import termApp from './termApp';
  * @param {string=} sessionID if specified, this session will be used.Must match source
  * @param {object=} builtins  builtins functions
  * @param {string=} user  user name
- * @param {object=} userFunctions  user functions
+ * @param {object=} userFunctions  user functions/data
  * @param {object=} storeConfig  store configuration - passed to initStore
  *
  *

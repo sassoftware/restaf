@@ -4,7 +4,7 @@
 */
 'use strict';
 
-let fs = require( 'fs' ).promises;
+import fs from 'fs'; 
 
 import  uploadSetup from './uploadSetup';
 import { saveTable } from './uploadHandlers';
@@ -23,6 +23,7 @@ import { saveTable } from './uploadHandlers';
  */
 async function casUpload ( store, session, source, output,save, altSrc ){
     // parse source file to figure out what we are uploading
+    const fss = fs.promises
     let table = output;
     
     if ( typeof output === 'object' ) {
@@ -32,7 +33,7 @@ async function casUpload ( store, session, source, output,save, altSrc ){
     let fileInfo = uploadSetup( source, table );
     // read the file
 
-    let buf = ( altSrc != null ) ? altSrc : await fs.readFile( source, fileInfo.fileOptions );
+    let buf = ( altSrc != null ) ? altSrc : await fss.readFile( source, fileInfo.fileOptions );
 
     // transfrom data if necessary for upload
     if ( fileInfo.transform !== null ) {

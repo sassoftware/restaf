@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-let FormData = require( 'form-data' );
+import FormData from 'form-data';
 async function uploadData ( caslib, fileName, file, type, store,scope ) {
     //Making this self contained 
   

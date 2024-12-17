@@ -17,7 +17,7 @@
  */
 
 async function findReport ( store, name ) {
-    let reports = store.getService( 'reports' );
+    let reports = store.addServices( 'reports' );
     let payload = null;
     if ( name !== null ) {
         payload = {

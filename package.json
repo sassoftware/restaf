@@ -28,7 +28,7 @@
   "scripts": {
     "test": "cd ./packages/tests && npm test",
     "debug": "cd ./packages/tests && npm run debug",
-    "build": "npm build --workspaces --if-present",
+    "build": "npm run build --workspaces --if-present",
     "puball": "npm run pub --workspaces --if-present",
     "format": "prettier-eslint --eslint-config-path ./.eslintrc.json --write '**/*.js'",
     "lint": "eslint . --ext .js --fix",

@@ -30,7 +30,7 @@ async function computeTableList (lib, appEnv, payload) {
   const mylib = await store.apiCall(session.links('librefs'), p);
   
   if (mylib.itemsList().size === 0) {
-    console.log('caslib not found');
+    console.log('libref not found');
     return [];
   }
   

@@ -17,7 +17,8 @@
  */
 
 async function findReport ( store, name ) {
-    let reports = store.addServices( 'reports' );
+    let {reports} = await store.addServices( 'reports' );
+    console.log(reports);
     let payload = null;
     if ( name !== null ) {
         payload = {
@@ -27,7 +28,7 @@ async function findReport ( store, name ) {
         };
     }
     // call the reports service
-    
+    console.log('-----------', reports.links( 'reports' ));
     let reportsList = await store.apiCall( reports.links( 'reports' ), payload );
     // check to see if atleast one report was found(hopefully one only)
     return ( reportsList.itemsList().size === 0 ) ? null : reportsList; 

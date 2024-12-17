@@ -25,6 +25,10 @@ module.exports = async function casEcho ( testInfo ) {
 	let { store, logger } = testInfo;
   debugger;
   
+  let {reports} = store.addServices('reports');
+  let rep = await reports.getReportUri(store, 'Retail Insights');
+  console.log(rep);
+
   let { session } = await casSetup( store, null );
   // console.log(session);
  

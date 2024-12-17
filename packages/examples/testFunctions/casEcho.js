@@ -19,12 +19,15 @@
  */
 "use strict";
 
-let { casSetup, caslRun} = require( '@sassoftware/restaflib' );
+let { casSetup, getReportUri, caslRun} = require( '@sassoftware/restaflib' );
 
 module.exports = async function casEcho ( testInfo ) {
 	let { store, logger } = testInfo;
   debugger;
   
+  let {reports} = await store.addServices('reports');
+  let uri = await getReportUri(store, 'Retail Insights');
+  console.log({uri});
   let { session } = await casSetup( store, null );
   // console.log(session);
  

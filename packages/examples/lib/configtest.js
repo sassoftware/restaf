@@ -20,7 +20,7 @@ let fs = require('fs');
 let getToken = require('./getToken');
 
 module.exports = function configtest () {
-
+/*
 	let appEnv = process.env.RESTAFENV;
 	if (appEnv == null && process.env.DEFAULTENV != null) {
 		appEnv = process.env.DEFAULTENV;
@@ -34,7 +34,7 @@ module.exports = function configtest () {
 		console.log('Please set the VIYA_SERVER either thru env variables or the env file');
 		process.exit(0);
 	}
-
+*/
 	let logonPayload = null;
 	logonPayload = {
 		authType : 'server',

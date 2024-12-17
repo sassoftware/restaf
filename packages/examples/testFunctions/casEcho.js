@@ -33,11 +33,7 @@ module.exports = async function casEcho ( testInfo ) {
 
   let { session } = await casSetup( store, null );
   // console.log(session);
-  let {reports} = await store.addServices('reports');
-  console.log(reports);
-  console.log
-  console.log(reports.items('reports').toJS());
-
+  //let {reports} = await store.addServices('reports');
   let rep = await getReportUri(store, 'Retail Insights');
   console.log(rep);
   console.log('after cassetup', JSON.stringify(store.getXsrfData()));

@@ -59,6 +59,12 @@ async function cellEdit(name, value, rowIndex, currentData, appEnv) {
     return { data: newDataRow, status };
   }
 
+  // Handle term for apps like appBuilder
+  if (name === 'term') {
+    let r = await commonHandler("term", newDataRow, rowIndex, appEnv, status);
+    newDataRow = r[0];
+    return { data: newDataRow, status };
+  }
   // Handle onEdit for all types of forms
   debugger;
   newDataRow[name] = text2Float(value, columns[name]);

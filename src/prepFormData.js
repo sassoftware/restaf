@@ -12,7 +12,7 @@ import typeValidation from './typeValidation.js';
  * @module prepFormData
  * @param {object} result - result from data fetch{schema: [], rows:[]}
  * @param {object} appEnv - app Environment from setup
- * @param {boolean} makerow - function to make a row object
+ * @param {boolean} makerow - create initial
  * @returns {promise}     - {columns: eColumns, rowsObject: newRows, schema: schema, status: status}
  */
 async function prepFormData (result, appEnv, makerow) {
@@ -57,7 +57,9 @@ async function prepFormData (result, appEnv, makerow) {
       // run the init handler for each new row object
       debugger;
       const [t1, statusi] = await commonHandler('init', t, i, appEnv, status);
+      debugger;
       status = statusi;
+      debugger;
       newRows.push(t1);
     };
   } else {
@@ -65,13 +67,14 @@ async function prepFormData (result, appEnv, makerow) {
     let t = addCustomColumns(customColumns, rowObj);
     // run the init handler for each new row object
     const [t1, statusi] = await commonHandler('init', t, 0, appEnv);
- 
+    debugger;
     status = statusi;
     newRows.push(t1);
   }
 
   // extend column and make it an object
   const eColumns = {};
+  debugger;
   schema.forEach((s, i) => {
     
     const name = s.Column.toLowerCase();
@@ -80,14 +83,7 @@ async function prepFormData (result, appEnv, makerow) {
     s.customType = (s.Type == null) ? 'string' : s.Type.toLowerCase();//keep original type
     // convert type to valid js types
     s.Type = typeValidation((s.Type == null) ? 'string' : s.Type.toLowerCase());
-    /*
-    if (s.Type == null) {
-      s.Type = (s.type == null) ? 'number' : s.type;
-    }
-    if (s.Type === 'varchar' | s.Type === 'char'){
-      s.Type = 'string';
-    }
-      */
+   
     if (source ==='compute') {
       s.FormattedLength = s.length;
     }
@@ -96,7 +92,7 @@ async function prepFormData (result, appEnv, makerow) {
     eColumns[name] = s;
   });
 
-  // add computed columns to the array.
+  // add computed columns to the current column set.
   if (customColumns != null) {
     for (const k in customColumns) {
       const c = { ...customColumns[k] };
@@ -126,7 +122,14 @@ async function prepFormData (result, appEnv, makerow) {
   if (makerow === true) {
     let t = {};
     for (const k in eColumns) {
-      t[k] = (eColumns[k].Type === 'string') ? ' ' : (eColumns[k].Type === 'boolean') ? false : 0;
+      let type = eColumns[k].Type;
+      t[k] = (type === 'string') ? ' ' 
+         : (type === 'boolean') ? false 
+         : (type === 'number') ? 0
+         : (type === 'int') ? 0
+         : type === 'object' ? {} 
+         : []; 
+        
     }
     newRows = [t];
   }
@@ -138,7 +141,7 @@ async function prepFormData (result, appEnv, makerow) {
     data   : newRows,
     status
   };
- 
+ console.log('..................', res);
   return res;
 }
 export default prepFormData;

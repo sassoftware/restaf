@@ -4,10 +4,7 @@
  */
 import typeValidation from "./typeValidation";
 function text2Float(value, f) {
-  // Attempting to allow objects as values
-  if (typeof value === "object") {
-    return value;
-  }
+  
   let svalue = value;
   if (typeof value === "string") {
     let t = typeValidation(f.Type.toLowerCase());
@@ -20,7 +17,8 @@ function text2Float(value, f) {
       svalue = parseFloat(value * 1.0);
       if (isNaN(value) === true) {
         value = 0;
-      } else if (t === "boolean") {
+      }
+    } else if (t === "boolean") {
         let vals = ["true", "yes", 1];
         let v = value.toLowerCase();
         if (vals.includes(v)) {
@@ -28,7 +26,8 @@ function text2Float(value, f) {
         } else {
           svalue = false;
         }
-      }
+    } else if ( t === 'array' || t === 'object') {
+      svalue = JSON.parse(value);
     }
   }
   return svalue;

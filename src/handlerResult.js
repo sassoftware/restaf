@@ -4,48 +4,35 @@
  */
 // Allow for a variety of handler forms
 
-function handlerResult(r, data, name, istatus) {
+function handlerResult(obj, data, name, istatus) {
   // let istatus = { statusCode: 0, msg: '' };
   debugger;
   // use case (x) => data.x1=10;
-  if (r == null) {
+  if (obj == null) {
       return [data, istatus];
+  }
+  // use case (x) => return [data, status]
+  if (Array.isArray(obj) === true && obj.length === 2) {
+    if (typeof obj[1] === "object") {
+      let el = Object.keys(obj[1]);
+      if (el.includes("statusCode") && el.includes("msg") && el.length === 2) {
+        return r;
+      }
+    }
+  } 
+
+  // use case (x) => return object
+  else if (typeof obj === "object") {
+    if (obj._rowIndex != null && obj._modified != null) {
+      return [obj, istatus];
+    }
+    else {
+      return [data, istatus];
+    }
   }
 
-  // standard case return [data, status]
-  if (Array.isArray(r) === true) {
-    // return (r.length == 2) ? r : [data, istatus]
-    if (r.length == 2) {
-      if (typeof r[0] === "object") {
-        return r;
-      } else {
-        // return [value, status]
-        data[name] = r[0];
-        return [data, r[1]];
-      }
-    } else {
-      return [data, istatus];
-    }
-    // returning an object
-  } else if (typeof r === "object") {
-    // returning status
-    debugger;
-    if (r.statusCode != null && r.msg != null) {
-      return [data, r];
-    } else if (r._rowIndex != null) {
-      // returning data
-      return [r, istatus];
-    } else {
-      // returning some non-standard object - so ignore it.
-      console.log("handlerResult: non-standard object returned");
-      return [data, istatus];
-    }
-  } else {
-    // returning a value
-    if (name != null) {
-      data[name] = r;
-    }
-    return [data, istatus];
-  }
+
+  
 }
+
 export default handlerResult;

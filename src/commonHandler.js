@@ -2,8 +2,8 @@
  * Copyright © 2022, SAS Institute Inc., Cary, NC, USA.  All Rights Reserved.
  * SPDX-License-Identifier: Apache-2.0
  */
-import handlerResult from './handlerResult';
-import onEditHandler from './onEditHandler';
+import isStdObject from './isStdObject.js';
+
 /**
  * @description Run init, main or term handlers
  * @async
@@ -27,6 +27,7 @@ async function commonHandler (type, data, rowIndex, appEnv, status) {
   let r = null;
   
   if (handlers[type] != null) {
+    debugger;
     try {
        r = await handlers[type](data, rowIndex, appEnv, type);
     } 
@@ -37,6 +38,6 @@ async function commonHandler (type, data, rowIndex, appEnv, status) {
     }
   }
   debugger;
-  return handlerResult(r, data, null , status);
+  return isStdObject(r, data, status);
 };
 export default commonHandler;

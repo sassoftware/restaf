@@ -49,23 +49,19 @@ async function cellEdit(name, value, rowIndex, currentData, appEnv) {
   let status = { statusCode: 0, msg: "" };
   debugger;
 
-  // mainly for use with af frames for initialization
+  // handle init and term for all types of forms
   if (name === "init" || name == null) {  
     let r = await commonHandler("init", newDataRow, rowIndex, appEnv, status);
-    newDataRow = r[0];
-    if (cachePolicy !== false) {
-      appEnv.state.data[currentData._rowIndex] = newDataRow;
-    }
-    return { data: newDataRow, status };
+    return r;
   }
 
   // Handle term for apps like appBuilder
   if (name === 'term') {
     let r = await commonHandler("term", newDataRow, rowIndex, appEnv, status);
-    newDataRow = r[0];
-    return { data: newDataRow, status };
+    return r;
   }
-  // Handle onEdit for all types of forms
+
+  // Handle onEdit for all types of forms - cell calculations + main handler
   debugger;
   newDataRow[name] = text2Float(value, columns[name]);
   debugger;
@@ -80,16 +76,14 @@ async function cellEdit(name, value, rowIndex, currentData, appEnv) {
   }
   
   let r = await commonHandler("main", newDataRow, rowIndex, appEnv, status);
-  // r = handlerResult(r, newDataRow, null, status);
   status = r[1];
+  r[0]._modified = 1;
   if (status.statusCode === 2) {
     return { data: r[0], status: r[1] };
   }
-  r[0]._modified = 1;
-
+ 
   if (iautoSave === true && appEnv.table != null) {
     r = await commonHandler("term", r[0], rowIndex, appEnv, status);
-    // r = handlerResult(r, newDataRow, null, status);
     status = r[1];
     if (status.statusCode === 2) {
       console.log(status);

@@ -2,7 +2,8 @@
  * Copyright © 2022, SAS Institute Inc., Cary, NC, USA.  All Rights Reserved.
  * SPDX-License-Identifier: Apache-2.0
  */
-import handlerResult from './handlerResult';
+//import handlerResult from './handlerResult';
+import isStdObject from './isStdObject';
 /**
  * @description Run init, main or term handlers
  * @async
@@ -32,9 +33,9 @@ async function onEditHandler (type, data, rowIndex, appEnv, status) {
     } catch (err) {
       console.log('Error in handler', type, err);
       status = { statusCode: 2, msg: `Error in handler ${type}. See console` };
-      r = null;
+      return [data, status];
     }
   }
-  return handlerResult(r, data, null , status);
+  return isStdObject(r, data, status);
 };
 export default onEditHandler;

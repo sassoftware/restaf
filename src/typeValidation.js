@@ -8,6 +8,7 @@ function typeValidation(type) {
   const numberTypes = ["decimal", "number", "double", "float"];
   const intTypes = ["int", "integer", 'int64'];
   const booleanTypes = ['boolean'];
+  const objectTypes = ['object', 'array'];
 
   let r = type;
   if (type == null) {
@@ -20,6 +21,10 @@ function typeValidation(type) {
     r = 'int';
   } else if (booleanTypes.includes(type)) {
     r = 'boolean';
+  } else if (objectTypes.includes(type) === 'array') {
+    r = type;
+  } else {
+    r = 'number';
   }
 
   return r;

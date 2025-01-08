@@ -25,19 +25,37 @@ function isStdObject(obj, data, status) {
     } else {
       r2 = status;
     }
-    debugger;
-    return [r1, r2];
 
+  } else {
+     r1 = obj;
+     r2 = status;
   }
 
-  // use case (x) => return data
-  if (typeof obj === "object" && obj._rowIndex != null && obj._modified != null) {
-    return [obj, status];
+  if (compareDataObject(Object.keys(r1), Object.keys(data)) === true) {
+    let typeCheck = true;
+    for (let k in r1) {
+      if (typeof r1[k] !== typeof data[k]) {
+        console.log(`Error: Attempting to change the  typeof ${k}. Retaining current value`);
+        typeCheck = false;
+        }
+      }
+    return (typeCheck === true) ? [r1, r2] : [data, status];
+  } else {
+    console.log('Error: You cannot change the schema of data. Retaining current values');
+    return [data, status];
   }
-
-  // ignore all other cases and return [data, status]
-
-  return [data, status];
+}
+function compareDataObject (a, b) {
+ let r =  a.length === b.length &&
+  a.every((element, index) => {
+    let r1 = true;
+    if (element !== b[index]) {
+      console.log(`${element} cannot be added`); 
+      r1 = false;
+    }
+    return r1;
+  })
+  return r;
 }
 
 export default isStdObject;

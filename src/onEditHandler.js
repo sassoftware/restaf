@@ -36,6 +36,6 @@ async function onEditHandler (type, data, rowIndex, appEnv, status) {
       return [data, status];
     }
   }
-  return isStdObject(r, data, status);
+  return isStdObject(r, appEnv.state.data[rowIndex], status);
 };
 export default onEditHandler;

@@ -136,10 +136,12 @@ async function setup(
     id: Date(),
   };
 
+  /*
   if (logonPayload && logonPayload.host == null) {
     // eslint-disable-next-line no-throw-literal
     throw "ERROR: Please specify a Viya host";
   }
+    */
   appEnv = await useEntry(
     store,
     null /*logonPayload*/,
@@ -175,7 +177,6 @@ async function nosource(_store, _logonPayload, appControl, appEnv, _sessionID) {
   appEnv.state.data = r.data;
   appEnv.state.columns = r.columns;
   appEnv.state.cache = r.cache;
-  console.log(appEnv);
   return appEnv;
 }
 
@@ -276,7 +277,6 @@ async function icomputeSetup(
     console.log('running preamble', appControl.preamble);
     const result = await computeRun( store, session, appControl.preamble );
     if ( result.SASJobStatus === 'error' ) {
-      console.log(result.SASJobStatus);
       let log = await computeResults(store, result, 'log');
       console.log(log);
       throw `Error: Preamble failed with completion code of ${result.SASJobStatus}`;

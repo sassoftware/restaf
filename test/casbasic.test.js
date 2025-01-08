@@ -136,7 +136,7 @@ function getAppControl () {
 
       uiControl: {
         defaultComponent: 'InputEntry',
-        show            : ['id', 'total', 'x2', 'x1', 'x3'],
+        show            : ['id', 'total','arr', 'x2', 'x1', 'x3'],
         visuals         : {
           x2: {
             component: 'Slider',
@@ -193,6 +193,14 @@ async function x3 (data, name, rowIndex, appEnv) {
   let x=data.x3/0;
   const status = { statusCode: 0, msg: `${name} handler executed.` };
   console.log('in x3');
+
+  return [data, status];
+};
+async function arr (data, name, rowIndex, appEnv) {
+  data.arr =[10,20,30];
+
+  const status = { statusCode: 0, msg: `${name} handler executed.` };
+  console.log('in arr');
 
   return [data, status];
 };

@@ -62,10 +62,19 @@ async function prepFormData (result, appEnv, makerow) {
       debugger;
       newRows.push(t1);
     };
+    appEnv.state.data = newRows;
+    for (let i = 0; i < rows.length; i++) {
+      const [t1, statusi] = await commonHandler('init', t, i, appEnv);
+      debugger;
+      status = statusi;
+      newRows[i] = t1;
+    }
+    // app frame
   } else {
     let rowObj = {_rowIndex: 0, _modified: 0 };
     let t = addCustomColumns(customColumns, rowObj);
     // run the init handler for each new row object
+    appEnv.state.data = [t];
     const [t1, statusi] = await commonHandler('init', t, 0, appEnv);
     debugger;
     status = statusi;
@@ -141,7 +150,6 @@ async function prepFormData (result, appEnv, makerow) {
     data   : newRows,
     status
   };
- console.log('..................', res);
   return res;
 }
 export default prepFormData;

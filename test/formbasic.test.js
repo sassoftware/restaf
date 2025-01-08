@@ -1,5 +1,5 @@
 /* eslint-disable quotes */
-const { setup, scrollTable, cellEdit,setWhere, termApp,saveTable } = require('../lib/index.js');
+const { setup,  cellEdit, termApp  } = require('../lib/index.js');
 const getToken = require('./getToken.js');
 //console.log(getToken);
 
@@ -10,7 +10,7 @@ test('formBasic', async () => {
 
 async function runit () {
   const payload = {
-    host: 'http://localhost',
+    host: null,
     authType: 'none'
 
   };
@@ -25,14 +25,10 @@ async function runit () {
   debugger;
   const appEnv = await setup(payload, appControl);
   debugger;
-  /*
-  console.log(appEnv.builtins);
-  console.log(appEnv.state.tableSummary);
-  console.log(appEnv);
-  */
 
-  let r = await cellEdit('total',200, 0, appEnv.state.data[0], appEnv);
-  console.log(r);
+  let r = await cellEdit('number',200, 0, appEnv.state.data[0], appEnv);
+  console.log(appEnv.state.data[0]);
+  r = await cellEdit('array', [1,2], 0, appEnv.state.data[0], appEnv);
   console.log(appEnv.state.data[0]);
   await termApp(appEnv);
   
@@ -45,18 +41,48 @@ function getAppControl () {
     description: 'Simple Example',
     source: 'none',
     customColumns: {
-      total: {
-        Column         : 'Total',
-        Label          : 'Grand Total',
+      number: {
+        Column         : 'Number',
+        Label          : 'Grand Number',
         FormattedLength: 12,
-        Type           : 'double'
+        Type           : 'double',
+        value: 0
+      },
+      string: {
+        Column         : 'string',
+        Label          : 'string',
+        FormattedLength: 12,
+        Type           : 'string',
+        value:'aaa'
+      },
+      array: {
+        Column         : 'array',
+        Label          : 'Array',
+        FormattedLength: 12,
+        Type           : 'array',
+        value: []
+      },
+      object: {
+        Column         : 'object',
+        Label          : 'Object',
+        FormattedLength: 12,
+        Type           : 'object',
+        value: {}
+      },
+      boolean: {
+        Column         : 'boolean',
+        Label          : 'Boolean',
+        FormattedLength: 12,
+        Type           : 'boolean',
+        value: true
       }
     },
     editControl: {
-      handlers: { initApp, init, main, term, initApp, termApp: termMyApp, total }, 
+      handlers: { initApp, init, main, term, initApp, termApp: termMyApp, number, array }, 
       autoSave: true,
       autoSaveTable: true
-    }
+    },
+    
   };
 }
 
@@ -86,9 +112,24 @@ async function term (data, rowIndex, appEnv, type) {
   return [data, status];
 };
 
-async function total (data, name, rowIndex, appEnv) {
+async function number (data, name, rowIndex, appEnv) {
   const status = { statusCode: 0, msg: `${name} handler executed.` };
   console.log(data[name]);
-  console.log('in total');
+  data['foo'] = 'bar';
+  data.array = 10;
+  console.log('---------------in number');
+  return [data, status];
+};
+async function array (data, name, rowIndex, appEnv) {
+  const status = { statusCode: 0, msg: `${name} handler executed.` };
+  data[name] = [20,30]; 
+  console.log(data[name]);
+  console.log('in array');
+  return [data, status];
+};
+async function obj1 (data, name, rowIndex, appEnv) {
+  const status = { statusCode: 0, msg: `${name} handler executed.` };
+  console.log(data[name]);
+  console.log('in obj1');
   return [data, status];
 };

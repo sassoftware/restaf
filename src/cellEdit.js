@@ -50,13 +50,13 @@ async function cellEdit(name, value, rowIndex, currentData, appEnv) {
   debugger;
 
   // handle init and term for all types of forms
-  if (name === "init" || name == null) {  
+  if (name === "_init" || name == null) {  
     let r = await commonHandler("init", newDataRow, rowIndex, appEnv, status);
     return r;
   }
 
   // Handle term for apps like appBuilder
-  if (name === 'term') {
+  if (name === '_term') {
     let r = await commonHandler("term", newDataRow, rowIndex, appEnv, status);
     return r;
   }

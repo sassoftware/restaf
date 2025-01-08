@@ -27,7 +27,7 @@ function text2Float(value, f) {
           svalue = false;
         }
     } else if ( t === 'array' || t === 'object') {
-      svalue = JSON.parse(value);
+      svalue = value;
     }
   }
   return svalue;

@@ -21,7 +21,7 @@ function typeValidation(type) {
     r = 'int';
   } else if (booleanTypes.includes(type)) {
     r = 'boolean';
-  } else if (objectTypes.includes(type) === 'array') {
+  } else if (objectTypes.includes(type)) {
     r = type;
   } else {
     r = 'number';

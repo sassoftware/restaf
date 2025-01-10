@@ -6,7 +6,6 @@
 import text2Float from "./text2Float";
 import commonHandler from "./commonHandler";
 import updateTableRows from "./updateTableRows";
-import handlerResult from "./handlerResult";
 import onEditHandler from "./onEditHandler";
 import saveTable from "./saveTable";
 
@@ -34,7 +33,18 @@ import saveTable from "./saveTable";
       - The data for that row will be persisted to the server
  */
 
-async function cellEdit(name, value, rowIndex, currentData, appEnv) {
+async function cellEdit(...args) {
+  if (args.length === 3) {
+    let [name, value, appEnv] = args;
+    return await icellEdit(name, value, 0, appEnv.state.data[0], appEnv);
+  } else if (args.length === 5) {
+    let [name, value, rowIndex, currentData, appEnv] = args;
+    return await icellEdit(name, value, rowIndex, currentData, appEnv);
+  } else {
+    return { data: null, status: { statusCode: 2, msg: "Invalid arguments to cellEdit" } };
+  }
+}
+async function icellEdit(name, value, rowIndex, currentData, appEnv) {
   /* do not modify the data directly. caller will probably do a setState */
   debugger;
   let newDataRow = { ...currentData };
@@ -50,13 +60,13 @@ async function cellEdit(name, value, rowIndex, currentData, appEnv) {
   debugger;
 
   // handle init and term for all types of forms
-  if (name === "_init" || name == null) {  
+  if (name === "init" || name == null) {  
     let r = await commonHandler("init", newDataRow, rowIndex, appEnv, status);
     return r;
   }
 
   // Handle term for apps like appBuilder
-  if (name === '_term') {
+  if (name === 'term') {
     let r = await commonHandler("term", newDataRow, rowIndex, appEnv, status);
     return r;
   }

@@ -3,6 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 // Allow for a variety of handler forms
+// TBD: remove once isStdObject is production ready
 
 function handlerResult(obj, data, name, istatus) {
   // let istatus = { statusCode: 0, msg: '' };

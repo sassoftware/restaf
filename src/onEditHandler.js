@@ -29,13 +29,19 @@ async function onEditHandler (type, data, rowIndex, appEnv, status) {
   debugger;
   if (handlers[type] != null) {
     try {
-       r = await handlers[type](data,type,  rowIndex, appEnv);
+      r = ( appEnv.appType === 'form' ) 
+          ? await handlers[type](data, appEnv)
+          : await handlers[type](data, type, rowIndex, appEnv);
     } catch (err) {
       console.log('Error in handler', type, err);
       status = { statusCode: 2, msg: `Error in handler ${type}. See console` };
       return [data, status];
     }
   }
-  return isStdObject(r, appEnv.state.data[rowIndex], status);
+  if (r == null) {
+     r = [data, status];
+  }
+  return isStdObject(r, data, status, type, rowIndex,appEnv );
+  
 };
 export default onEditHandler;

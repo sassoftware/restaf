@@ -29,7 +29,11 @@ async function commonHandler (type, data, rowIndex, appEnv, status) {
   if (handlers[type] != null) {
     debugger;
     try {
-       r = await handlers[type](data, rowIndex, appEnv, type);
+      if ( appEnv.appType === 'form' ) { 
+         r = await handlers[type](data, appEnv.appContext);
+      } else {
+        r = await handlers(data, rowIndex, appEnv.appContext, type);
+      }
     } 
     catch(err){
       console.log('Error in handler', type, err);
@@ -38,7 +42,16 @@ async function commonHandler (type, data, rowIndex, appEnv, status) {
     }
   }
   debugger;
- 
-  return isStdObject(r, data, status, type);
+  /*
+  r = whatever the user returns (good or bad)
+  data = the data that was passed to user and possiblly modified
+  appEnv = the appEnv object
+  type = the type of handler
+
+  Now make sure the returned is compliant with the defined schema
+  
+  */
+
+  return isStdObject(r, data, status, type, rowIndex,appEnv);
 };
 export default commonHandler;

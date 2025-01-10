@@ -5,6 +5,10 @@
 /* eslint-disable prefer-const */
 
 import { initStore } from "@sassoftware/restaf";
+import getViyaSession from "./getViyaSession";
+import deleteViyaSession from "./deleteViyaSession";
+import wrapBuiltins from "./wrapBuiltins";
+import builtins from "./builtins";
 import {
   casSetup,
   computeSetup,
@@ -53,9 +57,9 @@ async function setup(
   logonPayload,
   appControl,
   sessionID,
-  builtins,
+  ubuiltins,
   user,
-  userFunctions,
+  userData,
   storeConfig
 ) {
   const { source } = appControl;
@@ -99,6 +103,8 @@ async function setup(
   });
   debugger;
   let appEnv = {
+    appType: appControl.appType,/* form|dataform */
+    viewType: appControl.viewType,/*form |table*/
     source: source,
     table: appControl.table,
     byvars: appControl.byvar,
@@ -107,11 +113,7 @@ async function setup(
     user: user,
     fetchCount: 0,
     store,
-    session: null,
-    servers: null,
-    sessionID: null,
-    userSessionID: null,
-    userFunctions: userFunctions != null ? userFunctions : {},
+    userFunctions: userData != null ? userData : {},// need to remove this
     casServerName: appControl.casServerName,
     computeContext: appControl.computeContext,
     logonPayload,
@@ -121,7 +123,7 @@ async function setup(
       appControl.initialFetch.qs.where != null
         ? appControl.initialFetch.qs.where
         : " ",
-    builtins: builtins != null ? builtins : {},
+    builtins: {},
 
     state: {
       cache: { rows: [], schema: [] },
@@ -134,14 +136,11 @@ async function setup(
     },
 
     id: Date(),
+    _appContext: {
+      
+    }
   };
 
-  /*
-  if (logonPayload && logonPayload.host == null) {
-    // eslint-disable-next-line no-throw-literal
-    throw "ERROR: Please specify a Viya host";
-  }
-    */
   appEnv = await useEntry(
     store,
     null /*logonPayload*/,
@@ -149,6 +148,7 @@ async function setup(
     appEnv,
     sessionID
   );
+  
   if (appControl.source !== 'none') {
     let id1 = appEnv.session.items("id");
     let ssid = await store.apiCall(appEnv.session.links("self"));
@@ -156,12 +156,37 @@ async function setup(
     appEnv.sessionID = id;
     appEnv.userSessionID = sessionID;
   }
+    
+
+  const getViyaSessionf = (appEnv) => async (source) => {
+    let r = getViyaSession(appEnv, source);
+    return r;
+  };
+  const delViyaSessionf = (appEnv) => async (source) => {
+    let r = deleteViyaSession(appEnv, source);
+    return r;
+  };
+  appEnv.getViyaSession = getViyaSessionf(appEnv);
+  appEnv.deleteViyaSession = delViyaSessionf(appEnv);
+  appEnv.appContext = {
+    logonPayload: logonPayload,
+    store: store,
+    storeConfig: storeConfig,
+    userData: userData,
+    appPathname: null,
+    getViyaSession: appEnv.getViyaSession,
+    deleteViyaSession: appEnv.deleteViyaSession,
+  }
+
+  // lastly wrap the builtins with appEnv
+
+  appEnv.builtins = wrapBuiltins((ubuiltins != null ? ubuiltins: builtins,appEnv));
   return appEnv;
 }
 
 // _nosource
 async function nosource(_store, _logonPayload, appControl, appEnv, _sessionID) {
-
+  
   let r = await prepFormData(appEnv.state.cache, appEnv, true);
   // TBD: Need to handle preamble for this case.
   if (appControl.editControl.handlers.initApp != null) {
@@ -174,9 +199,12 @@ async function nosource(_store, _logonPayload, appControl, appEnv, _sessionID) {
       throw "ERROR: initApp failed. Please see console for messages";
     }
   }
+  /*
   appEnv.state.data = r.data;
   appEnv.state.columns = r.columns;
   appEnv.state.cache = r.cache;
+  */
+  
   return appEnv;
 }
 
@@ -186,6 +214,7 @@ async function _initApp(appEnv) {
       appEnv,
       "initApp"
     );
+    
     if (r.statusCode === 2) {
       console.log(JSON.stringify(r, null, 4));
       // eslint-disable-next-line no-throw-literal
@@ -271,8 +300,6 @@ async function icomputeSetup(
     console.log(err);
     throw "ERROR: initApp failed. Please see console for messages";
   }
-  
-  
   if ( appControl.preamble != null ) {
     console.log('running preamble', appControl.preamble);
     const result = await computeRun( store, session, appControl.preamble );

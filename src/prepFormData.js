@@ -56,6 +56,7 @@ async function prepFormData (result, appEnv, makerow) {
       const t = makeRowObject(schema, rows[i], i);
       // run the init handler for each new row object
       debugger;
+      
       const [t1, statusi] = await commonHandler('init', t, i, appEnv, status);
       debugger;
       status = statusi;
@@ -74,7 +75,7 @@ async function prepFormData (result, appEnv, makerow) {
     let rowObj = {_rowIndex: 0, _modified: 0 };
     let t = addCustomColumns(customColumns, rowObj);
     // run the init handler for each new row object
-    appEnv.state.data = [t];
+    appEnv.state.data = [{...t}];
     const [t1, statusi] = await commonHandler('init', t, 0, appEnv);
     debugger;
     status = statusi;
@@ -144,6 +145,12 @@ async function prepFormData (result, appEnv, makerow) {
   }
 
   debugger;
+  appEnv.state = {
+    cache  : {schema, rows},
+    columns: eColumns,
+    data   : newRows,
+  }
+  
   let res = {
     cache  : {schema, rows},
     columns: eColumns,

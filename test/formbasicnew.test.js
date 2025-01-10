@@ -26,9 +26,9 @@ async function runit () {
   const appEnv = await setup(payload, appControl);
   debugger;
 
-  let r = await cellEdit('number',200, 0, appEnv.state.data[0], appEnv);
+  let r = await cellEdit('number',200,appEnv);
   console.log(appEnv.state.data[0]);
-  r = await cellEdit('array', [1,2], 0, appEnv.state.data[0], appEnv);
+  r = await cellEdit('array', [1,2], appEnv);
   console.log(appEnv.state.data[0]);
   await termApp(appEnv);
   

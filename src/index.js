@@ -7,8 +7,8 @@
 import restaf from '@sassoftware/restaf';
 import restaflib from '@sassoftware/restaflib';
 import cellEdit from './cellEdit';
+
 import commonHandler from './commonHandler';
-import controlProgram from './controlProgram';
 import updateTableRows from './updateTableRows';
 import scrollTable from './scrollTable';
 import fetchRows from './fetchRows';
@@ -34,7 +34,6 @@ import prepFormData from './prepFormData';
 export {
   cellEdit,
   commonHandler,
-  controlProgram,
   distinctValues,
   scrollTable,
   fetchRows,

@@ -25,13 +25,14 @@ async function runit () {
   debugger;
   const appEnv = await setup(payload, appControl);
   debugger;
-
-  let r = await cellEdit('number',200, 0, appEnv.state.data[0], appEnv);
   console.log(appEnv.state.data[0]);
-  r = await cellEdit('array', [1,2], 0, appEnv.state.data[0], appEnv);
+ 
+  r = await cellEdit('number', 500, appEnv);
+  console.log(appEnv.state.data[0]);
+
+  r = await cellEdit('array', [1,2], appEnv);
   console.log(appEnv.state.data[0]);
   await termApp(appEnv);
-  
   
   return 'done';
 };
@@ -80,7 +81,7 @@ function getAppControl () {
       }
     },
     editControl: {
-      handlers: { initApp, init, main, term, initApp, termApp: termMyApp, number, array }, 
+      handlers: { initApp, init, main, term, initApp, termApp: termMyApp,number, array }, 
       autoSave: true,
       autoSaveTable: true
     },
@@ -100,7 +101,8 @@ async function termMyApp (appEnv) {
 async function init (data, appEnv) {
   console.log('in init');
   const status = { statusCode: 0, msg: `init processing completed` };
-  console.log(data)
+  console.log(data);
+  data.number = 1000;
   return [data, status];
 };
 async function main (data, appEnv) {
@@ -114,22 +116,9 @@ async function term (data, appEnv) {
   return [data, status];
 };
 
-async function number (data,appEnv) {
-  const status = { statusCode: 0, msg: `number handler executed.` };
-  data.number = 2000;
-  console.log('---------------in number');
-  return {statusCode: 0, msg: 'done'};
-};
-async function array (data,appEnv) {
-  const status = { statusCode: 0, msg: `array  handler executed.` };
-  data.array = [20,30]; 
-  console.log(data.array);
-  console.log('in array');
- // return [data, status];
-};
-async function obj1 (data, appEnv) {
-  const status = { statusCode: 0, msg: `obj1 handler executed.` };
-  console.log(data.obj1);
-  console.log('in obj1');
-  return [data, status];
+const  array = (data,appEnv) => 1000;
+
+async function number (data, appEnv) {
+  return ['1', '2']
+ 
 };

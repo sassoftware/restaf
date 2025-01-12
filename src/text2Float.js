@@ -4,7 +4,6 @@
  */
 import typeValidation from "./typeValidation";
 function text2Float(value, f) {
-  
   let svalue = value;
   if (typeof value === "string") {
     let t = typeValidation(f.Type.toLowerCase());

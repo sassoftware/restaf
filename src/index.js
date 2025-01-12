@@ -7,6 +7,8 @@
 import restaf from '@sassoftware/restaf';
 import restaflib from '@sassoftware/restaflib';
 import cellEdit from './cellEdit';
+import updateValue from './updateValue';  
+import runControlLabel from './runControlLabel';
 
 import commonHandler from './commonHandler';
 import updateTableRows from './updateTableRows';
@@ -33,6 +35,8 @@ import prepFormData from './prepFormData';
 
 export {
   cellEdit,
+  updateValue,
+  runControlLabel,
   commonHandler,
   distinctValues,
   scrollTable,

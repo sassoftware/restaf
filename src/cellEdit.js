@@ -8,6 +8,7 @@ import commonHandler from "./commonHandler";
 import updateTableRows from "./updateTableRows";
 import onEditHandler from "./onEditHandler";
 import saveTable from "./saveTable";
+import validateValueType from "./validateValueType";
 
 /**
  * @description Process edit of a cell and optionally save the data
@@ -33,21 +34,13 @@ import saveTable from "./saveTable";
       - The data for that row will be persisted to the server
  */
 
-async function cellEdit(...args) {
-  if (args.length === 3) {
-    let [name, value, appEnv] = args;
-    return await icellEdit(name, value, 0, appEnv.state.data[0], appEnv);
-  } else if (args.length === 5) {
-    let [name, value, rowIndex, currentData, appEnv] = args;
-    return await icellEdit(name, value, rowIndex, currentData, appEnv);
-  } else {
-    return { data: null, status: { statusCode: 2, msg: "Invalid arguments to cellEdit" } };
-  }
-}
-async function icellEdit(name, value, rowIndex, currentData, appEnv) {
+async function cellEdit(name, value, rowIndex, _icurrentData, appEnv) {
   /* do not modify the data directly. caller will probably do a setState */
   debugger;
-  let newDataRow = { ...currentData };
+  // make a copy for modification - allows for recovery if there is an error
+  let currentData = appEnv.state.data[rowIndex];
+  // all modifications in newDataRow
+  let newDataRow = Object.assign({}, currentData);
   const columns = appEnv.state.columns;
   const { handlers, autoSave } = appEnv.appControl.editControl;
   const iautoSave = autoSave == null ? true : autoSave;
@@ -60,23 +53,36 @@ async function icellEdit(name, value, rowIndex, currentData, appEnv) {
   debugger;
 
   // handle init and term for all types of forms
+  // user will edit newData in place.
   if (name === "init" || name == null) {  
-    let r = await commonHandler("init", newDataRow, rowIndex, appEnv, status);
+    let r = await commonHandler("init", newDataRow, currentData, rowIndex, appEnv, status);
     return r;
   }
 
   // Handle term for apps like appBuilder
   if (name === 'term') {
-    let r = await commonHandler("term", newDataRow, rowIndex, appEnv, status);
+    let r = await commonHandler("term", newDataRow, currentData, rowIndex, appEnv, status);
     return r;
   }
 
   // Handle onEdit for all types of forms - cell calculations + main handler
   debugger;
+
+  // is it a valid column name?
+  if (columns[name] == null) {
+    return { data: appEnv.state.data, status: { statusCode: 2, msg: `Column ${name} not found` } };
+  }
+
+  // is it a valid value for the column type
+  if (validateValueType(value, columns[name].Type) === false) {
+    console.log(`Type of value does not match ${name} type. Type of ${name} is ${columns[name].Type}`);  
+    return { data: currentData, status: { statusCode: 2, msg: `Type of value does not match ${name} type` } };
+  }
+
   newDataRow[name] = text2Float(value, columns[name]);
   debugger;
   if (handlers[name] != null) {
-   let r = await onEditHandler(name, newDataRow, rowIndex, appEnv, status);
+   let r = await onEditHandler(name, newDataRow,currentData, rowIndex, appEnv, status);
     debugger;
     newDataRow = r[0];
     status = r[1];
@@ -85,13 +91,14 @@ async function icellEdit(name, value, rowIndex, currentData, appEnv) {
     }
   }
   
-  let r = await commonHandler("main", newDataRow, rowIndex, appEnv, status);
+  let r = await commonHandler("main", newDataRow, currentData, rowIndex, appEnv, status);
   status = r[1];
   r[0]._modified = 1;
   if (status.statusCode === 2) {
     return { data: r[0], status: r[1] };
   }
  
+  // if editing table, see if we need to save the table
   if (iautoSave === true && appEnv.table != null) {
     r = await commonHandler("term", r[0], rowIndex, appEnv, status);
     status = r[1];

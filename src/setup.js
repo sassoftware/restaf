@@ -8,7 +8,6 @@ import { initStore } from "@sassoftware/restaf";
 import getViyaSession from "./getViyaSession";
 import deleteViyaSession from "./deleteViyaSession";
 import wrapBuiltins from "./wrapBuiltins";
-import builtins from "./builtins";
 import {
   casSetup,
   computeSetup,
@@ -34,7 +33,7 @@ import termApp from './termApp';
  * @param {string=} sessionID if specified, this session will be used.Must match source
  * @param {object=} builtins  builtins functions
  * @param {string=} user  user name
- * @param {object=} userFunctions  user functions/data
+ * @param {object=} userData  user data
  * @param {object=} storeConfig  store configuration - passed to initStore
  *
  *
@@ -57,12 +56,22 @@ async function setup(
   logonPayload,
   appControl,
   sessionID,
-  ubuiltins,
+  builtins,
   user,
   userData,
   storeConfig
 ) {
   const { source } = appControl;
+
+  const getViyaSessionf = (appEnv) => async (source) => {
+    let r = getViyaSession(appEnv, source);
+    return r;
+  };
+
+  const delViyaSessionf = (appEnv) => async (source) => {
+    let r = deleteViyaSession(appEnv, source);
+    return r;
+  };
 
   debugger;
   if (storeConfig == null) {
@@ -94,6 +103,8 @@ async function setup(
     }
   };
   // check
+  _verify("source", "none");
+  _verify("apiVersion", 1);
   _verify("table", null);
   _verify("byvars", []);
   _verify("customColumns", {});
@@ -102,10 +113,14 @@ async function setup(
     qs: { start: 0, limit: 10, format: false, where: " " },
   });
   debugger;
+  // default to version 1
+  if (appControl.apiVersion == null) {
+    appControl.apiVersion = 1;
+  }
+ 
   let appEnv = {
-    appType: appControl.appType,/* form|dataform */
-    viewType: appControl.viewType,/*form |table*/
     source: source,
+    apiVersion: appControl.apiVersion,
     table: appControl.table,
     byvars: appControl.byvar,
     userData: {},
@@ -113,9 +128,15 @@ async function setup(
     user: user,
     fetchCount: 0,
     store,
-    userFunctions: userData != null ? userData : {},// need to remove this
+    storeConfig: storeConfig,
+    session: null,
+    servers: null,
+    sessionID: null,
+    userSessionID: null,
+    userData: userData != null ? userData : {},
     casServerName: appControl.casServerName,
     computeContext: appControl.computeContext,
+    serverContext:  appControl.source === "cas" ? appControl.casServerName : appControl.computeContext,
     logonPayload,
     appControl,
 
@@ -123,7 +144,7 @@ async function setup(
       appControl.initialFetch.qs.where != null
         ? appControl.initialFetch.qs.where
         : " ",
-    builtins: {},
+    builtins: builtins != null ? builtins : {},
 
     state: {
       cache: { rows: [], schema: [] },
@@ -134,13 +155,18 @@ async function setup(
       columns: {},
       tableSummary: {},
     },
-
+    appContext: {
+      userData: userData,
+    }, 
     id: Date(),
-    _appContext: {
-      
-    }
   };
 
+  /*
+  if (logonPayload && logonPayload.host == null) {
+    // eslint-disable-next-line no-throw-literal
+    throw "ERROR: Please specify a Viya host";
+  }
+    */
   appEnv = await useEntry(
     store,
     null /*logonPayload*/,
@@ -148,45 +174,23 @@ async function setup(
     appEnv,
     sessionID
   );
-  
   if (appControl.source !== 'none') {
-    let id1 = appEnv.session.items("id");
     let ssid = await store.apiCall(appEnv.session.links("self"));
     let id = ssid.items("id");
     appEnv.sessionID = id;
     appEnv.userSessionID = sessionID;
   }
-    
-
-  const getViyaSessionf = (appEnv) => async (source) => {
-    let r = getViyaSession(appEnv, source);
-    return r;
-  };
-  const delViyaSessionf = (appEnv) => async (source) => {
-    let r = deleteViyaSession(appEnv, source);
-    return r;
-  };
-  appEnv.getViyaSession = getViyaSessionf(appEnv);
-  appEnv.deleteViyaSession = delViyaSessionf(appEnv);
-  appEnv.appContext = {
-    logonPayload: logonPayload,
-    store: store,
-    storeConfig: storeConfig,
-    userData: userData,
-    appPathname: null,
-    getViyaSession: appEnv.getViyaSession,
-    deleteViyaSession: appEnv.deleteViyaSession,
-  }
-
-  // lastly wrap the builtins with appEnv
-
-  appEnv.builtins = wrapBuiltins((ubuiltins != null ? ubuiltins: builtins,appEnv));
+ 
+  appEnv.appContext.getViyaSession = getViyaSessionf(appEnv);
+  appEnv.appContext.deleteViyaSession = delViyaSessionf(appEnv);
+  appEnv.appContext.builtins = wrapBuiltins(builtins,appEnv);
+ debugger;
   return appEnv;
 }
 
 // _nosource
 async function nosource(_store, _logonPayload, appControl, appEnv, _sessionID) {
-  
+
   let r = await prepFormData(appEnv.state.cache, appEnv, true);
   // TBD: Need to handle preamble for this case.
   if (appControl.editControl.handlers.initApp != null) {
@@ -199,12 +203,9 @@ async function nosource(_store, _logonPayload, appControl, appEnv, _sessionID) {
       throw "ERROR: initApp failed. Please see console for messages";
     }
   }
-  /*
   appEnv.state.data = r.data;
   appEnv.state.columns = r.columns;
   appEnv.state.cache = r.cache;
-  */
-  
   return appEnv;
 }
 
@@ -214,7 +215,6 @@ async function _initApp(appEnv) {
       appEnv,
       "initApp"
     );
-    
     if (r.statusCode === 2) {
       console.log(JSON.stringify(r, null, 4));
       // eslint-disable-next-line no-throw-literal
@@ -300,6 +300,8 @@ async function icomputeSetup(
     console.log(err);
     throw "ERROR: initApp failed. Please see console for messages";
   }
+  
+  
   if ( appControl.preamble != null ) {
     console.log('running preamble', appControl.preamble);
     const result = await computeRun( store, session, appControl.preamble );

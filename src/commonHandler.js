@@ -21,18 +21,20 @@ import isStdObject from './isStdObject.js';
  * to call this directly
  * Please see the restafeditExample in the Tutorial pulldown
  */
-async function commonHandler (type, data, rowIndex, appEnv, status) {
+async function commonHandler (type, temp, currentData, rowIndex, appEnv, status) {
   const { handlers } = appEnv.appControl.editControl;
   appEnv.handlers = handlers;
   let r = null;
-  
+  //let temp  = Object.assign({}, data);
   if (handlers[type] != null) {
     debugger;
     try {
-      if ( appEnv.appType === 'form' ) { 
-         r = await handlers[type](data, appEnv.appContext);
+      if ( appEnv.apiVersion === 2 ) { 
+        r = (appEnv.table != null) 
+        ? await handlers[type](temp, appEnv.appContext)
+        : await handlers[type](temp, rowIndex, appEnv.appContext);
       } else {
-        r = await handlers(data, rowIndex, appEnv.appContext, type);
+        r = await handlers[type](temp, rowIndex, appEnv.appContext, type);
       }
     } 
     catch(err){
@@ -51,7 +53,8 @@ async function commonHandler (type, data, rowIndex, appEnv, status) {
   Now make sure the returned is compliant with the defined schema
   
   */
-
-  return isStdObject(r, data, status, type, rowIndex,appEnv);
+  // temp is now modified by user code
+  // currentData is the original dat
+  return isStdObject(r, temp, currentData, status, type, appEnv);
 };
 export default commonHandler;

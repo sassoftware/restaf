@@ -1,9 +1,9 @@
 /* eslint-disable quotes */
-const { setup,  cellEdit, termApp  } = require('../lib/index.js');
+const { setup,  updateValue, termApp, runControlLabel  } = require('../lib/index.js');
 const getToken = require('./getToken.js');
 //console.log(getToken);
 
-test('formBasic', async () => {
+test('v2formBasic', async () => {
   const r = await runit();
   expect(r).toBe('done');
 });
@@ -26,10 +26,13 @@ async function runit () {
   const appEnv = await setup(payload, appControl);
   debugger;
 
-  let r = await cellEdit('number',200,appEnv);
+  r = await updateValue('array', 100, appEnv);
+  console.log(r);
   console.log(appEnv.state.data[0]);
-  r = await cellEdit('array', [1,2], appEnv);
+  r = await updateValue('object', 100, appEnv);
+  console.log(r);
   console.log(appEnv.state.data[0]);
+  r = await runControlLabel('term', appEnv);
   await termApp(appEnv);
   
   
@@ -40,8 +43,7 @@ function getAppControl () {
   return {
     description: 'Simple Example',
     source: 'none',
-    formType: 'form',
-    appType: 'form',
+    apiVersion: 2,
     customColumns: {
       number: {
         Column         : 'Number',
@@ -80,7 +82,7 @@ function getAppControl () {
       }
     },
     editControl: {
-      handlers: { initApp, init, main, term, initApp, termApp: termMyApp, number, array }, 
+      handlers: { initApp, init, main, term: termx, initApp, termApp: termMyApp, number, array, object }, 
       autoSave: true,
       autoSaveTable: true
     },
@@ -99,19 +101,18 @@ async function termMyApp (appEnv) {
 }
 async function init (data, appEnv) {
   console.log('in init');
-  const status = { statusCode: 0, msg: `init processing completed` };
-  console.log(data)
-  return [data, status];
+  data.number = 1000;
+  return { statusCode: 0, msg: `init processing completed` };
 };
 async function main (data, appEnv) {
   const status = { statusCode: 0, msg: `main processing completed` };
-  return [data, status];
+  return status
 };
 
-async function term (data, appEnv) {
+async function termx (data, appEnv) {
   const status = { statusCode: 0, msg: `term processing completed` };
   console.log('In term');
-  return [data, status];
+  return status
 };
 
 async function number (data,appEnv) {
@@ -122,12 +123,13 @@ async function number (data,appEnv) {
 };
 async function array (data,appEnv) {
   const status = { statusCode: 0, msg: `array  handler executed.` };
+  console.log('----in array');
   data.array = [20,30]; 
   console.log(data.array);
   console.log('in array');
- // return [data, status];
 };
-async function obj1 (data, appEnv) {
+async function object (data, appEnv) {
+  console.log('in obj1');
   const status = { statusCode: 0, msg: `obj1 handler executed.` };
   console.log(data.obj1);
   console.log('in obj1');

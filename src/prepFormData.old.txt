@@ -4,7 +4,7 @@
  */
 
 
-import commonHandler from './commonHandler.js';
+import commonHandler from './commonHandler';
 import typeValidation from './typeValidation.js';
 /**
  * @description reduce fetch results
@@ -21,20 +21,16 @@ async function prepFormData (result, appEnv, makerow) {
   const customColumns = appEnv.appControl.customColumns;
   let status = { statusCode: 0, msg: 'Initialization was successful' };
   
-  // set up extended columns
-  const eColumns = {};
-  debugger;
-  //--------------------------------------------------------------------------
-  // utility functions
   // function to make a data row object
-  const  makeRowObject = (columns, row, rown) => {
+  const makeRowObject = (columns, row, rown) => {
+
     const rowObj = {_rowIndex: rown, _modified: 0 };
     row.forEach((r, j) => {
       const s = columns[j];
       const name = s.Column.toLowerCase();
       rowObj[name] = r;
     });
-    // Now add custom columns if any
+
     if (customColumns != null) {
       addCustomColumns(customColumns, rowObj);
     }
@@ -51,9 +47,44 @@ async function prepFormData (result, appEnv, makerow) {
     }
   return rowObj;
   }
-  //---------------------------------------------------
 
+  // initialize the data rows with incoming data rows
+  let newRows = [];
+  debugger;
+  if (rows.length > 0 ) {
+    for (let i = 0; i < rows.length; i++) {
+      const t = makeRowObject(schema, rows[i], i);
+      // run the init handler for each new row object
+      debugger;
+      const [t1, statusi] = await commonHandler('init', t, i, appEnv, status);
+      debugger;
+      status = statusi;
+      debugger;
+      newRows.push(t1);
+    };
+    appEnv.state.data = newRows;
+    for (let i = 0; i < rows.length; i++) {
+      const [t1, statusi] = await commonHandler('init', t, i, appEnv);
+      debugger;
+      status = statusi;
+      newRows[i] = t1;
+    }
+    // app frame
+  } else {
+    let rowObj = {_rowIndex: 0, _modified: 0 };
+    let t = addCustomColumns(customColumns, rowObj);
+    // run the init handler for each new row object
+    const [t1, statusi] = await commonHandler('init', t, 0, appEnv);
+    debugger;
+    status = statusi;
+    newRows[0] = t1;
+  }
+
+  // extend column and make it an object
+  const eColumns = {};
+  debugger;
   schema.forEach((s, i) => {
+    
     const name = s.Column.toLowerCase();
     s.name = name;
     s.Label = (s.Label == null || s.Label.length === 0) ? s.Column : s.Label;
@@ -80,7 +111,6 @@ async function prepFormData (result, appEnv, makerow) {
       c.Type = typeValidation((c.Type == null) ? 'string' : c.Type.toLowerCase());
     }
   }
-
   let internalColumns = ['_rowIndex', '_modified'];
   if (appEnv.table === null) {
     internalColumns.push('_index_');
@@ -97,42 +127,6 @@ async function prepFormData (result, appEnv, makerow) {
     eColumns[k] = c;
   });
 
-  // save it appEnv - need it in init handler for data verification
-
-  appEnv.state.columns = eColumns;
-
-  // Now create appEnv.state.data
-  // initialize the data rows with incoming data rows(table case)
-  // and add the custom columns if any
-  // if no data, then create a row object with custom columns
-
-
-  debugger;
-  let newRows = [];
-  if (rows.length > 0 ) {
-    for (let i = 0; i < rows.length; i++) {
-      const t = makeRowObject(schema, rows[i], i);
-      // run the init handler for each new row object
-      let currentRow = Object.assign({}, t);
-      const [t1, statusi] = await commonHandler('init', t , currentRow, i, appEnv, status);
-      debugger;
-      status = statusi;
-      newRows.push(t1);
-    };
-
-    // app frame - no data to start with
-  } else {
-    let rowObj = {_rowIndex: 0, _modified: 0 };
-    let t = addCustomColumns(customColumns, rowObj);
-    // run the init handler for each new row object
-    let currentRow = Object.assign({}, t);
-    let  [t1, statusi] = await commonHandler('init', t, currentRow,  0, appEnv, status);
-    debugger;
-    status = statusi;
-    newRows[0] = t1;
-  }
-
- /*
   if (makerow === true) {
     let t = {};
     for (const k in eColumns) {
@@ -147,23 +141,14 @@ async function prepFormData (result, appEnv, makerow) {
     }
     newRows = [t];
   }
-  */
 
   debugger;
-  appEnv.state = {
-    cache  : {schema, rows},
-    columns: eColumns,
-    data   : newRows,
-  }
-  
   let res = {
     cache  : {schema, rows},
     columns: eColumns,
     data   : newRows,
     status
   };
-
-
-return res;
+  return res;
 }
 export default prepFormData;

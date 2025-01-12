@@ -85,6 +85,7 @@ async function icasScroll (direction, appEnv, payload) {
   try {
     
     const r = await casFetchData(store, session, control);
+    debugger;
     const result = await prepFormData(r.data, appEnv);
     
     appEnv.fetchCount = result.data.length;
@@ -98,12 +99,12 @@ async function icasScroll (direction, appEnv, payload) {
         point        : setPoint(r.data.scrollOptions),
         scrollOptions: [].concat(r.data.scrollOptions)
       };
-      /*
+      
       if (cachePolicy === true) {
         appEnv.state.data = result.data;
         appEnv.state.columns = result.columns;
       }
-      */
+      
     } else {
       if (appEnv.onNoData !== 'keep') {
         appEnv.state.data = [];

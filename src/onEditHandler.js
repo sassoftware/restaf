@@ -22,26 +22,31 @@ import isStdObject from './isStdObject';
  * to call this directly
  * Please see the restafeditExample in the Tutorial pulldown
  */
-async function onEditHandler (type, data, rowIndex, appEnv, status) {
+async function onEditHandler (type,temp, currentData, rowIndex, appEnv, status) {
   const { handlers } = appEnv.appControl.editControl;
   appEnv.handlers = handlers;
   let r = null;
   debugger;
+  //let temp = Object.assign({}, data);
   if (handlers[type] != null) {
     try {
-      r = ( appEnv.appType === 'form' ) 
-          ? await handlers[type](data, appEnv)
-          : await handlers[type](data, type, rowIndex, appEnv);
+      if (handlers[type] != null) {
+        if (appEnv.apiType === 2) {
+          r = ( appEnv.table === null) 
+              ? await handlers[type](temp, appEnv.appContext)
+              : await handlers[type](temp, rowIndex, appEnv.appContext);
+        } else {
+          r = await handlers[type](temp,type,  rowIndex, appEnv.appContext);
+        }
+      }
     } catch (err) {
       console.log('Error in handler', type, err);
       status = { statusCode: 2, msg: `Error in handler ${type}. See console` };
       return [data, status];
     }
   }
-  if (r == null) {
-     r = [data, status];
-  }
-  return isStdObject(r, data, status, type, rowIndex,appEnv );
+
+  return isStdObject(r, temp, currentData, status, type, appEnv );
   
 };
 export default onEditHandler;

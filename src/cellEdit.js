@@ -55,14 +55,17 @@ async function cellEdit(name, value, rowIndex, _icurrentData, appEnv) {
   // handle init and term for all types of forms
   // user will edit newData in place.
   if (name === "init" || name == null) {  
+    debugger;
     let r = await commonHandler("init", newDataRow, currentData, rowIndex, appEnv, status);
-    return r;
+    debugger;
+    console.log('init', r)
+    return { data: r[0], status: r[1] };
   }
 
   // Handle term for apps like appBuilder
   if (name === 'term') {
     let r = await commonHandler("term", newDataRow, currentData, rowIndex, appEnv, status);
-    return r;
+    return { data: r[0], status: r[1] };
   }
 
   // Handle onEdit for all types of forms - cell calculations + main handler

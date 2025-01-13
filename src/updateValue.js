@@ -8,14 +8,18 @@ async function updateValue (...args) {
   let value;
   let rowIndex = 0;
   let appEnv;
+  debugger;
   if (args.length === 3) {
     [name, value, appEnv] = args;
   } else {
     [name, value, rowIndex, appEnv] = args;
     rowIndex = rowIndex||0;
   }
-  let {_data, status} =  await cellEdit(name, value, rowIndex, null, appEnv);
-  return status;
+  let result =  await cellEdit(name, value, rowIndex, null, appEnv);
+  debugger;
+  console.log('result', result);
+
+  return result.status;
  
 }
 export default updateValue;

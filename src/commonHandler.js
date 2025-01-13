@@ -34,13 +34,13 @@ async function commonHandler (type, temp, currentData, rowIndex, appEnv, status)
         ? await handlers[type](temp, appEnv.appContext)
         : await handlers[type](temp, rowIndex, appEnv.appContext);
       } else {
-        r = await handlers[type](temp, rowIndex, appEnv.appContext, type);
+        r = await handlers[type](temp, rowIndex, appEnv.appContext);
       }
     } 
     catch(err){
       console.log('Error in handler', type, err);
       status = { statusCode: 2, msg: `Error in handler ${type}. See console` };
-      r = null;
+      return [currentData, status];
     }
   }
   debugger;
@@ -55,6 +55,8 @@ async function commonHandler (type, temp, currentData, rowIndex, appEnv, status)
   */
   // temp is now modified by user code
   // currentData is the original dat
-  return isStdObject(r, temp, currentData, status, type, appEnv);
+  let result = isStdObject(r, temp, currentData, status, type, appEnv);
+  console.log('result', result);
+  return result;
 };
 export default commonHandler;

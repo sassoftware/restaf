@@ -27,10 +27,12 @@ async function runit () {
   debugger;
 
   let r = await updateValue('number',200, appEnv);
+  console.log('r',r)
   console.log(appEnv.state.data[0]);
   r = await updateValue('array', [1,2], appEnv);
   console.log(appEnv.state.data[0]);
   r = await runControlLabel('term', appEnv);
+  console.log('r',r)
   await termApp(appEnv);
   
   

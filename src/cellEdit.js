@@ -100,12 +100,13 @@ async function cellEdit(name, value, rowIndex, _icurrentData, appEnv) {
  
   // if editing table, see if we need to save the table
   if (iautoSave === true && appEnv.table != null) {
-    r = await commonHandler("term", r[0], rowIndex, appEnv, status);
+    r = await commonHandler("term", r[0], currentData, rowIndex, appEnv, status);
     status = r[1];
     if (status.statusCode === 2) {
       console.log(status);
       return { data: r[0], status: r[1] };
     }
+    debugger;
     await updateTableRows(r[0], appEnv);
     if (appEnv.appControl.editControl.autoSaveTable === true) {
       saveTable(appEnv);

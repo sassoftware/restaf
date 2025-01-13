@@ -30,7 +30,7 @@ async function commonHandler (type, temp, currentData, rowIndex, appEnv, status)
     debugger;
     try {
       if ( appEnv.apiVersion === 2 ) { 
-        r = (appEnv.table != null) 
+        r = (appEnv.table == null) 
         ? await handlers[type](temp, appEnv.appContext)
         : await handlers[type](temp, rowIndex, appEnv.appContext);
       } else {

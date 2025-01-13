@@ -4,7 +4,7 @@ const { setup, scrollTable, updateValue,setWhere, termApp,saveTable, getTableCol
 const getToken = require('./getToken.js');
 console.log(getToken);
 
-test('casBasic', async () => {
+test('v2casBasic', async () => {
   const payload = {
     host        : process.env.VIYA_SERVER,
     authType    : 'server',
@@ -49,7 +49,7 @@ async function runit (payload) {
   let p = {
     qs: {
       start : 0,
-      limit : 5,
+      limit : 1,
       format: false,
       where : ' '
     }
@@ -112,7 +112,7 @@ function getAppControl () {
     initialFetch: {
       qs: {
         start : 0,
-        limit : 20,
+        limit : 1,
         format: false,
         where : ' '
       }
@@ -169,38 +169,30 @@ async function termMyApp (appEnv) {
 
   return { msg: 'done', statusCode: 0 };
 }
-async function init (data, rowIndex, appEnv, type) {
+async function init (data, rowIndex, appEnv) {
   debugger;
   console.log('in init....');
-  const status = { statusCode: 0, msg: `${type} processing completed` };
+  const status = { statusCode: 0, msg: `init  processing completed` };
   data.total = data.x1 + data.x2 + data.x3;
   return [data, status];
 };
-async function main (data, rowIndex, appEnv, type) {
+async function main (data, rowIndex, appEnv) {
+  console.log(appEnv);
   console.log(appEnv.userData);
-  const status = { statusCode: 0, msg: `${type} processing completed` };
+  const status = { statusCode: 0, msg: `main processing completed` };
   data.total = data.x1 + data.x2 + data.x3;
   return data;
 };
 
-async function term (data, rowIndex, appEnv, type) {
-  const status = { statusCode: 0, msg: `${type} processing completed` };
+async function term (data, rowIndex, appEnv) {
+  const status = { statusCode: 0, msg: `term processing completed` };
   console.log('In term');
   return data
 };
 
-async function x3 (data, name, rowIndex, appEnv) {
-  let x=data.x3/0;
-  const status = { statusCode: 0, msg: `${name} handler executed.` };
+async function x3 (data, rowIndex, appEnv) {
+  const status = { statusCode: 0, msg: `x3 handler executed.` };
   console.log('in x3');
-
-  return [data, status];
-};
-async function arr (data, name, rowIndex, appEnv) {
-  data.arr =[10,20,30];
-
-  const status = { statusCode: 0, msg: `${name} handler executed.` };
-  console.log('in arr');
 
   return [data, status];
 };

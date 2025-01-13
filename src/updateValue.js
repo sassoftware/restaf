@@ -7,12 +7,12 @@ async function updateValue (...args) {
   let name;
   let value;
   let rowIndex = 0;
-
-  let appEnv = args[args.length - 1];
-  if (appEnv.table == null) {
-    [name, value] = args;
+  let appEnv;
+  if (args.length === 3) {
+    [name, value, appEnv] = args;
   } else {
-    [name, value, rowIndex] = args;
+    [name, value, rowIndex, appEnv] = args;
+    rowIndex = rowIndex||0;
   }
   let {_data, status} =  await cellEdit(name, value, rowIndex, null, appEnv);
   return status;

@@ -126,6 +126,7 @@ async function prepFormData (result, appEnv, makerow) {
     let t = addCustomColumns(customColumns, rowObj);
     // run the init handler for each new row object
     let currentRow = Object.assign({}, t);
+    debugger;
     let  [t1, statusi] = await commonHandler('init', t, currentRow,  0, appEnv, status);
     debugger;
     status = statusi;

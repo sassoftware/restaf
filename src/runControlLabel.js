@@ -7,7 +7,7 @@ async function runControlLabel (...args) {
   let name;
   let rowIndex = 0;
   let appEnv = args[args.length - 1];
-  if (appEnv.table == null) {
+  if (args.length === 2) {
     [name] = args;
   } else {
     [name, rowIndex] = args;

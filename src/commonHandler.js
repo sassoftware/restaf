@@ -28,13 +28,18 @@ async function commonHandler (type, temp, currentData, rowIndex, appEnv, status)
   //let temp  = Object.assign({}, data);
   if (handlers[type] != null) {
     debugger;
+    const userFunc = (f, _appContext) => async (...args) => {
+      let r = f(...args );
+      return r;
+    }
+    let userFuncf = userFunc(handlers[type], appEnv.appContext);
     try {
       if ( appEnv.apiVersion === 2 ) { 
         r = (appEnv.table == null) 
-        ? await handlers[type](temp, appEnv.appContext)
-        : await handlers[type](temp, rowIndex, appEnv.appContext);
+        ? await userFuncf(temp)
+        : await userFuncf(temp, rowIndex);
       } else {
-        r = await handlers[type](temp, rowIndex, appEnv.appContext);
+        r = await userFuncf(temp, rowIndex)
       }
     } 
     catch(err){

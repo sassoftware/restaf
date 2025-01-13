@@ -116,7 +116,6 @@ async function number (data,appEnv) {
   const status = { statusCode: 0, msg: `number handler executed.` };
   data.number = 2000;
   console.log('---------------in number');
-  return {statusCode: 0, msg: 'done'};
 };
 async function array (data,appEnv) {
   const status = { statusCode: 0, msg: `array  handler executed.` };
@@ -130,5 +129,5 @@ async function obj1 (data, appEnv) {
   const status = { statusCode: 0, msg: `obj1 handler executed.` };
   console.log(data.obj1);
   console.log('in obj1');
-  return [data, status];
+
 };

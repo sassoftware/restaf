@@ -6,6 +6,6 @@ function validateValueType(value, colType) {
     return value === null ? false : typeof value === 'object';
   }
 
-  return value === null ? true : typeof value !== colType;
+  return value === null ? true : typeof value === colType;
 }
 export default validateValueType;

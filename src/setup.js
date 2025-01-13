@@ -8,6 +8,7 @@ import { initStore } from "@sassoftware/restaf";
 import getViyaSession from "./getViyaSession";
 import deleteViyaSession from "./deleteViyaSession";
 import wrapBuiltins from "./wrapBuiltins";
+import builtins from "./builtins";
 import {
   casSetup,
   computeSetup,
@@ -31,7 +32,7 @@ import termApp from './termApp';
  * @param {logonPayload} logonPayload  -information for connecting to Viya
  * @param {appControl} appControl       control information
  * @param {string=} sessionID if specified, this session will be used.Must match source
- * @param {object=} builtins  builtins functions
+ * @param {object=} ubuiltins  builtins functions extensions from user
  * @param {string=} user  user name
  * @param {object=} userData  user data
  * @param {object=} storeConfig  store configuration - passed to initStore
@@ -56,7 +57,7 @@ async function setup(
   logonPayload,
   appControl,
   sessionID,
-  builtins,
+  uBuiltins,
   user,
   userData,
   storeConfig
@@ -139,12 +140,15 @@ async function setup(
     serverContext:  appControl.source === "cas" ? appControl.casServerName : appControl.computeContext,
     logonPayload,
     appControl,
-
+    currentSessions: { 
+      cas: {sessionID: null}, 
+      compute: {sessionID: null} 
+    },
     activeWhere:
       appControl.initialFetch.qs.where != null
         ? appControl.initialFetch.qs.where
         : " ",
-    builtins: builtins != null ? builtins : {},
+    builtins: {},
 
     state: {
       cache: { rows: [], schema: [] },
@@ -183,8 +187,12 @@ async function setup(
  
   appEnv.appContext.getViyaSession = getViyaSessionf(appEnv);
   appEnv.appContext.deleteViyaSession = delViyaSessionf(appEnv);
-  appEnv.appContext.builtins = wrapBuiltins(builtins,appEnv);
- debugger;
+  appEnv.getViyaSession =  appEnv.appContext.getViyaSession;
+  appEnv.deleteViyaSession = appEnv.appContext.deleteViyaSession;
+  let fullBuiltins = (uBuiltins != null) ? Object.assign({}, appEnv.appControl.builtins, uBuiltins) : builtins;
+  appEnv.appContext.builtins = wrapBuiltins(fullBuiltins,appEnv.appContext);
+
+  debugger;
   return appEnv;
 }
 

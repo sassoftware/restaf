@@ -3,10 +3,19 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import cellEdit from "./cellEdit";
-async function updateValue (name, value, appEnv,rowIndex) {
-  let index = rowIndex||0;
-  let {_data, status} =  await cellEdit(name, value, index, null, appEnv);
-  debugger;
+async function updateValue (...args) {
+  let name;
+  let value;
+  let rowIndex = 0;
+
+  let appEnv = args[args.length - 1];
+  if (appEnv.table == null) {
+    [name, value] = args;
+  } else {
+    [name, value, rowIndex] = args;
+  }
+  let {_data, status} =  await cellEdit(name, value, rowIndex, null, appEnv);
   return status;
+ 
 }
 export default updateValue;

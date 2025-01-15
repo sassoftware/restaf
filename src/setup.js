@@ -171,7 +171,7 @@ async function setup(
   appEnv.appContext.deleteViyaSession = delViyaSessionf(appEnv);
   appEnv.getViyaSession =  appEnv.appContext.getViyaSession;
   appEnv.deleteViyaSession = appEnv.appContext.deleteViyaSession;
-  let fullBuiltins = (uBuiltins != null) ? Object.assign({}, appEnv.appControl.builtins, uBuiltins) : builtins;
+  let fullBuiltins = (uBuiltins != null) ? Object.assign({}, builtins, uBuiltins) : builtins;
   appEnv.appContext.builtins = wrapBuiltins(fullBuiltins,appEnv.appContext);
   /*
   if (logonPayload && logonPayload.host == null) {

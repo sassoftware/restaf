@@ -161,10 +161,18 @@ async function setup(
     },
     appContext: {
       userData: userData,
+      logonPayload: logonPayload,
+      store: store
     }, 
     id: Date(),
   };
 
+  appEnv.appContext.getViyaSession = getViyaSessionf(appEnv);
+  appEnv.appContext.deleteViyaSession = delViyaSessionf(appEnv);
+  appEnv.getViyaSession =  appEnv.appContext.getViyaSession;
+  appEnv.deleteViyaSession = appEnv.appContext.deleteViyaSession;
+  let fullBuiltins = (uBuiltins != null) ? Object.assign({}, appEnv.appControl.builtins, uBuiltins) : builtins;
+  appEnv.appContext.builtins = wrapBuiltins(fullBuiltins,appEnv.appContext);
   /*
   if (logonPayload && logonPayload.host == null) {
     // eslint-disable-next-line no-throw-literal
@@ -185,12 +193,7 @@ async function setup(
     appEnv.userSessionID = sessionID;
   }
  
-  appEnv.appContext.getViyaSession = getViyaSessionf(appEnv);
-  appEnv.appContext.deleteViyaSession = delViyaSessionf(appEnv);
-  appEnv.getViyaSession =  appEnv.appContext.getViyaSession;
-  appEnv.deleteViyaSession = appEnv.appContext.deleteViyaSession;
-  let fullBuiltins = (uBuiltins != null) ? Object.assign({}, appEnv.appControl.builtins, uBuiltins) : builtins;
-  appEnv.appContext.builtins = wrapBuiltins(fullBuiltins,appEnv.appContext);
+  
 
   debugger;
   return appEnv;

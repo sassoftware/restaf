@@ -31,8 +31,8 @@ async function onEditHandler (type,temp, currentData, rowIndex, appEnv, status) 
   if (handlers[type] != null) {
     try {
       if (handlers[type] != null) {
-        if (appEnv.apiType === 2) {
-          r = ( appEnv.table === null) 
+        if (appEnv.apiVersion === 2) {
+          r = ( appEnv.appControl.table === null) 
               ? await handlers[type](temp, appEnv.appContext)
               : await handlers[type](temp, rowIndex, appEnv.appContext);
         } else {

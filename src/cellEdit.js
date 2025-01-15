@@ -55,10 +55,7 @@ async function cellEdit(name, value, rowIndex, _icurrentData, appEnv) {
   // handle init and term for all types of forms
   // user will edit newData in place.
   if (name === "init" || name == null) {  
-    debugger;
     let r = await commonHandler("init", newDataRow, currentData, rowIndex, appEnv, status);
-    debugger;
-    console.log('init', r)
     return { data: r[0], status: r[1] };
   }
 
@@ -106,7 +103,6 @@ async function cellEdit(name, value, rowIndex, _icurrentData, appEnv) {
     r = await commonHandler("term", r[0], currentData, rowIndex, appEnv, status);
     status = r[1];
     if (status.statusCode === 2) {
-      console.log(status);
       return { data: r[0], status: r[1] };
     }
     debugger;

@@ -23,23 +23,17 @@ import isStdObject from './isStdObject.js';
  */
 async function commonHandler (type, temp, currentData, rowIndex, appEnv, status) {
   const { handlers } = appEnv.appControl.editControl;
-  appEnv.handlers = handlers;
   let r = null;
-  //let temp  = Object.assign({}, data);
-  if (handlers[type] != null) {
-    debugger;
-    const userFunc = (f, _appContext) => async (...args) => {
-      let r = f(...args );
-      return r;
-    }
-    let userFuncf = userFunc(handlers[type], appEnv.appContext);
+  let userFuncf = handlers[type];
+  if (userFuncf != null) {
     try {
       if ( appEnv.apiVersion === 2 ) { 
         r = (appEnv.table == null) 
-        ? await userFuncf(temp)
-        : await userFuncf(temp, rowIndex);
+        ? await userFuncf(temp, appEnv.appContext)
+        : await userFuncf(temp, rowIndex, appEnv.appContext);
       } else {
-        r = await userFuncf(temp, rowIndex)
+        // for backward compatibility
+        r = await userFuncf(temp, rowIndex, appEnv.appContext);
       }
     } 
     catch(err){
@@ -50,11 +44,7 @@ async function commonHandler (type, temp, currentData, rowIndex, appEnv, status)
   }
   debugger;
   /*
-  r = whatever the user returns (good or bad)
-  data = the data that was passed to user and possiblly modified
-  appEnv = the appEnv object
-  type = the type of handler
-
+  user MUST modify temp to reflect the changes and not a copy of temp
   Now make sure the returned is compliant with the defined schema
   
   */
@@ -64,4 +54,6 @@ async function commonHandler (type, temp, currentData, rowIndex, appEnv, status)
   console.log('result', result);
   return result;
 };
+
+
 export default commonHandler;

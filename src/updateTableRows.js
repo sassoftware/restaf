@@ -111,7 +111,6 @@ async function _computeUpdateData (store, session, payload) {
   const p = {
     data: { code: asrc }
   };
-  console.log(p);
   
   const job = await store.apiCall(session.links('execute'), p);
   const qs = {
@@ -124,9 +123,6 @@ async function _computeUpdateData (store, session, payload) {
   const status = await store.jobState(job, qs);
   
   const c = (status.data === 'completed' ? 0 : 1);
-  console.log('statusInfo:' , status.job.statusInfo);
-  
-  console.log(status.data);
   
   return { statusCode: c, msg: status.data };
 }

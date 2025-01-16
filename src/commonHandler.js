@@ -51,7 +51,6 @@ async function commonHandler (type, temp, currentData, rowIndex, appEnv, status)
   // temp is now modified by user code
   // currentData is the original dat
   let result = isStdObject(r, temp, currentData, status, type, appEnv);
-  console.log('result', result);
   return result;
 };
 

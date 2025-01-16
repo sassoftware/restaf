@@ -71,12 +71,12 @@ async function icasScroll (direction, appEnv, payload) {
       control = { ...initialFetch.qs };
     } else if (direction !== null) {
       const cs = appEnv.state.pagination[direction];
-      console.log('cs===', cs);
+ 
       if (cs == null) {
         // eslint-disable-next-line no-throw-literal
         return null;
       }
-      console.log('cs=', cs);
+    
       control = { ...cs };
     }
     control.where = appEnv.activeWhere;

@@ -36,7 +36,7 @@ import validateValueType from "./validateValueType";
 
 async function cellEdit(name, value, rowIndex, _icurrentData, appEnv) {
   /* do not modify the data directly. caller will probably do a setState */
-  debugger;
+  ;
   // make a copy for modification - allows for recovery if there is an error
   let currentData = appEnv.state.data[rowIndex];
   // all modifications in newDataRow
@@ -50,7 +50,7 @@ async function cellEdit(name, value, rowIndex, _icurrentData, appEnv) {
       : appEnv.appControl.cachePolicy;
   appEnv.handlers = handlers;
   let status = { statusCode: 0, msg: "" };
-  debugger;
+  ;
 
   // handle init and term for all types of forms
   // user will edit newData in place.
@@ -66,7 +66,7 @@ async function cellEdit(name, value, rowIndex, _icurrentData, appEnv) {
   }
 
   // Handle onEdit for all types of forms - cell calculations + main handler
-  debugger;
+  ;
 
   // is it a valid column name?
   if (columns[name] == null) {
@@ -80,10 +80,10 @@ async function cellEdit(name, value, rowIndex, _icurrentData, appEnv) {
   }
 
   newDataRow[name] = text2Float(value, columns[name]);
-  debugger;
+  ;
   if (handlers[name] != null) {
    let r = await onEditHandler(name, newDataRow,currentData, rowIndex, appEnv, status);
-    debugger;
+    ;
     newDataRow = r[0];
     status = r[1];
     if (status.statusCode === 2) {
@@ -105,7 +105,7 @@ async function cellEdit(name, value, rowIndex, _icurrentData, appEnv) {
     if (status.statusCode === 2) {
       return { data: r[0], status: r[1] };
     }
-    debugger;
+    ;
     await updateTableRows(r[0], appEnv);
     if (appEnv.appControl.editControl.autoSaveTable === true) {
       saveTable(appEnv);

@@ -8,7 +8,7 @@ async function updateValue (...args) {
   let value;
   let rowIndex = 0;
   let appEnv;
-  debugger;
+  ;
   if (args.length === 3) {
     [name, value, appEnv] = args;
   } else {
@@ -16,7 +16,7 @@ async function updateValue (...args) {
     rowIndex = rowIndex||0;
   }
   let result =  await cellEdit(name, value, rowIndex, null, appEnv);
-  debugger;
+  ;
   console.log('result', result);
 
   return result.status;

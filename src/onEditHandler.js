@@ -26,7 +26,7 @@ async function onEditHandler (type,temp, currentData, rowIndex, appEnv, status) 
   const { handlers } = appEnv.appControl.editControl;
   appEnv.handlers = handlers;
   let r = null;
-  debugger;
+  ;
   //let temp = Object.assign({}, data);
   if (handlers[type] != null) {
     try {

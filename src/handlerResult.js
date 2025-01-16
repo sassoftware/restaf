@@ -7,7 +7,7 @@
 
 function handlerResult(obj, data, name, istatus) {
   // let istatus = { statusCode: 0, msg: '' };
-  debugger;
+  ;
   // use case (x) => data.x1=10;
   if (obj == null) {
       return [data, istatus];

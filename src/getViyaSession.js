@@ -21,7 +21,7 @@ async function getViyaSession(appEnv, source) {
  // let {casSetup, computeSetup} = restaflib;
   let {appConfig, store} = appEnv;
   // if it is already created, return it
-  debugger;
+  ;
   if (appConfig.logonPayload == null ) {
     return null;
   }

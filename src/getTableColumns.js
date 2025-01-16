@@ -28,7 +28,7 @@ import igetTableColumns from './igetTableColumns';
 async function getTableColumns (source, table, appEnv) {
   let name = table.name;
   let libname = (source === 'cas') ? table.caslib : table.libref;
-  debugger;
+  ;
   let columns = await igetTableColumns(
     appEnv.store, appEnv.session, source, libname, name);
   return columns;

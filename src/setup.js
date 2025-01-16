@@ -74,7 +74,7 @@ async function setup(
     return r;
   };
 
-  debugger;
+  ;
   if (storeConfig == null) {
     storeConfig = {
       casProxy: true,
@@ -113,7 +113,7 @@ async function setup(
   _verify("initialFetch", {
     qs: { start: 0, limit: 10, format: false, where: " " },
   });
-  debugger;
+  ;
   // default to version 1
   if (appControl.apiVersion == null) {
     appControl.apiVersion = 1;
@@ -195,7 +195,7 @@ async function setup(
  
   
 
-  debugger;
+  ;
   return appEnv;
 }
 
@@ -243,7 +243,7 @@ async function _initApp(appEnv) {
 async function icasSetup(store, logonPayload, appControl, appEnv, sessionID) {
   let r;
   try {
-    debugger;
+    ;
     r = await casSetup(store, logonPayload, sessionID, appEnv.casServerName);
     
     appEnv.session = r.session;

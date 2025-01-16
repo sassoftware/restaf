@@ -49,7 +49,7 @@ function isStdObject(result, temp, data, status, type, appEnv) {
   // functions
   function checkConsistency(a, columns, type) {
     let r = true;
-    debugger;
+    ;
     for (let k in a) {
       if (columns[k] == null) {
         console.log(`Error: Attempting to add a new column ${k} in ${type}`);

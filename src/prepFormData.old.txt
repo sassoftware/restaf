@@ -50,22 +50,22 @@ async function prepFormData (result, appEnv, makerow) {
 
   // initialize the data rows with incoming data rows
   let newRows = [];
-  debugger;
+  ;
   if (rows.length > 0 ) {
     for (let i = 0; i < rows.length; i++) {
       const t = makeRowObject(schema, rows[i], i);
       // run the init handler for each new row object
-      debugger;
+      ;
       const [t1, statusi] = await commonHandler('init', t, i, appEnv, status);
-      debugger;
+      ;
       status = statusi;
-      debugger;
+      ;
       newRows.push(t1);
     };
     appEnv.state.data = newRows;
     for (let i = 0; i < rows.length; i++) {
       const [t1, statusi] = await commonHandler('init', t, i, appEnv);
-      debugger;
+      ;
       status = statusi;
       newRows[i] = t1;
     }
@@ -75,14 +75,14 @@ async function prepFormData (result, appEnv, makerow) {
     let t = addCustomColumns(customColumns, rowObj);
     // run the init handler for each new row object
     const [t1, statusi] = await commonHandler('init', t, 0, appEnv);
-    debugger;
+    ;
     status = statusi;
     newRows[0] = t1;
   }
 
   // extend column and make it an object
   const eColumns = {};
-  debugger;
+  ;
   schema.forEach((s, i) => {
     
     const name = s.Column.toLowerCase();
@@ -142,7 +142,7 @@ async function prepFormData (result, appEnv, makerow) {
     newRows = [t];
   }
 
-  debugger;
+  ;
   let res = {
     cache  : {schema, rows},
     columns: eColumns,

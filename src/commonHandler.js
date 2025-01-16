@@ -42,7 +42,7 @@ async function commonHandler (type, temp, currentData, rowIndex, appEnv, status)
       return [currentData, status];
     }
   }
-  debugger;
+  ;
   /*
   user MUST modify temp to reflect the changes and not a copy of temp
   Now make sure the returned is compliant with the defined schema

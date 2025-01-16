@@ -16,8 +16,6 @@ async function updateValue (...args) {
     rowIndex = rowIndex||0;
   }
   let result =  await cellEdit(name, value, rowIndex, null, appEnv);
-  ;
-  console.log('result', result);
 
   return result.status;
  

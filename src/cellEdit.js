@@ -50,75 +50,93 @@ async function cellEdit(name, value, rowIndex, _icurrentData, appEnv) {
       : appEnv.appControl.cachePolicy;
   appEnv.handlers = handlers;
   let status = { statusCode: 0, msg: "" };
-  ;
 
   // handle init and term for all types of forms
   // user will edit newData in place.
-  if (name === "init" || name == null) {  
-    let r = await commonHandler("init", newDataRow, currentData, rowIndex, appEnv, status);
-    return { data: r[0], status: r[1] };
-  }
+ 
+  if (name === "init" || name === "term" || name === "initApp" || name === "termApp" || name === "main") {  
+    let r = await commonHandler(name, newDataRow, currentData, rowIndex, appEnv, status);
+    if (r[1].statusCode === 2) {
+      // keep state data as is and return message.
+      console.log(`Error in ${name}  handler`, r[1].msg);
+      return ({ data: currentData, status: r[1] });
+    } else {
+      // update state data with new data
+      appEnv.state.data[rowIndex] = r[0];
+      if (cachePolicy !== false) {
+        appEnv.state.data[rowIndex] = r[0];
+      }
+      return { data: r[0], status: r[1] };
+      }
+    }
 
-  // Handle term for apps like appBuilder
-  if (name === 'term') {
-    let r = await commonHandler("term", newDataRow, currentData, rowIndex, appEnv, status);
-    return { data: r[0], status: r[1] };
-  }
+  // The rest of the processing for specific cell edits
 
-  // Handle onEdit for all types of forms - cell calculations + main handler
-  ;
-
-  // is it a valid column name?
+  // now make sure the specified name is a valid column name
   if (columns[name] == null) {
-    return { data: appEnv.state.data, status: { statusCode: 2, msg: `Column ${name} not found` } };
+    return { data: currentData, status: { statusCode: 2, msg: `Column ${name} not found` } };
   }
 
-  // is it a valid value for the column type
+  // make sure that the incoming value type matches the column type
   if (validateValueType(value, columns[name].Type) === false) {
     console.log(`Type of value does not match ${name} type. Type of ${name} is ${columns[name].Type}`);  
     return { data: currentData, status: { statusCode: 2, msg: `Type of value does not match ${name} type` } };
   }
 
+  // update the working copy with the new value
+  // Yes I know text2Float is not the best name for this function - may change it before production push
   newDataRow[name] = text2Float(value, columns[name]);
-  ;
+  
+  // if the is onEdit(onChange) handler specified call it.
   if (handlers[name] != null) {
    let r = await onEditHandler(name, newDataRow,currentData, rowIndex, appEnv, status);
-    ;
-    newDataRow = r[0];
-    status = r[1];
-    if (status.statusCode === 2) {
-      return { data: r[0], status };
-    }
+   if (status.statusCode === 2) {
+    console.log(`Error in onEdit handler for ${name}`, status.msg);
+    return { data: currentData, status };
+   }
+   // update newDataRow with the result of the onEdit handler;
+   newDataRow = r[0];
+   status = r[1];
   }
-  
+  // now drive main handler
   let r = await commonHandler("main", newDataRow, currentData, rowIndex, appEnv, status);
-  status = r[1];
+  if (r[1].statusCode === 2) {
+    // fall all the way back to the original data prior to onEdit handler
+    console.log(`Error in main handler for ${name}`, r[1].msg);
+    return { data: currentData, status: r[1] };
+  }
+
+  // Now we have successfully edited the data, let's see if we need to save it
+  // only in the case of tables and autoSave is true
+  
   r[0]._modified = 1;
-  if (status.statusCode === 2) {
-    return { data: r[0], status: r[1] };
-  }
- 
-  // if editing table, see if we need to save the table
-  if (iautoSave === true && appEnv.table != null) {
-    r = await commonHandler("term", r[0], currentData, rowIndex, appEnv, status);
-    status = r[1];
-    if (status.statusCode === 2) {
-      return { data: r[0], status: r[1] };
-    }
-    ;
-    await updateTableRows(r[0], appEnv);
-    if (appEnv.appControl.editControl.autoSaveTable === true) {
-      saveTable(appEnv);
-    }
-  }
-
-
   newDataRow = r[0];
-
+  status = r[1];
   if (cachePolicy !== false) {
     appEnv.state.data[currentData._rowIndex] = newDataRow;
   }
+  // update state data with new data
+  appEnv.state.data[rowIndex] = newDataRow;
+  // if editing table, see if we need to save the table
+  if (iautoSave === true && appEnv.table != null) {
+    r = await commonHandler("term", r[0], newDataRow, rowIndex, appEnv, status);
+    status = r[1];
+    if (status.statusCode === 2) {
+      console.log(`Error in term prior to saving data for ${name} row ${rowIndex}`, status.msg);
+      return { data: newDataRow, status: r[1] };
+    }
+    
+    appEnv.state.data[rowIndex] = r[0];
 
+    // Now update the table rows
+    await updateTableRows(r[0], appEnv);
+    // need better error handling in saveTable
+    if (appEnv.appControl.editControl.autoSaveTable === true) {
+      await saveTable(appEnv);
+    }
+  }
+
+  
   return { data: newDataRow, status };
 }
 export default cellEdit;

@@ -25,7 +25,7 @@ async function runit () {
   debugger;
   const appEnv = await setup(payload, appControl);
   debugger;
-
+  console.log('After init', appEnv.state.data[0]);
   let r = await updateValue('number',200, appEnv);
   console.log('r',r)
   console.log(appEnv.state.data[0]);
@@ -92,7 +92,7 @@ function getAppControl () {
 
 async function initApp (_appContext) {
   console.log('in initApp');
-  console.log('Table in initApp: ' ,_appContext.table);
+
   return { msg: 'done', statusCode: 0 };
 }
 async function termMyApp (_appContext) {
@@ -100,8 +100,8 @@ async function termMyApp (_appContext) {
   return { msg: 'done', satusCode: 0 };
 }
 async function init (data, _appContext) {
-  console.log(_appContext);
   console.log('in init');
+  data.number = 10000;
   return { statusCode: 0, msg: `init processing completed` };
 };
 async function main (data, _appContext) {

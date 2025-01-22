@@ -8,10 +8,10 @@ function isStdObject(result, temp, data, status, type, appEnv) {
 
   let r1;
   let r2;
- 
+
   //handle different cases
   // ignore "data" returned by user. User must modify data in place
-  if (result == null ) {
+  if (result == null) {
     r1 = temp;
     r2 = status;
   }
@@ -19,11 +19,11 @@ function isStdObject(result, temp, data, status, type, appEnv) {
     r1 = temp; // start ignoring data in [data, status]
     r2 = status;
     if (result.length === 2) {
-      r2 = objectIsStatus(result[1], status); 
+      r2 = objectIsStatus(result[1], status);
     }
   } else if (typeof result === "object") {
-     r1 = temp;//ignore if data is returned
-     r2 = objectIsStatus(result, status);
+    r1 = temp;//ignore if data is returned
+    r2 = objectIsStatus(result, status);
   } else {
     r1 = temp;
     r2 = status;
@@ -31,7 +31,7 @@ function isStdObject(result, temp, data, status, type, appEnv) {
 
   // did the user destroy temp? if so, revert to data in state
   // one final check
- 
+
   if (objectIsData(r1) === false) {
     r1 = data;
   }
@@ -49,24 +49,37 @@ function isStdObject(result, temp, data, status, type, appEnv) {
   // functions
   function checkConsistency(a, columns, type) {
     let r = true;
-    ;
     for (let k in a) {
       if (columns[k] == null) {
         console.log(`Error: Attempting to add a new column ${k} in ${type}`);
         r = false;
       } else {
-          if (columns[k].Type === 'array') {  
+        switch (columns[k].Type) {
+          case 'string':
+          case 'number':
+          case 'boolean': {
+            if (! (a[k] == null || typeof a[k] == columns[k].Type) ) {
+              console.log(`Error: Attempting to change the typeof ${k} in ${type}`);
+              r = false;
+            }
+            break;
+          }
+          case 'object': {
+            if (typeof a[k] !== 'object') { //allowing null for object
+              console.log(`Error: Attempting to change the typeof ${k} in ${type}`);
+              r = false;
+            }
+            break;
+          }
+          case 'array': {
             if (Array.isArray(a[k]) === false) {
               console.log(`Error: Attempting to change the type of ${k} in ${type}`);
               r = false;
             }
-
-          } else {
-            if (typeof a[k] !== columns[k].Type) {
-              console.log(`Error: Attempting to change the  typeof ${k} in ${type}`);
-              r = false;
-            }
+            break;
           }
+
+        }
       }
     }
     return r;

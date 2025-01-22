@@ -1,6 +1,6 @@
 /* eslint-disable quotes */
 const { setup, scrollTable, termApp } = require('../lib/index.js');
-const getToken = require('./getToken');
+const getToken = require('./getToken.js');
 test('casScroll', async () => {
   const r = await runit();
   expect(r).toBe('done');
@@ -40,7 +40,7 @@ async function runit() {
      data casuser.testdatatemp;
      keep x1 x2 x3 id;
      length id varchar(20);
-     do i = 1 to 35;
+     do i = 1 to 50;
      x1=i; x2=3; x3=i*10; id=compress(TRIMN('key'||i));
      output;
      end;
@@ -57,15 +57,10 @@ async function runit() {
 
   while (appEnv.state.scrollOptions.includes('next')) {
     const r = await scrollTable('next', appEnv);
-    console.log(r === null);
     console.log(appEnv.state.scrollOptions, appEnv.state.data.length);
-    if (appEnv.state.data.length < 20) {
-      console.log(console.log(appEnv.state.data));
-    }
   }
   do {
     const r = await scrollTable('prev', appEnv);
-    console.log(r === null);
     console.log(appEnv.state.scrollOptions, appEnv.state.data.length);
   } while (appEnv.state.scrollOptions.includes('prev'));
 
@@ -136,28 +131,21 @@ async function termMyApp(appEnv) {
   console.log('in termApp');
   return { msg: 'done', satusCode: 0 };
 }
-async function init(data, rowIndex, appEnv, type) {
-  const status = { statusCode: 0, msg: `${type} processing completed` };
+async function init(data, rowIndex, _appContext) {
+  const status = { statusCode: 0, msg: `init processing completed` };
   data.total = data.x1 + data.x2 + data.x3;
-  debugger;
-  return [data, status];
 };
-async function main(data, rowIndex, appEnv, type) {
-  const status = { statusCode: 0, msg: `${type} processing completed` };
+async function main(data, rowIndex, _appContext) {
+  const status = { statusCode: 0, msg: `main processing completed` };
   data.total = data.x1 + data.x2 + data.x3;
-  debugger;
-  return [data, status];
 };
 
-async function term(data, rowIndex, appEnv, type) {
-  const status = { statusCode: 0, msg: `${type} processing completed` };
+async function term(data, rowIndex, _appContext) {
+  const status = { statusCode: 0, msg: `term processing completed` };
   console.log('In term');
-  debugger;
-  return [data, status];
 };
 
-async function x1(data, name, rowIndex, appEnv) {
+async function x1(data,  rowIndex, _appContext) {
   const status = { statusCode: 0, msg: `${name} handler executed.` };
-  console.log('in x1');
-  return [data, status];
+  console.log('in x1')
 };

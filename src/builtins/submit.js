@@ -31,7 +31,7 @@ import {computeResults, computeFetchData, computeRun} from '@sassoftware/restafl
  */
 async function submit(appEnv, src, macros, output) {
   
-  let viyaSession = appEnv.getViyaSession('compute');
+  let viyaSession = await appEnv.getViyaSession('compute');
   if (viyaSession == null) {
     return {status: {statusCode: 2, msg: 'Missing logon information'}, results: {}};
   }

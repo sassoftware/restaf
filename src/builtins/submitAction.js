@@ -4,7 +4,7 @@
  */
 import { casActionRun } from "@sassoftware/restaflib";
 async function submitAction(appEnv, action, args) {
-  let viyaSession = appEnv.getViyaSession("cas");
+  let viyaSession = await appEnv.getViyaSession("cas");
   if (viyaSession == null) {
     return { status: { statusCode: 2, msg: "Missing logon information" }, results: {} };
   }

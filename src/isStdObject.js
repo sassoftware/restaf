@@ -28,7 +28,10 @@ function isStdObject(result, temp, data, status, type, appEnv) {
     r1 = temp;
     r2 = status;
   }
-
+  // abort all further processing if statusCode is 2
+  if (r2.statusCode == 2) {
+    return [r1,r2]; 
+  }
   // did the user destroy temp? if so, revert to data in state
   // one final check
 

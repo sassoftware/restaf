@@ -92,6 +92,7 @@ async function cellEdit(name, value, rowIndex, _icurrentData, appEnv) {
    let r = await onEditHandler(name, newDataRow,currentData, rowIndex, appEnv, status);
    if (r[1].statusCode === 2) {
     console.log(`Error in onEdit handler for ${name}`, status.msg);
+    console.log(`Bypassing main handler`); 
     return { data: currentData, status: r[1] };
    }
    // update newDataRow with the result of the onEdit handler;

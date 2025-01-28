@@ -120,7 +120,8 @@ async function number (data,_appContext) {
   debugger;
   console.log('in number', _appContext.getViyaSession); 
   data.number = 2000;
-  console.log('---------------in number');
+  return {statusCode: 2, msg: 'error'};
+  
 };
 async function array (data,_appContext) {
   const status = { statusCode: 0, msg: `array  handler executed.` };

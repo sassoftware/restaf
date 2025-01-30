@@ -21,7 +21,9 @@ async function prepFormData (result, appEnv, makerow) {
   const customColumns = appEnv.appControl.customColumns;
   let status = { statusCode: 0, msg: 'Initialization was successful' };
   
+  
   // set up extended columns
+  debugger;
   const eColumns = {};
   ;
   //--------------------------------------------------------------------------
@@ -58,9 +60,10 @@ async function prepFormData (result, appEnv, makerow) {
     const name = s.Column.toLowerCase();
     s.name = name;
     s.Label = (s.Label == null || s.Label.length === 0) ? s.Column : s.Label;
-    s.customType = (s.Type == null) ? 'string' : s.Type.toLowerCase();//keep original type
+    let tx = s.hasOwnProperty('Type') ? s.Type : s.type;
+    s.customType = (tx == null) ? 'string' : tx.toLowerCase();//keep original type
     // convert type to valid js types
-    s.Type = typeValidation((s.Type == null) ? 'string' : s.Type.toLowerCase());
+    s.Type = typeValidation((tx == null) ? 'string' : tx.toLowerCase());
    
     if (source ==='compute') {
       s.FormattedLength = s.length;
@@ -69,7 +72,7 @@ async function prepFormData (result, appEnv, makerow) {
     //s.customType = s.Type;
     eColumns[name] = s;
   });
-
+  debugger;
   // add computed columns to the current column set.
   if (customColumns != null) {
     for (const k in customColumns) {
@@ -116,7 +119,6 @@ async function prepFormData (result, appEnv, makerow) {
       // run the init handler for each new row object
       let currentRow = Object.assign({}, t);
       const [t1, statusi] = await commonHandler('init', t , currentRow, i, appEnv, status);
-      ;
       status = statusi;
       newRows.push(t1);
     };
@@ -127,9 +129,7 @@ async function prepFormData (result, appEnv, makerow) {
     let t = addCustomColumns(customColumns, rowObj);
     // run the init handler for each new row object
     let currentRow = Object.assign({}, t);
-    ;
     let  [t1, statusi] = await commonHandler('init', t, currentRow,  0, appEnv, status);
-    ;
     status = statusi;
     newRows[0] = t1;
   }

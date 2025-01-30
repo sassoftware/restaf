@@ -78,9 +78,11 @@ async function cellEdit(name, value, rowIndex, _icurrentData, appEnv) {
   }
 
   // make sure that the incoming value type matches the column type
-  if (validateValueType(value, columns[name].Type) === false) {
-    console.log(`Type of value does not match ${name} type. Type of ${name} is ${columns[name].Type}`);  
-    return { data: currentData, status: { statusCode: 2, msg: `Type of value does not match ${name} type` } };
+  if (appEnv.tableFormat !== true) { // No checking if the data is from a formatted table
+    if (validateValueType(value, columns[name].Type) === false) {
+      console.log(`Type of value does not match ${name} type. Type of ${name} is ${columns[name].Type}`);  
+      return { data: currentData, status: { statusCode: 2, msg: `Type of value does not match ${name} type` } };
+    }
   }
 
   // update the working copy with the new value

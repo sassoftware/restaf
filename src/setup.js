@@ -125,6 +125,7 @@ async function setup(
     table: appControl.table,
     byvars: appControl.byvar,
     userData: {},
+    tableFormat: false,
     onNoData: appControl.onNoData != null ? appControl.onNoData : "clear",
     user: user,
     fetchCount: 0,
@@ -297,13 +298,14 @@ async function icomputeSetup(
     null,
     sessionID
   );
-  
+  debugger;
   appEnv.session = session;
   if (sessionID != null) {
     appEnv.userSessionID = sessionID;
   }
 
   try {
+    debugger;
     if (appControl.editControl.handlers.initApp != null) {
       await _initApp(appEnv);
     }
@@ -326,6 +328,7 @@ async function icomputeSetup(
   let tableSummary = {};
   if (appControl.table != null) {
     try {
+      debugger;
       tableSummary = await computeSetupTables(
         store,
         session,
@@ -333,6 +336,7 @@ async function icomputeSetup(
         null,/*appControl.preamble -- do preamble here */
       );
     } catch (err) {
+      debugger;
       console.log(err);
       // await termApp(appEnv, true);
       throw err;

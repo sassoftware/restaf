@@ -85,7 +85,7 @@ async function icasScroll (direction, appEnv, payload) {
   try {
     
     const r = await casFetchData(store, session, control);
-    ;
+    appEnv.tableFormat = control.format;
     const result = await prepFormData(r.data, appEnv);
     
     appEnv.fetchCount = result.data.length;
@@ -140,18 +140,11 @@ async function icomputeScroll (direction, appEnv, payload) {
     control.qs.where = appEnv.activeWhere;
   }
   control.qs.includeIndex = 1;
+  appEnv.tableFormat = control.qs.format;
+  debugger;
   let r = null;
   
   try {
-    
-    let argsList = {
-      store: store,
-      tableSummary: tableSummary,
-      tname: tname,
-      direction: direction,
-      control: control,
-      useRow: 'rows'
-    };
    
     r = await computeFetchData(store, tableSummary, tname, direction, control, 'rows');
  
@@ -165,7 +158,7 @@ async function icomputeScroll (direction, appEnv, payload) {
   let result = null;
 
   if (r !== null) {
-    
+    debugger;
     result = await prepFormData(r, appEnv);
     appEnv.fetchCount = result.data.length;
 

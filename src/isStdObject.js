@@ -39,12 +39,19 @@ function isStdObject(result, temp, data, status, type, appEnv) {
     r1 = data;
   }
 
+  // If Data for table is formatted, then do no further processing
+  // since all the data is string.
 
+  if (appEnv.tableFormat === true)  {
+    return [r1,r2];
+  }
+  debugger;
   // first to make sure the colmuns are consistent
   if (checkConsistency(r1, appEnv.state.columns, type) === false) {
     console.log('Error: The returned data has inconsistencies');
     return [data, { statusCode: 2, msg: 'Error: The returned data has inconsistencies' }];
   }
+  
 
   return [r1, r2];
 

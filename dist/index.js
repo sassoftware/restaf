@@ -662,7 +662,7 @@ eval("/* harmony import */ var _sassoftware_restaflib__WEBPACK_IMPORTED_MODULE_0
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("function validateValueType(value, colType) {\n  if (colType === 'array') {\n    return value == null ? false : Array.isArray(value);\n  }\n  if (colType === 'object') {\n    return value === null ? false : typeof value === 'object';\n  }\n  return value === null ? true : typeof value === colType;\n}\n/* harmony default export */ __webpack_exports__[\"a\"] = (validateValueType);\n\n//# sourceURL=webpack://restafedit/./validateValueType.js?");
+eval("function validateValueType(value, colType) {\n  if (value == null) {\n    return true;\n  }\n  if (colType === 'array') {\n    return Array.isArray(value);\n  }\n  if (colType === 'object') {\n    return typeof value === 'object';\n  }\n  return typeof value === colType;\n}\n/* harmony default export */ __webpack_exports__[\"a\"] = (validateValueType);\n\n//# sourceURL=webpack://restafedit/./validateValueType.js?");
 
 /***/ }),
 

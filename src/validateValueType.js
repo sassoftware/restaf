@@ -1,11 +1,14 @@
 function validateValueType(value, colType) {
+  if (value == null) {
+    return true;
+  }
   if (colType === 'array') {
-    return value == null ? false : Array.isArray(value);
+    return Array.isArray(value);
   }
   if (colType === 'object') {
-    return value === null ? false : typeof value === 'object';
+    return  typeof value === 'object';
   }
 
-  return value === null ? true : typeof value === colType;
+  return typeof value === colType;
 }
 export default validateValueType;

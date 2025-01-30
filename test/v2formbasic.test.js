@@ -26,7 +26,7 @@ async function runit () {
   const appEnv = await setup(payload, appControl);
   debugger;
   console.log('After init', appEnv.state.data[0]);
-  let r = await updateValue('number',200, appEnv);
+  let r = await updateValue('number',undefined, appEnv);
   console.log('r',r)
   console.log(appEnv.state.data[0]);
   r = await updateValue('array', [1,2], appEnv);
@@ -118,8 +118,7 @@ async function termx (data, _appContext) {
 async function number (data,_appContext) {
   const status = { statusCode: 0, msg: `number handler executed.` };
   debugger;
-  console.log('in number', _appContext.getViyaSession); 
-  data.number = 2000;
+  console.log('in number', data.number); 
   //return {statusCode: 2, msg: 'error'};
   
 };

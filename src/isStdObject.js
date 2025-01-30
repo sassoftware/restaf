@@ -63,19 +63,20 @@ function isStdObject(result, temp, data, status, type, appEnv) {
       if (columns[k] == null) {
         console.log(`Error: Attempting to add a new column ${k} in ${type}`);
         r = false;
+      } else if (a[k] == null) { // allow null 
+        r = true;
       } else {
         switch (columns[k].Type) {
           case 'string':
           case 'number':
-          case 'boolean': {
-            if (! (a[k] == null || typeof a[k] == columns[k].Type) ) {
+          case 'boolean':
+            if (typeof a[k] !== columns[k].Type) {
               console.log(`Error: Attempting to change the typeof ${k} in ${type}`);
               r = false;
             }
             break;
-          }
           case 'object': {
-            if (typeof a[k] !== 'object') { //allowing null for object
+            if (typeof a[k] !== 'object') { 
               console.log(`Error: Attempting to change the typeof ${k} in ${type}`);
               r = false;
             }

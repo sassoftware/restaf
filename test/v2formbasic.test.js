@@ -101,7 +101,7 @@ async function termMyApp (_appContext) {
 }
 async function init (data, _appContext) {
   console.log('in init');
-  data.number = 10000;
+  data.number = null;
   return { statusCode: 0, msg: `init processing completed` };
 };
 async function main (data, _appContext) {
@@ -120,7 +120,7 @@ async function number (data,_appContext) {
   debugger;
   console.log('in number', _appContext.getViyaSession); 
   data.number = 2000;
-  return {statusCode: 2, msg: 'error'};
+  //return {statusCode: 2, msg: 'error'};
   
 };
 async function array (data,_appContext) {

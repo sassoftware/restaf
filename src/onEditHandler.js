@@ -42,7 +42,7 @@ async function onEditHandler (type,temp, currentData, rowIndex, appEnv, status) 
     } catch (err) {
       console.log('Error in handler', type, err);
       status = { statusCode: 2, msg: `Error in handler ${type}. See console` };
-      return [data, status];
+      return [currentData, status];
     }
   }
 

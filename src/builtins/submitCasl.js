@@ -13,11 +13,9 @@ async function submitCasl(appEnv, src, args, useCommons) {
   const { store, session } = viyaSession;
 
   try {
-
     try {
       let r = await caslRun(store, session, src, (args == null ? {} : args),
-        (useCommons === true ? true : false));
-
+                            (useCommons === true ? true : false));
       let status = { statusCode: 0, msg: null };
       return { status, results: r };
     } catch (err) {

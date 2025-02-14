@@ -13,8 +13,8 @@ async function runControlLabel (...args) {
     [name, rowIndex] = args;
   }
  
-  if (['init','main', 'term'].includes(name) === false) {
-    return {data: appEnv.data, status: {statusCode: 1, msg: 'name must be init, main or term'}};
+  if (['init','main', 'term', '_appProps', '_appSubmit'].includes(name) === false) {
+    return {data: appEnv.data, status: {statusCode: 1, msg: '${name} is not a valid control label'}};
   }
 
   let {_data, status} = await cellEdit(name, null, rowIndex, null, appEnv);

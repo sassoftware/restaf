@@ -53,7 +53,7 @@ async function cellEdit(name, value, rowIndex, _icurrentData, appEnv) {
 
   // handle init and term for all types of forms
   // user will edit newData in place.
-  let reservedLabels = ["init", "term", "initApp", "termApp", "main", "_appProps", "_appSubmit"];
+  let reservedLabels = ["init", "term", "initApp", "termApp", "main", "appValue", "appSubmit"];
   if (reservedLabels.includes(name) === true) {  
     let r = await commonHandler(name, newDataRow, currentData, rowIndex, appEnv, status);
     if (r[1].statusCode === 2) {

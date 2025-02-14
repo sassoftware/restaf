@@ -13,7 +13,7 @@ async function runControlLabel (...args) {
     [name, rowIndex] = args;
   }
  
-  if (['init','main', 'term', '_appProps', '_appSubmit'].includes(name) === false) {
+  if (['init','main', 'term', 'appSubmit', 'appValue'].includes(name) === false) {
     return {data: appEnv.data, status: {statusCode: 1, msg: '${name} is not a valid control label'}};
   }
 

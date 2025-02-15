@@ -21,22 +21,27 @@ import isStdObject from './isStdObject.js';
  * to call this directly
  * Please see the restafeditExample in the Tutorial pulldown
  */
-async function commonHandler (type, temp, currentData, rowIndex, appEnv, status) {
+async function commonHandler(type, temp, currentData, rowIndex, appEnv, status, value) {
   const { handlers } = appEnv.appControl.editControl;
   let r = null;
   let userFuncf = handlers[type];
   if (userFuncf != null) {
     try {
-      if ( appEnv.apiVersion === 2 ) { 
-        r = (appEnv.table == null) 
-        ? await userFuncf(temp, appEnv.appContext)
-        : await userFuncf(temp, rowIndex, appEnv.appContext);
+      if (appEnv.apiVersion === 2) {
+        if (appEnv.table == null) {
+          r = (type === 'appValue')
+            ? await userFuncf(value, temp, appEnv.appContext)
+            : await userFuncf(temp, appEnv.appContext);
+        } else {
+          r = await userFuncf(temp, rowIndex, appEnv.appContext);
+        }
       } else {
+
         // for backward compatibility
         r = await userFuncf(temp, rowIndex, appEnv.appContext);
       }
-    } 
-    catch(err){
+    }
+    catch (err) {
       console.log('Error in handler', type, err);
       status = { statusCode: 2, msg: `Error in handler ${type}. See console` };
       return [currentData, status];

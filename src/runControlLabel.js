@@ -13,11 +13,11 @@ async function runControlLabel (...args) {
     [name, rowIndex] = args;
   }
  
-  if (['init','main', 'term', 'appSubmit', 'appValue'].includes(name) === false) {
-    return {data: appEnv.data, status: {statusCode: 1, msg: '${name} is not a valid control label'}};
+  if (['init','main', 'term', 'appSubmit'].includes(name) === false) {
+    return {data: appEnv.data, status: {statusCode: 1, msg: `${name} is not a valid control label`}};
   }
 
-  let {_data, status} = await cellEdit(name, null, rowIndex, null, appEnv);
-  return status;
+  let r = await cellEdit(name, null, rowIndex, null, appEnv);
+  return (name === 'appSubmit') ? r : r.status;
 }
 export default runControlLabel;

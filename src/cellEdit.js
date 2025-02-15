@@ -3,12 +3,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import text2Float from "./text2Float";
-import commonHandler from "./commonHandler";
-import updateTableRows from "./updateTableRows";
-import onEditHandler from "./onEditHandler";
-import saveTable from "./saveTable";
-import validateValueType from "./validateValueType";
+import text2Float from './text2Float';
+import commonHandler from './commonHandler';
+import updateTableRows from './updateTableRows';
+import onEditHandler from './onEditHandler';
+import saveTable from './saveTable';
+import validateValueType from './validateValueType';
 
 /**
  * @description Process edit of a cell and optionally save the data
@@ -28,7 +28,7 @@ import validateValueType from "./validateValueType";
  *
  * const r = await cellEdit'x1',100, 1, d, appEnv)
     - If the column has an handler it will be called.
-    - If 'main" handler is specified, it will be called.
+    - If 'main' handler is specified, it will be called.
     - If autoSave is true
       - The 'term' handler(if specified) will be called
       - The data for that row will be persisted to the server
@@ -49,13 +49,29 @@ async function cellEdit(name, value, rowIndex, _icurrentData, appEnv) {
       ? true
       : appEnv.appControl.cachePolicy;
   appEnv.handlers = handlers;
-  let status = { statusCode: 0, msg: "" };
+  let status = { statusCode: 0, msg: '' };
 
-  // handle init and term for all types of forms
+ 
   // user will edit newData in place.
-  let reservedLabels = ["init", "term", "initApp", "termApp", "main", "appValue", "appSubmit"];
-  if (reservedLabels.includes(name) === true) {  
-    let r = await commonHandler(name, newDataRow, currentData, rowIndex, appEnv, status);
+
+  // for forms running as component 
+
+  if (name === 'appSubmit') {
+    let handler = handlers[name];
+    if (handler != null) {
+      try {
+        let r = await handler(newDataRow, appEnv);
+        return r;
+      } catch (err) {
+        console.log('Error in handler', name, err);
+        return null;
+      }
+    }
+  }
+
+  let reservedLabels = ['init', 'term', 'initApp', 'termApp', 'main', 'appValue'];
+  if (reservedLabels.includes(name) === true) {
+    let r = await commonHandler(name, newDataRow, currentData, rowIndex, appEnv, status, value);
     if (r[1].statusCode === 2) {
       // keep state data as is and return message.
       console.log(`Error in ${name}  handler`, r[1].msg);
@@ -67,8 +83,8 @@ async function cellEdit(name, value, rowIndex, _icurrentData, appEnv) {
         appEnv.state.data[rowIndex] = r[0];
       }
       return { data: r[0], status: r[1] };
-      }
     }
+  }
 
   // The rest of the processing for specific cell edits
 
@@ -80,7 +96,7 @@ async function cellEdit(name, value, rowIndex, _icurrentData, appEnv) {
   // make sure that the incoming value type matches the column type
   if (appEnv.tableFormat !== true) { // No checking if the data is from a formatted table
     if (validateValueType(value, columns[name].Type) === false) {
-      console.log(`Type of value does not match ${name} type. Type of ${name} is ${columns[name].Type}`);  
+      console.log(`Type of value does not match ${name} type. Type of ${name} is ${columns[name].Type}`);
       return { data: currentData, status: { statusCode: 2, msg: `Type of value does not match ${name} type` } };
     }
   }
@@ -88,21 +104,21 @@ async function cellEdit(name, value, rowIndex, _icurrentData, appEnv) {
   // update the working copy with the new value
   // Yes I know text2Float is not the best name for this function - may change it before production push
   newDataRow[name] = text2Float(value, columns[name]);
-  
+
   // if the is onEdit(onChange) handler specified call it.
   if (handlers[name] != null) {
-   let r = await onEditHandler(name, newDataRow,currentData, rowIndex, appEnv, status);
-   if (r[1].statusCode === 2) {
-    console.log(`Error in onEdit handler for ${name}`, status.msg);
-    console.log(`Bypassing main handler`); 
-    return { data: currentData, status: r[1] };
-   }
-   // update newDataRow with the result of the onEdit handler;
-   newDataRow = r[0];
-   status = r[1];
+    let r = await onEditHandler(name, newDataRow, currentData, rowIndex, appEnv, status);
+    if (r[1].statusCode === 2) {
+      console.log(`Error in onEdit handler for ${name}`, status.msg);
+      console.log(`Bypassing main handler`);
+      return { data: currentData, status: r[1] };
+    }
+    // update newDataRow with the result of the onEdit handler;
+    newDataRow = r[0];
+    status = r[1];
   }
   // now drive main handler
-  let r = await commonHandler("main", newDataRow, currentData, rowIndex, appEnv, status);
+  let r = await commonHandler('main', newDataRow, currentData, rowIndex, appEnv, status);
   if (r[1].statusCode === 2) {
     // fall all the way back to the original data prior to onEdit handler
     console.log(`Error in main handler for ${name}`, r[1].msg);
@@ -111,7 +127,7 @@ async function cellEdit(name, value, rowIndex, _icurrentData, appEnv) {
 
   // Now we have successfully edited the data, let's see if we need to save it
   // only in the case of tables and autoSave is true
-  
+
   r[0]._modified = 1;
   newDataRow = r[0];
   status = r[1];
@@ -122,13 +138,13 @@ async function cellEdit(name, value, rowIndex, _icurrentData, appEnv) {
   appEnv.state.data[rowIndex] = newDataRow;
   // if editing table, see if we need to save the table
   if (iautoSave === true && appEnv.table != null) {
-    r = await commonHandler("term", r[0], newDataRow, rowIndex, appEnv, status);
+    r = await commonHandler('term', r[0], newDataRow, rowIndex, appEnv, status);
     status = r[1];
     if (status.statusCode === 2) {
       console.log(`Error in term prior to saving data for ${name} row ${rowIndex}`, status.msg);
       return { data: newDataRow, status: r[1] };
     }
-    
+
     appEnv.state.data[rowIndex] = r[0];
 
     // Now update the table rows
@@ -139,7 +155,7 @@ async function cellEdit(name, value, rowIndex, _icurrentData, appEnv) {
     }
   }
 
-  
+
   return { data: newDataRow, status };
 }
 export default cellEdit;

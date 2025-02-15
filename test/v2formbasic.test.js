@@ -31,6 +31,13 @@ async function runit () {
   console.log(appEnv.state.data[0]);
   r = await updateValue('array', [1,2], appEnv);
   console.log(appEnv.state.data[0]);
+
+  r = await updateValue('appValue',{number: -10000}, appEnv);
+  console.log('after appValue', appEnv.state.data[0]);
+
+  r = await runControlLabel('appSubmit', appEnv);
+  console.log('from appSubmit', r);
+
   r = await runControlLabel('term', appEnv);
   console.log('r',r)
   await termApp(appEnv);
@@ -82,7 +89,7 @@ function getAppControl () {
       }
     },
     editControl: {
-      handlers: { initApp, init, main, term: termx, initApp, termApp: termMyApp, number, array }, 
+      handlers: { initApp, init, main, term: termx, initApp, termApp: termMyApp, number, array,appValue, appSubmit}, 
       autoSave: true,
       autoSaveTable: true
     },
@@ -90,6 +97,17 @@ function getAppControl () {
   };
 }
 
+async function appValue (value, data, _appContext) {
+  console.log('in appValue');
+  console.log(value);
+  data.number = value.number;
+  return { statusCode: 0, msg: `appValue processing completed` };
+}
+
+async function appSubmit (data, _appContext) {
+ console.log('in appSubmit');
+ return {x:1, y:2};
+} 
 async function initApp (_appContext) {
   console.log('in initApp');
 

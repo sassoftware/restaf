@@ -86,6 +86,9 @@ async function cellEdit(name, value, rowIndex, _icurrentData, appEnv) {
     }
   }
 
+
+  // if appValue take a different path
+
   // The rest of the processing for specific cell edits
 
   // now make sure the specified name is a valid column name

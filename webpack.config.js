@@ -15,7 +15,7 @@ module.exports = (env) => {
 
   console.log(` production build: ${env.p} `);
   console.log(` target          : ${env.target}`);
-
+  /*
   if (env.p === 'y') {
     plugins.push(
       new webpack.DefinePlugin({
@@ -25,6 +25,7 @@ module.exports = (env) => {
       })
     );
   }
+    */
   if (env.p === 'a') {
     plugins.push(new BundleAnalyzerPlugin());
   }

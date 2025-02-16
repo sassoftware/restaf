@@ -15,7 +15,6 @@
  */
 
 async function deleteViyaSession(appEnv, source) {
- // let {casSetup, computeSetup} = restaflib;
   let {appConfig, store} = appEnv;
   // if it is already created, return it
   if (appConfig.logonPayload == null  || source == null || source.trim().length === 0) {
@@ -24,16 +23,19 @@ async function deleteViyaSession(appEnv, source) {
   
   source = source.toLowerCase();
   
-  if (appEnv.currentSessions[source].session != null) {
-    let session = appEnv.currentSessions[source].session;
-    await store.apiCall(session.links('delete'));
-    
+  if (appEnv.currentSessions[source].session !== null) {
     let lapp = appEnv.currentSessions[source];
+    let session = lapp.session;
+    if (lapp.userSessionID === null) {
+       await store.apiCall(session.links('delete'));
+    }
+    
     lapp.session = null;
     lapp.servers = null;
     lapp.serverName = null;
     lapp.casServerName = null;
     lapp.sessionID = null;
+    lapp.userSessionID = null;
     
   }
   return true;

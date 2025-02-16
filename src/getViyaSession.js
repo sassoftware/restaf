@@ -17,18 +17,20 @@ import {casSetup, computeSetup} from '@sassoftware/restaflib';
  * @example - Delays session creation until needed
  */
 
-async function getViyaSession(appEnv, source) {
+async function getViyaSession(appEnv, source, sessionID) {
  // let {casSetup, computeSetup} = restaflib;
   let {appConfig, store} = appEnv;
   // if it is already created, return it
-  ;
-  if (appConfig.logonPayload == null ) {
+
+  //if (appConfig.logonPayload == null ) {
+  //  return null;
+  //}
+  if (appEnv.logonPayload == null) {
     return null;
   }
-  
   let tappEnv=  {
-    host: appConfig.logonPayload.host,
-    logonPayload: appConfig.logonPayload,
+    host: appEnv.logonPayload.host,
+    logonPayload: appEnv.logonPayload,
     source: source,
     builtins: appEnv.builtins,
     store:  store,
@@ -37,6 +39,7 @@ async function getViyaSession(appEnv, source) {
     serverName: null,
     casServerName: null,
     sessionID: null,
+    userSessionID: sessionID||null,
     restaflib: appEnv.builtins.restaflib,
     restafedit: appEnv.builtins.restafedit
   }
@@ -61,7 +64,7 @@ async function getViyaSession(appEnv, source) {
   // source = cas
   if (source === "cas") {
     
-    let { session, servers } = await casSetup(store, null);
+    let { session, servers } = await casSetup(store, null, sessionID);
     
     let casServerName = session.links("execute", "link", "server");
     appEnv.currentSessions.cas = {
@@ -74,13 +77,13 @@ async function getViyaSession(appEnv, source) {
     appEnv.currentSessions.cas.sessionID = ssid.items("id");
 
     tappEnv = setupAppEnv(appEnv, tappEnv, source);
-
     return tappEnv;
   }
 
   // source = sas
   if (source === 'compute') {
-    let session = await computeSetup(store, null);
+    console.log(sessionID);
+    let session = await computeSetup(store, null, null,null,sessionID);
     let sid = await store.apiCall(session.links("self"));
     appEnv.currentSessions.compute = {
       session: session,

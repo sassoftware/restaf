@@ -64,8 +64,8 @@ async function setup(
 ) {
   const { source } = appControl;
 
-  const getViyaSessionf = (appEnv) => async (source) => {
-    let r = getViyaSession(appEnv, source);
+  const getViyaSessionf = (appEnv) => async (source,sessionID) => {
+    let r = getViyaSession(appEnv, source,sessionID);
     return r;
   };
 

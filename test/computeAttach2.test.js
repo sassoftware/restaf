@@ -1,0 +1,117 @@
+const { setup, scrollTable, cellEdit, termApp } = require('../lib/index.js');
+const getToken  = require('./getToken.js');
+test ('computeAttach', async () => {
+  const payload = {
+    host        : process.env.VIYA_SERVER,
+    authType    : 'server',
+    token       : getToken(),
+    tokenType   : 'bearer',
+    storeOptions: { casProxy: true }
+  };
+  const r = await runit(payload);
+  expect(r).toBe('done');
+}); 
+
+async function runit (payload) {
+
+  const appControl = getAppControl();
+
+  debugger;
+
+  // preamble - should be done in the context preamble
+  // this arg is useful if you do not have a way to modify the context
+  // eslint-disable-next-line quotes
+  appControl.preamble = null;
+  let x = `libname tempdata '/tmp';run; 
+  data tempdata.testdata3;
+  keep x1 x2 x3 id;
+  length id $ 5;
+  do i = 1 to 20;
+  x1=i; x2=3; x3=i*10; id=compress(TRIMN('key'||i));
+  
+  output;
+  end;
+  run;`;
+
+  let start = new Date();
+  const appEnv1 = await setup(payload, appControl);
+  console.log('run1 ', appEnv1.sessionID, ' ', appEnv1.userSessionID);
+  console.log( 'first setup....', new Date() - start);
+  debugger;
+  start = new Date();
+  const lapp = await appEnv1.getViyaSession('compute',appEnv1.sessionID);
+  console.log('run2 ',lapp.sessionID, ' ', lapp.userSessionID);
+  console.log( 'Second setup.....', new Date() - start);
+  start = new Date();
+
+  debugger;
+  // eslint-disable-next-line prefer-const
+  /*
+  start = new Date();
+  let result = await scrollTable('first', appEnv2);
+  console.log('after fetch---------------', new Date() - start);
+  
+  debugger;
+  console.log('result of first fetch -------------------------------');
+  console.log(appEnv2.state.data);
+  console.log(appEnv2.state.pagination);
+  */
+
+ 
+  return 'done';
+};
+
+function getAppControl () {
+  return {
+    description: 'Simple Example',
+
+    source: 'compute',
+    table : { libref: 'SASHELP', name: 'AIR' },
+    byvars: [' '],
+
+    cachePolicy: true,
+
+    initialFetch: {
+      qs: {
+        start : 0,
+        limit : 1,
+        format: false,
+        where : ' '
+      }
+    },
+
+    customColumns: {
+      total: {
+        Column         : 'Total',
+        Label          : 'Grand Total',
+        FormattedLength: 12,
+        Type           : 'double'
+      }
+    },
+    editControl: {
+      handlers: { init, main: init, term, myTermApp}, /* note reuse of init */
+      save    : true,
+      autoSave: true
+    },
+
+    computeContext: null, /* optional - defaults to Job Execution Service */
+
+    appData: {}
+
+  };
+};
+
+async function myTermApp(appEnv) {
+  console.log('in termApp');
+  return { statusCode: 0, msg: 'done' };
+}
+async function init (data, rowIndex, appEnv, type) {
+  const status = { statusCode: 0, msg: `${type} processing completed` };
+  data.total = data.x1 + data.x2 + data.x3;
+  return [data, status];
+};
+
+async function term (data, rowIndex, appEnv, type) {
+  const status = { statusCode: 0, msg: `${type} processing completed` };
+  return [data, status];
+};

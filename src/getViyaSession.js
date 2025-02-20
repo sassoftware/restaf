@@ -63,36 +63,45 @@ async function getViyaSession(appEnv, source, usessionID) {
 
   // source = cas
   if (source === "cas") {
-    
-    let { session, servers } = await casSetup(store, null, usessionID);
-    
-    let casServerName = session.links("execute", "link", "server");
-    appEnv.currentSessions.cas = {
-      session: session,
-      servers: servers,
-      casServerName: casServerName,
-      serverName: casServerName
-    };
-    let ssid = await store.apiCall(session.links("self"));
-    appEnv.currentSessions.cas.sessionID = ssid.items("id");
+    try {
+      let { session, servers } = await casSetup(store, null, usessionID);
+      let casServerName = session.links("execute", "link", "server");
+      appEnv.currentSessions.cas = {
+        session: session,
+        servers: servers,
+        casServerName: casServerName,
+        serverName: casServerName
+      };
+      let ssid = await store.apiCall(session.links("self"));
+      appEnv.currentSessions.cas.sessionID = ssid.items("id");
 
-    tappEnv = setupAppEnv(appEnv, tappEnv, source);
-    return tappEnv;
+      tappEnv = setupAppEnv(appEnv, tappEnv, source);
+      return tappEnv;
+    } catch (err) {
+      console.log(JSON.stringify(err));
+      return tappEnv;
+    }
   }
 
   // source = sas
   if (source === 'compute') {
     console.log(usessionID);
-    let session = await computeSetup(store, null, null,null,usessionID);
-    let sid = await store.apiCall(session.links("self"));
-    appEnv.currentSessions.compute = {
-      session: session,
-      servers: null,
-      serverName: null,
-      sessionID: sid.items("id")
-    };
-    tappEnv = setupAppEnv(appEnv, tappEnv, source);
-    return tappEnv;
+    try {
+      debugger;
+      let session = await computeSetup(store, null, null,null,usessionID);
+      let sid = await store.apiCall(session.links("self"));
+      appEnv.currentSessions.compute = {
+        session: session,
+        servers: null,
+        serverName: null,
+        sessionID: sid.items("id")
+      };
+      tappEnv = setupAppEnv(appEnv, tappEnv, source);
+      return tappEnv;
+    } catch (err) {
+      console.log(JSON.stringify(err));
+      return tappEnv;
+    }
   }
   function setupAppEnv(appEnv, tappEnv, source) {
       let lapp = appEnv.currentSessions[source];

@@ -35,8 +35,15 @@ async function runit (payload) {
   const appEnv1 = await setup(payload, appControl);
   console.log(appEnv1.sessionID);
   let lapp = await appEnv1.getViyaSession('compute');
+  console.log(lapp.userSessionID);
   console.log(lapp.sessionID); 
-  let r = await appEnv1.deleteViyaSession('compute');
+  r = await appEnv1.deleteViyaSession('compute');
+
+  
+  lapp = await appEnv1.getViyaSession('compute');
+  console.log(lapp.userSessionID);
+  console.log(lapp.sessionID); 
+  r = await appEnv1.deleteViyaSession('compute');
   return 'done';
 };
 

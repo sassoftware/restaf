@@ -17,7 +17,7 @@ import {casSetup, computeSetup} from '@sassoftware/restaflib';
  * @example - Delays session creation until needed
  */
 
-async function getViyaSession(appEnv, source, sessionID) {
+async function getViyaSession(appEnv, source, usessionID) {
  // let {casSetup, computeSetup} = restaflib;
   let {appConfig, store} = appEnv;
   // if it is already created, return it
@@ -39,7 +39,7 @@ async function getViyaSession(appEnv, source, sessionID) {
     serverName: null,
     casServerName: null,
     sessionID: null,
-    userSessionID: sessionID||null,
+    userSessionID: (usessionID != null) ? usessionID : null,
     restaflib: appEnv.builtins.restaflib,
     restafedit: appEnv.builtins.restafedit
   }
@@ -64,7 +64,7 @@ async function getViyaSession(appEnv, source, sessionID) {
   // source = cas
   if (source === "cas") {
     
-    let { session, servers } = await casSetup(store, null, sessionID);
+    let { session, servers } = await casSetup(store, null, usessionID);
     
     let casServerName = session.links("execute", "link", "server");
     appEnv.currentSessions.cas = {
@@ -82,8 +82,8 @@ async function getViyaSession(appEnv, source, sessionID) {
 
   // source = sas
   if (source === 'compute') {
-    console.log(sessionID);
-    let session = await computeSetup(store, null, null,null,sessionID);
+    console.log(usessionID);
+    let session = await computeSetup(store, null, null,null,usessionID);
     let sid = await store.apiCall(session.links("self"));
     appEnv.currentSessions.compute = {
       session: session,

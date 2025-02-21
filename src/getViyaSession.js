@@ -44,7 +44,7 @@ async function getViyaSession(appEnv, source, usessionID) {
     restafedit: appEnv.builtins.restafedit
   }
  
-  if (source === null) {
+  if (source === null || appEnv.logonPayload.host === null || appEnv.logonPayload.host === 'none') {
     return tappEnv;
   }
 

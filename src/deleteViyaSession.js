@@ -17,7 +17,7 @@
 async function deleteViyaSession(appEnv, source) {
   let {logonPayload, store} = appEnv;
   // if it is already created, return it
-  if (logonPayload == null  || source == null || source.trim().length === 0) {
+  if (logonPayload == null  || logonPayload.host === null || logonPayload.host === 'none'|| source == null || source.trim().length === 0) {
     return null;
   }
   

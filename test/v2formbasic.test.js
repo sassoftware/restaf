@@ -40,6 +40,11 @@ async function runit () {
 
   r = await runControlLabel('term', appEnv);
   console.log('r',r)
+
+  r = await appEnv.getViyaSession('compute');
+  console.log(r);
+  r = await appEnv.deleteViyaSession('compute');
+  console.log(r);
   await termApp(appEnv);
   
   
@@ -49,7 +54,7 @@ async function runit () {
 function getAppControl () {
   return {
     description: 'Simple Example',
-    source: 'none',
+    source: null,
     apiVersion: 2,
     customColumns: {
       number: {

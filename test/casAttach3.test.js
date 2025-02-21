@@ -29,6 +29,7 @@ async function runit (payload) {
      ";
  `;
   appControl.preamble = null;
+
   payload.storeOptions = {
     casProxy: false
   };
@@ -39,11 +40,14 @@ async function runit (payload) {
   console.log(lapp.sessionID); 
   r = await appEnv1.deleteViyaSession('compute');
 
-  
+
   lapp = await appEnv1.getViyaSession('compute');
   console.log(lapp.userSessionID);
   console.log(lapp.sessionID); 
   r = await appEnv1.deleteViyaSession('compute');
+  console.log(r);
+  lapp = await appEnv1.getViyaSession('compute');
+  console.log(lapp.sessionID);
   return 'done';
 };
 
@@ -51,8 +55,8 @@ function getAppControl () {
   return {
     description: 'Simple Example',
 
-    source: 'cas',
-    table : { caslib: 'casuser', name: 'testdatatemp' },
+    source: 'none',
+    table : null,
     byvars: ['id'],
 
     initialFetch: {

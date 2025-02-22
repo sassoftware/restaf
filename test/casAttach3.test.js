@@ -34,20 +34,23 @@ async function runit (payload) {
     casProxy: false
   };
   const appEnv1 = await setup(payload, appControl);
-  console.log(appEnv1.sessionID);
-  let lapp = await appEnv1.getViyaSession('compute');
-  console.log(lapp.userSessionID);
+  console.log('session thru setup', appEnv1.sessionID);
+  let lapp = await appEnv1.getViyaSession('cas');
+  console.log(' session from getViya:', lapp.userSessionID);
   console.log(lapp.sessionID); 
-  r = await appEnv1.deleteViyaSession('compute');
+  r = await appEnv1.deleteViyaSession('cas');
 
 
-  lapp = await appEnv1.getViyaSession('compute');
-  console.log(lapp.userSessionID);
-  console.log(lapp.sessionID); 
-  r = await appEnv1.deleteViyaSession('compute');
+  lapp = await appEnv1.getViyaSession('cas', appEnv1.sessionID);
+  console.log('UserSessionID:', lapp.userSessionID, 'sessionID:', lapp.sessionID);
+  r = await appEnv1.deleteViyaSession('cas');
   console.log(r);
-  lapp = await appEnv1.getViyaSession('compute');
+  lapp = await appEnv1.getViyaSession('cas');
   console.log(lapp.sessionID);
+
+  console.log('-------------------------------');
+  r = await appEnv1.getViyaSession('cas');
+  r = await appEnv1.deleteViyaSession('cas'); 
   return 'done';
 };
 

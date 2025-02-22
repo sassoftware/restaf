@@ -41,9 +41,9 @@ async function runit () {
   r = await runControlLabel('term', appEnv);
   console.log('r',r)
 
-  r = await appEnv.getViyaSession('compute');
+  r = await appEnv.getViyaSession('cas');
   console.log(r);
-  r = await appEnv.deleteViyaSession('compute');
+  r = await appEnv.deleteViyaSession('cas');
   console.log(r);
   await termApp(appEnv);
   

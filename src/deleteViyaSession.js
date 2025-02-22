@@ -18,21 +18,31 @@ async function deleteViyaSession(appEnv, source) {
   let {logonPayload, store} = appEnv;
   // if it is already created, return it
   if (logonPayload == null  || logonPayload.host === null || logonPayload.host === 'none'|| source == null || source.trim().length === 0) {
-    return null;
+    return true;
   }
-  
   source = source.toLowerCase();
-  
-  if (appEnv.currentSessions[source].session !== null) {
-    let lapp = appEnv.currentSessions[source];
+  if (['cas', 'compute'].indexOf(source) === -1) {
+    return true;
+  }
+
+  let lapp = appEnv.currentSessions[source];
+  if (lapp.sessionID == null) {
+    return true;
+  }
+
+  console.log('DeleteViyaSession: Deleting session', lapp.sessionID, ' ', lapp.userSessionID);
+  if (lapp.userSessionID !== lapp.sessionID) {
     let session = lapp.session;
-    if (lapp.userSessionID == null) {
-      console.log('Deleting session', lapp.sessionID);
-       await store.apiCall(session.links('delete'));
-    } else {
-      console.log('User session not deleteed');
-    }
-    
+    console.log('deleteViyaSession: Deleting temporary session', lapp.sessionID);
+    lapp.session = null;
+    lapp.servers = null;
+    lapp.serverName = null;
+    lapp.casServerName = null;
+    lapp.sessionID = null;
+    lapp.userSessionID = null;
+    await store.apiCall(session.links('delete'));
+  } else {
+    console.log(`DeleteViyaSession: User session ${lapp.userSessionID} not deleted`);
     lapp.session = null;
     lapp.servers = null;
     lapp.serverName = null;
@@ -40,7 +50,9 @@ async function deleteViyaSession(appEnv, source) {
     lapp.sessionID = null;
     lapp.userSessionID = null;
     
+
   }
+   
   return true;
 }
 export default deleteViyaSession;

@@ -34,13 +34,17 @@ async function runit (payload) {
   };
   const appEnv1 = await setup(payload, appControl);
 
-  console.log(appEnv1.sessionID, ' ', appEnv1.userSessionID);
+  console.log('User SessionID1:', appEnv1.userSessionID); 
 
   const appEnv = await setup(payload, appControl, appEnv1.sessionID);
-  console.log(appEnv.sessionID, ' ', appEnv.userSessionID);
+  console.log('User SessionID: ', appEnv.sessionID );
+  console.log('Matching?', appEnv1.sessionID === appEnv.sessionID);
 
   let lapp = await appEnv.getViyaSession('cas',appEnv.sessionID);
-  console.log(lapp.sessionID, ' ', lapp.userSessionID);
+  console.log('Matching2?', lapp.sessionID, ' ', lapp.userSessionID);
+
+  console.log('Should not delete session');
+  let r = await appEnv.deleteViyaSession('cas'); 
   console.log(cache);
   await termApp(appEnv);
   return 'done';

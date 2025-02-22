@@ -19,7 +19,7 @@ import {casSetup, computeSetup} from '@sassoftware/restaflib';
 
 async function getViyaSession(appEnv, source, usessionID) {
  // let {casSetup, computeSetup} = restaflib;
-  let {appConfig, store} = appEnv;
+  let {store} = appEnv;
   // if it is already created, return it
 
   //if (appConfig.logonPayload == null ) {
@@ -45,7 +45,7 @@ async function getViyaSession(appEnv, source, usessionID) {
   }
  
   if (source === null || appEnv.logonPayload.host === null || appEnv.logonPayload.host === 'none') {
-    return tappEnv;
+    return null;
   }
 
   source = source.toLowerCase();
@@ -53,7 +53,7 @@ async function getViyaSession(appEnv, source, usessionID) {
  
 
   if (['cas','compute'].includes(source) === false) {
-    return tappEnv;
+    return null;
   }
   
   if (appEnv.currentSessions[source].sessionID != null) {
@@ -64,43 +64,44 @@ async function getViyaSession(appEnv, source, usessionID) {
   // source = cas
   if (source === "cas") {
     try {
-      let { session, servers } = await casSetup(store, null, usessionID);
+      let { session, servers } = await casSetup(store, null, tappEnv.userSessionID);
       let casServerName = session.links("execute", "link", "server");
+      let sid = await store.apiCall(session.links("self"))
       appEnv.currentSessions.cas = {
         session: session,
         servers: servers,
         casServerName: casServerName,
-        serverName: casServerName
+        serverName: casServerName,
+        sessionID: sid.items("id"),
+        userSessionID: tappEnv.userSessionID
       };
-      let ssid = await store.apiCall(session.links("self"));
-      appEnv.currentSessions.cas.sessionID = ssid.items("id");
-
+      
       tappEnv = setupAppEnv(appEnv, tappEnv, source);
       return tappEnv;
     } catch (err) {
       console.log(JSON.stringify(err));
-      return tappEnv;
+      return null;
     }
   }
 
   // source = sas
   if (source === 'compute') {
-    console.log(usessionID);
     try {
       debugger;
-      let session = await computeSetup(store, null, null,null,usessionID);
+      let session = await computeSetup(store, null, null,null,tappEnv.userSessionID);
       let sid = await store.apiCall(session.links("self"));
       appEnv.currentSessions.compute = {
         session: session,
         servers: null,
         serverName: null,
-        sessionID: sid.items("id")
+        sessionID: sid.items("id"),
+        userSessionID: tappEnv.userSessionID
       };
       tappEnv = setupAppEnv(appEnv, tappEnv, source);
       return tappEnv;
     } catch (err) {
       console.log(JSON.stringify(err));
-      return tappEnv;
+      return null;
     }
   }
   function setupAppEnv(appEnv, tappEnv, source) {
@@ -111,6 +112,10 @@ async function getViyaSession(appEnv, source, usessionID) {
       tappEnv.serverName = lapp.serverName;
       tappEnv.casServerName = lapp.casServerName;
       tappEnv.sessionID = lapp.sessionID;
+      tappEnv.userSessionID = lapp.userSessionID;
+      if (tappEnv.userSessionID === tappEnv.sessionID) {
+        console.log('getViyaSession: Attached user session', tappEnv.userSessionID); 
+      } 
     return tappEnv;
   }
 }

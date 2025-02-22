@@ -15,17 +15,16 @@ module.exports = (env) => {
 
   console.log(` production build: ${env.p} `);
   console.log(` target          : ${env.target}`);
-  /*
+  
   if (env.p === 'y') {
     plugins.push(
       new webpack.DefinePlugin({
         'process.env.NODE_ENV': '"production"',
-
         global: {}
       })
     );
   }
-    */
+    
   if (env.p === 'a') {
     plugins.push(new BundleAnalyzerPlugin());
   }

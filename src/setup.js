@@ -74,7 +74,6 @@ async function setup(
     return r;
   };
 
-  ;
   if (storeConfig == null) {
     storeConfig = {
       casProxy: true,

@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {caslScore} from '@sassoftware/restaflib';
-async function casScoring(model, modelName, scenario) {
+async function casScoring(appEnv, model, modelName, scenario) {
   let viyaSession = await appEnv.getViyaSession('cas');
   if (viyaSession == null) {
     return {status: {statusCode: 2, msg: 'Missing logon information'}, results: {}};

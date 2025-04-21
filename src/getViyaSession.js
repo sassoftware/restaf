@@ -25,9 +25,12 @@ async function getViyaSession(appEnv, source, usessionID) {
   //if (appConfig.logonPayload == null ) {
   //  return null;
   //}
-  if (appEnv.logonPayload == null) {
+  if (appEnv.logonPayload == null || appEnv.logonPayload.host == null ||
+     appEnv.logonPayload.host === 'none') {
+    console.log('Note: getViyaSession - No Viya Server was specified');
     return null;
   }
+
   let tappEnv=  {
     host: appEnv.logonPayload.host,
     logonPayload: appEnv.logonPayload,

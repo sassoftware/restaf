@@ -26,7 +26,7 @@ async function getViyaSession(appEnv, source, usessionID) {
   //  return null;
   //}
   if (appEnv.logonPayload == null || appEnv.logonPayload.host == null ||
-     appEnv.logonPayload.host === 'none') {
+     appEnv.logonPayload.host === 'none' || appEnv.workBench === 'NO') {
     console.log('Note: getViyaSession - No Viya Server was specified');
     return null;
   }

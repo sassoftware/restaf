@@ -83,7 +83,7 @@ async function setup(
   // Note: that each setup creates its own store
 
   let store = initStore(storeConfig);
-  if (logonPayload !== null && logonPayload.authType !== "none") {
+  if (logonPayload !== null && logonPayload.authType !== "none" && logonPayload.authType != null){
     let msg = await store.logon(logonPayload);
   }
 

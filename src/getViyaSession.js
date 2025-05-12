@@ -20,15 +20,16 @@ import {casSetup, computeSetup} from '@sassoftware/restaflib';
 async function getViyaSession(appEnv, source, usessionID) {
  // let {casSetup, computeSetup} = restaflib;
   let {store} = appEnv;
-  // if it is already created, return it
-
-  //if (appConfig.logonPayload == null ) {
-  //  return null;
-  //}
+ 
   if (appEnv.logonPayload == null || appEnv.logonPayload.host == null ||
-     appEnv.logonPayload.host === 'none' || appEnv.workBench === 'NO') {
-    console.log('Note: getViyaSession - No Viya Server was specified');
+     appEnv.logonPayload.host === 'none' || source == null || source === 'none') {
+    console.log('Note: getViyaSession - No Viya Server was specified or source was not specified');
     return null;
+  }
+
+  if (appEnv.logonPayload.authType === 'none' || appEnv.logonPayload.authType == null) {
+    console.log('Note: getViyaSession - authorization type is none or null');
+    return null;  
   }
 
   let tappEnv=  {
@@ -47,15 +48,13 @@ async function getViyaSession(appEnv, source, usessionID) {
     restafedit: appEnv.builtins.restafedit
   }
  
-  if (source === null || appEnv.logonPayload.host === null || appEnv.logonPayload.host === 'none') {
-    return null;
-  }
 
   source = source.toLowerCase();
   if (source === 'sas') {source = 'compute'};
  
 
   if (['cas','compute'].includes(source) === false) {
+    console.log('Invalid source specified for getViyaSession', source); 
     return null;
   }
   

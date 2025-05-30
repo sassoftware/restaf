@@ -33,7 +33,8 @@
     "format": "prettier-eslint --eslint-config-path ./.eslintrc.json --write '**/*.js'",
     "lint": "eslint . --ext .js --fix",
     "dlink": "npm run dlink --workspaces --if-present",
-    "bump": "npm version prerelease && npm run bump --workspaces --if-present"
+    "bump": "npm version prerelease && npm run bump --workspaces --if-present",
+    "q": "cross-env cross-env NODE_TLS_REJECT_UNAUTHORIZED=0 node --inspect-brk quicktest2.js"
   },
   "devDependencies": {
     "@babel/cli": "^7.23.0",

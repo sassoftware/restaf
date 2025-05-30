@@ -26,11 +26,13 @@ async function computeFetchData(
   useRow
 ) {
   let data = null;
+  let dataIsformatted = false;
   let tname = typeof table === "string" ? table : `${table.libref}.${table.name}`;
   tname = tname.toUpperCase(); /*to allow for compute service table info */
 
   let ipayload = payload != null ? { ...payload } : { qs: {} };
   ipayload.qs.includeIndex = true;
+  let dataIsFormatted = ipayload.qs.format;
   let linkRel =(useRow == null) ? "rows" : useRow;
   // is payload an override or is this an adhoc request(i.e user is ignoring scroll info)
   let adhoc = payload != null && direction == null ? true : false;
@@ -61,6 +63,9 @@ async function computeFetchData(
           type: "FLOAT",
           format: "BEST",
           informat: "BEST",
+          custom: false,
+          isFormat: false
+          
         });
       }
       for (let cx in items) {
@@ -75,6 +80,7 @@ async function computeFetchData(
           format: (c.data.format != null) ? c.data.format.name : null,
           informat: (c.data.informat != null) ? c.data.informat.name : null,
           custom: false,
+          isFormat: dataIsFormatted
         };
         let indx = ipayload.qs.includeIndex === true ? 1 : 0;
         schema[c.data.index + indx] = newcol;

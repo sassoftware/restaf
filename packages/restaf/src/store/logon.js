@@ -166,7 +166,6 @@ const logon = ( store, ipayload ) => {
                 unSubscribe = store.subscribe( logonExit );
                 action.storeConfig = store.config;
                // action.type = VIYA_LOGON;
-                
                 store.dispatch( action );
             }
         }

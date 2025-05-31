@@ -24,6 +24,7 @@ async function run() {
   debugger;
   let msg = await store.logon(logonPayload);
   console.log(msg);
+  console.log("logon complete", store.connection());
   let { casManagement } = await store.addServices("casManagement");
   let { session } = await restaflib.casSetup(store, null);
 
@@ -34,6 +35,10 @@ async function run() {
       code  : "data casuser.score; keep x1 x2;do i = 1 to 20; x1=i; x2=i*10;output;end;run; ",
     },
   };
+  debugger;
+  console.log('-----------------');
+  console.log("Running datastep code...");
+  debugger;
   let r = await store.runAction(session, p);
   console.log('-----------------');
   console.log(r.items().toJS());

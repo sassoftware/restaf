@@ -35,12 +35,12 @@ function trustedGrant(iconfig) {
   let auth1 = Buffer.from(
     iconfig.clientID + ":" + iconfig.clientSecret
   ).toString("base64");
-
+  debugger;
   auth1 = "Basic " + auth1;
   let baseUrl = patchURL4ns(iconfig, link.href);
   let config = {
     method : link.method,
-    baseURl: baseUrl,
+    baseURL: baseUrl,
     url    : link.href,/*iconfig.host + link.href,*/
 
     headers: {
@@ -67,7 +67,12 @@ function trustedGrant(iconfig) {
     },
   };
 
-  return makeCall(config, iconfig, iconfig);
+  let storeConfig = {
+    protocol: 'https://',
+    sslOption: {}
+  }
+  //TBD: Need to update the whole flow to be consistent with the storeConfig
+  return makeCall(config, iconfig, config);
 }
 
 function request(iconfig) {
@@ -80,7 +85,7 @@ function request(iconfig) {
   let iheaders = null;
   let ixsrf = null;
   let casAction = null;
-  
+  debugger;
   if (payload !== null) {
     casAction = hasItem(payload, "action");
     iqs = hasItem(payload, "qs");
@@ -115,6 +120,7 @@ function request(iconfig) {
     },
     validateStatus: function (status) {
       /* 304 for state calls */
+      debugger;
       return (
         status === 302 || status === 304 || (status >= 200 && status < 300)
       );
@@ -125,6 +131,7 @@ function request(iconfig) {
     config.headers['Authorization'] = logonInfo.tokenType + " " + logonInfo.token;
   } else {
     config.withCredentials = iconfig.withCredentials == null ? true : iconfig.withCredentials;
+    
   }
 
   let type = fullType(iLink.type);
@@ -160,7 +167,7 @@ function request(iconfig) {
     }
   }
   
-  if (ixsrf !== null) {/* TBD: fix parallel calls to get of this conditional */
+  if (ixsrf !== null  ) {/* TBD: fix parallel calls to get of this conditional */
     let xsrfHeaderName = ixsrf["x-csrf-header"];
     if (xsrfHeaderName != null) {
       config.xsrfCookieName = null;
@@ -198,7 +205,7 @@ function request(iconfig) {
 function setupProxy(iconfig, config) {
   
   let options = iconfig.logonInfo.options;
-  if (options.proxyServer != null) {
+  if (options != null && options.proxyServer != null) {
     let proxy = options.proxy;
     if (proxy.pathname != null && proxy.pathname.trim().length > 0) {
       config.url = `${proxy.pathname}${config.url}`;//prepend url with proxy path
@@ -209,7 +216,7 @@ function setupProxy(iconfig, config) {
 // patch the url for namespace - useful for k8s to make calls into another namespace
 function patchURL4ns(logInfo, link) {
   let host = logInfo.host;
-  if (logInfo.options.ns != null) {
+  if (logInfo.options != null && logInfo.options.ns != null) {
     let service = link.split("/")[1];
     host = `${logInfo.protocol}${service}.{logInfo.options.ns}.svc.cluster.local`;
   }

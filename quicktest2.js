@@ -4,8 +4,8 @@ const restaflib = require("@sassoftware/restaflib");
 let logonPayload = {
   host     : process.env.VIYA_SERVER,
   authType : "password",
-  user     : 'sastest1',
-  password : 'Go4thsas',
+  user     : 'xxx',
+  password : 'xxxx',
   clientID : 'mcppw',
   clientSecret: 'mcppw'
 };

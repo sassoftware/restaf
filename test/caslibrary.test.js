@@ -4,10 +4,10 @@ const getToken = require('./getToken');
 
 test('casBasic', async () => {
   const payload = {
-    host        : process.env.VIYA_SERVER,
-    authType    : 'server',
-    token       : getToken(),
-    tokenType   : 'bearer',
+    host: process.env.VIYA_SERVER,
+    authType: 'server',
+    token: getToken(),
+    tokenType: 'bearer',
     storeOptions: { casProxy: true }
   };
   console.log(payload);
@@ -15,7 +15,7 @@ test('casBasic', async () => {
   expect(r).toBe('done');
 });
 
-async function runit (payload) {
+async function runit(payload) {
   debugger;
   const appControl = getAppControl();
   const preamble = `   
@@ -30,12 +30,21 @@ async function runit (payload) {
      end;
      ";
  `;
-  appControl.preamble = preamble;
+  appControl.preamble = null;
   const appEnv = await setup(payload, getAppControl());
   debugger;
-
-  const libList = await getLibraryList(appEnv);
+    let p = {
+      qs: {
+        limit: 1000,
+        start: 0,
+        filter: 'eq(name, "Public")'
+      }
+  }
+  const libList = await getLibraryList(appEnv,p);
+  console.log('Library List:', libList);
   debugger;
+
+
   console.log('--------------------', libList[0]);
   debugger;
   const tableList = await getTableList(libList[0], appEnv);
@@ -46,39 +55,10 @@ async function runit (payload) {
   return 'done';
 };
 
-function getAppControl () {
+function getAppControl() {
   return {
     description: 'Simple Example',
-
     source: 'cas',
-    table : { caslib: 'Public', name: 'product_master' },
-    access: {},
-    byvars: ['pk'],
-
-    cachePolicy: true,
-
-    initialFetch: {
-      qs: {
-        limit : 10,
-        start : 0,
-        format: false
-      }
-    },
-
-    customColumns: {
-      total: {
-        Column         : 'Total',
-        Label          : 'Grand Total',
-        FormattedLength: 12,
-        Type           : 'double'
-      }
-    },
-    editControl: {
-      handlers: { }, /* note reuse of init */
-      save    : true,
-      autoSave: true
-    },
-    appData: {}
-
+    table: null,
   };
 }

@@ -9,6 +9,7 @@
  * @module getLibraryList
  * @category restafedit/utility
  * @param {appEnv} appEnv
+ * @param {object} [payload] - optional payload to pass to the AP
  * @returns {promise}   returns a list of caslib or libref based on source
  * @example
  *  let list = await getLibraryList(appEnv);
@@ -26,14 +27,6 @@ async function getLibraryList (appEnv, payload) {
   };
 
   const getCaslibs = async (payload) => {
-    /*
-    const p = {
-      qs: {
-        start: 0,
-        limit: 1000
-      }
-    };
-    */
     const rafLink = servers.itemsCmd(servers.itemsList(0), 'caslibs');
     const r = await store.apiCall(rafLink, payload);
     return r.itemsList().toJS();
@@ -47,9 +40,9 @@ async function getLibraryList (appEnv, payload) {
       }
     };
   }
-
+  
   const handler = (source === 'cas') ? getCaslibs : getLibrefs;
-  const libs = await handler(appEnv,p);
+  const libs = await handler(p);
   return libs;
 }
 

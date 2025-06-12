@@ -17,7 +17,6 @@
  * @returns {promise} - returns a compute session
  */
 async function computeSetup( store, contextName, payload, sessionPayload, sessionID ) {
-    
     if ( sessionID != null && typeof sessionID === 'object' ) { /* passed in restaf session object itself */
         return sessionID;
     }
@@ -25,9 +24,7 @@ async function computeSetup( store, contextName, payload, sessionPayload, sessio
     if ( payload != null ) {
         let msg = await store.logon( payload );
     }
-
     let {compute} = await store.addServices( 'compute' );
-     
     // Not PUP
     let session = null;
     // Use user specified session
@@ -78,6 +75,7 @@ async function computeSetup( store, contextName, payload, sessionPayload, sessio
     }
 
     let name = contexts.itemsList( 0 );
+
     if ( sessionID == null ) {
         p = ( sessionPayload == null ) ? null : sessionPayload;
         let createSession = contexts.itemsCmd( name, 'createSession' );

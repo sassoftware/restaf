@@ -38,9 +38,6 @@ module.exports = async function getToken() {
     });
 
     try {
-      console.log('Refreshing token for host: ', host);
-      console.log('Request body: ', body.toString());
-      console.log('fetch', typeof fetch);
       const response = await fetch(url, {
         method: 'POST',
         headers: {
@@ -50,7 +47,7 @@ module.exports = async function getToken() {
         },
         body: body.toString()
       });
-      console.log('Response status: ', response);
+   
       if (!response.ok) {
         const error = await response.text();
         console.log('Error refreshing token: ', error);
@@ -58,7 +55,7 @@ module.exports = async function getToken() {
       }
 
       const data = await response.json();
-      console.log('Token refreshed successfully: ', data);
+   
       return data.access_token;
     } catch (err) {
       console.log('Error refreshing token: ', err);

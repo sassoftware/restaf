@@ -15,37 +15,56 @@
  * @example
  *    let inputs = restaflib.masDescribe(masControl, 'modela', 'score');
  */
-function masDescribe ( masControl, modelName, step, all ) {
-	let stepControl = masControl.steps[ modelName ];
-	if ( stepControl === null ) {
+function masDescribe(masControl, modelName, step, all) {
+	let stepControl = masControl.steps[modelName];
+	if (stepControl === null) {
 		return [];
 	}
 	let currentStep = null;
-	if ( step == null ) {
-		let stepIndex = stepControl.stepIds.findIndex( x => ( x === 'execute' ) ||( x === 'score' ) );
-		if ( stepIndex === -1 ) {
+	if (step == null) {
+		let stepIndex = stepControl.stepIds.findIndex(x => (x === 'execute') || (x === 'score'));
+		if (stepIndex === -1) {
 			return [];
 		} else {
 			currentStep = stepControl.stepIds[stepIndex];
 		}
+		let desc = stepControl.stepsRafLink.items(currentStep, 'data', 'inputs');
+		let desco = stepControl.stepsRafLink.items(currentStep, 'data', 'outputs');
+		console.log('desc', desc.toJS());
+		console.log('desco', desco.toJS());
+
+		if (desc === null) {
+			return [];
+		}
+
+		let result = (all === true) ? {
+			inputs: desc.toJS(),
+			outputs: desco.toJS()
+		} : desc.toJS();
+		
+		return result;
 	} else {
-		let stepIndex = stepControl.stepIds.findIndex( x => ( x === step ) );
-		if ( stepIndex === -1 ) {
+		let stepIndex = stepControl.stepIds.findIndex(x => (x === step));
+		if (stepIndex === -1) {
 			return [];
 		} else {
 			currentStep = step;
 		}
-		let allSteps = (all === true) ? stepControl.stepsRafLink.items( currentStep, 'data') : stepControl.stepsRafLink.items( currentStep, 'data', 'inputs' ) ;
-		if ( allSteps === null ) {
+		let allSteps = stepControl.stepsRafLink.items(currentStep, 'data', 'inputs');
+		let outputs = stepControl.stepsRafLink.items(currentStep, 'data', 'outputs');
+		if (allSteps === null) {
 			return [];
-		} 
-		return allSteps.toJS();
-	}
-	let desc = (all === true) ? stepControl.stepsRafLink.items( currentStep, 'data') : stepControl.stepsRafLink.items( currentStep, 'data', 'inputs' ) ;
-	if ( desc === null ) {
-		return [];
-	} 
+		}
+	
+		let result = (all === true) ? {
+			inputs: allSteps.toJS(),
+			outputs: outputs.toJS()
+		} : allSteps.toJS();
 
-	return desc.toJS();
+		return result;
+	}
+
+
+
 }
 export default masDescribe;

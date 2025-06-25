@@ -24,7 +24,6 @@
   },  
   "scripts": {
     "start": "node",
-    "build" : "babel libsrc --out-dir lib --extensions \".js,.ts\"",
     "prepublishOnly": "npm run build",
     "test": "cross-env RESTAFENV=.env NODE_TLS_REJECT_UNAUTHORIZED=0  npx jest",
     "debug": "cross-env RESTAFENV=.env NODE_TLS_REJECT_UNAUTHORIZED=0 node --inspect-brk ../../node_modules/jest/bin/jest.js --runInBand",

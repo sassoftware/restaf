@@ -30,8 +30,6 @@ function masDescribe(masControl, modelName, step, all) {
 		}
 		let desc = stepControl.stepsRafLink.items(currentStep, 'data', 'inputs');
 		let desco = stepControl.stepsRafLink.items(currentStep, 'data', 'outputs');
-		console.log('desc', desc.toJS());
-		console.log('desco', desco.toJS());
 
 		if (desc === null) {
 			return [];

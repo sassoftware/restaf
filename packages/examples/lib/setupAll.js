@@ -5,9 +5,11 @@
 
  let restaf = require('@sassoftware/restaf');
  let configtest = require('./configtest');
+ let getLogonPayload = require('./getLogonPayload');
+
 module.exports = async function setupAll () {
 	
-	let payload = configtest();
+	let payload = await getLogonPayload();
 	let logger = require('./testLogger')();
 
 	

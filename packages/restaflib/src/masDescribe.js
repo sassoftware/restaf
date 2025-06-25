@@ -15,7 +15,7 @@
  * @example
  *    let inputs = restaflib.masDescribe(masControl, 'modela', 'score');
  */
-function masDescribe ( masControl, modelName, step ) {
+function masDescribe ( masControl, modelName, step, all ) {
 	let stepControl = masControl.steps[ modelName ];
 	if ( stepControl === null ) {
 		return [];
@@ -35,8 +35,13 @@ function masDescribe ( masControl, modelName, step ) {
 		} else {
 			currentStep = step;
 		}
+		let allSteps = (all === true) ? stepControl.stepsRafLink.items( currentStep, 'data') : stepControl.stepsRafLink.items( currentStep, 'data', 'inputs' ) ;
+		if ( allSteps === null ) {
+			return [];
+		} 
+		return allSteps.toJS();
 	}
-	let desc = stepControl.stepsRafLink.items( currentStep, 'data', 'inputs' );
+	let desc = (all === true) ? stepControl.stepsRafLink.items( currentStep, 'data') : stepControl.stepsRafLink.items( currentStep, 'data', 'inputs' ) ;
 	if ( desc === null ) {
 		return [];
 	} 

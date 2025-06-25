@@ -1,6 +1,8 @@
 const restaf = require("@sassoftware/restaf");
 const restaflib = require("@sassoftware/restaflib");
 
+
+
 let logonPayload = {
   host     : process.env.VIYA_SERVER,
   token    : getToken(),

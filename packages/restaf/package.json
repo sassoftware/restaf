@@ -27,9 +27,8 @@
     "dist"
   ],
   "engines": {
-    "node": ">=10.16.0",
-    "npm": ">=6.10.0",
-    "yarn": ">=1.17.3"
+    "node": ">=22.16.0",
+    "npm": ">=10.9.2"
   },
   "browserslist": [
     "last 2 versions",

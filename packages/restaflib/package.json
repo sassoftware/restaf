@@ -9,8 +9,8 @@
   "author": "Deva Kumar <deva.kumar@sas.com>",
   "license": "Apache-2.0",
   "engines": {
-    "node": ">=10.16.0",
-    "npm": ">=6.10.0"
+    "node": ">=22.16.0",
+    "npm": ">=10.9.2"
   },
   "browserslist": [
     "last 2 versions",

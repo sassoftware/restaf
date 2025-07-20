@@ -1,6 +1,7 @@
 /* eslint-disable quotes */
 const { setup, scrollTable, termApp } = require('../lib/index.js');
-const getToken = require('./getToken.js');
+
+let getLogonPayload = require('./getLogonPayload.js');
 test('casScroll', async () => {
   const r = await runit();
   expect(r).toBe('done');
@@ -9,13 +10,7 @@ test('casScroll', async () => {
 
 async function runit() {
 
-  const payload = {
-    host: process.env.VIYA_SERVER,
-    authType: 'server',
-    token: getToken(),
-    tokenType: 'bearer'
-  };
-
+  let payload = await getLogonPayload();
   let appControl = {
     source: 'cas',
     table: { caslib: 'samples', name: 'costchange' },

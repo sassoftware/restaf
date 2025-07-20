@@ -1,5 +1,6 @@
 /* eslint-disable quotes */
 const { setup, uploadData } = require('../lib/index.js');
+let getLogonPayload = require('./getLogonPayload.js');
 
 test ('casFail1', async () => {
   const r = await runit();
@@ -8,15 +9,8 @@ test ('casFail1', async () => {
 });
 
 async function runit () {
-  const payload = {
-    host    : process.env.VIYA_SERVER,
-    authType: 'password',
-    clientID: 'sas.ec',
-
-    clientSecret: '',
-    user        : 'sastest1',
-    password    : 'Go4thsas'
-  };
+  let payload = await getLogonPayload();
+  payload.source = 'cas';
   debugger;
   const appEnv = await setup(payload, getAppControl());
   const data = [
@@ -24,9 +18,9 @@ async function runit () {
     { a: 2, b: 'b2', c: 20, drop1: 2 }
   ];
 
-  const addon = { company: 'sas', datetime: Date() };
+  const addon = { };
 
-  const drop = ['drop1'];
+  const drop = [];
   debugger;
   // table, data, drop, addon, appEnv, masterTable, saveFlag
   const aftersave = await uploadData({ caslib: 'casuser', name: 'testedit' }, data, drop, addon, appEnv);
@@ -41,9 +35,9 @@ function getAppControl () {
     description: 'Simple Example',
 
     source: 'cas',
-    table : { caslib: 'Public', name: 'product_master' },
+    table : null, //{ caslib: 'Public', name: 'product_master' },
     access: {},
-    byvars: ['pk'],
+    byvars: [],
 
     cachePolicy: true,
 

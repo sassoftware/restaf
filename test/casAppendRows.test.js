@@ -1,16 +1,10 @@
 /* eslint-disable quotes */
 const { setup, saveTable, scrollTable, appendRows, termApp } = require('../lib/index.js');
 const { caslRun, casLoadTable } = require('@sassoftware/restaflib');
-const getToken = require('./getToken');
-console.log(getToken);
+const getLogonPayload = require('./getLogonPayload.js');
+
 test ('casAppendRows', async () => {
-  const payload = {
-    host        : process.env.VIYA_SERVER,
-    authType    : 'server',
-    token       : getToken(),
-    tokenType   : 'bearer',
-    storeOptions: { casProxy: true }
-  };
+  const payload = await getLogonPayload();
   const r = await runit(payload);
   expect(r).toBe('done');
 });

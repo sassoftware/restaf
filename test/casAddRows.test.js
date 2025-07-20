@@ -1,19 +1,15 @@
 /* eslint-disable quotes */
 const { setup, scrollTable, addRows, fetchRows, termApp } = require('../lib/index.js');
-const getToken = require('./getToken');
+const getLogonPayload = require('./getLogonPayload.js');
 
 test('addAddRows', async () => {
-  const payload = {
-    host        : process.env.VIYA_SERVER,
-    authType    : 'server',
-    token       : getToken(),
-    tokenType   : 'bearer',
-    storeOptions: { casProxy: true }
-  };
-  const r = await runit(payload);
+
+  const r = await runit();
   expect(r).toBe('done');
 });
-async function runit (payload) {
+async function runit () {
+  let payload = await getLogonPayload();
+  payload.source = 'cas';
   const appControl = getAppControl();
   const preamble = `   
   action datastep.runcode /

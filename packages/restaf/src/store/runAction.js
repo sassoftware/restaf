@@ -57,9 +57,11 @@ example()
 
 async function runAction ( store, session, payload,context, onCompletion, maxTries,delay, progress ) {
     let actionResult = null;
+    debugger;
     if ( maxTries != null ) {
         actionResult = await submitAction( store, session, payload,context, maxTries, delay, progress );
     } else {
+        debugger;
         actionResult = await apiCall( store, session.links( 'execute' ), payload,0 );
     }
 

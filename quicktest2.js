@@ -1,27 +1,21 @@
 const restaf = require("@sassoftware/restaf");
 const restaflib = require("@sassoftware/restaflib");
 
-let logonPayload = {
-  host     : process.env.VIYA_SERVER,
-  authType : "password",
-  user     : 'xxx',
-  password : 'xxxx',
-  clientID : 'mcppw',
-  clientSecret: 'mcppw'
-};
-
-
-let store = restaf.initStore(
-  { casProxy: true, 
-    options : {
-       proxyServer: null
-    }});
+const getLogonPayload = require("./getLogonPayload.js");
 
 run()
   .then((r) => console.log("done"))
   .catch((err) => console.log(JSON.stringify(err, null, 4)));
 async function run() {
   debugger;
+  
+  let store = restaf.initStore(
+    { casProxy: true, 
+      options : {
+        proxyServer: null
+      }});
+  let logonPayload = await getLogonPayload();
+  console.log("logonPayload", logonPayload);
   let msg = await store.logon(logonPayload);
   console.log(msg);
   console.log("logon complete", store.connection());

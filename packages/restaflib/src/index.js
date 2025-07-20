@@ -16,7 +16,7 @@ import casFetchRows    from './casFetchRows';
 import casUpdateData   from './casUpdateData';
 import casAppendTable  from './casAppendTable';
 import casTableToJson  from './casTableToJson';
-//import casUpload       from './casUpload';
+import casUpload       from './casUpload';
 import casSaveTable    from './casSaveTable';
 import casLoadTable    from './casLoadTable';
 
@@ -71,7 +71,7 @@ export {
     casFetchRows,
     casAppendTable,
     casUpdateData,
-    //casUpload,
+    casUpload,
     casSaveTable,
     casLoadTable,
 

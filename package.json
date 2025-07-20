@@ -26,8 +26,8 @@
     "url": "https://github.com/sassoftware/restaf/issues"
   },
   "scripts": {
-    "test": "cd ./packages/tests && npm test",
-    "debug": "cd ./packages/tests && npm run debug",
+    "test": "cd ./packages/tests && node",
+    "debug": "cd ./packages/tests && node --inspect-brk",
     "build": "npm run build --workspaces --if-present",
     "puball": "npm run pub --workspaces --if-present",
     "format": "prettier-eslint --eslint-config-path ./.eslintrc.json --write '**/*.js'",
@@ -70,7 +70,7 @@
     "eslint-config-standard": "^17.1.0",
     "eslint-plugin-jest": "^24.3.6",
     "eslint-plugin-redux-saga": "^1.2.1",
-    "jest": "^27.5.1",
+    "jest": "^30.0.3",
     "prettier": "^2.0.4",
     "webpack": "4.46.0",
     "webpack-cli": "4.5.0",

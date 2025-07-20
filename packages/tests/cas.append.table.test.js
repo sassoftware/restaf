@@ -1,38 +1,54 @@
-/*
- * ------------------------------------------------------------------------------------
- *   Copyright © 2023, SAS Institute Inc., Cary, NC, USA. *   you may not use this file except in compliance with the License.
- *   You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- *   Unless required by applicable law or agreed to in writing, software
- *   distributed under the License is distributed on an "AS IS" BASIS,
- *   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *   See the License for the specific language governing permissions and
- *   limitations under the License.
- * ---------------------------------------------------------------------------------------
- *
- */
 
-'use strict';
-const testFunctions = require( '../examples/testFunctions/casAppendTable1.js' );
-const setupAll = require( '../examples/lib/setupAll' );
-let testInfo;
-beforeAll( async () => {
-	try {
-		
-		console.log( 'calling setup' );
-		testInfo = await setupAll();
-	} catch ( err ) {
-		console.log( err );
-		process.exit( 1 );
-	}
-} );
+let restaflib = require('@sassoftware/restaflib');
+let restaf = require('@sassoftware/restaf');
+let { casSetup, casUpload, casAppendTable } = restaflib;
+let getLogonPayload = require('./getLogonPayload.js');
+let fs = require('fs');
 
-test( 'cas.append.table', async () => {
-	let r = await testFunctions( testInfo, true );
-	expect( r ).toBe( 'done' );
-} );
+run()
+	.catch(e => {
+		console.error(e);
+		process.exit(1);
+	});
+async function run() {
+	let logonPayload = await getLogonPayload();
+	let store = restaf.initStore(
+		{
+			casProxy: true,
+			options: {
+				proxyServer: null
+			}
+		});
+	let msg = await store.logon(logonPayload);
+	console.log(msg);
+	let { session } = await casSetup(store, null);
 
+	let altsrc = readFile('testdata', 'csv');
+	let output = 'casuser.dtemp1';
+	let r = await casUpload(
+		store,
+		session,
+		null,
+		output,
+		true,
+		altsrc
+	);
+	console.log(r);
 
-	
+	console.log('append to table');
+	let [caslib, name] = output.split('.');
+	let inputTable = { caslib: caslib, name: name };
+	let outputTable = { caslib: 'casuser', name: 'testdata' };
+	console.log(inputTable, '    ', outputTable);
+
+	r = await casAppendTable(store, session, inputTable, outputTable, true)
+	console.log(r);
+	await store.apiCall(session.links('delete'));
+	return 'done';
+};
+
+function readFile(filename, fileType) {
+	let data = fs.readFileSync(`../../data/${filename}.${fileType}`, 'utf-8');
+	console.log(data);
+	return data;
+}

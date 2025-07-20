@@ -11,6 +11,7 @@ module.exports = async function setupAll () {
 	
 	let payload = await getLogonPayload();
 	let logger = require('./testLogger')();
+	console.log('logon payload', payload);
 
 	
 	let casopt = {
@@ -28,7 +29,7 @@ module.exports = async function setupAll () {
 	try {
 	 
 	 let msg = await store.logon(payload);
-	 console.log(msg);
+	 console.log('logon', msg);
 	 return { store: store, logonPayload: payload, logger: logger }
 	} catch(err) {
 		console.log(err);

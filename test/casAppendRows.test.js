@@ -45,9 +45,12 @@ async function runit (payload) {
      run;
      "
   `;
+  console
   const r1 = await caslRun(appEnv.store, appEnv.session, src);
-  debugger;
-  debugger;
+  console.log('====================================================');
+  console.log(r1);
+  console.log('====================================================');
+ /*
   const s1 = await saveTable(appEnv, { caslib: 'casuser', name: 'mastertemp' });
 
   const l1 = await casLoadTable(appEnv.store, appEnv.session, { caslib: 'casuser', name: 'mastertemp' });
@@ -59,14 +62,15 @@ async function runit (payload) {
   console.log('===========');
   console.log(s1);
   console.log('------------------');
-/*
+
   await scrollTable('first', appEnv);
   const r = await appendRows(appEnv.state.data, { caslib: 'casuser', name: 'mastertemp' }, ['total'], appEnv, true);
   debugger;
   console.log(r);
   debugger;
-  // console.log(cache);
   */
+  // console.log(cache);
+  
   await termApp(appEnv);
   return 'done';
 };

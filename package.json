@@ -24,6 +24,8 @@
     "build": "rimraf dist && webpack --env target=node  p=n --config webpack.config.js && webpack --env target=web p=n --config webpack.config.js && webpack --env target=web p=y --config webpack.config.js",
     "test": "cd test && cross-env NODE_TLS_REJECT_UNAUTHORIZED=0 npx jest",
     "debug": "cd test && cross-env RESTAFENV=.env NODE_TLS_REJECT_UNAUTHORIZED=0 node --inspect-brk ../node_modules/jest/bin/jest.js  -- --runInBand",
+    "qtest": "cd test && cross-env RESTAFENV=.env NODE_TLS_REJECT_UNAUTHORIZED=0 node --inspect-brk",
+    
     "test:build": "run-s build",
     "test:lint": "eslint ./src",
     "pub": "npm publish --tag alpha --access public",
@@ -87,7 +89,7 @@
     "verbose": false
   },
   "dependencies": {
-    "@sassoftware/restaf": "^5.3.3-3",
-    "@sassoftware/restaflib": "^5.3.3-3"
+    "@sassoftware/restaf": "^5.3.3-5",
+    "@sassoftware/restaflib": "^5.3.3-5"
   }
 }

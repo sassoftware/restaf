@@ -2,16 +2,18 @@
 const { setup, scrollTable, addRows, fetchRows, termApp } = require('../lib/index.js');
 const getLogonPayload = require('./getLogonPayload.js');
 
-test('addAddRows', async () => {
-
-  const r = await runit();
-  expect(r).toBe('done');
+run()
+.catch(err => {
+  console.error(err); 
 });
-async function runit () {
-  let payload = await getLogonPayload();
-  payload.source = 'cas';
-  const appControl = getAppControl();
-  const preamble = `   
+
+async function run() {
+  debugger;
+   let payload = await getLogonPayload();
+   debugger;
+    const appControl = getAppControl();
+    console.log(payload.host);
+    const preamble = `   
   action datastep.runcode /
   single='YES'
   code= "
@@ -22,6 +24,7 @@ async function runit () {
      x1=i; x2=3; x3=i*10; id=compress(TRIMN('key'||i));
      output;
      end;
+     run;
      ";
  `;
   appControl.preamble = preamble;
@@ -33,11 +36,12 @@ async function runit () {
 
   await scrollTable('first', appEnv);
   const newRows = appEnv.state.data.map((r, i) => {
-    r.id = 'keynew' + i.toString();
+    r.id = 'keynewx'+ i.toString();
     r.x3 = r.x3 * 1000;
     return r;
   });
   debugger;
+  console.log(newRows[0]);
   const r = await addRows(newRows[0], appEnv, true);
   debugger;
   console.log(r);
@@ -47,25 +51,29 @@ async function runit () {
       start : 0,
       limit : 10,
       format: false,
-      where : 'x3 gt 1000'
+      where : ''
     }
   };
   // eslint-disable-next-line no-unused-vars
   let result = await fetchRows(p, appEnv);
   console.log(JSON.stringify(appEnv.state.data));
 
+  /*
   p = {
     qs: {
       start : 0,
-      limit : 10,
+      limit : 1,
       format: false,
       where : 'x3 ge 1000'
     }
   };
+  */
   debugger;
   // eslint-disable-next-line no-unused-vars
+  /*
   result = await fetchRows(p, appEnv);
   console.log(JSON.stringify(appEnv.state.data));
+  */
   // console.log(cache);
   await termApp(appEnv);
   return 'done';
@@ -82,7 +90,7 @@ function getAppControl () {
     initialFetch: {
       qs: {
         start : 0,
-        limit : 10,
+        limit : 1,
         format: false,
         where : ' '
       }

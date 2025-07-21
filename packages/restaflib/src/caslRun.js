@@ -59,15 +59,14 @@ example()
   .catch(err => console.log(err));
 */
 
+async function caslRun(store, session, src, args, useCommons, ...rest) {
+  let tsrc = src;
 
+  if (useCommons !== false) {
+    tsrc = programs['commonCasl']() + ' ' + src;
+  }
+  let result = await caslRunBase(store, session, tsrc, args, ...rest);
 
-async function caslRun ( store, session, src, args, useCommons, ...rest ) {
-    let tsrc = src;
-    if ( useCommons !== false ) {
-        tsrc = src + ' ' + programs[ 'commonCasl' ]();
-    }
-    let result  = await caslRunBase( store,session, tsrc, args, ...rest );
-    
-    return result.items().toJS();
+  return result.items().toJS();
 }
 export default caslRun;

@@ -44,18 +44,6 @@ async function run (  ) {
       let rc = await casUpload(store, session,null,{caslib: 'casuser', name: outputName}, true,csv);
     
       console.log('casUpload result', JSON.stringify(rc.items(), null, 4));
-
-	  /*
-	let p = {
-		action: 'table.fetch',
-		data  : { table: { caslib: 'casuser', name: outputName } }
-	};
-
-	let actionResult= await store.runAction( session, p );
-	console.log(JSON.stringify(actionResult.items( 'tables' ).toJS(), null, 4));
-	let t = actionResult.items( 'tables', 'Fetch' ).toJS();
-	t.attributes.CreateTime.value = 0.0;
-	*/
 	
 
 	await store.apiCall( session.links( 'delete' ) );

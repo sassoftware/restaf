@@ -49,15 +49,14 @@ async function uploadSrc ( store, session, modelBuf, fileInfo, save ){
 		
 			action table.save r = result / 
 				table = {caslib='${caslib}' name='${name}'} 
-				caslib='${caslib}' replace=true;
+				caslib='${caslib}' name='${name}' replace=true;
 			
 			action table.loadTable r = result2 /
-				caslib='${caslib} casout={caslib='${caslib}' name='${name}' replace=true} 
+				caslib='${caslib}' casout={caslib='${caslib}' name='${name}' replace=true} 
 				path='${name}.sashdat' ;
-				send_response({save=result, load= result2});
 
 		
-		    send_response({status=result});
+		    send_response({status=result2});
 			`;
 		let r = await caslRun( store, session, casl, null, true );
 	}

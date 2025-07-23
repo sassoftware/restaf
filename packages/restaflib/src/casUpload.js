@@ -45,11 +45,14 @@ async function casUpload ( store, session, source, output,save, altSrc ){
     // upload using specific upload handlers
     
     let r = await fileInfo.handler( store, session, buf, fileInfo, save );
+    /*
     if ( save === true ) {
         let [ caslib, name ] = table.split( '.' );
+        console.log( `Saving table ${caslib}.${name}` );
         await saveTable( store, session, caslib, name );
         r = r + '\n' + `   ${output} was saved`;
     }
+    */
     return r;
 }
 export default casUpload;

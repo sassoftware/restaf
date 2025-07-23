@@ -18,9 +18,10 @@
 'use strict';
 
 let fs         = require( 'fs' );
-let { casSetup, casloadTable,  } = require( '@sassoftware/restaflib' );
+let { casSetup, casloadTable,  casUpload} = require( '@sassoftware/restaflib' );
 let {initStore} = require( '@sassoftware/restaf' );
 let getLogonPayload = require('./getLogonPayload.js');
+const restaf = require('@sassoftware/restaf');
 
 run()
   .catch(e => {
@@ -37,30 +38,15 @@ async function run (  ) {
 	let { session } = await casSetup( store, null);
 	let filename = 'cancerscores';
 	let fileType = 'csv';
-	let outputName = 'testupload';
+	let outputName = 'cancerscores';
+	let csv = readFile( filename, fileType );
 
-	// setup header for upload and the rest of the payload
-	let JSON_Parameters = {
-		casout: {
-			caslib: 'casuser' /* a valid caslib */,
-			name  : outputName /* name of output file on cas server */
-		},
-
-		importOptions: {
-			fileType: fileType /* type of the file being uploaded */
-		}
-	};
-
-	let p = {
-		headers: { 'JSON-Parameters': JSON_Parameters },
-		data   : readFile( filename, fileType ),
-		action : 'table.upload'
-	};
+      let rc = await casUpload(store, session,null,{caslib: 'casuser', name: outputName}, true,csv);
     
-	let r1 = await store.runAction( session, p );
-	console.log('after upload', r1.items().toJS());
+      console.log('casUpload result', JSON.stringify(rc.items(), null, 4));
 
-	p = {
+	  /*
+	let p = {
 		action: 'table.fetch',
 		data  : { table: { caslib: 'casuser', name: outputName } }
 	};
@@ -69,14 +55,16 @@ async function run (  ) {
 	console.log(JSON.stringify(actionResult.items( 'tables' ).toJS(), null, 4));
 	let t = actionResult.items( 'tables', 'Fetch' ).toJS();
 	t.attributes.CreateTime.value = 0.0;
+	*/
 	
 
 	await store.apiCall( session.links( 'delete' ) );
 
-	return t;
+	return true;
 };
 
 function readFile ( filename, fileType ) {
   let data = fs.readFileSync( `./data/${filename}.${fileType}` );
   return data;
 }
+

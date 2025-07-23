@@ -15,7 +15,7 @@ module.exports = async function getLogonPayload() {
     };
     return logonPayload;
   } catch (e) {
-    log('Error getting token: ', e);
+    console.log('Error getting token: ', e);
     process.exit(1);
   }
 

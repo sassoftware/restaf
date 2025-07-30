@@ -1,22 +1,19 @@
 /* eslint-disable quotes */
 
-const { setup, scrollTable, updateValue,setWhere, termApp,saveTable, getTableColumns, getTableList } = require('../lib/index.js');
-const getToken = require('./getToken.js');
-console.log(getToken);
+const { setup, scrollTable, cellEdit,setWhere, termApp,saveTable, getTableColumns, getTableList } = require('../lib/index.js');
+const getLogonPayload = require('./getLogonPayload.js');
 
-test('v2casBasic', async () => {
-  const payload = {
-    host        : process.env.VIYA_SERVER,
-    authType    : 'server',
-    token       : getToken(),
-    tokenType   : 'bearer',
-   // options     : { casProxy: true, options: {}}
-  };
-  const r = await runit(payload);
-  expect(r).toBe('done');
-});
+  
+  runit()  
+  .then((result) => {
+    console.log('Test completed successfully:', result);
+  }
+  ).catch((error) => {
+    console.error('Test failed:', error);
+  debugger;
+  });
 
-async function runit (payload) {
+async function runit () {
   const cache = [];
   const appControl = getAppControl();
   const preamble = `   
@@ -33,6 +30,7 @@ async function runit (payload) {
      end;
      ";
  `;
+  let payload = await getLogonPayload();
   appControl.preamble = preamble;
   payload.storeOptions = {
     casProxy: false
@@ -49,14 +47,14 @@ async function runit (payload) {
   let p = {
     qs: {
       start : 0,
-      limit : 1,
+      limit : 5,
       format: false,
       where : ' '
     }
   } 
   let r = await scrollTable('first', appEnv);
   console.log(JSON.stringify(appEnv.state.cache));
-
+  console.log(r.data[0]);
   
   cache.push({row1: appEnv.state.data[0]});
   const keepid= appEnv.state.data[0].id;
@@ -65,10 +63,10 @@ async function runit (payload) {
   const x3New = appEnv.state.data[0].x3 + 900;
   console.log(appEnv.state.data.length);
   debugger;
-  r = await updateValue('x3', x3New, 0, appEnv);
+  r = await cellEdit('x3', x3New, 0, appEnv.state.data[0], appEnv);
   console.log('x3 cell edit done');
-  console.log(r);
-  console.log( console.log(appEnv.state.data[0]));
+  console.log(r.status);
+  console.log( console.log(r.data[0]));
   debugger;
   await scrollTable('next', appEnv);
   cache.push({rownext: appEnv.state.data[0]});
@@ -104,7 +102,7 @@ async function runit (payload) {
 function getAppControl () {
   return {
     description: 'Simple Example',
-    apiVersion:2,
+
     source: 'cas',
     table : { caslib: 'casuser', name: 'TESTTEMPDATA' },
     byvars: ['id'],
@@ -112,7 +110,7 @@ function getAppControl () {
     initialFetch: {
       qs: {
         start : 0,
-        limit : 1,
+        limit : 20,
         format: false,
         where : ' '
       }
@@ -169,30 +167,38 @@ async function termMyApp (appEnv) {
 
   return { msg: 'done', statusCode: 0 };
 }
-async function init (data, rowIndex, appEnv) {
+async function init (data, rowIndex, appEnv, type) {
   debugger;
-  console.log('in init....');
-  const status = { statusCode: 0, msg: `init  processing completed` };
+
+  const status = { statusCode: 0, msg: `${type} processing completed` };
   data.total = data.x1 + data.x2 + data.x3;
   return [data, status];
 };
-async function main (data, rowIndex, appEnv) {
-  console.log(appEnv);
+async function main (data, rowIndex, appEnv, type) {
   console.log(appEnv.userData);
-  const status = { statusCode: 0, msg: `main processing completed` };
+  const status = { statusCode: 0, msg: `${type} processing completed` };
   data.total = data.x1 + data.x2 + data.x3;
   return data;
 };
 
-async function term (data, rowIndex, appEnv) {
-  const status = { statusCode: 0, msg: `term processing completed` };
+async function term (data, rowIndex, appEnv, type) {
+  const status = { statusCode: 0, msg: `${type} processing completed` };
   console.log('In term');
   return data
 };
 
-async function x3 (data, rowIndex, appEnv) {
-  const status = { statusCode: 0, msg: `x3 handler executed.` };
+async function x3 (data, name, rowIndex, appEnv) {
+  let x=data.x3/0;
+  const status = { statusCode: 0, msg: `${name} handler executed.` };
   console.log('in x3');
+
+  return [data, status];
+};
+async function arr (data, name, rowIndex, appEnv) {
+  data.arr =[10,20,30];
+
+  const status = { statusCode: 0, msg: `${name} handler executed.` };
+  console.log('in arr');
 
   return [data, status];
 };

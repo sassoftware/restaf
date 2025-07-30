@@ -1,6 +1,6 @@
 {
   "name": "examples",
-  "version": "5.3.0",
+  "version": "5.4.0",
   "description": "Examples",
   "author": "Deva Kumaraswamy <deva.kumar@sas.com>",
   "license": "Apache-2.0",
@@ -21,7 +21,7 @@
   },
   "bugs": {
     "url": "https://github.com/sassoftware/restaf/issues"
-  },  
+  },
   "scripts": {
     "start": "node",
     "prepublishOnly": "npm run build",

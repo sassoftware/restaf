@@ -24,6 +24,7 @@ module.exports = async function computeBasic ( testInfo ) {
 	let { store, logger } = testInfo;
 
 	let computeSession = await computeSetup( store, null, null );
+	console.log( 'Compute session created', computeSession); 
 	let origEtag = computeSession.headers( 'etag' );
 	debugger;
 	
@@ -96,7 +97,9 @@ module.exports = async function computeBasic ( testInfo ) {
   
 	//let status = await clearSession(store, computeSession, origEtag);
 	await store.apiCall( computeSession.links( 'delete' ) );
-    return 'done';
+	let rend = await store.logoff();
+	console.log('logoff done', rend);
+  return 'done';
 };
 async function clearSession(store, computeSession, origEtag){
 	console.log({origEtag});
@@ -119,6 +122,7 @@ async function clearSession(store, computeSession, origEtag){
 	console.log(p);
 	let status = await store.apiCall(computeSession.links('cancel'), p);
 	debugger;
+	
 	// await store.apiCall( computeSession.links( 'delete' ) );
 	return 'done';
 }

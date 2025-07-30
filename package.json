@@ -1,6 +1,6 @@
 {
   "name": "@sassoftware/restaf",
-  "version": "5.3.0",
+  "version": "5.3.3-7",
   "description": "Library for writing SAS Viya application using REST APIs",
   "author": "Deva Kumaraswamy <deva.kumar@sas.com>",
   "license": "Apache-2.0",
@@ -26,22 +26,17 @@
     "url": "https://github.com/sassoftware/restaf/issues"
   },
   "scripts": {
-    "testold": "cd ./packages/examples && npm test",
-    "test": "cd ./packages/tests && npm test",
-    "restafedit:test": "cd ./packages/examples && cross-env NODE_TLS_REJECT_UNAUTHORIZED=0 node restafeditTest.js",
-    "pup:test": "cd ./packages/examples/puptests && node",
-    "pup:debug": "cd ./packages/examples/puptests && node --inspect-brk",
-    "debug": "cd ./packages/tests && npm run debug",
-    "restaf:build": "cd ./packages/restaf && yarn build",
-    "restaf:pub": "cd ./packages/restaf && npm run pub",
-    "restaflib:pub": "cd ./packages/restaflib && npm run pub",
-    "restaflib:build": "cd ./packages/restaflib && yarn build",
-    "build": "cross-env NODE_OPTIONS=--openssl-legacy-provider npm run restaf:build && npm run restaflib:build",
-    "puball": "npm run restaf:pub && npm run restaflib:pub",
+    "test": "cd ./packages/tests && cross-env NODE_TLS_REJECT_UNAUTHORIZED=0 node",
+    "testj": "cd ./packages/tests && cross-env NODE_TLS_REJECT_UNAUTHORIZED=0 node",
+    "debug": "cd ./packages/tests && cross-env NODE_TLS_REJECT_UNAUTHORIZED=0 node --inspect-brk",
+    "build": "npm run build --workspaces --if-present",
+    "puball": "npm run pub --workspaces --if-present",
     "format": "prettier-eslint --eslint-config-path ./.eslintrc.json --write '**/*.js'",
     "lint": "eslint . --ext .js --fix",
     "dlink": "npm run dlink --workspaces --if-present",
-    "bump": "npm version prerelease && npm run bump --workspaces --if-present"
+    "bump": "npm version prerelease && npm run bump --workspaces --if-present",
+    "q2": "cross-env NODE_TLS_REJECT_UNAUTHORIZED=0 node  quicktest2.js",
+    "q": "cross-env NODE_TLS_REJECT_UNAUTHORIZED=0 node  quicktest.js"
   },
   "devDependencies": {
     "@babel/cli": "^7.23.0",
@@ -76,7 +71,7 @@
     "eslint-config-standard": "^17.1.0",
     "eslint-plugin-jest": "^24.3.6",
     "eslint-plugin-redux-saga": "^1.2.1",
-    "jest": "^27.5.1",
+    "jest": "^30.0.3",
     "prettier": "^2.0.4",
     "webpack": "4.46.0",
     "webpack-cli": "4.5.0",
@@ -84,7 +79,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.23.2",
-    "axios": "^1.6.1",
+    "axios": "^1.10.0",
     "immutable": "^4.3.4",
     "lodash": ">=4.17.21",
     "qs": "^6.9.1",

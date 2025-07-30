@@ -24,13 +24,18 @@ let { casSetup, getReportUri, caslRun} = require( '@sassoftware/restaflib' );
 module.exports = async function casEcho ( testInfo ) {
 	let { store, logger } = testInfo;
   debugger;
-  
+  /*
   let {reports} = await store.addServices('reports');
-  let uri = await getReportUri(store, 'Retail Insights');
-  console.log({uri});
+  console.log(reports);
+  let rep = await getReportUri(store, 'Retail Insights');
+  console.log(rep);
+  */
+
   let { session } = await casSetup( store, null );
   // console.log(session);
- 
+  //let {reports} = await store.addServices('reports');
+  let rep = await getReportUri(store, 'Retail Insights');
+  console.log(rep);
   console.log('after cassetup', JSON.stringify(store.getXsrfData()));
  
   let p = {

@@ -169,6 +169,7 @@ function newConnection ( payload ) {
             host     : iconfig.host,
             tokenType: results['token_type'],
             token    : results[ 'access_token' ],
+            refresh_token: results[ 'refresh_token' ],
             
             sslOptions: iconfig.sslOptions,
 

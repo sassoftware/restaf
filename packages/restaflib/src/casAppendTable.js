@@ -16,18 +16,20 @@ import programs from './programs';
 * @param {casTable} input Input table with new rows {caslib: xxx, name: nnn}
 * @param {casTable} output  Master table {caslib: xxx, name: nnn}
 * @param {boolean}  saveflag If true the master table will be saved to disk
+* @param {boolean}  promote If true the master table will be promoted
 * @param {*} payload -
 * @returns {promise} - return 
 * @example
 *    let status = restaflib.casAppendTable(store, session, 'casuser.temp', 'public.master', true));
 *   
 */
-async function casAppendTable ( store, session, input, output, save ){
+async function casAppendTable ( store, session, input, output, save, promote ){
     let src    = programs['commonCasl']() + ' ' +  programs['casAppendTable']();
     let args = {
         masterTable: output,
         setTable   : input,
-        save       : ( save != null ) ? save : true
+        save       : ( save != null ) ? save : true,
+        promote    : ( promote != null ) ? promote : false
     };
     let result = await caslRunBase( store, session, src, args );
     let r = result.items( 'results', 'casResults' ).toJS();

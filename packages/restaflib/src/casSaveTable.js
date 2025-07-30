@@ -21,16 +21,25 @@
 async function casSaveTable ( store, session, table, replace, loadTable ){
   const {caslib, name} = table;
 
-   let  payload = {
-		action: 'table.save',
-		data  : {
-			name   : `${name}`,
-			caslib : `${caslib}`,
-			replace: ( replace === false ) ? false : true,
-			table  : table
-		}
-	};
-  await store.runAction( session, payload );
+   let src = `
+   table.save /
+    replace=true
+      table = {caslib="${caslib}" name="${name}"}
+    caslib="${caslib}" name="${name}.sashdat";
+
+  /* clean up before promoting the table */
+  table.droptable /
+      caslib="${caslib}" name="${name}" ;
+
+  /* promote the table to make it available for further analysis */
+  table.loadTable status=status r=rc/
+    caslib="${caslib}",
+    path="${name}.sashdat",
+    casout={name="${name}", caslib="${caslib}" promote=True};
+    run;
+	`;
+	
+  
 	return {msg: `${caslib}.${name} saved}`, statusCode: 0};
 }
 export default casSaveTable;

@@ -14,9 +14,7 @@
  *
  */
 
-  'use strict';
 
-let unSubscribe;
 import { VIYA_LOGOFF } from '../actionTypes';
 /** 
  * @description Logoff from Viya
@@ -29,6 +27,7 @@ import { VIYA_LOGOFF } from '../actionTypes';
 function logoff ( store ) {
     //noinspection JSUnusedLocalSymbols
     return new Promise( ( resolve, reject ) => {
+        let unSubscribe = null;
         let action = {
             type       : VIYA_LOGOFF,
             storeConfig: store.config,

@@ -17,31 +17,11 @@
 'use strict';
 
 let fs = require('fs');
-let getToken = require('./getToken');
+let getLogonPayload = require('./getToken');
 
-module.exports = function configtest () {
-/*
-	let appEnv = process.env.RESTAFENV;
-	if (appEnv == null && process.env.DEFAULTENV != null) {
-		appEnv = process.env.DEFAULTENV;
-	}
-	if (appEnv != null) {
-		iconfig(appEnv);
-	} 
+module.exports = async function configtest () {
 
-	// left for backward compatability - preferred way is to specify http in the url
-	if (process.env.VIYA_SERVER == null) {
-		console.log('Please set the VIYA_SERVER either thru env variables or the env file');
-		process.exit(0);
-	}
-*/
-	let logonPayload = null;
-	logonPayload = {
-		authType : 'server',
-		host     : process.env.VIYA_SERVER,
-		token    : getToken(),
-		tokenType: 'bearer',
-	};
+	let logonPayload = await getLogonPayload();
 	return logonPayload;
 
 	function iconfig(appEnv) {

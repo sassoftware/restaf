@@ -19,10 +19,12 @@ let testFunctions = require( '../examples/testFunctions/casEcho' );
 let setupAll = require( '../examples/lib/setupAll' );
 const casEcho = require('../examples/testFunctions/casEcho');
 let testInfo;
+console.log('typeof ', typeof fetch);
 beforeAll( async () => {
 	try {
 		
 		console.log( 'calling setup' );
+		debugger;
 		testInfo = await setupAll();
 	} catch ( err ) {
 		console.log( err );

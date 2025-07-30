@@ -17,15 +17,14 @@
  * @returns {promise} - returns a compute session
  */
 async function computeSetup( store, contextName, payload, sessionPayload, sessionID ) {
-    let {compute} = await store.addServices( 'compute' ); 
     if ( sessionID != null && typeof sessionID === 'object' ) { /* passed in restaf session object itself */
         return sessionID;
     }
-
+    // if null, assumes that the logon was done earlier
     if ( payload != null ) {
         let msg = await store.logon( payload );
     }
-
+    let {compute} = await store.addServices( 'compute' );
     // Not PUP
     let session = null;
     // Use user specified session
@@ -48,6 +47,7 @@ async function computeSetup( store, contextName, payload, sessionPayload, sessio
         return session;
     }
 
+    // workbench case - computeServerId is set in options
     if ( store.store.config.options.computeServerId != null ) {
         console.log('NOTE: Detected Workbench');
         session = await store.apiCall( compute.links( 'createSession' ) );
@@ -75,6 +75,7 @@ async function computeSetup( store, contextName, payload, sessionPayload, sessio
     }
 
     let name = contexts.itemsList( 0 );
+
     if ( sessionID == null ) {
         p = ( sessionPayload == null ) ? null : sessionPayload;
         let createSession = contexts.itemsCmd( name, 'createSession' );

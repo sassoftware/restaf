@@ -16,7 +16,7 @@ async function uploadSrc ( store, session, modelBuf, fileInfo, save ){
   // unload and delete existing table
 
   // setup header for upload and the rest of the payload
-    await cleanup( store, session, caslib, name );
+    let rx= await cleanup( store, session, caslib, name );
 
 	let JSON_Parameters = {
 		casout: {
@@ -43,22 +43,25 @@ async function uploadSrc ( store, session, modelBuf, fileInfo, save ){
 		action: 'table.upload'
 	};
 	let r = await store.runAction( session, p );
+
 	if ( save === true ) {
-		
 		let casl = `
+		
 			action table.save r = result / 
-			table = {caslib='${caslib}' name='${name}'} replace=true
-			caslib='${caslib}' name='${name}';
-
-			send_response(result);
-			`;
+				table = {caslib='${caslib}' name='${name}'} 
+				caslib='${caslib}' name='${name}' replace=true;
 			
+			action table.loadTable r = result2 /
+				caslib='${caslib}' casout={caslib='${caslib}' name='${name}' replace=true} 
+				path='${name}.sashdat' ;
 
 		
+		    send_response({status=result2});
+			`;
 		let r = await caslRun( store, session, casl, null, true );
 	}
 	const text = ( fileInfo.source == null ) ? "inline source" : fileInfo.source;
-    return `Upload of ${text} to ${fileInfo.output,caslib}.${fileInfo.output.name} completed`;
+    return r;
 }
 
 async function cleanup( store, session, caslib, name ) {
@@ -68,10 +71,11 @@ async function cleanup( store, session, caslib, name ) {
         caslib='${caslib}' name='${name}' quiet=TRUE;   
              
         action table.deleteSource status=src /   
-        caslib='casuser' source= '${table}' quiet=TRUE;  
-		send_response({csResults = {results= 'data deleted'}})
+        caslib='casuser' source= '${name}.sashdat' quiet=TRUE;  
+		send_response({casResults = {status=src, results= 'data deleted'}})
 		`;
 	let r = await caslRun( store,session, deleteSrc );
+	return r;
 
 }
 export default uploadSrc;

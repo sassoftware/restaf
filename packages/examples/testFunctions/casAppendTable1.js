@@ -37,7 +37,7 @@ module.exports = async function casAppendTable1 ( testInfo, save ) {
 		save,
 		altsrc
 	);
-	console.log( r );
+	console.log( JSON.stringify( r.items().toJS(), null, 4 ) );
 
 	console.log( 'append to table' );
 	let [ caslib,name ] = output.split( '.' );
@@ -46,7 +46,7 @@ module.exports = async function casAppendTable1 ( testInfo, save ) {
 	console.log( inputTable, '    ', outputTable );
 	
 	r = await casAppendTable( store, session, inputTable, outputTable, true )
-	console.log( r );
+	console.log( JSON.stringify( r.items().toJS(), null, 4 ) );
 	await store.apiCall( session.links( 'delete' ) );
 	return 'done';
 };

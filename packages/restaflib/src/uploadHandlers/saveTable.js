@@ -13,8 +13,8 @@ async function saveTable ( store, session, caslib, name ){
 			table  : { name: `${name}`, caslib: `${caslib}` }
 		}
 	};
-   console.log(payload);
+ 
    let rc = await store.runAction( session, payload );
-   console.log('saveTable result', rc);
+
 }
 export default saveTable;

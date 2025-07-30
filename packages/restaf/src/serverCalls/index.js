@@ -192,7 +192,7 @@ function request(iconfig) {
 
   config.data = idata === null ? {} : idata;
   config.maxContentLength = 2 * 10063256;
-  let httpOptions = iconfig.storeConfig.httpOptions;
+  let httpOptions = (iconfig.storeConfig.config != null ? iconfig.storeConfig.config.httpOptions : null);
   if (httpOptions != null) {
     for (let k in httpOptions) {
       config[k] = httpOptions[k];

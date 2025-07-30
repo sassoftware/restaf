@@ -1,19 +1,28 @@
 const restaf = require("@sassoftware/restaf");
 const restaflib = require("@sassoftware/restaflib");
 const getLogonPayload = require("./getLogonPayload.js");
+const getOpts = require("./getOpts.js");
 
 run()
   .then((r) => console.log("done"))
   .catch((err) => console.log(JSON.stringify(err, null, 4)));
 async function run() {
+  debugger; 
+  let opts = getOpts();
+  console.log("running casl.ds.js");
   let logonPayload = await getLogonPayload();
+  console.log("logonPayload", JSON.stringify(logonPayload, null, 4));
+  console.log('---------------------------------', getOpts());
   let store = restaf.initStore(
     {
       casProxy: true,
       options: {
-        proxyServer: null
-      }
+        proxyServer: null,
+        httpOptions : opts
+      },
+      
     });
+  console.log("store", JSON.stringify(store, null, 4));
   let msg = await store.logon(logonPayload);
   console.log(msg);
   let { casManagement } = await store.addServices("casManagement");

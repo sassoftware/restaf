@@ -70,7 +70,6 @@ async function computeFetchData(
       }
       for (let cx in items) {
         let c = items[cx];
-        console.log(c.name, c.data.type, c.data.format, c.data.informat);
         let newcol = {
           name: c.name.toLowerCase(),
           Column: c.name.toLowerCase(),

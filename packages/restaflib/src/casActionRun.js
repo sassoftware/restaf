@@ -37,7 +37,6 @@
 //
 async function casActionRun ( store,...rest ) {
     let result  = await store.runAction( ...rest );
-    console.log('casActionRun result', result.items().toJS());
     return result.items().toJS();
 }
 export default casActionRun;

@@ -32,13 +32,12 @@ run()
 async function run (  ) {
 	let store = initStore();
 	let logonPayload = await getLogonPayload();
-	console.log('logon payload', logonPayload);
 	let msg = await store.logon(logonPayload);
 
 	let { session } = await casSetup( store, null);
 	let filename = 'cancerscores';
 	let fileType = 'csv';
-	let outputName = 'cancerscores';
+	let outputName = 'tempscoredata';
 	let csv = readFile( filename, fileType );
 
       let rc = await casUpload(store, session,null,{caslib: 'casuser', name: outputName}, true,csv);

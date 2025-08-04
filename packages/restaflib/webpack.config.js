@@ -38,9 +38,11 @@ module.exports = ( env ) => {
                 filename      : outputFile,
                 umdNamedDefine: true
             },
+            /*
             node: {
                 fs: 'empty'
             },
+            */
 
             module: {
                 rules: [

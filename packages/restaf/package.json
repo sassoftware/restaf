@@ -37,7 +37,7 @@
   ],
   "scripts": {
     "test": "node",
-    "build": "rimraf dist && rimraf lib && webpack --env target=node p=n --config webpack.config.js && webpack --env target=web p=n --config webpack.config.js && webpack --env target=web p=y --config webpack.config.js",
+    "build": " rimraf dist && rimraf lib && webpack --env target=node p=n --config webpack.config.js && webpack --env target=web p=n --config webpack.config.js && webpack --env target=web p=y --config webpack.config.js",
     "build:es": "webpack --config webpack.config.es.js",
     "babel": "babel src --out-dir jslib",
     "pub": "npm publish --tag alpha --access public",

@@ -2,6 +2,7 @@
 
 const { setup, scrollTable, cellEdit,setWhere, termApp,saveTable, getTableColumns, getTableList } = require('../lib/index.js');
 const getLogonPayload = require('./getLogonPayload.js');
+const getOpts = require('./getOpts.js');
 
   
   runit()  
@@ -33,10 +34,13 @@ async function runit () {
   let payload = await getLogonPayload();
   appControl.preamble = preamble;
   payload.storeOptions = {
-    casProxy: false
+    casProxy: false,
+    options: {
+      httpsOptions: getOpts()
+    }
   };
   debugger;
-  const appEnv = await setup(payload, appControl);
+  const appEnv = await setup(payload, appControl, null,null,'user',{},payload.storeOptions);
   debugger;
   console.log(appEnv.builtins);
   console.log(appEnv.state.tableSummary);

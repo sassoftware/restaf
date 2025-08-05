@@ -70,7 +70,8 @@ module.exports = (env) => {
     plugins,
 
     resolve: {
-      extensions: ['.js']
+      extensions: ['.js'],
+      
     }
 };
 

@@ -18,16 +18,20 @@
   'use strict';
 
 import axios from 'axios';
-import Https from 'https';
+let Https = null;
+if (__IS_NODE__) {
+  Https = require('node:https');
+}
+
 async function request ( store, payload, reducer ) {
   
     let config = {...payload};
   
-    if ( payload.url.indexOf( 'https' ) !== -1 ) {
+    if ( payload.url.indexOf( 'https' ) !== -1  && Https !== null ) {
       let c = store.config;
       let opt = {};
-      if ( c.sslOptions != null ) {
-        opt = c.sslOptions;
+      if ( c.httpOptions != null ) {
+        opt = c.httpOptions;
       }
       let agent = new Https.Agent( opt );
       config.httpsAgent = agent;

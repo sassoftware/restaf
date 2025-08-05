@@ -16,7 +16,11 @@
 import axios from "axios";
 import qs from "qs";
 import fixResponse from "./fixResponse";
-import Https from "https";
+
+let Https = null;
+if (__IS_NODE__) {
+  Https = require('node:https');
+}
 
 
 // axios.defaults.withCredentials = true
@@ -39,21 +43,21 @@ function trustedGrant(iconfig) {
   auth1 = "Basic " + auth1;
   let baseUrl = patchURL4ns(iconfig, link.href);
   let config = {
-    method : link.method,
+    method: link.method,
     baseURL: baseUrl,
-    url    : link.href,/*iconfig.host + link.href,*/
+    url: link.href,/*iconfig.host + link.href,*/
 
     headers: {
-      Accept        : link.responseType,
+      Accept: link.responseType,
       "Content-Type": link.type /* Axios seems to be case sensitive */,
-      Authorization : auth1,
+      Authorization: auth1,
     },
     withCredentials: false,
 
     data: {
       grant_type: "password",
-      username  : iconfig.user,
-      password  : iconfig.password,
+      username: iconfig.user,
+      password: iconfig.password,
     },
 
     validateStatus: function (status) {
@@ -111,9 +115,9 @@ function request(iconfig) {
   }
 
   let config = {
-    method : iLink.method,
+    method: iLink.method,
     baseURL: baseUrl,
-    url    : url,
+    url: url,
 
     transformResponse: function (data) {
       return data;
@@ -131,7 +135,7 @@ function request(iconfig) {
     config.headers['Authorization'] = logonInfo.tokenType + " " + logonInfo.token;
   } else {
     config.withCredentials = iconfig.withCredentials == null ? true : iconfig.withCredentials;
-    
+
   }
 
   let type = fullType(iLink.type);
@@ -166,8 +170,8 @@ function request(iconfig) {
       }
     }
   }
-  
-  if (ixsrf !== null  ) {/* TBD: fix parallel calls to get of this conditional */
+
+  if (ixsrf !== null) {/* TBD: fix parallel calls to get of this conditional */
     let xsrfHeaderName = ixsrf["x-csrf-header"];
     if (xsrfHeaderName != null) {
       config.xsrfCookieName = null;
@@ -178,36 +182,36 @@ function request(iconfig) {
     if (ixsrf["tkhttp-id"] != null) {
       config.headers["tkhttp-id"] = ixsrf["tkhttp-id"];
     }
-  } 
+  }
   else {
     if (config.type === 'ADD_SERVICE') {
       config.xsrfHeaderName = 'X_CSRF_TOKEN';
-      config.headers['X-CSRF-TOKEN']= "Fetch";
+      config.headers['X-CSRF-TOKEN'] = "Fetch";
     }
   }
-  
+
   if (iqs !== null) {
     config.params = { ...iqs };
   }
 
   config.data = idata === null ? {} : idata;
   config.maxContentLength = 2 * 10063256;
- //  let httpOptions = (iconfig.storeConfig.config != null ? iconfig.storeConfig.config.httpOptions : null);
- 
- /*
-  let httpOptions = iconfig.storeConfig.httpOptions;
-  if (httpOptions != null) {
-    for (let k in httpOptions) {
-      config[k] = httpOptions[k];
-    }
-  }
-    */
+  //  let httpOptions = (iconfig.storeConfig.config != null ? iconfig.storeConfig.config.httpOptions : null);
+
+  /*
+   let httpOptions = iconfig.storeConfig.httpOptions;
+   if (httpOptions != null) {
+     for (let k in httpOptions) {
+       config[k] = httpOptions[k];
+     }
+   }
+     */
   setupProxy(iconfig, config);
   return makeCall(config, iconfig, logonInfo);
 }
 // setup if using reverse proxy server
 function setupProxy(iconfig, config) {
-  
+
   let options = iconfig.logonInfo.options;
   if (options != null && options.proxyServer != null) {
     let proxy = options.proxy;
@@ -229,13 +233,14 @@ function patchURL4ns(logInfo, link) {
 
 function makeCall(config, iconfig, storeConfig) {
   if (storeConfig.protocol === "https://" && config.agent == null) {
-    // let opt = storeConfig.sslOptions != null ? storeConfig.sslOptions : {};
-    let opts = iconfig.storeConfig.httpOptions != null ? iconfig.storeConfig.httpOptions : {};
-    
-    let agent = new Https.Agent(opts);
-    config.httpsAgent = agent;
+    let opts = iconfig.storeConfig.httpsOptions != null ? iconfig.storeConfig.httpsOptions : {};
+    if (Https !== null) {
+      let agent = new Https.Agent(opts);
+      config.httpsAgent = agent;
+      console.log('using https agent');
+    }
   }
-  
+
   return new Promise((resolve, reject) => {
 
     axios(config)

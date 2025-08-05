@@ -1,6 +1,7 @@
 let nodeExternals  = require( 'webpack-node-externals' );
 let webpack = require( 'webpack' );
 let  path    = require( 'path' );
+const { chunk } = require('lodash');
 let library = 'restaflib';
 
 module.exports = ( env ) => {
@@ -36,7 +37,8 @@ module.exports = ( env ) => {
                 library       : library,
                 libraryTarget : 'umd',
                 filename      : outputFile,
-                umdNamedDefine: true
+                umdNamedDefine: true,
+                chunkFormat: false
             },
             /*
             node: {
@@ -64,7 +66,7 @@ module.exports = ( env ) => {
 
         if ( env.target  === 'node' ) {
             config.externals = [ nodeExternals() ];
-            config.target    =  'node';
+            config.target  =  'node';
         }
         return config;
     }

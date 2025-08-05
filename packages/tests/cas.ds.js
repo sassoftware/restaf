@@ -1,6 +1,7 @@
 const restaf = require("@sassoftware/restaf");
 const restaflib = require("@sassoftware/restaflib");
 const getLogonPayload = require("./getLogonPayload.js");
+const getOpts = require("./getOpts.js");
 
 run()
   .then((r) => console.log("done"))
@@ -11,7 +12,8 @@ async function run() {
     {
       casProxy: true,
       options: {
-        proxyServer: null
+        proxyServer: null,
+        httpOptions: getOpts(),
       }
     });
   let msg = await store.logon(logonPayload);

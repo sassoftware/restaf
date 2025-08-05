@@ -26,7 +26,7 @@
     "url": "https://github.com/sassoftware/restaf/issues"
   },
   "scripts": {
-    "test": "cd ./packages/tests && cross-env NODE_TLS_REJECT_UNAUTHORIZED=0 node",
+    "test": "cd ./packages/tests &&  cross-env NODE_TLS_REJECT_UNAUTHORIZED=1 node",
     "testj": "cd ./packages/tests && cross-env NODE_TLS_REJECT_UNAUTHORIZED=0 node",
     "debug": "cd ./packages/tests && cross-env NODE_TLS_REJECT_UNAUTHORIZED=0 node --inspect-brk",
     "build": "npm run build --workspaces --if-present",

@@ -1,6 +1,6 @@
 let fs = require('fs');
 module.exports = function getOpts() {
-    let tlsdir = process.env.SSLCERTDIR;
+    let tlsdir = process.env.SSLCERT;
     let options = {};
     if (tlsdir != null && fs.existsSync(`${tlsdir}/key.pem`) === true) {
         options.key = fs.readFileSync(`${tlsdir}/key.pem`, { encoding: 'utf8' });

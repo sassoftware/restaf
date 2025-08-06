@@ -5,6 +5,7 @@
 const fs = require('fs');
 const os = require('os');
 const qs = require('qs');
+const getOpts = require('./getOpts.js');
 
 module.exports = async function getToken() {
   let homedir = os.homedir();
@@ -19,10 +20,13 @@ module.exports = async function getToken() {
     let j = fs.readFileSync(credentials, 'utf8');
     let js = JSON.parse(j);
     let profile = (process.env.SAS_CLI_PROFILE) ? process.env.SAS_CLI_PROFILE : 'Default';
+    console.log('Using profile: ' + profile);
+    console.log('Using credentials file: ' + JSON.stringify(js[profile], null,2));
     let refresh_token = js[profile]['refresh-token'];
     j = fs.readFileSync(url, 'utf8');
     js = JSON.parse(j);
     let host = js[profile]['sas-endpoint'];
+    console.log(JSON.stringify(js[profile], null, 2));
 
     let token = await refreshToken(refresh_token, host);
     return { host, token };
@@ -36,14 +40,16 @@ module.exports = async function getToken() {
       refresh_token: token,
       client_id: 'sas.cli'
     });
-
+    console.log(body);
+    let opts = getOpts();
     try {
       const response = await fetch(url, {
         method: 'POST',
         headers: {
           'User-Agent': 'undici-stream-example',
           'Accept': 'application/json',
-          'Content-Type': 'application/x-www-form-urlencoded'
+          'Content-Type': 'application/x-www-form-urlencoded',
+          dispatcher: opts
         },
         body: body.toString()
       });

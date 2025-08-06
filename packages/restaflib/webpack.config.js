@@ -1,7 +1,7 @@
 let nodeExternals  = require( 'webpack-node-externals' );
 let webpack = require( 'webpack' );
 let  path    = require( 'path' );
-const { chunk } = require('lodash');
+
 let library = 'restaflib';
 
 module.exports = ( env ) => {

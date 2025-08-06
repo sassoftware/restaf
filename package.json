@@ -73,6 +73,8 @@
     "eslint-plugin-redux-saga": "^1.2.1",
     "jest": "^30.0.3",
     "prettier": "^2.0.4",
+    "rmdir": "^1.2.0",
+    "undici": "^7.13.0",
     "webpack": "^5.99.8",
     "webpack-cli": "^6.0.1",
     "webpack-node-externals": "^3.0.0"

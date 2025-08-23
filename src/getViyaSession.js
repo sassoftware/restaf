@@ -20,7 +20,7 @@ import {casSetup, computeSetup} from '@sassoftware/restaflib';
 async function getViyaSession(appEnv, source, usessionID) {
  // let {casSetup, computeSetup} = restaflib;
   let {store} = appEnv;
- 
+  debugger;
   if (appEnv.logonPayload == null || appEnv.logonPayload.host == null ||
      appEnv.logonPayload.host === 'none' || source == null || source === 'none') {
     console.log('Note: getViyaSession - No Viya Server was specified or source was not specified');
@@ -48,6 +48,7 @@ async function getViyaSession(appEnv, source, usessionID) {
     restafedit: appEnv.builtins.restafedit
   }
  
+  debugger;
 
   source = source.toLowerCase();
   if (source === 'sas') {source = 'compute'};

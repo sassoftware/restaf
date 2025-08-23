@@ -63,7 +63,7 @@ async function setup(
   storeConfig
 ) {
   const { source } = appControl;
-
+  debugger;
   const getViyaSessionf = (appEnv) => async (source,sessionID) => {
     let r = getViyaSession(appEnv, source,sessionID);
     return r;

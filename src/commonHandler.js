@@ -24,6 +24,7 @@ import isStdObject from './isStdObject.js';
 async function commonHandler(type, temp, currentData, rowIndex, appEnv, status, value) {
   const { handlers } = appEnv.appControl.editControl;
   let r = null;
+  appEnv.appContext.handlers = handlers;
   let userFuncf = handlers[type];
   if (userFuncf != null) {
     try {

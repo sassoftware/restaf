@@ -206,6 +206,7 @@ function request(iconfig) {
      }
    }
      */
+     
   setupProxy(iconfig, config);
   return makeCall(config, iconfig, logonInfo);
 }
@@ -237,7 +238,6 @@ function makeCall(config, iconfig, storeConfig) {
     if (Https !== null) {
       let agent = new Https.Agent(opts);
       config.httpsAgent = agent;
-      console.log('using https agent');
     }
   }
 

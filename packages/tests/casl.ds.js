@@ -11,7 +11,6 @@ async function run() {
   let opts = getOpts();
   console.log("running casl.ds.js");
   let logonPayload = await getLogonPayload();
-  console.log("logonPayload", JSON.stringify(logonPayload, null, 4));
   console.log('---------------------------------', getOpts());
   let store = restaf.initStore(
     {

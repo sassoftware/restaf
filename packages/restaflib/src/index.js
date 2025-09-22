@@ -43,6 +43,7 @@ import jesSetup        from './jesSetup';
 import jesRun          from './jesRun';
 import jesSummary      from './jesSummary';
 
+import jobRun          from './jobRun';
 import jsonToDict      from './jsonToDict';
 
 import masSetup        from './masSetup';
@@ -95,6 +96,8 @@ export {
     jesSetup,
     jesRun,
     jesSummary,
+    
+    jobRun,
     
     jsonToDict,
    

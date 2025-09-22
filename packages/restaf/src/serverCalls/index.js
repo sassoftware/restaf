@@ -39,7 +39,7 @@ function trustedGrant(iconfig) {
   let auth1 = Buffer.from(
     iconfig.clientID + ":" + iconfig.clientSecret
   ).toString("base64");
-  debugger;
+  
   auth1 = "Basic " + auth1;
   let baseUrl = patchURL4ns(iconfig, link.href);
   let config = {
@@ -89,7 +89,7 @@ function request(iconfig) {
   let iheaders = null;
   let ixsrf = null;
   let casAction = null;
-  debugger;
+  
   if (payload !== null) {
     casAction = hasItem(payload, "action");
     iqs = hasItem(payload, "qs");
@@ -124,7 +124,7 @@ function request(iconfig) {
     },
     validateStatus: function (status) {
       /* 304 for state calls */
-      debugger;
+      
       return (
         status === 302 || status === 304 || (status >= 200 && status < 300)
       );

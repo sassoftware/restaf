@@ -61,6 +61,4 @@ async function findJobDefinition(store, jobExecution, jobName) {
   }
 }
 
-
-
 export default jobrun;

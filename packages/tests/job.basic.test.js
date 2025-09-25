@@ -2,7 +2,7 @@ const restaf = require("@sassoftware/restaf");
 const restaflib = require("@sassoftware/restaflib");
 const getLogonPayload = require("./getLogonPayload.js");
 const getOpts = require("./getOpts.js");
-
+const { get } = require("lodash");
 
 run()
   .then((r) => console.log("done"))
@@ -19,7 +19,8 @@ async function run() {
     });
   let msg = await store.logon(logonPayload);
   debugger;
-  let jesSummary = await restaflib.jesRun(store, "mcpjobdef", { a: 1, b: 2, c: 'xxx' },null);
+  let jesSummary = await restaflib.jobRun(store, "mcpflow", { a: 1, b: 2, c: 'xxx' });
+
   console.log(jesSummary);
   console.log(jesSummary.log);
   console.log(jesSummary.listing);

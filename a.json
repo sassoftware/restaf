@@ -1,0 +1,392 @@
+{
+  "links": [
+    {
+      "method": "GET",
+      "rel": "collection",
+      "href": "/jobExecution/jobs",
+      "uri": "/jobExecution/jobs",
+      "type": "application/vnd.sas.collection",
+      "itemType": "application/vnd.sas.job.execution.job"
+    },
+    {
+      "method": "GET",
+      "rel": "self",
+      "href": "/jobExecution/jobs?sortBy=creationTimeStamp:descending&start=0&limit=10",
+      "uri": "/jobExecution/jobs?sortBy=creationTimeStamp:descending&start=0&limit=10",
+      "type": "application/vnd.sas.collection",
+      "itemType": "application/vnd.sas.job.execution.job"
+    },
+    {
+      "method": "GET",
+      "rel": "next",
+      "href": "/jobExecution/jobs?sortBy=creationTimeStamp:descending&start=10&limit=10",
+      "uri": "/jobExecution/jobs?sortBy=creationTimeStamp:descending&start=10&limit=10",
+      "type": "application/vnd.sas.collection"
+    },
+    {
+      "method": "GET",
+      "rel": "up",
+      "href": "/jobExecution/",
+      "uri": "/jobExecution/",
+      "type": "application/vnd.sas.job.execution.job"
+    },
+    {
+      "method": "POST",
+      "rel": "submitJob",
+      "href": "/jobExecution/jobs",
+      "uri": "/jobExecution/jobs",
+      "type": "application/vnd.sas.job.execution.job.request",
+      "responseType": "application/vnd.sas.job.execution.job"
+    },
+    {
+      "method": "POST",
+      "rel": "submitJobs",
+      "href": "/jobExecution/jobRequests/@selection/jobs",
+      "uri": "/jobExecution/jobRequests/@selection/jobs",
+      "type": "application/vnd.sas.selection",
+      "responseType": "application/vnd.sas.collection"
+    },
+    {
+      "method": "PUT",
+      "rel": "updateStates",
+      "href": "/jobExecution/jobs/@selection/state",
+      "uri": "/jobExecution/jobs/@selection/state",
+      "type": "application/vnd.sas.selection",
+      "responseType": "application/vnd.sas.collection"
+    }
+  ],
+  "name": "jobs",
+  "accept": "application/vnd.sas.job.execution.job",
+  "start": 0,
+  "count": 2,
+  "items": [
+    {
+      "creationTimeStamp": "2022-04-07T14:00:02.853Z",
+      "modifiedTimeStamp": "2022-04-07T14:00:05.389Z",
+      "createdBy": "sas.audit",
+      "modifiedBy": "sas.audit",
+      "version": 4,
+      "id": "f7cb59f8-0f73-4f5c-b7d5-24e9e70e3a9b",
+      "jobRequest": {
+        "version": 3,
+        "name": "Update CAS Audit data",
+        "jobDefinitionUri": "/jobDefinitions/definitions/7b5ef82d-19e3-46e1-ebeb-cf15b8675309",
+        "jobDefinition": {
+          "creationTimeStamp": "2022-04-06T22:08:06.127Z",
+          "modifiedTimeStamp": "2022-04-06T22:08:06.131Z",
+          "createdBy": "sas.audit",
+          "modifiedBy": "sas.audit",
+          "version": 2,
+          "id": "7b5ef82d-19e3-46e1-ebeb-cf15b8675309",
+          "name": "CAS Audit table update",
+          "description": "After upload of new Audit data into a temporary CAS table, this job appends the new data to the existing Audit data",
+          "type": "casl",
+          "parameters": [
+            {
+              "version": 1,
+              "name": "%VAR-expireDate",
+              "type": "CHARACTER",
+              "required": true
+            },
+            {
+              "version": 1,
+              "name": "%VAR-tempTableName",
+              "type": "CHARACTER",
+              "required": true
+            },
+            {
+              "version": 1,
+              "name": "%VAR-targetCaslib",
+              "type": "CHARACTER",
+              "required": true
+            },
+            {
+              "version": 1,
+              "name": "serverId",
+              "defaultValue": "cas-shared-default",
+              "type": "CHARACTER",
+              "required": false
+            }
+          ],
+          "code": "whereStr=cat(\"'Timestamp'n <= '\", expireDate, \"'\");\ndeleteRows / table={name='AUDIT' caslib=targetCaslib, where=whereStr};\nrun;\ncodeStr=cat(\"data AUDIT(caslib=\", targetCaslib, \" append=yes);set \", tempTableName, \"(caslib=\", targetCaslib, \");run;\");\ndatastep.runCode / code=codeStr;\nrun;\ntable.save status=sc / name='AUDIT' caslib=targetCaslib replace=true table={ name='AUDIT' caslib=targetCaslib };\nrun;\ntable.dropTable name='AUDIT' caslib=targetCaslib;\nrun;\ntable.dropTable name=tempTableName caslib=targetCaslib;\nrun;",
+          "links": [
+            {
+              "method": "GET",
+              "rel": "self",
+              "href": "/jobDefinitions/definitions/7b5ef82d-19e3-46e1-ebeb-cf15b8675309",
+              "uri": "/jobDefinitions/definitions/7b5ef82d-19e3-46e1-ebeb-cf15b8675309",
+              "type": "application/vnd.sas.job.definition"
+            },
+            {
+              "method": "GET",
+              "rel": "alternate",
+              "href": "/jobDefinitions/definitions/7b5ef82d-19e3-46e1-ebeb-cf15b8675309",
+              "uri": "/jobDefinitions/definitions/7b5ef82d-19e3-46e1-ebeb-cf15b8675309",
+              "type": "application/vnd.sas.summary"
+            },
+            {
+              "method": "PUT",
+              "rel": "update",
+              "href": "/jobDefinitions/definitions/7b5ef82d-19e3-46e1-ebeb-cf15b8675309",
+              "uri": "/jobDefinitions/definitions/7b5ef82d-19e3-46e1-ebeb-cf15b8675309",
+              "type": "application/vnd.sas.job.definition",
+              "responseType": "application/vnd.sas.job.definition"
+            },
+            {
+              "method": "DELETE",
+              "rel": "delete",
+              "href": "/jobDefinitions/definitions/7b5ef82d-19e3-46e1-ebeb-cf15b8675309",
+              "uri": "/jobDefinitions/definitions/7b5ef82d-19e3-46e1-ebeb-cf15b8675309"
+            }
+          ],
+          "properties": []
+        },
+        "arguments": {
+          "%VAR-expireDate": "2022-03-31T14:00:02Z",
+          "%VAR-targetCaslib": "SystemData",
+          "%VAR-tempTableName": "audit_2869981866",
+          "serverId": "cas-shared-default"
+        },
+        "properties": [],
+        "createdByApplication": "jobExecution"
+      },
+      "state": "completed",
+      "endTimeStamp": "2022-04-07T14:00:05.387Z",
+      "heartbeatTimeStamp": "2022-04-07T14:00:03.119Z",
+      "submittedByApplication": "audit-service",
+      "heartbeatInterval": 300,
+      "elapsedTime": 2534,
+      "results": {
+        "debuginfo_1": "",
+        "severity_1": "normal",
+        "statusCode_1": "0",
+        "reason_1": "ok",
+        "executedCode": "expireDate=\"2022-03-31T14:00:02Z\";\ntempTableName=\"audit_2869981866\";\ntargetCaslib=\"SystemData\";\nwhereStr=cat(\"'Timestamp'n <= '\", expireDate, \"'\");\ndeleteRows / table={name='AUDIT' caslib=targetCaslib, where=whereStr};\nrun;\ncodeStr=cat(\"data AUDIT(caslib=\", targetCaslib, \" append=yes);set \", tempTableName, \"(caslib=\", targetCaslib, \");run;\");\ndatastep.runCode / code=codeStr;\nrun;\ntable.save status=sc / name='AUDIT' caslib=targetCaslib replace=true table={ name='AUDIT' caslib=targetCaslib };\nrun;\ntable.dropTable name='AUDIT' caslib=targetCaslib;\nrun;\ntable.dropTable name=tempTableName caslib=targetCaslib;\nrun;",
+        "status_1": ""
+      },
+      "logLocation": "/files/files/e96dd0d1-9158-4a09-9d55-eb56383d73cd",
+      "links": [
+        {
+          "method": "GET",
+          "rel": "self",
+          "href": "/jobExecution/jobs/f7cb59f8-0f73-4f5c-b7d5-24e9e70e3a9b",
+          "uri": "/jobExecution/jobs/f7cb59f8-0f73-4f5c-b7d5-24e9e70e3a9b",
+          "type": "application/vnd.sas.job.execution.job"
+        },
+        {
+          "method": "GET",
+          "rel": "state",
+          "href": "/jobExecution/jobs/f7cb59f8-0f73-4f5c-b7d5-24e9e70e3a9b/state",
+          "uri": "/jobExecution/jobs/f7cb59f8-0f73-4f5c-b7d5-24e9e70e3a9b/state",
+          "type": "text/plain"
+        },
+        {
+          "method": "PUT",
+          "rel": "update",
+          "href": "/jobExecution/jobs/f7cb59f8-0f73-4f5c-b7d5-24e9e70e3a9b",
+          "uri": "/jobExecution/jobs/f7cb59f8-0f73-4f5c-b7d5-24e9e70e3a9b",
+          "type": "application/vnd.sas.job.execution.job",
+          "responseType": "application/vnd.sas.job.execution.job"
+        },
+        {
+          "method": "DELETE",
+          "rel": "delete",
+          "href": "/jobExecution/jobs/f7cb59f8-0f73-4f5c-b7d5-24e9e70e3a9b",
+          "uri": "/jobExecution/jobs/f7cb59f8-0f73-4f5c-b7d5-24e9e70e3a9b"
+        },
+        {
+          "method": "PUT",
+          "rel": "updateState",
+          "href": "/jobExecution/jobs/f7cb59f8-0f73-4f5c-b7d5-24e9e70e3a9b/state",
+          "uri": "/jobExecution/jobs/f7cb59f8-0f73-4f5c-b7d5-24e9e70e3a9b/state",
+          "type": "text/plain"
+        },
+        {
+          "method": "POST",
+          "rel": "updateHeartbeatTimeStamp",
+          "href": "/jobExecution/jobs/f7cb59f8-0f73-4f5c-b7d5-24e9e70e3a9b/heartbeatTimeStamp",
+          "uri": "/jobExecution/jobs/f7cb59f8-0f73-4f5c-b7d5-24e9e70e3a9b/heartbeatTimeStamp",
+          "type": "text/plain"
+        },
+        {
+          "method": "GET",
+          "rel": "jobDefinition",
+          "href": "/jobDefinitions/definitions/7b5ef82d-19e3-46e1-ebeb-cf15b8675309",
+          "uri": "/jobDefinitions/definitions/7b5ef82d-19e3-46e1-ebeb-cf15b8675309",
+          "type": "application/vnd.sas.job.definition"
+        },
+        {
+          "method": "GET",
+          "rel": "log",
+          "href": "/files/files/e96dd0d1-9158-4a09-9d55-eb56383d73cd",
+          "uri": "/files/files/e96dd0d1-9158-4a09-9d55-eb56383d73cd"
+        }
+      ]
+    },
+    {
+      "creationTimeStamp": "2022-04-07T12:00:03.166Z",
+      "modifiedTimeStamp": "2022-04-07T12:00:05.290Z",
+      "createdBy": "sas.audit",
+      "modifiedBy": "sas.audit",
+      "version": 4,
+      "id": "79d9a2e8-aa85-4e27-a249-8646e1323707",
+      "jobRequest": {
+        "version": 3,
+        "name": "Update CAS Audit data",
+        "jobDefinitionUri": "/jobDefinitions/definitions/7b5ef82d-19e3-46e1-ebeb-cf15b8675309",
+        "jobDefinition": {
+          "creationTimeStamp": "2022-04-06T22:08:06.127Z",
+          "modifiedTimeStamp": "2022-04-06T22:08:06.131Z",
+          "createdBy": "sas.audit",
+          "modifiedBy": "sas.audit",
+          "version": 2,
+          "id": "7b5ef82d-19e3-46e1-ebeb-cf15b8675309",
+          "name": "CAS Audit table update",
+          "description": "After upload of new Audit data into a temporary CAS table, this job appends the new data to the existing Audit data",
+          "type": "casl",
+          "parameters": [
+            {
+              "version": 1,
+              "name": "%VAR-expireDate",
+              "type": "CHARACTER",
+              "required": true
+            },
+            {
+              "version": 1,
+              "name": "%VAR-tempTableName",
+              "type": "CHARACTER",
+              "required": true
+            },
+            {
+              "version": 1,
+              "name": "%VAR-targetCaslib",
+              "type": "CHARACTER",
+              "required": true
+            },
+            {
+              "version": 1,
+              "name": "serverId",
+              "defaultValue": "cas-shared-default",
+              "type": "CHARACTER",
+              "required": false
+            }
+          ],
+          "code": "whereStr=cat(\"'Timestamp'n <= '\", expireDate, \"'\");\ndeleteRows / table={name='AUDIT' caslib=targetCaslib, where=whereStr};\nrun;\ncodeStr=cat(\"data AUDIT(caslib=\", targetCaslib, \" append=yes);set \", tempTableName, \"(caslib=\", targetCaslib, \");run;\");\ndatastep.runCode / code=codeStr;\nrun;\ntable.save status=sc / name='AUDIT' caslib=targetCaslib replace=true table={ name='AUDIT' caslib=targetCaslib };\nrun;\ntable.dropTable name='AUDIT' caslib=targetCaslib;\nrun;\ntable.dropTable name=tempTableName caslib=targetCaslib;\nrun;",
+          "links": [
+            {
+              "method": "GET",
+              "rel": "self",
+              "href": "/jobDefinitions/definitions/7b5ef82d-19e3-46e1-ebeb-cf15b8675309",
+              "uri": "/jobDefinitions/definitions/7b5ef82d-19e3-46e1-ebeb-cf15b8675309",
+              "type": "application/vnd.sas.job.definition"
+            },
+            {
+              "method": "GET",
+              "rel": "alternate",
+              "href": "/jobDefinitions/definitions/7b5ef82d-19e3-46e1-ebeb-cf15b8675309",
+              "uri": "/jobDefinitions/definitions/7b5ef82d-19e3-46e1-ebeb-cf15b8675309",
+              "type": "application/vnd.sas.summary"
+            },
+            {
+              "method": "PUT",
+              "rel": "update",
+              "href": "/jobDefinitions/definitions/7b5ef82d-19e3-46e1-ebeb-cf15b8675309",
+              "uri": "/jobDefinitions/definitions/7b5ef82d-19e3-46e1-ebeb-cf15b8675309",
+              "type": "application/vnd.sas.job.definition",
+              "responseType": "application/vnd.sas.job.definition"
+            },
+            {
+              "method": "DELETE",
+              "rel": "delete",
+              "href": "/jobDefinitions/definitions/7b5ef82d-19e3-46e1-ebeb-cf15b8675309",
+              "uri": "/jobDefinitions/definitions/7b5ef82d-19e3-46e1-ebeb-cf15b8675309"
+            }
+          ],
+          "properties": []
+        },
+        "arguments": {
+          "%VAR-expireDate": "2022-03-31T12:00:02Z",
+          "%VAR-targetCaslib": "SystemData",
+          "%VAR-tempTableName": "audit_4114136195",
+          "serverId": "cas-shared-default"
+        },
+        "properties": [],
+        "createdByApplication": "jobExecution"
+      },
+      "state": "completed",
+      "endTimeStamp": "2022-04-07T12:00:05.287Z",
+      "heartbeatTimeStamp": "2022-04-07T12:00:03.267Z",
+      "submittedByApplication": "audit-service",
+      "heartbeatInterval": 300,
+      "elapsedTime": 2121,
+      "results": {
+        "debuginfo_1": "",
+        "severity_1": "normal",
+        "statusCode_1": "0",
+        "reason_1": "ok",
+        "executedCode": "expireDate=\"2022-03-31T12:00:02Z\";\ntempTableName=\"audit_4114136195\";\ntargetCaslib=\"SystemData\";\nwhereStr=cat(\"'Timestamp'n <= '\", expireDate, \"'\");\ndeleteRows / table={name='AUDIT' caslib=targetCaslib, where=whereStr};\nrun;\ncodeStr=cat(\"data AUDIT(caslib=\", targetCaslib, \" append=yes);set \", tempTableName, \"(caslib=\", targetCaslib, \");run;\");\ndatastep.runCode / code=codeStr;\nrun;\ntable.save status=sc / name='AUDIT' caslib=targetCaslib replace=true table={ name='AUDIT' caslib=targetCaslib };\nrun;\ntable.dropTable name='AUDIT' caslib=targetCaslib;\nrun;\ntable.dropTable name=tempTableName caslib=targetCaslib;\nrun;",
+        "status_1": ""
+      },
+      "logLocation": "/files/files/9bc09fa1-2f94-4bec-9999-299401c6a472",
+      "links": [
+        {
+          "method": "GET",
+          "rel": "self",
+          "href": "/jobExecution/jobs/79d9a2e8-aa85-4e27-a249-8646e1323707",
+          "uri": "/jobExecution/jobs/79d9a2e8-aa85-4e27-a249-8646e1323707",
+          "type": "application/vnd.sas.job.execution.job"
+        },
+        {
+          "method": "GET",
+          "rel": "state",
+          "href": "/jobExecution/jobs/79d9a2e8-aa85-4e27-a249-8646e1323707/state",
+          "uri": "/jobExecution/jobs/79d9a2e8-aa85-4e27-a249-8646e1323707/state",
+          "type": "text/plain"
+        },
+        {
+          "method": "PUT",
+          "rel": "update",
+          "href": "/jobExecution/jobs/79d9a2e8-aa85-4e27-a249-8646e1323707",
+          "uri": "/jobExecution/jobs/79d9a2e8-aa85-4e27-a249-8646e1323707",
+          "type": "application/vnd.sas.job.execution.job",
+          "responseType": "application/vnd.sas.job.execution.job"
+        },
+        {
+          "method": "DELETE",
+          "rel": "delete",
+          "href": "/jobExecution/jobs/79d9a2e8-aa85-4e27-a249-8646e1323707",
+          "uri": "/jobExecution/jobs/79d9a2e8-aa85-4e27-a249-8646e1323707"
+        },
+        {
+          "method": "PUT",
+          "rel": "updateState",
+          "href": "/jobExecution/jobs/79d9a2e8-aa85-4e27-a249-8646e1323707/state",
+          "uri": "/jobExecution/jobs/79d9a2e8-aa85-4e27-a249-8646e1323707/state",
+          "type": "text/plain"
+        },
+        {
+          "method": "POST",
+          "rel": "updateHeartbeatTimeStamp",
+          "href": "/jobExecution/jobs/79d9a2e8-aa85-4e27-a249-8646e1323707/heartbeatTimeStamp",
+          "uri": "/jobExecution/jobs/79d9a2e8-aa85-4e27-a249-8646e1323707/heartbeatTimeStamp",
+          "type": "text/plain"
+        },
+        {
+          "method": "GET",
+          "rel": "jobDefinition",
+          "href": "/jobDefinitions/definitions/7b5ef82d-19e3-46e1-ebeb-cf15b8675309",
+          "uri": "/jobDefinitions/definitions/7b5ef82d-19e3-46e1-ebeb-cf15b8675309",
+          "type": "application/vnd.sas.job.definition"
+        },
+        {
+          "method": "GET",
+          "rel": "log",
+          "href": "/files/files/9bc09fa1-2f94-4bec-9999-299401c6a472",
+          "uri": "/files/files/9bc09fa1-2f94-4bec-9999-299401c6a472"
+        }
+      ]
+    }
+  ],
+  "limit": 10,
+  "version": 2
+}

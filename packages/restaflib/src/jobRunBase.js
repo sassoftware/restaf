@@ -10,7 +10,7 @@ import jesSummary from './jesSummary';
 /** 
  * @description Reduce jobExecution service to an consummable form(async)
  * @private
- * @module jesRunBase
+ * @module jobRunBase
  * 
  * @param {object} store - restaf store
  * @param {object} payload - payload for the jobExecution service
@@ -19,11 +19,21 @@ import jesSummary from './jesSummary';
  * 
  */
 
-async function jesRunBase(store, payload) {
+async function jobRunBase(store, payload) {
   let { jobExecution } = await store.addServices('jobExecution');
   debugger;
-  let job = await store.apiCall(jobExecution.links('create'), payload);
-  let status = await store.jobState(job, null, 5, 2);
+  // create a job request
+  let jobRequestList = await store.apiCall(jobExecution.links('jobRequests'));
+
+  let jobRequest = await store.apiCall(jobRequestList.links('createJobRequest'), {...payload});
+  debugger;
+  let job = await store.apiCall(jobRequest.links('submitJob'), payload);
+  debugger;
+   let status = await store.jobState(job, null, 5, 2);
+   console.log(status);
+
+ 
+  // Now submit this job
 
   if (status.data === 'running') {
     throw `ERROR: Job did not complete in allotted time`;
@@ -34,5 +44,5 @@ async function jesRunBase(store, payload) {
     return results;
   }
 }
-export default jesRunBase;
+export default jobRunBase;
 

@@ -17,60 +17,49 @@ import jesRunBase from './jesRunBase';
  * 
  */
 
-async function jesRun ( store, jobDefinitionName, args, src ){
- 
+async function jesRun(store, jobDefinitionName, args, jobDef) {
+
     // generate macro variables
-    
+
     let jobRequest = {};
     //jobRequest.type = 'Compute';
 
     let jobDefinition = {};
-    
+    jobRequest.jobDefinitionUri = (jobDef != null) ? jobDef : await jobDefUri(store, jobDefinitionName);
 
-    if ( jobDefinitionName !== null ) {
-        jobRequest.jobDefinitionUri = await jobDefUri( store, jobDefinitionName );
-    }
-
-    
-    if ( src != null ) {
-       jobDefinition.code = src; /*src.split(/\r?\n/);*/
-    }
-
-    jobDefinition.type ='Compute';
+    // jobDefinition.type ='Compute';
     jobRequest.arguments = args;
 
     let payload = {
         data: jobRequest
     };
     // run code and get results
-    let jobResult = await jesRunBase( store, payload );
+    debugger;
+    let jobResult = await jesRunBase(store, payload);
     return jobResult;
 }
 
-async function jobDefUri ( store, name ) {
-    let {jobDefinitions} = await store.addServices( 'jobDefinitions' );
+async function jobDefUri(store, name) {
+    let { jobDefinitions } = await store.addServices('jobDefinitions');
     let uri = null;
     let payload = {
         qs: {
             filter: `eq(name,'${name}')`
         }
     };
-   
-    let rafLink = jobDefinitions.links( 'job-definitions' );
+
+    let rafLink = jobDefinitions.links('job-definitions');
     try {
-       let jdefList = await store.apiCall(rafLink, payload);
-        
-        if ( jdefList.itemsList().size === 0 ) {
+        let jdefList = await store.apiCall(rafLink, payload);
+
+        if (jdefList.itemsList().size === 0) {
             throw `Error: ${name} not found in the system`;
-        } 
-        else {
-            
-            uri = jdefList.itemsCmd( name, 'self', 'link', 'uri' );
-            
-            console.log( `Using job definition ${name} with uri ${uri}` );
         }
- 
-                  return uri;
+        else {
+            uri = jdefList.itemsCmd(name, 'self', 'link', 'uri');
+        }
+
+        return uri;
     } catch (e) {
         throw `Error: ${name} not found in the system`;
     }

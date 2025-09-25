@@ -19,7 +19,7 @@ import jobRunBase from './jobRunBase';
  * 
  */
 
-async function jobrun(store, jobName, args) {
+async function jobRun(store, jobName, args) {
   let { jobExecution } = await store.addServices('jobExecution');
 
   try {
@@ -61,4 +61,4 @@ async function findJobDefinition(store, jobExecution, jobName) {
   }
 }
 
-export default jobrun;
+export default jobRun;

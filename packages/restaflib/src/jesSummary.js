@@ -35,10 +35,10 @@ async function jobResults(store, job) {
 
     // extract fileid in the files service.
  
-    debugger;
+    
     for (let p in jobjs.results) {
         if (!(p === 'COMPUTE_CONTEXT' || p === 'COMPUTE_JOB' || p === 'COMPUTE_SESSION')) {
-            debugger;
+            
             let pa = p.split('.');
             pa.shift(); 
             let key = pa.join('.');

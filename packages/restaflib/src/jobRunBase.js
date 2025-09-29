@@ -21,14 +21,14 @@ import jesSummary from './jesSummary';
 
 async function jobRunBase(store, payload) {
   let { jobExecution } = await store.addServices('jobExecution');
-  debugger;
+  
   // create a job request
   let jobRequestList = await store.apiCall(jobExecution.links('jobRequests'));
 
   let jobRequest = await store.apiCall(jobRequestList.links('createJobRequest'), {...payload});
-  debugger;
+  
   let job = await store.apiCall(jobRequest.links('submitJob'), payload);
-  debugger;
+  
    let status = await store.jobState(job, null, 5, 2);
    
 

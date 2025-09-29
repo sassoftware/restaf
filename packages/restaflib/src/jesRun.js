@@ -34,7 +34,7 @@ async function jesRun(store, jobDefinitionName, args, jobDef) {
         data: jobRequest
     };
     // run code and get results
-    debugger;
+    
     let jobResult = await jesRunBase(store, payload);
     return jobResult;
 }

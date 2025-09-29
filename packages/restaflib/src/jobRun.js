@@ -32,7 +32,7 @@ async function jobRun(store, jobName, args) {
       data: jobRequest
     };
     // jesRun will ignore the jobName and use thejobDefinitionUri
-    debugger;
+    
     let jobSummary = await jobRunBase(store, payload);
     return jobSummary;
   } catch (e) {
@@ -48,7 +48,7 @@ async function findJobDefinition(store, jobExecution, jobName) {
   };
   let rafLink = jobExecution.links('jobs');
 
-  debugger;
+  
 
   try {
     let jobList = await store.apiCall(rafLink, payload);

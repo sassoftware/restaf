@@ -46,6 +46,7 @@ async function jobDefUri(store, name) {
         qs: {
             filter: `eq(name,'${name}')`
         }
+
     };
 
     let rafLink = jobDefinitions.links('job-definitions');

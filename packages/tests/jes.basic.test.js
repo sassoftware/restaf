@@ -19,7 +19,7 @@ async function run() {
     });
   let msg = await store.logon(logonPayload);
   debugger;
-  let jesSummary = await restaflib.jesRun(store, "mcpjobdef", { a: 200, b: 2, c: 'xxx' },null);
+  let jesSummary = await restaflib.jesRun(store, "mcpsasjobdef_withprocjson", { a: 200, b: 2, c: 'xxx' },null);
   console.log(jesSummary);
   console.log(jesSummary.log);
   console.log(jesSummary.listing);

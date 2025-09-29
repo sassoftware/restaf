@@ -34,24 +34,36 @@ async function jobResults(store, job) {
     };
 
     // extract fileid in the files service.
+ 
+    debugger;
     for (let p in jobjs.results) {
         if (!(p === 'COMPUTE_CONTEXT' || p === 'COMPUTE_JOB' || p === 'COMPUTE_SESSION')) {
+            debugger;
             let pa = p.split('.');
+            pa.shift(); 
+            let key = pa.join('.');
+            /*
             let key = pa[1];;
             if (pa.length === 3) {
                 key = pa[1] + '.' + pa[2];
             }
-            cResult.files[key] = id;
+                */
+            
+
             let l = jobjs.results[p];
             let la = l.split('/');
-            let id = l.split('/')[la.length - 1];
-            cResult.files[key] = id;
+            let id = la[la.length - 1];
+            cResult.files[key] = await getContent(store, id);
         }
     }
     
+    cResult.log = cResult.files['log.txt'];
+    cResult.listing = cResult.files['listing.txt'];
     // get the log and listing for ease of use
+    /*
     cResult.log = await getContent(store, cResult.files['log.txt']);
     cResult.listing = await getContent(store, cResult.files['listing.txt']);
+    */
 
     async function getContent(store, id) {
         let { files } = await store.addServices("files");

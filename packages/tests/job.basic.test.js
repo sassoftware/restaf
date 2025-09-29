@@ -19,7 +19,7 @@ async function run() {
     });
   let msg = await store.logon(logonPayload);
   debugger;
-  let jesSummary = await restaflib.jobRun(store, "mcpflow", { a: 1, b: 2, c: 'xxx' });
+  let jesSummary = await restaflib.jobRun(store, "mcpsasjobdef", { a: 1, b: 320, c: 'xxx' });
 
   console.log(jesSummary);
   console.log(jesSummary.log);

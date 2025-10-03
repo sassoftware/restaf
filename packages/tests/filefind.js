@@ -1,8 +1,6 @@
 const restaf = require("@sassoftware/restaf");
 const restaflib = require("@sassoftware/restaflib");
 const getLogonPayload = require("./getLogonPayload.js");
-const getOpts = require("./getOpts.js");
-const { get } = require("lodash");
 
 run()
   .then((r) => console.log("done"))
@@ -13,35 +11,32 @@ async function run() {
     {
       casProxy: true,
       options: {
-        proxyServer: null,
-        httpOptions: getOpts(),
+        proxyServer: null
       }
     });
   let msg = await store.logon(logonPayload);
-  debugger;
-  let jesSummary = await restaflib.jobRun(store, "mcpdef", { a: 1, b: 320, c: 'xxx' });
+  console.log(msg);
 
-  console.log(jesSummary);
-  console.log(jesSummary.log);
-  console.log(jesSummary.listing);
-
-  return "done";
-  
-}
-async function getContent(store, id) {
+  try {
     let { files } = await store.addServices("files");
+    let n = "_webout.json_1f28a11b-a676-4365-a98f-afd8cc1ef972";
     let payload = {
       qs: {
-        filter: `eq(id,'${id}')`
+        filter: `eq(name, "_webout.json")`
       }
     }
-    debugger;
     let f = await store.apiCall(files.links("files"), payload);
-    let context = f.itemsList(0);
+    console.log(JSON.stringify(f.itemsList().toJS(), null, 4));
+    console.log(f.items(f.itemsList(1)).toJS());
+    let c = await store.apiCall(f.itemsCmd(f.itemsList(1), 'content'));
+    console.log(c.items().toJS());
+    console.log(f.itemsList(0));
 
-    let contentRaf = f.itemsCmd(f.itemsList(0), 'content');
-    let text = await store.apiCall(contentRaf);
-    console.log(text.items());
-    return text.items();
+  } catch (err) {
+    console.error('Error in files test:', err);
+    console.log(JSON.stringify(err, null, 4));
+
   }
-  
+}
+
+

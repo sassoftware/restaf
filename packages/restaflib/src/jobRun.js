@@ -3,62 +3,62 @@
  * SPDX-License-Identifier: Apache-2.0
 */
 'use strict';
-import jobRunBase from './jobRunBase';
+
 /**
  * @description Prepare data for runCompute(@async)
  * @private
- * @module spBase
+ * @module jobRun
  * 
  * @param {object} store - restaf store
- * @param {string} jobDefinition - jogdefinition name
+ * @param {string} jobName - name of the job
  * @param {object} args - arguments to pass to the job definition
- * @param {string} src - source code to run
- * @param {string} jobDefUri - job definition URI to use(overrides jobDefinition name)
  * 
- * @returns {object} computeSummary object
+ * @returns {object} result object
  * 
  */
-
+import jesSummary from './jesSummary.js';
 async function jobRun(store, jobName, args) {
   let { jobExecution } = await store.addServices('jobExecution');
 
-  try {
-    let jobDefinitionUri = await findJobDefinition(store, jobExecution, jobName);
-    let jobRequest = {
-      jobDefinitionUri: jobDefinitionUri,
-      arguments: args
-    };
-    let payload = {
-      data: jobRequest
-    };
-    // jesRun will ignore the jobName and use thejobDefinitionUri
-    
-    let jobSummary = await jobRunBase(store, payload);
-    return jobSummary;
-  } catch (e) {
-    throw e;
-  }
-}
-async function findJobDefinition(store, jobExecution, jobName) {
-  let uri = null;
   let payload = {
     qs: {
       filter: `eq(name,'${jobName}')`
     }
   };
-  let rafLink = jobExecution.links('jobs');
-
-  
-
   try {
-    let jobList = await store.apiCall(rafLink, payload);
-    let id = jobList.itemsList(0);
-    let uri = jobList.items(id, 'data', 'jobRequest', 'jobDefinitionUri');
-    return uri;
 
+    
+    //find job 
+    let thisJob = await store.apiCall(jobExecution.links('jobs'), payload);
+
+    // extract the jobDefinition id
+    
+    let id = thisJob.items(thisJob.itemsList(0), 'data', 'jobRequest', 'jobDefinition');
+
+    
+    //setup job request payload
+    let argument = { ...args, _omitSessionResults: false, _resultfile: '*', _output_json: 'json' };
+    let jobRequest = {
+      data: {
+        jobDefinition: id,
+        arguments: argument
+
+      }
+    };
+    // use the submit job link to submit the job
+    let job1 = await store.apiCall(thisJob.links('submitJob'), jobRequest);
+    
+    let status = await store.jobState(job1, null, 5, 2);
+    if (status.data === 'running') {
+      throw `ERROR: Job did not complete in allotted time.`;
+    } else if (status.data === 'failed') {
+      throw `ERROR: Job failed. See SAS Environment for details.`;
+    } else {
+      let results = await jesSummary(store, status.job);
+      return results;
+    }
   } catch (e) {
-    throw `Error: ${name} not found in the system`;
+    throw e;
   }
 }
-
 export default jobRun;

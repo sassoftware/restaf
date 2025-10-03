@@ -3,8 +3,6 @@
  * SPDX-License-Identifier: Apache-2.0
 */
 
-
-
 /**
  * @description Reduce the job information into consummable form(async)
  * 
@@ -21,8 +19,11 @@ async function jesSummary(store, job) {
     return await jobResults(store, job);
 }
 async function jobResults(store, job) {
-    let jobjs = job.items().toJS();
+    let items = job.items().toJS();
     let cResult = {
+        computeContext: items.results['COMPUTE_CONTEXT'],
+        computeJob: items.results['COMPUTE_JOB'],
+        computeSession: items.results['COMPUTE_SESSION'],
         session: job.session,
         log: null,
         listing: null,
@@ -30,55 +31,84 @@ async function jobResults(store, job) {
         job: job /*null*/,
         tables: {},
         files: {},
-        results: jobjs.results
+        results: items.results
     };
 
     // extract fileid in the files service.
- 
-    
-    for (let p in jobjs.results) {
-        if (!(p === 'COMPUTE_CONTEXT' || p === 'COMPUTE_JOB' || p === 'COMPUTE_SESSION')) {
-            
-            let pa = p.split('.');
-            pa.shift(); 
-            let key = pa.join('.');
-            /*
-            let key = pa[1];;
-            if (pa.length === 3) {
-                key = pa[1] + '.' + pa[2];
-            }
-                */
-            
 
-            let l = jobjs.results[p];
+    for (let p in items.results) {
+        if (!(p === 'COMPUTE_CONTEXT' || p === 'COMPUTE_JOB' || p === 'COMPUTE_SESSION')) {
+            let table = false;
+            let key = null;
+            if (p.endsWith('.json')) {
+                key = p;
+                table = true;
+            } else {
+                let pa = p.split('.');
+                pa.shift();
+                key = pa.join('.');
+            }
+            let l = items.results[p];
+            if (l === null) continue;
             let la = l.split('/');
             let id = la[la.length - 1];
-            cResult.files[key] = await getContent(store, id);
+            
+            let r = await getContent(store, key, id);
+            if (table) {
+                let name = key.split('.json')[0];
+                cResult.tables[name] = r
+            } else {
+                cResult.files[key] = r
+            }
         }
     }
+    // now format log and listing
+    cResult.log = formatLog(cResult.files['log']);
+    cResult.listing = formatLog(cResult.files['listing']);
     
-    cResult.log = cResult.files['log.txt'];
-    cResult.listing = cResult.files['listing.txt'];
-    // get the log and listing for ease of use
-    /*
-    cResult.log = await getContent(store, cResult.files['log.txt']);
-    cResult.listing = await getContent(store, cResult.files['listing.txt']);
-    */
+    return cResult;
 
-    async function getContent(store, id) {
+    function formatLog(log) {
+        if (log === null) return ' ';
+        let logText = '';
+        // eslint-disable-next-line array-callback-return
+        log.map((data) => {
+            let line = data.line.replace(/(\r\n|\n|\r)/gm, "");
+            if (line.length === 0) {
+                logText = logText + '\n';
+            } else {
+                logText = logText + line + '\n';
+            }
+        });
+        return logText;
+    };
+    async function getContent(store, key, id) {
         let { files } = await store.addServices("files");
         let payload = {
             qs: {
                 filter: `eq(id,'${id}')`
             }
         }
-        
-        let f = await store.apiCall(files.links("files"), payload);
-        let contentRaf = f.itemsCmd(f.itemsList(0), 'content');
-        let text = await store.apiCall(contentRaf);
-        return text.items();
+        try {
+            let f = await store.apiCall(files.links("files"), payload);
+            let contentRaf = f.itemsCmd(f.itemsList(0), 'content');
+            let text = await store.apiCall(contentRaf);
+            
+            let items = text.items();
+            if (typeof items === 'string') {
+                return items;
+            } else {
+                
+                let r = items.toJS();
+                return r;
+            }
+        }
+        catch (error) {
+            return null;
+        }
+        return cResult;
     }
-    return cResult;
 }
 export default jesSummary;
+
 

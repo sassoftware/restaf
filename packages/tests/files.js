@@ -29,27 +29,29 @@ async function run() {
     filesList = await store.apiCall( next );
     let l = filesList.itemsList().toJS();
     console.log( JSON.stringify( l, null,4 ) );
-    
+    /*
     for ( let i=0; i< l.length; i++ ) {
       debugger;
-      console.log( '-------------------------------', l[i] );
-        let f = filesList.itemsCmd( l[i], 'self' );
-        if ( f === null ) {
-          console.log( l[i], "cannot be deleted" );
-          continue;
-        }
-        let r = await store.apiCall( f );
-        let fd = r.links( 'delete' );
-        console.log( fd.toJS());
-        try {
-        let rd = await store.apiCall( fd );
-
-        console.log( l[i],rd.status );
-        } catch (error) {
-          console.error( 'Error deleting file:', error );
-        }
+      if ( l[i].includes( 'listing' ) || l[i].includes( 'log' )  ) {
+        console.log( 'Deleting...',  l[i] );
+          let f = filesList.itemsCmd( l[i], 'self' );
+          if ( f === null ) {
+            console.log( l[i], "cannot be deleted" );
+            continue;
+          }
+          let r = await store.apiCall( f );
+          let fd = r.links( 'delete' );
+          try {
+             let rd = await store.apiCall( fd );
+             console.log( l[i],rd.status );
+          } catch (error) {
+            console.error( 'Error deleting file:', error );
+          }
       }
+        
     }
+      */
   }
+}
 
 

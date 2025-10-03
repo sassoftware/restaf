@@ -19,23 +19,22 @@ import jesRunBase from './jesRunBase';
 
 async function jesRun(store, jobDefinitionName, args, jobDef) {
 
-    // generate macro variables
-
-    let jobRequest = {};
-    //jobRequest.type = 'Compute';
-
-    let jobDefinition = {};
-    jobRequest.jobDefinitionUri = (jobDef != null) ? jobDef : await jobDefUri(store, jobDefinitionName);
+    let jobDefinitionUri = (jobDef != null) ? jobDef : await jobDefUri(store, jobDefinitionName);
 
     // jobDefinition.type ='Compute';
-    jobRequest.arguments = args;
-
-    let payload = {
-        data: jobRequest
-    };
-    // run code and get results
     
-    let jobResult = await jesRunBase(store, payload);
+    let argument = { ...args, _omitSessionResults: false, _resultfile: '*', _output_type: 'json' };
+    let jobRequest = {
+      data: {
+        jobDefinitionUri: jobDefinitionUri,
+        arguments: argument
+
+      }
+    };
+
+    // run code and get results
+
+    let jobResult = await jesRunBase(store, jobRequest);
     return jobResult;
 }
 

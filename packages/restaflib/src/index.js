@@ -38,10 +38,7 @@ import getReportUri    from './getReportUri';
 
 import getSasTableRows from './getSasTableRows';
 
-
-import jesSetup        from './jesSetup';
 import jesRun          from './jesRun';
-import jesSummary      from './jesSummary';
 
 import jobRun          from './jobRun';
 import jsonToDict      from './jsonToDict';
@@ -52,10 +49,6 @@ import masDescribe     from './masDescribe';
 import masRun          from './masRun';
 import masScore        from './masScore';
 import masAddModel     from './masAddModel';
-//import print           from './print';
-
-
-//import uploadData      from './uploadData';
 
 
 import libx            from './lib';
@@ -92,11 +85,7 @@ export {
     getReportImage,
     getReportUri,
     getSasTableRows,
-    
-    jesSetup,
     jesRun,
-    jesSummary,
-    
     jobRun,
     
     jsonToDict,

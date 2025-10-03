@@ -19,10 +19,14 @@ async function run() {
     });
   let msg = await store.logon(logonPayload);
   debugger;
-  let jesSummary = await restaflib.jesRun(store, "mcpjobdefmyfolder", { a: 200, b: 2, c: 'xxx' },null);
-  console.log(jesSummary);
-  console.log(jesSummary.log);
-  console.log(jesSummary.listing);
+  let jesSummary = await restaflib.jesRun(store, "cars_job_v4", { origin: 'Asia' },null);
+  console.log(Object.keys(jesSummary));
+  console.log(Object.keys(jesSummary.tables));
+  /*
+  console.log(Object.keys(jesSummary.tables ));
+  console.log(jesSummary.tables['cars_job_v4']);
+  */
+
 
   return "done";
   

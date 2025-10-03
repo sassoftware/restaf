@@ -27,7 +27,10 @@ async function jobRunBase(store, payload) {
 
   let jobRequest = await store.apiCall(jobRequestList.links('createJobRequest'), {...payload});
   
-  let job = await store.apiCall(jobRequest.links('submitJob'), payload);
+  let p = {...payload};
+
+  console.log('Submitting job...', JSON.stringify(p, null, 4) );
+  let job = await store.apiCall(jobRequest.links('submitJob'), p);
   
    let status = await store.jobState(job, null, 5, 2);
    

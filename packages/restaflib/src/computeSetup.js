@@ -70,7 +70,7 @@ async function computeSetup( store, contextName, payload, sessionPayload, sessio
       }
     }
     catch ( err ) {
-        console.log('Error: Not able to get context');
+        console.error('Error: Not able to get context');
         throw err;
     }
 

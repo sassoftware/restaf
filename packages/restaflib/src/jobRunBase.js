@@ -15,7 +15,7 @@ import jesSummary from './jesSummary';
  * @param {object} store - restaf store
  * @param {object} payload - payload for the jobExecution service
  * 
- * @returns {object}  results from a sas jobExecution job in a consumable form
+ * @returns {promise}  results from a sas jobExecution job in a consumable form
  * 
  */
 
@@ -29,7 +29,7 @@ async function jobRunBase(store, payload) {
   
   let p = {...payload};
 
-  console.log('Submitting job...', JSON.stringify(p, null, 4) );
+  //console.log('Submitting job...', JSON.stringify(p, null, 4) );
   let job = await store.apiCall(jobRequest.links('submitJob'), p);
   
    let status = await store.jobState(job, null, 5, 2);

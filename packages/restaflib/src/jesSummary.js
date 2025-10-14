@@ -13,8 +13,9 @@
  * @param {object} store - restaf store
  * @param {object} job - rafObject representing the compute service job
  * 
- * @returns {object} - the computeSummary object for easy handling of logs,listing,ods, tables
+ * @returns {promise} - the computeSummary object for easy handling of logs,listing,ods, tables
  */
+
 async function jesSummary(store, job) {
     return await jobResults(store, job);
 }
@@ -98,7 +99,6 @@ async function jobResults(store, job) {
             if (typeof items === 'string') {
                 return items;
             } else {
-                
                 let r = items.toJS();
                 return r;
             }
@@ -106,7 +106,7 @@ async function jobResults(store, job) {
         catch (error) {
             return null;
         }
-        return cResult;
+      
     }
 }
 export default jesSummary;

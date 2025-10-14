@@ -15,7 +15,7 @@ import jesSummary from './jesSummary';
  * @param {object} store - restaf store
  * @param {object} payload - payload for the jobExecution service
  * 
- * @returns {object}  results from a sas jobExecution job in a consumable form
+ * @returns {promise}  results from a sas jobExecution job in a consumable form
  * 
  */
 
@@ -23,7 +23,7 @@ async function jesRunBase(store, payload) {
   let { jobExecution } = await store.addServices('jobExecution');
   
   let job = await store.apiCall(jobExecution.links('create'), payload);
-  let status = await store.jobState(job, null, 5, 2);
+  let status = await store.jobState(job, null, 'wait', 2);
 
   if (status.data === 'running') {
     throw `ERROR: Job did not complete in allotted time`;

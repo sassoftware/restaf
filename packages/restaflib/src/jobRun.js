@@ -13,7 +13,7 @@
  * @param {string} jobName - name of the job
  * @param {object} args - arguments to pass to the job definition
  * 
- * @returns {object} result object
+ * @returns {promise} - returns scoring results
  * 
  */
 import jesSummary from './jesSummary.js';
@@ -26,8 +26,6 @@ async function jobRun(store, jobName, args) {
     }
   };
   try {
-
-    
     //find job 
     let thisJob = await store.apiCall(jobExecution.links('jobs'), payload);
 
@@ -48,7 +46,7 @@ async function jobRun(store, jobName, args) {
     // use the submit job link to submit the job
     let job1 = await store.apiCall(thisJob.links('submitJob'), jobRequest);
     
-    let status = await store.jobState(job1, null, 5, 2);
+    let status = await store.jobState(job1, null, 'wait', 2);
     if (status.data === 'running') {
       throw `ERROR: Job did not complete in allotted time.`;
     } else if (status.data === 'failed') {

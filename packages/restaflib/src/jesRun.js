@@ -23,7 +23,7 @@ async function jesRun(store, jobDefinitionName, args, jobDef) {
 
     // jobDefinition.type ='Compute';
     
-    let argument = { ...args, _omitSessionResults: false, _resultfile: '*', _output_type: 'json' };
+    let argument = { ...args, _omitSessionResults: false, _resultfile: '*', _output_json: 'json' };
     let jobRequest = {
       data: {
         jobDefinitionUri: jobDefinitionUri,

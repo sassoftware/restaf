@@ -19,29 +19,15 @@ async function run() {
     });
   let msg = await store.logon(logonPayload);
   debugger;
-  let jesSummary = await restaflib.jobRun(store, "mcpdef", { a: 1, b: 320, c: 'xxx' });
+  let jesSummary = await restaflib.jobRun(store, "mcpdef1", { a: 1, b: 320, c: 'xxx' });
 
   console.log(jesSummary);
   console.log(jesSummary.log);
   console.log(jesSummary.listing);
+  console.log(jesSummary.status);
 
   return "done";
   
 }
-async function getContent(store, id) {
-    let { files } = await store.addServices("files");
-    let payload = {
-      qs: {
-        filter: `eq(id,'${id}')`
-      }
-    }
-    debugger;
-    let f = await store.apiCall(files.links("files"), payload);
-    let context = f.itemsList(0);
 
-    let contentRaf = f.itemsCmd(f.itemsList(0), 'content');
-    let text = await store.apiCall(contentRaf);
-    console.log(text.items());
-    return text.items();
-  }
   

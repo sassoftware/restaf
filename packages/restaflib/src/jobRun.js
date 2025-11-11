@@ -4,6 +4,7 @@
 */
 'use strict';
 
+import { result } from 'lodash';
 /**
  * @description Prepare data for runCompute(@async)
  * @private
@@ -28,12 +29,11 @@ async function jobRun(store, jobName, args) {
   try {
     //find job 
     let thisJob = await store.apiCall(jobExecution.links('jobs'), payload);
-
-    // extract the jobDefinition id
-    
+    // extract the jobDefinition
+    if (thisJob.itemsList().size === 0) {
+      throw `Error: ${jobName} not found in the system`;
+    }
     let id = thisJob.items(thisJob.itemsList(0), 'data', 'jobRequest', 'jobDefinition');
-
-    
     //setup job request payload
     let argument = { ...args, _omitSessionResults: false, _resultfile: '*', _output_json: 'json' };
     let jobRequest = {
@@ -45,7 +45,7 @@ async function jobRun(store, jobName, args) {
     };
     // use the submit job link to submit the job
     let job1 = await store.apiCall(thisJob.links('submitJob'), jobRequest);
-    
+   
     let status = await store.jobState(job1, null, 'wait', 2);
     if (status.data === 'running') {
       throw `ERROR: Job did not complete in allotted time.`;

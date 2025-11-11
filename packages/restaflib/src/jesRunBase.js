@@ -31,7 +31,9 @@ async function jesRunBase(store, payload) {
     throw JSON.stringify(status);
   } else {
     let results = await jesSummary(store, status.job);
-    return results;
+    results.status = status.data;
+  } catch (error) {
+    throw `Error: ${error}`;
   }
 }
 export default jesRunBase;

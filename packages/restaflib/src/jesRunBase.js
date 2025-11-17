@@ -22,17 +22,19 @@ import jesSummary from './jesSummary';
 async function jesRunBase(store, payload) {
   let { jobExecution } = await store.addServices('jobExecution');
   
-  let job = await store.apiCall(jobExecution.links('create'), payload);
-  let status = await store.jobState(job, null, 'wait', 2);
+  try {
+    let job = await store.apiCall(jobExecution.links('create'), payload);
+    let status = await store.jobState(job, null, 'wait', 2);
 
-  if (status.data === 'running') {
-    throw `ERROR: Job did not complete in allotted time`;
-  } else if (status.data === 'failed') {
-    throw JSON.stringify(status);
-  } else {
-    let results = await jesSummary(store, status.job);
-    results.status = status.data;
-  } catch (error) {
+    if (status.data === 'running') {
+      throw `ERROR: Job did not complete in allotted time`;
+    } else if (status.data === 'failed') {
+      throw JSON.stringify(status);
+    } else {
+      let results = await jesSummary(store, status.job);
+      results.status = status.data;
+    }
+   } catch (error) {
     throw `Error: ${error}`;
   }
 }

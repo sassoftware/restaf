@@ -4,7 +4,7 @@
 */
 'use strict';
 
-import { result } from 'lodash';
+
 /**
  * @description Prepare data for runCompute(@async)
  * @private

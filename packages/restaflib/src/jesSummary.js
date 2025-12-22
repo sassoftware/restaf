@@ -41,6 +41,7 @@ async function jobResults(store, job) {
         if (!(p === 'COMPUTE_CONTEXT' || p === 'COMPUTE_JOB' || p === 'COMPUTE_SESSION')) {
             let table = false;
             let key = null;
+            console.log('p', p);
             if (p.endsWith('.json')) {
                 key = p;
                 table = true;
@@ -53,11 +54,13 @@ async function jobResults(store, job) {
             if (l === null) continue;
             let la = l.split('/');
             let id = la[la.length - 1];
-            
-            let r = await getContent(store, key, id);
+
+            let r = await getContent(store, key, id, table);
             if (table) {
                 let name = key.split('.json')[0];
-                cResult.tables[name] = r
+                console.log('name',name);
+                cResult.tables[name] = r;
+                console.log('x',cResult.tables[name]);
             } else {
                 cResult.files[key] = r
             }
@@ -66,11 +69,11 @@ async function jobResults(store, job) {
     // now format log and listing
     cResult.log = formatLog(cResult.files['log']);
     cResult.listing = formatLog(cResult.files['listing']);
-    
+
     return cResult;
 
     function formatLog(log) {
-        if (log === null) return ' ';
+        if (log == null) return ' ';
         let logText = '';
         // eslint-disable-next-line array-callback-return
         log.map((data) => {
@@ -83,7 +86,7 @@ async function jobResults(store, job) {
         });
         return logText;
     };
-    async function getContent(store, key, id) {
+    async function getContent(store, key, id, table) {
         let { files } = await store.addServices("files");
         let payload = {
             qs: {
@@ -94,19 +97,30 @@ async function jobResults(store, job) {
             let f = await store.apiCall(files.links("files"), payload);
             let contentRaf = f.itemsCmd(f.itemsList(0), 'content');
             let text = await store.apiCall(contentRaf);
-            
+
             let items = text.items();
             if (typeof items === 'string') {
                 return items;
             } else {
                 let r = items.toJS();
-                return r;
+                if (table) {
+                    console.log(r);
+                }
+                if (table) {
+                    let t = [];
+                    Object.values(r).forEach(value => {
+                        console.log(value);
+                        t.push(value);
+                    });
+                    console.log('t', t);
+                    return t;
+                }
             }
         }
         catch (error) {
             return null;
         }
-      
+
     }
 }
 export default jesSummary;

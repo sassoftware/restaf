@@ -2,7 +2,7 @@ const restaf = require("@sassoftware/restaf");
 const restaflib = require("@sassoftware/restaflib");
 const getLogonPayload = require("./getLogonPayload.js");
 const getOpts = require("./getOpts.js");
-const { get } = require("lodash");
+
 
 run()
   .then((r) => console.log("done"))
@@ -19,12 +19,19 @@ async function run() {
     });
   let msg = await store.logon(logonPayload);
   debugger;
-  let jesSummary = await restaflib.jobRun(store, "mcpdef1", { a: 1, b: 320, c: 'xxx' });
+  try {
+    let jesSummary = await restaflib.jobRun(store, "mcp_tool_test", { a: 1, b: 320});
 
-  console.log(jesSummary);
-  console.log(jesSummary.log);
-  console.log(jesSummary.listing);
-  console.log(jesSummary.status);
+    console.log(jesSummary);
+    console.log(jesSummary.log);
+    console.log(jesSummary.listing);
+    console.log(jesSummary.status);
+    
+  console.log(JSON.stringify('table', jesSummary.tables));
+  console.log(Object.keys(jesSummary));
+  } catch (err) {
+    console.log('error', err);
+  }
 
   return "done";
   

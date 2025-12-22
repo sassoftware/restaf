@@ -20,15 +20,8 @@ async function run() {
   let msg = await store.logon(logonPayload);
   debugger;
   try {
-    let jesSummary = await restaflib.jobRun(store, "mcp_tool_test", { a: 1, b: 320});
-
-    console.log(jesSummary);
-    console.log(jesSummary.log);
-    console.log(jesSummary.listing);
-    console.log(jesSummary.status);
-    
-  console.log(JSON.stringify('table', jesSummary.tables));
-  console.log(Object.keys(jesSummary));
+    let jesSummary = await restaflib.jobRun(store, "mcp_tool_test", { a: 1, b: 320})
+    console.log('table', JSON.stringify(jesSummary.tables));
   } catch (err) {
     console.log('error', err);
   }

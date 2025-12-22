@@ -41,7 +41,7 @@ async function jobResults(store, job) {
         if (!(p === 'COMPUTE_CONTEXT' || p === 'COMPUTE_JOB' || p === 'COMPUTE_SESSION')) {
             let table = false;
             let key = null;
-            console.log('p', p);
+           
             if (p.endsWith('.json')) {
                 key = p;
                 table = true;
@@ -58,9 +58,7 @@ async function jobResults(store, job) {
             let r = await getContent(store, key, id, table);
             if (table) {
                 let name = key.split('.json')[0];
-                console.log('name',name);
                 cResult.tables[name] = r;
-                console.log('x',cResult.tables[name]);
             } else {
                 cResult.files[key] = r
             }
@@ -73,7 +71,7 @@ async function jobResults(store, job) {
     return cResult;
 
     function formatLog(log) {
-        if (log == null) return ' ';
+        if (log == null || Array.isArray(log) === false) return ' ';
         let logText = '';
         // eslint-disable-next-line array-callback-return
         log.map((data) => {
@@ -104,15 +102,13 @@ async function jobResults(store, job) {
             } else {
                 let r = items.toJS();
                 if (table) {
-                    console.log(r);
-                }
-                if (table) {
                     let t = [];
+                    if (Array.isArray(r)) {
+                        return r;
+                    }
                     Object.values(r).forEach(value => {
-                        console.log(value);
                         t.push(value);
                     });
-                    console.log('t', t);
                     return t;
                 }
             }

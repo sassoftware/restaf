@@ -65,8 +65,10 @@ async function jobResults(store, job) {
         }
     }
     // now format log and listing
+    /*
     cResult.log = formatLog(cResult.files['log']);
     cResult.listing = formatLog(cResult.files['listing']);
+    */
 
     return cResult;
 
@@ -102,12 +104,11 @@ async function jobResults(store, job) {
             } else {
                 let r = items.toJS();
                 if (table) {
-                    let t = [];
+                   /* not clear why sas is returning an object sometimes */
                     if (Array.isArray(r)) {
-                        console.log('array');
                         return r;
                     }
-                    console.log('object');
+                    let t = [];
                     Object.values(r).forEach(value => {
                         t.push(value);
                     });

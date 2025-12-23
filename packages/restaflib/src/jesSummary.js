@@ -104,12 +104,16 @@ async function jobResults(store, job) {
                 if (table) {
                     let t = [];
                     if (Array.isArray(r)) {
+                        console.log('array');
                         return r;
                     }
+                    console.log('object');
                     Object.values(r).forEach(value => {
                         t.push(value);
                     });
                     return t;
+                } else {
+                    return r;   
                 }
             }
         }

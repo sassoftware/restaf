@@ -33,6 +33,7 @@ async function jesRunBase(store, payload) {
     } else {
       let results = await jesSummary(store, status.job);
       results.status = status.data;
+      return results;
     }
    } catch (error) {
     throw `Error: ${error}`;

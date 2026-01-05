@@ -16,14 +16,14 @@
  *
  */
 
-  'use strict';
+  ;
 
 import { VIYA_LOGON, VIYA_LOGOFF, VIYA_LOGON_SERVER, VIYA_LOGON_IMPLICIT, VIYA_LOGON_PASSWORD, VIYA_LOGON_TOKEN }
-        from '../actionTypes';
+        from '../actionTypes.js';
 
 import qs from 'qs';
-import parse from 'url-parse';
-import keepViyaAlive from './keepViyaAlive';
+// import parse from 'url-parse';
+import keepViyaAlive from './keepViyaAlive.js';
 
 /**
  * @description logon or connect to Viya
@@ -159,7 +159,11 @@ const logon = ( store, ipayload ) => {
                 // adding proxy option for use with axios
                 payload.options.proxy = null;
                 if (payload.options.proxyServer != null) {
-                  payload.options.proxy = parse(payload.options.proxyServer);
+                                    try {
+                                        payload.options.proxy = new URL(payload.options.proxyServer);
+                                    } catch (e) {
+                                        payload.options.proxy = null;
+                                    }
                 } 
                  
                 action.payload.sslOptions = store.config.hasOwnProperty( 'sslOptions' ) ? store.config.sslOptions : null;
@@ -190,10 +194,12 @@ function parseUrlNext () {
         return null;
     }
 
-    let url = parse( window.location, true );
-    let loc = qs.parse( url.hash );
-    let q = url.query;
-    if ( q.host == null || loc.access_token == null ) {
+
+    let url = new URL(window.location);
+    // url.hash includes the leading '#', remove it for parsing
+    let loc = qs.parse(url.hash.startsWith('#') ? url.hash.substring(1) : url.hash);
+    let q = Object.fromEntries(url.searchParams.entries());
+    if (q.host == null || loc.access_token == null) {
         return null;
     }
 

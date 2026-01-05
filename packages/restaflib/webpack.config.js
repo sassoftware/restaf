@@ -1,10 +1,13 @@
-let nodeExternals  = require( 'webpack-node-externals' );
-let webpack = require( 'webpack' );
-let  path    = require( 'path' );
 
+import nodeExternals  from  'webpack-node-externals' ;
+import webpack from 'webpack';
+import path  from 'path';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
 let library = 'restaflib';
 
-module.exports = ( env ) => {
+function config ( env ) {
+    const __dirname = dirname(fileURLToPath(import.meta.url));
     let APP_PATH = path.resolve( __dirname, 'src' );
     let plugins = [];
     let outputFile;
@@ -71,4 +74,4 @@ module.exports = ( env ) => {
         return config;
     }
 
-
+export default config;

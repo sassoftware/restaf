@@ -14,8 +14,8 @@
  *
  */
 
-  'use strict';
-import extendFolder from './extendFolder';
+  ;
+import extendFolder from './extendFolder.js';
 
 function getServiceRoot ( store, serviceName ){
     let f = null;

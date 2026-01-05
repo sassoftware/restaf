@@ -15,9 +15,9 @@
  *
  */
 
-'use strict';
-import apiCall from './apiCall';
-import jobState from './jobState';
+;
+import apiCall from './apiCall.js';
+import jobState from './jobState.js';
 /**
  * @Description Run a given action
  * @async

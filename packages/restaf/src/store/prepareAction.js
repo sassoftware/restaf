@@ -16,11 +16,10 @@
 
 "use strict";
 
-let Immutable = require("immutable");
+import {isImmutable} from  "immutable";
 
-import { get } from "lodash";
-import getResults from "./getResults";
-import getXsrfData from "./getXsrfData";
+import getResults from "./getResults.js";
+import getXsrfData from "./getXsrfData.js";
 
 const prepareAction = function (
   store,
@@ -46,7 +45,7 @@ const prepareAction = function (
     route = current.get("route");
   }
 
-  if (current === null || Immutable.Iterable.isIterable(current) === false) {
+  if (current === null || isImmutable(current) === false) {
     return null;
   }
   /* */

@@ -3,8 +3,8 @@
  * SPDX-License-Identifier: Apache-2.0
 */
 
-import caslRunBase from './caslRunBase';
-import programs from './programs';
+import caslRunBase from './caslRunBase.js';
+import programs from './programs/index.js';
 
 /**
  *

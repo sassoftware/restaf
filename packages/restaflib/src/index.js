@@ -4,57 +4,57 @@
 */
 
 
-import caslRun         from './caslRun';
-import caslRunBase     from './caslRunBase';
-import caslScore       from './caslScore';
-import caslDescribe    from './caslDescribe';
-import casSetup        from './casSetup';
-import casActionRun    from './casActionRun';
+import caslRun         from './caslRun.js';
+import caslRunBase     from './caslRunBase.js';
+import caslScore       from './caslScore.js';
+import caslDescribe    from './caslDescribe.js';
+import casSetup        from './casSetup.js';
+import casActionRun    from './casActionRun.js';
 
-import casFetchData    from './casFetchData';
-import casFetchRows    from './casFetchRows';
-import casUpdateData   from './casUpdateData';
-import casAppendTable  from './casAppendTable';
-import casTableToJson  from './casTableToJson';
-import casUpload       from './casUpload';
-import casSaveTable    from './casSaveTable';
-import casLoadTable    from './casLoadTable';
+import casFetchData    from './casFetchData.js';
+import casFetchRows    from './casFetchRows.js';
+import casUpdateData   from './casUpdateData.js';
+import casAppendTable  from './casAppendTable.js';
+import casTableToJson  from './casTableToJson.js';
+import casUpload       from './casUpload.js';
+import casSaveTable    from './casSaveTable.js';
+import casLoadTable    from './casLoadTable.js';
 
-import computeRun         from './computeRun';
-import computeSetup       from './computeSetup';
-import computeSummary     from './computeSummary';
-import computeSetupTables from './computeSetupTables';
-import computeResults     from './computeResults';
-import computeFetchData   from './computeFetchData';
-import computeFileContent from './computeFileContent';
-import computeAppendTable from './computeAppendTable';
-import computeUpdateData  from './computeUpdateData';
-import computeUpload      from './computeUpload';
-
-
-import findReport      from './findReport';
-import getReportImage  from './getReportImage';
-import getReportUri    from './getReportUri';
-
-import getSasTableRows from './getSasTableRows';
-
-import jesRun          from './jesRun';
-
-import jobRun          from './jobRun';
-import jsonToDict      from './jsonToDict';
-
-import masSetup        from './masSetup';
-import masDescribe     from './masDescribe';
-
-import masRun          from './masRun';
-import masScore        from './masScore';
-import masAddModel     from './masAddModel';
+import computeRun         from './computeRun.js';
+import computeSetup       from './computeSetup.js';
+import computeSummary     from './computeSummary.js';
+import computeSetupTables from './computeSetupTables.js';
+import computeResults     from './computeResults.js';
+import computeFetchData   from './computeFetchData.js';
+import computeFileContent from './computeFileContent.js';
+import computeAppendTable from './computeAppendTable.js';
+import computeUpdateData  from './computeUpdateData.js';
+import computeUpload      from './computeUpload.js';
 
 
-import libx            from './lib';
+import findReport      from './findReport.js';
+import getReportImage  from './getReportImage.js';
+import getReportUri    from './getReportUri.js';
+
+import getSasTableRows from './getSasTableRows.js';
+
+import jesRun          from './jesRun.js';
+
+import jobRun          from './jobRun.js';
+import jsonToDict      from './jsonToDict.js';
+
+import masSetup        from './masSetup.js';
+import masDescribe     from './masDescribe.js';
+
+import masRun          from './masRun.js';
+import masScore        from './masScore.js';
+import masAddModel     from './masAddModel.js';
 
 
-let lib = libx();
+//import libx            from './lib.js';
+
+
+//let lib = libx();
 export {
     caslRun,
     caslRunBase,
@@ -100,5 +100,5 @@ export {
     masScore,
     //uploadData,
 
-    lib
+   // lib
 };

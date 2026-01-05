@@ -2,8 +2,8 @@
  * Copyright © 2023, SAS Institute Inc., Cary, NC, USA.  All Rights Reserved.
  * SPDX-License-Identifier: Apache-2.0
  */
-  'use strict';
-module.exports = function reduceCasResult ( data ) {
+  ;
+ function reduceCasResult ( data ) {
   let tables      = {};
   let tableByName = {};
   if ( data.hasOwnProperty( "results" ) === false ) {
@@ -22,4 +22,4 @@ module.exports = function reduceCasResult ( data ) {
   data.tablesByName = tableByName;
   return data;
 };
-
+export default reduceCasResult;

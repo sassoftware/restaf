@@ -14,10 +14,10 @@
  * ----------------------------------------------------------------------------------------
  *
  */
-  'use strict';
+  ;
 
 import {takeEvery} from 'redux-saga/effects' ;
-import  {DELETE_RAF_OBJECT} from '../actionTypes';
+import  {DELETE_RAF_OBJECT} from '../actionTypes.js';
 import {put} from 'redux-saga/effects';
 
 function* apiDataAction () {

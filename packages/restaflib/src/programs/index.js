@@ -3,11 +3,11 @@
 * SPDX-License-Identifier: Apache-2.0
 */
 
-import scoreCasl from './scoreCasl';
-import casFetchData from './casFetchData';
-import commonCasl from './commonCasl';
-import casFetchRows from './casFetchRows';
-import casAppendTable from './casAppendTable';
-import casRowSets from './casFetchData';
+import scoreCasl from './scoreCasl.js';
+import casFetchData from './casFetchData.js';
+import commonCasl from './commonCasl.js';
+import casFetchRows from './casFetchRows.js';
+import casAppendTable from './casAppendTable.js';
+import casRowSets from './casFetchData.js';
 
 export default {commonCasl, casFetchData, casFetchRows, scoreCasl, casAppendTable, casRowSets};

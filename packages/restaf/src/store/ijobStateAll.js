@@ -14,9 +14,9 @@
  *
  */
 
-'use strict';
+;
 
-import apiCallAll   from './apiCallAll';
+import apiCallAll   from './apiCallAll.js';
 function ijobStateAll ( store, jobs , ipayload ) {
     return new Promise( ( resolve, reject ) => {
         /* */

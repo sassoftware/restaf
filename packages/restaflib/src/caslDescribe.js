@@ -16,10 +16,10 @@
  * 
  * @returns {promise}  returns the scores as an object
  */
-'use strict';
+;
 
-import caslRunBase from './caslRunBase';
-import programs from './programs';
+import caslRunBase from './caslRunBase.js';
+import programs from './programs/index.js';
 
 async function caslDescribe ( store, session, scenario ) {
     

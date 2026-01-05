@@ -29,7 +29,7 @@
  *  await store.apiCall(session.links('delete'));
  *  }
  */
-'use strict';
+;
 
 
 // Notes: Function to call cas 

@@ -14,16 +14,13 @@
  *
  */
 
-  'use strict';
 
-/* import uuid from 'uuid' ;*/
-// let Immutable = require( 'immutable' );
-import Immutable from 'immutable';
-const { Map, fromJS } = Immutable;
 
+import { Map, fromJS } from 'immutable';
 import { VIYA_LOGON_COMPLETE, BEGIN_LOGON, VIYA_LOGOFF, VIYA_LOGON_SERVER, VIYA_LOGON_IMPLICIT, VIYA_LOGOFF_COMPLETE,
-        KEEP_ALIVE, BEGIN_LOGOFF} from '../actionTypes';
-import { setGoodStatus, setBadStatus, statusInfoStruct } from '../utils';
+        KEEP_ALIVE, BEGIN_LOGOFF} from '../actionTypes.js';
+
+import { setGoodStatus, setBadStatus, statusInfoStruct } from '../utils/index.js';
 
 let  initialState = fromJS(
     {
@@ -38,6 +35,7 @@ let  initialState = fromJS(
 );
 
 function viyaLogon ( state = initialState, action ) {
+    
 
     switch ( action.type ) {
 

@@ -29,8 +29,8 @@
  * print.object(result, 'scoring result');
  * }
  */
-import masSetup from './masSetup';
-import masRun from './masRun';
+import masSetup from './masSetup.js';
+import masRun from './masRun.js';
 
 async function masScore ( store, modelName, scenario ) {
 	let masControl = await masSetup( store,[ modelName ] );

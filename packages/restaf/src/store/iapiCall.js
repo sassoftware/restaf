@@ -14,14 +14,14 @@
  *
  */
 
-  'use strict';
+  ;
 
-import getResults    from './getResults';
-import extendFolder  from './extendFolder';
-import prepareAction from './prepareAction';
-import {APP_DATA_ROOT, API_XSRF} from '../actionTypes';
+import getResults    from './getResults.js';
+import extendFolder  from './extendFolder.js';
+import prepareAction from './prepareAction.js';
+import {APP_DATA_ROOT, API_XSRF} from '../actionTypes.js';
 
-// import ikeepAlive from './ikeepAlive';
+// import ikeepAlive from './ikeepAlive.js';
 
 
 const  iapiCall =  ( store, iroute, actionType, payload, delay, eventHandler, parentRoute, jobContext ) => {

@@ -16,11 +16,11 @@
 
 import { createStore, applyMiddleware, compose } from 'redux';
 import createSagaMiddleware from 'redux-saga';
-import rootSaga from '../sagas/rootSaga';
-import injectAsyncReducers from '../reducers/injectAsyncReducers';
+import rootSaga from '../sagas/rootSaga.js';
+import injectAsyncReducers from '../reducers/injectAsyncReducers.js';
 
 
-import createReducer from '../reducers/createReducer';
+import createReducer from '../reducers/createReducer.js';
 
 function configureSagaStore ( config ) {
 

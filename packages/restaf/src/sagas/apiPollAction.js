@@ -11,12 +11,12 @@
  See the License for the specific language governing permissions and
  limitations under the License.
  ---------------------------------------------------------------------------------------*/
-  'use strict';
+  ;
 
 import { takeEvery } from 'redux-saga/effects' ;
 
-import { API_POLL } from '../actionTypes';
-import apiPoll from './apiPoll';
+import { API_POLL } from '../actionTypes.js';
+import apiPoll from './apiPoll.js';
 
 function* apiPollAction () {
     yield takeEvery( [ API_POLL ] , apiPoll );

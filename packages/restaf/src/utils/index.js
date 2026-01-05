@@ -14,13 +14,13 @@
  *
  */
 
-  'use strict';
+  ;
 
-import { setGoodStatus, setBadStatus  } from './statusFuncs';
-import SASLogonOauthLink  from './SASLogonOauthLink';
-import SASLogoffOauthLink  from './SASLogoffOauthLink';
-import routeOrFolder from './routeOrFolder';
-import { tLinkStruct, itemsStruct, statusInfoStruct } from './rootStruct';
+import { setGoodStatus, setBadStatus  } from './statusFuncs.js';
+import SASLogonOauthLink  from './SASLogonOauthLink.js';
+import SASLogoffOauthLink  from './SASLogoffOauthLink.js';
+import routeOrFolder from './routeOrFolder.js';
+import { tLinkStruct, itemsStruct, statusInfoStruct } from './rootStruct.js';
 
 export {
     setGoodStatus,

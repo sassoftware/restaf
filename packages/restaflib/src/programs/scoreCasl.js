@@ -4,7 +4,7 @@
 */
 
 
-module.exports = function scoreCasl (){
+function scoreCasl (){
     let casl = `
         result = runMain(_args_); 
         send_response(result); 
@@ -147,7 +147,7 @@ module.exports = function scoreCasl (){
     `;
     return casl;
 };
-  
+export default scoreCasl;
  /*
         cas mycas;   
         proc cas;   

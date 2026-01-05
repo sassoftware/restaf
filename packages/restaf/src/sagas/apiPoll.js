@@ -11,13 +11,13 @@
  See the License for the specific language governing permissions and
  limitations under the License.
  ---------------------------------------------------------------------------------------*/
-  'use strict';
+  ;
 
 import {delay} from 'redux-saga/effects';
 import {put, call, select} from 'redux-saga/effects';
 
-import httpCallWait     from  './httpCallWait' ;
-import selectLogonInfo  from '../store/selectLogonInfo';
+import httpCallWait     from  './httpCallWait.js' ;
+import selectLogonInfo  from '../store/selectLogonInfo.js';
 
 function *apiPoll ( action ) {
     let config  = {...action};

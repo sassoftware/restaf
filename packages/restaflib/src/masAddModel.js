@@ -2,7 +2,7 @@
 * Copyright © 2023, SAS Institute Inc., Cary, NC, USA.  All Rights Reserved.
 * SPDX-License-Identifier: Apache-2.0
 */
-'use strict';
+;
 /**
  * setup access to MAS
  * @module masSetup
@@ -13,10 +13,10 @@
  * 
  * @returns {object} - masControl used in masRun
  * @alias module: masSetup
- * @example 
+ * @example
  *   let masControl = await masSetup(store, ['modelA', 'modelB']);
  */
-import getScoreStep from './getScoreStep';
+import getScoreStep from './getScoreStep.js';
 
 async function masAddModel ( store,masControl, models ){
     let  microanalyticScore  = masControl.service;

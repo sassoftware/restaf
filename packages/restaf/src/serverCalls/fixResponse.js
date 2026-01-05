@@ -12,7 +12,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
  ---------------------------------------------------------------------------------------*/
-   'use strict';
+   ;
 
  
  // let fixImages = require( './fixImages' );
@@ -21,11 +21,11 @@
  // let reduceCasResults = require( './reduceCasResults' );
  // let fixMlPipelineAutomation = require( './fixMlPipelineAutomation' );
 
-import fixImages from './fixImages';
-import fixReports from './fixReports';
-import casSessionLinks from './casSessionLinks';
-import reduceCasResults from './reduceCasResults';
-import fixMlPipelineAutomation from './fixMlPipelineAutomation';
+import fixImages from './fixImages.js';
+import fixReports from './fixReports.js';
+import casSessionLinks from './casSessionLinks.js';
+import reduceCasResults from './reduceCasResults.js';
+import fixMlPipelineAutomation from './fixMlPipelineAutomation.js';
  function fixResponse ( response) {
  
      //

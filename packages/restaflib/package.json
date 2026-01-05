@@ -17,10 +17,10 @@
     "ie >= 11",
     "maintained node versions"
   ],
-  "unpkg": "/dist/restaflib.min.js",
+  "unpkg": "/dist/restaflib.umd.js",
   "main": "./lib/restaflib.js",
-  "modules": "/dist/restaflib.min.js",
-  "browser": "/dist/restaflib.min.js",
+  "modules": "/dist/restaflib.umd.js",
+  "browser": "/dist/restaflib.umd.js",
   "files": [
     "lib",
     "dist"
@@ -29,8 +29,10 @@
     "url": "https://github.com/sassoftware/restaf/issues"
   },
   "scripts": {
-    "build": "rimraf dist && rimraf lib && webpack --env target=node p=n --config webpack.config.js && webpack --env target=web p=n --config webpack.config.js && webpack --env target=web p=y --config webpack.config.js",
-    "build:es": "webpack --config webpack.config.es.js",
+    "build": "npm run build:node && npm run build:web && npm run build:esm",
+    "build:node": "rimraf lib && webpack --env target=node p=n --config webpack.config.umd.js && webpack --env target=node p=y --config webpack.config.umd.js",
+    "build:web": "rimraf dist && webpack --env target=web p=n --config webpack.config.umd.js && webpack --env target=web p=y --config webpack.config.umd.js",
+    "build:esm": "webpack --env target=web p=n --config webpack.esm.config.js && webpack --env target=web p=y --config webpack.esm.config.js",
     "pub": "npm publish --tag alpha --access public",
     "jsdoc": "jsdoc -c jsdoc.json",
     "dlink": "npm link",

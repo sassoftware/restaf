@@ -2,8 +2,8 @@
  * Copyright © 2023, SAS Institute Inc., Cary, NC, USA.  All Rights Reserved.
  * SPDX-License-Identifier: Apache-2.0
  */
-  'use strict';
-module.exports = function fixImages ( response ) {
+  ;
+function fixImages ( response ) {
   if ( response.data.results.hasOwnProperty( "images" ) === true ) {
     let images = response.data.results.images;
     let items =
@@ -15,3 +15,4 @@ module.exports = function fixImages ( response ) {
     delete response.data.results.images;
   }
 };
+export default fixImages;

@@ -2,7 +2,7 @@
  * Copyright © 2023, SAS Institute Inc., Cary, NC, USA.  All Rights Reserved.
  * SPDX-License-Identifier: Apache-2.0
 */
-'use strict';
+;
 /**
  * @description Generate url for report(async)
  * @module getReportUri
@@ -13,7 +13,7 @@
  * 
  * @returns {promise} array of report's of the form {name: name, uri: uri} for the report(s)
  */
-import findReport from './findReport';
+import findReport from './findReport.js';
 async function getReportUri ( store, name ) {
     let reportsList = await findReport( store, name );
     if ( reportsList === null ) {

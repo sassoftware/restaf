@@ -13,13 +13,13 @@
  limitations under the License.
  ---------------------------------------------------------------------------------------*/
 
-  'use strict';
+  ;
 
 import { delay } from 'redux-saga/effects';
 import { put, call, select} from 'redux-saga/effects';
 
-import httpCall         from  './httpCall' ;
-import selectLogonInfo  from '../store/selectLogonInfo';
+import httpCall         from  './httpCall.js' ;
+import selectLogonInfo  from '../store/selectLogonInfo.js';
 
 function *apiCall ( action ) {
     let config = { ...action } ;

@@ -15,11 +15,11 @@
 
 import axios from "axios";
 import qs from "qs";
-import fixResponse from "./fixResponse";
+import fixResponse from "./fixResponse.js";
 
 let Https = null;
 if (__IS_NODE__) {
-  Https = require('node:https');
+   Https = require('node:https');
 }
 
 
@@ -240,7 +240,6 @@ function makeCall(config, iconfig, storeConfig) {
       config.httpsAgent = agent;
     }
   }
-
   return new Promise((resolve, reject) => {
 
     axios(config)

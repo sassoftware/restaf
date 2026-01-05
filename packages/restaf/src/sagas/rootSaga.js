@@ -12,15 +12,15 @@
  limitations under the License.
  ---------------------------------------------------------------------------------------*/
 
-  'use strict';
+  ;
 
 import { all }           from 'redux-saga/effects';
-import logonAction       from './logonAction';
-import apiCallAction     from './apiCallAction';
-import apiCallAllAction  from './apiCallAllAction';
-import apiPollAction     from './apiPollAction';
-import appDataAction     from './appDataAction';
-import keepAliveAction   from './keepAliveAction';
+import logonAction       from './logonAction.js';
+import apiCallAction     from './apiCallAction.js';
+import apiCallAllAction  from './apiCallAllAction.js';
+import apiPollAction     from './apiPollAction.js';
+import appDataAction     from './appDataAction.js';
+import keepAliveAction   from './keepAliveAction.js';
 
 
 function* rootSaga () {

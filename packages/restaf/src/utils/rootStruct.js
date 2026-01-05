@@ -14,10 +14,13 @@
  *
  */
 
-  'use strict';
+  
+//import {actionTypes} from '../actionTypes.js';
+import { APP_DATA_ROOT, API_STATUS_ROOT, API_XSRF_ROOT } from '../actionTypes.js';
 
-import {APP_DATA_ROOT, API_STATUS_ROOT, API_XSRF_ROOT} from '../actionTypes';
+
 function tLinkStruct ( name, type, service ) {
+    
     if ( service === APP_DATA_ROOT || service === API_STATUS_ROOT || service === API_XSRF_ROOT ){
         return {
             structType: service,
@@ -96,5 +99,5 @@ function statusInfoStruct () {
 
 }
 
-export { tLinkStruct, itemsStruct, statusInfoStruct };
+export  { tLinkStruct, itemsStruct, statusInfoStruct };
 

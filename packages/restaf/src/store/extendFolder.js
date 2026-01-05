@@ -14,9 +14,9 @@
  *
  */
 
-  'use strict';
+  ;
 
-import getResults2 from  './getResults2' ;
+import getResults2 from  './getResults2.js';
 function extendFolder ( store, f ) {
 
     let wrapper = ( prePath ) => ( ...args ) => {

@@ -2,8 +2,8 @@
 * Copyright © 2023, SAS Institute Inc., Cary, NC, USA.  All Rights Reserved.
 * SPDX-License-Identifier: Apache-2.0
 */
-'use strict';
-module.exports = function casSessionLinks ( uri, urihttp, casHttp, server, casProxyFlag ){
+;
+ function casSessionLinks ( uri, urihttp, casHttp, server, casProxyFlag ){
 	let href = ( casProxyFlag === true ) ? `${uri}/actions` : `${urihttp}/actions`;
 	let isIdle = casProxyFlag === true ? `${uri}/isIdle` : `${urihttp}/isIdle`;
     let r =  [
@@ -40,3 +40,5 @@ module.exports = function casSessionLinks ( uri, urihttp, casHttp, server, casPr
 	
 	return r;
 };
+export default casSessionLinks;
+

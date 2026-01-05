@@ -14,31 +14,31 @@
  *
  */
 
-'use strict';
+;
 
-import configureSagaStore from './configureSagaStore';
-import {APP_DATA_ROOT, API_STATUS_ROOT, APP_DATA, API_XSRF} from '../actionTypes';
+import configureSagaStore from './configureSagaStore.js';
+import {APP_DATA_ROOT, API_STATUS_ROOT, APP_DATA, API_XSRF} from '../actionTypes.js';
 
-import apiCall         from './apiCall';
-import apiCallAll      from './apiCallAll';
-import runAction       from './runAction';
-import apiSubmit       from './apiSubmit';
-import jobState        from './jobState';
-import jobStateAll     from './jobStateAll';
-import request         from './request';
-// import jobStatus    from './jobStatus';
-import getServices     from './getServices';
-import addServices     from './addServices';
-import getServiceRoot  from './getServiceRoot';
-import logon           from './logon';
-import logoff          from './logoff';
-import endStore        from './endStore';
-import routeToObj      from './routeToObj';
-import selectLogonInfo from './selectLogonInfo';
-import appData         from './appData';
-import getXsrfData     from './getXsrfData';
-import deleteRafObject from './deleteRafObject';
-import keepViyaAlive   from './keepViyaAlive';
+import apiCall         from './apiCall.js';
+import apiCallAll      from './apiCallAll.js';
+import runAction       from './runAction.js';
+import apiSubmit       from './apiSubmit.js';
+import jobState        from './jobState.js';
+import jobStateAll     from './jobStateAll.js';
+import request         from './request.js';
+// import jobStatus    from './jobStatus.js';
+import getServices     from './getServices.js';
+import addServices     from './addServices.js';
+import getServiceRoot  from './getServiceRoot.js';
+import logon           from './logon.js';
+import logoff          from './logoff.js';
+import endStore        from './endStore.js';
+import routeToObj      from './routeToObj.js';
+import selectLogonInfo from './selectLogonInfo.js';
+import appData         from './appData.js';
+import getXsrfData     from './getXsrfData.js';
+import deleteRafObject from './deleteRafObject.js';
+import keepViyaAlive   from './keepViyaAlive.js';
 /**
  * @description Initialize a restaf store
  * @category restaf/core

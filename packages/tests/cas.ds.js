@@ -1,13 +1,14 @@
-const restaf = require("@sassoftware/restaf");
-const restaflib = require("@sassoftware/restaflib");
-const getLogonPayload = require("./getLogonPayload.js");
-const getOpts = require("./getOpts.js");
+let restaf = require("@sassoftware/restaf");
+let  restaflib = require("@sassoftware/restaflib");
+let  getLogonPayload = require("./getLogonPayload.js");
+let getOpts = require("./getOpts.js");
 
 run()
   .then((r) => console.log("done"))
   .catch((err) => console.log(JSON.stringify(err, null, 4)));
 async function run() {
   let logonPayload = await getLogonPayload();
+  console.log(restaf);
   let store = restaf.initStore(
     {
       casProxy: true,

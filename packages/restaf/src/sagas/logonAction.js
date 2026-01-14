@@ -47,6 +47,7 @@ function*  logonAction () {
 function sasLogon ( action ) {
     
     let config = { ...action.payload };
+    debugger;
     if ( config.authType === VIYA_LOGON_SERVER || config.authType === VIYA_LOGON_IMPLICIT ) {
         return {
             type   : config.authType,
@@ -56,6 +57,7 @@ function sasLogon ( action ) {
             }
         };
     } else {
+        debugger;
         let t = SASLogonOauthLink( config.authType );
         config.link = t.link;
         return ( t.logon( config )

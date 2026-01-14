@@ -31,7 +31,16 @@ run()
 async function run() {
 	
   let store = initStore();
-  let logonPayload = await getLogonPayload();
+  //let logonPayload = await getLogonPayload();
+  let logonPayload = {
+      host: process.env.VIYA_SERVER,
+
+      authType: "password",
+      user: 'kumar',
+      password: 'Alav1925@sas',
+      clientID: 'mcppw',
+      clientSecret: 'jellico',
+    };
   console.log('logon payload', logonPayload);
   let msg = await store.logon(logonPayload);
   console.log(msg);

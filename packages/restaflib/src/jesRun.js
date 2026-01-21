@@ -56,6 +56,7 @@ async function jobDefUri(store, name) {
             throw `Error: ${name} not found in the system`;
         }
         else {
+            console.log(jdefList.items().toJS() );
             uri = jdefList.itemsCmd(name, 'self', 'link', 'uri');
         }
 

@@ -14,11 +14,6 @@
  *
  */
 
-  ;
-
-
-// import {APP_DATA} from '../actionTypes';
-
 function appData  ( store, type, route, payload ) {
     let action = {
         type : type,

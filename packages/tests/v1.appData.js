@@ -19,9 +19,6 @@
  */
 "use strict";
 let restaf = require( "@sassoftware/restaf" );
-let {casSetup} = require( "@sassoftware/restaflib" );
-// let prtUtil = require("../prtUtil");
-
 
 // Test appdata
 async function setup () {

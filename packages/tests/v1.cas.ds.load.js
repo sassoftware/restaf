@@ -6,6 +6,7 @@ let getOpts = require("./getOpts.js");
 run()
   .then((r) => console.log("done"))
   .catch((err) => console.log(JSON.stringify(err, null, 4)));
+
 async function run() {
   let logonPayload = await getLogonPayload();
 
@@ -18,20 +19,18 @@ async function run() {
       }
     });
   let msg = await store.logon(logonPayload);
-  console.log(msg);
-  let { casManagement } = await store.addServices("casManagement");
-  let { session } = await restaflib.casSetup(store, null);
+  let { session } = await restaflib.casSetup( store, null );
+	
+	let table = {
+		caslib: 'samples' /* a valid caslib */,
+		name  : 'costchange'
+	};
+	
+	let r = await restaflib.casLoadTable( store, session, table );
+	console.log( r );
 
-  let p = {
-    action: "datastep.runCode",
-    data  : {
-      single: "YES",
-      code  : "data casuser.score; keep x1 x2;do i = 1 to 20; x1=i; x2=i*10;output;end;run; ",
-    },
-  };
-  let r = await store.runAction(session, p);
-  console.log(r);
-  console.log("after run action", JSON.stringify(r.items(), null, 4));  
-  return "done";
+
+	await store.apiCall( session.links( 'delete' ) );
+	return 'done';
+
 }
-

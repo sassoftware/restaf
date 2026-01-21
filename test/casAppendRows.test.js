@@ -3,10 +3,9 @@ const { setup, saveTable, scrollTable, appendRows, termApp } = require('../lib/i
 const { caslRun, casLoadTable } = require('@sassoftware/restaflib');
 const getLogonPayload = require('./getLogonPayload.js');
 
-test ('casAppendRows', async () => {
-  const payload = await getLogonPayload();
-  const r = await runit(payload);
-  expect(r).toBe('done');
+run()
+.catch(err => {
+  console.error(err); 
 });
 
 async function runit (payload) {

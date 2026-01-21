@@ -83,7 +83,7 @@
     "@babel/runtime": "^7.23.2",
     "axios": "^1.10.0",
     "immutable": "^4.3.4",
-    "lodash": ">=4.17.21",
+    "lodash": ">=4.17.23",
     "qs": "^6.9.1",
     "redux": "^4.0.5",
     "redux-saga": "^1.2.3",

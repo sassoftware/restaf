@@ -22,6 +22,7 @@
 let { casSetup } = require( '@sassoftware/restaflib' );
 let {initStore,} = require( '@sassoftware/restaf' );
 let getLogonPayload = require('./getLogonPayload.js');
+let getOpts = require('./getOpts.js');
 
 run() 
   .catch(e => {
@@ -30,7 +31,15 @@ run()
   });
 async function run() {
 	
-  let store = initStore();
+  let store = initStore(
+    {
+      casProxy: true,
+      options: {
+        proxyServer: null,
+        httpOptions: getOpts(),
+      }
+    });
+
   let logonPayload = await getLogonPayload();
   let msg = await store.logon(logonPayload);
   let { session } = await casSetup( store, null );

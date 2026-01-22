@@ -1,6 +1,6 @@
 {
   "name": "@sassoftware/restaf",
-  "version": "5.6.0",
+  "version": "5.6.1",
   "description": "Library for writing SAS Viya application using REST APIs",
   "author": "Deva Kumaraswamy <deva.kumar@sas.com>",
   "license": "Apache-2.0",
@@ -18,10 +18,10 @@
   "bugs": {
     "url": "https://github.com/sassoftware/restaf/issues"
   },
-  "main": "./lib/restaf.js",           
-  "modules": "/dist/restaf.umd.js",         
-  "browser": "/dist/restaf.umd.js",       
-  "unpkg": "/dist/restaf.umd.js",      
+  "main": "./lib/restaf.js",
+  "modules": "/dist/restaf.umd.js",
+  "browser": "/dist/restaf.umd.js",
+  "unpkg": "/dist/restaf.umd.js",
   "files": [
     "lib",
     "dist"

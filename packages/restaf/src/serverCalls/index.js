@@ -215,6 +215,7 @@ function request(iconfig) {
 function setupProxy(iconfig, config) {
 
   let options = iconfig.logonInfo.options;
+  console.log("Proxy options:", options);
   if (options != null && options.proxyServer != null) {
     let proxy = options.proxy;
     if (proxy.pathname != null && proxy.pathname.trim().length > 0) {
@@ -222,6 +223,7 @@ function setupProxy(iconfig, config) {
     }
     config.baseURL = `${proxy.protocol}//${proxy.host}`;//override base url
   }
+  console.log("Proxy configuration applied:", config);
 }
 // patch the url for namespace - useful for k8s to make calls into another namespace
 function patchURL4ns(logInfo, link) {

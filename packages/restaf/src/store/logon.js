@@ -229,9 +229,7 @@ const logon = (store, ipayload) => {
         // action.type = VIYA_LOGON;
         store.dispatch(action);
       }
-    }
-
-  });
+    });
 };
 
 

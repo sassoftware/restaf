@@ -34,6 +34,15 @@ async function run() {
 		altsrc
 	);
 	console.log(r);
+	r = await casUpload(
+		store,
+		session,
+		null,
+		'casuser.testdata',
+		true,
+		altsrc
+	);
+	console.log(r);
 
 	console.log('append to table');
 	let [caslib, name] = output.split('.');

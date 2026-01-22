@@ -13,15 +13,15 @@
  * ---------------------------------------------------------------------------------------
  *
  */
-  'use strict';
+  ;
 
-import { ADD_SERVICE, API_CALL_PARALLEL } from '../actionTypes';
+import { ADD_SERVICE, API_CALL_PARALLEL } from '../actionTypes.js';
 
-import getResults   from './getResults';
-import extendFolder from './extendFolder';
-import injectAsyncReducers  from '../reducers/injectAsyncReducers';
-import baseReducer          from '../reducers/baseReducer';
-import readXsrfData from './readXsrfData';
+import getResults   from './getResults.js';
+import extendFolder from './extendFolder.js';
+import injectAsyncReducers  from '../reducers/injectAsyncReducers.js';
+import baseReducer          from '../reducers/baseReducer.js';
+import readXsrfData from './readXsrfData.js';
 
 const iaddServices = ( store, services )  => {
     return new Promise( ( resolve, reject ) => {

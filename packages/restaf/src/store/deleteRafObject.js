@@ -14,17 +14,19 @@
  * ----------------------------------------------------------------------------------------
  *
  */
-  'use strict';
-import {DELETE_RAF_OBJECT} from '../actionTypes';
-import Immutable from 'immutable';
+  ;
+import {DELETE_RAF_OBJECT} from '../actionTypes.js';
+//import Immutable from 'immutable';
 
 function deleteRafObject ( store, iroute ) {
     let route = null;
     if ( typeof iroute === 'string' ) {
         route   = iroute;
-    } else if ( Immutable.Iterable.isIterable( iroute ) === true ) {
+    } 
+    else {
         route = iroute.get( 'route' );
     }
+
 
     if ( iroute !== null ) {
         let action = {

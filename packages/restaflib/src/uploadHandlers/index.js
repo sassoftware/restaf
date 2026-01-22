@@ -4,9 +4,9 @@
 */
 
 
-import uploadAstore from './uploadAstore';
-import uploadSrc from './uploadSrc';
-import saveTable from './saveTable';
+import uploadAstore from './uploadAstore.js';
+import uploadSrc from './uploadSrc.js';
+import saveTable from './saveTable.js';
 
 export {
     uploadAstore,

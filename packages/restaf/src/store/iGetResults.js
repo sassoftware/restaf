@@ -14,8 +14,8 @@
  *
  */
 
-  'use strict';
-let  Immutable = require( 'immutable' );
+  ;
+import  {isImmutable}  from 'immutable' 
 
 function iGetResults ( store, iroute, keyOnly, ...args ) {
 
@@ -40,14 +40,15 @@ function iGetResults ( store, iroute, keyOnly, ...args ) {
 
     } else {
         path = iquery;
-        if ( Immutable.Iterable.isIterable( iroute ) ) {
+        if ( isImmutable( iroute ) ) {
             folder = iroute;
         } else {
             return null;
         }
     }
 
-    // should never happen but...
+    // should never happen 
+    // but user can potentially pass a null folder, so catch it
     if ( folder == null ) {
         return null;
     }
@@ -55,7 +56,7 @@ function iGetResults ( store, iroute, keyOnly, ...args ) {
     result   = ( path.length > 0 ) ? folder.getIn( path, null ) : folder;
 
     if ( result !== null ) {
-        if ( keyOnly === true && Immutable.Iterable.isIterable( result ) === true ) {
+        if ( keyOnly === true && isImmutable( result ) === true ) {
             result = result.keySeq();
         }
     }

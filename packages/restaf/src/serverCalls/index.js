@@ -15,11 +15,11 @@
 
 import axios from "axios";
 import qs from "qs";
-import fixResponse from "./fixResponse";
+import fixResponse from "./fixResponse.js";
 
 let Https = null;
 if (__IS_NODE__) {
-  Https = require('node:https');
+   Https = require('node:https');
 }
 
 
@@ -76,6 +76,7 @@ function trustedGrant(iconfig) {
     sslOption: {}
   }
   //TBD: Need to update the whole flow to be consistent with the storeConfig
+  debugger;
   return makeCall(config, iconfig, config);
 }
 
@@ -233,6 +234,7 @@ function patchURL4ns(logInfo, link) {
 }
 
 function makeCall(config, iconfig, storeConfig) {
+  debugger;
   if (storeConfig.protocol === "https://" && config.agent == null) {
     let opts = iconfig.storeConfig.httpsOptions != null ? iconfig.storeConfig.httpsOptions : {};
     if (Https !== null) {
@@ -240,7 +242,6 @@ function makeCall(config, iconfig, storeConfig) {
       config.httpsAgent = agent;
     }
   }
-
   return new Promise((resolve, reject) => {
 
     axios(config)

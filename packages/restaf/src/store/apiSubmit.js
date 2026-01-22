@@ -14,11 +14,11 @@
  *
  */
 
-  'use strict';
+  ;
 
-import jobState  from './jobState';
-import iapiCall from './iapiCall';
-import {API_CALL, API_STATUS} from '../actionTypes';
+import jobState  from './jobState.js';
+import iapiCall from './iapiCall.js';
+import {API_CALL, API_STATUS} from '../actionTypes.js';
 //store, iroute, actionType, payload, delay, eventHandler, parentRoute, jobContext
 
 async function apiSubmit ( store, iroute, payload, delay, jobContext, onCompletion, progress ){

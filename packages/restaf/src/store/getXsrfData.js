@@ -13,9 +13,9 @@
  * ---------------------------------------------------------------------------------------
  *
  */
-   'use strict';
+   ;
 
- import {API_XSRF_ROOT} from '../actionTypes';
+ import {API_XSRF_ROOT} from '../actionTypes.js';
  function getXsrfData ( store, ...args ){
     let list = store.getState();
     list = list[API_XSRF_ROOT];

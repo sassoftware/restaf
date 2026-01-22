@@ -14,13 +14,12 @@
  *
  */
 
-  'use strict';
 
-import  initStore from './initStore';
-import  endStore  from './endStore';
-import  restoreStore from './restoreStore';
+import  initStore from './initStore.js';
+import  endStore  from './endStore.js';
+import  restoreStore from './restoreStore.js';
 
-export {
+export default {
     initStore,
     endStore,
     restoreStore

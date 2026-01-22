@@ -4,42 +4,42 @@
 */
 
 
-import caslRun         from './caslRun';
-import caslRunBase     from './caslRunBase';
-import caslScore       from './caslScore';
-import caslDescribe    from './caslDescribe';
-import casSetup        from './casSetup';
-import casActionRun    from './casActionRun';
+import caslRun         from './caslRun.js';
+import caslRunBase     from './caslRunBase.js';
+import caslScore       from './caslScore.js';
+import caslDescribe    from './caslDescribe.js';
+import casSetup        from './casSetup.js';
+import casActionRun    from './casActionRun.js';
 
-import casFetchData    from './casFetchData';
-import casUpdateData   from './casUpdateData';
-import casTableToJson  from './casTableToJson';
+import casFetchData    from './casFetchData.js';
+import casUpdateData   from './casUpdateData.js';
+import casTableToJson  from './casTableToJson.js';
 
-import computeRun       from './computeRun';
-import computeSetup     from './computeSetup';
-import computeSummary   from './computeSummary';
-import computeResults   from './computeResults';
-import computeFetchData from './computeFetchData';
-import computeFileContent from './computeFileContent';
+import computeRun       from './computeRun.js';
+import computeSetup     from './computeSetup.js';
+import computeSummary   from './computeSummary.js';
+import computeResults   from './computeResults.js';
+import computeFetchData from './computeFetchData.js';
+import computeFileContent from './computeFileContent.js';
 
-import findReport      from './findReport';
-import getReportImage  from './getReportImage';
-import getReportUri    from './getReportUri';
+import findReport      from './findReport.js';
+import getReportImage  from './getReportImage.js';
+import getReportUri    from './getReportUri.js';
 
-import getSasTableRows from './getSasTableRows';
+import getSasTableRows from './getSasTableRows.js';
 
 
-import jesSetup        from './jesSetup';
-import jesRun          from './jesRun';
-import jesSummary      from './jesSummary';
+import jesSetup        from './jesSetup.js';
+import jesRun          from './jesRun.js';
+import jesSummary      from './jesSummary.js';
 
-import jsonToDict      from './jsonToDict';
+import jsonToDict      from './jsonToDict.js';
 
-import masSetup        from './masSetup';
-import masDescribe     from './masDescribe';
+import masSetup        from './masSetup.js';
+import masDescribe     from './masDescribe.js';
 
-import masRun          from './masRun';
-import masAddModel     from './masAddModel';
+import masRun          from './masRun.js';
+import masAddModel     from './masAddModel.js';
 
 //import casUpload       from './casUpload';
 //import uploadData      from './uploadData';

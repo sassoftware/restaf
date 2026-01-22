@@ -15,7 +15,7 @@
  */
 
 
-import iGetResults from './iGetResults';
+import iGetResults from './iGetResults.js';
 
 function getResults ( store, iroute, path ) {
     

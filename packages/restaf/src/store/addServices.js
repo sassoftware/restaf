@@ -13,14 +13,14 @@
  * ---------------------------------------------------------------------------------------
  *
  */
-  'use strict';
+  ;
 
-import iaddServices from './iaddServices';
+import iaddServices from './iaddServices.js';
 
-import { API_XSRF } from '../actionTypes';
-import appData from './appData';
-import getServiceRoot from './getServiceRoot';
-import getXsrfData from './getXsrfData';
+import { API_XSRF } from '../actionTypes.js';
+import appData from './appData.js';
+import getServiceRoot from './getServiceRoot.js';
+import getXsrfData from './getXsrfData.js';
 /**
  * @description Add(initialize) services to the store
  * @async

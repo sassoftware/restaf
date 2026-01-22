@@ -1,20 +1,25 @@
-'use strict' ;
 
-let nodeExternals  = require( 'webpack-node-externals' );
-let webpack = require( 'webpack' );
-let  path    = require( 'path' );
+
+import nodeExternals  from  'webpack-node-externals' ;
+import webpack from 'webpack'
+import path from 'path';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+
+let __filename = fileURLToPath(import.meta.url);
+let __dirname = dirname(__filename);
 
 let library = 'restaf';
 
-module.exports = ( env ) => {
+const umdConfigSpecs = ( env ) => {
     let APP_PATH = path.resolve( __dirname, 'src' );
     let plugins = [];
     let outputFile;
 
         console.log( ` production build: ${env.p} ` );
         console.log( ` target          : ${env.target}` );
-
-        outputFile = ( env.p === 'y' ) ? library + '.min.js' : library + '.js';
+        let libraryu = (env.target === 'node') ? library : library + '.umd' ;
+        outputFile = ( env.p === 'y' ) ? libraryu + '.min.js' : libraryu + '.js';
 
         if ( env.p === 'y' ) {
             plugins.push( new webpack.DefinePlugin( {
@@ -49,7 +54,7 @@ module.exports = ( env ) => {
             ],
 
             output: {
-                path          : ( env.target === 'node' ) ? path.join( __dirname, 'lib' ) : path.join( __dirname, 'dist' ),
+                path          :  (env.target === 'node') ? path.join( __dirname, 'lib' ) : path.join( __dirname, 'dist' ),
                 library       : library,
                 libraryTarget : 'umd',
                 filename      : outputFile,
@@ -87,3 +92,10 @@ module.exports = ( env ) => {
         return config;
     }
 
+const createConfigs = (env) => {
+    const umdConfig = umdConfigSpecs(env);
+
+    return [umdConfig];
+};
+
+export default createConfigs;

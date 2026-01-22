@@ -14,10 +14,10 @@
  *
  */
 
-  'use strict';
+  ;
 
-import ijobState from './ijobState';
-import apiCall from './apiCall';
+import ijobState from './ijobState.js';
+import apiCall from './apiCall.js';
 /**
  * @category restaf/core
  * @description Check status of jobs

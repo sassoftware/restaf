@@ -14,10 +14,10 @@
  *
  */
 
-  'use strict';
+  ;
 
-import { setGoodStatus, setBadStatus } from '../utils';
-import { tLinkStruct, itemsStruct } from '../utils/rootStruct';
+import { setGoodStatus, setBadStatus } from '../utils/index.js';
+import { tLinkStruct, itemsStruct } from '../utils/rootStruct.js';
 
 const responseReducer  = ( action, parentPath )  => {
     

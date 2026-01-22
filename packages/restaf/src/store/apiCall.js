@@ -13,14 +13,14 @@
  * ---------------------------------------------------------------------------------------
  *
  */
-  'use strict';
+  ;
 
-import iapiCall from './iapiCall';
+import iapiCall from './iapiCall.js';
 
-import { API_CALL, API_XSRF, API } from '../actionTypes';
-import appData from './appData';
-import readXsrfData from './readXsrfData';
-import getXsrfData from './getXsrfData';
+import { API_CALL, API_XSRF, API } from '../actionTypes.js';
+import appData from './appData.js';
+import readXsrfData from './readXsrfData.js';
+import getXsrfData from './getXsrfData.js';
 
 /**
  * @description make an api call to viya

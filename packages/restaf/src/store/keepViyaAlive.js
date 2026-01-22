@@ -14,11 +14,11 @@
  *
  */
 
-import request from './request';
-import getServices from './getServices';
-import getXsrfData from './getXsrfData';
-import selectLogonInfo from './selectLogonInfo';
-import {KEEP_ALIVE} from '../actionTypes';
+import request from './request.js';
+import getServices from './getServices.js';
+import getXsrfData from './getXsrfData.js';
+import selectLogonInfo from './selectLogonInfo.js';
+import {KEEP_ALIVE} from '../actionTypes.js';
 
 async function keepViyaAlive ( store,aliveURL,interval, timeout, onTimeout ) {
     let keepTimer = setInterval( () => {

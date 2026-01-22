@@ -11,14 +11,13 @@
  See the License for the specific language governing permissions and
  limitations under the License.
  ---------------------------------------------------------------------------------------*/
-  'use strict';
+  ;
 
 import { all, put, call, select  } from 'redux-saga/effects';
 
 import { takeEvery }          from 'redux-saga/effects' ;
-import  selectLogonInfo       from '../store/selectLogonInfo';
-import {  API_CALL_PARALLEL } from '../actionTypes';
-import httpCall               from './httpCall';
+import  selectLogonInfo       from '../store/selectLogonInfo.js';
+import {  API_CALL_PARALLEL } from '../actionTypes.js';
 
 
 function* apiCallAllAction () {

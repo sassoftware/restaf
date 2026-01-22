@@ -14,10 +14,10 @@
  *
  */
 
-  'use strict';
+  ;
 
-import iapiCall  from './iapiCall';
-import {API_CALL, API_POLL} from '../actionTypes';
+import iapiCall  from './iapiCall.js';
+import {API_CALL, API_POLL} from '../actionTypes.js';
 
 function ijobState ( store, job, payload, delay, waitFlag, eventHandler, jobContext ) {
     return new Promise( ( resolve, reject ) => {

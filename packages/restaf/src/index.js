@@ -13,6 +13,9 @@
  * ---------------------------------------------------------------------------------------
  *
  */
-import {initStore, endStore, restoreStore}  from './store';
-export { initStore, endStore, restoreStore };
+import initStore from './store/initStore.js';
+import endStore from './store/endStore.js';
+import restoreStore from './store/restoreStore.js';
+// import {initStore, endStore, restoreStore}  from './store';
+export  { initStore, endStore, restoreStore };
 

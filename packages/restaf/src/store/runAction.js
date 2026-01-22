@@ -15,9 +15,9 @@
  *
  */
 
-'use strict';
-import apiCall from './apiCall';
-import jobState from './jobState';
+;
+import apiCall from './apiCall.js';
+import jobState from './jobState.js';
 /**
  * @Description Run a given action
  * @async
@@ -65,11 +65,12 @@ async function runAction ( store, session, payload,context, onCompletion, maxTri
 
     if ( casError( actionResult ) === true ) {
         console.log( JSON.stringify( actionResult.items(), null,4 ) );
-        throw JSON.stringify( actionResult.items( 'disposition' ).toJS() );
+        throw JSON.stringify(actionResult.items( 'disposition' ).toJS() );
     }
     if ( onCompletion != null ) {
         onCompletion( context, actionResult );
     }
+  
     return actionResult;
 }
 function casError ( actionResult ) {
@@ -78,11 +79,12 @@ function casError ( actionResult ) {
     return ( ( statusCode !== 0 ) || ( severity === 'error' ) ) ? true : false;
  }
 
+ //future
  async function submitAction ( store, session, payload,context, maxTries, delay, progress ){
      
      let actionPromise = apiCall( store, session.links( 'execute' ), payload,0 );     
      let r = await jobState( store, session, null, maxTries, delay, progress, context, true );
-     
+   
      let result = actionPromise
      .then( result => {return result;}, 
         err => {return err;} );

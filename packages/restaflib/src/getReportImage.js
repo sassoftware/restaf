@@ -2,7 +2,7 @@
  * Copyright © 2023, SAS Institute Inc., Cary, NC, USA.  All Rights Reserved.
  * SPDX-License-Identifier: Apache-2.0
 */
-'use strict';
+;
 /**
  * @description Return the svg of the specified report(async)
  * 
@@ -12,9 +12,9 @@
  * @param {string} name  - name of the report
  * 
  * @returns {string} - the svg of the report
- * 
+ *
  */
-import findReport from './findReport';
+import findReport from './findReport.js';
 
 async function getReportImage ( store, name ) {
     let reportImages = store.rafObject( 'reportImages' );

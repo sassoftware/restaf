@@ -12,20 +12,20 @@
  limitations under the License.
  ---------------------------------------------------------------------------------------*/
 
-  'use strict';
+  ;
 
 
 import { put, call, take, select} from 'redux-saga/effects';
-import selectLogonInfo  from '../store/selectLogonInfo';
-import { SASLogonOauthLink} from '../utils';
-import { SASLogoffOauthLink} from '../utils';
+import selectLogonInfo  from '../store/selectLogonInfo.js';
+import { SASLogonOauthLink} from '../utils/index.js';
+import { SASLogoffOauthLink} from '../utils/index.js';
 import { VIYA_LOGON, VIYA_LOGON_COMPLETE, BEGIN_LOGON, VIYA_LOGOFF, VIYA_LOGON_IMPLICIT,
-         VIYA_LOGON_SERVER, BEGIN_LOGOFF, VIYA_LOGOFF_COMPLETE } from '../actionTypes';
+         VIYA_LOGON_SERVER, BEGIN_LOGOFF, VIYA_LOGOFF_COMPLETE } from '../actionTypes.js';
 
 
 function*  logonAction () {
     let f = true;
-    
+    debugger;
     while ( f ) {
         let action = yield take( VIYA_LOGON );
         yield put ( { type: BEGIN_LOGON } );

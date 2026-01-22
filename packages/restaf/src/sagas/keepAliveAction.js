@@ -11,11 +11,11 @@
  See the License for the specific language governing permissions and
  limitations under the License.
  ---------------------------------------------------------------------------------------*/
-  'use strict';
+  ;
 
 import {takeLatest, spawn } from 'redux-saga/effects' ;
-import {KEEP_ALIVE} from '../actionTypes';
-import {SASLogonOauthLink} from '../utils';
+import {KEEP_ALIVE} from '../actionTypes.js';
+import {SASLogonOauthLink} from '../utils/index.js';
 
 
 function* keepAliveAction () {

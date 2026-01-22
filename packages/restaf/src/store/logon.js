@@ -16,14 +16,14 @@
  *
  */
 
-'use strict';
+  ;
 
 import { VIYA_LOGON, VIYA_LOGOFF, VIYA_LOGON_SERVER, VIYA_LOGON_IMPLICIT, VIYA_LOGON_PASSWORD, VIYA_LOGON_TOKEN }
-  from '../actionTypes';
+        from '../actionTypes.js';
 
 import qs from 'qs';
-import parse from 'url-parse';
-import keepViyaAlive from './keepViyaAlive';
+// import parse from 'url-parse';
+import keepViyaAlive from './keepViyaAlive.js';
 
 /**
  * @description logon or connect to Viya
@@ -32,24 +32,7 @@ import keepViyaAlive from './keepViyaAlive';
  * @param {rafLogonPayload} logonPayload See type definition for details
  * @returns {promise}  returns a text 'done' if successful
  * @example
-let restaf    = require("@sassoftware/restaf");
-
-let logonPayload = {
-    authType: 'password',
-    host: process.env.VIYA_SERVER,
-    clientID: 'sas.ec',
-    clientSecret: '',
-    user: 'sastest1',
-    password: 'somepassword'
-};
-
-let store = restaf.initStore();
-
-store.logon(logonPayload)
- .then ( r => console.log(r))
- .catch( err => console.log(err));
-
- */
+*/
 const logon = (store, ipayload) => {
   return new Promise((resolve, reject) => {
     debugger;
@@ -156,10 +139,88 @@ const logon = (store, ipayload) => {
           type: (payload.authType === 'LOGOFF') ? VIYA_LOGOFF : VIYA_LOGON,
           payload: { ...payload, }
         };
-        // adding proxy option for use with axios
-        payload.options.proxy = null;
-        if (payload.options.proxyServer != null) {
-          payload.options.proxy = parse(payload.options.proxyServer);
+    
+            //
+            // check url if not password (no window) or when payload is null
+            // this allows users of restaf-server|viya-appserverjs to LOGONPAYLOAD unconditionally to logon
+            //
+            
+        
+            if ( payload === null || payload.authType === VIYA_LOGON_IMPLICIT ) {
+                urlInfo = parseUrlNext();
+                if ( payload !== null && urlInfo !== null ) {
+                    payload = {...payload, ...urlInfo};
+                }
+            }
+
+            if ( payload == null ) {
+                if ( urlInfo !== null ) {
+                    payload = urlInfo;
+                } else {
+                    payload = {
+                        host    : `${window.location.protocol}//${window.location.host}`,
+                        authType: VIYA_LOGON_SERVER
+                    };
+                }
+            } 
+        
+            // persist options in payload - currently used for pup support
+            // remove once testing of setting options in initStore is complete
+            if ( payload.options != null ) {
+                store.config.options= {...payload.options};
+            }
+
+            // now make the final decision
+            if ( payload.authType === 'code' ) {
+                payload.authType = 'server';
+            }
+            payload.options = store.config.options;
+            
+            switch ( payload.authType ) {
+                case VIYA_LOGON_TOKEN:
+                case VIYA_LOGON_SERVER:
+                    if ( payload.host == null ) {
+                        payload.host = `${window.location.protocol}//${window.location.host}`;
+                    } 
+                    
+                    break;
+
+                case VIYA_LOGON_IMPLICIT:
+                    if ( payload.hasOwnProperty( 'token' ) === false ) {
+                        implicitLogon = true;
+                        getToken( payload );
+                        resolve( 'Implicit Call' );
+                    }
+                    break;
+
+                case "LOGOFF":
+                    break;
+
+                default:
+                    break;
+            }
+          
+            if ( !implicitLogon ) {
+                action = {
+                    type   : ( payload.authType === 'LOGOFF' ) ? VIYA_LOGOFF : VIYA_LOGON,
+                    payload: { ...payload, }
+                };
+                // adding proxy option for use with axios
+                payload.options.proxy = null;
+                if (payload.options.proxyServer != null) {
+                                    try {
+                                        payload.options.proxy = new URL(payload.options.proxyServer);
+                                    } catch (e) {
+                                        payload.options.proxy = null;
+                                    }
+                } 
+                 
+                action.payload.sslOptions = store.config.hasOwnProperty( 'sslOptions' ) ? store.config.sslOptions : null;
+                unSubscribe = store.subscribe( logonExit );
+                action.storeConfig = store.config;
+               // action.type = VIYA_LOGON;
+                store.dispatch( action );
+            }
         }
 
         action.payload.sslOptions = store.config.hasOwnProperty('sslOptions') ? store.config.sslOptions : null;
@@ -190,12 +251,14 @@ function parseUrlNext() {
     return null;
   }
 
-  let url = parse(window.location, true);
-  let loc = qs.parse(url.hash);
-  let q = url.query;
-  if (q.host == null || loc.access_token == null) {
-    return null;
-  }
+
+    let url = new URL(window.location);
+    // url.hash includes the leading '#', remove it for parsing
+    let loc = qs.parse(url.hash.startsWith('#') ? url.hash.substring(1) : url.hash);
+    let q = Object.fromEntries(url.searchParams.entries());
+    if (q.host == null || loc.access_token == null) {
+        return null;
+    }
 
   let tokenType = 'bearer';
 

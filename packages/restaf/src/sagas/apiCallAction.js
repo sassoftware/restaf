@@ -12,12 +12,12 @@
  limitations under the License.
  ---------------------------------------------------------------------------------------*/
 
-  'use strict';
+  ;
 
 import { takeEvery } from 'redux-saga/effects' ;
 
-import { ADD_SERVICE, API_CALL } from '../actionTypes';
-import apiCall from './apiCall';
+import { ADD_SERVICE, API_CALL } from '../actionTypes.js';
+import apiCall from './apiCall.js';
 
 function* apiCallAction () {
     yield takeEvery( [ ADD_SERVICE, API_CALL ] , apiCall );

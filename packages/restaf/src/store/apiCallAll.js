@@ -14,13 +14,13 @@
  *
  */
 
-  'use strict';
+  ;
 
-import { API_CALL_PARALLEL, API_CALL } from '../actionTypes';
+import { API_CALL_PARALLEL, API_CALL } from '../actionTypes.js';
 
-import getResults    from './getResults';
-import prepareAction from './prepareAction';
-import extendFolder  from './extendFolder';
+import getResults    from './getResults.js';
+import prepareAction from './prepareAction.js';
+import extendFolder  from './extendFolder.js';
 
 const  apiCallAll =  ( store, allActions, delay ) => {
     return new Promise( ( resolve, reject ) => {

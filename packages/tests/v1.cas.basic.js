@@ -19,7 +19,7 @@
  */
 "use strict";
 
-let { casSetup, getReportUri, caslRun, casActionRun} = require( '@sassoftware/restaflib' );
+let { casSetup } = require( '@sassoftware/restaflib' );
 let {initStore,} = require( '@sassoftware/restaf' );
 let getLogonPayload = require('./getLogonPayload.js');
 
@@ -31,21 +31,8 @@ run()
 async function run() {
 	
   let store = initStore();
-  //let logonPayload = await getLogonPayload();
-  let logonPayload = {
-      host: process.env.VIYA_SERVER,
-
-      authType: "password",
-      user: 'kumar',
-      password: 'Alav1925@sas',
-      clientID: 'mcppw',
-      clientSecret: 'jellico',
-    };
-  console.log('logon payload', logonPayload);
+  let logonPayload = await getLogonPayload();
   let msg = await store.logon(logonPayload);
-  console.log(msg);
- 
-
   let { session } = await casSetup( store, null );
   
   let p = {
@@ -56,10 +43,8 @@ async function run() {
   };
   
   debugger;
-  //let r = await store.runAction( session, p );
-    let r = await store.runAction( session, p );
-  debugger;
-  console.log('after run action 1', (r, null,4));
+  let r = await store.runAction( session, p );
+  console.log('Result:' , JSON.stringify(r.items(), null, 4));
 
   await store.apiCall( session.links( 'delete' ) );
   return 'done';

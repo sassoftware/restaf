@@ -14,11 +14,11 @@
  *
  */
 
-  'use strict';
+  ;
 
 
-import {KEEP_ALIVE} from '../actionTypes';
-import selectLogonInfo from './selectLogonInfo';
+import {KEEP_ALIVE} from '../actionTypes.js';
+import selectLogonInfo from './selectLogonInfo.js';
 
 function ikeepAlive ( store ) {
     let logonInfo = selectLogonInfo( store.getState() );

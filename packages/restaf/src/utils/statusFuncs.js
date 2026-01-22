@@ -14,30 +14,26 @@
  *
  */
 
-  'use strict';
-
-exports.setGoodStatus = function ( payload ) {
-    return ( {
+export function setGoodStatus(payload) {
+    return ({
         status    : payload.status,
         statusText: payload.statusText,
         detail    : ' ',
         error     : false
-    } );
-};
+    });
+}
 
-
-exports.setBadStatus  = function ( payload ) {
-    let code = 0 ;
+export function setBadStatus(payload) {
+    let code = 0;
     let detail = ' ';
-    if ( payload.hasOwnProperty( 'response' ) && payload.response != null ) {
+    if (payload.hasOwnProperty('response') && payload.response != null) {
         code = payload.response.status;
-        detail = ( payload.response.hasOwnProperty( 'data' ) ) ? payload.response.data : payload.response.statusText;
+        detail = (payload.response.hasOwnProperty('data')) ? payload.response.data : payload.response.statusText;
     }
-   return ( {
-       status    : code,
-       statusText: payload.message,
-       detail    : detail,
-       error     : true
-   } );
-
-};
+    return ({
+        status    : code,
+        statusText: payload.message,
+        detail    : detail,
+        error     : true
+    });
+}

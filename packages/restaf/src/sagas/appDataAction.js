@@ -11,12 +11,12 @@
  See the License for the specific language governing permissions and
  limitations under the License.
  ---------------------------------------------------------------------------------------*/
-  'use strict';
+  ;
 
 import {takeEvery} from 'redux-saga/effects' ;
-import {APP_DATA_ROOT, APP_DATA, APP_DATA_SETSTATE} from '../actionTypes';
-import {API_STATUS_ROOT, API_STATUS, API_STATUS_SETSTATE} from '../actionTypes';
-import {API_XSRF_ROOT, API_XSRF, API_XSRF_SETSTATE} from '../actionTypes';
+import {APP_DATA_ROOT, APP_DATA, APP_DATA_SETSTATE} from '../actionTypes.js';
+import {API_STATUS_ROOT, API_STATUS, API_STATUS_SETSTATE} from '../actionTypes.js';
+import {API_XSRF_ROOT, API_XSRF, API_XSRF_SETSTATE} from '../actionTypes.js';
 import {put} from 'redux-saga/effects';
 
 function* apiDataAction () {

@@ -8,7 +8,7 @@
 // convert table to object of the form [{var1: value, var2: value,...},....]
 // ex: [{merlot:10, twobit:20}, {merlot: 20, twobit:30}]
 
-'use strict';
+;
 /**
  * @description return content of a file output from a compute run
  * @async

@@ -18,10 +18,10 @@
   "bugs": {
     "url": "https://github.com/sassoftware/restaf/issues"
   },
-  "unpkg": "/dist/restaf.min.js",
-  "main": "./lib/restaf.js",
-  "modules": "/dist/restaf.min.js",
-  "browser": "/dist/restaf.min.js",
+  "main": "./lib/restaf.js",           
+  "modules": "/dist/restaf.umd.js",         
+  "browser": "/dist/restaf.umd.js",       
+  "unpkg": "/dist/restaf.umd.js",      
   "files": [
     "lib",
     "dist"
@@ -37,8 +37,10 @@
   ],
   "scripts": {
     "test": "node",
-    "build": " rimraf dist && rimraf lib && webpack --env target=node p=n --config webpack.config.js && webpack --env target=web p=n --config webpack.config.js && webpack --env target=web p=y --config webpack.config.js",
-    "build:es": "webpack --config webpack.config.es.js",
+    "build": "npm run build:node && npm run build:web && npm run build:esm",
+    "build:node": "rimraf lib && webpack --env target=node p=n --config webpack.config.umd.js && webpack --env target=node p=y --config webpack.config.umd.js",
+    "build:web": "rimraf dist && webpack --env target=web p=n --config webpack.config.umd.js && webpack --env target=web p=y --config webpack.config.umd.js",
+    "build:esm": "webpack --env target=web p=n --config webpack.esm.config.js && webpack --env target=web p=y --config webpack.esm.config.js",
     "babel": "babel src --out-dir jslib",
     "pub": "npm publish --tag alpha --access public",
     "lint": "eslint . --fix",

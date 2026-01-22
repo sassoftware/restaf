@@ -14,10 +14,10 @@
  *
  */
 
-  'use strict';
+  ;
 
-import ijobStateAll from './ijobStateAll';
-import apiCallAll  from './apiCallAll';
+import ijobStateAll from './ijobStateAll.js';
+import apiCallAll  from './apiCallAll.js';
 
 function jobStateAll ( store, jobList, payload, maxTries ) {
 

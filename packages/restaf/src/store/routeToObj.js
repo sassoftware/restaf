@@ -14,9 +14,9 @@
  *
  */
 
-  'use strict';
+  ;
 
-import extendFolder from  './extendFolder' ;
+import extendFolder from  './extendFolder.js' ;
 
 function routeToObj ( store, route ) {
     let path    = route.split( ':/' );

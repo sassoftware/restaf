@@ -14,16 +14,16 @@
  *
  */
 
-  'use strict';
+  ;
 
-let Immutable = require( 'immutable' );
+import {isImmutable} from  'immutable' ;
 
 function routeOrFolder ( iroute ){
     let route = null;
     if ( typeof iroute === 'string' ) {
         route = iroute;
     } else {
-        if ( Immutable.Iterable.isIterable( iroute ) === true ) {
+        if (isImmutable( iroute ) === true ) {
             route = iroute.get( 'route', null );
         }
     }

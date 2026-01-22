@@ -2,12 +2,12 @@
 * Copyright © 2023, SAS Institute Inc., Cary, NC, USA.  All Rights Reserved.
 * SPDX-License-Identifier: Apache-2.0
 */
-'use strict';
+;
 
-//import fs from 'fs'; 
+//import fs from 'fs';
 
-import  uploadSetup from './uploadSetup';
-import { saveTable } from './uploadHandlers';
+import  uploadSetup from './uploadSetup.js';
+import { saveTable } from './uploadHandlers/index.js';
 /**
  * @description upload different artifacts
  * @private

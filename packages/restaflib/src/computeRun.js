@@ -2,8 +2,8 @@
  * Copyright © 2023, SAS Institute Inc., Cary, NC, USA.  All Rights Reserved.
  * SPDX-License-Identifier: Apache-2.0
 */
-'use strict';
 
+import computeRunBase from './computeRunBase.js';
 /**
  * @member compute
  * @description Prepare data for runCompute(@async)
@@ -75,8 +75,6 @@
     }
 
  */
-
-import computeRunBase from './computeRunBase';
 async function computeRun ( store,session, src, macros, timeout,checkStatus, userContext ){
  
     //  adjust for backward compatability

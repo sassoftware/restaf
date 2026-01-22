@@ -14,10 +14,10 @@
  *
  */
 
-  'use strict';
+  ;
 
-import { trustedGrant, keepAlive, request } from  '../serverCalls' ;
-import { VIYA_LOGON_PASSWORD } from '../actionTypes';
+import { trustedGrant, keepAlive, request } from  '../serverCalls/index.js' ;
+import { VIYA_LOGON_PASSWORD } from '../actionTypes.js';
 
 const SASLogonOauthLink = function ( type ) {
 

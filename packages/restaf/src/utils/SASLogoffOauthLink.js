@@ -14,9 +14,9 @@
  *
  */
 
-'use strict';
+;
 
-import { request } from  '../serverCalls' ;
+import { request } from  '../serverCalls/index.js' ;
 
 const SASLogoffOauthLink = function () {
     return (

@@ -2,10 +2,10 @@
 * Copyright © 2023, SAS Institute Inc., Cary, NC, USA.  All Rights Reserved.
 * SPDX-License-Identifier: Apache-2.0
 */
-'use strict';
-import caslRunBase from './caslRunBase';
-import casSaveTable from './casSaveTable';
-import programs from './programs';
+;
+import caslRunBase from './caslRunBase.js';
+import casSaveTable from './casSaveTable.js';
+import programs from './programs/index.js';
 /** 
 * @description Append a cas table to a master cas table 
 * @async

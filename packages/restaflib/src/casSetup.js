@@ -30,7 +30,7 @@
  * @example 
  *    const {servers, session} = await casSetup(storem logonPayload, <sessionID>)
  */
-'use strict';
+;
 async function casSetup( store, logonPayload, sessionID, casServer ) {
 
 	if ( logonPayload != null ) {

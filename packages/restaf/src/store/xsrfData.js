@@ -14,10 +14,10 @@
  *
  */
 
-  'use strict';
+  ;
 
 
-import {API_XSRF} from '../actionTypes';
+import {API_XSRF} from '../actionTypes.js';
 
 function xsrfData  ( store, route, payload ) {
     let action = {

@@ -14,19 +14,15 @@
  *
  */
 
-  'use strict';
+import responseReducer  from './responseReducer.js';
 
-import responseReducer  from './responseReducer';
-import { ADD_SERVICE, API_CALL, API_POLL, APP_DATA, API_STATUS , DELETE_RAF_OBJECT, API_XSRF} from '../actionTypes';
-
-// let Immutable    = require ( 'immutable' );
-import Immutable from 'immutable';
-const { fromJS } = Immutable;
-
-import { tLinkStruct } from '../utils/rootStruct';
+import { fromJS } from 'immutable'; 
+import { tLinkStruct } from '../utils/rootStruct.js';
+import { ADD_SERVICE, API_CALL, API_POLL, APP_DATA, API_STATUS , DELETE_RAF_OBJECT, API_XSRF} from '../actionTypes.js';
 
 const baseReducer = ( root ) => ( state = fromJS( tLinkStruct( root, 'links', root ) ), action ) => {
-    
+        
+       
         switch( action.type ) {
 
             case DELETE_RAF_OBJECT: {

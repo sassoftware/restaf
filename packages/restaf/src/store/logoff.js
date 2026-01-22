@@ -15,7 +15,7 @@
  */
 
 
-import { VIYA_LOGOFF } from '../actionTypes';
+import { VIYA_LOGOFF } from '../actionTypes.js';
 /** 
  * @description Logoff from Viya
  * @module logoff

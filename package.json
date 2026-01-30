@@ -41,7 +41,7 @@
     "format": "prettier-eslint --eslint-config-path ./.eslintrc.json --write '**/*.js'",
     "lint": "eslint . --ext .js --fix",
     "dlink": "npm run dlink --workspaces --if-present",
-    "bump": "npm version minor && npm version minor --workspaces --if-present",
+    "bump": "npm version patch && npm version patch --workspaces --if-present",
     "q2": "cross-env NODE_TLS_REJECT_UNAUTHORIZED=0 node  quicktest2.js",
     "q": "cross-env NODE_TLS_REJECT_UNAUTHORIZED=0 node  quicktest.js"
   },

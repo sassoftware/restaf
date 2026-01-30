@@ -55,9 +55,8 @@
     "dist",
     "lib"
   ],
-
   "dependencies": {
-    "@sassoftware/restaf": "^5.6.0",
-    "@sassoftware/restaflib": "^5.6.0"
+    "@sassoftware/restaf": "^5.7.1",
+    "@sassoftware/restaflib": "^5.7.1"
   }
 }

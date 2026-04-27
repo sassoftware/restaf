@@ -25,7 +25,7 @@
     "test": "cd test && node ",
     "debug": "cd test && cross-env RESTAFENV=.env NODE_TLS_REJECT_UNAUTHORIZED=0 node --inspect-brk ../node_modules/jest/bin/jest.js  -- --runInBand",
     "test:lint": "eslint ./src",
-    "pub": "npm publish --tag alpha --access public",
+    "pub": "npm publish --tag dev --access public",
     "jsdoc": "rimraf docs && jsdoc -c jsdoc.json",
     "stats": "webpack --env target=node p=a --config webpack.config.js",
     "bump": "npm version prerelease"
@@ -56,7 +56,9 @@
     "lib"
   ],
   "dependencies": {
-    "@sassoftware/restaf": "^5.7.1",
-    "@sassoftware/restaflib": "^5.7.1"
+    "@sassoftware/restaf": "^5.7.2",
+    "@sassoftware/restaflib": "^5.7.2",
+    "core-js": "^3.49.0",
+    "glob-parent": "^6.0.2"
   }
 }

@@ -35,7 +35,8 @@ async function jobRun(store, jobName, args) {
     }
     let id = thisJob.items(thisJob.itemsList(0), 'data', 'jobRequest', 'jobDefinition');
     //setup job request payload
-    let argument = { ...args, _omitSessionResults: false, _resultfile: '*', _output_json: 'json' };
+    let argument = { ...args, _omitSessionResults: "false", _resultfile: '*', _output_json: 'json' };
+   // console.log('argument', JSON.stringify(argument, null, 4));
     let jobRequest = {
       data: {
         jobDefinition: id,

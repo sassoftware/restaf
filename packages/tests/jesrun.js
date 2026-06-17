@@ -19,7 +19,7 @@ async function run() {
     });
   let msg = await store.logon(logonPayload);
   debugger;
-  let jesSummary = await restaflib.jesRun(store, "cars_job_v4", { origin: 'Asia' },null);
+  let jesSummary = await restaflib.jesRun(store, "simplejob", { a:1,b:2},null);
   console.log(Object.keys(jesSummary));
   console.log(Object.keys(jesSummary.tables));
   /*

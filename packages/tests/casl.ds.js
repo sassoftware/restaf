@@ -38,7 +38,7 @@ async function run() {
   */
   let src1 = `
            action datastep.runcode result=results status=rc/ single='YES' code = 'data casuser.score; keep x1 x2;do i = 1 to 20; x1=i; x2=i*10;output;end;run;';
-           send_response({results=results, rc=rc});
+           send_response({results=results,rc=rc});
               `; 
    const src = `
   action datastep.runcode /
@@ -54,8 +54,8 @@ async function run() {
      ";
   `;
    const r = await restaflib.caslRun(store, session, src1);;
-  console.log(r);
-  console.log("after run action", JSON.stringify(r.items(), null, 4));  
+  console.log('..................',r.results);
+  console.log("after run action", JSON.stringify(r, null, 4));  
   return "done";
 }
 

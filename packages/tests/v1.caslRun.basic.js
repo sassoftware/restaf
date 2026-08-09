@@ -19,7 +19,7 @@
  */
 "use strict";
 
-let { casSetup } = require( '@sassoftware/restaflib' );
+let { casSetup, caslRun} = require( '@sassoftware/restaflib' );
 let {initStore,} = require( '@sassoftware/restaf' );
 let getLogonPayload = require('./getLogonPayload.js');
 let getOpts = require('./getOpts.js');
@@ -56,8 +56,8 @@ async function run() {
     send_response({a=1,b=2})
   `;
   debugger;
-  let r = await store.runCasl( session, casl );
-  console.log('Result:' , JSON.stringify(r.items(), null, 4));
+  let r = await caslRun( store,session, casl );
+  console.log('Result:' , JSON.stringify(r, null, 4));
 
   await store.apiCall( session.links( 'delete' ) );
   return 'done';

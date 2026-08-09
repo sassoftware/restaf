@@ -10,7 +10,6 @@ module.exports = function getOpts() {
         }
         return options;
     } else {
-        console.log("No TLS files found, returning null");
         return null;
     }
 }

@@ -31,8 +31,7 @@
     "npm": ">=10.9.2"
   },
   "browserslist": [
-    "last 2 versions",
-    "ie >= 11",
+    "defaults and fully supports es6-module",
     "maintained node versions"
   ],
   "scripts": {

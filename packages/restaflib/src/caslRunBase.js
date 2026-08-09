@@ -37,7 +37,7 @@ async function caslRunBase ( store, session, src, args, ...rest ) {
         action: 'sccasl.runcasl',
         data  : {code: code}
     };
-
+  
     let result  = await store.runAction( session, payload, ...rest );
     
     return result;

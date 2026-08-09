@@ -79,7 +79,6 @@ function casError ( actionResult ) {
     return ( ( statusCode !== 0 ) || ( severity === 'error' ) ) ? true : false;
  }
 
- //future
  async function submitAction ( store, session, payload,context, maxTries, delay, progress ){
      
      let actionPromise = apiCall( store, session.links( 'execute' ), payload,0 );     

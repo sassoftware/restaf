@@ -61,7 +61,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^8.0.0",
-    "axios": "^1.19.0",
+    "axios": "^1.20.0",
     "immutable": "^5.1.9",
     "qs": "^6.15.3",
     "redux": "^5.0.1",
